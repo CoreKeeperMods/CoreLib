@@ -1,0 +1,7 @@
+{
+	"name": "CoreLib",
+	"description": "A library to make life easy",
+	"version_number": "0.0.1",
+	"dependencies": [],
+	"website_url": "https://github.com/Jrprogrammer/CoreLib"
+}
