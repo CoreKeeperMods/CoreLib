@@ -23,5 +23,18 @@ namespace CoreLib {
 
             return manager.player;
         }
+
+        public static PlayerController GetPlayerByName(string name) {
+            List<PlayerController> playerList = GetAllPlayers();
+            foreach (var playerController in playerList) {
+                CoreLib.Logger.LogInfo(playerController.playerName);
+                if (playerController.playerName == name) {
+                    return playerController;
+                }
+            }
+
+            CoreLib.Logger.LogError($"Could not find player with name {name}");
+            throw new System.Exception();
+        }
     }
 }

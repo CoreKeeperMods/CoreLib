@@ -1,4 +1,6 @@
-﻿namespace CoreLib {
+﻿using System;
+
+namespace CoreLib {
     public class GameManagers {
 
         public static Manager GetMainManager() {
@@ -12,10 +14,16 @@
 
         public static TManager GetManager<TManager>() where TManager : ManagerBase {
             Manager mainManager = GetMainManager();
+
             foreach (var subManager in mainManager.allManagers) {
-                if (subManager.GetType() == typeof(TManager)) {
-                    return (TManager) subManager;
+                try {
+                    var castMng = subManager.TryCast<TManager>();
+                    if (castMng.GetType() == typeof(TManager)) {
+                        return castMng;
+                    }
+                } catch (Exception) {
                 }
+
             }
 
             CoreLib.Logger.LogError($"Could not retrieve manager of type {typeof(TManager).ToString()}");
