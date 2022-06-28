@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace CoreLib {
-    public class GameManagers {
+    public static class GameManagers {
 
         public static Manager GetMainManager() {
             if (CoreLib.Manager == null) {
