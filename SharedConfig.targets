@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+         InitialTargets="TestCKGameFolder">	 
+
+  <PropertyGroup>
+    <DevEnvLoc>$(MSBuildThisFileDirectory)/DevEnv.targets</DevEnvLoc>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Game Install Properties">
+    <CKGameDir Condition="!Exists('$(DevEnvLoc)')">C:\Program Files (x86)\Steam\steamapps\common\Core Keeper\</CKGameDir>
+    <CKGameDir>$([MSBuild]::EnsureTrailingSlash('$(CKGameDir)'))</CKGameDir>
+	<DumpedAssembliesDir>$(CKGameDir)BepInEx\unhollowed\</DumpedAssembliesDir>
+    <ProjectDir>$(MSBuildThisFileDirectory)\</ProjectDir>
+  </PropertyGroup>
+  
+  <Target Name="MaybeCopyDevEnv"
+          Inputs="$(MSBuildAllProjects)"
+          Outputs="$(DevEnvLoc)"
+          Condition="!Exists('$(DevEnvLoc)')">
+
+    <Copy SourceFiles="$(DevEnvLoc).example"
+          DestinationFiles="$(DevEnvLoc)"
+          SkipUnchangedFiles="true" />
+    <Error Text="It appears your Core Keeper installation is not in the default Steam directory. Please set the path correctly in '$(DevEnvLoc)' (it has been created for you)." />
+  </Target>
+
+  <Target Name="DevEnvInvalid"
+          Condition="Exists('$(DevEnvLoc)')">
+    <!-- If the default path is overriden in DevEnv, and it doesn't exist -->
+    <Error Text="Your Core Keeper installation folder has not been found at the path defined in '$(DevEnvLoc)'. Please set it correctly." />
+  </Target> 
+
+  <!-- Using DependsOnTarget with Conditional targets as an if else structure... -->
+  <!-- Note that this is the first target, called by InitialTargets -->
+  <Target Name="TestCKGameFolder"
+          DependsOnTargets="MaybeCopyDevEnv;DevEnvInvalid"
+          Condition="!Exists('$(CKGameDir)')" />
+		  
+</Project>
