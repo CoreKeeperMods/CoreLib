@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CoreLib</AssemblyName>
     <Description>A library to make life easy</Description>
     <Version>1</Version>

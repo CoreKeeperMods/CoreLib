@@ -11,7 +11,7 @@
     <PropertyGroup Label="Game Install Properties">
         <CKGameDir Condition="!Exists('$(DevEnvLoc)')">C:\Program Files (x86)\Steam\steamapps\common\Core Keeper\</CKGameDir>
         <CKGameDir>$([MSBuild]::EnsureTrailingSlash('$(CKGameDir)'))</CKGameDir>
-        <CKAssemblyDir>$(CKGameDir)BepInEx\unhollowed\</CKAssemblyDir>
+        <CKAssemblyDir>$(CKGameDir)BepInEx\interop\</CKAssemblyDir>
         <ProjectDir>$(MSBuildThisFileDirectory)\</ProjectDir>
 
         <SteamDir>$([MSBuild]::EnsureTrailingSlash('$(SteamDir)'))</SteamDir>
@@ -26,7 +26,7 @@
 
         <OutputPath Condition="Exists('$(CKGameDir)')">$(PluginOutputDirectory)</OutputPath>
         <OutDir>$(OutputPath)</OutDir>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
@@ -45,9 +45,9 @@
 		<PackageReference Include="BepInEx.Core" Version="6.0.0-*" PrivateAssets="all"/>
 	
 	    <Reference Include="$(BepInExDir)BepInEx.IL2CPP.dll" Private="false" SpecificVersion="true"/> 
-        <Reference Include="$(BepInExDir)AssemblyUnhollower.dll" Private="false" SpecificVersion="true"/> 
-        <Reference Include="$(BepInExDir)UnhollowerBaseLib.dll" Private="false" SpecificVersion="true"/>
-        <Reference Include="$(BepInExDir)UnhollowerRuntimeLib.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(BepInExDir)Il2CppInterop.Common.dll" Private="false" SpecificVersion="true"/> 
+        <Reference Include="$(BepInExDir)Il2CppInterop.HarmonySupport.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(BepInExDir)Il2CppInterop.Runtime.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(CKAssemblyDir)Il2Cppmscorlib.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(CKAssemblyDir)Il2CppSystem.Core.dll" Private="false" SpecificVersion="true"/>
 	
