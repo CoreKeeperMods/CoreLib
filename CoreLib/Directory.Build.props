@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup>
+        <DevEnvLoc>$(MSBuildThisFileDirectory)/../DevEnv.targets</DevEnvLoc>
+    </PropertyGroup>
+
+    <!-- This sets $(CKGameDir) -->
+    <Import Project="$(DevEnvLoc)" Condition="Exists('$(DevEnvLoc)')"/>
+
+    <PropertyGroup Label="Game Install Properties">
+        <CKGameDir Condition="!Exists('$(DevEnvLoc)')">C:\Program Files (x86)\Steam\steamapps\common\Core Keeper\</CKGameDir>
+        <CKGameDir>$([MSBuild]::EnsureTrailingSlash('$(CKGameDir)'))</CKGameDir>
+        <CKAssemblyDir>$(CKGameDir)BepInEx\unhollowed\</CKAssemblyDir>
+        <ProjectDir>$(MSBuildThisFileDirectory)\</ProjectDir>
+
+        <SteamDir>$([MSBuild]::EnsureTrailingSlash('$(SteamDir)'))</SteamDir>
+        <BepInExDir>$(CKGameDir)BepInEx\core\</BepInExDir>
+        <BepPlugins>$(CKGameDir)BepInEx\plugins\</BepPlugins>
+        <PluginOutputDirectory>$(BepPlugins)CoreLib\</PluginOutputDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Common Properties">
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+        <OutputPath Condition="Exists('$(CKGameDir)')">$(PluginOutputDirectory)</OutputPath>
+        <OutDir>$(OutputPath)</OutDir>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <DefaultItemExcludes>$(DefaultItemExcludes);*.binlog</DefaultItemExcludes>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+
+        <PackageVersion>$(AssemblyVersion)</PackageVersion>
+    </PropertyGroup>
+
+	
+	<ItemGroup Label="BepInEx">
+	
+		<PackageReference Include="BepInEx.Core" Version="6.0.0-*" PrivateAssets="all"/>
+	
+	    <Reference Include="$(BepInExDir)BepInEx.IL2CPP.dll" Private="false" SpecificVersion="true"/> 
+        <Reference Include="$(BepInExDir)AssemblyUnhollower.dll" Private="false" SpecificVersion="true"/> 
+        <Reference Include="$(BepInExDir)UnhollowerBaseLib.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(BepInExDir)UnhollowerRuntimeLib.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Il2Cppmscorlib.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Il2CppSystem.Core.dll" Private="false" SpecificVersion="true"/>
+	
+	</ItemGroup>
+
+
+    <ItemGroup Label="Core Keeper">
+
+        <Reference Include="$(CKAssemblyDir)UnityEngine.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)UnityEngine.CoreModule.dll" Private="false" SpecificVersion="true"/>
+        
+        <Reference Include="$(CKAssemblyDir)UnityEngine.ParticleSystemModule.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)UnityEngine.AssetBundleModule.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)UnityEngine.InputLegacyModule.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)UnityEngine.AnimationModule.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)UnityEngine.UI.dll" Private="false" SpecificVersion="true"/>
+        
+        <Reference Include="$(CKAssemblyDir)Unity.Entities.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Unity.Transforms.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Unity.Burst.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Unity.Jobs.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Unity.Entities.Hybrid.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Unity.Mathematics.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Unity.Mathematics.Extensions.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Rewired.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Rewired_Core.dll" Private="false" SpecificVersion="true"/>
+        
+        
+        <Reference Include="$(CKAssemblyDir)Pug.Core.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Pug.Core.Generated.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Pug.Other.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)Pug.Other.Generated.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)PugWorldGen.dll" Private="false" SpecificVersion="true"/>
+
+        <Reference Include="$(CKAssemblyDir)I2.dll" Private="false" SpecificVersion="true"/>
+    </ItemGroup>
+
+</Project>

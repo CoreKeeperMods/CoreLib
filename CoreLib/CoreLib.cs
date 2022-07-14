@@ -10,7 +10,7 @@ namespace CoreLib {
 
         public const string GUID = "com.le4fless.corelib";
         public const string NAME = "CoreLib";
-        public const string VERSION = "0.1.0";
+        public const string VERSION = "0.1.1";
 
         internal static CoreLib Instance { get; private set; }
         internal static ManualLogSource Logger { get; private set; }
