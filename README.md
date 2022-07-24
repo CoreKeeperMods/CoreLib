@@ -1,10 +1,14 @@
 # CoreLib
 A modding library for Core Keeper. Provides features that makes modding Core Keeper easier.
 
+**WARNING!** Version 1.0.0 contains breaking changes. Make sure to update ALL of your mods before proceeding!
+
 # List of features
 - Get main objects of the game, like `Managers`, `Players`
 - Add new localization terms
 - Add custom Rewired keybinds
+- Add custom chat commands
+- Add new items
 
 # Installation
 ### With Mod Manager
@@ -24,6 +28,13 @@ This library is still WIP.
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.0.0
+**WARNING!** This version contains breaking changes. Make sure to update ALL of your mods before proceeding!
+- Refactor project structure. Now using submodules.
+- Localization, Rewired keybinds are moved into their own submodule
+- Added Chat commands submodule
+- Added Custom Entity submodule
 
 ### v0.1.1
 - Now supports dedicated servers
