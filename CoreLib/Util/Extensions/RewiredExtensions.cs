@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreLib.Submodules.RewiredExtension;
 using Rewired;
 using Rewired.Data.Mapping;
 using UnhollowerRuntimeLib;
@@ -27,19 +28,19 @@ public static class RewiredExtensions
 
     public static bool GetButton(this Player player, string actionName)
     {
-        int actionId = RewiredKeybinds.GetKeybindId(actionName);
+        int actionId = RewiredExtensionModule.GetKeybindId(actionName);
         return player.GetButton(actionId);
     }
     
     public static bool GetButtonDown(this Player player, string actionName)
     {
-        int actionId = RewiredKeybinds.GetKeybindId(actionName);
+        int actionId = RewiredExtensionModule.GetKeybindId(actionName);
         return player.GetButtonDown(actionId);
     }
     
     public static bool GetButtonUp(this Player player, string actionName)
     {
-        int actionId = RewiredKeybinds.GetKeybindId(actionName);
+        int actionId = RewiredExtensionModule.GetKeybindId(actionName);
         return player.GetButtonUp(actionId);
     }
 }

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using CoreLib.Submodules.Localization;
 using HarmonyLib;
 using I2.Loc;
 
-namespace CoreLib.Patches;
+namespace CoreLib.Submodules.Localization.Patches;
 
 [HarmonyPatch]
 public static class MemoryManager_Patch
@@ -15,17 +16,17 @@ public static class MemoryManager_Patch
         {
             LanguageSourceData source = LocalizationManager.Sources[0];
 
-            foreach (var pair in Localization.addedTranslations)
+            foreach (var pair in LocalizationModule.addedTranslations)
             {
                 source.AddTerm(pair.Key, pair.Value);
             }
 
             source.UpdateDictionary();
-            Localization.localizationSystemReady = true;
+            LocalizationModule.localizationSystemReady = true;
         }
         else
         {
-            CoreLib.Logger.LogWarning("No localization source found! Skipping applying translations!");
+            CoreLibPlugin.Logger.LogWarning("No localization source found! Skipping applying translations!");
         }
     }
 }
