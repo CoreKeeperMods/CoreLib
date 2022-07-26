@@ -11,11 +11,12 @@ Make sure to add `[CoreLibSubmoduleDependency(nameof(CustomEntityModule))]` to y
 To actually make the item you will need a set up Unity Project. You can follow this [guide](https://github.com/CoreKeeperMods/Getting-Started/wiki/Getting-The-Assets-In-Unity).
 In your Unity Project make a new prefab (Or copy one of the original ones). It should contain only the root object with `EntityMonoBehaviorData` component attached. This looks like this:
 ![EntityMonoBehaviorData In Unity Editor](./documentation/EntityMonoBehaviorData.png)
+
 In this component you can set all kind of properties that affect what the item is. Most important properties are:
 
 - `ObjectType` - defines what kind of entity is it. Here you can make it an armor piece or sword.
 - `Icon` and `SmallIcon` - defines visual aspects of your item. Small icon is often used when you hold your item in hand. Normal icon is shown in inventory and on pedestals.
-- `IsStakable` - defines if you can stack your item
+- `IsStackable` - defines if you can stack your item
 - `Required Objects To Craft` allows you to define your item crafting recipe.
 - `PrefabInfos` here you need to have one entry with reference to prefab itself. Note that `Prefab` field need to be empty for entity to be a item. Currently filling this field <b>IS NOT SUPPORTED</b>!
 
@@ -23,7 +24,26 @@ On your item prefab you can attach other ECS components which alter item behavio
 
 For example here I have a `DurabilityCDAuthoring` component added. With it item will now have durability. Use this in combination with `InitialAmount` property to make item with durability.
 ![DurabilityCDAuthoring In Unity Editor](./documentation/DurabilityComponent.png)
+
+For purposes of editing in the editor there is a Editor Kit. It adds some property drawers for some enums, allowing you to set them easily. You can find it [here](../../../EditorKit/)
+
 Once you are done setting up your prefab place it in a folder with the name of your mod and pack a asset bundle. Don't forget to add the prefab to the bundle.
+
+### Packing the asset bundle
+
+This section will explain how to setup the folder structure and build the bundle. First create a folder structure where all prefabs are in a folder with the <b>keyword</b> of your mod.
+![DurabilityCDAuthoring In Unity Editor](./documentation/folderStructure.png)
+
+Now select all prefabs you want to use and in the bottom of the inspector you should see `Asser Labels` section (It can be collapsed) and select your asset bundle. If you don't have a asset bundle click `New` and enter bundle name.
+![DurabilityCDAuthoring In Unity Editor](./documentation/assignTheBundle.png)
+
+Now open asset bundle browser (Window -> AssetBundle Browser) and check your bundle. You should see all of your prefabs and their used resources.
+![DurabilityCDAuthoring In Unity Editor](./documentation/bundleBrowser.png)
+
+If everything is right select `Build` section on the top and build the bundles.
+![DurabilityCDAuthoring In Unity Editor](./documentation/BuildIT.png)
+
+Now you should see the asset bundle either in `Assets/StreamingAssets/` or the path you specified in the asset bundle browser.
 
 ### Adding item in code
 
