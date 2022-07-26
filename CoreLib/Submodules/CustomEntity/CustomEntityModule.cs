@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
+using CoreLib.Util.Extensions;
+using HarmonyLib;
+using UnhollowerBaseLib;
+using UnhollowerBaseLib.Runtime;
 using UnhollowerRuntimeLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -15,7 +20,7 @@ namespace CoreLib.Submodules.CustomEntity;
 /// This module provides means to add new content such as item.
 /// Currently does not support adding blocks, NPCs and other non item entities!
 /// </summary>
-[CoreLibSubmodule(Dependencies = new[]{typeof(LocalizationModule)})]
+[CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule) })]
 public static class CustomEntityModule
 {
     #region PublicInterface
@@ -137,7 +142,7 @@ public static class CustomEntityModule
 
         entitiesToAdd.Add(data);
         CoreLibPlugin.Logger.LogInfo($"Added entity {data.objectInfo.objectID}, path: {path}!");
-        return (ObjectID) itemIndex;
+        return (ObjectID)itemIndex;
     }
 
     /// <summary>
@@ -150,10 +155,88 @@ public static class CustomEntityModule
     public static void AddEntityLocalization(ObjectID obj, string enName, string enDesc, string cnName = "", string cnDesc = "")
     {
         if (obj == ObjectID.None) return;
-        
+
         LocalizationModule.AddTerm($"Items/{(int)obj}", enName, cnName);
         LocalizationModule.AddTerm($"Items/{(int)obj}Desc", enDesc, cnDesc);
-    } 
+    }
+
+    /// <summary>
+    /// Add custom customization texture sheet
+    /// </summary>
+    /// <param name="skin">Class with texture sheet information</param>
+    /// <returns>New skin index. '0' if failed.</returns>
+    public static byte AddPlayerCustomization<T>(T skin)
+        where T : Il2CppObjectBase
+    {
+        ThrowIfNotLoaded();
+        if (customizationTable == null)
+        {
+            customizationTable = Resources.Load<PlayerCustomizationTable>("PlayerCustomizationTable");
+        }
+
+        try
+        {
+            Il2CppSystem.Reflection.FieldInfo property = Il2CppType.Of<PlayerCustomizationTable>().GetFields(all)
+                .First(info =>
+                {
+                    Il2CppReferenceArray<Il2CppSystem.Type> args = info.FieldType.GetGenericArguments();
+                    if (args != null && args.Count > 0)
+                    {
+                        Il2CppSystem.Type listType = args.Single();
+                        return listType.Equals(Il2CppType.Of<T>());
+                    }
+
+                    return false;
+                });
+
+            Il2CppSystem.Collections.Generic.List<T> list = property.GetValue(customizationTable).Cast<Il2CppSystem.Collections.Generic.List<T>>();
+            if (list.Count < 255)
+            {
+                byte skinId = (byte)list.Count;
+                list.Add(skin);
+                return skinId;
+            }
+        }
+        catch (InvalidOperationException)
+        {
+            CoreLibPlugin.Logger.LogError($"Failed to add player customization of type {typeof(T).FullName}, because there is no such customization table!");
+        }
+
+        return 0;
+    }
+
+    /// <summary>
+    /// Set entity with id EquipmentSkinCD's skin 
+    /// </summary>
+    /// <param name="id">Target Entity ID</param>
+    /// <param name="skinId">new skin Index</param>
+    public static void SetEquipmentSkin(ObjectID id, byte skinId)
+    {
+        ThrowIfNotLoaded();
+        if (hasInjected)
+        {
+            throw new InvalidOperationException($"SetEquipmentSkin called too late. Entity injection already done. ObjectID: {id}");
+        }
+
+        try
+        {
+            EntityMonoBehaviourData entity = entitiesToAdd.First(data => data.objectInfo.objectID == id);
+            EquipmentSkinCDAuthoring skinCdAuthoring = entity.gameObject.GetComponent<EquipmentSkinCDAuthoring>();
+            if (skinCdAuthoring != null)
+            {
+                skinCdAuthoring.skin = skinId;
+            }
+            else
+            {
+                skinCdAuthoring = entity.gameObject.AddComponent<EquipmentSkinCDAuthoring>();
+                skinCdAuthoring.skin = skinId;
+            }
+        }
+        catch (InvalidOperationException)
+        {
+            CoreLibPlugin.Logger.LogError($"Failed to set equipment skin! Found no entities in the list with ID: {id}.");
+        }
+    }
 
     #endregion
 
@@ -168,6 +251,19 @@ public static class CustomEntityModule
     internal static HashSet<int> takenIDs = new HashSet<int>();
     internal static Dictionary<string, int> modIDs = new Dictionary<string, int>();
 
+    internal static PlayerCustomizationTable customizationTable;
+    
+    internal static readonly Il2CppSystem.Reflection.BindingFlags all = 
+        Il2CppSystem.Reflection.BindingFlags.Instance | 
+        Il2CppSystem.Reflection.BindingFlags.Static | 
+        Il2CppSystem.Reflection.BindingFlags.Public | 
+        Il2CppSystem.Reflection.BindingFlags.NonPublic | 
+        Il2CppSystem.Reflection.BindingFlags.GetField | 
+        Il2CppSystem.Reflection.BindingFlags.SetField | 
+        Il2CppSystem.Reflection.BindingFlags.GetProperty | 
+        Il2CppSystem.Reflection.BindingFlags.SetProperty;
+
+
     public const int modIdRangeStart = 12000;
     public const int modIdRangeEnd = 13000;
 
@@ -177,6 +273,11 @@ public static class CustomEntityModule
     internal static string[] audioClipFileExtensions = { ".mp3", ".ogg", ".waw", ".aif" };
 
     internal static bool hasInjected;
+
+    /// <summary>
+    /// Trust me. You don't know what you are doing!
+    /// </summary>
+    public static SpecialToggle I_KNOW_WHAT_IM_DOING = new SpecialToggle();
 
     [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
     internal static void SetHooks()
@@ -190,7 +291,7 @@ public static class CustomEntityModule
     {
         BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
         modItemIDs = new ConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModItemID.cfg", true, metadata);
-        
+
         ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterial>();
     }
 
@@ -207,6 +308,24 @@ public static class CustomEntityModule
     private static bool IsIdFree(int id)
     {
         if (id is < modIdRangeStart or >= modIdRangeEnd)
+        {
+            return false;
+        }
+
+        if (modItemIDs.GetOrphanedEntries().Any(pair =>
+            {
+                if (int.TryParse(pair.Value, out int value))
+                {
+                    return value == id;
+                }
+
+                return false;
+            }))
+        {
+            return false;
+        }
+
+        if (modItemIDs.Any(pair => { return (int)pair.Value.BoxedValue == id; }))
         {
             return false;
         }
@@ -241,6 +360,8 @@ public static class CustomEntityModule
 
     private static bool ValidateEntity(EntityMonoBehaviourData data)
     {
+        if (I_KNOW_WHAT_IM_DOING.Value) return true;
+
         bool isValid = true;
         foreach (PrefabInfo prefabInfo in data.objectInfo.prefabInfos)
         {
@@ -267,7 +388,7 @@ public static class CustomEntityModule
         }
 
         return path + extension;
-    } 
+    }
 
     #endregion
 }
