@@ -11,7 +11,7 @@ Make sure to add `[CoreLibSubmoduleDependency(nameof(CustomEntityModule))]` to y
 To actually make the item you will need a set up Unity Project. You can follow this [guide](https://github.com/CoreKeeperMods/Getting-Started/wiki/Getting-The-Assets-In-Unity).
 In your Unity Project make a new prefab (Or copy one of the original ones). It should contain only the root object with `EntityMonoBehaviorData` component attached. This looks like this:
 
-![EntityMonoBehaviorData In Unity Editor](./documentation/EntityMonoBehaviorData.png)
+![EntityMonoBehaviorData In Unity Editor](./documentation/EntityMonoBehaviorData.png)<br>
 In this component you can set all kind of properties that affect what the item is. Most important properties are:
 
 - `ObjectType` - defines what kind of entity is it. Here you can make it an armor piece or sword.
@@ -24,7 +24,7 @@ On your item prefab you can attach other ECS components which alter item behavio
 
 For example here I have a `DurabilityCDAuthoring` component added. With it item will now have durability. Use this in combination with `InitialAmount` property to make item with durability.
 
-![DurabilityCDAuthoring In Unity Editor](./documentation/DurabilityComponent.png)
+![DurabilityCDAuthoring In Unity Editor](./documentation/DurabilityComponent.png)<br>
 For purposes of editing in the editor there is a Editor Kit. It adds some property drawers for some enums, allowing you to set them easily. You can find it [here](../../../EditorKit/)
 
 Once you are done setting up your prefab place it in a folder with the name of your mod and pack a asset bundle. Don't forget to add the prefab to the bundle.
@@ -33,16 +33,16 @@ Once you are done setting up your prefab place it in a folder with the name of y
 
 This section will explain how to setup the folder structure and build the bundle. First create a folder structure where all prefabs are in a folder with the <b>keyword</b> of your mod.
 
-![Folder structure](./documentation/folderStructure.png)
+![Folder structure](./documentation/folderStructure.png)<br>
 Now select all prefabs you want to use and in the bottom of the inspector you should see `Asser Labels` section (It can be collapsed) and select your asset bundle. If you don't have a asset bundle click `New` and enter bundle name.
 
-![Assign the bundle](./documentation/assignTheBundle.png)
+![Assign the bundle](./documentation/assignTheBundle.png)<br>
 Now open asset bundle browser (Window -> AssetBundle Browser) and check your bundle. You should see all of your prefabs and their used resources.
 
-![AssetBundle Browser](./documentation/bundleBrowser.png)
+![AssetBundle Browser](./documentation/bundleBrowser.png)<br>
 If everything is right select `Build` section on the top and build the bundles.
 
-![Build The Bundle](./documentation/BuildIT.png)
+![Build The Bundle](./documentation/BuildIT.png)<br>
 Now you should see the asset bundle either in `Assets/StreamingAssets/` or the path you specified in the asset bundle browser.
 
 ### Adding item in code
@@ -84,7 +84,7 @@ To make a equipable item with use animation you need to:
 
 Example of the sprite sheet. It should be 120x120 px and have 7 sprites showing item in different states. You can find such sheets for all weapons and tools in the Unity Editor
 
-![Example Item Sheet](./documentation/SwordExample.png)
+![Example Item Sheet](./documentation/SwordExample.png)<br>
 
 ### Armor
 
