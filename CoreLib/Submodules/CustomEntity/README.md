@@ -33,16 +33,16 @@ Once you are done setting up your prefab place it in a folder with the name of y
 
 This section will explain how to setup the folder structure and build the bundle. First create a folder structure where all prefabs are in a folder with the <b>keyword</b> of your mod.
 
-![DurabilityCDAuthoring In Unity Editor](./documentation/folderStructure.png)
+![Folder structure](./documentation/folderStructure.png)
 Now select all prefabs you want to use and in the bottom of the inspector you should see `Asser Labels` section (It can be collapsed) and select your asset bundle. If you don't have a asset bundle click `New` and enter bundle name.
 
-![DurabilityCDAuthoring In Unity Editor](./documentation/assignTheBundle.png)
+![Assign the bundle](./documentation/assignTheBundle.png)
 Now open asset bundle browser (Window -> AssetBundle Browser) and check your bundle. You should see all of your prefabs and their used resources.
 
-![DurabilityCDAuthoring In Unity Editor](./documentation/bundleBrowser.png)
+![AssetBundle Browser](./documentation/bundleBrowser.png)
 If everything is right select `Build` section on the top and build the bundles.
 
-![DurabilityCDAuthoring In Unity Editor](./documentation/BuildIT.png)
+![Build The Bundle](./documentation/BuildIT.png)
 Now you should see the asset bundle either in `Assets/StreamingAssets/` or the path you specified in the asset bundle browser.
 
 ### Adding item in code
@@ -84,7 +84,7 @@ To make a equipable item with use animation you need to:
 
 Example of the sprite sheet. It should be 120x120 px and have 7 sprites showing item in different states. You can find such sheets for all weapons and tools in the Unity Editor
 
-![DurabilityCDAuthoring In Unity Editor](./documentation/SwordExample.png)
+![Example Item Sheet](./documentation/SwordExample.png)
 
 ### Armor
 
