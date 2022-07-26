@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using CoreLib.Submodules.RewiredExtension;
 using CoreLib.Util;
 using HarmonyLib;
 using Rewired;

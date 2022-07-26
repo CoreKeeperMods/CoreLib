@@ -8,7 +8,7 @@ A modding library for Core Keeper. Provides features that makes modding Core Kee
 - Add new localization terms
 - Add custom Rewired keybinds
 - Add custom chat commands
-- Add new items
+- Add new items, such as tools, weapons, armor and more
 
 # Installation
 ### With Mod Manager
