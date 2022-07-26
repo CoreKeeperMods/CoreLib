@@ -23,9 +23,4 @@ public interface IChatCommandHandler
     /// Returns all command names that trigger this handler
     /// </summary>
     string[] GetTriggerNames();
-
-    /// <summary>
-    /// Returns name of the mod that added the command
-    /// </summary>
-    string GetModName();
 }

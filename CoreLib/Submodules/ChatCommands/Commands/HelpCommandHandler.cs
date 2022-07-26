@@ -13,16 +13,23 @@ public class HelpCommandHandler : IChatCommandHandler
         switch (parameters.Length)
         {
             case 0:
-                commandsString = CommandsModule.commandHandlers.Aggregate("\n", GetNames);
+                commandsString = CommandsModule.commandHandlers
+                    .Select(pair => pair.handler)
+                    .Aggregate("\n", GetNames);
                 return $"Use /help {{command}} for more information.\nCommands:{commandsString}";
             case 1:
                 try
                 {
-                    IChatCommandHandler validCommandHandler = CommandsModule.commandHandlers.Find(element => element.GetTriggerNames().Contains(parameters[0]));
+                    IChatCommandHandler validCommandHandler = CommandsModule.commandHandlers
+                        .Select(pair => pair.handler)
+                        .First(element => element.GetTriggerNames().Contains(parameters[0]));
                     return validCommandHandler.GetDescription();
                 } catch { return "This command does not exist. Do /help to view all commands.";}
             case 2 when parameters[0].Equals("mod"):
-                commandsString = CommandsModule.commandHandlers.Where(handler => handler.GetModName().Contains(parameters[1]))
+                string search = parameters[1].ToLowerInvariant();
+                commandsString = CommandsModule.commandHandlers
+                    .Where(pair => pair.modName.ToLowerInvariant().Contains(search))
+                    .Select(pair => pair.handler)
                     .Aggregate("\n", GetNames);
 
                 return $"Mod {parameters[1]} commands:\n{commandsString}";
@@ -46,10 +53,5 @@ public class HelpCommandHandler : IChatCommandHandler
     public string[] GetTriggerNames()
     {
         return new[] {"help"};
-    }
-
-    public string GetModName()
-    {
-        return CoreLibPlugin.NAME;
     }
 }

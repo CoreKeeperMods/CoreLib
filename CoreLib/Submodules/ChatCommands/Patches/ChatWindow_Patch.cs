@@ -63,6 +63,7 @@ namespace CoreLib.Submodules.ChatCommands.Patches
                 {
                     string cmdName = args[0].Substring(1);
                     IChatCommandHandler[] commandHandlers = CommandsModule.commandHandlers
+                        .Select(pair => pair.handler)
                         .Where(handler => { return handler.GetTriggerNames().Any(name => name.StartsWith(cmdName)); }).ToArray();
                     if (commandHandlers.Length == 1)
                     {
@@ -93,7 +94,9 @@ namespace CoreLib.Submodules.ChatCommands.Patches
             try
             {
                 string cmdName = args[0].Substring(1);
-                IChatCommandHandler commandHandler = CommandsModule.commandHandlers.Find(handler => handler.GetTriggerNames().Contains(cmdName));
+                IChatCommandHandler commandHandler = CommandsModule.commandHandlers
+                    .Select(pair => pair.handler)
+                    .First(handler => handler.GetTriggerNames().Contains(cmdName));
                 string[] parameters = args.Skip(1).ToArray();
 
                 try

@@ -33,7 +33,7 @@ public static class CommandsModule
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
     internal static void Load()
     {
-        AddCommands(Assembly.GetExecutingAssembly());
+        AddCommands(Assembly.GetExecutingAssembly(), CoreLibPlugin.NAME);
     }
 
     internal static void ThrowIfNotLoaded()
@@ -47,12 +47,12 @@ public static class CommandsModule
     }
     
     
-    internal static List<IChatCommandHandler> commandHandlers = new List<IChatCommandHandler>();
-
+    internal static List<CommandPair> commandHandlers = new List<CommandPair>();
+    
     /// <summary>
     /// Add all commands from specified assembly
     /// </summary>
-    public static void AddCommands(Assembly assembly)
+    public static void AddCommands(Assembly assembly, string modName)
     {
         ThrowIfNotLoaded();
         Type[] commands = assembly.GetTypes().Where(type => typeof(IChatCommandHandler).IsAssignableFrom(type)).ToArray();
@@ -65,12 +65,24 @@ public static class CommandsModule
             try
             {
                 IChatCommandHandler handler = (IChatCommandHandler)Activator.CreateInstance(commandType);
-                commandHandlers.Add(handler);
+                commandHandlers.Add(new CommandPair(handler, modName));
             }
             catch (Exception e)
             {
                 CoreLibPlugin.Logger.LogWarning($"Failed to register command {commandType}!\n{e}");
             }
+        }
+    }
+    
+    public struct CommandPair
+    {
+        public IChatCommandHandler handler;
+        public string modName;
+
+        public CommandPair(IChatCommandHandler handler, string modName)
+        {
+            this.handler = handler;
+            this.modName = modName;
         }
     }
 }
