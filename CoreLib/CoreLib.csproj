@@ -22,4 +22,9 @@
     <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-*" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Submodules\ChatCommands\Commands" />
+    <Folder Include="Submodules\ChatCommands\Patches" />
+  </ItemGroup>
 </Project>

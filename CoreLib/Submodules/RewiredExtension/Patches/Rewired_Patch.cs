@@ -5,7 +5,7 @@ using Rewired;
 using Rewired.Data;
 using Rewired.Data.Mapping;
 
-namespace CoreLib.Patches;
+namespace CoreLib.Submodules.RewiredExtension.Patches;
 
 [HarmonyPatch]
 public static class Rewired_Patch
@@ -16,20 +16,23 @@ public static class Rewired_Patch
     public static void OnRewiredDataInit(UserData __instance)
     {
         List<string> invalidKeybinds = new List<string>();
+        
 
-        foreach (var pair in RewiredKeybinds.keyBinds)
+        foreach (var pair in RewiredExtensionModule.keyBinds)
         {
             int index = __instance.IndexOfAction(pair.Key);
             if (index != -1)
             {
-                CoreLib.Logger.LogWarning($"Error trying to add keybind action with name {pair.Key}! This keybind name is already taken!");
+                CoreLibPlugin.Logger.LogWarning($"Error trying to add keybind action with name {pair.Key}! This keybind name is already taken!");
                 invalidKeybinds.Add(pair.Key);
                 continue;
             }
+
+            int keyBindId = RewiredExtensionModule.keybindIdCache.Bind("KeyBinds", pair.Key, __instance.actionIdCounter + 50).Value;
             
             InputAction newAction = new InputAction()
             {
-                _id = __instance.actionIdCounter,
+                _id = keyBindId,
                 _categoryId = 0,
                 _name = pair.Key,
                 _type = InputActionType.Button,
@@ -65,9 +68,9 @@ public static class Rewired_Patch
 
         foreach (string keybindName in invalidKeybinds)
         {
-            RewiredKeybinds.keyBinds.Remove(keybindName);
+            RewiredExtensionModule.keyBinds.Remove(keybindName);
         }
-        CoreLib.Logger.LogInfo("Done adding mod keybinds!");
+        CoreLibPlugin.Logger.LogInfo("Done adding mod keybinds!");
     }
 
 
@@ -75,6 +78,6 @@ public static class Rewired_Patch
     [HarmonyPostfix]
     public static void OnRewiredStart()
     {
-        RewiredKeybinds.rewiredStart?.Invoke();
+        RewiredExtensionModule.rewiredStart?.Invoke();
     }
 }

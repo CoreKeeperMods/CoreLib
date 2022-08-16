@@ -4,11 +4,11 @@ namespace CoreLib {
     public static class GameManagers {
 
         public static Manager GetMainManager() {
-            if (CoreLib.Manager == null) {
-                CoreLib.Logger.LogError("Could not retrieve Manager instance, has it been instantiated yet?");
+            if (Manager._instance == null) {
+                CoreLibPlugin.Logger.LogError("Could not retrieve Manager instance, has it been instantiated yet?");
                 throw new System.NullReferenceException();
             }
-            return CoreLib.Manager;
+            return Manager._instance;
 
         }
 
@@ -21,12 +21,14 @@ namespace CoreLib {
                     if (castMng.GetType() == typeof(TManager)) {
                         return castMng;
                     }
-                } catch (Exception) {
                 }
-
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
 
-            CoreLib.Logger.LogError($"Could not retrieve manager of type {typeof(TManager).ToString()}");
+            CoreLibPlugin.Logger.LogError($"Could not retrieve manager of type {typeof(TManager).ToString()}");
             throw new System.Exception();
         }
 
