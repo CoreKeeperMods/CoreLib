@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using BepInEx;
-using BepInEx.IL2CPP;
 using BepInEx.Logging;
+using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using UnhollowerRuntimeLib;
 using UnityEngine;
 
 namespace CoreLib {

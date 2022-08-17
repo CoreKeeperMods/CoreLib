@@ -20,6 +20,7 @@ namespace CoreLib.Submodules.CustomEntity.Patches
                 {
                     if (prefabInfo.prefab == null) continue;
 
+                    CoreLibPlugin.Logger.LogDebug($"About to add the prefab {data.objectInfo.objectID}!");
                     PoolablePrefabBank.PoolablePrefab prefab = new PoolablePrefabBank.PoolablePrefab
                     {
                         prefab = prefabInfo.prefab.gameObject,

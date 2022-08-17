@@ -86,7 +86,7 @@ public static class LocalizationModule
         }
         else
         {
-            LanguageSourceData source = LocalizationManager.Sources[0];
+            LanguageSourceData source = LocalizationManager.Sources._items[0];
             source.AddTerm(term, translations);
             source.UpdateDictionary();
         }

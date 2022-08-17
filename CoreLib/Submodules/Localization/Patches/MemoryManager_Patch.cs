@@ -14,7 +14,7 @@ public static class MemoryManager_Patch
     {
         if (LocalizationManager.Sources.Count > 0)
         {
-            LanguageSourceData source = LocalizationManager.Sources[0];
+            LanguageSourceData source = LocalizationManager.Sources._items[0];
 
             foreach (var pair in LocalizationModule.addedTranslations)
             {

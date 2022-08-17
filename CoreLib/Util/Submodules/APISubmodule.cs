@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 
 #pragma warning disable 649
 
@@ -97,8 +98,9 @@ namespace CoreLib
         /// </summary>
         /// <param name="moduleType">Module type</param>
         /// <returns>Is loading successful?</returns>
-        public bool RequestModuleLoad(Type moduleType)
+        public bool RequestModuleLoad(Type? moduleType)
         {
+            if (moduleType == null) return false;
             if (IsLoaded(moduleType.Name)) return true;
 
             CoreLibPlugin.Logger.LogInfo($"Enabling CoreLib Submodule: {moduleType.Name}");
@@ -107,7 +109,11 @@ namespace CoreLib
             {
                 InvokeStage(moduleType, InitStage.SetHooks, null);
                 InvokeStage(moduleType, InitStage.Load, null);
-                moduleType.SetFieldValue("_loaded", true);
+                FieldInfo? fieldInfo = moduleType.GetField("_loaded", AccessTools.all);
+                if (fieldInfo != null)
+                {
+                    fieldInfo.SetValue(null, true);
+                }
                 loadedModules.Add(moduleType.Name);
                 InvokeStage(moduleType, InitStage.PostLoad, null);
                 return true;
@@ -133,8 +139,8 @@ namespace CoreLib
 
                         IEnumerable<string> modulesToAdd = moduleType.GetDependants(type =>
                                 {
-                                    CoreLibSubmodule attr = type.GetCustomAttribute<CoreLibSubmodule>();
-                                    return attr.Dependencies ?? Array.Empty<Type>();
+                                    CoreLibSubmodule? attr = type.GetCustomAttribute<CoreLibSubmodule>();
+                                    return attr?.Dependencies ?? Array.Empty<Type>();
                                 },
                                 (start, end) =>
                                 {
@@ -168,9 +174,16 @@ namespace CoreLib
                     .ForEachTry(t => InvokeStage(t, InitStage.Load, null), faults);
 
                 moduleTypes.Where(t => !faults.ContainsKey(t))
-                    .ForEachTry(t => t.SetFieldValue("_loaded", true));
+                    .ForEachTry(t =>
+                    {
+                        FieldInfo? fieldInfo = t.GetField("_loaded", AccessTools.all);
+                        if (fieldInfo != null)
+                        {
+                            fieldInfo.SetValue(null, true);
+                        }
+                    }, faults);
                 moduleTypes.Where(t => !faults.ContainsKey(t))
-                    .ForEachTry(t => loadedModules.Add(t.Name));
+                    .ForEachTry(t => loadedModules.Add(t.Name), faults);
 
                 moduleTypes.Where(t => !faults.ContainsKey(t))
                     .ForEachTry(t => InvokeStage(t, InitStage.PostLoad, null), faults);
@@ -179,7 +192,7 @@ namespace CoreLib
                 {
                     logger.Log(LogLevel.Error, $"{t.Name} could not be initialized and has been disabled:\n\n{faults[t]}");
                     InvokeStage(t, InitStage.UnsetHooks, null);
-                });
+                }, faults);
             }
 
             var scanRequest = new PluginScanner.AttributeScanRequest(typeof(CoreLibSubmoduleDependency).FullName,
@@ -198,7 +211,7 @@ namespace CoreLib
 
         private List<Type> GetSubmodules(bool allSubmodules = false)
         {
-            Type[] types;
+            Type?[] types;
             try
             {
                 types = Assembly.GetExecutingAssembly().GetTypes();
@@ -209,11 +222,11 @@ namespace CoreLib
             }
 
             var moduleTypes = types.Where(type => APISubmoduleFilter(type, allSubmodules)).ToList();
-            return moduleTypes;
+            return moduleTypes!;
         }
 
         // ReSharper disable once InconsistentNaming
-        private bool APISubmoduleFilter(Type type, bool allSubmodules = false)
+        private bool APISubmoduleFilter(Type? type, bool allSubmodules = false)
         {
             if (type == null) return false;
             var attr = type.GetCustomAttribute<CoreLibSubmodule>();
@@ -249,8 +262,9 @@ namespace CoreLib
             return true;
         }
 
-        internal void InvokeStage(Type type, InitStage stage, object[]? parameters)
+        internal void InvokeStage(Type? type, InitStage stage, object[]? parameters)
         {
+            if (type == null) return;
             var method = type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
                 .Where(m => m.GetCustomAttributes(typeof(CoreLibSubmoduleInit))
                     .Any(a => ((CoreLibSubmoduleInit)a).Stage.HasFlag(stage))).ToList();
@@ -274,10 +288,11 @@ namespace CoreLib
         /// <param name="action">the action to do on it</param>
         /// <param name="exceptions">the exception dictionary that will get filled, null by default if you simply want to silence the errors if any pop.</param>
         /// <typeparam name="T"></typeparam>
-        public static void ForEachTry<T>(this IEnumerable<T> list, Action<T> action, IDictionary<T, Exception> exceptions = null!)
+        public static void ForEachTry<T>(this IEnumerable<T> list, Action<T> action, IDictionary<T, Exception> exceptions)
         {
             list.ToList().ForEach(element =>
             {
+                if (element == null) return;
                 try
                 {
                     action.Invoke(element);

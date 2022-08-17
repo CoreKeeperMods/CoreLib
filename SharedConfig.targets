@@ -11,6 +11,7 @@
     <CKGameDir>$([MSBuild]::EnsureTrailingSlash('$(CKGameDir)'))</CKGameDir>
 	<DumpedAssembliesDir>$(CKGameDir)BepInEx\unhollowed\</DumpedAssembliesDir>
     <ProjectDir>$(MSBuildThisFileDirectory)\</ProjectDir>
+    <ReleaseMode>0</ReleaseMode>
   </PropertyGroup>
   
   <Target Name="MaybeCopyDevEnv"
@@ -34,6 +35,6 @@
   <!-- Note that this is the first target, called by InitialTargets -->
   <Target Name="TestCKGameFolder"
           DependsOnTargets="MaybeCopyDevEnv;DevEnvInvalid"
-          Condition="!Exists('$(CKGameDir)')" />
+          Condition="!Exists('$(CKGameDir)') And '$(ReleaseMode)' == '0'" />
 		  
 </Project>

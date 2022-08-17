@@ -1,4 +1,4 @@
-﻿using UnhollowerBaseLib;
+﻿using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 
 namespace CoreLib.Submodules.CustomEntity
