@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 
-namespace CoreLib.Submodules.CustomEntity
+namespace CoreLib.Submodules.ModResources
 {
     /// <summary>
     /// Indicates that loading something has failed

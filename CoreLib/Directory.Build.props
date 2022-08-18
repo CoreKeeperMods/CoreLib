@@ -64,6 +64,7 @@
         <Reference Include="$(CKAssemblyDir)UnityEngine.InputLegacyModule.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(CKAssemblyDir)UnityEngine.AnimationModule.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(CKAssemblyDir)UnityEngine.UI.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)UnityEngine.AudioModule.dll" Private="false" SpecificVersion="true"/>
         
         <Reference Include="$(CKAssemblyDir)Unity.Entities.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(CKAssemblyDir)Unity.Transforms.dll" Private="false" SpecificVersion="true"/>
