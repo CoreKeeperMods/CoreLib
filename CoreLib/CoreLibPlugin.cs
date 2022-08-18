@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using CoreLib.Submodules.CustomEntity;
 using HarmonyLib;
 using UnityEngine;
 

@@ -6,6 +6,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
+using CoreLib.Submodules.ModResources;
 using CoreLib.Util.Extensions;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
@@ -20,7 +21,7 @@ namespace CoreLib.Submodules.CustomEntity;
 /// This module provides means to add new content such as item.
 /// Currently does not support adding blocks, NPCs and other non item entities!
 /// </summary>
-[CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule) })]
+[CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule), typeof(ResourcesModule) })]
 public static class CustomEntityModule
 {
     #region PublicInterface
@@ -36,55 +37,14 @@ public static class CustomEntityModule
 
     /// <summary>
     /// Registers mod resources for loading
+    /// <see cref="ResourcesModule"/>
     /// </summary>
     /// <param name="resource"></param>
+    [Obsolete("Use ResourcesModule.AddResource() instead")]
     public static void AddResource(ResourceData resource)
     {
         ThrowIfNotLoaded();
-        modResources.Add(resource);
-    }
-
-    /// <summary>
-    /// Load asset from mod asset bundles
-    /// </summary>
-    /// <param name="assetPath">path to the asset</param>
-    public static Object LoadAsset(string assetPath)
-    {
-        ThrowIfNotLoaded();
-        foreach (ResourceData resource in modResources)
-        {
-            if (!assetPath.ToLower().Contains(resource.keyWord.ToLower()) || !resource.HasAssetBundle()) continue;
-
-            if (resource.bundle.Contains(assetPath.WithExtension(".prefab")))
-            {
-                Object prefab = resource.bundle.LoadAsset<GameObject>(assetPath.WithExtension(".prefab"));
-                CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(prefab != null ? "Success" : "Failure")}");
-                return prefab;
-            }
-
-            foreach (string extension in spriteFileExtensions)
-            {
-                if (!resource.bundle.Contains(assetPath.WithExtension(extension))) continue;
-
-                Object sprite = resource.bundle.LoadAsset<Object>(assetPath.WithExtension(extension));
-
-                CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(sprite != null ? "Success" : "Failure")}");
-
-                return sprite;
-            }
-
-            foreach (string extension in audioClipFileExtensions)
-            {
-                if (!resource.bundle.Contains(assetPath.WithExtension(extension))) continue;
-
-                Object audioClip = resource.bundle.LoadAsset<Object>(assetPath.WithExtension(extension));
-                CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(audioClip != null ? "Success" : "Failure")}");
-                return audioClip;
-            }
-        }
-
-        CoreLibPlugin.Logger.LogWarning($"Failed to find asset '{assetPath}' in mod assets!");
-        return Resources.Load(assetPath);
+        ResourcesModule.AddResource(resource);
     }
 
     /// <summary>
@@ -116,7 +76,7 @@ public static class CustomEntityModule
             throw new InvalidOperationException($"AddEntity called too late. Entity injection already done. Prefab path: {path}");
         }
 
-        Object gameObject = LoadAsset(path);
+        Object gameObject = ResourcesModule.LoadAsset(path);
         if (gameObject == null)
         {
             CoreLibPlugin.Logger.LogInfo($"Failed to add entity, path: {path}");
@@ -243,8 +203,7 @@ public static class CustomEntityModule
     #region PrivateImplementation
 
     private static bool _loaded;
-
-    internal static List<ResourceData> modResources = new List<ResourceData>();
+    
     internal static List<EntityMonoBehaviourData> entitiesToAdd = new List<EntityMonoBehaviourData>();
 
     internal static ConfigFile modItemIDs;
@@ -264,13 +223,10 @@ public static class CustomEntityModule
         Il2CppSystem.Reflection.BindingFlags.SetProperty;
 
 
-    public const int modIdRangeStart = 12000;
-    public const int modIdRangeEnd = 13000;
+    public const int modIdRangeStart = 33000;
+    public const int modIdRangeEnd = 65535;
 
     internal static int firstUnusedId = modIdRangeStart;
-
-    internal static string[] spriteFileExtensions = { ".jpg", ".png", ".tif" };
-    internal static string[] audioClipFileExtensions = { ".mp3", ".ogg", ".waw", ".aif" };
 
     internal static bool hasInjected;
 
@@ -378,16 +334,6 @@ public static class CustomEntityModule
         }
 
         return isValid;
-    }
-
-    private static string WithExtension(this string path, string extension)
-    {
-        if (path.EndsWith(extension))
-        {
-            return path;
-        }
-
-        return path + extension;
     }
 
     #endregion
