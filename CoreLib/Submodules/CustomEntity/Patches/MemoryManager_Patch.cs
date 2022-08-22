@@ -20,16 +20,24 @@ namespace CoreLib.Submodules.CustomEntity.Patches
                 {
                     if (prefabInfo.prefab == null) continue;
 
-                    CoreLibPlugin.Logger.LogDebug($"About to add the prefab {data.objectInfo.objectID}!");
                     PoolablePrefabBank.PoolablePrefab prefab = new PoolablePrefabBank.PoolablePrefab
                     {
                         prefab = prefabInfo.prefab.gameObject,
                         initialSize = 16,
                         maxSize = 1024
                     };
+
                     __instance.poolablePrefabBank.poolInitializers.Add(prefab);
                 }
             }
+            CoreLibPlugin.Logger.LogDebug($"Done!");
+        }
+
+        [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init))]
+        [HarmonyPostfix]
+        public static void AfterMemoryInit(MemoryManager __instance)
+        {
+            CoreLibPlugin.Logger.LogDebug($"MemoryManager Done!");
         }
     }
 }

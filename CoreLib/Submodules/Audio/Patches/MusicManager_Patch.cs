@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Il2CppInterop.Runtime;
 using MusicList = Il2CppSystem.Collections.Generic.List<MusicManager.MusicTrack>;
 
 namespace CoreLib.Submodules.Audio.Patches;
@@ -9,8 +10,8 @@ public static class MusicManager_Patch
     [HarmonyPostfix]
     public static void Init(MusicManager __instance)
     {
-        var vanillaDict = AudioModule.rosterStore.vanillaRosterAddTracksInfos.Get();
-        foreach (var pair in vanillaDict)
+        var vanillaRosterAddTracksInfos = AudioModule.rosterStore.vanillaRosterAddTracksInfos.Get();
+        foreach (var pair in vanillaRosterAddTracksInfos)
         {
             MusicList roster = AudioModule.GetVanillaRoster(__instance, (MusicManager.MusicRosterType)pair.Key);
             if (roster == null)
@@ -18,7 +19,7 @@ public static class MusicManager_Patch
                 CoreLibPlugin.Logger.LogWarning($"Failed to get roster list for type {((MusicManager.MusicRosterType)pair.Key).ToString()}");
                 continue;
             }
-            
+
             foreach (MusicManager.MusicTrack track in pair.Value)
             {
                 roster.Add(track);
@@ -43,11 +44,12 @@ public static class MusicManager_Patch
                 __instance.isPaused = true;
             }
         }
-        
-        var customDict = AudioModule.rosterStore.vanillaRosterAddTracksInfos.Get();
-        if (customDict.ContainsKey((int)m))
+
+        var customRosterMusic = AudioModule.rosterStore.customRosterMusic.Get();
+
+        if (customRosterMusic.ContainsKey((int)m))
         {
-            MusicList list = customDict[(int)m];
+            MusicList list = customRosterMusic[(int)m];
             if (list != null && list.Count > 0)
             {
                 __instance.ResumeMusic();
@@ -56,6 +58,7 @@ public static class MusicManager_Patch
                     __instance.currentlyPlayingMusicIndex = -1;
                     __instance.currentMusicRoster = list;
                 }
+
                 return false;
             }
         }

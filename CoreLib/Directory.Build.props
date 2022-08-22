@@ -46,21 +46,22 @@
 	<ItemGroup Label="BepInEx">
 	
 		<PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>
-        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" /> 
         
 	    <Reference Include="$(BepInExDir)BepInEx.Unity.IL2CPP.dll" Private="false" SpecificVersion="true"/> 
         <Reference Include="$(BepInExDir)Il2CppInterop.Common.dll" Private="false" SpecificVersion="true"/> 
         <Reference Include="$(BepInExDir)Il2CppInterop.HarmonySupport.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(BepInExDir)Il2CppInterop.Runtime.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(CKAssemblyDir)Il2Cppmscorlib.dll" Private="false" SpecificVersion="true"/>
-        <Reference Include="$(CKAssemblyDir)Il2CppSystem.Core.dll" Private="false" SpecificVersion="true"/> 
+        <Reference Include="$(CKAssemblyDir)Il2CppSystem.Core.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(BepInExDir)Iced.dll" Private="false" SpecificVersion="true"/>
 	
 	</ItemGroup>
 
 
     <ItemGroup Label="Core Keeper">
 
-        <Reference Include="$(CKAssemblyDir)UnityEngine.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(CKAssemblyDir)UnityEngine.dll" Private="false" SpecificVersion="true"/> 
         <Reference Include="$(CKAssemblyDir)UnityEngine.CoreModule.dll" Private="false" SpecificVersion="true"/>
         
         <Reference Include="$(CKAssemblyDir)UnityEngine.ParticleSystemModule.dll" Private="false" SpecificVersion="true"/>
@@ -88,6 +89,7 @@
         <Reference Include="$(CKAssemblyDir)PugWorldGen.dll" Private="false" SpecificVersion="true"/>
 
         <Reference Include="$(CKAssemblyDir)I2.dll" Private="false" SpecificVersion="true"/>
+        
     </ItemGroup>
 
 </Project>

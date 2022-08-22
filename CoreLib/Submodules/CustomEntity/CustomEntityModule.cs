@@ -203,7 +203,7 @@ public static class CustomEntityModule
     #region PrivateImplementation
 
     private static bool _loaded;
-    
+
     internal static List<EntityMonoBehaviourData> entitiesToAdd = new List<EntityMonoBehaviourData>();
 
     internal static ConfigFile modItemIDs;
@@ -211,15 +211,15 @@ public static class CustomEntityModule
     internal static Dictionary<string, int> modIDs = new Dictionary<string, int>();
 
     internal static PlayerCustomizationTable customizationTable;
-    
-    internal static readonly Il2CppSystem.Reflection.BindingFlags all = 
-        Il2CppSystem.Reflection.BindingFlags.Instance | 
-        Il2CppSystem.Reflection.BindingFlags.Static | 
-        Il2CppSystem.Reflection.BindingFlags.Public | 
-        Il2CppSystem.Reflection.BindingFlags.NonPublic | 
-        Il2CppSystem.Reflection.BindingFlags.GetField | 
-        Il2CppSystem.Reflection.BindingFlags.SetField | 
-        Il2CppSystem.Reflection.BindingFlags.GetProperty | 
+
+    internal static readonly Il2CppSystem.Reflection.BindingFlags all =
+        Il2CppSystem.Reflection.BindingFlags.Instance |
+        Il2CppSystem.Reflection.BindingFlags.Static |
+        Il2CppSystem.Reflection.BindingFlags.Public |
+        Il2CppSystem.Reflection.BindingFlags.NonPublic |
+        Il2CppSystem.Reflection.BindingFlags.GetField |
+        Il2CppSystem.Reflection.BindingFlags.SetField |
+        Il2CppSystem.Reflection.BindingFlags.GetProperty |
         Il2CppSystem.Reflection.BindingFlags.SetProperty;
 
 
@@ -240,6 +240,7 @@ public static class CustomEntityModule
     {
         CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(Loading_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]

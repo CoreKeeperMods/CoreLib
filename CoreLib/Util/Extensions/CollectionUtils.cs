@@ -1,6 +1,6 @@
-﻿using Il2CppSystem;
+﻿using Il2CppInterop.Runtime;
+using Il2CppSystem;
 using Il2CppSystem.Collections.Generic;
-using UnhollowerRuntimeLib;
 
 namespace CoreLib.Util.Extensions;
 
