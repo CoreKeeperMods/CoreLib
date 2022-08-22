@@ -1,4 +1,4 @@
-﻿namespace CoreLib.Submodules;
+﻿namespace CoreLib.Util;
 
 public enum ProtectMode
 {

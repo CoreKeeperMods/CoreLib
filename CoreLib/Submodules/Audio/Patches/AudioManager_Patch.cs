@@ -1,5 +1,7 @@
-﻿using CoreLib.Util.Extensions;
+﻿using CoreLib.Util;
+using CoreLib.Util.Extensions;
 using HarmonyLib;
+using Iced.Intel;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
 using UnityEngine;
@@ -46,6 +48,23 @@ public static class AudioManager_Patch
     public static void Init(AudioManager __instance)
     {
         __instance.reuseMap = new Il2CppReferenceArray<PoolableAudioSource>(__instance.audioFieldMap.Count);
+    }
+    
+    [NativeTranspilerPatch(typeof(AudioManager), nameof(AudioManager.PlayAudioClip))]
+    public static System.Collections.Generic.List<Instruction> NativeTranspiler(System.Collections.Generic.List<Instruction> instructions)
+    {
+        for (int i = 0; i < instructions.Count; i++)
+        {
+            Instruction instr = instructions[i];
+            if (instr.OpCode.Mnemonic == Mnemonic.Cmp && instr.Op0Kind == OpKind.Register && instr.Op1Kind == OpKind.Immediate32)
+            {
+                instr.SetImmediate(1, 500);
+                instructions[i] = instr;
+                break;
+            }
+        }
+
+        return instructions;
     }
     
 }
