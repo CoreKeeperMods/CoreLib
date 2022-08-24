@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -17,15 +22,54 @@ public static class ResourcesModule
         get => _loaded;
         internal set => _loaded = value;
     }
-    
+
     /// <summary>
     /// Registers mod resources for loading
     /// </summary>
     /// <param name="resource"></param>
     public static void AddResource(ResourceData resource)
     {
-        ThrowIfNotLoaded();
         modResources.Add(resource);
+    }
+
+    public static Il2CppReferenceArray<Object> LoadSprites(string assetPath)
+    {
+        foreach (ResourceData resource in modResources)
+        {
+            foreach (string extension in spriteFileExtensions)
+            {
+                if (!resource.bundle.Contains(assetPath.WithExtension(extension))) continue;
+
+                Il2CppReferenceArray<Object> sprites = resource.bundle.LoadAssetWithSubAssets(assetPath.WithExtension(extension), Il2CppType.Of<Sprite>());
+                assetGCHandles.Add(GCHandle.Alloc(sprites));
+
+                CoreLibPlugin.Logger.LogDebug($"Loading registered assets {assetPath}, count {sprites?.Count.ToString()}: {(sprites != null ? "Success" : "Failure")}");
+
+                return sprites;
+            }
+        }
+
+        return new Il2CppReferenceArray<Object>(0);
+    }
+
+    public static Sprite[] OrderSprites(this Il2CppReferenceArray<Object> sprites)
+    {
+        List<Sprite> list = new List<Sprite>(sprites.Count);
+        foreach (Object o in sprites)
+        {
+            list.Add(o.Cast<Sprite>());
+        }
+
+        return list.OrderBy(sprite =>
+            {
+                if (sprite.name.Contains('_'))
+                {
+                    string index = sprite.name.Split("_")[^1];
+                    return int.Parse(index);
+                }
+
+                return 0;
+            }).ToArray();
     }
 
     /// <summary>
@@ -34,7 +78,6 @@ public static class ResourcesModule
     /// <param name="assetPath">path to the asset</param>
     public static Object LoadAsset(string assetPath)
     {
-        ThrowIfNotLoaded();
         foreach (ResourceData resource in modResources)
         {
             if (!assetPath.ToLower().Contains(resource.keyWord.ToLower()) || !resource.HasAssetBundle()) continue;
@@ -42,6 +85,7 @@ public static class ResourcesModule
             if (resource.bundle.Contains(assetPath.WithExtension(".prefab")))
             {
                 Object prefab = resource.bundle.LoadAsset<GameObject>(assetPath.WithExtension(".prefab"));
+                assetGCHandles.Add(GCHandle.Alloc(prefab));
                 CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(prefab != null ? "Success" : "Failure")}");
                 return prefab;
             }
@@ -51,6 +95,7 @@ public static class ResourcesModule
                 if (!resource.bundle.Contains(assetPath.WithExtension(extension))) continue;
 
                 Object sprite = resource.bundle.LoadAsset<Object>(assetPath.WithExtension(extension));
+                assetGCHandles.Add(GCHandle.Alloc(sprite));
 
                 CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(sprite != null ? "Success" : "Failure")}");
 
@@ -62,6 +107,7 @@ public static class ResourcesModule
                 if (!resource.bundle.Contains(assetPath.WithExtension(extension))) continue;
 
                 Object audioClip = resource.bundle.LoadAsset<Object>(assetPath.WithExtension(extension));
+                assetGCHandles.Add(GCHandle.Alloc(audioClip));
                 CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(audioClip != null ? "Success" : "Failure")}");
                 return audioClip;
             }
@@ -72,7 +118,7 @@ public static class ResourcesModule
     }
 
     public static T LoadAsset<T>(string path)
-    where T : Object
+        where T : Object
     {
         return LoadAsset(path).Cast<T>();
     }
@@ -84,6 +130,20 @@ public static class ResourcesModule
     internal static string[] spriteFileExtensions = { ".jpg", ".png", ".tif" };
     internal static string[] audioClipFileExtensions = { ".mp3", ".ogg", ".waw", ".aif", ".flac" };
 
+    internal static List<GCHandle> assetGCHandles = new List<GCHandle>();
+    internal static ResourceData internalResource;
+
+    [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
+    internal static void Load()
+    {
+        string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+        internalResource = new ResourceData(CoreLibPlugin.GUID, "CoreLib", pluginfolder);
+        internalResource.LoadAssetBundle("corelibbundle");
+        AddResource(internalResource);
+    }
+    
+    
     internal static void ThrowIfNotLoaded()
     {
         if (!Loaded)

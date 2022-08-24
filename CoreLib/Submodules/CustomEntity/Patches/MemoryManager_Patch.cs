@@ -14,11 +14,24 @@ namespace CoreLib.Submodules.CustomEntity.Patches
         [HarmonyPrefix]
         public static void OnMemoryInit(MemoryManager __instance)
         {
-            foreach (EntityMonoBehaviourData data in CustomEntityModule.entitiesToAdd)
+            foreach (EntityMonoBehaviourData data in CustomEntityModule.entitiesToAdd.Values)
             {
+                CoreLibPlugin.Logger.LogInfo($"Checking prefab {data.objectInfo.objectID.ToString()}");
+                EntityPrefabOverride prefabOverride = data.GetComponent<EntityPrefabOverride>();
+                if (prefabOverride != null)
+                {
+                    ObjectID entityId = prefabOverride.sourceEntity.Value;
+                    if (entityId != ObjectID.None)
+                    {
+                        CoreLibPlugin.Logger.LogInfo("Skipping prefab!");
+                        continue;
+                    }
+                }
+                
                 foreach (PrefabInfo prefabInfo in data.objectInfo.prefabInfos)
                 {
                     if (prefabInfo.prefab == null) continue;
+                    
 
                     PoolablePrefabBank.PoolablePrefab prefab = new PoolablePrefabBank.PoolablePrefab
                     {
@@ -27,6 +40,7 @@ namespace CoreLib.Submodules.CustomEntity.Patches
                         maxSize = 1024
                     };
 
+                    CoreLibPlugin.Logger.LogInfo("Adding!");
                     __instance.poolablePrefabBank.poolInitializers.Add(prefab);
                 }
             }

@@ -4,14 +4,18 @@ using System.Linq;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
+using CoreLib.Submodules.CustomEntity.Atributes;
 using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
 using CoreLib.Submodules.ModResources;
 using CoreLib.Util.Extensions;
+using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.InteropTypes;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using JetBrains.Annotations;
+using Unity.NetCode;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -22,6 +26,7 @@ namespace CoreLib.Submodules.CustomEntity;
 /// Currently does not support adding blocks, NPCs and other non item entities!
 /// </summary>
 [CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule), typeof(ResourcesModule) })]
+[EntityModification]
 public static class CustomEntityModule
 {
     #region PublicInterface
@@ -47,19 +52,78 @@ public static class CustomEntityModule
         ResourcesModule.AddResource(resource);
     }
 
+    public static void RegisterModifications(Assembly assembly)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate();
+
+        RegisterModifications_Internal(assembly);
+    }
+
+
     /// <summary>
     /// Get item index from UNIQUE item id
     /// </summary>
     /// <param name="itemID">UNIQUE string item ID</param>
-    public static int GetItemIndex(string itemID)
+    public static ObjectID GetItemIndex(string itemID)
     {
+        ThrowIfNotLoaded();
         if (modIDs.ContainsKey(itemID))
         {
-            return modIDs[itemID];
+            return (ObjectID)modIDs[itemID];
         }
 
-        return -1;
+        return ObjectID.None;
     }
+
+    public static ObjectID AddModWorkbench(string itemId, string spritePath)
+    {
+        return AddModWorkbench(itemId, spritePath, null);
+    }
+
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, List<CraftingData> recipe)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate();
+        ObjectID workbenchId = AddWorkbench(itemId, spritePath, recipe);
+        AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        return workbenchId;
+    }
+    
+
+    public static void AddWorkbenchItem(ObjectID workBenchId, ObjectID itemId)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate();
+        if (entitiesToAdd.ContainsKey(workBenchId))
+        {
+            EntityMonoBehaviourData entity = entitiesToAdd[workBenchId];
+            CraftingCDAuthoring craftingCdAuthoring = entity.gameObject.GetComponent<CraftingCDAuthoring>();
+            bool isRootWorkbench = IsRootWorkbench(workBenchId);
+            
+            CoreLibPlugin.Logger.LogDebug($"Adding item {itemId.ToString()} to workbench {workBenchId.ToString()}");
+
+            if (craftingCdAuthoring.canCraftObjects.Count < (isRootWorkbench ? 17 : 18))
+            {
+                craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = itemId, amount = 1 });
+                return;
+            }
+
+            if (isRootWorkbench)
+            {
+                ObjectID newWorkbench = AddRootWorkbench();
+                craftingCdAuthoring.canCraftObjects.Insert(0, new CraftableObject() { objectID = newWorkbench, amount = 1 });
+                AddWorkbenchItem(newWorkbench, itemId);
+                return;
+            }
+
+            CoreLibPlugin.Logger.LogWarning($"Workbench {workBenchId.ToString()} has ran out of slots!");
+            return;
+        }
+        
+        CoreLibPlugin.Logger.LogError($"Failed to add workbench item! Found no entities in the list with ID: {workBenchId}.");
+    }
+
 
     /// <summary>
     /// Add new Entity. Currently only supports adding new items.
@@ -71,10 +135,7 @@ public static class CustomEntityModule
     public static ObjectID AddEntity(string itemId, string path)
     {
         ThrowIfNotLoaded();
-        if (hasInjected)
-        {
-            throw new InvalidOperationException($"AddEntity called too late. Entity injection already done. Prefab path: {path}");
-        }
+        ThrowIfTooLate();
 
         Object gameObject = ResourcesModule.LoadAsset(path);
         if (gameObject == null)
@@ -83,14 +144,19 @@ public static class CustomEntityModule
             return ObjectID.None;
         }
 
-        EntityMonoBehaviourData data = gameObject.Cast<GameObject>().GetComponent<EntityMonoBehaviourData>();
+        GameObject prefab = gameObject.Cast<GameObject>();
+        GameObject newPrefab = Object.Instantiate(prefab);
+        newPrefab.name = $"{itemId}_Prefab";
+        newPrefab.hideFlags = HideFlags.HideAndDontSave;
 
-        if (!ValidateEntity(data))
+        GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
+        if (ghost != null)
         {
-            CoreLibPlugin.Logger.LogError(
-                "Trying to add a entity with EntityMonoBehavior! This is not supported yet! Please don't try to bypass this, it will not work!");
-            return ObjectID.None;
+            ghost.Name = itemId;
+            ghost.prefabId = Guid.NewGuid().ToString("N");
         }
+
+        EntityMonoBehaviourData entity = newPrefab.GetComponent<EntityMonoBehaviourData>();
 
         int itemIndex = NextFreeId();
         itemIndex = modItemIDs.Bind("Items", itemId, itemIndex).Value;
@@ -98,10 +164,10 @@ public static class CustomEntityModule
         takenIDs.Add(itemIndex);
         modIDs.Add(itemId, itemIndex);
 
-        data.objectInfo.objectID = (ObjectID)itemIndex;
+        entity.objectInfo.objectID = (ObjectID)itemIndex;
 
-        entitiesToAdd.Add(data);
-        CoreLibPlugin.Logger.LogInfo($"Added entity {data.objectInfo.objectID}, path: {path}!");
+        entitiesToAdd.Add((ObjectID)itemIndex, entity);
+        CoreLibPlugin.Logger.LogDebug($"Added entity {entity.objectInfo.objectID}, path: {path}!");
         return (ObjectID)itemIndex;
     }
 
@@ -173,14 +239,11 @@ public static class CustomEntityModule
     public static void SetEquipmentSkin(ObjectID id, byte skinId)
     {
         ThrowIfNotLoaded();
-        if (hasInjected)
-        {
-            throw new InvalidOperationException($"SetEquipmentSkin called too late. Entity injection already done. ObjectID: {id}");
-        }
+        ThrowIfTooLate();
 
-        try
+        if (entitiesToAdd.ContainsKey(id))
         {
-            EntityMonoBehaviourData entity = entitiesToAdd.First(data => data.objectInfo.objectID == id);
+            EntityMonoBehaviourData entity = entitiesToAdd[id];
             EquipmentSkinCDAuthoring skinCdAuthoring = entity.gameObject.GetComponent<EquipmentSkinCDAuthoring>();
             if (skinCdAuthoring != null)
             {
@@ -192,7 +255,7 @@ public static class CustomEntityModule
                 skinCdAuthoring.skin = skinId;
             }
         }
-        catch (InvalidOperationException)
+        else
         {
             CoreLibPlugin.Logger.LogError($"Failed to set equipment skin! Found no entities in the list with ID: {id}.");
         }
@@ -204,23 +267,18 @@ public static class CustomEntityModule
 
     private static bool _loaded;
 
-    internal static List<EntityMonoBehaviourData> entitiesToAdd = new List<EntityMonoBehaviourData>();
+    internal static Dictionary<ObjectID, EntityMonoBehaviourData> entitiesToAdd = new Dictionary<ObjectID, EntityMonoBehaviourData>();
+    internal static Dictionary<ObjectID, Action<EntityMonoBehaviourData>> entityModifyFunctions = new Dictionary<ObjectID, Action<EntityMonoBehaviourData>>();
 
     internal static ConfigFile modItemIDs;
     internal static HashSet<int> takenIDs = new HashSet<int>();
     internal static Dictionary<string, int> modIDs = new Dictionary<string, int>();
 
+    internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
+
     internal static PlayerCustomizationTable customizationTable;
 
-    internal static readonly Il2CppSystem.Reflection.BindingFlags all =
-        Il2CppSystem.Reflection.BindingFlags.Instance |
-        Il2CppSystem.Reflection.BindingFlags.Static |
-        Il2CppSystem.Reflection.BindingFlags.Public |
-        Il2CppSystem.Reflection.BindingFlags.NonPublic |
-        Il2CppSystem.Reflection.BindingFlags.GetField |
-        Il2CppSystem.Reflection.BindingFlags.SetField |
-        Il2CppSystem.Reflection.BindingFlags.GetProperty |
-        Il2CppSystem.Reflection.BindingFlags.SetProperty;
+    internal const Il2CppSystem.Reflection.BindingFlags all = Il2CppSystem.Reflection.BindingFlags.Instance | Il2CppSystem.Reflection.BindingFlags.Static | Il2CppSystem.Reflection.BindingFlags.Public | Il2CppSystem.Reflection.BindingFlags.NonPublic | Il2CppSystem.Reflection.BindingFlags.GetField | Il2CppSystem.Reflection.BindingFlags.SetField | Il2CppSystem.Reflection.BindingFlags.GetProperty | Il2CppSystem.Reflection.BindingFlags.SetProperty;
 
 
     public const int modIdRangeStart = 33000;
@@ -230,11 +288,8 @@ public static class CustomEntityModule
 
     internal static bool hasInjected;
 
-    /// <summary>
-    /// Trust me. You don't know what you are doing!
-    /// </summary>
-    public static SpecialToggle I_KNOW_WHAT_IM_DOING = new SpecialToggle();
-
+    public const string RootWorkbench = "CoreLib:RootModWorkbench";
+    
     [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
     internal static void SetHooks()
     {
@@ -249,7 +304,26 @@ public static class CustomEntityModule
         BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
         modItemIDs = new ConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModItemID.cfg", true, metadata);
 
+        ClassInjector.RegisterTypeInIl2Cpp<EntityPrefabOverride>();
         ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterial>();
+        RegisterModifications(Assembly.GetExecutingAssembly());
+
+        AddRootWorkbench();
+    }
+
+    [EntityModification(ObjectID.Player)]
+    private static void EditPlayer(EntityMonoBehaviourData entity)
+    {
+        CraftingCDAuthoring craftingCdAuthoring = entity.GetComponent<CraftingCDAuthoring>();
+        craftingCdAuthoring.canCraftObjects.Add(new CraftableObject(){objectID = rootWorkbenches.First(), amount = 1});
+    }
+    
+    private static ObjectID AddRootWorkbench()
+    {
+        ObjectID workbench = AddWorkbench(RootWorkbench, "Assets/CoreLib/Textures/modWorkbench", null);
+        rootWorkbenches.Add(workbench);
+        AddEntityLocalization(workbench, $"Root Workbench {rootWorkbenches.Count}", "This workbench contains all modded workbenches!");
+        return workbench;
     }
 
     internal static void ThrowIfNotLoaded()
@@ -260,6 +334,117 @@ public static class CustomEntityModule
             string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
             throw new InvalidOperationException(message);
         }
+    }
+
+    internal static void ThrowIfTooLate()
+    {
+        if (hasInjected)
+        {
+            throw new InvalidOperationException($"{nameof(CustomEntityModule)} method called too late. Entity injection is already done.");
+        }
+    }
+
+    private static bool IsRootWorkbench(ObjectID objectID)
+    {
+        return rootWorkbenches.Contains(objectID);
+    }
+
+    private static int option = 0;
+    private static string[] prefabs =
+    {
+        "Assets/CoreLib/Objects/TemplateWorkbench",
+        "Assets/CoreLib/Objects/TemplateWorkbench-test"
+    };
+    
+    private static ObjectID AddWorkbench(string itemId, string spritePath, List<CraftingData> recipe)
+    {
+        Sprite[] sprites = ResourcesModule.LoadSprites(spritePath).OrderSprites();
+        if (sprites == null || sprites.Length != 2)
+        {
+            CoreLibPlugin.Logger.LogError($"Failed to add workbench! Provided sprite must be in 'Multiple' mode and have two sprites!");
+            return ObjectID.None;
+        }
+
+        string prefab = prefabs[option];
+        //option++;
+      //  option %= 2;
+
+        ObjectID id = AddEntity(itemId, prefab);
+        if (entitiesToAdd.ContainsKey(id))
+        {
+            EntityMonoBehaviourData entity = entitiesToAdd[id];
+            entity.objectInfo.icon = sprites[0];
+            entity.objectInfo.smallIcon = sprites[1];
+            if (recipe != null)
+            {
+                entity.objectInfo.requiredObjectsToCraft = recipe.Select(data =>
+                {
+                    return new CraftingObject()
+                    {
+                        objectID = data.objectID,
+                        amount = data.amount
+                    };
+                }).ToIl2CppList();
+            }
+            
+            CoreLibPlugin.Logger.LogInfo($"Modifying crafting data for {entity.objectInfo.objectID}");
+            
+            CraftingCDAuthoring comp = entity.gameObject.AddComponent<CraftingCDAuthoring>();
+            comp.craftingType = CraftingType.Simple;
+            comp.canCraftObjects = new Il2CppSystem.Collections.Generic.List<CraftableObject>(4);
+
+        }
+
+        return id;
+    }
+    
+    private static void RegisterModifications_Internal(Assembly assembly)
+    {
+        bool HasAttribute(MemberInfo type)
+        {
+            return type.GetCustomAttribute<EntityModificationAttribute>() != null;
+        }
+
+        IEnumerable<Type> types = assembly.GetTypes().Where(HasAttribute);
+        int modifiersCount = 0;
+
+        foreach (Type type in types)
+        {
+            IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(HasAttribute);
+            foreach (MethodInfo method in methods)
+            {
+                EntityModificationAttribute attribute = method.GetCustomAttribute<EntityModificationAttribute>();
+                attribute.ResolveTarget();
+                if (attribute.target == ObjectID.None)
+                {
+                    CoreLibPlugin.Logger.LogWarning($"Failed to add modify method '{method.FullDescription()}', because target object ID is not set!");
+                    continue;
+                }
+
+                var parameters = method.GetParameters();
+                if (method.ReturnParameter.ParameterType == typeof(void) &&
+                    parameters.Length == 1 &&
+                    parameters[0].ParameterType == typeof(EntityMonoBehaviourData))
+                {
+                    Action<EntityMonoBehaviourData> modifyDelegate = method.CreateDelegate<Action<EntityMonoBehaviourData>>();
+                    modifiersCount++;
+                    if (entityModifyFunctions.ContainsKey(attribute.target))
+                    {
+                        entityModifyFunctions[attribute.target] += modifyDelegate;
+                    }
+                    else
+                    {
+                        entityModifyFunctions.Add(attribute.target, modifyDelegate);
+                    }
+                }
+                else
+                {
+                    CoreLibPlugin.Logger.LogWarning(
+                        $"Failed to add modify method '{method.FullDescription()}', because method signature is incorrect. Should be void ({nameof(EntityMonoBehaviourData)})!");
+                }
+            }
+        }
+        CoreLibPlugin.Logger.LogInfo($"Registered {modifiersCount} entity modifiers from {assembly.FullName}!");
     }
 
     private static bool IsIdFree(int id)
@@ -313,28 +498,6 @@ public static class CustomEntityModule
             firstUnusedId++;
             return id;
         }
-    }
-
-    private static bool ValidateEntity(EntityMonoBehaviourData data)
-    {
-        if (I_KNOW_WHAT_IM_DOING.Value) return true;
-
-        bool isValid = true;
-        foreach (PrefabInfo prefabInfo in data.objectInfo.prefabInfos)
-        {
-            if (prefabInfo.prefab != null)
-            {
-                isValid = false;
-                break;
-            }
-        }
-
-        if (data.objectInfo.objectType is ObjectType.Creature or ObjectType.PlaceablePrefab or ObjectType.PlayerType)
-        {
-            isValid = false;
-        }
-
-        return isValid;
     }
 
     #endregion

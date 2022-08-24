@@ -21,7 +21,7 @@ namespace CoreLib.Submodules.CustomEntity
             spriteRenderer = GetComponent<SpriteRenderer>();
             materialName = spriteRenderer.sharedMaterial.name;
 
-            if (MaterialCrawler.isReady)
+            if (PrefabCrawler.isReady)
             {
                 Apply(this);
             }
@@ -33,9 +33,9 @@ namespace CoreLib.Submodules.CustomEntity
 
         public static void Apply(RuntimeMaterial material)
         {
-            if (MaterialCrawler.materials.ContainsKey(material.materialName))
+            if (PrefabCrawler.materials.ContainsKey(material.materialName))
             {
-                material.spriteRenderer.sharedMaterial = MaterialCrawler.materials[material.materialName];
+                material.spriteRenderer.sharedMaterial = PrefabCrawler.materials[material.materialName];
             }
             else
             {

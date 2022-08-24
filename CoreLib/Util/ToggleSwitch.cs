@@ -3,15 +3,6 @@ using System.Threading;
 
 namespace CoreLib
 {
-    public class SpecialToggle : ToggleSwitch
-    {
-        public override IDisposable On()
-        {
-            CoreLibPlugin.Logger.LogWarning("You said you know what you are doing! If it breaks it breaks!");
-            return base.On();
-        }
-    }
-    
     public class ToggleSwitch
     {
         private int onCount;

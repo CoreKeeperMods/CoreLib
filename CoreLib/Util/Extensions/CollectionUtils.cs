@@ -1,4 +1,5 @@
-﻿using Il2CppInterop.Runtime;
+﻿using System.Linq;
+using Il2CppInterop.Runtime;
 using Il2CppSystem;
 using Il2CppSystem.Collections.Generic;
 
@@ -29,6 +30,30 @@ public static class CollectionUtils
     public static T Find<T>(this List<T> list, System.Predicate<T> predicate)
     {
         return list.Find(DelegateSupport.ConvertDelegate<Predicate<T>>(predicate));
+    }
+
+    public static List<T> ToIl2CppList<T>(this System.Collections.Generic.IEnumerable<T> enumerable)
+    {
+        System.Collections.Generic.ICollection<T> collection;   
+        
+        if (enumerable is System.Collections.Generic.ICollection<T> objs)
+        {
+            collection = objs;
+        }
+        else
+        {
+            collection = enumerable.ToArray();
+        }
+        
+        int count = collection.Count;
+        List<T> list = new List<T>(count);
+        if (count == 0)
+            return list;
+        foreach (T obj in collection)
+        {
+            list.Add(obj);
+        }
+        return list;
     }
 
 }
