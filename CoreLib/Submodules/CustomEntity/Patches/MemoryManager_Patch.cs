@@ -14,21 +14,14 @@ namespace CoreLib.Submodules.CustomEntity.Patches
         [HarmonyPrefix]
         public static void OnMemoryInit(MemoryManager __instance)
         {
-            foreach (EntityMonoBehaviourData data in CustomEntityModule.entitiesToAdd.Values)
+            foreach (var prefabs in CustomEntityModule.entitiesToAdd.Values)
             {
-                CoreLibPlugin.Logger.LogInfo($"Checking prefab {data.objectInfo.objectID.ToString()}");
-                EntityPrefabOverride prefabOverride = data.GetComponent<EntityPrefabOverride>();
-                if (prefabOverride != null)
-                {
-                    ObjectID entityId = prefabOverride.sourceEntity.Value;
-                    if (entityId != ObjectID.None)
-                    {
-                        CoreLibPlugin.Logger.LogInfo("Skipping prefab!");
-                        continue;
-                    }
-                }
-                
-                foreach (PrefabInfo prefabInfo in data.objectInfo.prefabInfos)
+                if (prefabs.Count <= 0) continue;
+                if (HasPrefabOverrides(prefabs)) continue;
+
+                EntityMonoBehaviourData entity = prefabs[0];
+
+                foreach (PrefabInfo prefabInfo in entity.objectInfo.prefabInfos)
                 {
                     if (prefabInfo.prefab == null) continue;
                     
@@ -47,11 +40,21 @@ namespace CoreLib.Submodules.CustomEntity.Patches
             CoreLibPlugin.Logger.LogDebug($"Done!");
         }
 
-        [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init))]
-        [HarmonyPostfix]
-        public static void AfterMemoryInit(MemoryManager __instance)
+        private static bool HasPrefabOverrides(System.Collections.Generic.List<EntityMonoBehaviourData> data)
         {
-            CoreLibPlugin.Logger.LogDebug($"MemoryManager Done!");
+            foreach (EntityMonoBehaviourData entity in data)
+            {
+                EntityPrefabOverride prefabOverride = entity.GetComponent<EntityPrefabOverride>();
+                if (prefabOverride != null)
+                {
+                    ObjectID entityId = prefabOverride.sourceEntity.Value;
+                    if (entityId != ObjectID.None)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

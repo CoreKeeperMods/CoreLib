@@ -36,7 +36,7 @@ public class EntityModificationAttribute : Attribute
     {
         if (modTarget != null)
         {
-            target = CustomEntityModule.GetItemIndex(modTarget);
+            target = CustomEntityModule.GetObjectId(modTarget);
         }
     }
 }

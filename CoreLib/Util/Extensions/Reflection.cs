@@ -5,9 +5,13 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.Runtime;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using MonoMod.Utils;
+using Object = Il2CppSystem.Object;
 
 
 // ReSharper disable All
@@ -85,6 +89,19 @@ namespace CoreLib
                 }
             }
             return null;
+        }
+
+        private unsafe delegate void BaseFunc(IntPtr arg1, Il2CppMethodInfo* arg2);
+        public unsafe static void CallBase<T>(this Object obj, string name, string returnType = "System.Void", string[] arguments = null)
+        where T : Object
+        {
+            IntPtr klass = Il2CppClassPointerStore<T>.NativeClassPtr;
+            if (arguments == null)
+                arguments = Array.Empty<string>();
+
+            IntPtr methodPtr = IL2CPP.GetIl2CppMethod(klass, false, name, returnType, arguments);
+            BaseFunc baseFunc = Marshal.GetDelegateForFunctionPointer<BaseFunc>(*(IntPtr*)methodPtr);
+            baseFunc?.Invoke(obj.Pointer, (Il2CppMethodInfo*)IntPtr.Zero);
         }
     }
 }
