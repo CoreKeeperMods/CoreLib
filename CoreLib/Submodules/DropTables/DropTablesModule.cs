@@ -12,6 +12,8 @@ namespace CoreLib.Submodules.DropTables;
 [CoreLibSubmodule]
 public static class DropTablesModule
 {
+    #region Public Interface
+
     /// <summary>
     /// Return true if the submodule is loaded.
     /// </summary>
@@ -19,39 +21,6 @@ public static class DropTablesModule
     {
         get => _loaded;
         internal set => _loaded = value;
-    }
-
-    private static bool _loaded;
-
-
-    [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-    internal static void SetHooks()
-    {
-        CoreLibPlugin.harmony.PatchAll(typeof(LootTableBank_Patch));
-    }
-
-    internal static void ThrowIfNotLoaded()
-    {
-        if (!Loaded)
-        {
-            Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-            string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
-            throw new InvalidOperationException(message);
-        }
-    }
-
-    internal static Dictionary<LootTableID, DropTableModificationData> dropTableModification = new Dictionary<LootTableID, DropTableModificationData>();
-
-    private static DropTableModificationData GetModificationData(LootTableID tableID)
-    {
-        if (dropTableModification.ContainsKey(tableID))
-        {
-            return dropTableModification[tableID];
-        }
-
-        DropTableModificationData data = new DropTableModificationData();
-        dropTableModification.Add(tableID, data);
-        return data;
     }
 
     public static void AddNewDrop(LootTableID tableID, DropTableInfo info)
@@ -94,7 +63,44 @@ public static class DropTablesModule
             removeInfos.Add(item);
         }
     }
-    
+
+    #endregion
+
+    #region Private Implementation
+
+    private static bool _loaded;
+
+
+    [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
+    internal static void SetHooks()
+    {
+        CoreLibPlugin.harmony.PatchAll(typeof(LootTableBank_Patch));
+    }
+
+    internal static void ThrowIfNotLoaded()
+    {
+        if (!Loaded)
+        {
+            Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
+            string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+            throw new InvalidOperationException(message);
+        }
+    }
+
+    internal static Dictionary<LootTableID, DropTableModificationData> dropTableModification = new Dictionary<LootTableID, DropTableModificationData>();
+
+    private static DropTableModificationData GetModificationData(LootTableID tableID)
+    {
+        if (dropTableModification.ContainsKey(tableID))
+        {
+            return dropTableModification[tableID];
+        }
+
+        DropTableModificationData data = new DropTableModificationData();
+        dropTableModification.Add(tableID, data);
+        return data;
+    }
+
     internal static void RemoveDrops(List lootInfos, List guaranteedLootInfos, DropTableModificationData modificationData)
     {
         foreach (ObjectID objectID in modificationData.removeDrops)
@@ -103,7 +109,7 @@ public static class DropTablesModule
             guaranteedLootInfos.RemoveAll(loot => loot.objectID == objectID);
         }
     }
-    
+
     internal static void EditDrops(LootTable lootTable, List lootInfos, List guaranteedLootInfos, DropTableModificationData modificationData)
     {
         foreach (DropTableInfo dropTableInfo in modificationData.editDrops)
@@ -163,4 +169,5 @@ public static class DropTablesModule
         }
     }
 
+    #endregion
 }

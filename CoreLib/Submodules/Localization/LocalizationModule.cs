@@ -12,6 +12,9 @@ namespace CoreLib.Submodules.Localization;
 [CoreLibSubmodule]
 public static class LocalizationModule
 {
+
+    #region Public Interface
+    
     /// <summary>
     /// Return true if the submodule is loaded.
     /// </summary>
@@ -19,48 +22,6 @@ public static class LocalizationModule
     {
         get => _loaded;
         internal set => _loaded = value;
-    }
-
-    private static bool _loaded;
-
-
-    [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-    internal static void SetHooks()
-    {
-        CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
-    }
-
-    internal static void ThrowIfNotLoaded()
-    {
-        if (!Loaded)
-        {
-            Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-            string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
-            throw new InvalidOperationException(message);
-        }
-    }
-
-    internal static Dictionary<string, Dictionary<string, string>> addedTranslations = new Dictionary<string, Dictionary<string, string>>();
-    internal static bool localizationSystemReady;
-
-    internal static void AddTerm(this LanguageSourceData source, string term, Dictionary<string, string> translations)
-    {
-        TermData termdata = new TermData
-        {
-            Term = term,
-            TermType = eTermType.Text,
-            Flags = new byte[source.mLanguages.Count]
-        };
-
-        List<string> languages = new List<string>(source.mLanguages.Count);
-        foreach (LanguageData data in source.mLanguages)
-        {
-            languages.Add(translations.ContainsKey(data.Code) ? translations[data.Code] : translations["en"]);
-        }
-
-        termdata.Languages = languages.ToArray();
-        source.mDictionary.Add(termdata.Term, termdata);
-        source.mTerms.Add(termdata);
     }
 
     /// <summary>
@@ -104,4 +65,52 @@ public static class LocalizationModule
         
         AddTerm(term, new Dictionary<string, string> { { "en", en }, { "zh-CN", cn } });
     }
+    
+    #endregion
+
+    #region Private Implementation
+    
+    private static bool _loaded;
+
+
+    [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
+    internal static void SetHooks()
+    {
+        CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
+    }
+
+    internal static void ThrowIfNotLoaded()
+    {
+        if (!Loaded)
+        {
+            Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
+            string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+            throw new InvalidOperationException(message);
+        }
+    }
+
+    internal static Dictionary<string, Dictionary<string, string>> addedTranslations = new Dictionary<string, Dictionary<string, string>>();
+    internal static bool localizationSystemReady;
+
+    internal static void AddTerm(this LanguageSourceData source, string term, Dictionary<string, string> translations)
+    {
+        TermData termdata = new TermData
+        {
+            Term = term,
+            TermType = eTermType.Text,
+            Flags = new byte[source.mLanguages.Count]
+        };
+
+        List<string> languages = new List<string>(source.mLanguages.Count);
+        foreach (LanguageData data in source.mLanguages)
+        {
+            languages.Add(translations.ContainsKey(data.Code) ? translations[data.Code] : translations["en"]);
+        }
+
+        termdata.Languages = languages.ToArray();
+        source.mDictionary.Add(termdata.Term, termdata);
+        source.mTerms.Add(termdata);
+    }
+    
+    #endregion
 }

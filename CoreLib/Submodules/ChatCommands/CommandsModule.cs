@@ -10,8 +10,9 @@ namespace CoreLib.Submodules.ChatCommands;
 /// This module provides means to add custom chat commands
 /// </summary>
 [CoreLibSubmodule]
-public static class CommandsModule
+public static partial class CommandsModule
 {
+    #region Public Interface
     /// <summary>
     /// Return true if the submodule is loaded.
     /// </summary>
@@ -20,6 +21,35 @@ public static class CommandsModule
         get => _loaded;
         internal set => _loaded = value;
     }
+
+    /// <summary>
+    /// Add all commands from specified assembly
+    /// </summary>
+    public static void AddCommands(Assembly assembly, string modName)
+    {
+        ThrowIfNotLoaded();
+        Type[] commands = assembly.GetTypes().Where(type => typeof(IChatCommandHandler).IsAssignableFrom(type)).ToArray();
+        commandHandlers.Capacity += commands.Length;
+
+        foreach (Type commandType in commands)
+        {
+            if (commandType == typeof(IChatCommandHandler)) continue;
+
+            try
+            {
+                IChatCommandHandler handler = (IChatCommandHandler)Activator.CreateInstance(commandType);
+                commandHandlers.Add(new CommandPair(handler, modName));
+            }
+            catch (Exception e)
+            {
+                CoreLibPlugin.Logger.LogWarning($"Failed to register command {commandType}!\n{e}");
+            }
+        }
+    }
+
+    #endregion
+
+    #region Private Implementation
 
     private static bool _loaded;
 
@@ -48,41 +78,6 @@ public static class CommandsModule
     
     
     internal static List<CommandPair> commandHandlers = new List<CommandPair>();
-    
-    /// <summary>
-    /// Add all commands from specified assembly
-    /// </summary>
-    public static void AddCommands(Assembly assembly, string modName)
-    {
-        ThrowIfNotLoaded();
-        Type[] commands = assembly.GetTypes().Where(type => typeof(IChatCommandHandler).IsAssignableFrom(type)).ToArray();
-        commandHandlers.Capacity += commands.Length;
 
-        foreach (Type commandType in commands)
-        {
-            if (commandType == typeof(IChatCommandHandler)) continue;
-
-            try
-            {
-                IChatCommandHandler handler = (IChatCommandHandler)Activator.CreateInstance(commandType);
-                commandHandlers.Add(new CommandPair(handler, modName));
-            }
-            catch (Exception e)
-            {
-                CoreLibPlugin.Logger.LogWarning($"Failed to register command {commandType}!\n{e}");
-            }
-        }
-    }
-    
-    public struct CommandPair
-    {
-        public IChatCommandHandler handler;
-        public string modName;
-
-        public CommandPair(IChatCommandHandler handler, string modName)
-        {
-            this.handler = handler;
-            this.modName = modName;
-        }
-    }
+    #endregion
 }

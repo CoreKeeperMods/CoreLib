@@ -16,9 +16,11 @@ using MusicList = Il2CppSystem.Collections.Generic.List<MusicManager.MusicTrack>
 
 namespace CoreLib.Submodules.Audio;
 
-[CoreLibSubmodule(Dependencies = new []{typeof(ResourcesModule)})]
+[CoreLibSubmodule(Dependencies = new[] { typeof(ResourcesModule) })]
 public static class AudioModule
 {
+    #region Public Interface
+
     /// <summary>
     /// Return true if the submodule is loaded.
     /// </summary>
@@ -28,6 +30,87 @@ public static class AudioModule
         internal set => _loaded = value;
     }
 
+    public static bool IsVanilla(MusicManager.MusicRosterType rosterType)
+    {
+        return (int)rosterType <= maxVanillaRosterId;
+    }
+
+    /// <summary>
+    /// Define new music roster.
+    /// </summary>
+    /// <returns>Unique ID of new music roster</returns>
+    public static MusicManager.MusicRosterType AddMusicRoster()
+    {
+        ThrowIfNotLoaded();
+        int id = lastFreeMusicRosterId;
+        lastFreeMusicRosterId++;
+        return (MusicManager.MusicRosterType)id;
+    }
+
+    /// <summary>
+    /// Add new music track to music roster
+    /// </summary>
+    /// <param name="rosterType">Target roster ID</param>
+    /// <param name="musicPath">path to music clip in asset bundle</param>
+    /// <param name="introPath">path to intro clip in asset bundle</param>
+    public static void AddRosterMusic(MusicManager.MusicRosterType rosterType, string musicPath, string introPath = "")
+    {
+        ThrowIfNotLoaded();
+        MusicList list = GetRosterTracks(rosterType);
+        MusicManager.MusicTrack track = new MusicManager.MusicTrack();
+
+        track.track = ResourcesModule.LoadAsset<AudioClip>(musicPath);
+        if (!introPath.Equals(""))
+        {
+            track.optionalIntro = ResourcesModule.LoadAsset<AudioClip>(introPath);
+        }
+
+        list.Add(track);
+    }
+
+    /// <summary>
+    /// Add custom sound effect
+    /// </summary>
+    /// <param name="sfxClipPath">Path to AudioClip in mod asset bundle</param>
+    public static SfxID AddSoundEffect(string sfxClipPath)
+    {
+        AudioField effect = new AudioField();
+        AudioClip effectClip = ResourcesModule.LoadAsset<AudioClip>(sfxClipPath);
+
+        if (effectClip != null)
+        {
+            effect.audioPlayables.Add(effectClip);
+        }
+
+        return AddSoundEffect(effect);
+    }
+
+    /// <summary>
+    /// Add custom sound effect with multiple AudioClips
+    /// </summary>
+    /// <param name="sfxClipsPaths">Paths to AudioClips in mod asset bundle</param>
+    /// <param name="playOrder">AudioClip play order</param>
+    public static SfxID AddSoundEffect(string[] sfxClipsPaths, AudioField.AudioClipPlayOrder playOrder)
+    {
+        AudioField effect = new AudioField();
+        effect.audioClipPlayOrder = playOrder;
+        foreach (string sfxClipPath in sfxClipsPaths)
+        {
+            AudioClip effectClip = ResourcesModule.LoadAsset<AudioClip>(sfxClipPath);
+
+            if (effectClip != null)
+            {
+                effect.audioPlayables.Add(effectClip);
+            }
+        }
+
+        return AddSoundEffect(effect);
+    }
+
+    #endregion
+
+    #region Private Implementation
+
     private static bool _loaded;
 
 
@@ -36,11 +119,11 @@ public static class AudioModule
     {
         CoreLibPlugin.harmony.PatchAll(typeof(MusicManager_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(AudioManager_Patch));
-        
+
         CoreLibPlugin.Logger.LogInfo("Patching the method!");
         NativeTranspiler.PatchAll(typeof(AudioManager_Patch));
     }
-    
+
     [CoreLibSubmoduleInit(Stage = InitStage.Load)]
     internal static void Load()
     {
@@ -48,7 +131,7 @@ public static class AudioModule
         lastFreeSfxId = (int)Enum.Parse<SfxID>(nameof(SfxID.__max__));
         CoreLibPlugin.Logger.LogInfo($"Max Sfx ID: {lastFreeSfxId}");
     }
-    
+
     internal static void ThrowIfNotLoaded()
     {
         if (!Loaded)
@@ -65,11 +148,6 @@ public static class AudioModule
 
     internal static CustomRosterStore rosterStore;
 
-    public static bool IsVanilla(MusicManager.MusicRosterType rosterType)
-    {
-        return (int)rosterType <= maxVanillaRosterId;
-    }
-    
     internal static MusicList GetRosterTracks(MusicManager.MusicRosterType rosterType)
     {
         int rosterId = (int)rosterType;
@@ -98,81 +176,18 @@ public static class AudioModule
             return list;
         }
     }
-    
-    /// <summary>
-    /// Define new music roster.
-    /// </summary>
-    /// <returns>Unique ID of new music roster</returns>
-    public static MusicManager.MusicRosterType AddMusicRoster()
-    {
-        ThrowIfNotLoaded();
-        int id = lastFreeMusicRosterId;
-        lastFreeMusicRosterId++;
-        return (MusicManager.MusicRosterType)id;
-    }
 
-    /// <summary>
-    /// Add new music track to music roster
-    /// </summary>
-    /// <param name="rosterType">Target roster ID</param>
-    /// <param name="musicPath">path to music clip in asset bundle</param>
-    /// <param name="introPath">path to intro clip in asset bundle</param>
-    public static void AddRosterMusic(MusicManager.MusicRosterType rosterType, string musicPath, string introPath = "")
-    {
-        ThrowIfNotLoaded();
-        MusicList list = GetRosterTracks(rosterType);
-        MusicManager.MusicTrack track = new MusicManager.MusicTrack();
-        
-        track.track = ResourcesModule.LoadAsset<AudioClip>(musicPath);
-        if (!introPath.Equals(""))
-        {
-            track.optionalIntro = ResourcesModule.LoadAsset<AudioClip>(introPath);
-        }
-
-        list.Add(track);
-    }
-
-    public static SfxID AddSoundEffect(string sfxClipPath)
-    {
-        AudioField effect = new AudioField();
-        AudioClip effectClip = ResourcesModule.LoadAsset<AudioClip>(sfxClipPath);
-
-        if (effectClip != null)
-        {
-            effect.audioPlayables.Add(effectClip);
-        }
-
-        return AddSoundEffect(effect);
-    }
-    
-    public static SfxID AddSoundEffect(string[] sfxClipsPaths, AudioField.AudioClipPlayOrder playOrder)
-    {
-        AudioField effect = new AudioField();
-        effect.audioClipPlayOrder = playOrder;
-        foreach (string sfxClipPath in sfxClipsPaths)
-        {
-            AudioClip effectClip = ResourcesModule.LoadAsset<AudioClip>(sfxClipPath);
-
-            if (effectClip != null)
-            {
-                effect.audioPlayables.Add(effectClip);
-            }
-        }
-
-        return AddSoundEffect(effect);
-    }
-    
     private static SfxID AddSoundEffect(AudioField effect)
     {
         if (effect != null && effect.audioPlayables.Count > 0)
         {
             var list = rosterStore.customSoundEffects.Get();
             list.Add(effect);
-            
+
             int sfxId = lastFreeSfxId;
             effect.audioFieldName = $"sfx_{sfxId}";
             lastFreeSfxId++;
-            return (SfxID) sfxId;
+            return (SfxID)sfxId;
         }
 
         return SfxID.__illegal__;
@@ -220,4 +235,6 @@ public static class AudioModule
                 return null;
         }
     }
+
+    #endregion
 }

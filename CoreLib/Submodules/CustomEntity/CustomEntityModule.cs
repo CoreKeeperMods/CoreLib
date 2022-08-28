@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
-using BepInEx.Configuration;
 using CoreLib.Submodules.CustomEntity.Atributes;
 using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
@@ -14,7 +13,6 @@ using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.InteropTypes;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using JetBrains.Annotations;
 using PugTilemap;
 using PugTilemap.Quads;
 using PugTilemap.Workshop;
@@ -54,6 +52,10 @@ public static class CustomEntityModule
         ResourcesModule.AddResource(resource);
     }
 
+    /// <summary>
+    /// Register you entity modifications methods.
+    /// </summary>
+    /// <param name="assembly">Assembly to analyze</param>
     public static void RegisterModifications(Assembly assembly)
     {
         ThrowIfNotLoaded();
@@ -62,6 +64,10 @@ public static class CustomEntityModule
         RegisterModifications_Internal(assembly);
     }
 
+    /// <summary>
+    /// Register you entity modifications methods.
+    /// </summary>
+    /// <param name="type">Type to analyze</param>
     public static void RegisterModifications(Type type)
     {
         ThrowIfNotLoaded();
@@ -72,9 +78,9 @@ public static class CustomEntityModule
 
 
     /// <summary>
-    /// Get objectID from UNIQUE item id
+    /// Get objectID from UNIQUE entity id
     /// </summary>
-    /// <param name="itemID">UNIQUE string item ID</param>
+    /// <param name="itemID">UNIQUE string entity ID</param>
     public static ObjectID GetObjectId(string itemID)
     {
         ThrowIfNotLoaded();
@@ -83,9 +89,9 @@ public static class CustomEntityModule
     }
 
     /// <summary>
-    /// Get objectID from UNIQUE item id
+    /// Get Tileset from UNIQUE tilset id
     /// </summary>
-    /// <param name="itemID">UNIQUE string item ID</param>
+    /// <param name="itemID">UNIQUE string tilset ID</param>
     public static Tileset GetTilesetId(string itemID)
     {
         ThrowIfNotLoaded();
@@ -93,11 +99,22 @@ public static class CustomEntityModule
         return (Tileset)tilesetIDs.GetIndex(itemID);
     }
 
+    /// <summary>
+    /// Add custom workbench with specified sprite. It is automatically added to main mod workbench
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity Id</param>
+    /// <param name="spritePath">path to your sprite in asset bundle</param>
     public static ObjectID AddModWorkbench(string itemId, string spritePath)
     {
         return AddModWorkbench(itemId, spritePath, null);
     }
 
+    /// <summary>
+    /// Add custom workbench with specified sprite. It is automatically added to main mod workbench
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity Id</param>
+    /// <param name="spritePath">path to your sprite in asset bundle</param>
+    /// <param name="recipe">workbench craft recipe</param>
     public static ObjectID AddModWorkbench(string itemId, string spritePath, List<CraftingData> recipe)
     {
         ThrowIfNotLoaded();
@@ -108,7 +125,12 @@ public static class CustomEntityModule
     }
 
 
-    public static void AddWorkbenchItem(ObjectID workBenchId, ObjectID itemId)
+    /// <summary>
+    /// Add entity to workbench. This will allow player to craft it
+    /// </summary>
+    /// <param name="workBenchId">Target workbench id</param>
+    /// <param name="entityId">entity Id</param>
+    public static void AddWorkbenchItem(ObjectID workBenchId, ObjectID entityId)
     {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddModWorkbench));
@@ -117,11 +139,11 @@ public static class CustomEntityModule
             CraftingCDAuthoring craftingCdAuthoring = entity.gameObject.GetComponent<CraftingCDAuthoring>();
             bool isRootWorkbench = IsRootWorkbench(workBenchId);
 
-            CoreLibPlugin.Logger.LogDebug($"Adding item {itemId.ToString()} to workbench {workBenchId.ToString()}");
+            CoreLibPlugin.Logger.LogDebug($"Adding item {entityId.ToString()} to workbench {workBenchId.ToString()}");
 
             if (craftingCdAuthoring.canCraftObjects.Count < (isRootWorkbench ? 17 : 18))
             {
-                craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = itemId, amount = 1 });
+                craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = entityId, amount = 1 });
                 return;
             }
 
@@ -129,7 +151,7 @@ public static class CustomEntityModule
             {
                 ObjectID newWorkbench = AddRootWorkbench();
                 craftingCdAuthoring.canCraftObjects.Insert(0, new CraftableObject() { objectID = newWorkbench, amount = 1 });
-                AddWorkbenchItem(newWorkbench, itemId);
+                AddWorkbenchItem(newWorkbench, entityId);
                 return;
             }
 
@@ -142,17 +164,24 @@ public static class CustomEntityModule
 
 
     /// <summary>
-    /// Add new Entity. Currently only supports adding new items.
+    /// Add new entity.
     /// </summary>
-    /// <param name="itemId">UNIQUE item id</param>
+    /// <param name="itemId">UNIQUE entity id</param>
     /// <param name="prefabPath">path to your prefab in asset bundle</param>
-    /// <returns>Added item integer index. If adding failed returns -1</returns>
+    /// <returns>Added objectID. If adding failed returns <see cref="ObjectID.None"/></returns>
     /// <exception cref="InvalidOperationException">Throws if called too late</exception>
     public static ObjectID AddEntity(string itemId, string prefabPath)
     {
         return AddEntityWithVariations(itemId, new[] { prefabPath });
     }
 
+    /// <summary>
+    /// Add new entity with variations. Each prefab must have variation field set.
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity id</param>
+    /// <param name="prefabsPaths">paths to your prefabs in asset bundle</param>
+    /// <returns>Added objectID. If adding failed returns <see cref="ObjectID.None"/></returns>
+    /// <exception cref="InvalidOperationException">Throws if called too late</exception>
     public static ObjectID AddEntityWithVariations(string itemId, string[] prefabsPaths)
     {
         ThrowIfNotLoaded();
@@ -196,50 +225,12 @@ public static class CustomEntityModule
         return objectID;
     }
 
-    private static EntityMonoBehaviourData LoadPrefab(string itemId, string prefabPath)
-    {
-        Object gameObject = ResourcesModule.LoadAsset(prefabPath);
-        if (gameObject == null)
-        {
-            throw new ArgumentException($"Found no prefab at path: {prefabPath}");
-        }
-
-        GameObject prefab = gameObject.TryCast<GameObject>();
-        if (prefab == null)
-        {
-            throw new ArgumentException($"Object at path: {prefabPath} is not a Prefab!");
-        }
-
-        GameObject newPrefab = Object.Instantiate(prefab);
-
-        EntityMonoBehaviourData entityData = newPrefab.GetComponent<EntityMonoBehaviourData>();
-
-        string fullItemId = $"{itemId}_{entityData.objectInfo.variation}";
-
-        newPrefab.name = $"{fullItemId}_Prefab";
-        newPrefab.hideFlags = HideFlags.HideAndDontSave;
-
-        GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
-        if (ghost != null)
-        {
-            ghost.Name = itemId;
-            ghost.prefabId = fullItemId.GetGUID();
-        }
-
-        foreach (PrefabInfo prefabInfo in entityData.objectInfo.prefabInfos)
-        {
-            if (prefabInfo.prefab == null) continue;
-
-            ModEntityMonoBehavior behavior = prefabInfo.prefab.TryCast<ModEntityMonoBehavior>();
-            if (behavior != null)
-            {
-                behavior.Allocate();
-            }
-        }
-
-        return entityData;
-    }
-
+    /// <summary>
+    /// Add one or more custom tilesets. Prefab must be <see cref="MapWorkshopTilesetBank"/> with fields 'friendlyName' set to tileset ids
+    /// </summary>
+    /// <param name="tilesetPath">path to your prefab in asset bundle</param>
+    /// <exception cref="ArgumentException">If provided prefab was not found</exception>
+    /// <exception cref="InvalidOperationException">Throws if called too late</exception>
     public static void AddCustomTileset(string tilesetPath)
     {
         ThrowIfNotLoaded();
@@ -335,7 +326,7 @@ public static class CustomEntityModule
     }
 
     /// <summary>
-    /// Set entity with id EquipmentSkinCD's skin 
+    /// Set entity <see cref="EquipmentSkinCDAuthoring"/> skin 
     /// </summary>
     /// <param name="id">Target Entity ID</param>
     /// <param name="skinId">new skin Index</param>
@@ -363,6 +354,11 @@ public static class CustomEntityModule
         }
     }
 
+    /// <summary>
+    /// Set entity <see cref="TileCDAuthoring"/> component tileset variable.
+    /// </summary>
+    /// <param name="id">Target entity id</param>
+    /// <param name="tileset">new tileset</param>
     public static void SetTileset(ObjectID id, Tileset tileset)
     {
         ThrowIfNotLoaded();
@@ -386,7 +382,7 @@ public static class CustomEntityModule
             CoreLibPlugin.Logger.LogError($"Failed to set tileset! Found no registered entities with ID: {id}.");
         }
     }
-    
+
     #endregion
 
     #region PrivateImplementation
@@ -396,7 +392,9 @@ public static class CustomEntityModule
     internal static Dictionary<ObjectID, List<EntityMonoBehaviourData>> entitiesToAdd = new Dictionary<ObjectID, List<EntityMonoBehaviourData>>();
     internal static Dictionary<ObjectID, Action<EntityMonoBehaviourData>> entityModifyFunctions = new Dictionary<ObjectID, Action<EntityMonoBehaviourData>>();
 
-    internal static Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>> customTilesets = new Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>>();
+    internal static Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>> customTilesets =
+        new Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>>();
+
     internal static Dictionary<string, PugMapTileset> tilesetLayers = new Dictionary<string, PugMapTileset>();
     internal static MapWorkshopTilesetBank.Tileset missingTileset;
 
@@ -580,6 +578,50 @@ public static class CustomEntityModule
         }
 
         return id;
+    }
+
+    private static EntityMonoBehaviourData LoadPrefab(string itemId, string prefabPath)
+    {
+        Object gameObject = ResourcesModule.LoadAsset(prefabPath);
+        if (gameObject == null)
+        {
+            throw new ArgumentException($"Found no prefab at path: {prefabPath}");
+        }
+
+        GameObject prefab = gameObject.TryCast<GameObject>();
+        if (prefab == null)
+        {
+            throw new ArgumentException($"Object at path: {prefabPath} is not a Prefab!");
+        }
+
+        GameObject newPrefab = Object.Instantiate(prefab);
+
+        EntityMonoBehaviourData entityData = newPrefab.GetComponent<EntityMonoBehaviourData>();
+
+        string fullItemId = $"{itemId}_{entityData.objectInfo.variation}";
+
+        newPrefab.name = $"{fullItemId}_Prefab";
+        newPrefab.hideFlags = HideFlags.HideAndDontSave;
+
+        GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
+        if (ghost != null)
+        {
+            ghost.Name = itemId;
+            ghost.prefabId = fullItemId.GetGUID();
+        }
+
+        foreach (PrefabInfo prefabInfo in entityData.objectInfo.prefabInfos)
+        {
+            if (prefabInfo.prefab == null) continue;
+
+            ModEntityMonoBehavior behavior = prefabInfo.prefab.TryCast<ModEntityMonoBehavior>();
+            if (behavior != null)
+            {
+                behavior.Allocate();
+            }
+        }
+
+        return entityData;
     }
 
     private static void RegisterModifications_Internal(Assembly assembly)

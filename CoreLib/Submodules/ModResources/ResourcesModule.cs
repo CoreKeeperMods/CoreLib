@@ -15,6 +15,9 @@ namespace CoreLib.Submodules.ModResources;
 [CoreLibSubmodule]
 public static class ResourcesModule
 {
+
+    #region Public Interface
+    
     /// <summary>
     /// Return true if the submodule is loaded.
     /// </summary>
@@ -134,6 +137,8 @@ public static class ResourcesModule
     {
         return LoadAsset(path).TryCast<T>();
     }
+    
+    #endregion
 
     #region PrivateImplementation
 
