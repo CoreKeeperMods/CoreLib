@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib", "CoreLib\CoreLib.csproj", "{A1C9C7BE-C448-4EA1-9793-7275B13162CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityComponents", "UnityComponents\UnityComponents.csproj", "{6BF677E9-763E-4F59-A557-D7433E21F8DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib.CodeGenerator", "CoreLib.CodeGenerator\CoreLib.CodeGenerator.csproj", "{FF349653-087F-4D56-9FCE-A47A84D260D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{A1C9C7BE-C448-4EA1-9793-7275B13162CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1C9C7BE-C448-4EA1-9793-7275B13162CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1C9C7BE-C448-4EA1-9793-7275B13162CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BF677E9-763E-4F59-A557-D7433E21F8DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BF677E9-763E-4F59-A557-D7433E21F8DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BF677E9-763E-4F59-A557-D7433E21F8DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BF677E9-763E-4F59-A557-D7433E21F8DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF349653-087F-4D56-9FCE-A47A84D260D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF349653-087F-4D56-9FCE-A47A84D260D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF349653-087F-4D56-9FCE-A47A84D260D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF349653-087F-4D56-9FCE-A47A84D260D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

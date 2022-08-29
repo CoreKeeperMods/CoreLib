@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
-using Il2CppSystem.Collections.Generic;
 using UnityEngine;
-using MusicList = Il2CppSystem.Collections.Generic.List<MusicManager.MusicTrack>;
+using Il2CppSystem.Collections.Generic;
 
-namespace CoreLib.Submodules.Audio
+#if IL2CPP
+
+namespace CoreLib.UnityComponents
 {
-    public class CustomRosterStore : MonoBehaviour
+    public class TestComponent : MonoBehaviour
     {
-        public Il2CppReferenceField<Dictionary<int, MusicList>> customRosterMusic;
-        public Il2CppReferenceField<Dictionary<int, MusicList>> vanillaRosterAddTracksInfos;
+        public Il2CppReferenceField<Dictionary<int, List<MusicManager.MusicTrack>>> customRosterMusic;
+        public Il2CppReferenceField<Dictionary<int, List<MusicManager.MusicTrack>>> vanillaRosterAddTracksInfos;
         public Il2CppReferenceField<List<AudioField>> customSoundEffects;
 
-        public CustomRosterStore(IntPtr ptr) : base(ptr) { }
+        public TestComponent(IntPtr ptr) : base(ptr) { }
 
         private GCHandle customMusicHandle;
         private GCHandle vanillaMusicHandle;
@@ -21,26 +22,26 @@ namespace CoreLib.Submodules.Audio
 
         private void Awake()
         {
-            Dictionary<int, MusicList> list = new Dictionary<int, MusicList>();
+            Dictionary<int, List<MusicManager.MusicTrack>> list = new Dictionary<int, List<MusicManager.MusicTrack>>();
             customMusicHandle = GCHandle.Alloc(list, GCHandleType.Normal);
             customRosterMusic.Set(list);
 
-            list = new Dictionary<int, MusicList>();
+            list = new Dictionary<int, List<MusicManager.MusicTrack>>();
             vanillaMusicHandle = GCHandle.Alloc(list, GCHandleType.Normal);
             vanillaRosterAddTracksInfos.Set(list);
 
             List<AudioField> sfxList = new List<AudioField>();
             customSoundEffectsHandle = GCHandle.Alloc(sfxList, GCHandleType.Normal);
             customSoundEffects.Set(sfxList);
-
-            CoreLibPlugin.Logger.LogDebug("Custom Music Roster Store is initialized");
         }
 
-        private void OnDestroy()
+        public int OnDestroy()
         {
             customMusicHandle.Free();
             vanillaMusicHandle.Free();
             customSoundEffectsHandle.Free();
+            return 0;
         }
     }
 }
+#endif
