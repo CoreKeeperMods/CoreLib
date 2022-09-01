@@ -37,6 +37,7 @@ public class IdBindConfigFile : ConfigFile
             return modIDs[itemID];
         }
 
+        CoreLibPlugin.Logger.LogWarning($"Requesting ID for {itemID}, which is not registered!");
         return 0;
     }
     

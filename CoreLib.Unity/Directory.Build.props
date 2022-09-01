@@ -24,11 +24,7 @@
     <PropertyGroup Label="Common Properties">
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-
-        <OutputPath Condition="'$(ReleaseMode)' == '0' And Exists('$(CKGameDir)')">$(PluginOutputDirectory)</OutputPath>
-        <OutputPath Condition="'$(ReleaseMode)' == '1'">$(MSBuildThisFileDirectory)\..\Staging\</OutputPath>
         
-        <OutDir>$(OutputPath)</OutDir>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
@@ -47,7 +43,7 @@
         <ProjectReference Include="..\CoreLib.CodeGenerator\CoreLib.CodeGenerator.csproj"
                           OutputItemType="Analyzer"
                           ReferenceOutputAssembly="false" />
-    </ItemGroup>
+    </ItemGroup> 
 	
 	<ItemGroup Label="BepInEx">
 	

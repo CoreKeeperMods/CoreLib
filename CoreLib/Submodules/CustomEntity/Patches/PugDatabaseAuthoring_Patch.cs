@@ -1,8 +1,11 @@
-﻿using CoreLib;
+﻿using System;
+using CoreLib;
 using CoreLib.Submodules.CustomEntity;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.CustomEntity.Patches;
 
@@ -52,20 +55,24 @@ public static class PugDatabaseAuthoring_Patch
     {
         foreach (EntityMonoBehaviourData data in prefabs)
         {
-            EntityPrefabOverride prefabOverride = data.GetComponent<EntityPrefabOverride>();
-            if (prefabOverride != null)
+            Il2CppArrayBase<ModCDAuthoringBase> overrides = data.GetComponents<ModCDAuthoringBase>();
+            foreach (ModCDAuthoringBase modOverride in overrides)
             {
-                ObjectID entityId = prefabOverride.sourceEntity.Value;
-                if (PrefabCrawler.entityPrefabs.ContainsKey(entityId))
+                bool success;
+                try
                 {
-                    CoreLibPlugin.Logger.LogInfo($"Overriding prefab for {data.objectInfo.objectID.ToString()} to {entityId.ToString()} prefab!");
-                    data.objectInfo.prefabInfos._items[0].prefab = PrefabCrawler.entityPrefabs[entityId];
-                    Object.Destroy(prefabOverride);
+                    success = modOverride.Apply(data);
                 }
-                else
+                catch (Exception e)
+                {
+                    CoreLibPlugin.Logger.LogWarning($"Exception in {modOverride.GetIl2CppType().FullName}:\n{e}");
+                    success = false;
+                }
+
+                if (!success)
                 {
                     CoreLibPlugin.Logger.LogWarning(
-                        $"Failed to add entity {data.objectInfo.objectID.ToString()} prefab, because override prefab {entityId.ToString()} was not found!");
+                        $"Failed to add entity {data.objectInfo.objectID.ToString()}, variation {data.objectInfo.variation} prefab, because {modOverride.GetIl2CppType().FullName} override failed to apply!");
                     return false;
                 }
             }

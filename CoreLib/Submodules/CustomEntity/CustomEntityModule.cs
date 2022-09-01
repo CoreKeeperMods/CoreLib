@@ -441,6 +441,8 @@ public static class CustomEntityModule
         ClassInjector.RegisterTypeInIl2Cpp<EntityPrefabOverride>();
         ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterial>();
         ClassInjector.RegisterTypeInIl2Cpp<ModEntityMonoBehavior>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModCDAuthoringBase>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModTileCDAuthoring>();
         RegisterModifications(typeof(CustomEntityModule));
 
         InitTilesets();
@@ -619,6 +621,11 @@ public static class CustomEntityModule
             {
                 behavior.Allocate();
             }
+        }
+
+        foreach (ModCDAuthoringBase gcAllocMonoBehavior in newPrefab.GetComponents<ModCDAuthoringBase>())
+        {
+            gcAllocMonoBehavior.Allocate();
         }
 
         return entityData;

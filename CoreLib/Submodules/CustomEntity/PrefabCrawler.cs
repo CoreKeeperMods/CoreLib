@@ -41,10 +41,6 @@ namespace CoreLib.Submodules.CustomEntity
             }
 
             isReady = true;
-            foreach (RuntimeMaterial material in RuntimeMaterial.applyQueue)
-            {
-                RuntimeMaterial.Apply(material);
-            }
         }
 
         private static void CheckPrefab(GameObject prefab)

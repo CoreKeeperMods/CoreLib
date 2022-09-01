@@ -36,5 +36,4 @@
   <Target Name="TestCKGameFolder"
           DependsOnTargets="MaybeCopyDevEnv;DevEnvInvalid"
           Condition="!Exists('$(CKGameDir)') And '$(ReleaseMode)' == '0'" />
-		  
 </Project>

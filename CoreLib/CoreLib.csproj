@@ -6,8 +6,9 @@
     <Version>1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <Configurations>Debug;Release;BuildNPack</Configurations>
+    <Configurations>Debug;Release;BuildNPack;Unity</Configurations>
     <PackageId>com.le4fless.corelib</PackageId>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='BuildNPack|AnyCPU'">
@@ -16,6 +17,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>False</Optimize>
+    <DefineConstants>TRACE IL2CPP</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup>

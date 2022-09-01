@@ -21,7 +21,7 @@ namespace CoreLib {
         internal static Harmony harmony;
         
         internal static CoreLibPlugin Instance { get; private set; }
-        internal static ManualLogSource Logger { get; private set; }
+        public static ManualLogSource Logger { get; private set; }
 
         public override void Load() {
             Instance = this;
