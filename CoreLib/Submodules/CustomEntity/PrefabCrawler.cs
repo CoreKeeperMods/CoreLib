@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Il2CppMono;
 using UnityEngine;
 
 namespace CoreLib.Submodules.CustomEntity
@@ -8,6 +9,8 @@ namespace CoreLib.Submodules.CustomEntity
     {
         public static Dictionary<string, Material> materials = new Dictionary<string, Material>();
         public static Dictionary<ObjectID, EntityMonoBehaviour> entityPrefabs = new Dictionary<ObjectID, EntityMonoBehaviour>();
+
+        public static List<RuntimeMaterial> pendingMaterials = new List<RuntimeMaterial>();
 
         public static bool isReady { get; private set; }
 
@@ -41,6 +44,11 @@ namespace CoreLib.Submodules.CustomEntity
             }
 
             isReady = true;
+
+            foreach (RuntimeMaterial runtimeMaterial in pendingMaterials)
+            {
+                runtimeMaterial.Apply(null);
+            }
         }
 
         private static void CheckPrefab(GameObject prefab)

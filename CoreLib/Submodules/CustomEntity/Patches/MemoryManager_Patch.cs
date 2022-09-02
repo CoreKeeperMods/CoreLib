@@ -2,6 +2,7 @@
 using CoreLib;
 using CoreLib.Submodules.CustomEntity;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,6 @@ namespace CoreLib.Submodules.CustomEntity.Patches
                 foreach (PrefabInfo prefabInfo in entity.objectInfo.prefabInfos)
                 {
                     if (prefabInfo.prefab == null) continue;
-                    
 
                     PoolablePrefabBank.PoolablePrefab prefab = new PoolablePrefabBank.PoolablePrefab
                     {
@@ -37,6 +37,7 @@ namespace CoreLib.Submodules.CustomEntity.Patches
                     __instance.poolablePrefabBank.poolInitializers.Add(prefab);
                 }
             }
+
             CoreLibPlugin.Logger.LogDebug($"Done!");
         }
 
@@ -54,6 +55,7 @@ namespace CoreLib.Submodules.CustomEntity.Patches
                     }
                 }
             }
+
             return false;
         }
     }

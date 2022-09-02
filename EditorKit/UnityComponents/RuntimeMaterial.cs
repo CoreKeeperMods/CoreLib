@@ -6,6 +6,10 @@ namespace CoreLib.Submodules.CustomEntity
     public class RuntimeMaterial : ModCDAuthoringBase
     {
         public String materialName;
+        public void Awake()
+        {
+        }
+
         public bool Allocate()
         {
             return default(bool);

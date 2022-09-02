@@ -621,6 +621,11 @@ public static class CustomEntityModule
             {
                 behavior.Allocate();
             }
+            
+            foreach (ModCDAuthoringBase gcAllocMonoBehavior in prefabInfo.prefab.GetComponentsInChildren<ModCDAuthoringBase>())
+            {
+                gcAllocMonoBehavior.Allocate();
+            }
         }
 
         foreach (ModCDAuthoringBase gcAllocMonoBehavior in newPrefab.GetComponents<ModCDAuthoringBase>())
@@ -649,6 +654,7 @@ public static class CustomEntityModule
         foreach (MethodInfo method in methods)
         {
             EntityModificationAttribute attribute = method.GetCustomAttribute<EntityModificationAttribute>();
+            //TODO move resolution to post mod load phase
             attribute.ResolveTarget();
             if (attribute.target == ObjectID.None)
             {

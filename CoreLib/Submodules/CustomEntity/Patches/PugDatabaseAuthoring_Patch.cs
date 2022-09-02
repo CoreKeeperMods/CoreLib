@@ -58,25 +58,32 @@ public static class PugDatabaseAuthoring_Patch
             Il2CppArrayBase<ModCDAuthoringBase> overrides = data.GetComponents<ModCDAuthoringBase>();
             foreach (ModCDAuthoringBase modOverride in overrides)
             {
-                bool success;
-                try
-                {
-                    success = modOverride.Apply(data);
-                }
-                catch (Exception e)
-                {
-                    CoreLibPlugin.Logger.LogWarning($"Exception in {modOverride.GetIl2CppType().FullName}:\n{e}");
-                    success = false;
-                }
-
-                if (!success)
-                {
-                    CoreLibPlugin.Logger.LogWarning(
-                        $"Failed to add entity {data.objectInfo.objectID.ToString()}, variation {data.objectInfo.variation} prefab, because {modOverride.GetIl2CppType().FullName} override failed to apply!");
-                    return false;
-                }
+                if (!ApplyOverride(modOverride, data)) return false;
             }
         }
+        return true;
+    }
+
+    internal static bool ApplyOverride(ModCDAuthoringBase modOverride, EntityMonoBehaviourData data)
+    {
+        bool success;
+        try
+        {
+            success = modOverride.Apply(data);
+        }
+        catch (Exception e)
+        {
+            CoreLibPlugin.Logger.LogWarning($"Exception in {modOverride.GetIl2CppType().FullName}:\n{e}");
+            success = false;
+        }
+
+        if (!success)
+        {
+            CoreLibPlugin.Logger.LogWarning(
+                $"Failed to add entity {data.objectInfo.objectID.ToString()}, variation {data.objectInfo.variation} prefab, because {modOverride.GetIl2CppType().FullName} override failed to apply!");
+            return false;
+        }
+
         return true;
     }
 }
