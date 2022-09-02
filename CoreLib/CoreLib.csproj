@@ -17,11 +17,11 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>False</Optimize>
-    <DefineConstants>TRACE IL2CPP</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup>
     <Folder Include="Submodules\ChatCommands\Commands" />
     <Folder Include="Submodules\ChatCommands\Patches" />
+    <Content Include="PostBuild.csproj" />
   </ItemGroup>
 </Project>

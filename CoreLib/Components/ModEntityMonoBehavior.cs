@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Il2CppSystem.Collections.Generic;
 using UnityEngine;
 
-#if IL2CPP
 namespace CoreLib.Submodules.CustomEntity
 {
     public class ModEntityMonoBehavior : EntityMonoBehaviour
@@ -95,4 +94,3 @@ namespace CoreLib.Submodules.CustomEntity
         }
     }
 }
-#endif

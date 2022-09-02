@@ -3,7 +3,6 @@ using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem;
 using PugTilemap;
 
-#if IL2CPP
 namespace CoreLib.Submodules.CustomEntity
 {
 
@@ -40,4 +39,3 @@ namespace CoreLib.Submodules.CustomEntity
         }
     }
 }
-#endif

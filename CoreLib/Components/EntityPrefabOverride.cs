@@ -1,8 +1,6 @@
 ﻿using System;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 
-#if IL2CPP
-
 namespace CoreLib.Submodules.CustomEntity
 {
     public class EntityPrefabOverride : ModCDAuthoringBase
@@ -31,4 +29,3 @@ namespace CoreLib.Submodules.CustomEntity
         }
     }
 }
-#endif

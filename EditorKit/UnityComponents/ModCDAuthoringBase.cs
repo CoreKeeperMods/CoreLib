@@ -1,29 +1,21 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace CoreLib
 {
     public class ModCDAuthoringBase : MonoBehaviour
     {
-        protected bool allocated;
-    
-        public ModCDAuthoringBase(System.IntPtr ptr) : base(ptr) { }
-    
         public virtual void Awake()
         {
-            Allocate();
         }
-    
+
         public virtual bool Allocate()
         {
-            if (allocated) return false;
-            allocated = true;
-            return true;
+            return default(bool);
         }
 
         public virtual bool Apply(EntityMonoBehaviourData data)
         {
-            return true;
+            return default(bool);
         }
-
     }
 }

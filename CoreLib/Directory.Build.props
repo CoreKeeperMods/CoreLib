@@ -41,8 +41,12 @@
 
         <PackageVersion>$(AssemblyVersion)</PackageVersion>
     </PropertyGroup>
-
-	
+    
+    <ItemGroup>
+        <ProjectReference Include="..\CoreLib.CodeGenerator\CoreLib.CodeGenerator.csproj" />
+    </ItemGroup>
+    
+    
 	<ItemGroup Label="BepInEx">
 	
 		<PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>

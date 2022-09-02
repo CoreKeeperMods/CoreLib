@@ -4,7 +4,6 @@ using Il2CppSystem;
 using UnityEngine;
 
 
-#if IL2CPP
 namespace CoreLib.Submodules.CustomEntity
 {
     public class RuntimeMaterial : ModCDAuthoringBase
@@ -45,4 +44,3 @@ namespace CoreLib.Submodules.CustomEntity
         }
     }
 }
-#endif
