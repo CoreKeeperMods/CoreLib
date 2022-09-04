@@ -1,6 +1,7 @@
 ﻿using System;
 using CoreLib;
 using CoreLib.Submodules.CustomEntity;
+using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
@@ -38,6 +39,18 @@ public static class PugDatabaseAuthoring_Patch
 
         CoreLibPlugin.Logger.LogInfo($"Added {CustomEntityModule.entitiesToAdd.Count} entities!");
 
+        foreach (var pair in CustomEntityModule.modEntityModifyFunctions)
+        {
+            ObjectID objectID = CustomEntityModule.GetObjectId(pair.Key);
+            if (objectID == ObjectID.None)
+            {
+                CoreLibPlugin.Logger.LogWarning($"Failed to resolve mod entity target: {pair.Key}!");
+                continue;
+            }
+            CustomEntityModule.entityModifyFunctions.AddDelegate(objectID, pair.Value);
+        }
+        CustomEntityModule.modEntityModifyFunctions.Clear();
+        
         foreach (EntityMonoBehaviourData entity in __instance.prefabList)
         {
             if (CustomEntityModule.entityModifyFunctions.ContainsKey(entity.objectInfo.objectID))

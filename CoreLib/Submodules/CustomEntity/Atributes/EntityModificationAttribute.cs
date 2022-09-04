@@ -31,12 +31,4 @@ public class EntityModificationAttribute : Attribute
     {
         this.modTarget = modTarget;
     }
-
-    internal void ResolveTarget()
-    {
-        if (modTarget != null)
-        {
-            target = CustomEntityModule.GetObjectId(modTarget);
-        }
-    }
 }

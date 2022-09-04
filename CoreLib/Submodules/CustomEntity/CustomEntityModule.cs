@@ -391,6 +391,7 @@ public static class CustomEntityModule
 
     internal static Dictionary<ObjectID, List<EntityMonoBehaviourData>> entitiesToAdd = new Dictionary<ObjectID, List<EntityMonoBehaviourData>>();
     internal static Dictionary<ObjectID, Action<EntityMonoBehaviourData>> entityModifyFunctions = new Dictionary<ObjectID, Action<EntityMonoBehaviourData>>();
+    internal static Dictionary<string, Action<EntityMonoBehaviourData>> modEntityModifyFunctions = new Dictionary<string, Action<EntityMonoBehaviourData>>();
 
     internal static Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>> customTilesets =
         new Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>>();
@@ -654,9 +655,7 @@ public static class CustomEntityModule
         foreach (MethodInfo method in methods)
         {
             EntityModificationAttribute attribute = method.GetCustomAttribute<EntityModificationAttribute>();
-            //TODO move resolution to post mod load phase
-            attribute.ResolveTarget();
-            if (attribute.target == ObjectID.None)
+            if (attribute.target == ObjectID.None || attribute.modTarget.Equals(""))
             {
                 CoreLibPlugin.Logger.LogWarning($"Failed to add modify method '{method.FullDescription()}', because target object ID is not set!");
                 continue;
@@ -668,13 +667,13 @@ public static class CustomEntityModule
                 parameters[0].ParameterType == typeof(EntityMonoBehaviourData))
             {
                 Action<EntityMonoBehaviourData> modifyDelegate = method.CreateDelegate<Action<EntityMonoBehaviourData>>();
-                if (entityModifyFunctions.ContainsKey(attribute.target))
+                if (attribute.target != ObjectID.None)
                 {
-                    entityModifyFunctions[attribute.target] += modifyDelegate;
+                    entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
                 }
-                else
+                else if (!attribute.modTarget.Equals(""))
                 {
-                    entityModifyFunctions.Add(attribute.target, modifyDelegate);
+                    modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
                 }
 
                 modifiersCount++;
