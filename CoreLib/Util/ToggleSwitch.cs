@@ -1,41 +1,40 @@
 ﻿using System;
 using System.Threading;
 
-namespace CoreLib
+namespace CoreLib;
+
+public class ToggleSwitch
 {
-    public class ToggleSwitch
+    private int onCount;
+
+    public bool Value => onCount > 0;
+
+    public static implicit operator bool(ToggleSwitch toggle)
     {
-        private int onCount;
+        return toggle.Value;
+    }
 
-        public bool Value => onCount > 0;
+    public virtual IDisposable On()
+    {
+        return new Toggle(this, 1);
+    }
 
-        public static implicit operator bool(ToggleSwitch toggle)
+    public readonly struct Toggle : IDisposable
+    {
+        private readonly ToggleSwitch value;
+        private readonly int count;
+
+        public Toggle(ToggleSwitch value, int count)
         {
-            return toggle.Value;
+            this.value = value;
+            this.count = count;
+
+            Interlocked.Add(ref value.onCount, count);
         }
 
-        public virtual IDisposable On()
+        public void Dispose()
         {
-            return new Toggle(this, 1);
-        }
-
-        public readonly struct Toggle : IDisposable
-        {
-            private readonly ToggleSwitch value;
-            private readonly int count;
-
-            public Toggle(ToggleSwitch value, int count)
-            {
-                this.value = value;
-                this.count = count;
-
-                Interlocked.Add(ref value.onCount, count);
-            }
-
-            public void Dispose()
-            {
-                Interlocked.Add(ref value.onCount, -count);
-            }
+            Interlocked.Add(ref value.onCount, -count);
         }
     }
 }

@@ -1,62 +1,70 @@
-﻿using System;
-using CoreLib;
-using CoreLib.Submodules.CustomEntity;
-using HarmonyLib;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using Il2CppSystem.Collections.Generic;
+﻿using HarmonyLib;
 using UnityEngine;
 
-namespace CoreLib.Submodules.CustomEntity.Patches
+namespace CoreLib.Submodules.CustomEntity.Patches;
+
+[HarmonyPatch]
+public static class MemoryManager_Patch
 {
-    [HarmonyPatch]
-    public static class MemoryManager_Patch
+    [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init))]
+    [HarmonyPrefix]
+    public static void OnMemoryInit(MemoryManager __instance)
     {
-        [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init))]
-        [HarmonyPrefix]
-        public static void OnMemoryInit(MemoryManager __instance)
+        PrefabCrawler.FindMaterials(__instance.poolablePrefabBank.poolInitializers);
+        CoreLibPlugin.Logger.LogInfo($"Finished crawling prefabs, found {PrefabCrawler.materials.Count} materials!");
+
+        int count = 0;
+            
+        foreach (var prefabs in CustomEntityModule.entitiesToAdd.Values)
         {
-            foreach (var prefabs in CustomEntityModule.entitiesToAdd.Values)
+            if (prefabs.Count <= 0) continue;
+            if (HasPrefabOverrides(prefabs)) continue;
+
+            EntityMonoBehaviourData entity = prefabs[0];
+
+            foreach (PrefabInfo prefabInfo in entity.objectInfo.prefabInfos)
             {
-                if (prefabs.Count <= 0) continue;
-                if (HasPrefabOverrides(prefabs)) continue;
+                if (prefabInfo.prefab == null) continue;
 
-                EntityMonoBehaviourData entity = prefabs[0];
-
-                foreach (PrefabInfo prefabInfo in entity.objectInfo.prefabInfos)
+                PoolablePrefabBank.PoolablePrefab prefab = new PoolablePrefabBank.PoolablePrefab
                 {
-                    if (prefabInfo.prefab == null) continue;
+                    prefab = prefabInfo.prefab.gameObject,
+                    initialSize = 16,
+                    maxSize = 1024
+                };
 
-                    PoolablePrefabBank.PoolablePrefab prefab = new PoolablePrefabBank.PoolablePrefab
-                    {
-                        prefab = prefabInfo.prefab.gameObject,
-                        initialSize = 16,
-                        maxSize = 1024
-                    };
-
-                    CoreLibPlugin.Logger.LogInfo("Adding!");
-                    __instance.poolablePrefabBank.poolInitializers.Add(prefab);
-                }
+                __instance.poolablePrefabBank.poolInitializers.Add(prefab);
+                count++;
             }
-
-            CoreLibPlugin.Logger.LogDebug($"Done!");
         }
 
-        private static bool HasPrefabOverrides(System.Collections.Generic.List<EntityMonoBehaviourData> data)
+        CoreLibPlugin.Logger.LogDebug($"Added {count} custom prefab pools!");
+    }
+
+    private static bool HasPrefabOverrides(System.Collections.Generic.List<EntityMonoBehaviourData> data)
+    {
+        foreach (EntityMonoBehaviourData entity in data)
         {
-            foreach (EntityMonoBehaviourData entity in data)
+            EntityPrefabOverride prefabOverride = entity.GetComponent<EntityPrefabOverride>();
+            if (prefabOverride != null)
             {
-                EntityPrefabOverride prefabOverride = entity.GetComponent<EntityPrefabOverride>();
-                if (prefabOverride != null)
+                ObjectID entityId = prefabOverride.sourceEntity.Value;
+                if (entityId != ObjectID.None)
                 {
-                    ObjectID entityId = prefabOverride.sourceEntity.Value;
-                    if (entityId != ObjectID.None)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
+        }
 
-            return false;
+        return false;
+    }
+
+    private static void ApplyPrefabModAuthorings(EntityMonoBehaviourData entityData, GameObject gameObject)
+    {
+        var customAuthorings = gameObject.GetComponentsInChildren<ModCDAuthoringBase>();
+        foreach (ModCDAuthoringBase customAuthoring in customAuthorings)
+        {
+            customAuthoring.Apply(entityData);
         }
     }
 }

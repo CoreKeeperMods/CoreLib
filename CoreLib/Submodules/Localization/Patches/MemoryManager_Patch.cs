@@ -1,6 +1,4 @@
-﻿using System;
-using CoreLib.Submodules.Localization;
-using HarmonyLib;
+﻿using HarmonyLib;
 using I2.Loc;
 
 namespace CoreLib.Submodules.Localization.Patches;

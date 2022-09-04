@@ -1,10 +1,8 @@
 ﻿using CoreLib.Util;
-using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Iced.Intel;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
-using UnityEngine;
 
 namespace CoreLib.Submodules.Audio.Patches;
 

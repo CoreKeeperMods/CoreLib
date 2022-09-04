@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CoreLib.Submodules.DropTables.Patches;
-using CoreLib.Submodules.Localization.Patches;
 using CoreLib.Util.Extensions;
 using List = Il2CppSystem.Collections.Generic.List<LootInfo>;
 

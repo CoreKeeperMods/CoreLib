@@ -1,12 +1,9 @@
 ﻿using System;
-using CoreLib;
-using CoreLib.Submodules.CustomEntity;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.CustomEntity.Patches;
 
@@ -18,17 +15,26 @@ public static class PugDatabaseAuthoring_Patch
     {
         if (!CustomEntityModule.hasInjected)
         {
-            CoreLibPlugin.Logger.LogInfo($"Start crawling prefabs!");
+            PrefabCrawler.SetupPrefabIDMap(__instance.prefabList);
 
-            PrefabCrawler.CheckPrefabs(__instance);
+            foreach (var pair in CustomEntityModule.modEntityModifyFunctions)
+            {
+                ObjectID objectID = CustomEntityModule.GetObjectId(pair.Key);
+                if (objectID == ObjectID.None)
+                {
+                    CoreLibPlugin.Logger.LogWarning($"Failed to resolve mod entity target: {pair.Key}!");
+                    continue;
+                }
 
-            CoreLibPlugin.Logger.LogInfo($"Finished crawling prefabs, found {PrefabCrawler.materials.Count} materials!");
-            CustomEntityModule.hasInjected = true;
+                CustomEntityModule.entityModifyFunctions.AddDelegate(objectID, pair.Value);
+            }
+
+            CustomEntityModule.modEntityModifyFunctions.Clear();
         }
 
         foreach (var prefabs in CustomEntityModule.entitiesToAdd.Values)
         {
-            if (!ApplyOverrides(prefabs)) continue;
+            if (!ApplyModAuthorings(prefabs)) continue;
 
             foreach (EntityMonoBehaviourData data in prefabs)
             {
@@ -36,64 +42,53 @@ public static class PugDatabaseAuthoring_Patch
                 referencedPrefabs.Add(data.gameObject);
             }
         }
-
+        
         CoreLibPlugin.Logger.LogInfo($"Added {CustomEntityModule.entitiesToAdd.Count} entities!");
 
-        foreach (var pair in CustomEntityModule.modEntityModifyFunctions)
+        if (!CustomEntityModule.hasInjected)
         {
-            ObjectID objectID = CustomEntityModule.GetObjectId(pair.Key);
-            if (objectID == ObjectID.None)
+            foreach (EntityMonoBehaviourData entity in __instance.prefabList)
             {
-                CoreLibPlugin.Logger.LogWarning($"Failed to resolve mod entity target: {pair.Key}!");
-                continue;
+                if (CustomEntityModule.entityModifyFunctions.ContainsKey(entity.objectInfo.objectID))
+                {
+                    CustomEntityModule.entityModifyFunctions[entity.objectInfo.objectID]?.Invoke(entity);
+                }
             }
-            CustomEntityModule.entityModifyFunctions.AddDelegate(objectID, pair.Value);
+            CoreLibPlugin.Logger.LogInfo("Finished modifying entities!");
         }
-        CustomEntityModule.modEntityModifyFunctions.Clear();
-        
-        foreach (EntityMonoBehaviourData entity in __instance.prefabList)
-        {
-            if (CustomEntityModule.entityModifyFunctions.ContainsKey(entity.objectInfo.objectID))
-            {
-                CustomEntityModule.entityModifyFunctions[entity.objectInfo.objectID]?.Invoke(entity);
-            }
-        }
-        CustomEntityModule.entityModifyFunctions.Clear();
-        
-        CoreLibPlugin.Logger.LogInfo("Finished modifying entities!");
-
+        CustomEntityModule.hasInjected = true;
     }
 
-    private static bool ApplyOverrides(System.Collections.Generic.List<EntityMonoBehaviourData> prefabs)
+    private static bool ApplyModAuthorings(System.Collections.Generic.List<EntityMonoBehaviourData> prefabs)
     {
         foreach (EntityMonoBehaviourData data in prefabs)
         {
             Il2CppArrayBase<ModCDAuthoringBase> overrides = data.GetComponents<ModCDAuthoringBase>();
             foreach (ModCDAuthoringBase modOverride in overrides)
             {
-                if (!ApplyOverride(modOverride, data)) return false;
+                if (!ApplyModAuthoring(modOverride, data)) return false;
             }
         }
         return true;
     }
 
-    internal static bool ApplyOverride(ModCDAuthoringBase modOverride, EntityMonoBehaviourData data)
+    internal static bool ApplyModAuthoring(ModCDAuthoringBase modAuthoring, EntityMonoBehaviourData data)
     {
         bool success;
         try
         {
-            success = modOverride.Apply(data);
+            success = modAuthoring.Apply(data);
         }
         catch (Exception e)
         {
-            CoreLibPlugin.Logger.LogWarning($"Exception in {modOverride.GetIl2CppType().FullName}:\n{e}");
+            CoreLibPlugin.Logger.LogWarning($"Exception in {modAuthoring.GetIl2CppType().FullName}:\n{e}");
             success = false;
         }
 
         if (!success)
         {
             CoreLibPlugin.Logger.LogWarning(
-                $"Failed to add entity {data.objectInfo.objectID.ToString()}, variation {data.objectInfo.variation} prefab, because {modOverride.GetIl2CppType().FullName} override failed to apply!");
+                $"Failed to add entity {data.objectInfo.objectID.ToString()}, variation {data.objectInfo.variation} prefab, because {modAuthoring.GetIl2CppType().FullName} mod authoring failed to apply!");
             return false;
         }
 

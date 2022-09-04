@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem;
 using UnityEngine;
@@ -15,20 +14,6 @@ namespace CoreLib.Submodules.CustomEntity
         private SpriteRenderer spriteRenderer;
         
         public RuntimeMaterial(System.IntPtr ptr) : base(ptr) { }
-
-        public override void Awake()
-        {
-            base.Awake();
-            //TODO clean way to do this
-            if (!PrefabCrawler.isReady)
-            {
-                PrefabCrawler.pendingMaterials.Add(this);
-            }
-            else
-            {
-                Apply(null);
-            }
-        }
 
         public override bool Allocate()
         {

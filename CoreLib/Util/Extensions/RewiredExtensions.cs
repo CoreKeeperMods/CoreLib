@@ -1,5 +1,4 @@
-﻿using System;
-using CoreLib.Submodules.RewiredExtension;
+﻿using CoreLib.Submodules.RewiredExtension;
 using Rewired;
 using Rewired.Data.Mapping;
 

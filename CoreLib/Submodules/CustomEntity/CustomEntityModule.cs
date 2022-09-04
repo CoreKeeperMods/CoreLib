@@ -12,7 +12,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.InteropTypes;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using PugTilemap;
 using PugTilemap.Quads;
 using PugTilemap.Workshop;
@@ -23,8 +22,7 @@ using Object = UnityEngine.Object;
 namespace CoreLib.Submodules.CustomEntity;
 
 /// <summary>
-/// This module provides means to add new content such as item.
-/// Currently does not support adding blocks, NPCs and other non item entities!
+/// This module provides means to add new content
 /// </summary>
 [CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule), typeof(ResourcesModule) })]
 public static class CustomEntityModule
@@ -296,25 +294,14 @@ public static class CustomEntityModule
 
         try
         {
-            Il2CppSystem.Reflection.FieldInfo property = Il2CppType.Of<PlayerCustomizationTable>().GetFields(all)
-                .First(info =>
-                {
-                    Il2CppReferenceArray<Il2CppSystem.Type> args = info.FieldType.GetGenericArguments();
-                    if (args != null && args.Count > 0)
-                    {
-                        Il2CppSystem.Type listType = args.Single();
-                        return listType.Equals(Il2CppType.Of<T>());
-                    }
-
-                    return false;
-                });
+            Il2CppSystem.Reflection.FieldInfo property = Il2CppType.Of<PlayerCustomizationTable>().GetFieldOfType<Il2CppSystem.Collections.Generic.List<T>>();
 
             Il2CppSystem.Collections.Generic.List<T> list = property.GetValue(customizationTable).Cast<Il2CppSystem.Collections.Generic.List<T>>();
             if (list.Count < 255)
             {
-                byte skinId = (byte)list.Count;
+                byte skinIndex = (byte)list.Count;
                 list.Add(skin);
-                return skinId;
+                return skinIndex;
             }
         }
         catch (InvalidOperationException)
@@ -359,6 +346,7 @@ public static class CustomEntityModule
     /// </summary>
     /// <param name="id">Target entity id</param>
     /// <param name="tileset">new tileset</param>
+    [Obsolete("Use ModTileCDAuthoring component instead")]
     public static void SetTileset(ObjectID id, Tileset tileset)
     {
         ThrowIfNotLoaded();
@@ -401,16 +389,11 @@ public static class CustomEntityModule
 
     internal static IdBindConfigFile modItemIDs;
     internal static IdBindConfigFile tilesetIDs;
+    internal static Dictionary<string, byte> skinIdMap = new Dictionary<string, byte>();
 
     internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
 
     internal static PlayerCustomizationTable customizationTable;
-
-    internal const Il2CppSystem.Reflection.BindingFlags all = Il2CppSystem.Reflection.BindingFlags.Instance | Il2CppSystem.Reflection.BindingFlags.Static |
-                                                              Il2CppSystem.Reflection.BindingFlags.Public | Il2CppSystem.Reflection.BindingFlags.NonPublic |
-                                                              Il2CppSystem.Reflection.BindingFlags.GetField | Il2CppSystem.Reflection.BindingFlags.SetField |
-                                                              Il2CppSystem.Reflection.BindingFlags.GetProperty |
-                                                              Il2CppSystem.Reflection.BindingFlags.SetProperty;
 
 
     public const int modEntityIdRangeStart = 33000;
@@ -428,7 +411,6 @@ public static class CustomEntityModule
     {
         CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
-        CoreLibPlugin.harmony.PatchAll(typeof(Loading_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
     }
 

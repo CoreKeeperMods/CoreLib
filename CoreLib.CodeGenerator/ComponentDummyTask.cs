@@ -6,110 +6,108 @@ using Microsoft.Build.Utilities;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
 
 
-namespace CoreLib.CodeGenerator
+namespace CoreLib.CodeGenerator;
+
+public class ComponentDummyTask : Task
 {
-    public class ComponentDummyTask : Task
+    [Required] public string OutputDirectory { get; set; }
+
+    [Required] public string ComponentsFolder { get; set; }
+
+    public override bool Execute()
     {
-        [Required] public string OutputDirectory { get; set; }
+        Directory.CreateDirectory(OutputDirectory);
 
-        [Required] public string ComponentsFolder { get; set; }
-
-        public override bool Execute()
+        foreach (string settingFile in Directory.EnumerateFiles(ComponentsFolder))
         {
-            Directory.CreateDirectory(OutputDirectory);
+            string fileText = File.ReadAllText(settingFile);
 
-            foreach (string settingFile in Directory.EnumerateFiles(ComponentsFolder))
+            try
             {
-                string fileText = File.ReadAllText(settingFile);
-
-                try
+                bool success = StripComponent(fileText, out string newCode);
+                if (success)
                 {
-                    bool success = StripComponent(fileText, out string newCode);
-                    if (success)
-                    {
-                        string fileName = settingFile.Split('\\', '/').Last();
-                        File.WriteAllText(Path.Combine(OutputDirectory, fileName), newCode);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Log.LogWarning($"Failed to create dummy script for {settingFile}:\n{e}!");
+                    string fileName = settingFile.Split('\\', '/').Last();
+                    File.WriteAllText(Path.Combine(OutputDirectory, fileName), newCode);
                 }
             }
-
-            return true;
+            catch (Exception e)
+            {
+                Log.LogWarning($"Failed to create dummy script for {settingFile}:\n{e}!");
+            }
         }
 
-        private static bool StripComponent(string originalCode, out string newCode)
+        return true;
+    }
+
+    private static bool StripComponent(string originalCode, out string newCode)
+    {
+        SyntaxTree newTree = CSharpSyntaxTree.ParseText(originalCode);
+        SyntaxNode root = newTree.GetRoot();
+
+        root = root.ReplaceNodes(root.ChildNodes().OfType<UsingDirectiveSyntax>(),
+            (syntax, _) => { return syntax.WithName(SyntaxFactory.IdentifierName(syntax.Name.ToString().Replace("Il2CppSystem", "System"))); });
+
+        root = root.RemoveNodes(root
+                .ChildNodes()
+                .OfType<UsingDirectiveSyntax>()
+                .Where(node => node.ToString().Contains("Il2Cpp") || node.ToString().Contains("Interop")),
+            SyntaxRemoveOptions.KeepNoTrivia);
+
+        ClassDeclarationSyntax classNode = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+
+        ClassDeclarationSyntax newClassNode = classNode.RemoveNodes(classNode
+            .ChildNodes()
+            .OfType<FieldDeclarationSyntax>()
+            .Where(fieldDeclaration => { return !fieldDeclaration.Declaration.Type.ToString().Contains("Il2Cpp"); }), SyntaxRemoveOptions.KeepNoTrivia);
+
+        newClassNode = newClassNode.ReplaceNodes(newClassNode
+            .ChildNodes()
+            .OfType<FieldDeclarationSyntax>(), (syntax, _) =>
         {
-            SyntaxTree newTree = CSharpSyntaxTree.ParseText(originalCode);
-            SyntaxNode root = newTree.GetRoot();
+            TypeArgumentListSyntax typeArgumentList = syntax.Declaration.Type.ChildNodes().First() as TypeArgumentListSyntax;
+            TypeSyntax typeSyntax = typeArgumentList.Arguments.First();
 
-            root = root.ReplaceNodes(root.ChildNodes().OfType<UsingDirectiveSyntax>(),
-                (syntax, _) => { return syntax.WithName(SyntaxFactory.IdentifierName(syntax.Name.ToString().Replace("Il2CppSystem", "System"))); });
+            VariableDeclarationSyntax newVariable = syntax.Declaration.WithType(typeSyntax);
+            return syntax.WithDeclaration(newVariable);
+        });
 
-            root = root.RemoveNodes(root
-                    .ChildNodes()
-                    .OfType<UsingDirectiveSyntax>()
-                    .Where(node => node.ToString().Contains("Il2Cpp") || node.ToString().Contains("Interop")),
-                SyntaxRemoveOptions.KeepNoTrivia);
+        newClassNode = newClassNode.RemoveNodes(newClassNode
+            .ChildNodes()
+            .OfType<ConstructorDeclarationSyntax>(), SyntaxRemoveOptions.KeepNoTrivia);
 
-            ClassDeclarationSyntax classNode = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
-
-            ClassDeclarationSyntax newClassNode = classNode.RemoveNodes(classNode
+        newClassNode = newClassNode.RemoveNodes(
+            newClassNode
                 .ChildNodes()
-                .OfType<FieldDeclarationSyntax>()
-                .Where(fieldDeclaration => { return !fieldDeclaration.Declaration.Type.ToString().Contains("Il2Cpp"); }), SyntaxRemoveOptions.KeepNoTrivia);
+                .OfType<MethodDeclarationSyntax>()
+                .Where(syntax => { return syntax.Modifiers.Any(SyntaxKind.PrivateKeyword); }),
+            SyntaxRemoveOptions.KeepNoTrivia);
 
-            newClassNode = newClassNode.ReplaceNodes(newClassNode
-                .ChildNodes()
-                .OfType<FieldDeclarationSyntax>(), (syntax, _) =>
+        newClassNode = newClassNode.ReplaceNodes(newClassNode
+            .ChildNodes()
+            .OfType<MethodDeclarationSyntax>(), (syntax, _) =>
+        {
+            if (syntax.Modifiers.Any(SyntaxKind.OverrideKeyword))
             {
-                TypeArgumentListSyntax typeArgumentList = syntax.Declaration.Type.ChildNodes().First() as TypeArgumentListSyntax;
-                TypeSyntax typeSyntax = typeArgumentList.Arguments.First();
+                var token = syntax.Modifiers.First(token => token.IsKind(SyntaxKind.OverrideKeyword));
+                syntax = syntax.WithModifiers(syntax.Modifiers.Remove(token));
+            }
 
-                VariableDeclarationSyntax newVariable = syntax.Declaration.WithType(typeSyntax);
-                return syntax.WithDeclaration(newVariable);
-            });
-
-            newClassNode = newClassNode.RemoveNodes(newClassNode
-                .ChildNodes()
-                .OfType<ConstructorDeclarationSyntax>(), SyntaxRemoveOptions.KeepNoTrivia);
-
-            newClassNode = newClassNode.RemoveNodes(
-                newClassNode
-                    .ChildNodes()
-                    .OfType<MethodDeclarationSyntax>()
-                    .Where(syntax => { return syntax.Modifiers.Any(SyntaxKind.PrivateKeyword); }),
-                SyntaxRemoveOptions.KeepNoTrivia);
-
-            newClassNode = newClassNode.ReplaceNodes(newClassNode
-                .ChildNodes()
-                .OfType<MethodDeclarationSyntax>(), (syntax, _) =>
+            if (syntax.ReturnType.ToString().Contains("void"))
             {
-                if (syntax.Modifiers.Any(SyntaxKind.OverrideKeyword))
-                {
-                    var token = syntax.Modifiers.First(token => token.IsKind(SyntaxKind.OverrideKeyword));
-                    syntax = syntax.WithModifiers(syntax.Modifiers.Remove(token));
-                }
+                return syntax.WithBody(SyntaxFactory.Block());
+            }
 
-                if (syntax.ReturnType.ToString().Contains("void"))
-                {
-                    return syntax.WithBody(SyntaxFactory.Block());
-                }
-
-                return syntax.WithBody(SyntaxFactory.Block(SyntaxFactory.ReturnStatement(SyntaxFactory.DefaultExpression(syntax.ReturnType))));
-            });
+            return syntax.WithBody(SyntaxFactory.Block(SyntaxFactory.ReturnStatement(SyntaxFactory.DefaultExpression(syntax.ReturnType))));
+        });
 
 
-            root = root.ReplaceNode(classNode, newClassNode).NormalizeWhitespace();
+        root = root.ReplaceNode(classNode, newClassNode).NormalizeWhitespace();
 
 
-            newCode = root.ToString();
-            return true;
-        }
+        newCode = root.ToString();
+        return true;
     }
 }

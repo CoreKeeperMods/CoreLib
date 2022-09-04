@@ -5,7 +5,6 @@ using PugTilemap;
 
 namespace CoreLib.Submodules.CustomEntity
 {
-
     public class ModTileCDAuthoring : ModCDAuthoringBase
     {
         public Il2CppReferenceField<String> tileset;

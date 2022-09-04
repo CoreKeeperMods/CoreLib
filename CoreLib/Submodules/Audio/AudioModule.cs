@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
 using CoreLib.Submodules.Audio.Patches;
 using CoreLib.Submodules.ModResources;
 using CoreLib.Util;
-using Iced.Intel;
-using Il2CppInterop.Common;
 using UnityEngine;
-using Decoder = Iced.Intel.Decoder;
 using MusicList = Il2CppSystem.Collections.Generic.List<MusicManager.MusicTrack>;
 
 

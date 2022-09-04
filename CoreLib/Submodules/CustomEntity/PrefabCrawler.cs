@@ -1,68 +1,57 @@
 ﻿using System.Collections.Generic;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using Il2CppMono;
 using UnityEngine;
 
-namespace CoreLib.Submodules.CustomEntity
+namespace CoreLib.Submodules.CustomEntity;
+
+public static class PrefabCrawler
 {
-    public static class PrefabCrawler
+    public static Dictionary<string, Material> materials = new Dictionary<string, Material>();
+    private static bool materialsReady;
+    public static Dictionary<ObjectID, EntityMonoBehaviour> entityPrefabs = new Dictionary<ObjectID, EntityMonoBehaviour>();
+    private static bool entityPrefabsReady;
+
+    public static void SetupPrefabIDMap(Il2CppSystem.Collections.Generic.List<EntityMonoBehaviourData> prefabList)
     {
-        public static Dictionary<string, Material> materials = new Dictionary<string, Material>();
-        public static Dictionary<ObjectID, EntityMonoBehaviour> entityPrefabs = new Dictionary<ObjectID, EntityMonoBehaviour>();
-
-        public static List<RuntimeMaterial> pendingMaterials = new List<RuntimeMaterial>();
-
-        public static bool isReady { get; private set; }
-
-        public static void CheckPrefabs(PugDatabaseAuthoring pugDatabaseAuthoring)
+        if (entityPrefabsReady) return;
+            
+        foreach (EntityMonoBehaviourData data in prefabList)
         {
-            Il2CppSystem.Collections.Generic.List<EntityMonoBehaviourData> prefabs = pugDatabaseAuthoring.prefabList;
-
-            if (prefabs == null)
+            if (!entityPrefabs.ContainsKey(data.objectInfo.objectID))
             {
-                CoreLibPlugin.Logger.LogWarning($"Entities is null!");
-                return;
-            }
-
-            foreach (EntityMonoBehaviourData entity in prefabs)
-            {
-                foreach (PrefabInfo prefabInfo in entity.objectInfo.prefabInfos)
-                {
-                    GameObject prefab = prefabInfo.prefab?.gameObject;
-                    if (prefab == null) continue;
-                    CheckPrefab(prefab);
-                }
-
-                if (entity.objectInfo.prefabInfos.Count >= 1)
-                {
-                    if (!entityPrefabs.ContainsKey(entity.objectInfo.objectID))
-                    {
-                        PrefabInfo info = entity.objectInfo.prefabInfos._items[0];
-                        entityPrefabs.Add(entity.objectInfo.objectID, info.prefab);
-                    }
-                }
-            }
-
-            isReady = true;
-
-            foreach (RuntimeMaterial runtimeMaterial in pendingMaterials)
-            {
-                runtimeMaterial.Apply(null);
+                PrefabInfo info = data.objectInfo.prefabInfos._items[0];
+                if (info == null) continue;
+                entityPrefabs.Add(data.objectInfo.objectID, info.prefab);
             }
         }
 
-        private static void CheckPrefab(GameObject prefab)
+        entityPrefabsReady = true;
+    }
+
+    public static void FindMaterials(Il2CppSystem.Collections.Generic.List<PoolablePrefabBank.PoolablePrefab> prefabs)
+    {
+        if (materialsReady) return;
+            
+        foreach (PoolablePrefabBank.PoolablePrefab prefab in prefabs)
         {
-            Il2CppArrayBase<SpriteRenderer> renderers = prefab.GetComponentsInChildren<SpriteRenderer>();
+            GameObject prefabRoot = prefab.prefab;
+            CheckPrefab(prefabRoot);
+        }
 
-            foreach (SpriteRenderer renderer in renderers)
+        materialsReady = true;
+    }
+
+    private static void CheckPrefab(GameObject prefab)
+    {
+        Il2CppArrayBase<SpriteRenderer> renderers = prefab.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (renderer == null) continue;
+
+            if (renderer.sharedMaterial != null && !materials.ContainsKey(renderer.sharedMaterial.name))
             {
-                if (renderer == null) continue;
-
-                if (renderer.sharedMaterial != null && !materials.ContainsKey(renderer.sharedMaterial.name))
-                {
-                    materials.Add(renderer.sharedMaterial.name, renderer.sharedMaterial);
-                }
+                materials.Add(renderer.sharedMaterial.name, renderer.sharedMaterial);
             }
         }
     }

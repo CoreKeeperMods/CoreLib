@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using Il2CppSystem.Collections.Generic;
-using UnityEngine;
 
 namespace CoreLib.Submodules.CustomEntity
 {
