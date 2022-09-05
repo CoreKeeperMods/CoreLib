@@ -1,11 +1,11 @@
 using System;
-using UnityEngine;
+using String = System.String;
 
 namespace CoreLib.Components
 {
-    public class RuntimeMaterial : ModCDAuthoringBase
+    public class ModDropsLootFromTableCDAuthoring : ModCDAuthoringBase
     {
-        public String materialName;
+        public String lootTableId;
         public bool Allocate()
         {
             return default(bool);

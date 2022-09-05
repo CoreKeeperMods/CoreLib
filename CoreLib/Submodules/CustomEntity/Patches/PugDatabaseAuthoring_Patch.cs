@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreLib.Components;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;

@@ -1,5 +1,5 @@
+using CoreLib.Components;
 using UnityEditor;
-using CoreLib.Submodules.CustomEntity;
 using UnityEngine;
 
 [CustomEditor(typeof(RuntimeMaterial))]

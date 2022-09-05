@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CoreLib
+namespace CoreLib.Components
 {
     public class ModCDAuthoringBase : MonoBehaviour
     {

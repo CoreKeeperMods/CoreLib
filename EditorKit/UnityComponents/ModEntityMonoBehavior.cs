@@ -1,6 +1,6 @@
 using System;
 
-namespace CoreLib.Submodules.CustomEntity
+namespace CoreLib.Components
 {
     public class ModEntityMonoBehavior : EntityMonoBehaviour
     {

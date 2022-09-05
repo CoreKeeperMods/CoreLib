@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace CoreLib.Submodules.CustomEntity
+namespace CoreLib.Components
 {
     public class ModEntityMonoBehavior : EntityMonoBehaviour
     {

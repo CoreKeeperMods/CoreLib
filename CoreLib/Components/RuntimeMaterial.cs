@@ -1,10 +1,11 @@
 ﻿using System.Runtime.InteropServices;
+using CoreLib.Submodules.CustomEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem;
 using UnityEngine;
 
 
-namespace CoreLib.Submodules.CustomEntity
+namespace CoreLib.Components
 {
     public class RuntimeMaterial : ModCDAuthoringBase
     {
@@ -32,6 +33,7 @@ namespace CoreLib.Submodules.CustomEntity
             {
                 spriteRenderer = GetComponent<SpriteRenderer>();
                 spriteRenderer.sharedMaterial = PrefabCrawler.materials[matName];
+                CoreLibPlugin.Logger.LogInfo($"Applied material {matName}");
             }
             else
             {

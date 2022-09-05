@@ -1,7 +1,8 @@
 ﻿using System;
+using CoreLib.Submodules.CustomEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 
-namespace CoreLib.Submodules.CustomEntity
+namespace CoreLib.Components
 {
     public class EntityPrefabOverride : ModCDAuthoringBase
     {

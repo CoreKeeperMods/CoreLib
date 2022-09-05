@@ -9,7 +9,7 @@ namespace CoreLib.Submodules.CustomEntity.Atributes;
 public class EntityModificationAttribute : Attribute
 {
     public ObjectID target = ObjectID.None;
-    public string modTarget;
+    public string modTarget = "";
 
     public EntityModificationAttribute() { }
     
@@ -20,7 +20,7 @@ public class EntityModificationAttribute : Attribute
     public EntityModificationAttribute(ObjectID target)
     {
         this.target = target;
-        modTarget = null;
+        modTarget = "";
     }
 
     /// <summary>

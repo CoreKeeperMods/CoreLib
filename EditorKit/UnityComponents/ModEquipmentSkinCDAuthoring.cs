@@ -1,5 +1,4 @@
 using System;
-using CoreLib.Submodules.CustomEntity;
 using UnityEngine;
 
 namespace CoreLib.Components

@@ -72,7 +72,7 @@ public static class CustomEntityModule
     {
         ThrowIfNotLoaded();
 
-        return (ObjectID)modItemIDs.GetIndex(itemID);
+        return (ObjectID)modEntityIDs.GetIndex(itemID);
     }
 
     /// <summary>
@@ -220,7 +220,7 @@ public static class CustomEntityModule
 
         entities.Sort((a, b) => a.objectInfo.variation.CompareTo(b.objectInfo.variation));
 
-        int itemIndex = modItemIDs.GetNextId(itemId);
+        int itemIndex = modEntityIDs.GetNextId(itemId);
         ObjectID objectID = (ObjectID)itemIndex;
 
 
@@ -399,7 +399,7 @@ public static class CustomEntityModule
     internal static Dictionary<string, PugMapTileset> tilesetLayers = new Dictionary<string, PugMapTileset>();
     internal static MapWorkshopTilesetBank.Tileset missingTileset;
 
-    internal static IdBindConfigFile modItemIDs;
+    internal static IdBindConfigFile modEntityIDs;
     internal static IdBindConfigFile tilesetIDs;
 
     internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
@@ -428,7 +428,7 @@ public static class CustomEntityModule
     internal static void Load()
     {
         BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
-        modItemIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModItemID.cfg", metadata, modEntityIdRangeStart, modEntityIdRangeEnd);
+        modEntityIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModEntityID.cfg", metadata, modEntityIdRangeStart, modEntityIdRangeEnd);
         tilesetIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.TilesetID.cfg", metadata, modTilesetIdRangeStart, modTilesetIdRangeEnd);
 
         ClassInjector.RegisterTypeInIl2Cpp<EntityPrefabOverride>();
@@ -437,6 +437,7 @@ public static class CustomEntityModule
         ClassInjector.RegisterTypeInIl2Cpp<ModCDAuthoringBase>();
         ClassInjector.RegisterTypeInIl2Cpp<ModTileCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModEquipmentSkinCDAuthoring>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModDropsLootFromTableCDAuthoring>();
         RegisterModifications(typeof(CustomEntityModule));
 
         InitTilesets();
@@ -648,7 +649,7 @@ public static class CustomEntityModule
         foreach (MethodInfo method in methods)
         {
             EntityModificationAttribute attribute = method.GetCustomAttribute<EntityModificationAttribute>();
-            if (attribute.target == ObjectID.None || attribute.modTarget.Equals(""))
+            if (attribute.target == ObjectID.None && string.IsNullOrEmpty(attribute.modTarget))
             {
                 CoreLibPlugin.Logger.LogWarning($"Failed to add modify method '{method.FullDescription()}', because target object ID is not set!");
                 continue;
@@ -664,7 +665,7 @@ public static class CustomEntityModule
                 {
                     entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
                 }
-                else if (!attribute.modTarget.Equals(""))
+                else if (!string.IsNullOrEmpty(attribute.modTarget))
                 {
                     modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
                 }

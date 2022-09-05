@@ -53,7 +53,7 @@ public class ComponentDummyTask : Task
         root = root.RemoveNodes(root
                 .ChildNodes()
                 .OfType<UsingDirectiveSyntax>()
-                .Where(node => node.ToString().Contains("Il2Cpp") || node.ToString().Contains("Interop")),
+                .Where(node => node.ToString().Contains("Il2Cpp") || node.ToString().Contains("Interop") || node.ToString().Contains("Submodules")),
             SyntaxRemoveOptions.KeepNoTrivia);
 
         ClassDeclarationSyntax classNode = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();

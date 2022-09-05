@@ -1,7 +1,7 @@
 using System;
 using PugTilemap;
 
-namespace CoreLib.Submodules.CustomEntity
+namespace CoreLib.Components
 {
     public class ModTileCDAuthoring : ModCDAuthoringBase
     {

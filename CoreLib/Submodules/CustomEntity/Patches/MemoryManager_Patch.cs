@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using CoreLib.Components;
+using HarmonyLib;
 using UnityEngine;
 
 namespace CoreLib.Submodules.CustomEntity.Patches;
@@ -26,6 +27,8 @@ public static class MemoryManager_Patch
             {
                 if (prefabInfo.prefab == null) continue;
 
+                ApplyPrefabModAuthorings(entity, prefabInfo.prefab.gameObject);
+                
                 PoolablePrefabBank.PoolablePrefab prefab = new PoolablePrefabBank.PoolablePrefab
                 {
                     prefab = prefabInfo.prefab.gameObject,

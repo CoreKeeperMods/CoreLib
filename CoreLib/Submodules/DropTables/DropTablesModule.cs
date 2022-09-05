@@ -24,11 +24,13 @@ public static class DropTablesModule
 
     public static LootTableID GetLootTableID(string lootTableId)
     {
+        ThrowIfNotLoaded();
         if (customLootTableIdMap.ContainsKey(lootTableId))
         {
             return customLootTableIdMap[lootTableId];
         }
         
+        CoreLibPlugin.Logger.LogWarning($"Requesting ID for loot table {lootTableId}, which is not registered!");
         return LootTableID.Empty;
     }
 
