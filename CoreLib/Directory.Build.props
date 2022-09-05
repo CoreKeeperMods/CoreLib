@@ -43,7 +43,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\CoreLib.CodeGenerator\CoreLib.CodeGenerator.csproj" />
+        <ProjectReference Include="..\CoreLib.CodeGenerator\CoreLib.CodeGenerator.csproj" Private="false" />
     </ItemGroup>
     
     
