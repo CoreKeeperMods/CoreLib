@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using CoreLib.Submodules.DropTables.Patches;
 using CoreLib.Util.Extensions;
-using List = Il2CppSystem.Collections.Generic.List<LootInfo>;
+using LootList = Il2CppSystem.Collections.Generic.List<LootInfo>;
 
 namespace CoreLib.Submodules.DropTables;
 
@@ -20,6 +20,37 @@ public static class DropTablesModule
     {
         get => _loaded;
         internal set => _loaded = value;
+    }
+
+    public static LootTableID GetLootTableID(string lootTableId)
+    {
+        if (customLootTableIdMap.ContainsKey(lootTableId))
+        {
+            return customLootTableIdMap[lootTableId];
+        }
+        
+        return LootTableID.Empty;
+    }
+
+    public static LootTableID AddLootTable(string lootTableId)
+    {
+        return AddLootTable(lootTableId, 1, 1);
+    }
+    
+    public static LootTableID AddLootTable(string lootTableId, int minUnqiueDrops, int maxUniqueDrops)
+    {
+        if (customLootTableIdMap.ContainsKey(lootTableId))
+        {
+            CoreLibPlugin.Logger.LogWarning($"Failed to add new loot table with id {lootTableId}, because table with this ID is already registered!");
+            return LootTableID.Empty;
+        }
+
+        int lootTableIndex = lastCustomLootTableId;
+        LootTableID lootTable = (LootTableID)lootTableIndex;
+        lastCustomLootTableId++;
+        customLootTables.Add(new CustomLootTableData(lootTable, minUnqiueDrops, maxUniqueDrops));
+        customLootTableIdMap.Add(lootTableId, lootTable);
+        return lootTable;
     }
 
     public static void AddNewDrop(LootTableID tableID, DropTableInfo info)
@@ -87,7 +118,11 @@ public static class DropTablesModule
     }
 
     internal static Dictionary<LootTableID, DropTableModificationData> dropTableModification = new Dictionary<LootTableID, DropTableModificationData>();
+    internal static Dictionary<string, LootTableID> customLootTableIdMap = new Dictionary<string, LootTableID>();
+    internal static List<CustomLootTableData> customLootTables = new List<CustomLootTableData>();
 
+    internal static int lastCustomLootTableId = 2000;
+    
     private static DropTableModificationData GetModificationData(LootTableID tableID)
     {
         if (dropTableModification.ContainsKey(tableID))
@@ -100,7 +135,7 @@ public static class DropTablesModule
         return data;
     }
 
-    internal static void RemoveDrops(List lootInfos, List guaranteedLootInfos, DropTableModificationData modificationData)
+    internal static void RemoveDrops(LootList lootInfos, LootList guaranteedLootInfos, DropTableModificationData modificationData)
     {
         foreach (ObjectID objectID in modificationData.removeDrops)
         {
@@ -109,7 +144,7 @@ public static class DropTablesModule
         }
     }
 
-    internal static void EditDrops(LootTable lootTable, List lootInfos, List guaranteedLootInfos, DropTableModificationData modificationData)
+    internal static void EditDrops(LootTable lootTable, LootList lootInfos, LootList guaranteedLootInfos, DropTableModificationData modificationData)
     {
         foreach (DropTableInfo dropTableInfo in modificationData.editDrops)
         {
@@ -141,7 +176,7 @@ public static class DropTablesModule
         }
     }
 
-    internal static void AddDrops(LootTable lootTable, List lootInfos, List guaranteedLootInfos, DropTableModificationData modificationData)
+    internal static void AddDrops(LootTable lootTable, LootList lootInfos, LootList guaranteedLootInfos, DropTableModificationData modificationData)
     {
         foreach (DropTableInfo dropTableInfo in modificationData.addDrops)
         {
