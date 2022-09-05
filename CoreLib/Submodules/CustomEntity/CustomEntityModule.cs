@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
+using CoreLib.Components;
 using CoreLib.Submodules.CustomEntity.Atributes;
 using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
@@ -36,18 +37,6 @@ public static class CustomEntityModule
     {
         get => _loaded;
         internal set => _loaded = value;
-    }
-
-    /// <summary>
-    /// Registers mod resources for loading
-    /// <see cref="ResourcesModule"/>
-    /// </summary>
-    /// <param name="resource"></param>
-    [Obsolete("Use ResourcesModule.AddResource() instead")]
-    public static void AddResource(ResourceData resource)
-    {
-        ThrowIfNotLoaded();
-        ResourcesModule.AddResource(resource);
     }
 
     /// <summary>
@@ -96,7 +85,7 @@ public static class CustomEntityModule
 
         return (Tileset)tilesetIDs.GetIndex(itemID);
     }
-
+    
     /// <summary>
     /// Add custom workbench with specified sprite. It is automatically added to main mod workbench
     /// </summary>
@@ -104,7 +93,17 @@ public static class CustomEntityModule
     /// <param name="spritePath">path to your sprite in asset bundle</param>
     public static ObjectID AddModWorkbench(string itemId, string spritePath)
     {
-        return AddModWorkbench(itemId, spritePath, null);
+        return AddModWorkbench(itemId, spritePath, null, true);
+    }
+
+    /// <summary>
+    /// Add custom workbench with specified sprite.
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity Id</param>
+    /// <param name="spritePath">path to your sprite in asset bundle</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, bool bindToRootWorkbench)
+    {
+        return AddModWorkbench(itemId, spritePath, null, bindToRootWorkbench);
     }
 
     /// <summary>
@@ -115,10 +114,22 @@ public static class CustomEntityModule
     /// <param name="recipe">workbench craft recipe</param>
     public static ObjectID AddModWorkbench(string itemId, string spritePath, List<CraftingData> recipe)
     {
+        return AddModWorkbench(itemId, spritePath, recipe, true);
+    }
+
+    /// <summary>
+    /// Add custom workbench with specified sprite.
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity Id</param>
+    /// <param name="spritePath">path to your sprite in asset bundle</param>
+    /// <param name="recipe">workbench craft recipe</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, List<CraftingData> recipe, bool bindToRootWorkbench)
+    {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddModWorkbench));
         ObjectID workbenchId = AddWorkbench(itemId, spritePath, recipe);
-        AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        if (bindToRootWorkbench)
+            AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
         return workbenchId;
     }
 
@@ -317,6 +328,7 @@ public static class CustomEntityModule
     /// </summary>
     /// <param name="id">Target Entity ID</param>
     /// <param name="skinId">new skin Index</param>
+    [Obsolete("Use ModEquipmentSkinCDAuthoring instead")]
     public static void SetEquipmentSkin(ObjectID id, byte skinId)
     {
         ThrowIfNotLoaded();
@@ -389,12 +401,10 @@ public static class CustomEntityModule
 
     internal static IdBindConfigFile modItemIDs;
     internal static IdBindConfigFile tilesetIDs;
-    internal static Dictionary<string, byte> skinIdMap = new Dictionary<string, byte>();
 
     internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
 
     internal static PlayerCustomizationTable customizationTable;
-
 
     public const int modEntityIdRangeStart = 33000;
     public const int modEntityIdRangeEnd = 65535;
@@ -426,6 +436,7 @@ public static class CustomEntityModule
         ClassInjector.RegisterTypeInIl2Cpp<ModEntityMonoBehavior>();
         ClassInjector.RegisterTypeInIl2Cpp<ModCDAuthoringBase>();
         ClassInjector.RegisterTypeInIl2Cpp<ModTileCDAuthoring>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModEquipmentSkinCDAuthoring>();
         RegisterModifications(typeof(CustomEntityModule));
 
         InitTilesets();
