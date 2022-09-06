@@ -12,7 +12,6 @@ namespace CoreLib.Components
         public Il2CppReferenceField<String> materialName;
 
         private GCHandle materialNameHandle;
-        private SpriteRenderer spriteRenderer;
         
         public RuntimeMaterial(System.IntPtr ptr) : base(ptr) { }
 
@@ -31,13 +30,29 @@ namespace CoreLib.Components
             string matName = materialName.Value;
             if (PrefabCrawler.materials.ContainsKey(matName))
             {
-                spriteRenderer = GetComponent<SpriteRenderer>();
-                spriteRenderer.sharedMaterial = PrefabCrawler.materials[matName];
-                CoreLibPlugin.Logger.LogInfo($"Applied material {matName}");
+                bool anyWorked = false;
+                SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.sharedMaterial = PrefabCrawler.materials[matName];
+                    anyWorked = true;
+                }
+
+                ParticleSystemRenderer particleSystem = GetComponent<ParticleSystemRenderer>();
+                if (particleSystem != null)
+                {
+                    particleSystem.sharedMaterial = PrefabCrawler.materials[matName];
+                    anyWorked = true;
+                }
+
+                if (!anyWorked)
+                {
+                    CoreLibPlugin.Logger.LogInfo($"Error applying material {matName}, found no valid target!");
+                }
             }
             else
             {
-                CoreLibPlugin.Logger.LogInfo($"Error applying material {matName}");
+                CoreLibPlugin.Logger.LogInfo($"Error applying material {matName}, such material is not found!");
             }
             return true;
         }

@@ -13,7 +13,16 @@ public class RuntimeMaterialEditor : Editor
         {
             RuntimeMaterial runtimeMaterial = (RuntimeMaterial)target;
             SpriteRenderer renderer = runtimeMaterial.GetComponent<SpriteRenderer>();
-            runtimeMaterial.materialName = renderer.sharedMaterial.name;
+            if (renderer != null)
+            {
+                runtimeMaterial.materialName = renderer.sharedMaterial.name;
+            }
+            
+            ParticleSystemRenderer particleSystemRenderer = runtimeMaterial.GetComponent<ParticleSystemRenderer>();
+            if (particleSystemRenderer != null)
+            {
+                runtimeMaterial.materialName = particleSystemRenderer.sharedMaterial.name;
+            }
         }
     }
 }

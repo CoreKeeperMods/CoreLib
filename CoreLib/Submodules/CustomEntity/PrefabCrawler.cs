@@ -43,9 +43,9 @@ public static class PrefabCrawler
 
     private static void CheckPrefab(GameObject prefab)
     {
-        Il2CppArrayBase<SpriteRenderer> renderers = prefab.GetComponentsInChildren<SpriteRenderer>();
+        Il2CppArrayBase<Renderer> renderers = prefab.GetComponentsInChildren<Renderer>();
 
-        foreach (SpriteRenderer renderer in renderers)
+        foreach (Renderer renderer in renderers)
         {
             if (renderer == null) continue;
 
@@ -54,5 +54,6 @@ public static class PrefabCrawler
                 materials.Add(renderer.sharedMaterial.name, renderer.sharedMaterial);
             }
         }
+        
     }
 }
