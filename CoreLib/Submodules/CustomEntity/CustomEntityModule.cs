@@ -434,10 +434,12 @@ public static class CustomEntityModule
         ClassInjector.RegisterTypeInIl2Cpp<EntityPrefabOverride>();
         ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterial>();
         ClassInjector.RegisterTypeInIl2Cpp<ModEntityMonoBehavior>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModProjectile>();
         ClassInjector.RegisterTypeInIl2Cpp<ModCDAuthoringBase>();
         ClassInjector.RegisterTypeInIl2Cpp<ModTileCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModEquipmentSkinCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModDropsLootFromTableCDAuthoring>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModRangeWeaponCDAuthoring>();
         RegisterModifications(typeof(CustomEntityModule));
 
         InitTilesets();
