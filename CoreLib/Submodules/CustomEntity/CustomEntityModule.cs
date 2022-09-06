@@ -617,6 +617,12 @@ public static class CustomEntityModule
                 behavior.Allocate();
             }
             
+            ModProjectile projectile = prefabInfo.prefab.TryCast<ModProjectile>();
+            if (projectile != null)
+            {
+                projectile.Allocate();
+            }
+            
             foreach (ModCDAuthoringBase gcAllocMonoBehavior in prefabInfo.prefab.GetComponentsInChildren<ModCDAuthoringBase>())
             {
                 gcAllocMonoBehavior.Allocate();

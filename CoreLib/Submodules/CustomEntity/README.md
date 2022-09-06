@@ -1,9 +1,6 @@
 # Custom Entity Module
 Custom Entity Module is a submodule that allows to add new entities. This includes items, blocks, NPCs and other things. 
 
-## Important Note
-Please note that currently this submodule <b>DOES NOT</b> support adding anything except items. This is a technical limitation that we still need to fix. 
-
 ## Usage example:
 Make sure to add `[CoreLibSubmoduleDependency(nameof(CustomEntityModule))]` to your plugin attributes. This will load the submodule.
 
