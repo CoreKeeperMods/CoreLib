@@ -32,7 +32,7 @@ public static class AudioModule
     /// Define new music roster.
     /// </summary>
     /// <returns>Unique ID of new music roster</returns>
-    public static MusicManager.MusicRosterType AddMusicRoster()
+    public static MusicManager.MusicRosterType AddCustomRoster()
     {
         ThrowIfNotLoaded();
         int id = lastFreeMusicRosterId;
@@ -46,7 +46,7 @@ public static class AudioModule
     /// <param name="rosterType">Target roster ID</param>
     /// <param name="musicPath">path to music clip in asset bundle</param>
     /// <param name="introPath">path to intro clip in asset bundle</param>
-    public static void AddRosterMusic(MusicManager.MusicRosterType rosterType, string musicPath, string introPath = "")
+    public static void AddMusicToRoster(MusicManager.MusicRosterType rosterType, string musicPath, string introPath = "")
     {
         ThrowIfNotLoaded();
         MusicList list = GetRosterTracks(rosterType);
