@@ -6,7 +6,7 @@
     <Version>1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <Configurations>Debug;Release;BuildNPack;Unity</Configurations>
+    <Configurations>Release;BuildNPack</Configurations>
     <PackageId>com.le4fless.corelib</PackageId>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
