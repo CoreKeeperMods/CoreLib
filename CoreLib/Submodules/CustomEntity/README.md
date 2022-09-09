@@ -4,6 +4,10 @@ Custom Entity Module is a submodule that allows to add new entities. This includ
 ## Usage example:
 Make sure to add `[CoreLibSubmoduleDependency(nameof(CustomEntityModule))]` to your plugin attributes. This will load the submodule.
 
+Before continuing follow guide on [Resource Module](../ModResources/README.md) page to setup your asset bundle.
+
+Now in your Unity project import needed assets into your folder.
+
 ### Making Item Prefab
 To actually make the item you will need a set up Unity Project. You can follow this [guide](https://github.com/CoreKeeperMods/Getting-Started/wiki/Getting-The-Assets-In-Unity).
 In your Unity Project make a new prefab (Or copy one of the original ones). It should contain only the root object with `EntityMonoBehaviorData` component attached. This looks like this:
