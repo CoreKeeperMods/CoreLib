@@ -23,7 +23,7 @@ Adding custom loot tables is also really easy:
 ```csharp
 LootTableID lootTableID = DropTablesModule.AddLootTable("MyAwesomeMod:MyCustomLootTable");
 ```
-From here you can you normal `DropTablesModule` methods to add any items to your drop table.
+From here you can use normal `DropTablesModule` methods to add any items to your drop table.
 
 To easily make your entities drop your drop table add `ModDropsLootFromTableCDAuthoring` component. Then enter your drop table id into `lootTableId` field
 ![LootComponent in Unity Editor](./documentation/lootComponent.png)<br>

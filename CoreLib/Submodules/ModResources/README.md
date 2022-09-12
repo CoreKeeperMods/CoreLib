@@ -40,5 +40,7 @@ ResourceData resource = new ResourceData(MODNAME, "myamazingmod", pluginfolder);
 // Load the aseet bundle and add the resource.
 resource.LoadAssetBundle("myamazingmodbundle");
 ResourcesModule.AddResource(resource);
+
+// Now asset bundle contents can be used by other submodules
 ```
-Here `myamazingmod` is the keyword, replace it with your keyword. And `myamazingmodbundle` is the name of the bundle.
+Note that here `myamazingmod` is a <b>keyword</b>. This keyword is later used in the prefab path. This is important, as this is how CoreLib finds which asset bundle contains the prefab. If you forget to include a keyword in your asset path it <b>WILL NOT LOAD</b>.
