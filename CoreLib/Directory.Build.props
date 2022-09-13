@@ -24,7 +24,7 @@
     <PropertyGroup Label="Common Properties">
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-
+        
         <OutputPath Condition="'$(ReleaseMode)' == '0' And Exists('$(CKGameDir)')">$(PluginOutputDirectory)</OutputPath>
         <OutputPath Condition="'$(ReleaseMode)' == '1'">$(MSBuildThisFileDirectory)\..\Staging\</OutputPath>
         
@@ -35,10 +35,11 @@
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <DefaultItemExcludes>$(DefaultItemExcludes);*.binlog</DefaultItemExcludes>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
+        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+        
         <DebugType>portable</DebugType>
         <DebugSymbols>true</DebugSymbols>
-
+        
         <PackageVersion>$(AssemblyVersion)</PackageVersion>
     </PropertyGroup>
     
