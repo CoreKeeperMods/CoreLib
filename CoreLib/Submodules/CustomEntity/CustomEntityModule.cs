@@ -85,7 +85,7 @@ public static class CustomEntityModule
 
         return (Tileset)tilesetIDs.GetIndex(itemID);
     }
-    
+
     /// <summary>
     /// Add custom workbench with specified sprite. It is automatically added to main mod workbench
     /// </summary>
@@ -618,13 +618,13 @@ public static class CustomEntityModule
             {
                 behavior.Allocate();
             }
-            
+
             ModProjectile projectile = prefabInfo.prefab.TryCast<ModProjectile>();
             if (projectile != null)
             {
                 projectile.Allocate();
             }
-            
+
             foreach (ModCDAuthoringBase gcAllocMonoBehavior in prefabInfo.prefab.GetComponentsInChildren<ModCDAuthoringBase>())
             {
                 gcAllocMonoBehavior.Allocate();
@@ -657,7 +657,7 @@ public static class CustomEntityModule
         foreach (MethodInfo method in methods)
         {
             EntityModificationAttribute attribute = method.GetCustomAttribute<EntityModificationAttribute>();
-            if (attribute.target == ObjectID.None && string.IsNullOrEmpty(attribute.modTarget))
+            if (string.IsNullOrEmpty(attribute.modTarget))
             {
                 CoreLibPlugin.Logger.LogWarning($"Failed to add modify method '{method.FullDescription()}', because target object ID is not set!");
                 continue;
@@ -669,13 +669,14 @@ public static class CustomEntityModule
                 parameters[0].ParameterType == typeof(EntityMonoBehaviourData))
             {
                 Action<EntityMonoBehaviourData> modifyDelegate = method.CreateDelegate<Action<EntityMonoBehaviourData>>();
-                if (attribute.target != ObjectID.None)
-                {
-                    entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
-                }
-                else if (!string.IsNullOrEmpty(attribute.modTarget))
+
+                if (!string.IsNullOrEmpty(attribute.modTarget))
                 {
                     modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
+                }
+                else
+                {
+                    entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
                 }
 
                 modifiersCount++;

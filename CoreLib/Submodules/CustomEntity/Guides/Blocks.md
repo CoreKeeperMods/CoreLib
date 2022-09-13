@@ -1,11 +1,13 @@
-﻿# Making custom blocks
+﻿# Making entities with custom visuals
+Entities such as blocks, enemies, projectiles, etc need a visual part to function. This guide explains how to do so on a example of a block. Process is similar for other kinds of entities
+
 Main difference between an item and a block in Core Keeper is the custom visual prefab. This prefab is what you see in the world. You must create and assign it, for entity to be spawnable and placeable.
 
 ## How to make visual prefab
 Visual prefab needs to contain a few things:
 - A UNIQUE component class deriving EntityMonoBehavior
 - All sprites to be drawn
-- Interaction logic handler
+- Interaction logic handler (Optional)
 
 ### EntityMonoBehavior derived class
 
@@ -76,7 +78,7 @@ public override void OnDestroy()
 ```
 
 ### Creating prefab
-The prefab structure is mostly standard, you can find how something is done by checking vanilla prefabs.
+Typical prefab structure look like this. You can find how something is done by checking vanilla prefabs.
 
 ![Visual Prefab Structure In Unity Editor](../documentation/visual-prefab.png)<br>
 

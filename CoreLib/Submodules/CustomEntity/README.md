@@ -73,3 +73,62 @@ You should cache or remember `entityID` variable. It's the ObjectID that the gam
 If you ever need to get this ID you can use `CustomEntityModule.GetObjectId(string itemID)` method to access it again.
 
 Also please note that you can't hardcode this ID. It will change depending on user mods installed. It can also be changed by user themselves by editing `CoreLib.ModItemID.cfg` config file found in `config` folder.
+
+## Modifying existing entities
+You can modify existing entities (Including ones added by other mods) using a simple API.
+
+Create a static class with method like so:
+```csharp
+[EntityModification]
+public static class MyModifications
+{
+    [EntityModification(ObjectID.Player)]
+    private static void EditPlayer(EntityMonoBehaviourData entity)
+    {
+        CraftingCDAuthoring craftingCdAuthoring = entity.GetComponent<CraftingCDAuthoring>();
+        craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = rootWorkbenches.First(), amount = 1 });
+    }
+}
+```
+You will need to explicitly define what entity you want to target. This can be either a ObjectID for a vanilla entity, or a string for modded entity. Your patch will get called ONLY for your specified entity.
+
+You can target ALL entities, but you should avoid doing so if possible.
+
+To register this add this to your `Load()` method:
+
+```csharp
+// Register single type
+RegisterModifications(typeof(MyModifications));
+
+// Register all modifications in assembly (Class MUST have the EntityModification attribute)
+CustomEntityModule.RegisterModifications(Assembly.GetExecutingAssembly());
+```
+
+## Creating custom components
+You can create custom components like `ModTileCDAuthoring`, that can be added to prefabs, and do custom things when loaded. Right now this provides mostly convenience to change ObjectID or another dynamic value after load. But hopefully later this will allow us to add custom ECS components too.
+
+To do that create a Component overriding `ModCDAuthoringBase` like this:
+
+```csharp
+public class MyComponentCDAuthoring : ModCDAuthoringBase
+{
+    public MyComponentCDAuthoring(System.IntPtr ptr) : base(ptr) { }
+
+    public override bool Apply(EntityMonoBehaviourData data)
+    {
+		// Do your work here
+		// Make sure to destroy this before exiting if this is intended for entity prefab
+		
+        return true;
+    }
+}
+```
+You will get two overridable methods `Allocate()` and `Apply()`. 
+
+Allocate works the same way as on `ModEntityMonoBehavior` and allows you to ensure survival of your custom fields.
+
+Apply is the important method here. It is called before the prefab is added. So you can do slight tweaks here. 
+
+Custom components can be added to both entity prefab and visual prefab. When added to entity prefab you WILL need to destoy it after finishing your stuff in `Apply()`. This is due to the fact ECS expects every component to be convertable to ECS component. Which your component is not.
+
+From here make sure to register the component in Il2Cpp domain, and make a dummy for your component in Unity.

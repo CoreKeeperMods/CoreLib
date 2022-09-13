@@ -25,6 +25,8 @@ public class MyPlugin : BasePlugin
 
 ## Creating Submodules
 To create a new submodule you need to create a new folder with the name of the module. In it create a new static class with the same name. Your actual submodule code can use any patterns you deem right. Here is a template of submodule class:
+
+
 ```cs
 [CoreLibSubmodule]
 public static class SubmoduleName

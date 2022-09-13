@@ -11,6 +11,9 @@ public class EntityModificationAttribute : Attribute
     public ObjectID target = ObjectID.None;
     public string modTarget = "";
 
+    /// <summary>
+    /// Use this version to target ALL entities. You will need to performs checks yourself if this entity is a target.
+    /// </summary>
     public EntityModificationAttribute() { }
     
     /// <summary>

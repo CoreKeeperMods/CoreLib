@@ -48,8 +48,17 @@ public static class PugDatabaseAuthoring_Patch
 
         if (!CustomEntityModule.hasInjected)
         {
+            Action<EntityMonoBehaviourData> allAction = null;
+            
+            if (CustomEntityModule.entityModifyFunctions.ContainsKey(ObjectID.None))
+            {
+                allAction = CustomEntityModule.entityModifyFunctions[ObjectID.None];
+            }
+            
             foreach (EntityMonoBehaviourData entity in __instance.prefabList)
             {
+                allAction?.Invoke(entity);
+                
                 if (CustomEntityModule.entityModifyFunctions.ContainsKey(entity.objectInfo.objectID))
                 {
                     CustomEntityModule.entityModifyFunctions[entity.objectInfo.objectID]?.Invoke(entity);
