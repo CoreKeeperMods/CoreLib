@@ -1,4 +1,4 @@
-﻿# Tips on making items
+﻿# Making custom items
 If you don't know how to make a certain type of item, find it in the Unity Editor and copy the prefab. There you should see everything that makes it tick.
 
 Properties of `EntityMonoBehaviourData` tha are relevant:

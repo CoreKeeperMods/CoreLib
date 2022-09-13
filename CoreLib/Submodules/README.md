@@ -6,7 +6,7 @@ A submodule is not loaded unless another mod requests that. This is needed to en
 
 ## Using submodules in your mods
 To use any submodule you have to declare that in your plugin class. Use `CoreLibSubmoduleDependency` to declare all used submodules. make sure to only request submodules your code actually uses. Also don't forget to declare a dependency on Core Lib plugin.
-```c#
+```cs
 [BepInPlugin(GUID, NAME, VERSION)]
 [BepInDependency(CoreLibPlugin.GUID)]
 [CoreLibSubmoduleDependency(nameof(LocalizationModule), nameof(RewiredExtensionModule))]
@@ -25,7 +25,7 @@ public class MyPlugin : BasePlugin
 
 ## Creating Submodules
 To create a new submodule you need to create a new folder with the name of the module. In it create a new static class with the same name. Your actual submodule code can use any patterns you deem right. Here is a template of submodule class:
-```c#
+```cs
 [CoreLibSubmodule]
 public static class SubmoduleName
 {
@@ -74,6 +74,6 @@ public static class SubmoduleName
 
 ### Submodule dependency
 Submodules can depend on other submodules. To do that change your `CoreLibSubmodule` attribute to specify that. Example:
-```c#
+```cs
 [CoreLibSubmodule(Dependencies = new []{typeof(LocalizationModule)})]
 ```

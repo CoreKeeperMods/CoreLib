@@ -36,7 +36,7 @@ Once you are done setting up your prefab place it in a folder with the name of y
 ### Adding entity
 
 With entity prefab made adding it is really easy. In your plugin `Load()` method add this code:
-```c#
+```cs
 // Register your prefab. Use a UNIQUE string id to identify your entity. I recommend to include your mod name in the ID.
 ObjectID entityID = CustomEntityModule.AddEntity($"{MODNAME}:MyAmazingEntity", "Assets/myamazingmod/Prefab/MyAmazingEntity");
 
@@ -47,7 +47,7 @@ CustomEntityModule.AddEntityLocalization(entityID,
 ```
 
 If your entity need to have multiple variations use this method. Include list of all needed entity prefabs. Their variation fields have to be set to correct variations:
-```csharp
+```cs
 ObjectID entityID = CustomEntityModule.AddEntityWithVariations($"{MODNAME}:MyAmazingEntity", new[]
 {
     "Assets/myamazingmod/Prefab/MyAmazingBackwardEntity",
@@ -58,7 +58,7 @@ ObjectID entityID = CustomEntityModule.AddEntityWithVariations($"{MODNAME}:MyAma
 ```
 
 To allow player to obtain the added entity (if it's an item), you will need to either add it to a mob drop loot pool, or use custom workbenches:
-```csharp
+```cs
 // You only need to supply single texture, which was set multiple mode
 // Also you can specify the recipe and even disable automatic addition to root mod workbenches
 ObjectID workbench = CustomEntityModule.AddModWorkbench($"{MODNAME}:MyWorkbench",

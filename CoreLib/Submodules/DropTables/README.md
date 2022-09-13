@@ -20,7 +20,7 @@ DropTablesModule.RemoveDrop(LootTableID.SlimeBlobs, ObjectID.ScrapPart);
 You can find existing drops for each table by looking in your Unity project for a file named `LootTableBank`. There you can see every loot table with it's loot.
 
 Adding custom loot tables is also really easy:
-```csharp
+```cs
 LootTableID lootTableID = DropTablesModule.AddLootTable("MyAwesomeMod:MyCustomLootTable");
 ```
 From here you can use normal `DropTablesModule` methods to add any items to your drop table.
