@@ -86,6 +86,12 @@ public static class CustomEntityModule
         return (Tileset)tilesetIDs.GetIndex(itemID);
     }
 
+    public static string[] GetAllModdedItems()
+    {
+        ThrowIfNotLoaded();
+        return modEntityIDs.modIDs.Keys.ToArray();
+    }
+
     /// <summary>
     /// Add custom workbench with specified sprite. It is automatically added to main mod workbench
     /// </summary>
@@ -657,11 +663,6 @@ public static class CustomEntityModule
         foreach (MethodInfo method in methods)
         {
             EntityModificationAttribute attribute = method.GetCustomAttribute<EntityModificationAttribute>();
-            if (string.IsNullOrEmpty(attribute.modTarget))
-            {
-                CoreLibPlugin.Logger.LogWarning($"Failed to add modify method '{method.FullDescription()}', because target object ID is not set!");
-                continue;
-            }
 
             var parameters = method.GetParameters();
             if (method.ReturnParameter.ParameterType == typeof(void) &&

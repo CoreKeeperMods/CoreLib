@@ -8,7 +8,16 @@ A modding library for Core Keeper. Provides features that makes modding Core Kee
 - Add new localization terms
 - Add custom Rewired keybinds
 - Add custom chat commands
-- Add new items, such as tools, weapons, armor and more
+- Add new items, blocks, enemies and more
+
+## Note on multiplayer and save compatibility
+If you are playing with friends MAKE SURE to sync your `CoreLib.ModEntityID.cfg` and `CoreLib.TilesetID.cfg` config files. If anything inside does not match you WILL encounter issues connecting, missing items, and errors.
+
+The same applies if you are loading a save of another user. If your ID's don't match the ID's save was created with, the save will load corrupted.
+
+I recommend any mods adding custom content warn users about this on their page.
+
+This might get improved later, but right now this is best that you can do.
 
 # Installation
 ### With Mod Manager
@@ -28,6 +37,13 @@ This library is still WIP.
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.1.0
+- Added Audio Module
+- Added Drop Tables module
+- Added Mod Resources module
+- Added Utils Module
+- Significant improvements to Custom Entity Module. Custom almost anything is possible now.
 
 ### v1.0.0
 **WARNING!** This version contains breaking changes. Make sure to update ALL of your mods before proceeding!

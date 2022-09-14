@@ -66,6 +66,7 @@ public static class PugDatabaseAuthoring_Patch
             }
             CoreLibPlugin.Logger.LogInfo("Finished modifying entities!");
         }
+
         CustomEntityModule.hasInjected = true;
     }
 

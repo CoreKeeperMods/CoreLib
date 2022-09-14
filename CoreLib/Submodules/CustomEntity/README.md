@@ -2,7 +2,7 @@
 Custom Entity Module is a submodule that allows to add new entities. This includes items, blocks, NPCs and other things. 
 
 ## Note on multiplayer and save compatibility
-If you are playing with friends MAKE SURE to sync your `CoreLib.ModItemID.cfg` and `CoreLib.TilesetID.cfg` config files. If anything inside does not match you WILL encounter issues connecting, missing items, and errors.
+If you are playing with friends MAKE SURE to sync your `CoreLib.ModEntityID.cfg` and `CoreLib.TilesetID.cfg` config files. If anything inside does not match you WILL encounter issues connecting, missing items, and errors.
 
 The same applies if you are loading a save of another user. If your ID's don't match the ID's save was created with, the save will load corrupted.
 
