@@ -96,7 +96,7 @@ internal class ChatWindow_Patch
             string cmdName = args[0].Substring(1);
             IChatCommandHandler commandHandler = CommandsModule.commandHandlers
                 .Select(pair => pair.handler)
-                .First(handler => handler.GetTriggerNames().Contains(cmdName));
+                .First(handler => handler.GetTriggerNames().Any(s => s.Equals(cmdName, StringComparison.InvariantCultureIgnoreCase)));
             string[] parameters = args.Skip(1).ToArray();
 
             try
