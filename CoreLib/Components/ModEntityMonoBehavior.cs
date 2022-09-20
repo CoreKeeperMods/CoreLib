@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace CoreLib.Components
 {
-    public class ModEntityMonoBehavior : EntityMonoBehaviour
+    public class ModEntityMonoBehavior : EntityMonoBehaviour, IAllocate
     {
         private GCHandle optionalColorReplacersHandle;
         private GCHandle optionalColorSpriteSheetSkinsHandle;

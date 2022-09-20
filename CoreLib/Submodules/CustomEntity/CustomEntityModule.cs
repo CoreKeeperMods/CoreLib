@@ -13,6 +13,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.InteropTypes;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using PugTilemap;
 using PugTilemap.Quads;
 using PugTilemap.Workshop;
@@ -615,31 +616,30 @@ public static class CustomEntityModule
             ghost.prefabId = fullItemId.GetGUID();
         }
 
+        Il2CppArrayBase<MonoBehaviour> components;
         foreach (PrefabInfo prefabInfo in entityData.objectInfo.prefabInfos)
         {
             if (prefabInfo.prefab == null) continue;
 
-            ModEntityMonoBehavior behavior = prefabInfo.prefab.TryCast<ModEntityMonoBehavior>();
-            if (behavior != null)
+            components = prefabInfo.prefab.GetComponentsInChildren<MonoBehaviour>();
+            foreach (MonoBehaviour component in components)
             {
-                behavior.Allocate();
-            }
-
-            ModProjectile projectile = prefabInfo.prefab.TryCast<ModProjectile>();
-            if (projectile != null)
-            {
-                projectile.Allocate();
-            }
-
-            foreach (ModCDAuthoringBase gcAllocMonoBehavior in prefabInfo.prefab.GetComponentsInChildren<ModCDAuthoringBase>())
-            {
-                gcAllocMonoBehavior.Allocate();
+                Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
+                if (method != null)
+                {
+                    method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+                }
             }
         }
-
-        foreach (ModCDAuthoringBase gcAllocMonoBehavior in newPrefab.GetComponents<ModCDAuthoringBase>())
+        
+        components = newPrefab.GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour component in components)
         {
-            gcAllocMonoBehavior.Allocate();
+            Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
+            if (method != null)
+            {
+                method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+            }
         }
 
         return entityData;

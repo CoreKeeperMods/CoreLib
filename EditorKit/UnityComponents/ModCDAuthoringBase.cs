@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CoreLib.Components
 {
-    public class ModCDAuthoringBase : MonoBehaviour
+    public class ModCDAuthoringBase : MonoBehaviour, IAllocate
     {
         public virtual void Awake()
         {

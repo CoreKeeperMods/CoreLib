@@ -42,7 +42,7 @@ public class ComponentDummyTask : Task
         return true;
     }
 
-    private static bool StripComponent(string originalCode, out string newCode)
+    private bool StripComponent(string originalCode, out string newCode)
     {
         SyntaxTree newTree = CSharpSyntaxTree.ParseText(originalCode);
         SyntaxNode root = newTree.GetRoot();
@@ -56,55 +56,62 @@ public class ComponentDummyTask : Task
                 .Where(node => node.ToString().Contains("Il2Cpp") || node.ToString().Contains("Interop") || node.ToString().Contains("Submodules")),
             SyntaxRemoveOptions.KeepNoTrivia);
 
-        ClassDeclarationSyntax classNode = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
-
-        ClassDeclarationSyntax newClassNode = classNode.RemoveNodes(classNode
-            .ChildNodes()
-            .OfType<FieldDeclarationSyntax>()
-            .Where(fieldDeclaration => { return !fieldDeclaration.Declaration.Type.ToString().Contains("Il2Cpp"); }), SyntaxRemoveOptions.KeepNoTrivia);
-
-        newClassNode = newClassNode.ReplaceNodes(newClassNode
-            .ChildNodes()
-            .OfType<FieldDeclarationSyntax>(), (syntax, _) =>
+        try
         {
-            TypeArgumentListSyntax typeArgumentList = syntax.Declaration.Type.ChildNodes().First() as TypeArgumentListSyntax;
-            TypeSyntax typeSyntax = typeArgumentList.Arguments.First();
+            ClassDeclarationSyntax classNode = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
 
-            VariableDeclarationSyntax newVariable = syntax.Declaration.WithType(typeSyntax);
-            return syntax.WithDeclaration(newVariable);
-        });
-
-        newClassNode = newClassNode.RemoveNodes(newClassNode
-            .ChildNodes()
-            .OfType<ConstructorDeclarationSyntax>(), SyntaxRemoveOptions.KeepNoTrivia);
-
-        newClassNode = newClassNode.RemoveNodes(
-            newClassNode
+            ClassDeclarationSyntax newClassNode = classNode.RemoveNodes(classNode
                 .ChildNodes()
-                .OfType<MethodDeclarationSyntax>()
-                .Where(syntax => { return syntax.Modifiers.Any(SyntaxKind.PrivateKeyword); }),
-            SyntaxRemoveOptions.KeepNoTrivia);
+                .OfType<FieldDeclarationSyntax>()
+                .Where(fieldDeclaration => { return !fieldDeclaration.Declaration.Type.ToString().Contains("Il2Cpp"); }), SyntaxRemoveOptions.KeepNoTrivia);
 
-        newClassNode = newClassNode.ReplaceNodes(newClassNode
-            .ChildNodes()
-            .OfType<MethodDeclarationSyntax>(), (syntax, _) =>
+            newClassNode = newClassNode.ReplaceNodes(newClassNode
+                .ChildNodes()
+                .OfType<FieldDeclarationSyntax>(), (syntax, _) =>
+            {
+                TypeArgumentListSyntax typeArgumentList = syntax.Declaration.Type.ChildNodes().First() as TypeArgumentListSyntax;
+                TypeSyntax typeSyntax = typeArgumentList.Arguments.First();
+
+                VariableDeclarationSyntax newVariable = syntax.Declaration.WithType(typeSyntax);
+                return syntax.WithDeclaration(newVariable);
+            });
+
+            newClassNode = newClassNode.RemoveNodes(newClassNode
+                .ChildNodes()
+                .OfType<ConstructorDeclarationSyntax>(), SyntaxRemoveOptions.KeepNoTrivia);
+
+            newClassNode = newClassNode.RemoveNodes(
+                newClassNode
+                    .ChildNodes()
+                    .OfType<MethodDeclarationSyntax>()
+                    .Where(syntax => { return syntax.Modifiers.Any(SyntaxKind.PrivateKeyword); }),
+                SyntaxRemoveOptions.KeepNoTrivia);
+
+            newClassNode = newClassNode.ReplaceNodes(newClassNode
+                .ChildNodes()
+                .OfType<MethodDeclarationSyntax>(), (syntax, _) =>
+            {
+                if (syntax.Modifiers.Any(SyntaxKind.OverrideKeyword))
+                {
+                    var token = syntax.Modifiers.First(token => token.IsKind(SyntaxKind.OverrideKeyword));
+                    syntax = syntax.WithModifiers(syntax.Modifiers.Remove(token));
+                }
+
+                if (syntax.ReturnType.ToString().Contains("void"))
+                {
+                    return syntax.WithBody(SyntaxFactory.Block());
+                }
+
+                return syntax.WithBody(SyntaxFactory.Block(SyntaxFactory.ReturnStatement(SyntaxFactory.DefaultExpression(syntax.ReturnType))));
+            });
+
+
+            root = root.ReplaceNode(classNode, newClassNode).NormalizeWhitespace();
+        }
+        catch (Exception)
         {
-            if (syntax.Modifiers.Any(SyntaxKind.OverrideKeyword))
-            {
-                var token = syntax.Modifiers.First(token => token.IsKind(SyntaxKind.OverrideKeyword));
-                syntax = syntax.WithModifiers(syntax.Modifiers.Remove(token));
-            }
-
-            if (syntax.ReturnType.ToString().Contains("void"))
-            {
-                return syntax.WithBody(SyntaxFactory.Block());
-            }
-
-            return syntax.WithBody(SyntaxFactory.Block(SyntaxFactory.ReturnStatement(SyntaxFactory.DefaultExpression(syntax.ReturnType))));
-        });
-
-
-        root = root.ReplaceNode(classNode, newClassNode).NormalizeWhitespace();
+            // ignored
+        }
 
 
         newCode = root.ToString();

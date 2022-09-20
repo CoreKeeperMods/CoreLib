@@ -2,7 +2,7 @@
 
 namespace CoreLib.Components
 {
-    public class ModCDAuthoringBase : MonoBehaviour
+    public class ModCDAuthoringBase : MonoBehaviour, IAllocate
     {
         protected bool allocated;
     
@@ -15,6 +15,7 @@ namespace CoreLib.Components
     
         public virtual bool Allocate()
         {
+            CoreLibPlugin.Logger.LogInfo("ModCDAuthoringBase.Allocate()");
             if (allocated) return false;
             allocated = true;
             return true;

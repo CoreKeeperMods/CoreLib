@@ -2,7 +2,7 @@ using System;
 
 namespace CoreLib.Components
 {
-    public class ModProjectile : Projectile
+    public class ModProjectile : Projectile, IAllocate
     {
         public void Awake()
         {

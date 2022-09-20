@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace CoreLib.Components
 {
-    public class ModProjectile : Projectile
+    public class ModProjectile : Projectile, IAllocate
     { 
         private GCHandle optionalColorReplacersHandle;
         private GCHandle optionalColorSpriteSheetSkinsHandle;

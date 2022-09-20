@@ -2,7 +2,7 @@ using System;
 
 namespace CoreLib.Components
 {
-    public class ModEntityMonoBehavior : EntityMonoBehaviour
+    public class ModEntityMonoBehavior : EntityMonoBehaviour, IAllocate
     {
         public void Awake()
         {
