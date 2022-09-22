@@ -1,112 +1,134 @@
 # Custom Entity Module
 Custom Entity Module is a submodule that allows to add new entities. This includes items, blocks, NPCs and other things. 
 
-## Important Note
-Please note that currently this submodule <b>DOES NOT</b> support adding anything except items. This is a technical limitation that we still need to fix. 
+## Note on multiplayer and save compatibility
+If you are playing with friends MAKE SURE to sync your `CoreLib.ModEntityID.cfg` and `CoreLib.TilesetID.cfg` config files. If anything inside does not match you WILL encounter issues connecting, missing items, and errors.
+
+The same applies if you are loading a save of another user. If your ID's don't match the ID's save was created with, the save will load corrupted.
+
+I recommend any mods adding custom content warn users about this on their page.
+
+This might get improved later, but right now this is best that you can do.
 
 ## Usage example:
 Make sure to add `[CoreLibSubmoduleDependency(nameof(CustomEntityModule))]` to your plugin attributes. This will load the submodule.
 
-### Making Item Prefab
-To actually make the item you will need a set up Unity Project. You can follow this [guide](https://github.com/CoreKeeperMods/Getting-Started/wiki/Getting-The-Assets-In-Unity).
+Before continuing follow guide on [Resource Module](../ModResources/README.md) page to setup your asset bundle.
+
+After setting up Unity project make sure to add the Editor Kit to your project. It contains dummies for all custom components amd some custom editors. You can find it [here](../../../EditorKit/)
+
+### Making Entity Prefab
 In your Unity Project make a new prefab (Or copy one of the original ones). It should contain only the root object with `EntityMonoBehaviorData` component attached. This looks like this:
 
 ![EntityMonoBehaviorData In Unity Editor](./documentation/EntityMonoBehaviorData.png)<br>
-In this component you can set all kind of properties that affect what the item is. Most important properties are:
+In this component you can set all kind of properties that affect what the entity is. Most important properties are:
 
-- `ObjectType` - defines what kind of entity is it. Here you can make it an armor piece or sword.
-- `Icon` and `SmallIcon` - defines visual aspects of your item. Small icon is often used when you hold your item in hand. Normal icon is shown in inventory and on pedestals.
-- `IsStackable` - defines if you can stack your item
-- `Required Objects To Craft` allows you to define your item crafting recipe.
-- `PrefabInfos` here you need to have one entry with reference to prefab itself. Note that `Prefab` field need to be empty for entity to be a item. Currently filling this field <b>IS NOT SUPPORTED</b>!
+- `ObjectType` - defines what kind of entity is it. Here you can make it an item, block, enemy, etc
+- `Icon` and `SmallIcon` - defines icon of your entity. This is mostly used for items. Small icon is often used when you hold your item in hand. Normal icon is shown in inventory and on pedestals.
+- `PrefabInfos` here you need to have one entry with reference to prefab itself. The `Prefab` field allows to define custom visual for entity. This is used to make blocks, enemies, etc. For items it needs to be null.
 
-On your item prefab you can attach other ECS components which alter item behavior or properties. You can inspect vanilla items to find out what components do what.
+On your entity prefab you can attach other ECS components which alter entity behavior or properties. You can inspect vanilla entities to find out what components do what.
 
-For example here I have a `DurabilityCDAuthoring` component added. With it item will now have durability. Use this in combination with `InitialAmount` property to make item with durability.
-
-![DurabilityCDAuthoring In Unity Editor](./documentation/DurabilityComponent.png)<br>
-For purposes of editing in the editor there is a Editor Kit. It adds some property drawers for some enums, allowing you to set them easily. You can find it [here](../../../EditorKit/)
+For more specific guides on different types of custom entities check [guides](Guides/) folder.
 
 Once you are done setting up your prefab place it in a folder with the name of your mod and pack a asset bundle. Don't forget to add the prefab to the bundle.
 
-### Packing the asset bundle
+### Adding entity
 
-This section will explain how to setup the folder structure and build the bundle. First create a folder structure where all prefabs are in a folder with the <b>keyword</b> of your mod.
-
-![Folder structure](./documentation/folderStructure.png)<br>
-Now select all prefabs you want to use and in the bottom of the inspector you should see `Asser Labels` section (It can be collapsed) and select your asset bundle. If you don't have a asset bundle click `New` and enter bundle name.
-
-![Assign the bundle](./documentation/assignTheBundle.png)<br>
-Now open asset bundle browser (Window -> AssetBundle Browser) and check your bundle. You should see all of your prefabs and their used resources.
-
-![AssetBundle Browser](./documentation/bundleBrowser.png)<br>
-If everything is right select `Build` section on the top and build the bundles.
-
-![Build The Bundle](./documentation/BuildIT.png)<br>
-Now you should see the asset bundle either in `Assets/StreamingAssets/` or the path you specified in the asset bundle browser.
-
-### Adding item in code
-
-With item prefab made adding it is really easy. In your plugin `Load()` method add this code:
-```c#
-// Get path to your plugin folder
-string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-// Create a new ResourceData class with information about the bundle
-ResourceData resource = new ResourceData(MODNAME, "myamazingmod", pluginfolder);
-
-// Load the aseet bundle and add the resource.
-resource.LoadAssetBundle("myamazingmodbundle");
-CustomEntityModule.AddResource(resource);
-
-// Register your prefab. Use a UNIQUE string id to identify your item. I recommend to include your mod name in the ID.
-ObjectID itemIndex = CustomEntityModule.AddEntity($"{MODNAME}:MyAmazingItem", "Assets/myamazingmod/Prefab/MyAmazingItem.prefab");
+With entity prefab made adding it is really easy. In your plugin `Load()` method add this code:
+```cs
+// Register your prefab. Use a UNIQUE string id to identify your entity. I recommend to include your mod name in the ID.
+ObjectID entityID = CustomEntityModule.AddEntity($"{MODNAME}:MyAmazingEntity", "Assets/myamazingmod/Prefab/MyAmazingEntity");
 
 // Add localization terms for your item
-Localization.AddTerm($"Items/{itemIndex}", "My Amazing Item");
-Localization.AddTerm($"Items/{itemIndex}Desc", "This amazing item will change the world!");
+CustomEntityModule.AddEntityLocalization(entityID,
+    "My Amazing Item",
+    "This amazing item will change the world!");
 ```
-Note that here `myamazingmod` is a <b>keyword</b>. This keyword is later used in the prefab path. This is important, as this is how I find which asset bundle contains the prefab. If you forget to include a keyword in your asset path it <b>WILL NOT LOAD</b>
 
-You should cache or remember `itemIndex` variable. It contains numerical ID that the game uses to identify the item. You can cast it to `ObjectID` enum and pass to game code.
-If you ever need to get this ID you can use `CustomEntityModule.GetItemIndex(string itemID)` method to access it again.
-
-Also please note that you can't hardcode this ID. It will change depending on user mods installed. It can also be changed by user themselves by editing `CoreLib.ModItemID.cfg` config file found in `config` folder. 
-
-## Tips on making items
-If you don't know how to make a certain type of item, find it in the Unity Editor and copy the prefab. There you should see everything that makes it tick.
-
-### Swords, Tools, Bows, etc
-To make a equipable item with use animation you need to:
-- Set the `ObjectType` to tool or weapon type
-- Add `DurabilityCD`, `GivesConditionsWhenEquipedCD`, `CooldownCD`, `WeaponDamageCD` and `LevelCD` and configure them correctly
-- Assign both icons to first sprite in item animation sheet.
-
-Example of the sprite sheet. It should be 120x120 px and have 7 sprites showing item in different states. You can find such sheets for all weapons and tools in the Unity Editor
-
-![Example Item Sheet](./documentation/SwordExample.png)<br>
-
-### Armor
-
-To make armor you need to:
-- Set the `ObjectType` to armor type
-- Add `DurabilityCD`, `EquipmentSkinCD` `GivesConditionsWhenEquipedCD` and `LevelCD` and configure them correctly
-
-Make a armor spite sheet. Examples of such sheets can be found in the Unity Editor.
-Finally to add it correctly you will need some additional code:
-```c#
-ObjectID armor = CustomEntityModule.AddEntity("MyMod:MyAmazingArmor", "Assets/MyMod/Items/MyAmazingArmor");
-
-CustomEntityModule.AddEntityLocalization(armor,
-                "My Amazing Armor",
-                "This armor is so amazing it will protect you from anything");
-
-Texture2D armorTexture = resource.bundle.LoadAsset<Texture2D>("Assets/MyMod/Textures/myarmorsheet.png");
-
-byte skinId = CustomEntityModule.AddPlayerCustomization(new BreastArmorSkin()
+If your entity need to have multiple variations use this method. Include list of all needed entity prefabs. Their variation fields have to be set to correct variations:
+```cs
+ObjectID entityID = CustomEntityModule.AddEntityWithVariations($"{MODNAME}:MyAmazingEntity", new[]
 {
-    breastTexture = armorTexture,
-    shirtVisibility = ShirtVisibility.FullyShow
+    "Assets/myamazingmod/Prefab/MyAmazingBackwardEntity",
+    "Assets/myamazingmod/Prefab/MyAmazingForwardEntity",
+    "Assets/myamazingmod/Prefab/MyAmazingLeftEntity",
+    "Assets/myamazingmod/Prefab/MyAmazingRightEntity",
 });
-CustomEntityModule.SetEquipmentSkin(armor, skinId);
 ```
+
+To allow player to obtain the added entity (if it's an item), you will need to either add it to a mob drop loot pool, or use custom workbenches:
+```cs
+// You only need to supply single texture, which was set multiple mode
+// Also you can specify the recipe and even disable automatic addition to root mod workbenches
+ObjectID workbench = CustomEntityModule.AddModWorkbench($"{MODNAME}:MyWorkbench",
+    "Assets/myamazingmodTextures/myworkbench-texture", 
+    new List<CraftingData> {new CraftingData(ObjectID.ScarletBar, 4)});
+
+// Now you can add up to 18 items to this workbench
+CustomEntityModule.AddWorkbenchItem(workbench, entityID);
+```
+
+You should cache or remember `entityID` variable. It's the ObjectID that the game uses to identify the entity.
+If you ever need to get this ID you can use `CustomEntityModule.GetObjectId(string itemID)` method to access it again.
+
+Also please note that you can't hardcode this ID. It will change depending on user mods installed. It can also be changed by user themselves by editing `CoreLib.ModItemID.cfg` config file found in `config` folder.
+
+## Modifying existing entities
+You can modify existing entities (Including ones added by other mods) using a simple API.
+
+Create a static class with method like so:
+```csharp
+[EntityModification]
+public static class MyModifications
+{
+    [EntityModification(ObjectID.Player)]
+    private static void EditPlayer(EntityMonoBehaviourData entity)
+    {
+        CraftingCDAuthoring craftingCdAuthoring = entity.GetComponent<CraftingCDAuthoring>();
+        craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = rootWorkbenches.First(), amount = 1 });
+    }
+}
+```
+You will need to explicitly define what entity you want to target. This can be either a ObjectID for a vanilla entity, or a string for modded entity. Your patch will get called ONLY for your specified entity.
+
+You can target ALL entities, but you should avoid doing so if possible.
+
+To register this add this to your `Load()` method:
+
+```csharp
+// Register single type
+RegisterModifications(typeof(MyModifications));
+
+// Register all modifications in assembly (Class MUST have the EntityModification attribute)
+CustomEntityModule.RegisterModifications(Assembly.GetExecutingAssembly());
+```
+
+## Creating custom components
+You can create custom components like `ModTileCDAuthoring`, that can be added to prefabs, and do custom things when loaded. Right now this provides mostly convenience to change ObjectID or another dynamic value after load. But hopefully later this will allow us to add custom ECS components too.
+
+To do that create a Component overriding `ModCDAuthoringBase` like this:
+
+```csharp
+public class MyComponentCDAuthoring : ModCDAuthoringBase
+{
+    public MyComponentCDAuthoring(System.IntPtr ptr) : base(ptr) { }
+
+    public override bool Apply(EntityMonoBehaviourData data)
+    {
+		// Do your work here
+		// Make sure to destroy this before exiting if this is intended for entity prefab
+		
+        return true;
+    }
+}
+```
+You will get two overridable methods `Allocate()` and `Apply()`. 
+
+Allocate works the same way as on `ModEntityMonoBehavior` and allows you to ensure survival of your custom fields.
+
+Apply is the important method here. It is called before the prefab is added. So you can do slight tweaks here. 
+
+Custom components can be added to both entity prefab and visual prefab. When added to entity prefab you WILL need to destoy it after finishing your stuff in `Apply()`. This is due to the fact ECS expects every component to be convertable to ECS component. Which your component is not.
+
+From here make sure to register the component in Il2Cpp domain, and make a dummy for your component in Unity.

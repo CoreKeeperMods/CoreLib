@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CoreLib</AssemblyName>
     <Description>A library to make life easy</Description>
     <Version>1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <Configurations>Debug;Release;BuildNPack</Configurations>
+    <Configurations>Release;BuildNPack</Configurations>
     <PackageId>com.le4fless.corelib</PackageId>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='BuildNPack|AnyCPU'">
@@ -18,14 +18,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>False</Optimize>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-*" IncludeAssets="compile" />
-    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <Folder Include="Submodules\ChatCommands\Commands" />
     <Folder Include="Submodules\ChatCommands\Patches" />
+    <Content Include="PostBuild.csproj" />
   </ItemGroup>
 </Project>

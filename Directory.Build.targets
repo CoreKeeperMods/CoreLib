@@ -2,4 +2,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildThisFileDirectory)SharedConfig.targets"/>
 
+
+  <ItemGroup Label="NuGets">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.*" PrivateAssets="all" />
+  </ItemGroup>
 </Project>

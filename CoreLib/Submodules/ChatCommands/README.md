@@ -5,7 +5,7 @@ Commands Module is a submodule that allows to add new Chat Commands.
 Make sure to add `[CoreLibSubmoduleDependency(nameof(CommandsModule))]` to your plugin attributes. This will load the submodule.
 
 To make a command create a new class implementing `IChatCommandHandler` interface:
-```c#
+```cs
 public class MyCommandHanlder : IChatCommandHandler
 {
     public CommandOutput Execute(string[] parameters)
@@ -32,7 +32,7 @@ public class MyCommandHanlder : IChatCommandHandler
 ```
 
 Now in your plugin `Load()` method write:
-```c#
+```cs
 AddCommands(Assembly.GetExecutingAssembly());
 ```
 This will register any command handlers in your mod assembly. If you have multiple assemblies call this method for each one.

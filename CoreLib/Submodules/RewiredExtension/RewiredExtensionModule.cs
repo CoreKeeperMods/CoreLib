@@ -12,9 +12,11 @@ namespace CoreLib.Submodules.RewiredExtension;
 /// <summary>
 /// This module provides means to add custom Rewired Key binds
 /// </summary>
-[CoreLibSubmodule(Dependencies = new []{typeof(LocalizationModule)})]
+[CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule) })]
 public static class RewiredExtensionModule
 {
+    #region Public Interface
+
     /// <summary>
     /// Return true if the submodule is loaded.
     /// </summary>
@@ -23,35 +25,6 @@ public static class RewiredExtensionModule
         get => _loaded;
         internal set => _loaded = value;
     }
-
-    private static bool _loaded;
-
-
-    [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-    internal static void SetHooks()
-    {
-        CoreLibPlugin.harmony.PatchAll(typeof(Rewired_Patch));
-    }
-    
-    [CoreLibSubmoduleInit(Stage = InitStage.Load)]
-    internal static void Load()
-    {
-        BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
-        keybindIdCache = new ConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.KeybindID.cfg", true, metadata);
-    }
-
-    internal static void ThrowIfNotLoaded()
-    {
-        if (!Loaded)
-        {
-            Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-            string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
-            throw new InvalidOperationException(message);
-        }
-    }
-
-    internal static Dictionary<string, KeyBindData> keyBinds = new Dictionary<string, KeyBindData>();
-    internal static ConfigFile keybindIdCache;
 
     /// <summary>
     /// Use this event to receive a callback when rewired input system is initialized
@@ -68,7 +41,7 @@ public static class RewiredExtensionModule
     public static void AddKeybind(string keyBindName, string description, KeyboardKeyCode defaultKeyCode, ModifierKey modifier = ModifierKey.None)
     {
         ThrowIfNotLoaded();
-        
+
         AddKeybind(keyBindName, new Dictionary<string, string> { { "en", description } }, defaultKeyCode, modifier);
     }
 
@@ -103,7 +76,7 @@ public static class RewiredExtensionModule
     public static int GetKeybindId(string keyBindName)
     {
         ThrowIfNotLoaded();
-        
+
         if (keyBinds.ContainsKey(keyBindName))
         {
             return keyBinds[keyBindName].actionId;
@@ -117,4 +90,39 @@ public static class RewiredExtensionModule
 
         throw new ArgumentException($"Keybind action with name {keyBindName} is not registered!");
     }
+
+    #endregion
+
+    #region Private Implementation
+
+    private static bool _loaded;
+
+
+    [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
+    internal static void SetHooks()
+    {
+        CoreLibPlugin.harmony.PatchAll(typeof(Rewired_Patch));
+    }
+
+    [CoreLibSubmoduleInit(Stage = InitStage.Load)]
+    internal static void Load()
+    {
+        BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
+        keybindIdCache = new ConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.KeybindID.cfg", true, metadata);
+    }
+
+    internal static void ThrowIfNotLoaded()
+    {
+        if (!Loaded)
+        {
+            Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
+            string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+            throw new InvalidOperationException(message);
+        }
+    }
+
+    internal static Dictionary<string, KeyBindData> keyBinds = new Dictionary<string, KeyBindData>();
+    internal static ConfigFile keybindIdCache;
+
+    #endregion
 }

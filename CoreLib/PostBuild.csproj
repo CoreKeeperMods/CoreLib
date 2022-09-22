@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="CreateDummies" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<UsingTask TaskName="CoreLib.CodeGenerator.ComponentDummyTask" AssemblyFile="$(MSBuildThisFileDirectory)../CoreLib.CodeGenerator/bin/Release/netstandard2.0/CoreLib.CodeGenerator.dll"/>
+  
+    <Target Name="CreateDummies" BeforeTargets="CoreCompile">
+      <ComponentDummyTask OutputDirectory="$(MSBuildThisFileDirectory)../EditorKit/UnityComponents/" ComponentsFolder="$(MSBuildThisFileDirectory)/Components"/>
+    </Target>
+</Project>

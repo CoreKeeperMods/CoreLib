@@ -1,0 +1,87 @@
+name: Publish Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      BundleBepInEx : false
+      BepInExVersion : 6
+      BepInExArch : x64
+      BepInExRuntime : IL2CPP
+      PluginName : CoreMods-CoreLib
+      ThunderstoreRelease: true
+      PublishNuget: true
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0 # can't shallowly clone due to git versioning
+        
+    - name: Get version of the project
+      id: get-version
+      uses: 'euberdeveloper/ga-project-version@main'
+      with:
+        path: 'version.json'
+
+    - name: Check Tag
+      id: check-tag
+      uses: actions-ecosystem/action-regex-match@v2
+      with:
+        text: ${{ steps.get-version.outputs.version }}
+        regex: '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+
+    - name: Fail if invalid
+      if: steps.check-tag.outputs.match == ''
+      uses: Actions/github-script@v3
+      with:
+        script: |
+         core.setFailed('Invalid tag')
+
+    - uses: actions/setup-dotnet@v1
+
+    - name: BepInEx 6
+      run: |
+        bepinexurl = $(curl -vs https://builds.bepinex.dev/projects/bepinex_be 2>&1 | grep -Po '(?<=href=")(\/projects\/bepinex_be\/(.*)\/BepInEx_Unity${{env.BepInExRuntime}}_${{env.BepInExArch}}(.*))(?=")' | head -1)"
+        wget $bepinexurl > bepinex.zip
+      if: env.BundleBepInEx == 'true' && env.BepInExVersion == '6'
+
+    - name: BepInEx 5
+      shell: pwsh
+      run: |
+        $webData = Invoke-WebRequest -Uri "https://api.github.com/repos/BepInEx/BepInEx/releases/latest"
+        $release = ConvertFrom-Json $webData.content
+        $bepinexurl = $release.assets.browser_download_url -match '${{env.BepInExArch}}'
+        wget $bepinexurl > bepinex.zip
+      if: env.BundleBepInEx == 'true' && env.BepInExVersion == '5'
+
+    - name: Extract BepInEx
+      run: | 
+        mkdir out;
+        unzip BepInEx* -d out;
+      if: env.BundleBepInEx == 'true'
+      
+    - name: Setup Thunderstore CLI
+      run: |
+        dotnet tool install -g tcli
+    
+    - name: Build & zip
+      run: |
+        dotnet build CoreLib.sln -c Release /p:ReleaseMode=1
+        tcli build --config-path Config/thunderstore.toml --package-version ${{ steps.get-version.outputs.version }}
+
+    - name: Publish to Thunderstore
+      env:
+        TCLI_AUTH_TOKEN: ${{ secrets.TCLI_AUTH_TOKEN }}
+      run: |
+        tcli publish --config-path Config/thunderstore.toml --package-version ${{ steps.get-version.outputs.version }}
+      if: env.ThunderstoreRelease == 'true'
+      
+    - name: Publish to NuGet
+      run: |
+        dotnet pack CoreLib/CoreLib.csproj /p:ReleaseMode=1 -c Release -o "."
+        dotnet nuget push *.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_API_KEY}} --skip-duplicate
+      if: env.PublishNuget == 'true'

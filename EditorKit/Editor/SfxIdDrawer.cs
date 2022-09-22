@@ -55,7 +55,7 @@ public class SfxUnityInspectorFriendlyIDDrawer : PropertyDrawer
 
         SfxUnityInspectorFriendlyID current = (SfxUnityInspectorFriendlyID) property.intValue;
         
-        int value = EditorGUI.IntField(intRect, "Item", property.intValue);
+        int value = EditorGUI.IntField(intRect, label, property.intValue);
         
         var indent = EditorGUI.indentLevel;
         EditorGUI.indentLevel = 0;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildThisFileDirectory)../SharedConfig.targets"/>
+
+
+  <ItemGroup Label="NuGets">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.*" PrivateAssets="all" />
+  </ItemGroup>
+
+  <Target Name="AfterBuild">
+    <Exec Command="dotnet build &quot;$(MSBuildThisFileDirectory)PostBuild.csproj&quot;" />
+  </Target> 
+  
+</Project>

@@ -1,6 +1,4 @@
-﻿using System;
-using CoreLib.Submodules.Localization;
-using HarmonyLib;
+﻿using HarmonyLib;
 using I2.Loc;
 
 namespace CoreLib.Submodules.Localization.Patches;
@@ -14,7 +12,7 @@ public static class MemoryManager_Patch
     {
         if (LocalizationManager.Sources.Count > 0)
         {
-            LanguageSourceData source = LocalizationManager.Sources[0];
+            LanguageSourceData source = LocalizationManager.Sources._items[0];
 
             foreach (var pair in LocalizationModule.addedTranslations)
             {

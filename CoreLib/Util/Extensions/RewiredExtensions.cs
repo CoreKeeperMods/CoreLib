@@ -1,8 +1,6 @@
-﻿using System;
-using CoreLib.Submodules.RewiredExtension;
+﻿using CoreLib.Submodules.RewiredExtension;
 using Rewired;
 using Rewired.Data.Mapping;
-using UnhollowerRuntimeLib;
 
 namespace CoreLib.Util;
 
@@ -19,9 +17,9 @@ public static class RewiredExtensions
         {
             return false;
         }
-        if (!map.list[num].actionIds.Contains(actionId))
+        if (!map.list._items[num].actionIds.Contains(actionId))
         {
-            map.list[num].actionIds.Add(actionId);
+            map.list._items[num].actionIds.Add(actionId);
         }
         return true;
     }

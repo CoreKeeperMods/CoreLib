@@ -3,24 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
-using BepInEx.Configuration;
+using CoreLib.Components;
+using CoreLib.Submodules.CustomEntity.Atributes;
 using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
+using CoreLib.Submodules.ModResources;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
-using UnhollowerBaseLib;
-using UnhollowerBaseLib.Runtime;
-using UnhollowerRuntimeLib;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.Injection;
+using Il2CppInterop.Runtime.InteropTypes;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using PugTilemap;
+using PugTilemap.Quads;
+using PugTilemap.Workshop;
+using Unity.NetCode;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.CustomEntity;
 
 /// <summary>
-/// This module provides means to add new content such as item.
-/// Currently does not support adding blocks, NPCs and other non item entities!
+/// This module provides means to add new content
 /// </summary>
-[CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule) })]
+[CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule), typeof(ResourcesModule) })]
 public static class CustomEntityModule
 {
     #region PublicInterface
@@ -35,114 +41,244 @@ public static class CustomEntityModule
     }
 
     /// <summary>
-    /// Registers mod resources for loading
+    /// Register you entity modifications methods.
     /// </summary>
-    /// <param name="resource"></param>
-    public static void AddResource(ResourceData resource)
+    /// <param name="assembly">Assembly to analyze</param>
+    public static void RegisterModifications(Assembly assembly)
     {
         ThrowIfNotLoaded();
-        modResources.Add(resource);
+        ThrowIfTooLate(nameof(RegisterModifications));
+
+        RegisterModifications_Internal(assembly);
     }
 
     /// <summary>
-    /// Load asset from mod asset bundles
+    /// Register you entity modifications methods.
     /// </summary>
-    /// <param name="assetPath">path to the asset</param>
-    public static Object LoadAsset(string assetPath)
+    /// <param name="type">Type to analyze</param>
+    public static void RegisterModifications(Type type)
     {
         ThrowIfNotLoaded();
-        foreach (ResourceData resource in modResources)
-        {
-            if (!assetPath.ToLower().Contains(resource.keyWord.ToLower()) || !resource.HasAssetBundle()) continue;
+        ThrowIfTooLate(nameof(RegisterModifications));
 
-            if (resource.bundle.Contains(assetPath.WithExtension(".prefab")))
-            {
-                Object prefab = resource.bundle.LoadAsset<GameObject>(assetPath.WithExtension(".prefab"));
-                CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(prefab != null ? "Success" : "Failure")}");
-                return prefab;
-            }
-
-            foreach (string extension in spriteFileExtensions)
-            {
-                if (!resource.bundle.Contains(assetPath.WithExtension(extension))) continue;
-
-                Object sprite = resource.bundle.LoadAsset<Object>(assetPath.WithExtension(extension));
-
-                CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(sprite != null ? "Success" : "Failure")}");
-
-                return sprite;
-            }
-
-            foreach (string extension in audioClipFileExtensions)
-            {
-                if (!resource.bundle.Contains(assetPath.WithExtension(extension))) continue;
-
-                Object audioClip = resource.bundle.LoadAsset<Object>(assetPath.WithExtension(extension));
-                CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(audioClip != null ? "Success" : "Failure")}");
-                return audioClip;
-            }
-        }
-
-        CoreLibPlugin.Logger.LogWarning($"Failed to find asset '{assetPath}' in mod assets!");
-        return Resources.Load(assetPath);
+        RegisterModificationsInType_Internal(type);
     }
 
+
     /// <summary>
-    /// Get item index from UNIQUE item id
+    /// Get objectID from UNIQUE entity id
     /// </summary>
-    /// <param name="itemID">UNIQUE string item ID</param>
-    public static int GetItemIndex(string itemID)
+    /// <param name="itemID">UNIQUE string entity ID</param>
+    public static ObjectID GetObjectId(string itemID)
     {
-        if (modIDs.ContainsKey(itemID))
-        {
-            return modIDs[itemID];
-        }
+        ThrowIfNotLoaded();
 
-        return -1;
+        return (ObjectID)modEntityIDs.GetIndex(itemID);
     }
 
     /// <summary>
-    /// Add new Entity. Currently only supports adding new items.
+    /// Get Tileset from UNIQUE tilset id
     /// </summary>
-    /// <param name="itemId">UNIQUE item id</param>
-    /// <param name="path">path to your prefab in asset bundle</param>
-    /// <returns>Added item integer index. If adding failed returns -1</returns>
+    /// <param name="itemID">UNIQUE string tilset ID</param>
+    public static Tileset GetTilesetId(string itemID)
+    {
+        ThrowIfNotLoaded();
+
+        return (Tileset)tilesetIDs.GetIndex(itemID);
+    }
+
+    public static string[] GetAllModdedItems()
+    {
+        ThrowIfNotLoaded();
+        return modEntityIDs.modIDs.Keys.ToArray();
+    }
+
+    /// <summary>
+    /// Add custom workbench with specified sprite. It is automatically added to main mod workbench
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity Id</param>
+    /// <param name="spritePath">path to your sprite in asset bundle</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath)
+    {
+        return AddModWorkbench(itemId, spritePath, null, true);
+    }
+
+    /// <summary>
+    /// Add custom workbench with specified sprite.
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity Id</param>
+    /// <param name="spritePath">path to your sprite in asset bundle</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, bool bindToRootWorkbench)
+    {
+        return AddModWorkbench(itemId, spritePath, null, bindToRootWorkbench);
+    }
+
+    /// <summary>
+    /// Add custom workbench with specified sprite. It is automatically added to main mod workbench
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity Id</param>
+    /// <param name="spritePath">path to your sprite in asset bundle</param>
+    /// <param name="recipe">workbench craft recipe</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, List<CraftingData> recipe)
+    {
+        return AddModWorkbench(itemId, spritePath, recipe, true);
+    }
+
+    /// <summary>
+    /// Add custom workbench with specified sprite.
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity Id</param>
+    /// <param name="spritePath">path to your sprite in asset bundle</param>
+    /// <param name="recipe">workbench craft recipe</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, List<CraftingData> recipe, bool bindToRootWorkbench)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(AddModWorkbench));
+        ObjectID workbenchId = AddWorkbench(itemId, spritePath, recipe);
+        if (bindToRootWorkbench)
+            AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        return workbenchId;
+    }
+
+
+    /// <summary>
+    /// Add entity to workbench. This will allow player to craft it
+    /// </summary>
+    /// <param name="workBenchId">Target workbench id</param>
+    /// <param name="entityId">entity Id</param>
+    public static void AddWorkbenchItem(ObjectID workBenchId, ObjectID entityId)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(AddModWorkbench));
+        if (GetMainEntity(workBenchId, out EntityMonoBehaviourData entity))
+        {
+            CraftingCDAuthoring craftingCdAuthoring = entity.gameObject.GetComponent<CraftingCDAuthoring>();
+            bool isRootWorkbench = IsRootWorkbench(workBenchId);
+
+            CoreLibPlugin.Logger.LogDebug($"Adding item {entityId.ToString()} to workbench {workBenchId.ToString()}");
+
+            if (craftingCdAuthoring.canCraftObjects.Count < (isRootWorkbench ? 17 : 18))
+            {
+                craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = entityId, amount = 1 });
+                return;
+            }
+
+            if (isRootWorkbench)
+            {
+                ObjectID newWorkbench = AddRootWorkbench();
+                craftingCdAuthoring.canCraftObjects.Insert(0, new CraftableObject() { objectID = newWorkbench, amount = 1 });
+                AddWorkbenchItem(newWorkbench, entityId);
+                return;
+            }
+
+            CoreLibPlugin.Logger.LogWarning($"Workbench {workBenchId.ToString()} has ran out of slots!");
+            return;
+        }
+
+        CoreLibPlugin.Logger.LogError($"Failed to add workbench item! Found no entities in the list with ID: {workBenchId}.");
+    }
+
+
+    /// <summary>
+    /// Add new entity.
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity id</param>
+    /// <param name="prefabPath">path to your prefab in asset bundle</param>
+    /// <returns>Added objectID. If adding failed returns <see cref="ObjectID.None"/></returns>
     /// <exception cref="InvalidOperationException">Throws if called too late</exception>
-    public static ObjectID AddEntity(string itemId, string path)
+    public static ObjectID AddEntity(string itemId, string prefabPath)
+    {
+        return AddEntityWithVariations(itemId, new[] { prefabPath });
+    }
+
+    /// <summary>
+    /// Add new entity with variations. Each prefab must have variation field set.
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity id</param>
+    /// <param name="prefabsPaths">paths to your prefabs in asset bundle</param>
+    /// <returns>Added objectID. If adding failed returns <see cref="ObjectID.None"/></returns>
+    /// <exception cref="InvalidOperationException">Throws if called too late</exception>
+    public static ObjectID AddEntityWithVariations(string itemId, string[] prefabsPaths)
     {
         ThrowIfNotLoaded();
-        if (hasInjected)
-        {
-            throw new InvalidOperationException($"AddEntity called too late. Entity injection already done. Prefab path: {path}");
-        }
+        ThrowIfTooLate(nameof(AddEntityWithVariations));
 
-        Object gameObject = LoadAsset(path);
-        if (gameObject == null)
+        if (prefabsPaths.Length == 0)
         {
-            CoreLibPlugin.Logger.LogInfo($"Failed to add entity, path: {path}");
+            CoreLibPlugin.Logger.LogError($"Failed to add entity {itemId}: prefabsPaths has no paths!");
             return ObjectID.None;
         }
 
-        EntityMonoBehaviourData data = gameObject.Cast<GameObject>().GetComponent<EntityMonoBehaviourData>();
+        List<EntityMonoBehaviourData> entities = new List<EntityMonoBehaviourData>(prefabsPaths.Length);
 
-        if (!ValidateEntity(data))
+        foreach (string prefabPath in prefabsPaths)
         {
-            CoreLibPlugin.Logger.LogError(
-                "Trying to add a entity with EntityMonoBehavior! This is not supported yet! Please don't try to bypass this, it will not work!");
-            return ObjectID.None;
+            try
+            {
+                EntityMonoBehaviourData entity = LoadPrefab(itemId, prefabPath);
+                entities.Add(entity);
+            }
+            catch (ArgumentException)
+            {
+                CoreLibPlugin.Logger.LogError($"Failed to add entity {itemId}, prefab {prefabPath} is missing!");
+                return ObjectID.None;
+            }
         }
 
-        int itemIndex = NextFreeId();
-        itemIndex = modItemIDs.Bind("Items", itemId, itemIndex).Value;
+        entities.Sort((a, b) => a.objectInfo.variation.CompareTo(b.objectInfo.variation));
 
-        takenIDs.Add(itemIndex);
-        modIDs.Add(itemId, itemIndex);
+        int itemIndex = modEntityIDs.GetNextId(itemId);
+        ObjectID objectID = (ObjectID)itemIndex;
 
-        data.objectInfo.objectID = (ObjectID)itemIndex;
 
-        entitiesToAdd.Add(data);
-        CoreLibPlugin.Logger.LogInfo($"Added entity {data.objectInfo.objectID}, path: {path}!");
-        return (ObjectID)itemIndex;
+        foreach (EntityMonoBehaviourData entity in entities)
+        {
+            entity.objectInfo.objectID = objectID;
+        }
+
+        entitiesToAdd.Add(objectID, entities);
+        CoreLibPlugin.Logger.LogDebug($"Added entity {itemId} as objectID: {objectID}!");
+        return objectID;
+    }
+
+    /// <summary>
+    /// Add one or more custom tilesets. Prefab must be <see cref="MapWorkshopTilesetBank"/> with fields 'friendlyName' set to tileset ids
+    /// </summary>
+    /// <param name="tilesetPath">path to your prefab in asset bundle</param>
+    /// <exception cref="ArgumentException">If provided prefab was not found</exception>
+    /// <exception cref="InvalidOperationException">Throws if called too late</exception>
+    public static void AddCustomTileset(string tilesetPath)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(AddCustomTileset));
+
+        MapWorkshopTilesetBank tilesetBank = ResourcesModule.LoadAsset<MapWorkshopTilesetBank>(tilesetPath);
+        if (tilesetBank == null)
+        {
+            throw new ArgumentException($"Not found MapWorkshopTilesetBank asset at path: {tilesetPath}");
+        }
+
+        foreach (MapWorkshopTilesetBank.Tileset tileset in tilesetBank.tilesets)
+        {
+            try
+            {
+                int itemIndex = tilesetIDs.GetNextId(tileset.friendlyName);
+                Tileset tilesetID = (Tileset)itemIndex;
+
+                if (tilesetLayers.ContainsKey(tileset.layers.name))
+                {
+                    tileset.layers = tilesetLayers[tileset.layers.name];
+                    CoreLibPlugin.Logger.LogDebug($"Replacing tileset {tileset.friendlyName} layers config with default layers {tileset.layers.name}");
+                }
+
+                customTilesets.Add(tilesetID, tileset);
+                CoreLibPlugin.Logger.LogDebug($"Added tileset {tileset.friendlyName} as TilesetID: {tilesetID}!");
+            }
+            catch (Exception e)
+            {
+                CoreLibPlugin.Logger.LogWarning($"Failed to add tileset {tileset.friendlyName}:\n{e}");
+            }
+        }
     }
 
     /// <summary>
@@ -176,25 +312,14 @@ public static class CustomEntityModule
 
         try
         {
-            Il2CppSystem.Reflection.FieldInfo property = Il2CppType.Of<PlayerCustomizationTable>().GetFields(all)
-                .First(info =>
-                {
-                    Il2CppReferenceArray<Il2CppSystem.Type> args = info.FieldType.GetGenericArguments();
-                    if (args != null && args.Count > 0)
-                    {
-                        Il2CppSystem.Type listType = args.Single();
-                        return listType.Equals(Il2CppType.Of<T>());
-                    }
-
-                    return false;
-                });
+            Il2CppSystem.Reflection.FieldInfo property = Il2CppType.Of<PlayerCustomizationTable>().GetFieldOfType<Il2CppSystem.Collections.Generic.List<T>>();
 
             Il2CppSystem.Collections.Generic.List<T> list = property.GetValue(customizationTable).Cast<Il2CppSystem.Collections.Generic.List<T>>();
             if (list.Count < 255)
             {
-                byte skinId = (byte)list.Count;
+                byte skinIndex = (byte)list.Count;
                 list.Add(skin);
-                return skinId;
+                return skinIndex;
             }
         }
         catch (InvalidOperationException)
@@ -206,21 +331,18 @@ public static class CustomEntityModule
     }
 
     /// <summary>
-    /// Set entity with id EquipmentSkinCD's skin 
+    /// Set entity <see cref="EquipmentSkinCDAuthoring"/> skin 
     /// </summary>
     /// <param name="id">Target Entity ID</param>
     /// <param name="skinId">new skin Index</param>
+    [Obsolete("Use ModEquipmentSkinCDAuthoring instead")]
     public static void SetEquipmentSkin(ObjectID id, byte skinId)
     {
         ThrowIfNotLoaded();
-        if (hasInjected)
-        {
-            throw new InvalidOperationException($"SetEquipmentSkin called too late. Entity injection already done. ObjectID: {id}");
-        }
+        ThrowIfTooLate(nameof(SetEquipmentSkin));
 
-        try
+        if (GetMainEntity(id, out EntityMonoBehaviourData entity))
         {
-            EntityMonoBehaviourData entity = entitiesToAdd.First(data => data.objectInfo.objectID == id);
             EquipmentSkinCDAuthoring skinCdAuthoring = entity.gameObject.GetComponent<EquipmentSkinCDAuthoring>();
             if (skinCdAuthoring != null)
             {
@@ -232,9 +354,39 @@ public static class CustomEntityModule
                 skinCdAuthoring.skin = skinId;
             }
         }
-        catch (InvalidOperationException)
+        else
         {
-            CoreLibPlugin.Logger.LogError($"Failed to set equipment skin! Found no entities in the list with ID: {id}.");
+            CoreLibPlugin.Logger.LogError($"Failed to set equipment skin! Found no registered entities with ID: {id}.");
+        }
+    }
+
+    /// <summary>
+    /// Set entity <see cref="TileCDAuthoring"/> component tileset variable.
+    /// </summary>
+    /// <param name="id">Target entity id</param>
+    /// <param name="tileset">new tileset</param>
+    [Obsolete("Use ModTileCDAuthoring component instead")]
+    public static void SetTileset(ObjectID id, Tileset tileset)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(SetTileset));
+
+        if (GetMainEntity(id, out EntityMonoBehaviourData entity))
+        {
+            TileCDAuthoring tileCdAuthoring = entity.gameObject.GetComponent<TileCDAuthoring>();
+            if (tileCdAuthoring != null)
+            {
+                tileCdAuthoring.tileset = tileset;
+            }
+            else
+            {
+                tileCdAuthoring = entity.gameObject.AddComponent<TileCDAuthoring>();
+                tileCdAuthoring.tileset = tileset;
+            }
+        }
+        else
+        {
+            CoreLibPlugin.Logger.LogError($"Failed to set tileset! Found no registered entities with ID: {id}.");
         }
     }
 
@@ -244,55 +396,105 @@ public static class CustomEntityModule
 
     private static bool _loaded;
 
-    internal static List<ResourceData> modResources = new List<ResourceData>();
-    internal static List<EntityMonoBehaviourData> entitiesToAdd = new List<EntityMonoBehaviourData>();
+    internal static Dictionary<ObjectID, List<EntityMonoBehaviourData>> entitiesToAdd = new Dictionary<ObjectID, List<EntityMonoBehaviourData>>();
+    internal static Dictionary<ObjectID, Action<EntityMonoBehaviourData>> entityModifyFunctions = new Dictionary<ObjectID, Action<EntityMonoBehaviourData>>();
+    internal static Dictionary<string, Action<EntityMonoBehaviourData>> modEntityModifyFunctions = new Dictionary<string, Action<EntityMonoBehaviourData>>();
 
-    internal static ConfigFile modItemIDs;
-    internal static HashSet<int> takenIDs = new HashSet<int>();
-    internal static Dictionary<string, int> modIDs = new Dictionary<string, int>();
+    internal static Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>> customTilesets =
+        new Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>>();
+
+    internal static Dictionary<string, PugMapTileset> tilesetLayers = new Dictionary<string, PugMapTileset>();
+    internal static MapWorkshopTilesetBank.Tileset missingTileset;
+
+    internal static IdBindConfigFile modEntityIDs;
+    internal static IdBindConfigFile tilesetIDs;
+
+    internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
 
     internal static PlayerCustomizationTable customizationTable;
-    
-    internal static readonly Il2CppSystem.Reflection.BindingFlags all = 
-        Il2CppSystem.Reflection.BindingFlags.Instance | 
-        Il2CppSystem.Reflection.BindingFlags.Static | 
-        Il2CppSystem.Reflection.BindingFlags.Public | 
-        Il2CppSystem.Reflection.BindingFlags.NonPublic | 
-        Il2CppSystem.Reflection.BindingFlags.GetField | 
-        Il2CppSystem.Reflection.BindingFlags.SetField | 
-        Il2CppSystem.Reflection.BindingFlags.GetProperty | 
-        Il2CppSystem.Reflection.BindingFlags.SetProperty;
 
+    public const int modEntityIdRangeStart = 33000;
+    public const int modEntityIdRangeEnd = 65535;
 
-    public const int modIdRangeStart = 12000;
-    public const int modIdRangeEnd = 13000;
-
-    internal static int firstUnusedId = modIdRangeStart;
-
-    internal static string[] spriteFileExtensions = { ".jpg", ".png", ".tif" };
-    internal static string[] audioClipFileExtensions = { ".mp3", ".ogg", ".waw", ".aif" };
+    public const int modTilesetIdRangeStart = 100;
+    public const int modTilesetIdRangeEnd = 200;
 
     internal static bool hasInjected;
 
-    /// <summary>
-    /// Trust me. You don't know what you are doing!
-    /// </summary>
-    public static SpecialToggle I_KNOW_WHAT_IM_DOING = new SpecialToggle();
+    public const string RootWorkbench = "CoreLib:RootModWorkbench";
 
     [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
     internal static void SetHooks()
     {
         CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
     internal static void Load()
     {
         BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
-        modItemIDs = new ConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModItemID.cfg", true, metadata);
+        modEntityIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModEntityID.cfg", metadata, modEntityIdRangeStart, modEntityIdRangeEnd);
+        tilesetIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.TilesetID.cfg", metadata, modTilesetIdRangeStart, modTilesetIdRangeEnd);
 
+        ClassInjector.RegisterTypeInIl2Cpp<EntityPrefabOverride>();
         ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterial>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModEntityMonoBehavior>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModProjectile>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModCDAuthoringBase>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModTileCDAuthoring>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModEquipmentSkinCDAuthoring>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModDropsLootFromTableCDAuthoring>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModRangeWeaponCDAuthoring>();
+        RegisterModifications(typeof(CustomEntityModule));
+
+        InitTilesets();
+        AddRootWorkbench();
+    }
+
+    private static void InitTilesets()
+    {
+        MapWorkshopTilesetBank vanillaBank = TilesetTypeUtility.tilesetBank;
+        if (vanillaBank != null)
+        {
+            foreach (MapWorkshopTilesetBank.Tileset tileset in vanillaBank.tilesets)
+            {
+                string layersName = tileset.layers.name;
+                if (!tilesetLayers.ContainsKey(layersName))
+                {
+                    tilesetLayers.Add(layersName, tileset.layers);
+                }
+            }
+        }
+        else
+        {
+            CoreLibPlugin.Logger.LogError("Failed to get default tileset layers!");
+        }
+
+        MapWorkshopTilesetBank tilesetBank = ResourcesModule.LoadAsset<MapWorkshopTilesetBank>("Assets/CoreLib/Tileset/MissingTileset");
+
+        missingTileset = tilesetBank.tilesets._items[0];
+
+        if (tilesetLayers.ContainsKey(missingTileset.layers.name))
+        {
+            missingTileset.layers = tilesetLayers[missingTileset.layers.name];
+        }
+    }
+
+    [EntityModification(ObjectID.Player)]
+    private static void EditPlayer(EntityMonoBehaviourData entity)
+    {
+        CraftingCDAuthoring craftingCdAuthoring = entity.GetComponent<CraftingCDAuthoring>();
+        craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = rootWorkbenches.First(), amount = 1 });
+    }
+
+    private static ObjectID AddRootWorkbench()
+    {
+        ObjectID workbench = AddWorkbench(RootWorkbench, "Assets/CoreLib/Textures/modWorkbench", null);
+        rootWorkbenches.Add(workbench);
+        AddEntityLocalization(workbench, $"Root Workbench {rootWorkbenches.Count}", "This workbench contains all modded workbenches!");
+        return workbench;
     }
 
     internal static void ThrowIfNotLoaded()
@@ -305,89 +507,194 @@ public static class CustomEntityModule
         }
     }
 
-    private static bool IsIdFree(int id)
+    internal static void ThrowIfTooLate(string methodName)
     {
-        if (id is < modIdRangeStart or >= modIdRangeEnd)
+        if (hasInjected)
         {
-            return false;
+            throw new InvalidOperationException($"{nameof(CustomEntityModule)}.{methodName}() method called too late! Entity injection is already done.");
         }
-
-        if (modItemIDs.GetOrphanedEntries().Any(pair =>
-            {
-                if (int.TryParse(pair.Value, out int value))
-                {
-                    return value == id;
-                }
-
-                return false;
-            }))
-        {
-            return false;
-        }
-
-        if (modItemIDs.Any(pair => { return (int)pair.Value.BoxedValue == id; }))
-        {
-            return false;
-        }
-
-        return !takenIDs.Contains(id);
     }
 
-    private static int NextFreeId()
+    private static bool IsRootWorkbench(ObjectID objectID)
     {
-        if (IsIdFree(firstUnusedId))
+        return rootWorkbenches.Contains(objectID);
+    }
+
+    internal static bool GetMainEntity(ObjectID objectID, out EntityMonoBehaviourData entity)
+    {
+        if (entitiesToAdd.ContainsKey(objectID))
         {
-            int id = firstUnusedId;
-            firstUnusedId++;
-            return id;
+            entity = entitiesToAdd[objectID][0];
+            return true;
         }
-        else
+
+        entity = null;
+        return false;
+    }
+
+    internal static bool GetEntity(ObjectID objectID, int variation, out EntityMonoBehaviourData entity)
+    {
+        if (entitiesToAdd.ContainsKey(objectID))
         {
-            while (!IsIdFree(firstUnusedId))
+            var entities = entitiesToAdd[objectID];
+            foreach (EntityMonoBehaviourData entityData in entities)
             {
-                firstUnusedId++;
-                if (firstUnusedId >= modIdRangeEnd)
+                if (entityData.objectInfo.variation == variation)
                 {
-                    throw new InvalidOperationException("Reached last mod range id! Report this to CoreLib developers!");
+                    entity = entityData;
+                    return true;
                 }
             }
-
-            int id = firstUnusedId;
-            firstUnusedId++;
-            return id;
         }
+
+        entity = null;
+        return false;
     }
 
-    private static bool ValidateEntity(EntityMonoBehaviourData data)
-    {
-        if (I_KNOW_WHAT_IM_DOING.Value) return true;
 
-        bool isValid = true;
-        foreach (PrefabInfo prefabInfo in data.objectInfo.prefabInfos)
+    private static ObjectID AddWorkbench(string itemId, string spritePath, List<CraftingData> recipe)
+    {
+        Sprite[] sprites = ResourcesModule.LoadSprites(spritePath).OrderSprites();
+        if (sprites == null || sprites.Length != 2)
         {
-            if (prefabInfo.prefab != null)
+            CoreLibPlugin.Logger.LogError($"Failed to add workbench! Provided sprite must be in 'Multiple' mode and have two sprites!");
+            return ObjectID.None;
+        }
+
+        ObjectID id = AddEntity(itemId, "Assets/CoreLib/Objects/TemplateWorkbench");
+        if (GetMainEntity(id, out EntityMonoBehaviourData entity))
+        {
+            entity.objectInfo.icon = sprites[0];
+            entity.objectInfo.smallIcon = sprites[1];
+            if (recipe != null)
             {
-                isValid = false;
-                break;
+                entity.objectInfo.requiredObjectsToCraft = recipe.Select(data =>
+                {
+                    return new CraftingObject()
+                    {
+                        objectID = data.objectID,
+                        amount = data.amount
+                    };
+                }).ToIl2CppList();
+            }
+
+            CraftingCDAuthoring comp = entity.gameObject.AddComponent<CraftingCDAuthoring>();
+            comp.craftingType = CraftingType.Simple;
+            comp.canCraftObjects = new Il2CppSystem.Collections.Generic.List<CraftableObject>(4);
+        }
+
+        return id;
+    }
+
+    private static EntityMonoBehaviourData LoadPrefab(string itemId, string prefabPath)
+    {
+        Object gameObject = ResourcesModule.LoadAsset(prefabPath);
+        if (gameObject == null)
+        {
+            throw new ArgumentException($"Found no prefab at path: {prefabPath}");
+        }
+
+        GameObject prefab = gameObject.TryCast<GameObject>();
+        if (prefab == null)
+        {
+            throw new ArgumentException($"Object at path: {prefabPath} is not a Prefab!");
+        }
+
+        GameObject newPrefab = Object.Instantiate(prefab);
+
+        EntityMonoBehaviourData entityData = newPrefab.GetComponent<EntityMonoBehaviourData>();
+
+        string fullItemId = $"{itemId}_{entityData.objectInfo.variation}";
+
+        newPrefab.name = $"{fullItemId}_Prefab";
+        newPrefab.hideFlags = HideFlags.HideAndDontSave;
+
+        GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
+        if (ghost != null)
+        {
+            ghost.Name = itemId;
+            ghost.prefabId = fullItemId.GetGUID();
+        }
+
+        Il2CppArrayBase<MonoBehaviour> components;
+        foreach (PrefabInfo prefabInfo in entityData.objectInfo.prefabInfos)
+        {
+            if (prefabInfo.prefab == null) continue;
+
+            components = prefabInfo.prefab.GetComponentsInChildren<MonoBehaviour>();
+            foreach (MonoBehaviour component in components)
+            {
+                Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
+                if (method != null)
+                {
+                    method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+                }
+            }
+        }
+        
+        components = newPrefab.GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour component in components)
+        {
+            Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
+            if (method != null)
+            {
+                method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             }
         }
 
-        if (data.objectInfo.objectType is ObjectType.Creature or ObjectType.PlaceablePrefab or ObjectType.PlayerType)
-        {
-            isValid = false;
-        }
-
-        return isValid;
+        return entityData;
     }
 
-    private static string WithExtension(this string path, string extension)
+    private static void RegisterModifications_Internal(Assembly assembly)
     {
-        if (path.EndsWith(extension))
+        IEnumerable<Type> types = assembly.GetTypes().Where(HasAttribute);
+
+        foreach (Type type in types)
         {
-            return path;
+            RegisterModificationsInType_Internal(type);
+        }
+    }
+
+    private static void RegisterModificationsInType_Internal(Type type)
+    {
+        int modifiersCount = 0;
+
+        IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(HasAttribute);
+        foreach (MethodInfo method in methods)
+        {
+            EntityModificationAttribute attribute = method.GetCustomAttribute<EntityModificationAttribute>();
+
+            var parameters = method.GetParameters();
+            if (method.ReturnParameter.ParameterType == typeof(void) &&
+                parameters.Length == 1 &&
+                parameters[0].ParameterType == typeof(EntityMonoBehaviourData))
+            {
+                Action<EntityMonoBehaviourData> modifyDelegate = method.CreateDelegate<Action<EntityMonoBehaviourData>>();
+
+                if (!string.IsNullOrEmpty(attribute.modTarget))
+                {
+                    modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
+                }
+                else
+                {
+                    entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
+                }
+
+                modifiersCount++;
+            }
+            else
+            {
+                CoreLibPlugin.Logger.LogWarning(
+                    $"Failed to add modify method '{method.FullDescription()}', because method signature is incorrect. Should be void ({nameof(EntityMonoBehaviourData)})!");
+            }
         }
 
-        return path + extension;
+        CoreLibPlugin.Logger.LogInfo($"Registered {modifiersCount} entity modifiers in type {type.FullName}!");
+    }
+
+    private static bool HasAttribute(MemberInfo type)
+    {
+        return type.GetCustomAttribute<EntityModificationAttribute>() != null;
     }
 
     #endregion

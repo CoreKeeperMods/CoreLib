@@ -49,7 +49,7 @@ public static class Rewired_Patch
 
             for (int i = 0; i < __instance.keyboardMaps.Count; i++)
             {
-                ControllerMap_Editor map = __instance.keyboardMaps[i];
+                ControllerMap_Editor map = __instance.keyboardMaps._items[i];
                 if (map.categoryId == newAction.categoryId)
                 {
                     ActionElementMap newElementMap = new ActionElementMap()
