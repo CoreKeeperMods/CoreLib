@@ -4,7 +4,7 @@
 	"version_number": "1.1.0",
 	"dependencies": 
 	[
-		"BepInEx-BepInExPack_Core_Keeper-1.0.0"
+		"BepInEx-BepInExPack_Core_Keeper-2.0.0"
 	],
 	"website_url": "https://github.com/Jrprogrammer/CoreLib"
 }

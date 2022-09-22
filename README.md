@@ -39,6 +39,7 @@ This library is still WIP.
 <summary>Changelog</summary>
 
 ### v1.1.0
+- Update to BepInEx 6.0.0-be.656
 - Added Audio Module
 - Added Drop Tables module
 - Added Mod Resources module
