@@ -291,9 +291,9 @@ public static class CustomEntityModule
     public static void AddEntityLocalization(ObjectID obj, string enName, string enDesc, string cnName = "", string cnDesc = "")
     {
         if (obj == ObjectID.None) return;
-
-        LocalizationModule.AddTerm($"Items/{(int)obj}", enName, cnName);
-        LocalizationModule.AddTerm($"Items/{(int)obj}Desc", enDesc, cnDesc);
+        
+        LocalizationModule.AddTerm($"Items/{obj}", enName, cnName);
+        LocalizationModule.AddTerm($"Items/{obj}Desc", enDesc, cnDesc);
     }
 
     /// <summary>
