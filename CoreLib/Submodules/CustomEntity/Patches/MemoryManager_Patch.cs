@@ -1,4 +1,5 @@
-﻿using CoreLib.Components;
+﻿using System;
+using CoreLib.Components;
 using HarmonyLib;
 using UnityEngine;
 
@@ -67,7 +68,14 @@ public static class MemoryManager_Patch
         var customAuthorings = gameObject.GetComponentsInChildren<ModCDAuthoringBase>();
         foreach (ModCDAuthoringBase customAuthoring in customAuthorings)
         {
-            customAuthoring.Apply(entityData);
+            try
+            {
+                customAuthoring.Apply(entityData);
+            }
+            catch (Exception e)
+            {
+                CoreLibPlugin.Logger.LogWarning($"Failed to apply {customAuthoring.GetIl2CppType().FullName} on {customAuthoring.name}:\n{e}");
+            }
         }
     }
 }

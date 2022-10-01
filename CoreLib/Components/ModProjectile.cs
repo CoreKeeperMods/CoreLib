@@ -34,7 +34,7 @@ namespace CoreLib.Components
 
         public override void Awake()
         {
-            base.Awake();
+            this.CallBase<EntityMonoBehaviour>(nameof(Awake));
             Allocate();
         }
 
@@ -71,7 +71,7 @@ namespace CoreLib.Components
 
         public override void OnDestroy()
         {
-            base.OnDestroy();
+            this.CallBase<PoolableSimple>(nameof(OnDestroy));
 
             optionalColorReplacersHandle.Free();
             optionalColorSpriteSheetSkinsHandle.Free();
