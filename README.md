@@ -38,6 +38,9 @@ This library is still WIP.
 <details>
 <summary>Changelog</summary>
 
+### v1.1.1
+- @ `CaptainStupid#8539`: Fix for Localization failing on vanilla ObjectIDs
+
 ### v1.1.0
 - Update to BepInEx 6.0.0-be.656
 - Added Audio Module

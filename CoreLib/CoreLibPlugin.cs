@@ -14,9 +14,9 @@ public class CoreLibPlugin : BasePlugin {
 
     public const string GUID = "com.le4fless.corelib";
     public const string NAME = "CoreLib";
-    public const string VERSION = "1.1.0";
+    public const string VERSION = "1.1.1";
         
-    public static readonly GameVersion buildFor = new GameVersion(0,4,5,"e6bd");
+    public static readonly GameVersion buildFor = new GameVersion(0,4,6,"b7ff");
     internal static HashSet<string> LoadedSubmodules;
     internal static APISubmoduleHandler submoduleHandler;
     internal static Harmony harmony;
