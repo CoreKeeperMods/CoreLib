@@ -16,6 +16,8 @@ namespace CoreLib.Components
         private GCHandle lightPaintColorsHandle;
         private GCHandle optionalSpriteSheetSkinsHandle;
         private GCHandle skinSpriteSheetsHandle;
+        private GCHandle seasonalSkinSpriteSheetsHandle;
+        private GCHandle conditionsEffectsSettingsHandle;
         private GCHandle spritesToRandomlyOffsetSlightlyOnZHandle;
         private GCHandle sfxParamsHandle;
         private GCHandle puffParamsHandle;
@@ -23,7 +25,6 @@ namespace CoreLib.Components
         private GCHandle particleSpawnLocationsHandle;
         private GCHandle spritesToRandomlyFlipHandle;
         private GCHandle particlesToDisableOnLowQualityHandle;
-        private GCHandle conditionsEffectsSettingsHandle;
         private GCHandle defaultSpritePositionsHandle;
 
         protected bool allocated;
@@ -32,7 +33,7 @@ namespace CoreLib.Components
 
         public override void Awake()
         {
-            base.Awake();
+            this.CallBase<EntityMonoBehaviour>(nameof(Awake));
             Allocate();
         }
 
@@ -51,6 +52,7 @@ namespace CoreLib.Components
             lightPaintColorsHandle = GCHandle.Alloc(lightPaintColors);
             optionalSpriteSheetSkinsHandle = GCHandle.Alloc(optionalSpriteSheetSkins);
             skinSpriteSheetsHandle = GCHandle.Alloc(skinSpriteSheets);
+            seasonalSkinSpriteSheetsHandle = GCHandle.Alloc(seasonalSkinSpriteSheets);
             spritesToRandomlyOffsetSlightlyOnZHandle = GCHandle.Alloc(spritesToRandomlyOffsetSlightlyOnZ);
             sfxParamsHandle = GCHandle.Alloc(sfxParams);
             puffParamsHandle = GCHandle.Alloc(puffParams);
@@ -67,7 +69,7 @@ namespace CoreLib.Components
 
         public override void OnDestroy()
         {
-            base.OnDestroy();
+            this.CallBase<PoolableSimple>(nameof(OnDestroy));
 
             optionalColorReplacersHandle.Free();
             optionalColorSpriteSheetSkinsHandle.Free();
@@ -80,6 +82,7 @@ namespace CoreLib.Components
             lightPaintColorsHandle.Free();
             optionalSpriteSheetSkinsHandle.Free();
             skinSpriteSheetsHandle.Free();
+            seasonalSkinSpriteSheetsHandle.Free();
             spritesToRandomlyOffsetSlightlyOnZHandle.Free();
             sfxParamsHandle.Free();
             puffParamsHandle.Free();
