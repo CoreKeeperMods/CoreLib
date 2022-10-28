@@ -139,6 +139,22 @@ public static class CustomEntityModule
             AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
         return workbenchId;
     }
+    
+    /// <summary>
+    /// Add custom workbench with specified sprite.
+    /// </summary>
+    /// <param name="itemId">UNIQUE entity Id</param>
+    /// <param name="spritePath">path to your sprite in asset bundle</param>
+    /// <param name="recipe">workbench craft recipe</param>
+    public static ObjectID AddModWorkbench(string itemId, string bigIconPath, string smallIconPath, List<CraftingData> recipe, bool bindToRootWorkbench)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(AddModWorkbench));
+        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe);
+        if (bindToRootWorkbench)
+            AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        return workbenchId;
+    }
 
 
     /// <summary>
@@ -216,6 +232,7 @@ public static class CustomEntityModule
             try
             {
                 EntityMonoBehaviourData entity = LoadPrefab(itemId, prefabPath);
+                CallAlloc(entity);
                 entities.Add(entity);
             }
             catch (ArgumentException)
@@ -227,6 +244,20 @@ public static class CustomEntityModule
 
         entities.Sort((a, b) => a.objectInfo.variation.CompareTo(b.objectInfo.variation));
 
+        return AddEntityWithVariations(itemId, entities);
+    }
+
+    public static ObjectID AddEntityWithVariations(string itemId, List<EntityMonoBehaviourData> entities)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(AddEntityWithVariations));
+        
+        if (entities.Count == 0)
+        {
+            CoreLibPlugin.Logger.LogError($"Failed to add entity {itemId}: entities has no entities!");
+            return ObjectID.None;
+        }
+        
         int itemIndex = modEntityIDs.GetNextId(itemId);
         ObjectID objectID = (ObjectID)itemIndex;
 
@@ -550,7 +581,14 @@ public static class CustomEntityModule
         entity = null;
         return false;
     }
+    
+    private static ObjectID AddWorkbench(string itemId, string bigIconPath, string smallIconPath, List<CraftingData> recipe)
+    {
+        Sprite bigIcon = ResourcesModule.LoadAsset<Sprite>(bigIconPath);
+        Sprite smallIcon = ResourcesModule.LoadAsset<Sprite>(smallIconPath);
 
+        return AddWorkbench(itemId, bigIcon, smallIcon, recipe);
+    }
 
     private static ObjectID AddWorkbench(string itemId, string spritePath, List<CraftingData> recipe)
     {
@@ -561,11 +599,16 @@ public static class CustomEntityModule
             return ObjectID.None;
         }
 
+        return AddWorkbench(itemId, sprites[0], sprites[1], recipe);
+    }
+
+    private static ObjectID AddWorkbench(string itemId, Sprite bigIcon, Sprite smallIcon, List<CraftingData> recipe)
+    {
         ObjectID id = AddEntity(itemId, "Assets/CoreLib/Objects/TemplateWorkbench");
         if (GetMainEntity(id, out EntityMonoBehaviourData entity))
         {
-            entity.objectInfo.icon = sprites[0];
-            entity.objectInfo.smallIcon = sprites[1];
+            entity.objectInfo.icon = bigIcon;
+            entity.objectInfo.smallIcon = smallIcon;
             if (recipe != null)
             {
                 entity.objectInfo.requiredObjectsToCraft = recipe.Select(data =>
@@ -586,7 +629,7 @@ public static class CustomEntityModule
         return id;
     }
 
-    private static EntityMonoBehaviourData LoadPrefab(string itemId, string prefabPath)
+    internal static EntityMonoBehaviourData LoadPrefab(string itemId, string prefabPath)
     {
         Object gameObject = ResourcesModule.LoadAsset(prefabPath);
         if (gameObject == null)
@@ -615,7 +658,12 @@ public static class CustomEntityModule
             ghost.Name = itemId;
             ghost.prefabId = fullItemId.GetGUID();
         }
+        
+        return entityData;
+    }
 
+    internal static void CallAlloc(EntityMonoBehaviourData entityData)
+    {
         Il2CppArrayBase<MonoBehaviour> components;
         foreach (PrefabInfo prefabInfo in entityData.objectInfo.prefabInfos)
         {
@@ -631,8 +679,8 @@ public static class CustomEntityModule
                 }
             }
         }
-        
-        components = newPrefab.GetComponents<MonoBehaviour>();
+
+        components = entityData.gameObject.GetComponents<MonoBehaviour>();
         foreach (MonoBehaviour component in components)
         {
             Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
@@ -641,8 +689,6 @@ public static class CustomEntityModule
                 method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
             }
         }
-
-        return entityData;
     }
 
     private static void RegisterModifications_Internal(Assembly assembly)
