@@ -38,6 +38,9 @@ This library is still WIP.
 <details>
 <summary>Changelog</summary>
 
+### v1.1.2
+- Fixed crashes and issues when using advanced features of CustomEntityModule
+
 ### v1.1.1
 - @ `CaptainStupid#8539`: Fix for Localization failing on vanilla ObjectIDs
 
