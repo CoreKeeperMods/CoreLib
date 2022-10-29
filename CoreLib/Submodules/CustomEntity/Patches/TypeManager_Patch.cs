@@ -19,19 +19,8 @@ namespace CoreLib.Submodules.CustomEntity.Patches
             {
                 done = true;
 
-                CoreLibPlugin.Logger.LogInfo("Adding components!");
-                DOTSUtil.AddNewComponentTypes(Il2CppType.Of<CustomCD>(), Il2CppType.Of<CustomCDAuthoring>());
-                
-                int componentIndex = ECSExtensions.GetTypeIndex<CustomCD>();
-                int authoringIndex = ECSExtensions.GetTypeIndex<CustomCDAuthoring>();
-                int minecartIndex = ECSExtensions.GetTypeIndex<LevelCD>();
-                int minecartAuthoringIndex = ECSExtensions.GetTypeIndex<LevelCDAuthoring>();
-                int minecartIndexOrg = TypeManager.GetTypeIndex<LevelCD>();
-                int minecartAuthoringIndexOrg = TypeManager.GetTypeIndex<LevelCDAuthoring>();
-                
-                CoreLibPlugin.Logger.LogInfo($"CustomCD index: {componentIndex}, authoring: {authoringIndex}");
-                CoreLibPlugin.Logger.LogInfo($"LevelCD index: {minecartIndex}, authoring: {minecartAuthoringIndex}");
-                CoreLibPlugin.Logger.LogInfo($"LevelCD ORG method index: {minecartIndexOrg}, authoring: {minecartAuthoringIndexOrg}");
+                CoreLibPlugin.Logger.LogInfo($"Adding {CustomEntityModule.customComponentsTypes.Count} custom components!");
+                ECSExtensions.AddNewComponentTypes(CustomEntityModule.customComponentsTypes.ToArray());
             }
         }
     }

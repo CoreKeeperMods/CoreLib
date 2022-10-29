@@ -421,6 +421,25 @@ public static class CustomEntityModule
         }
     }
 
+    public static void RegisterECSComponent<T>()
+    {
+        RegisterECSComponent(typeof(T));
+    }
+
+    public static void RegisterECSComponent(Type componentType)
+    {
+        if (!ClassInjector.IsTypeRegisteredInIl2Cpp(componentType))
+            ClassInjector.RegisterTypeInIl2Cpp(componentType);
+        
+        Il2CppSystem.Type il2CppType = Il2CppType.From(componentType);
+        
+        if (!customComponentsTypes.Contains(il2CppType))
+        {
+            CoreLibPlugin.Logger.LogDebug($"Registering ECS component {componentType.FullName}");
+            customComponentsTypes.Add(il2CppType);
+        }
+    }
+    
     #endregion
 
     #region PrivateImplementation
@@ -442,6 +461,8 @@ public static class CustomEntityModule
 
     internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
 
+    internal static List<Il2CppSystem.Type> customComponentsTypes = new List<Il2CppSystem.Type>();
+        
     internal static PlayerCustomizationTable customizationTable;
 
     public const int modEntityIdRangeStart = 33000;
@@ -460,6 +481,7 @@ public static class CustomEntityModule
         CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(TypeManager_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
