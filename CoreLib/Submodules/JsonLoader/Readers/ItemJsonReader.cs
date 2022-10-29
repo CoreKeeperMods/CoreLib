@@ -19,7 +19,8 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         public void ApplyPre(JsonNode jObject)
         {
             string itemId = jObject["itemId"].GetValue<string>();
-            EntityMonoBehaviourData entityData = CustomEntityModule.LoadPrefab(itemId, "Assets/CoreLib/Objects/TemplateItem");
+            GameObject go = new GameObject();
+            EntityMonoBehaviourData entityData = go.AddComponent<EntityMonoBehaviourData>();
 
             entityData.objectInfo = jObject.Deserialize<ObjectInfo>(JsonLoaderModule.options);
             entityData.objectInfo.prefabInfos = new List<PrefabInfo>();
@@ -28,6 +29,11 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                 {
                     ecsPrefab = entityData.gameObject
                 });
+            
+            string fullItemId = $"{itemId}_{entityData.objectInfo.variation}";
+
+            go.name = $"{fullItemId}_Prefab";
+            go.hideFlags = HideFlags.HideAndDontSave;
             JsonLoaderModule.FillArrays(typeof(ObjectInfo), entityData.objectInfo);
 
             if (jObject["components"] != null)
@@ -48,10 +54,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                     }
                 }
             }
-/*
-            CustomCDAuthoring testComponent = entityData.gameObject.AddComponent<CustomCDAuthoring>();
-            testComponent.value = Random.Range(1,15);*/
-                
+
             CustomEntityModule.CallAlloc(entityData);
             ObjectID objectID = CustomEntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
 

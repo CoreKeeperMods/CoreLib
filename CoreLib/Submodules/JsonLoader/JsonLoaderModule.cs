@@ -178,17 +178,23 @@ namespace CoreLib.Submodules.JsonLoader
         private static void OverwriteProperty(Type type, object target, KeyValuePair<string, JsonNode> updatedProperty)
         {
             var propertyInfo = type.GetProperty(updatedProperty.Key);
+            var fieldInfo = type.GetField(updatedProperty.Key);
 
-            if (propertyInfo == null)
+            if (propertyInfo != null)
             {
-                CoreLibPlugin.Logger.LogInfo("No property!");
-                return;
+                var parsedValue = updatedProperty.Value.Deserialize(propertyInfo.PropertyType, options);
+
+                propertyInfo.SetValue(target, parsedValue);
+            }else if (fieldInfo != null)
+            {
+                var parsedValue = updatedProperty.Value.Deserialize(fieldInfo.FieldType, options);
+
+                fieldInfo.SetValue(target, parsedValue);
             }
-
-            var propertyType = propertyInfo.PropertyType;
-            var parsedValue = updatedProperty.Value.Deserialize(propertyType, options);
-
-            propertyInfo.SetValue(target, parsedValue);
+            else
+            {
+                CoreLibPlugin.Logger.LogInfo($"Found no property/field named {updatedProperty.Key} in {type.FullName}");
+            }
         }
 
         public static void FillArrays(Type type, object target)
