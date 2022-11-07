@@ -218,13 +218,13 @@ namespace CoreLib.Util.Extensions
         public static unsafe T GetModComponentData<T>(this EntityManager entityManager, Entity entity)
         {
             int typeIndex = GetModTypeIndex<T>();
-            var dataAccess = entityManager.GetCheckedEntityDataAccessFix();
+            var dataAccess = entityManager.GetCheckedEntityDataAccess();
             if (!dataAccess->IsInExclusiveTransaction)
             {
                 (&dataAccess->m_DependencyManager)->CompleteWriteDependency(typeIndex);
             }
 
-            byte* ret = GetComponentDataWithTypeRO(GetEntityComponentStore(dataAccess), entity, typeIndex);
+            byte* ret = dataAccess->EntityComponentStore->GetComponentDataWithTypeRO(entity, typeIndex);
 
             return Marshal.PtrToStructure<T>((IntPtr)ret);
         }
@@ -240,15 +240,15 @@ namespace CoreLib.Util.Extensions
         public static unsafe void SetModComponentData<T>(this EntityManager entityManager, Entity entity, T component)
         {
             int typeIndex = GetModTypeIndex<T>();
-            var dataAccess = entityManager.GetCheckedEntityDataAccessFix();
-            var componentStore = GetEntityComponentStore(dataAccess);
+            var dataAccess = entityManager.GetCheckedEntityDataAccess();
+            var componentStore = dataAccess->EntityComponentStore;
 
             if (!dataAccess->IsInExclusiveTransaction)
             {
                 (&dataAccess->m_DependencyManager)->CompleteReadAndWriteDependency(typeIndex);
             }
 
-            byte* writePtr = GetComponentDataWithTypeRW(componentStore, entity, typeIndex, componentStore->m_GlobalSystemVersion);
+            byte* writePtr = componentStore->GetComponentDataWithTypeRW(entity, typeIndex, componentStore->m_GlobalSystemVersion);
             Marshal.StructureToPtr(component, (IntPtr)writePtr, false);
         }
 
@@ -265,25 +265,25 @@ namespace CoreLib.Util.Extensions
         public static unsafe bool AddModComponent<T>(this EntityManager entityManager, Entity entity)
         {
             ComponentType componentType = ComponentType.FromTypeIndex(GetModTypeIndex<T>());
-            var dataAccess = entityManager.GetCheckedEntityDataAccessFix();
-            var componentStore = GetEntityComponentStore(dataAccess);
+            var dataAccess = entityManager.GetCheckedEntityDataAccess();
+            var componentStore = dataAccess->EntityComponentStore;
+            
+            CoreLibPlugin.Logger.LogInfo($"DataAccess: {(IntPtr)dataAccess}, ComponentStore: {(IntPtr)componentStore}");
             
             if (dataAccess->HasComponent(entity, componentType))
                 return false;
             
             if (!componentStore->Exists(entity))
                 throw new InvalidOperationException("The entity does not exist");
-            
-            AssertCanAddComponent(componentStore, GetArchetype(componentStore, entity), componentType);
-            
+
             if (!dataAccess->IsInExclusiveTransaction)
                 dataAccess->BeforeStructuralChange();
 
             var changes = componentStore->BeginArchetypeChangeTracking();
+
+            bool result = StructuralChange.AddComponentEntity(componentStore, &entity, componentType.TypeIndex);
             
-            bool result = AddComponentEntity(componentStore, &entity, componentType.TypeIndex);
-            
-            EndArchetypeChangeTracking(componentStore, changes, &dataAccess->m_EntityQueryManager);
+            componentStore->EndArchetypeChangeTracking(changes, &dataAccess->m_EntityQueryManager);
             componentStore->InvalidateChunkListCacheForChangedArchetypes();
             dataAccess->PlaybackManagedChangesMono();
 
@@ -293,7 +293,7 @@ namespace CoreLib.Util.Extensions
         public static unsafe bool HasModComponent<T>(this EntityManager entityManager, Entity entity)
         {
             ComponentType componentType = ComponentType.FromTypeIndex(GetModTypeIndex<T>());
-            var dataAccess = entityManager.GetCheckedEntityDataAccessFix();
+            var dataAccess = entityManager.GetCheckedEntityDataAccess();
 
             return dataAccess->HasComponent(entity, componentType);
         }
@@ -361,7 +361,7 @@ namespace CoreLib.Util.Extensions
             IntPtr intPtr2 = *(IntPtr*)intPtr;
             return (UnsafeList*)intPtr2;
         }
-        
+        /*
         internal static unsafe Archetype* GetArchetype(EntityComponentStore* store, Entity entity)
         {
             return ((Archetype**)store->m_ArchetypeByEntity)[entity.Index];
@@ -439,7 +439,7 @@ namespace CoreLib.Util.Extensions
             Il2CppException.RaiseExceptionIfNecessary(intPtr2);
 
             return  (byte*)intPtr;
-        }
+        }*/
 
         internal static class SharedTypeIndex<TComponent>
         {
