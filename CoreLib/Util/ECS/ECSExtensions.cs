@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using CoreLib.Util.Jobs;
 using HarmonyLib;
 using Il2CppInterop.Common;
 using Il2CppInterop.Runtime;
@@ -9,13 +10,12 @@ using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 using ArgumentException = System.ArgumentException;
-using Array = System.Array;
 using Hash128 = UnityEngine.Hash128;
 using IntPtr = System.IntPtr;
 using InvalidOperationException = System.InvalidOperationException;
 using Unsafe = System.Runtime.CompilerServices.Unsafe;
 
-namespace CoreLib.Util.Extensions
+namespace CoreLib.Util
 {
     /// <summary>
     /// Extensions to allow using ECS components, which do not have AOT compiled variants. Also includes working with modded components
@@ -24,188 +24,110 @@ namespace CoreLib.Util.Extensions
     {
         #region Public
         
-                /// <summary>
-        /// This function allows for unregistered component types to be added to the TypeManager allowing for their use
-        /// across the ECS apis _after_ TypeManager.Initialize() may have been called. Importantly, this function must
-        /// be called from the main thread and will create a synchronization point across all worlds. If a type which
-        /// is already registered with the TypeManager is passed in, this function will throw.
+        /// <summary>
+        /// Gets the run-time type information required to access an array of component data in a chunk.
         /// </summary>
-        /// <remarks>Types with [WriteGroup] attributes will be accepted for registration however their
-        /// write group information will be ignored.</remarks>
-        /// <param name="types"></param>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        public static unsafe void AddNewComponentTypes(params Il2CppSystem.Type[] types)
+        /// <param name="isReadOnly">Whether the component data is only read, not written. Access components as
+        /// read-only whenever possible.</param>
+        /// <typeparam name="T">A struct that implements <see cref="IComponentData"/>.</typeparam>
+        /// <returns>An object representing the type information required to safely access component data stored in a
+        /// chunk.</returns>
+        /// <remarks>Pass an <see cref="ComponentTypeHandle{T}"/> instance to a job that has access to chunk data,
+        /// such as an <see cref="IJobChunk"/> job, to access that type of component inside the job.</remarks>
+        public static unsafe ModComponentTypeHandle<T> GetModComponentTypeHandle<T>(this ComponentSystemBase system, bool isReadOnly = false) where T : struct
         {
-            // We might invalidate the SharedStatics ptr so we must synchronize all jobs that might be using those ptrs
-            foreach (var world in World.All)
-                world.EntityManager.BeforeStructuralChange();
-
-            // Is this a new type, or are we replacing an existing one?
-            foreach (var type in types)
-            {
-                if (TypeManager.s_ManagedTypeToIndex.ContainsKey(type))
-                    continue;
-
-                var typeInfo = TypeManager.BuildComponentType(type);
-                TypeManager.AddTypeInfoToTables(type, typeInfo, type.FullName);
-            }
-
-            // We may have added enough types to cause the underlying containers to resize so re-fetch their ptrs
-            TypeManager.SharedEntityOffsetInfo.Ref.GetData() = TypeManager.s_EntityOffsetList.GetMListData()->Ptr;
-            TypeManager.SharedBlobAssetRefOffset.Ref.GetData() = TypeManager.s_BlobAssetRefOffsetList.GetMListData()->Ptr;
-            TypeManager.SharedWriteGroup.Ref.GetData() = TypeManager.s_WriteGroupList.GetMListData()->Ptr;
-
-            // Since the ptrs may have changed we need to ensure all entity component stores are using the correct ones
-            foreach (var w in World.All)
-            {
-                var access = w.EntityManager.GetCheckedEntityDataAccess();
-                var ecs = access->EntityComponentStore;
-                ecs->InitializeTypeManagerPointers();
-            }
+            SystemState* state =system.CheckedState();
+            return state->GetModComponentTypeHandle<T>(isReadOnly);
         }
         
         /// <summary>
-        /// Get Component Data for entity
+        /// Gets the run-time type information required to access an array of component data in a chunk.
         /// </summary>
-        /// <param name="objectID">Entity ObjectID</param>
-        /// <typeparam name="T">Component Type</typeparam>
-        public static T GetPugComponentData<T>(ObjectID objectID)
+        /// <param name="isReadOnly">Whether the component data is only read, not written. Access components as
+        /// read-only whenever possible.</param>
+        /// <typeparam name="T">A struct that implements <see cref="IComponentData"/>.</typeparam>
+        /// <returns>An object representing the type information required to safely access component data stored in a
+        /// chunk.</returns>
+        /// <remarks>Pass an <see cref="ComponentTypeHandle{T}"/> instance to a job that has access to chunk data,
+        /// such as an <see cref="IJobChunk"/> job, to access that type of component inside the job.</remarks>
+        public static unsafe ModComponentTypeHandle<T> GetModComponentTypeHandle<T>(this SystemState system, bool isReadOnly = false) where T : struct
         {
-            return GetPugComponentData<T>(new ObjectDataCD {objectID = objectID});
+            system.AddReaderWriter(isReadOnly ? ModComponents.ReadOnly<T>() : ModComponents.ReadWrite<T>());
+            return system.EntityManager.GetModComponentTypeHandle<T>(isReadOnly);
         }
         
         /// <summary>
-        /// Get Component Data for entity
+        /// Gets the dynamic type object required to access a chunk component of type T.
         /// </summary>
-        /// <param name="objectData">Entity ObjectDataCD</param>
-        /// <typeparam name="T">Component Type</typeparam>
-        public static T GetPugComponentData<T>(ObjectDataCD objectData)
+        /// <remarks>
+        /// To access a component stored in a chunk, you must have the type registry information for the component.
+        /// This function provides that information. Use the returned <see cref="ComponentTypeHandle{T}"/>
+        /// object with the functions of an <see cref="ArchetypeChunk"/> object to get information about the components
+        /// in that chunk and to access the component values.
+        /// </remarks>
+        /// <param name="isReadOnly">Specify whether the access to the component through this object is read only
+        /// or read and write. For managed components isReadonly will always be treated as false.</param>
+        /// <typeparam name="T">The compile-time type of the component.</typeparam>
+        /// <returns>The run-time type information of the component.</returns>
+
+        public static unsafe ModComponentTypeHandle<T> GetModComponentTypeHandle<T>(this EntityManager entityManager, bool isReadOnly)
         {
-            PugDatabase.InitObjectPrefabEntityLookup();
-            objectData.variation = 0;
-            objectData.amount = 1;
-
-            if (PugDatabase.objectPrefabEntityLookup.ContainsKey(objectData))
-            {
-                World world = World.DefaultGameObjectInjectionWorld;
-                Entity entity = PugDatabase.objectPrefabEntityLookup[objectData];
-                return world.EntityManager.GetModComponentData<T>(entity);
-            }
-
-            CoreLibPlugin.Logger.LogWarning($"No prefab in PugDatabase with objectID: {objectData.objectID}");
-            return default;
-        }
-
-        /// <summary>
-        /// Get Component Data for entity
-        /// </summary>
-        /// <param name="objectID">Entity ObjectID</param>
-        /// <param name="component">Component Data</param>
-        /// <typeparam name="T">Component Type</typeparam>
-        public static void SetPugComponentData<T>(ObjectID objectID, T component)
-        {
-            SetPugComponentData(new ObjectDataCD {objectID = objectID}, component);
-        }
-
-        /// <summary>
-        /// Set Component Data for entity
-        /// </summary>
-        /// <param name="objectData">Entity ObjectDataCD</param>
-        /// <param name="component">Component Data</param>
-        /// <typeparam name="T">Component Type</typeparam>
-        public static void SetPugComponentData<T>(ObjectDataCD objectData, T component)
-        {
-            PugDatabase.InitObjectPrefabEntityLookup();
-            objectData.variation = 0;
-            objectData.amount = 1;
-
-            if (PugDatabase.objectPrefabEntityLookup.ContainsKey(objectData))
-            {
-                World world = World.DefaultGameObjectInjectionWorld;
-                Entity entity = PugDatabase.objectPrefabEntityLookup[objectData];
-                world.EntityManager.SetModComponentData(entity, component);
-            }
-            else
-            {
-                CoreLibPlugin.Logger.LogWarning($"No prefab in PugDatabase with objectID: {objectData.objectID}");
-            }
-        }
-
-        /// <summary>
-        /// Does Entity have component
-        /// </summary>
-        /// <param name="objectID">entity ObjectID</param>
-        /// <typeparam name="T">Component Type</typeparam>
-        public static bool HasPugComponentData<T>(ObjectID objectID)
-        {
-            return HasPugComponentData<T>(new ObjectDataCD {objectID = objectID});
+            return new ModComponentTypeHandle<T>(isReadOnly, entityManager.GlobalSystemVersion);
         }
         
         /// <summary>
-        /// Does Entity have component
+        /// Provides a native array interface to components stored in this chunk.
         /// </summary>
-        /// <param name="objectData">entity ObjectDataCD</param>
-        /// <typeparam name="T">Component Type</typeparam>
-        public static bool HasPugComponentData<T>(ObjectDataCD objectData)
+        /// <remarks>The native array returned by this method references existing data, not a copy.</remarks>
+        /// <param name="chunkComponentTypeHandle">An object containing type and job safety information. Create this
+        /// object by calling <see cref="ComponentSystemBase.GetComponentTypeHandle{T}(bool)"/>immediately
+        /// before scheduling a job. Pass the object to a job using a public field you define as part of the job struct.</param>
+        /// <typeparam name="T">The data type of the component.</typeparam>
+        /// <exception cref="ArgumentException">If you call this function on a "tag" component type (which is an empty
+        /// component with no fields).</exception>
+        /// <returns>A native array containing the components in the chunk.</returns>
+        public static unsafe NativeArrayData GetNativeArray<T>(this ArchetypeChunk chunk, ModComponentTypeHandle<T> chunkComponentTypeHandle)
+            where T : struct
         {
-            PugDatabase.InitObjectPrefabEntityLookup();
-            objectData.variation = 0;
-            objectData.amount = 1;
-
-            if (PugDatabase.objectPrefabEntityLookup.ContainsKey(objectData))
+            Chunk* chunks = (Chunk*)chunk.m_Chunk;
+            Archetype* archetype = (Archetype*)chunks->Archetype;
+            
+            var typeIndexInArchetype = ChunkDataUtility.GetIndexInTypeArray(archetype, chunkComponentTypeHandle.m_TypeIndex);
+            if (typeIndexInArchetype == -1)
             {
-                World world = World.DefaultGameObjectInjectionWorld;
-                Entity entity = PugDatabase.objectPrefabEntityLookup[objectData];
-                return world.EntityManager.HasModComponent<T>(entity);
+                return new NativeArrayData();
             }
 
-            CoreLibPlugin.Logger.LogWarning($"No prefab in PugDatabase with objectID: {objectData.objectID}");
-            return default;
-        }
+            byte* ptr = (chunkComponentTypeHandle.IsReadOnly)
+                ? ChunkDataUtility.GetComponentDataRO(chunks, 0, typeIndexInArchetype)
+                : ChunkDataUtility.GetComponentDataRW(chunks, 0, typeIndexInArchetype, chunkComponentTypeHandle.GlobalSystemVersion);
 
-        /// <summary>
-        /// List all <see cref="Il2CppSystem.Type"/> that are on the entity
-        /// </summary>
-        /// <param name="objectID">Entity ObjectID</param>
-        public static Type[] GetComponentTypes(ObjectID objectID)
-        {
-            PugDatabase.InitObjectPrefabEntityLookup();
-            ObjectDataCD objectData = new ObjectDataCD
+            var length = chunk.Count;
+            var batchStartOffset = chunk.m_BatchStartEntityIndex * ((ushort*)archetype->SizeOfs)[typeIndexInArchetype];
+            var result = new NativeArrayData()
             {
-                objectID = objectID,
-                variation = 0,
-                amount = 1
+                pointer = (IntPtr) ptr + batchStartOffset,
+                length = length
             };
 
-            if (PugDatabase.objectPrefabEntityLookup.ContainsKey(objectData))
-            {
-                World world = World.DefaultGameObjectInjectionWorld;
-                Entity entity = PugDatabase.objectPrefabEntityLookup[objectData];
-
-                return GetComponentTypes(world.EntityManager, entity);
-            }
-            
-            CoreLibPlugin.Logger.LogWarning($"No prefab in PugDatabase with objectID: {objectData.objectID}");
-            return Array.Empty<Type>();
+            return result;
         }
 
-        /// <summary>
-        /// List all <see cref="Il2CppSystem.Type"/> that are on the entity
-        /// </summary>
-        /// <param name="entityManager">World EntityManager</param>
-        /// <param name="entity">Target Entity</param>
-        public static Type[] GetComponentTypes(EntityManager entityManager, Entity entity)
+        public struct NativeArrayData
         {
-            NativeArray<ComponentType> typesArray = entityManager.GetComponentTypes(entity);
-            Type[] types = new Type[typesArray.Length];
-
-            for (var i = 0; i < typesArray.Length; i++)
+            public IntPtr pointer;
+            public int length;
+            public Allocator allocatorLabel;
+            
+            public static unsafe NativeArrayData ToNativeArray<T>(NativeArray<T> array) where T : new()
             {
-                types[i] = TypeManager.GetType(typesArray[i].TypeIndex);
+                return new NativeArrayData()
+                {
+                    pointer = (IntPtr)array.m_Buffer,
+                    length = array.m_Length,
+                    allocatorLabel = array.m_AllocatorLabel
+                };
             }
-
-            return types;
         }
 
         /// <summary>

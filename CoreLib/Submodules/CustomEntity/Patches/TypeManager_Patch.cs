@@ -1,8 +1,5 @@
-﻿using CoreLib.Components;
-using CoreLib.Util.Extensions;
+﻿using CoreLib.Util;
 using HarmonyLib;
-using Il2CppInterop.Runtime;
-using Il2CppInterop.Runtime.Injection;
 using Unity.Entities;
 
 namespace CoreLib.Submodules.CustomEntity.Patches
@@ -20,7 +17,7 @@ namespace CoreLib.Submodules.CustomEntity.Patches
                 done = true;
 
                 CoreLibPlugin.Logger.LogInfo($"Adding {CustomEntityModule.customComponentsTypes.Count} custom components!");
-                ECSExtensions.AddNewComponentTypes(CustomEntityModule.customComponentsTypes.ToArray());
+                ModComponents.AddNewComponentTypes(CustomEntityModule.customComponentsTypes.ToArray());
             }
         }
     }

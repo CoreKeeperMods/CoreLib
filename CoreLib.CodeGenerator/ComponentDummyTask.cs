@@ -58,9 +58,23 @@ public class ComponentDummyTask : Task
 
         try
         {
+            StructDeclarationSyntax structNode = root.DescendantNodes().OfType<StructDeclarationSyntax>().First();
+            StructDeclarationSyntax newStructNode = structNode.WithAttributeLists(new SyntaxList<AttributeListSyntax>());
+            
+            root = root.ReplaceNode(structNode, newStructNode).NormalizeWhitespace();
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
+
+        try
+        {
             ClassDeclarationSyntax classNode = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
 
-            ClassDeclarationSyntax newClassNode = classNode.RemoveNodes(classNode
+            ClassDeclarationSyntax newClassNode = classNode.WithAttributeLists(new SyntaxList<AttributeListSyntax>());
+
+            newClassNode = newClassNode.RemoveNodes(newClassNode
                 .ChildNodes()
                 .OfType<FieldDeclarationSyntax>()
                 .Where(fieldDeclaration => { return !fieldDeclaration.Declaration.Type.ToString().Contains("Il2Cpp"); }), SyntaxRemoveOptions.KeepNoTrivia);
