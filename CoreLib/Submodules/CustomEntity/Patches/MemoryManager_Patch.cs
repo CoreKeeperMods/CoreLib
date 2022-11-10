@@ -65,7 +65,7 @@ public static class MemoryManager_Patch
 
     private static void ApplyPrefabModAuthorings(EntityMonoBehaviourData entityData, GameObject gameObject)
     {
-        var customAuthorings = gameObject.GetComponentsInChildren<ModCDAuthoringBase>();
+        var customAuthorings = gameObject.GetComponentsInChildren<ModCDAuthoringBase>(true);
         foreach (ModCDAuthoringBase customAuthoring in customAuthorings)
         {
             try

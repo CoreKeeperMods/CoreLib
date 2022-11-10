@@ -684,7 +684,7 @@ public static class CustomEntityModule
         return entityData;
     }
 
-    internal static void CallAlloc(EntityMonoBehaviourData entityData)
+    public static void CallAlloc(EntityMonoBehaviourData entityData)
     {
         Il2CppArrayBase<MonoBehaviour> components;
         foreach (PrefabInfo prefabInfo in entityData.objectInfo.prefabInfos)
@@ -694,22 +694,23 @@ public static class CustomEntityModule
             components = prefabInfo.prefab.GetComponentsInChildren<MonoBehaviour>();
             foreach (MonoBehaviour component in components)
             {
-                Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
-                if (method != null)
-                {
-                    method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
-                }
+                CallAlloc(component);
             }
         }
 
         components = entityData.gameObject.GetComponents<MonoBehaviour>();
         foreach (MonoBehaviour component in components)
         {
-            Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
-            if (method != null)
-            {
-                method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
-            }
+            CallAlloc(component);
+        }
+    }
+
+    public static void CallAlloc(MonoBehaviour component)
+    {
+        Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
+        if (method != null)
+        {
+            method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
         }
     }
 

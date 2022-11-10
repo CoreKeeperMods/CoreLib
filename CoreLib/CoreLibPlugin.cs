@@ -16,7 +16,7 @@ public class CoreLibPlugin : BasePlugin {
     public const string NAME = "CoreLib";
     public const string VERSION = "1.1.2";
         
-    public static readonly GameVersion buildFor = new GameVersion(0,4,7,"4a21");
+    public static readonly GameVersion buildFor = new GameVersion(0,4,8,"15db");
     internal static HashSet<string> LoadedSubmodules;
     internal static APISubmoduleHandler submoduleHandler;
     internal static Harmony harmony;

@@ -5,14 +5,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+using CoreLib.Components;
 using CoreLib.Submodules.CustomEntity;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Submodules.JsonLoader.Readers;
 using HarmonyLib;
-using Il2CppInterop.Runtime;
-using Il2CppInterop.Runtime.Runtime;
-using FieldInfo = Il2CppSystem.Reflection.FieldInfo;
-using Object = Il2CppSystem.Object;
+using Il2CppInterop.Runtime.Injection;
+using Il2CppInterop.Runtime.InteropTypes.Fields;
 
 namespace CoreLib.Submodules.JsonLoader
 {
@@ -37,6 +37,7 @@ namespace CoreLib.Submodules.JsonLoader
         [CoreLibSubmoduleInit(Stage = InitStage.Load)]
         internal static void Load()
         {
+            ClassInjector.RegisterTypeInIl2Cpp<TemplateBlock>();
             RegisterJsonReaders(Assembly.GetExecutingAssembly());
 
             options = new JsonSerializerOptions
@@ -44,9 +45,17 @@ namespace CoreLib.Submodules.JsonLoader
                 IncludeFields = true
             };
             options.Converters.Add(new ObjectIDConverter());
-            options.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+            options.Converters.Add(new JsonStringEnumConverter());
             options.Converters.Add(new Il2CppListConverter());
             options.Converters.Add(new SpriteConverter());
+            options.Converters.Add(new ColorConverter());
+        }
+
+        [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
+        internal static void PostLoad()
+        {
+            CustomEntityModule.RegisterECSComponent<TemplateBlockCD>();
+            CustomEntityModule.RegisterECSComponent<TemplateBlockCDAuthoring>();
         }
 
         internal static void ThrowIfNotLoaded()
@@ -166,6 +175,11 @@ namespace CoreLib.Submodules.JsonLoader
             }
         }
 
+        public static void PopulateObject<T>(T target, JsonNode jsonSource)
+        {
+            PopulateObject(typeof(T), target, jsonSource);
+        }
+
         public static void PopulateObject(Type type, object target, JsonNode jsonSource)
         {
             foreach (KeyValuePair<string, JsonNode> property in jsonSource.AsObject())
@@ -185,11 +199,21 @@ namespace CoreLib.Submodules.JsonLoader
                 var parsedValue = updatedProperty.Value.Deserialize(propertyInfo.PropertyType, options);
 
                 propertyInfo.SetValue(target, parsedValue);
-            }else if (fieldInfo != null)
+            }
+            else if (fieldInfo != null)
             {
-                var parsedValue = updatedProperty.Value.Deserialize(fieldInfo.FieldType, options);
-
-                fieldInfo.SetValue(target, parsedValue);
+                if (IsIl2CppField(fieldInfo.FieldType, out Type systemType))
+                {
+                    var parsedValue = updatedProperty.Value.Deserialize(systemType, options);
+                    object il2cppField = fieldInfo.GetValue(target);
+                    var property = fieldInfo.FieldType.GetProperty("Value");
+                    property.SetValue(il2cppField, parsedValue);
+                }
+                else
+                {
+                    var parsedValue = updatedProperty.Value.Deserialize(fieldInfo.FieldType, options);
+                    fieldInfo.SetValue(target, parsedValue);
+                }
             }
             else
             {
@@ -197,12 +221,38 @@ namespace CoreLib.Submodules.JsonLoader
             }
         }
 
+        public static bool IsIl2CppField(Type type, out Type systemType)
+        {
+            systemType = default;
+
+            if (type.IsGenericType &&
+                (type.GetGenericTypeDefinition() == typeof(Il2CppReferenceField<>) ||
+                 type.GetGenericTypeDefinition() == typeof(Il2CppValueField<>)))
+            {
+                systemType = type.GetGenericArguments()[0];
+                return true;
+            }
+
+            if (type == typeof(Il2CppStringField))
+            {
+                systemType = typeof(string);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static void FillArrays<T>(T target)
+        {
+            FillArrays(typeof(T), target);
+        }
+        
         public static void FillArrays(Type type, object target)
         {
             foreach (PropertyInfo property in type.GetProperties())
             {
                 if (!property.PropertyType.IsGenericType) continue;
-                
+
                 if (property.PropertyType.GetGenericTypeDefinition() == typeof(Il2CppSystem.Collections.Generic.List<>))
                 {
                     object value = property.GetValue(target);
@@ -212,6 +262,32 @@ namespace CoreLib.Submodules.JsonLoader
                     }
                 }
             }
+        }
+
+        private static Type[] GetTypesFromAssembly(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                return ex.Types.Where(type => type != null).ToArray();
+            }
+        }
+
+        private static IEnumerable<Type> AllTypes() => AccessTools.AllAssemblies().SelectMany(GetTypesFromAssembly);
+
+        public static Type TypeByName(string name)
+        {
+            Type type = Type.GetType(name, false);
+
+            type ??= AllTypes().FirstOrDefault(t => t.FullName == name);
+            type ??= AllTypes().FirstOrDefault(t => t.Name == name);
+
+            if (type == null)
+                CoreLibPlugin.Logger.LogWarning($"Could not find type named {name}");
+            return type;
         }
     }
 }
