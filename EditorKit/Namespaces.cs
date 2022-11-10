@@ -1,0 +1,14 @@
+namespace CoreLib.Util.Extensions {}
+namespace CoreLib.Util {}
+namespace CoreLib.Submodules.Audio {}
+namespace CoreLib.Submodules.ChatCommands {}
+namespace CoreLib.Submodules.CustomEntity {}
+namespace CoreLib.Submodules.CustomEntity.Atributes {}
+namespace CoreLib.Submodules.DropTables {}
+namespace CoreLib.Submodules.JsonLoader {}
+namespace CoreLib.Submodules.JsonLoader.Converters {}
+namespace CoreLib.Submodules.JsonLoader.Readers {}
+namespace CoreLib.Submodules.Localization {}
+namespace CoreLib.Submodules.ModResources {}
+namespace CoreLib.Submodules.RewiredExtension {}
+namespace CoreLib.Submodules.Utils {}
