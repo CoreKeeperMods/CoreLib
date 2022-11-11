@@ -4,6 +4,8 @@ using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
+using Unity.Entities;
+using Unity.Entities.Conversion;
 using UnityEngine;
 
 namespace CoreLib.Submodules.CustomEntity.Patches;
@@ -11,12 +13,32 @@ namespace CoreLib.Submodules.CustomEntity.Patches;
 public static class PugDatabaseAuthoring_Patch
 {
     [HarmonyPatch(typeof(PugDatabaseAuthoring), nameof(PugDatabaseAuthoring.DeclareReferencedPrefabs))]
-    [HarmonyPostfix]
-    public static void InitMaterials(PugDatabaseAuthoring __instance, List<GameObject> referencedPrefabs) 
+    [HarmonyPrefix]
+    public static void InitMaterials(PugDatabaseAuthoring __instance, List<GameObject> referencedPrefabs)
     {
+        if (!CustomEntityModule.hasConverted)
+        {
+            try
+            {
+                ApplyOnDB(__instance);
+            }
+            catch (Exception e)
+            {
+                CoreLibPlugin.Logger.LogInfo($"Second phase add failed!\n{e}");
+            }
+
+            CustomEntityModule.hasConverted = true;
+        }
+    }
+
+    [HarmonyPatch(typeof(ECSManager), nameof(ECSManager.Init))]
+    [HarmonyPrefix]
+    public static void InitMaterials(ECSManager __instance)
+    {
+        PugDatabaseAuthoring authoring = __instance.pugDatabase;
         if (!CustomEntityModule.hasInjected)
         {
-            PrefabCrawler.SetupPrefabIDMap(__instance.prefabList);
+            PrefabCrawler.SetupPrefabIDMap(authoring.prefabList);
 
             foreach (var pair in CustomEntityModule.modEntityModifyFunctions)
             {
@@ -33,53 +55,66 @@ public static class PugDatabaseAuthoring_Patch
             CustomEntityModule.modEntityModifyFunctions.Clear();
         }
 
+        ApplyOnDB(authoring);
+
+        CustomEntityModule.hasInjected = true;
+    }
+
+    public static void ApplyOnDB(PugDatabaseAuthoring authoring)
+    {
         foreach (var prefabs in CustomEntityModule.entitiesToAdd.Values)
         {
             if (!ApplyModAuthorings(prefabs)) continue;
 
             foreach (EntityMonoBehaviourData data in prefabs)
             {
-                __instance.prefabList.Add(data);
-                referencedPrefabs.Add(data.gameObject);
+                authoring.prefabList.Add(data);
             }
         }
-        
-        CoreLibPlugin.Logger.LogInfo($"Added {CustomEntityModule.entitiesToAdd.Count} entities!");
+
+        CoreLibPlugin.Logger.LogInfo(
+            $"Added {CustomEntityModule.entitiesToAdd.Count} entities!");
 
         if (!CustomEntityModule.hasInjected)
         {
             Action<EntityMonoBehaviourData> allAction = null;
-            
+
             if (CustomEntityModule.entityModifyFunctions.ContainsKey(ObjectID.None))
             {
                 allAction = CustomEntityModule.entityModifyFunctions[ObjectID.None];
             }
-            
-            foreach (EntityMonoBehaviourData entity in __instance.prefabList)
+
+            foreach (EntityMonoBehaviourData entity in authoring.prefabList)
             {
                 allAction?.Invoke(entity);
-                
+
                 if (CustomEntityModule.entityModifyFunctions.ContainsKey(entity.objectInfo.objectID))
                 {
                     CustomEntityModule.entityModifyFunctions[entity.objectInfo.objectID]?.Invoke(entity);
                 }
             }
+
             CoreLibPlugin.Logger.LogInfo("Finished modifying entities!");
         }
-
-        CustomEntityModule.hasInjected = true;
     }
 
     private static bool ApplyModAuthorings(System.Collections.Generic.List<EntityMonoBehaviourData> prefabs)
     {
         foreach (EntityMonoBehaviourData data in prefabs)
         {
+            if (data == null)
+            {
+                CoreLibPlugin.Logger.LogInfo("EntityMonoBehaviourData is null!");
+                continue;
+            }
+
             Il2CppArrayBase<ModCDAuthoringBase> overrides = data.GetComponents<ModCDAuthoringBase>();
             foreach (ModCDAuthoringBase modOverride in overrides)
             {
                 if (!ApplyModAuthoring(modOverride, data)) return false;
             }
         }
+
         return true;
     }
 

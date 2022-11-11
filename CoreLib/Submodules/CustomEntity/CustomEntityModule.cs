@@ -451,6 +451,7 @@ public static class CustomEntityModule
     public const int modTilesetIdRangeEnd = 200;
 
     internal static bool hasInjected;
+    internal static bool hasConverted;
 
     public const string RootWorkbench = "CoreLib:RootModWorkbench";
 
@@ -460,6 +461,7 @@ public static class CustomEntityModule
         CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(GameObjectConversionMappingSystem_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
@@ -644,6 +646,7 @@ public static class CustomEntityModule
         }
 
         GameObject newPrefab = Object.Instantiate(prefab);
+        ResourcesModule.Retain(newPrefab);
 
         EntityMonoBehaviourData entityData = newPrefab.GetComponent<EntityMonoBehaviourData>();
 
@@ -651,6 +654,8 @@ public static class CustomEntityModule
 
         newPrefab.name = $"{fullItemId}_Prefab";
         newPrefab.hideFlags = HideFlags.HideAndDontSave;
+        
+        CoreLibPlugin.Logger.LogInfo($"Prefab is in {newPrefab.scene.name}");
 
         GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
         if (ghost != null)
@@ -658,7 +663,7 @@ public static class CustomEntityModule
             ghost.Name = itemId;
             ghost.prefabId = fullItemId.GetGUID();
         }
-        
+
         return entityData;
     }
 
