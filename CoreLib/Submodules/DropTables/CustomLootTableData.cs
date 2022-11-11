@@ -4,12 +4,14 @@ namespace CoreLib.Submodules.DropTables
 {
     public struct CustomLootTableData
     {
+        public AreaLevel biomeLevel;
         public LootTableID tableId;
         public int minUniqueDrops;
         public int maxUniqueDrops;
 
-        public CustomLootTableData(LootTableID tableId, int minUniqueDrops, int maxUniqueDrops)
+        public CustomLootTableData(AreaLevel biomeLevel, LootTableID tableId, int minUniqueDrops, int maxUniqueDrops)
         {
+            this.biomeLevel = biomeLevel;
             this.tableId = tableId;
             this.minUniqueDrops = minUniqueDrops;
             this.maxUniqueDrops = maxUniqueDrops;

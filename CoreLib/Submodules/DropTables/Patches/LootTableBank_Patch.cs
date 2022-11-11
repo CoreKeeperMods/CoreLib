@@ -13,7 +13,15 @@ public static class LootTableBank_Patch
         foreach (CustomLootTableData tableData in DropTablesModule.customLootTables)
         {
             LootTable lootTable = tableData.GetTable();
-            __instance.lootTables.Add(lootTable);
+
+            foreach (BiomeLootTables biomeLootTables in __instance.biomeLootTables)
+            {
+                if (biomeLootTables.biomeLevel == tableData.biomeLevel)
+                {
+                    biomeLootTables.lootTables.Add(lootTable);
+                    break;
+                }
+            }
         }
     }
     
