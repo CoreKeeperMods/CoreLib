@@ -84,54 +84,67 @@ internal class ChatWindow_Patch
         __instance.inputField.Render(newText);
     }
 
-    [HarmonyPatch(typeof(ChatWindow), nameof(ChatWindow.AddPugText))]
+    [HarmonyPatch(typeof(ChatWindow), nameof(ChatWindow.Deactivate))]
     [HarmonyPrefix]
-    static bool ReadPugText(ref ChatWindow.MessageTextType type, ref PugText text)
+    public static void OnSendMessage(ChatWindow __instance, ref bool commit)
     {
-        string input = text.textString;
-        string[] args = input.Split(' ');
-        if (args.Length < 1 || !args[0].StartsWith(CommandPrefix)) return true;
-        try
+        if (commit)
         {
-            string cmdName = args[0].Substring(1);
-            IChatCommandHandler commandHandler = CommandsModule.commandHandlers
-                .Select(pair => pair.handler)
-                .First(handler => handler.GetTriggerNames().Any(s => s.Equals(cmdName, StringComparison.InvariantCultureIgnoreCase)));
-            string[] parameters = args.Skip(1).ToArray();
+            PugText text = __instance.inputField;
+            string input = text.textString;
 
+            string[] args = input.Split(' ');
+            if (args.Length < 1 || !args[0].StartsWith(CommandPrefix)) return;
+            
             try
             {
-                CommandOutput output = commandHandler.Execute(parameters);
+                string cmdName = args[0].Substring(1);
+                IChatCommandHandler commandHandler = CommandsModule.commandHandlers
+                    .Select(pair => pair.handler)
+                    .First(handler => handler.GetTriggerNames().Any(s => s.Equals(cmdName, StringComparison.InvariantCultureIgnoreCase)));
+                string[] parameters = args.Skip(1).ToArray();
 
-                history.Add(input);
-                if (history.Count > maxHistoryLen)
+                try
                 {
-                    history.RemoveAt(0);
+                    CommandOutput output = commandHandler.Execute(parameters);
+
+                    history.Add(input);
+                    if (history.Count > maxHistoryLen)
+                    {
+                        history.RemoveAt(0);
+                    }
+
+                    currentHistoryIndex = history.Count;
+
+                    SendMessage(__instance, $"{input}\n{output.feedback}", output.color);
+                    commit = false;
                 }
+                catch (Exception e)
+                {
+                    CoreLibPlugin.Logger.LogWarning($"Error executing command {cmdName}:\n{e}");
 
-                currentHistoryIndex = history.Count;
-
-                text.textString = $"{input}\n{output.feedback}";
-                text.defaultStyle.color = output.color;
-                text.Render();
-                return true;
+                    SendMessage(__instance, $"{input}\nError executing command", Color.red);
+                    commit = false;
+                }
             }
-            catch (Exception e)
+            catch
             {
-                CoreLibPlugin.Logger.LogWarning($"Error executing command {cmdName}:\n{e}");
-
-                text.textString = $"{input}\nError executing command";
-                text.defaultStyle.color = Color.red;
-                text.Render();
-                return true;
+                SendMessage(__instance, $"{input}\n\nThat command does not exist.", Color.red);
+                commit = false;
             }
+            
         }
-        catch
+    }
+
+    public static void SendMessage(ChatWindow window, string message, Color color)
+    {
+        PugText pugText = window.AllocPugText(ChatWindow.MessageTextType.Sent, out PugTextEffectMaxFade fadeEffect);
+        pugText.Render(message);
+        pugText.defaultStyle.color = color;
+        if (fadeEffect != null)
         {
-            text.textString = $"{input}\n\nThat command does not exist.";
-            text.defaultStyle.color = Color.red;
-            text.Render();
-            return true;
+            fadeEffect.FadeOut();
+            window.AddPugText(ChatWindow.MessageTextType.Sent, pugText);
         }
     }
 }
