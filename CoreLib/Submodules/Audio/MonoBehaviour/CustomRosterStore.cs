@@ -9,8 +9,8 @@ namespace CoreLib.Submodules.Audio;
 
 public class CustomRosterStore : MonoBehaviour
 {
-    public Il2CppReferenceField<Dictionary<int, MusicList>> customRosterMusic;
-    public Il2CppReferenceField<Dictionary<int, MusicList>> vanillaRosterAddTracksInfos;
+    public Il2CppReferenceField<Dictionary<int, MusicManager.MusicRoster>> customRosterMusic;
+    public Il2CppReferenceField<Dictionary<int, MusicManager.MusicRoster>> vanillaRosterAddTracksInfos;
     public Il2CppReferenceField<List<AudioField>> customSoundEffects;
 
     public CustomRosterStore(IntPtr ptr) : base(ptr) { }
@@ -21,11 +21,11 @@ public class CustomRosterStore : MonoBehaviour
 
     private void Awake()
     {
-        Dictionary<int, MusicList> list = new Dictionary<int, MusicList>();
+        Dictionary<int, MusicManager.MusicRoster> list = new Dictionary<int, MusicManager.MusicRoster>();
         customMusicHandle = GCHandle.Alloc(list, GCHandleType.Normal);
         customRosterMusic.Set(list);
 
-        list = new Dictionary<int, MusicList>();
+        list = new Dictionary<int, MusicManager.MusicRoster>();
         vanillaMusicHandle = GCHandle.Alloc(list, GCHandleType.Normal);
         vanillaRosterAddTracksInfos.Set(list);
 

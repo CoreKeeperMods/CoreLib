@@ -49,7 +49,7 @@ public static class AudioModule
     public static void AddMusicToRoster(MusicManager.MusicRosterType rosterType, string musicPath, string introPath = "")
     {
         ThrowIfNotLoaded();
-        MusicList list = GetRosterTracks(rosterType);
+        MusicManager.MusicRoster roster = GetRosterTracks(rosterType);
         MusicManager.MusicTrack track = new MusicManager.MusicTrack();
 
         track.track = ResourcesModule.LoadAsset<AudioClip>(musicPath);
@@ -58,7 +58,7 @@ public static class AudioModule
             track.optionalIntro = ResourcesModule.LoadAsset<AudioClip>(introPath);
         }
 
-        list.Add(track);
+        roster.tracks.Add(track);
     }
 
     /// <summary>
@@ -141,7 +141,7 @@ public static class AudioModule
 
     internal static CustomRosterStore rosterStore;
 
-    internal static MusicList GetRosterTracks(MusicManager.MusicRosterType rosterType)
+    internal static MusicManager.MusicRoster GetRosterTracks(MusicManager.MusicRosterType rosterType)
     {
         int rosterId = (int)rosterType;
         if (IsVanilla(rosterType))
@@ -152,9 +152,9 @@ public static class AudioModule
                 return vanillaRosterAddTracksInfos[rosterId];
             }
 
-            MusicList list = new MusicList();
-            vanillaRosterAddTracksInfos.Add(rosterId, list);
-            return list;
+            MusicManager.MusicRoster roster = new MusicManager.MusicRoster();
+            vanillaRosterAddTracksInfos.Add(rosterId, roster);
+            return roster;
         }
         else
         {
@@ -164,9 +164,9 @@ public static class AudioModule
                 return customRosterMusic[rosterId];
             }
 
-            MusicList list = new MusicList();
-            customRosterMusic.Add(rosterId, list);
-            return list;
+            MusicManager.MusicRoster roster = new MusicManager.MusicRoster();
+            customRosterMusic.Add(rosterId, roster);
+            return roster;
         }
     }
 
@@ -186,47 +186,17 @@ public static class AudioModule
         return SfxID.__illegal__;
     }
 
-    internal static MusicList GetVanillaRoster(MusicManager manager, MusicManager.MusicRosterType rosterType)
+    internal static MusicManager.MusicRoster GetVanillaRoster(MusicManager manager, MusicManager.MusicRosterType rosterType)
     {
-        switch (rosterType)
+        foreach (MusicManager.MusicRoster roster in manager.musicRosters)
         {
-            case MusicManager.MusicRosterType.DEFAULT:
-                return manager.defaultMusic;
-            case MusicManager.MusicRosterType.TITLE:
-                return manager.titleMusic;
-            case MusicManager.MusicRosterType.INTRO:
-                return manager.introMusic;
-            case MusicManager.MusicRosterType.MAIN:
-                return manager.mainMusic;
-            case MusicManager.MusicRosterType.BOSS:
-                return manager.bossMusic;
-            case MusicManager.MusicRosterType.DONT_PLAY_MUSIC:
-                return null;
-            case MusicManager.MusicRosterType.CREDITS:
-                return manager.creditsMusic;
-            case MusicManager.MusicRosterType.MYSTERY:
-                return manager.mysteryMusic;
-            case MusicManager.MusicRosterType.EDITOR:
-                return manager.editorMusic;
-            case MusicManager.MusicRosterType.HOME_BASE:
-                return manager.homeBaseMusic;
-            case MusicManager.MusicRosterType.STONE_BIOME:
-                return manager.stoneBiomeMusic;
-            case MusicManager.MusicRosterType.LARVA_BIOME:
-                return manager.larvaBiomeMusic;
-            case MusicManager.MusicRosterType.NATURE_BIOME:
-                return manager.natureBiomeMusic;
-            case MusicManager.MusicRosterType.SLIME_BIOME:
-                return manager.slimeBiomeMusic;
-            case MusicManager.MusicRosterType.SEA_BIOME:
-                return manager.seaBiomeMusic;
-            case MusicManager.MusicRosterType.MOLD_DUNGEON:
-                return manager.moldDungeonMusic;
-            case MusicManager.MusicRosterType.CITY_DUNGEON:
-                return manager.cityDungeonMusic;
-            default:
-                return null;
+            if (roster.rosterType == rosterType)
+            {
+                return roster;
+            }
         }
+
+        return null;
     }
 
     #endregion
