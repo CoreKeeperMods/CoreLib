@@ -654,8 +654,6 @@ public static class CustomEntityModule
 
         newPrefab.name = $"{fullItemId}_Prefab";
         newPrefab.hideFlags = HideFlags.HideAndDontSave;
-        
-        CoreLibPlugin.Logger.LogInfo($"Prefab is in {newPrefab.scene.name}");
 
         GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
         if (ghost != null)
