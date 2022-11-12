@@ -23,29 +23,29 @@ public static class LootTableBank_Patch
                 }
             }
         }
-    }
-    
-    
-    [HarmonyPatch(typeof(LootTableBank), nameof(LootTableBank.InitLoot))]
-    [HarmonyPrefix]
-    public static void GetLootTableBank(LootTable lootTable, LootList lootInfos, int minUniqueDrops, int maxUniqueDrops, LootList guaranteedLootInfos)
-    {
-        try
+
+        foreach (BiomeLootTables biomeLootTable in __instance.biomeLootTables)
         {
-            if (DropTablesModule.dropTableModification.ContainsKey(lootTable.id))
+            foreach (LootTable lootTable in biomeLootTable.lootTables)
             {
-                DropTableModificationData modificationData = DropTablesModule.dropTableModification[lootTable.id];
-                if (lootInfos != null && guaranteedLootInfos != null)
+                try
                 {
-                    DropTablesModule.RemoveDrops(lootInfos, guaranteedLootInfos, modificationData);
-                    DropTablesModule.EditDrops(lootTable, lootInfos, guaranteedLootInfos, modificationData);
-                    DropTablesModule.AddDrops(lootTable, lootInfos, guaranteedLootInfos, modificationData);
+                    if (DropTablesModule.dropTableModification.ContainsKey(lootTable.id))
+                    {
+                        DropTableModificationData modificationData = DropTablesModule.dropTableModification[lootTable.id];
+                        if (lootTable.lootInfos != null && lootTable.guaranteedLootInfos != null)
+                        {
+                            DropTablesModule.RemoveDrops(lootTable.lootInfos, lootTable.guaranteedLootInfos, modificationData);
+                            DropTablesModule.EditDrops(lootTable, lootTable.lootInfos, lootTable.guaranteedLootInfos, modificationData);
+                            DropTablesModule.AddDrops(lootTable, lootTable.lootInfos, lootTable.guaranteedLootInfos, modificationData);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    CoreLibPlugin.Logger.LogWarning($"Failed to update loot tables:\n{e}");
                 }
             }
-        }
-        catch (Exception e)
-        {
-            CoreLibPlugin.Logger.LogWarning($"Failed to update loot tables:\n{e}");
         }
     }
 }
