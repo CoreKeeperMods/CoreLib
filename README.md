@@ -38,6 +38,10 @@ This library is still WIP.
 <details>
 <summary>Changelog</summary>
 
+### v1.2.0
+- Fixed compatibility with game version 0.5.0.0 and higher
+- Chat Commands Module now uses Rewired Keybinds
+
 ### v1.1.2
 - Fixed crashes and issues when using advanced features of CustomEntityModule
 

@@ -12,16 +12,16 @@ public static class MusicManager_Patch
         var vanillaRosterAddTracksInfos = AudioModule.rosterStore.vanillaRosterAddTracksInfos.Get();
         foreach (var pair in vanillaRosterAddTracksInfos)
         {
-            MusicList roster = AudioModule.GetVanillaRoster(__instance, (MusicManager.MusicRosterType)pair.Key);
+            MusicManager.MusicRoster roster = AudioModule.GetVanillaRoster(__instance, (MusicManager.MusicRosterType)pair.Key);
             if (roster == null)
             {
                 CoreLibPlugin.Logger.LogWarning($"Failed to get roster list for type {((MusicManager.MusicRosterType)pair.Key).ToString()}");
                 continue;
             }
 
-            foreach (MusicManager.MusicTrack track in pair.Value)
+            foreach (MusicManager.MusicTrack track in pair.Value.tracks)
             {
-                roster.Add(track);
+                roster.tracks.Add(track);
             }
         }
     }
@@ -48,8 +48,8 @@ public static class MusicManager_Patch
 
         if (customRosterMusic.ContainsKey((int)m))
         {
-            MusicList list = customRosterMusic[(int)m];
-            if (list != null && list.Count > 0)
+            MusicManager.MusicRoster list = customRosterMusic[(int)m];
+            if (list != null && list.tracks.Count > 0)
             {
                 __instance.ResumeMusic();
                 if (__instance.currentMusicRoster != list)

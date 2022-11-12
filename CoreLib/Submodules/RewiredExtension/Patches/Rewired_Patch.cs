@@ -10,8 +10,8 @@ namespace CoreLib.Submodules.RewiredExtension.Patches;
 [HarmonyPatch]
 public static class Rewired_Patch
 {
-    // Method named 'dwHOFmApnpWkXreTmwZYsRXRrow' initializes user data, and is a good entry point
-    [HarmonyPatch(typeof(UserData), nameof(UserData.dwHOFmApnpWkXreTmwZYsRXRrow))]
+    // Method named 'zQQfvDZMmpVqPPLYlLuSJXXpwJcI' initializes user data, and is a good entry point
+    [HarmonyPatch(typeof(UserData), nameof(UserData.zQQfvDZMmpVqPPLYlLuSJXXpwJcI))]
     [HarmonyPrefix]
     public static void OnRewiredDataInit(UserData __instance)
     {

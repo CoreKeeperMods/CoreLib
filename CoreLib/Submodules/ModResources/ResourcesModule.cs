@@ -148,6 +148,11 @@ public static class ResourcesModule
     {
         return LoadAsset(path).TryCast<T>();
     }
+
+    public static void Retain(Il2CppSystem.Object o)
+    {
+        objectRetainer.Add(o);
+    }
     
     #endregion
 

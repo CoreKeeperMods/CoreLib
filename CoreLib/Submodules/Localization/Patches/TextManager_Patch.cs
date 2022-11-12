@@ -4,15 +4,15 @@ using I2.Loc;
 namespace CoreLib.Submodules.Localization.Patches;
 
 [HarmonyPatch]
-public static class MemoryManager_Patch
+public static class TextManager_Patch
 {
-    [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init))]
-    [HarmonyPrefix]
-    public static void OnMemoryInit(MemoryManager __instance)
+    [HarmonyPatch(typeof(TextManager), nameof(TextManager.Init))]
+    [HarmonyPostfix]
+    public static void OnMemoryInit(TextManager __instance)
     {
         if (LocalizationManager.Sources.Count > 0)
         {
-            LanguageSourceData source = LocalizationManager.Sources._items[0];
+            LanguageSourceData source = LocalizationManager.Sources._items[1];
 
             foreach (var pair in LocalizationModule.addedTranslations)
             {

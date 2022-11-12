@@ -14,9 +14,9 @@ public class CoreLibPlugin : BasePlugin {
 
     public const string GUID = "com.le4fless.corelib";
     public const string NAME = "CoreLib";
-    public const string VERSION = "1.1.2";
+    public const string VERSION = "1.2.0";
         
-    public static readonly GameVersion buildFor = new GameVersion(0,4,8,"15db");
+    public static readonly GameVersion buildFor = new GameVersion(0,5,0, 0, "9b96");
     internal static HashSet<string> LoadedSubmodules;
     internal static APISubmoduleHandler submoduleHandler;
     internal static Harmony harmony;
@@ -43,7 +43,7 @@ public class CoreLibPlugin : BasePlugin {
     internal static void CheckIfUsedOnRightGameVersion() {
         var buildId = new GameVersion(Application.version);
 
-        if (buildFor == buildId)
+        if (buildFor.CompatibleWith(buildId))
             return;
 
         // ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable

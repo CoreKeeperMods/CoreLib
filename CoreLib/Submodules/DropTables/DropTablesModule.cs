@@ -34,12 +34,12 @@ public static class DropTablesModule
         return LootTableID.Empty;
     }
 
-    public static LootTableID AddLootTable(string lootTableId)
+    public static LootTableID AddLootTable(string lootTableId, AreaLevel biome)
     {
-        return AddLootTable(lootTableId, 1, 1);
+        return AddLootTable(lootTableId, biome, 1, 1);
     }
     
-    public static LootTableID AddLootTable(string lootTableId, int minUnqiueDrops, int maxUniqueDrops)
+    public static LootTableID AddLootTable(string lootTableId, AreaLevel biome, int minUnqiueDrops, int maxUniqueDrops)
     {
         if (customLootTableIdMap.ContainsKey(lootTableId))
         {
@@ -50,7 +50,7 @@ public static class DropTablesModule
         int lootTableIndex = lastCustomLootTableId;
         LootTableID lootTable = (LootTableID)lootTableIndex;
         lastCustomLootTableId++;
-        customLootTables.Add(new CustomLootTableData(lootTable, minUnqiueDrops, maxUniqueDrops));
+        customLootTables.Add(new CustomLootTableData(biome, lootTable, minUnqiueDrops, maxUniqueDrops));
         customLootTableIdMap.Add(lootTableId, lootTable);
         return lootTable;
     }

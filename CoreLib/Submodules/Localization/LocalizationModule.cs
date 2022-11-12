@@ -76,7 +76,7 @@ public static class LocalizationModule
     [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
     internal static void SetHooks()
     {
-        CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(TextManager_Patch));
     }
 
     internal static void ThrowIfNotLoaded()

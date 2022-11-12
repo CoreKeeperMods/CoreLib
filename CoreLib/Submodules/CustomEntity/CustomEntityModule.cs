@@ -472,6 +472,7 @@ public static class CustomEntityModule
     public const int modTilesetIdRangeEnd = 200;
 
     internal static bool hasInjected;
+    internal static bool hasConverted;
 
     public const string RootWorkbench = "CoreLib:RootModWorkbench";
 
@@ -482,6 +483,7 @@ public static class CustomEntityModule
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TypeManager_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(GameObjectConversionMappingSystem_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
@@ -666,6 +668,7 @@ public static class CustomEntityModule
         }
 
         GameObject newPrefab = Object.Instantiate(prefab);
+        ResourcesModule.Retain(newPrefab);
 
         EntityMonoBehaviourData entityData = newPrefab.GetComponent<EntityMonoBehaviourData>();
 
