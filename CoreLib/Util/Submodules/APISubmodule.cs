@@ -1,4 +1,3 @@
-#nullable enable
 using BepInEx.Logging;
 using Mono.Cecil;
 using System;
@@ -30,8 +29,8 @@ internal enum InitStage
 [AttributeUsage(AttributeTargets.Class)]
 internal class CoreLibSubmodule : Attribute
 {
-    public GameVersion? Build;
-    public Type[]? Dependencies;
+    public GameVersion Build;
+    public Type[] Dependencies;
 }
 
 // ReSharper disable once InconsistentNaming
@@ -253,7 +252,7 @@ public class APISubmoduleHandler
             }
         }
 
-        if (attr.Build != null && attr.Build != _build)
+        if (!attr.Build.Equals(GameVersion.zero) && attr.Build.CompatibleWith(_build))
             logger.Log(LogLevel.Debug,
                 $"{type.Name} was built for build {attr.Build}, current build is {_build}.");
 
