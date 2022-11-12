@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoreLib.Util;
 using HarmonyLib;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ internal class ChatWindow_Patch
         bool pressedTab = false;
         string newText = "";
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (CommandsModule.rewiredPlayer.GetButtonDown(CommandsModule.UP_KEY))
         {
             currentHistoryIndex--;
             if (currentHistoryIndex < 0)
@@ -44,7 +45,7 @@ internal class ChatWindow_Patch
             pressedUpOrDown = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (CommandsModule.rewiredPlayer.GetButtonDown(CommandsModule.DOWN_KEY))
         {
             currentHistoryIndex++;
             if (currentHistoryIndex > history.Count)
@@ -55,7 +56,7 @@ internal class ChatWindow_Patch
             pressedUpOrDown = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (CommandsModule.rewiredPlayer.GetButtonDown(CommandsModule.COMPLETE_KEY))
         {
             string input = __instance.inputField.textString;
             string[] args = input.Split(' ');
