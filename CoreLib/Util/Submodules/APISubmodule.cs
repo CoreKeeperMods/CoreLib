@@ -48,7 +48,7 @@ internal class CoreLibSubmoduleInit : Attribute
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
 public class CoreLibSubmoduleDependency : Attribute
 {
-    public string?[]? SubmoduleNames { get; }
+    public string[] SubmoduleNames { get; }
 
     public CoreLibSubmoduleDependency(params string[] submoduleName)
     {
@@ -95,7 +95,7 @@ public class APISubmoduleHandler
     /// </summary>
     /// <param name="moduleType">Module type</param>
     /// <returns>Is loading successful?</returns>
-    public bool RequestModuleLoad(Type? moduleType)
+    public bool RequestModuleLoad(Type moduleType)
     {
         if (moduleType == null) return false;
         if (IsLoaded(moduleType.Name)) return true;
@@ -106,7 +106,7 @@ public class APISubmoduleHandler
         {
             InvokeStage(moduleType, InitStage.SetHooks, null);
             InvokeStage(moduleType, InitStage.Load, null);
-            FieldInfo? fieldInfo = moduleType.GetField("_loaded", AccessTools.all);
+            FieldInfo fieldInfo = moduleType.GetField("_loaded", AccessTools.all);
             if (fieldInfo != null)
             {
                 fieldInfo.SetValue(null, true);
@@ -136,7 +136,7 @@ public class APISubmoduleHandler
 
                     IEnumerable<string> modulesToAdd = moduleType.GetDependants(type =>
                             {
-                                CoreLibSubmodule? attr = type.GetCustomAttribute<CoreLibSubmodule>();
+                                CoreLibSubmodule attr = type.GetCustomAttribute<CoreLibSubmodule>();
                                 return attr?.Dependencies ?? Array.Empty<Type>();
                             },
                             (start, end) =>
@@ -173,7 +173,7 @@ public class APISubmoduleHandler
             moduleTypes.Where(t => !faults.ContainsKey(t))
                 .ForEachTry(t =>
                 {
-                    FieldInfo? fieldInfo = t.GetField("_loaded", AccessTools.all);
+                    FieldInfo fieldInfo = t.GetField("_loaded", AccessTools.all);
                     if (fieldInfo != null)
                     {
                         fieldInfo.SetValue(null, true);
@@ -208,7 +208,7 @@ public class APISubmoduleHandler
 
     private List<Type> GetSubmodules(bool allSubmodules = false)
     {
-        Type?[] types;
+        Type[] types;
         try
         {
             types = Assembly.GetExecutingAssembly().GetTypes();
@@ -223,7 +223,7 @@ public class APISubmoduleHandler
     }
 
     // ReSharper disable once InconsistentNaming
-    private bool APISubmoduleFilter(Type? type, bool allSubmodules = false)
+    private bool APISubmoduleFilter(Type type, bool allSubmodules = false)
     {
         if (type == null) return false;
         var attr = type.GetCustomAttribute<CoreLibSubmodule>();
@@ -259,7 +259,7 @@ public class APISubmoduleHandler
         return true;
     }
 
-    internal void InvokeStage(Type? type, InitStage stage, object[]? parameters)
+    internal void InvokeStage(Type type, InitStage stage, object[] parameters)
     {
         if (type == null) return;
         var method = type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
