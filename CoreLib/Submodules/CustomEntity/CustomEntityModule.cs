@@ -328,12 +328,10 @@ public static class CustomEntityModule
     /// <param name="enDesc">Object description in English</param>
     /// <param name="cnName">Object name in Chinese</param>
     /// <param name="cnDesc">Object description in Chinese</param>
+    [Obsolete("Use LocalizationModule.AddEntityLocalization() instead")]
     public static void AddEntityLocalization(ObjectID obj, string enName, string enDesc, string cnName = "", string cnDesc = "")
     {
-        if (obj == ObjectID.None) return;
-        
-        LocalizationModule.AddTerm($"Items/{obj}", enName, cnName);
-        LocalizationModule.AddTerm($"Items/{obj}Desc", enDesc, cnDesc);
+        LocalizationModule.AddEntityLocalization(obj, enName, enDesc, cnName, cnDesc);
     }
 
     /// <summary>
@@ -368,66 +366,6 @@ public static class CustomEntityModule
         }
 
         return 0;
-    }
-
-    /// <summary>
-    /// Set entity <see cref="EquipmentSkinCDAuthoring"/> skin 
-    /// </summary>
-    /// <param name="id">Target Entity ID</param>
-    /// <param name="skinId">new skin Index</param>
-    [Obsolete("Use ModEquipmentSkinCDAuthoring instead")]
-    public static void SetEquipmentSkin(ObjectID id, byte skinId)
-    {
-        ThrowIfNotLoaded();
-        ThrowIfTooLate(nameof(SetEquipmentSkin));
-
-        if (GetMainEntity(id, out EntityMonoBehaviourData entity))
-        {
-            EquipmentSkinCDAuthoring skinCdAuthoring = entity.gameObject.GetComponent<EquipmentSkinCDAuthoring>();
-            if (skinCdAuthoring != null)
-            {
-                skinCdAuthoring.skin = skinId;
-            }
-            else
-            {
-                skinCdAuthoring = entity.gameObject.AddComponent<EquipmentSkinCDAuthoring>();
-                skinCdAuthoring.skin = skinId;
-            }
-        }
-        else
-        {
-            CoreLibPlugin.Logger.LogError($"Failed to set equipment skin! Found no registered entities with ID: {id}.");
-        }
-    }
-
-    /// <summary>
-    /// Set entity <see cref="TileCDAuthoring"/> component tileset variable.
-    /// </summary>
-    /// <param name="id">Target entity id</param>
-    /// <param name="tileset">new tileset</param>
-    [Obsolete("Use ModTileCDAuthoring component instead")]
-    public static void SetTileset(ObjectID id, Tileset tileset)
-    {
-        ThrowIfNotLoaded();
-        ThrowIfTooLate(nameof(SetTileset));
-
-        if (GetMainEntity(id, out EntityMonoBehaviourData entity))
-        {
-            TileCDAuthoring tileCdAuthoring = entity.gameObject.GetComponent<TileCDAuthoring>();
-            if (tileCdAuthoring != null)
-            {
-                tileCdAuthoring.tileset = tileset;
-            }
-            else
-            {
-                tileCdAuthoring = entity.gameObject.AddComponent<TileCDAuthoring>();
-                tileCdAuthoring.tileset = tileset;
-            }
-        }
-        else
-        {
-            CoreLibPlugin.Logger.LogError($"Failed to set tileset! Found no registered entities with ID: {id}.");
-        }
     }
 
     #endregion

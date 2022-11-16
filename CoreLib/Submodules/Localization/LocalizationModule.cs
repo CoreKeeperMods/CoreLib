@@ -66,6 +66,21 @@ public static class LocalizationModule
         AddTerm(term, new Dictionary<string, string> { { "en", en }, { "zh-CN", cn } });
     }
     
+    /// <summary>
+    /// Add I2 terms for entity name and description
+    /// </summary>
+    /// <param name="enName">Object name in English</param>
+    /// <param name="enDesc">Object description in English</param>
+    /// <param name="cnName">Object name in Chinese</param>
+    /// <param name="cnDesc">Object description in Chinese</param>
+    public static void AddEntityLocalization(ObjectID obj, string enName, string enDesc, string cnName = "", string cnDesc = "")
+    {
+        if (obj == ObjectID.None) return;
+        
+        AddTerm($"Items/{obj}", enName, cnName);
+        AddTerm($"Items/{obj}Desc", enDesc, cnDesc);
+    }
+    
     #endregion
 
     #region Private Implementation
