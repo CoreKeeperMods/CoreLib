@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes;
 using Il2CppInterop.Runtime.Runtime;
 using Mono.Cecil;
 using FieldInfo = Il2CppSystem.Reflection.FieldInfo;
@@ -110,6 +111,15 @@ public static class Reflection {
         Type returnType = method.ReturnType;
         Type[] paramTypes = method.GetParameters().Select(info => info.ParameterType).ToArray();
         string[] parameters = paramTypes.Select(info => info.FullName).ToArray();
+        
+        for (int i = 0; i < paramTypes.Length; i++)
+        {
+            if (paramTypes[i].IsAssignableTo(typeof(Il2CppObjectBase)))
+            {
+                args[i] = IL2CPP.Il2CppObjectBaseToPtr((Il2CppObjectBase) args[i]);
+                paramTypes[i] = typeof(IntPtr);
+            }
+        }
             
         IntPtr klass = Il2CppClassPointerStore<T>.NativeClassPtr;
         IntPtr methodPtr = IL2CPP.GetIl2CppMethod(klass, false, name, returnType.FullName, parameters);
