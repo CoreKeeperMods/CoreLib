@@ -136,7 +136,12 @@ public static class CustomEntityModule
         ThrowIfTooLate(nameof(AddModWorkbench));
         ObjectID workbenchId = AddWorkbench(itemId, spritePath, recipe);
         if (bindToRootWorkbench)
+        {
+            if (rootWorkbenches.Count == 0)
+                AddRootWorkbench();
             AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        }
+
         return workbenchId;
     }
     
@@ -152,7 +157,11 @@ public static class CustomEntityModule
         ThrowIfTooLate(nameof(AddModWorkbench));
         ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe);
         if (bindToRootWorkbench)
+        {
+            if (rootWorkbenches.Count == 0)
+                AddRootWorkbench();
             AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        }
         return workbenchId;
     }
 
@@ -483,7 +492,6 @@ public static class CustomEntityModule
         RegisterModifications(typeof(CustomEntityModule));
 
         InitTilesets();
-        AddRootWorkbench();
     }
 
     private static void InitTilesets()
@@ -518,8 +526,11 @@ public static class CustomEntityModule
     [EntityModification(ObjectID.Player)]
     private static void EditPlayer(EntityMonoBehaviourData entity)
     {
-        CraftingCDAuthoring craftingCdAuthoring = entity.GetComponent<CraftingCDAuthoring>();
-        craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = rootWorkbenches.First(), amount = 1 });
+        if (rootWorkbenches.Count > 0)
+        {
+            CraftingCDAuthoring craftingCdAuthoring = entity.GetComponent<CraftingCDAuthoring>();
+            craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = rootWorkbenches.First(), amount = 1 });
+        }
     }
 
     private static ObjectID AddRootWorkbench()
