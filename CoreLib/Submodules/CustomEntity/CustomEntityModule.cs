@@ -660,7 +660,7 @@ public static class CustomEntityModule
         IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(HasAttribute);
         foreach (MethodInfo method in methods)
         {
-            EntityModificationAttribute attribute = method.GetCustomAttribute<EntityModificationAttribute>();
+            var attributes = method.GetCustomAttributes<EntityModificationAttribute>();
 
             var parameters = method.GetParameters();
             if (method.ReturnParameter.ParameterType == typeof(void) &&
@@ -669,16 +669,19 @@ public static class CustomEntityModule
             {
                 Action<EntityMonoBehaviourData> modifyDelegate = method.CreateDelegate<Action<EntityMonoBehaviourData>>();
 
-                if (!string.IsNullOrEmpty(attribute.modTarget))
+                foreach (EntityModificationAttribute attribute in attributes)
                 {
-                    modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
-                }
-                else
-                {
-                    entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
-                }
+                    if (!string.IsNullOrEmpty(attribute.modTarget))
+                    {
+                        modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
+                    }
+                    else
+                    {
+                        entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
+                    }
 
-                modifiersCount++;
+                    modifiersCount++;
+                }
             }
             else
             {
