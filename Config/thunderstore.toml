@@ -14,13 +14,13 @@ containsNsfwContent = false
 [build]
 icon = "./icon.png"
 readme = "./README.md"
-outdir = "./../Build"
+outdir = "./../Build"	
 
   [[build.copy]]
   source = "./../Staging"
   target = "./"
 
 [publish]
-repository = "core-keeper.thunderstore.io"
-communities = [ "core-keeper" ]
+repository = "test.thunderstore.dev"
+communities = [ "test" ]
 categories = [ ]	
