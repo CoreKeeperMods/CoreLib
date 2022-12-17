@@ -1,5 +1,7 @@
+Staging/*.dll
 DevEnv.targets
 .idea/
+*.deps.json
 
 # User-specific files
 *.rsuser

@@ -45,7 +45,7 @@ jobs:
 
     - name: BepInEx 6
       run: |
-        bepinexurl = $(curl -vs https://builds.bepinex.dev/projects/bepinex_be 2>&1 | grep -Po '(?<=href=")(\/projects\/bepinex_be\/(.*)\/BepInEx_Unity${{env.BepInExRuntime}}_${{env.BepInExArch}}(.*))(?=")' | head -1)"
+        bepinexurl = $(curl -vs https://builds.bepinex.dev/projects/bepinex_be 2>&1 | grep -Po '(?<=href=")(\/projects\/bepinex_be\/(.*)\/BepInEx-Unity.${{env.BepInExRuntime}}-win-${{env.BepInExArch}}(.*))(?=")' | head -1)"
         wget $bepinexurl > bepinex.zip
       if: env.BundleBepInEx == 'true' && env.BepInExVersion == '6'
 

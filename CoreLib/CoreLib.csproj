@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyName>CoreLib</AssemblyName>
     <Description>A modding library for Core Keeper. Provides multiple features to make adding custom content to it easier.</Description>
-    <Version>1.2.0</Version>
+    <PackageVersion>$(AssemblyVersion)</PackageVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <Configurations>Release;BuildNPack</Configurations>

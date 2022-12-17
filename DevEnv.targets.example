@@ -5,5 +5,7 @@
     <SteamDir>C:\Program Files (x86)\Steam\</SteamDir>
     <!--Replace the path to your Core Keeper installation folder-->
     <CKGameDir>C:\Program Files (x86)\Steam\steamapps\common\Core Keeper\</CKGameDir>
+	<!--Replace the path to your Unity project folder-->
+    <UnityProject></UnityProject>
   </PropertyGroup>
 </Project>
