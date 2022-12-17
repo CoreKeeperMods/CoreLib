@@ -7,10 +7,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      BundleBepInEx : false
-      BepInExVersion : 6
-      BepInExArch : x64
-      BepInExRuntime : IL2CPP
       PluginName : CoreMods-CoreLib
       ThunderstoreRelease: true
       PublishNuget: false
@@ -42,27 +38,6 @@ jobs:
          core.setFailed('Invalid tag')
 
     - uses: actions/setup-dotnet@v1
-
-    - name: BepInEx 6
-      run: |
-        bepinexurl = $(curl -vs https://builds.bepinex.dev/projects/bepinex_be 2>&1 | grep -Po '(?<=href=")(\/projects\/bepinex_be\/(.*)\/BepInEx-Unity.${{env.BepInExRuntime}}-win-${{env.BepInExArch}}(.*))(?=")' | head -1)"
-        wget $bepinexurl > bepinex.zip
-      if: env.BundleBepInEx == 'true' && env.BepInExVersion == '6'
-
-    - name: BepInEx 5
-      shell: pwsh
-      run: |
-        $webData = Invoke-WebRequest -Uri "https://api.github.com/repos/BepInEx/BepInEx/releases/latest"
-        $release = ConvertFrom-Json $webData.content
-        $bepinexurl = $release.assets.browser_download_url -match '${{env.BepInExArch}}'
-        wget $bepinexurl > bepinex.zip
-      if: env.BundleBepInEx == 'true' && env.BepInExVersion == '5'
-
-    - name: Extract BepInEx
-      run: | 
-        mkdir out;
-        unzip BepInEx* -d out;
-      if: env.BundleBepInEx == 'true'
       
     - name: Setup Thunderstore CLI
       run: |
