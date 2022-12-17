@@ -44,14 +44,14 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\CoreLib.CodeGenerator\CoreLib.CodeGenerator.csproj" Private="false" />
+        <ProjectReference Include="..\CoreLib.CodeGenerator\CoreLib.CodeGenerator.csproj" Private="false" PrivateAssets="all"/>
     </ItemGroup>
     
 	<ItemGroup Label="Nugets">
 		<PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.*" />
+        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.1.*" />
         <PackageReference Include="Iced" Version="1.17.0" PrivateAssets="all"/> 
 	</ItemGroup>
 </Project>
