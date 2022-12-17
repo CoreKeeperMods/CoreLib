@@ -5,6 +5,7 @@ using System.Reflection;
 using BepInEx;
 using CoreLib.Components;
 using CoreLib.Submodules.CustomEntity.Atributes;
+using CoreLib.Submodules.CustomEntity.Interfaces;
 using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
 using CoreLib.Submodules.ModResources;
@@ -368,6 +369,19 @@ public static class CustomEntityModule
         return 0;
     }
 
+    public static void RegisterDynamicItemHandler<T>()
+    where T : IDynamicItemHandler, new()
+    {
+        if (dynamicItemHandlers.Any(handler => handler.GetType() == typeof(T)))
+        {
+            CoreLibPlugin.Logger.LogWarning($"Failed to register dynamic handler {typeof(T).FullName}, because it is already registered!");
+            return;
+        }
+        
+        T handler = Activator.CreateInstance<T>();
+        dynamicItemHandlers.Add(handler);
+    }
+    
     #endregion
 
     #region PrivateImplementation
@@ -383,6 +397,8 @@ public static class CustomEntityModule
 
     internal static Dictionary<string, PugMapTileset> tilesetLayers = new Dictionary<string, PugMapTileset>();
     internal static MapWorkshopTilesetBank.Tileset missingTileset;
+
+    internal static List<IDynamicItemHandler> dynamicItemHandlers = new List<IDynamicItemHandler>();
 
     internal static IdBindConfigFile modEntityIDs;
     internal static IdBindConfigFile tilesetIDs;
