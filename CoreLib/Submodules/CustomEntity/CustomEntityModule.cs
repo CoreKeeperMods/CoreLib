@@ -88,6 +88,26 @@ public static class CustomEntityModule
         return (Tileset)tilesetIDs.GetIndex(itemID);
     }
 
+    public static ObjectType GetObjectType(string typeName)
+    {
+        ThrowIfNotLoaded();
+
+        int index = objectTypeIDs.HasIndex(typeName) ? 
+            objectTypeIDs.GetIndex(typeName) : 
+            objectTypeIDs.GetNextId(typeName);
+        return (ObjectType)index;
+    }
+    
+    public static EquipmentSlot.EquipmentSlotType GetEquipmentSlotType(string typeName)
+    {
+        ThrowIfNotLoaded();
+
+        int index = equipmentSlotTypeIDs.HasIndex(typeName) ? 
+            equipmentSlotTypeIDs.GetIndex(typeName) : 
+            equipmentSlotTypeIDs.GetNextId(typeName);
+        return (EquipmentSlot.EquipmentSlotType)index;
+    }
+
     public static string[] GetAllModdedItems()
     {
         ThrowIfNotLoaded();
@@ -402,6 +422,8 @@ public static class CustomEntityModule
 
     internal static IdBindConfigFile modEntityIDs;
     internal static IdBindConfigFile tilesetIDs;
+    internal static IdBind objectTypeIDs;
+    internal static IdBind equipmentSlotTypeIDs;
 
     internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
 
@@ -433,6 +455,8 @@ public static class CustomEntityModule
         BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
         modEntityIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModEntityID.cfg", metadata, modEntityIdRangeStart, modEntityIdRangeEnd);
         tilesetIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.TilesetID.cfg", metadata, modTilesetIdRangeStart, modTilesetIdRangeEnd);
+        objectTypeIDs = new IdBind(8000, ushort.MaxValue);
+        equipmentSlotTypeIDs = new IdBind(20, 200);
 
         ClassInjector.RegisterTypeInIl2Cpp<EntityPrefabOverride>();
         ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterial>();
@@ -491,7 +515,7 @@ public static class CustomEntityModule
     {
         ObjectID workbench = AddWorkbench(RootWorkbench, "Assets/CoreLib/Textures/modWorkbench", null);
         rootWorkbenches.Add(workbench);
-        AddEntityLocalization(workbench, $"Root Workbench {rootWorkbenches.Count}", "This workbench contains all modded workbenches!");
+        LocalizationModule.AddEntityLocalization(workbench, $"Root Workbench {rootWorkbenches.Count}", "This workbench contains all modded workbenches!");
         return workbench;
     }
 

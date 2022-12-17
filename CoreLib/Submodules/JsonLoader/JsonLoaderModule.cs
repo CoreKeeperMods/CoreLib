@@ -43,6 +43,7 @@ namespace CoreLib.Submodules.JsonLoader
             {
                 IncludeFields = true
             };
+            options.Converters.Add(new ObjectTypeConverter());
             options.Converters.Add(new ObjectIDConverter());
             options.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
             options.Converters.Add(new Il2CppListConverter());
