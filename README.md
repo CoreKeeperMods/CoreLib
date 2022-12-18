@@ -38,6 +38,9 @@ This library is still WIP.
 <details>
 <summary>Changelog</summary>
 
+### v1.2.2
+- Add missing GCHandles
+
 ### v1.2.1
 - Fixed compatibility with game version 0.5.1.0 and higher
 - Stop adding mod workbench when no one uses it
