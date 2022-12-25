@@ -31,6 +31,7 @@ namespace CoreLib.Components
         private GCHandle defaultSpritePositionsHandle;
         private GCHandle conditionsHandle;
         private GCHandle piercesWallTypesHandle;
+        private GCHandle tilesToCheckHandle;
 
         protected bool allocated;
 
@@ -72,6 +73,7 @@ namespace CoreLib.Components
             defaultSpritePositionsHandle = GCHandle.Alloc(defaultSpritePositions);
             conditionsHandle = GCHandle.Alloc(conditions);
             piercesWallTypesHandle = GCHandle.Alloc(piercesWallTypesHandle);
+            tilesToCheckHandle = GCHandle.Alloc(tilesToCheck);
 
             allocated = true;
             return true;
@@ -107,6 +109,7 @@ namespace CoreLib.Components
             defaultSpritePositionsHandle.Free();
             conditionsHandle.Free();
             piercesWallTypesHandle.Free();
+            tilesToCheckHandle.Free();
         }
     }
 }
