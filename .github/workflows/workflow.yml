@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PluginName : CoreMods-CoreLib
-      ThunderstoreRelease: false
-      PublishNuget: false
+      ThunderstoreRelease: true
+      PublishNuget: true
     steps:
     - name: Checkout
       uses: actions/checkout@v2
