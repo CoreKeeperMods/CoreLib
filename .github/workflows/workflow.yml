@@ -9,7 +9,7 @@ jobs:
     env:
       PluginName : CoreMods-CoreLib
       ThunderstoreRelease: true
-      PublishNuget: false
+      PublishNuget: true
     steps:
     - name: Checkout
       uses: actions/checkout@v2

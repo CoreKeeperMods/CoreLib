@@ -38,6 +38,10 @@ This library is still WIP.
 <details>
 <summary>Changelog</summary>
 
+### v1.2.3
+- Add unboxed variant of NativeList
+- Another missed GCHandle in ModProjectile added
+
 ### v1.2.2
 - Add missing GCHandles
 
