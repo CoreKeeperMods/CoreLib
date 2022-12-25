@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PluginName : CoreMods-CoreLib
-      ThunderstoreRelease: true
-      PublishNuget: true
+      ThunderstoreRelease: false
+      PublishNuget: false
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -38,6 +38,16 @@ jobs:
          core.setFailed('Invalid tag')
 
     - uses: actions/setup-dotnet@v1
+
+    - uses: actions/cache@v3
+      with:
+        path: |
+          ~/.nuget/packages
+          ~/.cache/bepinex
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
       
     - name: Setup Thunderstore CLI
       run: |
