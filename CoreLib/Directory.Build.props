@@ -52,6 +52,6 @@
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
         <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.1.*" />
-        <PackageReference Include="Iced" Version="1.17.0" PrivateAssets="all"/> 
+        <PackageReference Include="Iced" Version="1.18.0" PrivateAssets="all"/>
 	</ItemGroup>
 </Project>
