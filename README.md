@@ -19,6 +19,9 @@ I recommend any mods adding custom content warn users about this on their page.
 
 This might get improved later, but right now this is best that you can do.
 
+# How to support development
+If you like what I do and would like to support development, you can [donate](https://boosty.to/kremnev8).
+
 # Installation
 ### With Mod Manager
 
