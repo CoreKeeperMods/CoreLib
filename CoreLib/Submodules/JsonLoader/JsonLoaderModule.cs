@@ -61,10 +61,15 @@ namespace CoreLib.Submodules.JsonLoader
         }
 
         public static JsonSerializerOptions options;
-        public static string context;
+        public static string context = "";
 
         public static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
         public static Dictionary<string, string> modFolders = new Dictionary<string, string>();
+
+        public static IDisposable WithContext(string path)
+        {
+            return new ContextHandle(path);
+        }
 
         public static void LoadFolder(string modGuid, string path)
         {
@@ -83,62 +88,61 @@ namespace CoreLib.Submodules.JsonLoader
             }
 
             string resourcesDir = Path.Combine(path, "resources");
-            context = resourcesDir;
-
-            List<JsonNode> objectsCache = new List<JsonNode>();
-
-            foreach (string file in Directory.EnumerateFiles(resourcesDir, "*.json", SearchOption.AllDirectories))
+            using (WithContext(resourcesDir))
             {
-                string filename = file.Substring(file.LastIndexOf(Path.DirectorySeparatorChar) + 1);
-                JsonNode jObject = JsonNode.Parse(File.ReadAllText(file));
+                List<JsonNode> objectsCache = new List<JsonNode>();
 
-                if (jObject["type"] == null)
+                foreach (string file in Directory.EnumerateFiles(resourcesDir, "*.json", SearchOption.AllDirectories))
                 {
-                    CoreLibPlugin.Logger.LogWarning(
-                        $"JSON definition file {Path.GetRelativePath(resourcesDir, file)} does not contain type information! Please specify 'type' value!");
-                    continue;
+                    string filename = file.Substring(file.LastIndexOf(Path.DirectorySeparatorChar) + 1);
+                    JsonNode jObject = JsonNode.Parse(File.ReadAllText(file));
+
+                    if (jObject["type"] == null)
+                    {
+                        CoreLibPlugin.Logger.LogWarning(
+                            $"JSON definition file {Path.GetRelativePath(resourcesDir, file)} does not contain type information! Please specify 'type' value!");
+                        continue;
+                    }
+
+                    string type = jObject["type"].GetValue<string>();
+
+                    if (jsonReaders.ContainsKey(type))
+                    {
+                        try
+                        {
+                            CoreLibPlugin.Logger.LogInfo($"Loading JSON file {filename} with {type} reader.");
+                            IJsonReader reader = jsonReaders[type];
+                            reader.ApplyPre(jObject);
+                            jObject["filename"] = filename;
+                            objectsCache.Add(jObject);
+                        }
+                        catch (Exception e)
+                        {
+                            CoreLibPlugin.Logger.LogWarning($"Failed to add object:\n{e}");
+                        }
+                    }
                 }
 
-                string type = jObject["type"].GetValue<string>();
-
-                if (jsonReaders.ContainsKey(type))
+                foreach (JsonNode jObject in objectsCache)
                 {
-                    try
+                    string type = jObject["type"].GetValue<string>();
+
+                    if (jsonReaders.ContainsKey(type))
                     {
-                        CoreLibPlugin.Logger.LogInfo($"Loading JSON file {filename} with {type} reader.");
-                        IJsonReader reader = jsonReaders[type];
-                        reader.ApplyPre(jObject);
-                        jObject["filename"] = filename;
-                        objectsCache.Add(jObject);
-                    }
-                    catch (Exception e)
-                    {
-                        CoreLibPlugin.Logger.LogWarning($"Failed to add object:\n{e}");
+                        try
+                        {
+                            CoreLibPlugin.Logger.LogInfo($"Post Loading JSON file {jObject["filename"].GetValue<string>()} with {type} reader.");
+                            IJsonReader reader = jsonReaders[type];
+                            reader.ApplyPost(jObject);
+                        }
+                        catch (Exception e)
+                        {
+                            CoreLibPlugin.Logger.LogWarning($"Failed to post load:\n{e}");
+                        }
                     }
                 }
+                modFolders.Add(modGuid, path);
             }
-
-            foreach (JsonNode jObject in objectsCache)
-            {
-                string type = jObject["type"].GetValue<string>();
-
-                if (jsonReaders.ContainsKey(type))
-                {
-                    try
-                    {
-                        CoreLibPlugin.Logger.LogInfo($"Post Loading JSON file {jObject["filename"].GetValue<string>()} with {type} reader.");
-                        IJsonReader reader = jsonReaders[type];
-                        reader.ApplyPost(jObject);
-                    }
-                    catch (Exception e)
-                    {
-                        CoreLibPlugin.Logger.LogWarning($"Failed to post load:\n{e}");
-                    }
-                }
-            }
-
-            context = "";
-            modFolders.Add(modGuid, path);
         }
 
         public static void RegisterJsonReaders(Assembly assembly)
@@ -197,7 +201,7 @@ namespace CoreLib.Submodules.JsonLoader
             foreach (PropertyInfo property in type.GetProperties())
             {
                 if (!property.PropertyType.IsGenericType) continue;
-                
+
                 if (property.PropertyType.GetGenericTypeDefinition() == typeof(Il2CppSystem.Collections.Generic.List<>))
                 {
                     object value = property.GetValue(target);

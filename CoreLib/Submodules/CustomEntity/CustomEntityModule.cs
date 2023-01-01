@@ -447,6 +447,7 @@ public static class CustomEntityModule
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(GameObjectConversionMappingSystem_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(PlayerController_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]

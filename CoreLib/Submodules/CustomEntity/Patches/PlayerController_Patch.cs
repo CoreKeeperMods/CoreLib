@@ -2,6 +2,7 @@
 using System.Linq;
 using CoreLib.Submodules.CustomEntity.Interfaces;
 using HarmonyLib;
+using UnityEngine;
 
 namespace CoreLib.Submodules.CustomEntity.Patches
 {
@@ -20,7 +21,14 @@ namespace CoreLib.Submodules.CustomEntity.Patches
         public static void UpdateReplacer(ColorReplacer __instance, ObjectDataCD objectData)
         {
             IDynamicItemHandler handler = CustomEntityModule.dynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(objectData));
-            handler?.ApplyColors(objectData, __instance.colorReplacementData);
+            if (handler == null) return;
+
+            bool apply = handler.ApplyColors(objectData, __instance.colorReplacementData);
+            if (apply)
+            {
+                __instance.ResetTextureColors();
+                __instance.SetActiveColorReplacement(1);
+            }
         }
     }
 }

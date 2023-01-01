@@ -38,6 +38,9 @@ This library is still WIP.
 <details>
 <summary>Changelog</summary>
 
+### v1.2.4
+- Add IDynamicItemHandler interface
+
 ### v1.2.3
 - Add unboxed variant of NativeList
 - Another missed GCHandle in ModProjectile added
