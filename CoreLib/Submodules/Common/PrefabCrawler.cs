@@ -2,7 +2,7 @@
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 
-namespace CoreLib.Submodules.CustomEntity;
+namespace CoreLib.Submodules;
 
 public static class PrefabCrawler
 {
@@ -36,6 +36,12 @@ public static class PrefabCrawler
         {
             GameObject prefabRoot = prefab.prefab;
             CheckPrefab(prefabRoot);
+        }
+
+        CoreLibPlugin.Logger.LogDebug("Found materials:");
+        foreach (string matName in materials.Keys)
+        {
+            CoreLibPlugin.Logger.LogDebug(matName);
         }
 
         materialsReady = true;

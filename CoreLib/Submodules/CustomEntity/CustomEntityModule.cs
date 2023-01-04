@@ -4,11 +4,13 @@ using System.Linq;
 using System.Reflection;
 using BepInEx;
 using CoreLib.Components;
+using CoreLib.Submodules.Common.Patches;
 using CoreLib.Submodules.CustomEntity.Atributes;
 using CoreLib.Submodules.CustomEntity.Interfaces;
 using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
 using CoreLib.Submodules.ModResources;
+using CoreLib.Util;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
@@ -262,7 +264,7 @@ public static class CustomEntityModule
             try
             {
                 EntityMonoBehaviourData entity = LoadPrefab(itemId, prefabPath);
-                CallAlloc(entity);
+                MonoBehaviourUtils.CallAlloc(entity);
                 entities.Add(entity);
             }
             catch (ArgumentException)
@@ -423,17 +425,19 @@ public static class CustomEntityModule
     internal static IdBindConfigFile modEntityIDs;
     internal static IdBindConfigFile tilesetIDs;
     internal static IdBind objectTypeIDs;
-    internal static IdBind equipmentSlotTypeIDs;
 
     internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
 
     internal static PlayerCustomizationTable customizationTable;
 
     public const int modEntityIdRangeStart = 33000;
-    public const int modEntityIdRangeEnd = 65535;
+    public const int modEntityIdRangeEnd = ushort.MaxValue;
 
     public const int modTilesetIdRangeStart = 100;
     public const int modTilesetIdRangeEnd = 200;
+    
+    public const int modObjectTypeIdRangeStart = 33000;
+    public const int modObjectTypeIdRangeEnd = ushort.MaxValue;
 
     internal static bool hasInjected;
     internal static bool hasConverted;
@@ -443,11 +447,12 @@ public static class CustomEntityModule
     [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
     internal static void SetHooks()
     {
-        CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
+        MemoryManager_Patch.TryPatch();
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(GameObjectConversionMappingSystem_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(PlayerController_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(ColorReplacer_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
@@ -456,11 +461,11 @@ public static class CustomEntityModule
         BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
         modEntityIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModEntityID.cfg", metadata, modEntityIdRangeStart, modEntityIdRangeEnd);
         tilesetIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.TilesetID.cfg", metadata, modTilesetIdRangeStart, modTilesetIdRangeEnd);
-        objectTypeIDs = new IdBind(8000, ushort.MaxValue);
-        equipmentSlotTypeIDs = new IdBind(20, 200);
+        objectTypeIDs = new IdBind(modObjectTypeIdRangeStart, modObjectTypeIdRangeEnd);
 
         ClassInjector.RegisterTypeInIl2Cpp<EntityPrefabOverride>();
         ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterial>();
+        ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterialV2>();
         ClassInjector.RegisterTypeInIl2Cpp<ModEntityMonoBehavior>();
         ClassInjector.RegisterTypeInIl2Cpp<ModProjectile>();
         ClassInjector.RegisterTypeInIl2Cpp<ModCDAuthoringBase>();
@@ -468,6 +473,7 @@ public static class CustomEntityModule
         ClassInjector.RegisterTypeInIl2Cpp<ModEquipmentSkinCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModDropsLootFromTableCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModRangeWeaponCDAuthoring>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModObjectTypeAuthoring>();
         RegisterModifications(typeof(CustomEntityModule));
 
         InitTilesets();
@@ -623,17 +629,7 @@ public static class CustomEntityModule
 
     internal static EntityMonoBehaviourData LoadPrefab(string itemId, string prefabPath)
     {
-        Object gameObject = ResourcesModule.LoadAsset(prefabPath);
-        if (gameObject == null)
-        {
-            throw new ArgumentException($"Found no prefab at path: {prefabPath}");
-        }
-
-        GameObject prefab = gameObject.TryCast<GameObject>();
-        if (prefab == null)
-        {
-            throw new ArgumentException($"Object at path: {prefabPath} is not a Prefab!");
-        }
+        GameObject prefab = ResourcesModule.LoadAsset<GameObject>(prefabPath);
 
         GameObject newPrefab = Object.Instantiate(prefab);
         ResourcesModule.Retain(newPrefab);
@@ -653,35 +649,6 @@ public static class CustomEntityModule
         }
 
         return entityData;
-    }
-
-    internal static void CallAlloc(EntityMonoBehaviourData entityData)
-    {
-        Il2CppArrayBase<MonoBehaviour> components;
-        foreach (PrefabInfo prefabInfo in entityData.objectInfo.prefabInfos)
-        {
-            if (prefabInfo.prefab == null) continue;
-
-            components = prefabInfo.prefab.GetComponentsInChildren<MonoBehaviour>();
-            foreach (MonoBehaviour component in components)
-            {
-                Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
-                if (method != null)
-                {
-                    method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
-                }
-            }
-        }
-
-        components = entityData.gameObject.GetComponents<MonoBehaviour>();
-        foreach (MonoBehaviour component in components)
-        {
-            Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
-            if (method != null)
-            {
-                method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
-            }
-        }
     }
 
     private static void RegisterModifications_Internal(Assembly assembly)

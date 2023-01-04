@@ -143,10 +143,27 @@ public static class ResourcesModule
         return Resources.Load(assetPath);
     }
 
+    /// <summary>
+    /// Load asset from mod asset bundles and cast it
+    /// </summary>
+    /// <param name="path">path to the asset</param>
+    /// <exception cref="ArgumentException">Thrown if asset is not found or can't be cast to T</exception>
     public static T LoadAsset<T>(string path)
         where T : Object
     {
-        return LoadAsset(path).TryCast<T>();
+        Object asset = LoadAsset(path);
+        if (asset == null)
+        {
+            throw new ArgumentException($"Found no asset at path: {path}");
+        }
+
+        T typedAsset = asset.TryCast<T>();
+        if (typedAsset == null)
+        {
+            throw new ArgumentException($"Asset at path: {path} can't be cast to {typeof(T).FullName}!");
+        }
+        
+        return typedAsset;
     }
 
     public static void Retain(Il2CppSystem.Object o)

@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 using CoreLib.Components;
 using CoreLib.Submodules.CustomEntity;
 using CoreLib.Submodules.Localization;
+using CoreLib.Util;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes;
@@ -53,7 +54,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             CustomCDAuthoring testComponent = entityData.gameObject.AddComponent<CustomCDAuthoring>();
             testComponent.value = Random.Range(1,15);*/
                 
-            CustomEntityModule.CallAlloc(entityData);
+            MonoBehaviourUtils.CallAlloc(entityData);
             ObjectID objectID = CustomEntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
 
             ReadLocalization(jObject, objectID);
