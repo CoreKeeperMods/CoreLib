@@ -38,12 +38,6 @@ public static class PrefabCrawler
             CheckPrefab(prefabRoot);
         }
 
-        CoreLibPlugin.Logger.LogDebug("Found materials:");
-        foreach (string matName in materials.Keys)
-        {
-            CoreLibPlugin.Logger.LogDebug(matName);
-        }
-
         materialsReady = true;
     }
 
