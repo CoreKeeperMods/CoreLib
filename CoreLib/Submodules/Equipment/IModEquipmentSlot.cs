@@ -3,5 +3,7 @@
     public interface IModEquipmentSlot
     {
         ObjectType GetSlotObjectType();
+
+        void UpdateSlotVisuals(PlayerController controller);
     }
 }

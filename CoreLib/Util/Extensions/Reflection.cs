@@ -41,6 +41,15 @@ public static class Reflection {
         }
     }
     
+    public static void TryInvokeAction(this Object target, string methodName, params Il2CppSystem.Object[] args)
+    {
+        Il2CppSystem.Reflection.MethodInfo method = target?.GetIl2CppType()?.GetMethod(methodName, Reflection.all);
+        if (method != null)
+        {
+            method.Invoke(target, new Il2CppReferenceArray<Il2CppSystem.Object>(args));
+        }
+    }
+    
     public static Object TryInvokeFunc(this Object target, string methodName)
     {
         if (target == null) return null;
@@ -49,6 +58,19 @@ public static class Reflection {
         if (method != null)
         {
             return method.Invoke(target, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+        }
+
+        return null;
+    }
+    
+    public static Object TryInvokeFunc(this Object target, string methodName, params Il2CppSystem.Object[] args)
+    {
+        if (target == null) return null;
+        
+        Il2CppSystem.Reflection.MethodInfo method = target.GetIl2CppType().GetMethod(methodName, Reflection.all);
+        if (method != null)
+        {
+            return method.Invoke(target, new Il2CppReferenceArray<Il2CppSystem.Object>(args));
         }
 
         return null;

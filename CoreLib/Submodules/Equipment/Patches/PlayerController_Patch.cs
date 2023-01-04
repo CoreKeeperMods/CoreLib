@@ -10,7 +10,7 @@ namespace CoreLib.Submodules.Equipment.Patches
     {
         [HarmonyPatch(typeof(PlayerController), nameof(PlayerController.GetSlotTypeForObjectType))]
         [HarmonyPostfix]
-        public static void PlayerPatch(ObjectType objectType, ref Il2CppSystem.Type __result)
+        public static void DetermineSlotType(ObjectType objectType, ref Il2CppSystem.Type __result)
         {
             int objectId = (int)objectType;
             if (objectId < CustomEntityModule.modObjectTypeIdRangeStart) return;
@@ -27,6 +27,17 @@ namespace CoreLib.Submodules.Equipment.Patches
             }
             catch (InvalidOperationException)
             {
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerController), nameof(PlayerController.UpdateEquippedSlotVisuals))]
+        [HarmonyPostfix]
+        public static void UpdateSlotVisuals(PlayerController __instance)
+        {
+            EquipmentSlot slot = __instance.GetEquippedSlot();
+            if ((int)slot.slotType >= EquipmentSlotModule.ModSlotTypeIdStart)
+            {
+                slot.TryInvokeAction(nameof(IModEquipmentSlot.UpdateSlotVisuals), __instance);
             }
         }
     }
