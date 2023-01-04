@@ -28,32 +28,7 @@ namespace CoreLib.Components
         public override bool Apply(EntityMonoBehaviourData data)
         {
             string matName = materialName.Value;
-            if (PrefabCrawler.materials.ContainsKey(matName))
-            {
-                bool anyWorked = false;
-                SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-                if (spriteRenderer != null)
-                {
-                    spriteRenderer.sharedMaterial = PrefabCrawler.materials[matName];
-                    anyWorked = true;
-                }
-
-                ParticleSystemRenderer particleSystem = GetComponent<ParticleSystemRenderer>();
-                if (particleSystem != null)
-                {
-                    particleSystem.sharedMaterial = PrefabCrawler.materials[matName];
-                    anyWorked = true;
-                }
-
-                if (!anyWorked)
-                {
-                    CoreLibPlugin.Logger.LogInfo($"Error applying material {matName}, found no valid target!");
-                }
-            }
-            else
-            {
-                CoreLibPlugin.Logger.LogInfo($"Error applying material {matName}, such material is not found!");
-            }
+            RuntimeMaterialV2.ApplyMaterial(gameObject, matName);
             return true;
         }
 
