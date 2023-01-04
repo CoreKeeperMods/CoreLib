@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppInterop.Runtime.Runtime;
 using Mono.Cecil;
 using FieldInfo = Il2CppSystem.Reflection.FieldInfo;
@@ -29,6 +30,29 @@ public static class Reflection {
                                                               Il2CppSystem.Reflection.BindingFlags.GetField | Il2CppSystem.Reflection.BindingFlags.SetField |
                                                               Il2CppSystem.Reflection.BindingFlags.GetProperty |
                                                               Il2CppSystem.Reflection.BindingFlags.SetProperty;
+
+
+    public static void TryInvokeAction(this Object target, string methodName)
+    {
+        Il2CppSystem.Reflection.MethodInfo method = target?.GetIl2CppType()?.GetMethod(methodName, Reflection.all);
+        if (method != null)
+        {
+            method.Invoke(target, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+        }
+    }
+    
+    public static Object TryInvokeFunc(this Object target, string methodName)
+    {
+        if (target == null) return null;
+        
+        Il2CppSystem.Reflection.MethodInfo method = target.GetIl2CppType().GetMethod(methodName, Reflection.all);
+        if (method != null)
+        {
+            return method.Invoke(target, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+        }
+
+        return null;
+    }
     
     internal static bool IsSubTypeOf(this TypeDefinition typeDefinition, string typeFullName) {
         if (typeDefinition.FullName == typeFullName) {

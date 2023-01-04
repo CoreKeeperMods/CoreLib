@@ -99,16 +99,6 @@ public static class CustomEntityModule
             objectTypeIDs.GetNextId(typeName);
         return (ObjectType)index;
     }
-    
-    public static EquipmentSlot.EquipmentSlotType GetEquipmentSlotType(string typeName)
-    {
-        ThrowIfNotLoaded();
-
-        int index = equipmentSlotTypeIDs.HasIndex(typeName) ? 
-            equipmentSlotTypeIDs.GetIndex(typeName) : 
-            equipmentSlotTypeIDs.GetNextId(typeName);
-        return (EquipmentSlot.EquipmentSlotType)index;
-    }
 
     public static string[] GetAllModdedItems()
     {
