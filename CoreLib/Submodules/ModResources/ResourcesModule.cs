@@ -226,14 +226,16 @@ public static class ResourcesModule
         return newSprite;
     }
     
-    internal static Sprite LoadNewSprite(string filePath, float pixelsPerUnit, Rect rect, Vector2 pivot) {
-   
+    internal static Sprite LoadNewSprite(string filePath, float pixelsPerUnit, Rect? rect, Vector2 pivot) {
+        
         // Load a PNG or JPG image from disk to a Texture2D, assign this texture to a new sprite and return its reference
         Texture2D spriteTexture = LoadTexture(filePath);
         if (spriteTexture == null) return null;
 
+        rect ??= new Rect(0, 0, spriteTexture.width, spriteTexture.height);
+
         spriteTexture.filterMode = FilterMode.Point;
-        Sprite newSprite = Sprite.Create(spriteTexture, rect, pivot, pixelsPerUnit);
+        Sprite newSprite = Sprite.Create(spriteTexture, rect.Value, pivot, pixelsPerUnit);
 
         return newSprite;
     }

@@ -2,6 +2,8 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModResources;
+using UnityEngine;
 
 namespace CoreLib.Submodules.JsonLoader.Readers
 {
@@ -11,8 +13,8 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         public void ApplyPre(JsonNode jObject)
         {
             string itemId = jObject["itemId"].GetValue<string>();
-            string icon = jObject["icon"].GetValue<string>();
-            string smallIcon = jObject["smallIcon"].GetValue<string>();
+            Sprite icon = jObject["icon"].Deserialize<Sprite>();
+            Sprite smallIcon = jObject["smallIcon"].Deserialize<Sprite>();
             List<CraftingData> recipe = jObject["requiredObjectsToCraft"].Deserialize<List<CraftingData>>(JsonLoaderModule.options);
 
             ObjectID objectID = CustomEntityModule.AddModWorkbench(itemId, icon, smallIcon, recipe, true);

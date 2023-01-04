@@ -177,6 +177,20 @@ public static class CustomEntityModule
         }
         return workbenchId;
     }
+    
+    internal static ObjectID AddModWorkbench(string itemId, Sprite bigIconPath, Sprite smallIconPath, List<CraftingData> recipe, bool bindToRootWorkbench)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(AddModWorkbench));
+        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe);
+        if (bindToRootWorkbench)
+        {
+            if (rootWorkbenches.Count == 0)
+                AddRootWorkbench();
+            AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        }
+        return workbenchId;
+    }
 
 
     /// <summary>
