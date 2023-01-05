@@ -26,6 +26,11 @@ loader [assembly](../../../JsonModLoader/JsonModLoader/Binaries).
 Create a new folder in the plugins folder, and move the loader assembly there. Make sure to include `manifest.json`
 file, which must contain `author`, `name` and `version_number` properties. This is the same file used by Thunderstore.
 
+### Uploading to Thunderstore
+When uploading your mod to thunderstore create a folder `plugins` in which you must include the assembly, `resources` folder and `manifest.json`. 
+
+Next to the `plugins` folder also include typical thunderstore files including a duplicate of the `manifest.json`.
+
 ## Creating items using JSON
 
 To start creating items create a new folder named `resources` in your plugin folder. You can include here all textures
@@ -41,7 +46,13 @@ Each item is contained it its own json file. Here is an example of a simple item
   "smallIcon": "icons/my-item-small-icon.png",
   "localizedName": "My Item",
   "localizedDescription": "This item was added using JSON!",
-  "isStackable": true
+  "isStackable": true,
+  "requiredObjectsToCraft": [
+    {
+      "objectID": "Wood",
+      "amount": 6
+    }
+  ]
 }
 ```
 
