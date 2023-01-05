@@ -1,6 +1,8 @@
 .idea/
 DevEnv.targets
 
+!Release/
+
 # User-specific files
 *.rsuser
 *.suo
@@ -94,6 +96,8 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+
+!Binaries/*.pdb
 
 # Chutzpah Test files
 _Chutzpah*

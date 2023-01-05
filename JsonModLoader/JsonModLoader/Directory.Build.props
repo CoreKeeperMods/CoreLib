@@ -1,31 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-    <PropertyGroup>
-        <DevEnvLoc>$(MSBuildThisFileDirectory)/DevEnv.targets</DevEnvLoc>
-    </PropertyGroup>
-
-    <!-- This sets $(CKGameDir) -->
-    <Import Project="$(DevEnvLoc)" Condition="Exists('$(DevEnvLoc)')"/>
-
-    <PropertyGroup Label="Game Install Properties">
-        <CKGameDir Condition="!Exists('$(DevEnvLoc)')">C:\Program Files (x86)\Steam\steamapps\common\Core Keeper\</CKGameDir>
-        <CKGameDir>$([MSBuild]::EnsureTrailingSlash('$(CKGameDir)'))</CKGameDir>
-        <CKAssemblyDir>$(CKGameDir)BepInEx\interop\</CKAssemblyDir>
+    <PropertyGroup Label="Properties">
         <ProjectDir>$(MSBuildThisFileDirectory)\</ProjectDir>
-
-        <SteamDir>$([MSBuild]::EnsureTrailingSlash('$(SteamDir)'))</SteamDir>
-        <BepInExDir>$(CKGameDir)BepInEx\core\</BepInExDir>
-        <BepPlugins>$(CKGameDir)BepInEx\plugins\</BepPlugins>
-        <PluginOutputDirectory>$(BepPlugins)JsonModLoader\</PluginOutputDirectory>
+        <PluginOutputDirectory>$(ProjectDir)Binaries\</PluginOutputDirectory>
     </PropertyGroup>
 
     <PropertyGroup Label="Common Properties">
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 
-        <OutputPath Condition="Exists('$(CKGameDir)')">$(PluginOutputDirectory)</OutputPath>
-        <OutDir>$(OutputPath)</OutDir>
+        <OutputPath>$(PluginOutputDirectory)</OutputPath>
+        <OutDir>$(PluginOutputDirectory)</OutDir>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -51,9 +37,7 @@
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
         <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.1.*" />
-        
-        <Reference Include="$(BepPlugins)CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/>
-
+        <PackageReference Include="CoreKeeper.Modding.CoreLib" Version="1.2.4" />
     </ItemGroup>
 
 </Project>
