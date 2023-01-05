@@ -13,8 +13,8 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         public void ApplyPre(JsonNode jObject)
         {
             string itemId = jObject["itemId"].GetValue<string>();
-            Sprite icon = jObject["icon"].Deserialize<Sprite>();
-            Sprite smallIcon = jObject["smallIcon"].Deserialize<Sprite>();
+            Sprite icon = jObject["icon"].Deserialize<Sprite>(JsonLoaderModule.options);
+            Sprite smallIcon = jObject["smallIcon"].Deserialize<Sprite>(JsonLoaderModule.options);
             List<CraftingData> recipe = jObject["requiredObjectsToCraft"].Deserialize<List<CraftingData>>(JsonLoaderModule.options);
 
             ObjectID objectID = CustomEntityModule.AddModWorkbench(itemId, icon, smallIcon, recipe, true);

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Text.Json;
 using BepInEx;
@@ -24,8 +25,8 @@ namespace JsonModLoader
             Assembly assembly = Assembly.GetExecutingAssembly();
             
             string currentDir = Path.GetDirectoryName(assembly.Location);
-            string pluginsDir = Path.GetRelativePath(currentDir, "../");
-
+            string pluginsDir = Directory.GetParent(currentDir).FullName;
+            
             LoadJsonMods(pluginsDir, assembly);
             
             logger.LogInfo($"Finished loading all JSON mods");
@@ -36,10 +37,8 @@ namespace JsonModLoader
             foreach (string directory in Directory.EnumerateDirectories(pluginsDir))
             {
                 string myAssemblyPath = Path.Combine(directory, $"{assembly.GetName().Name}.dll");
-                logger.LogInfo($"Checking dir: {directory}, filename: {myAssemblyPath}");
                 if (File.Exists(myAssemblyPath))
                 {
-                    logger.LogInfo("My Assembly found!");
                     LoadDirectory(directory);
                 }
             }
@@ -47,7 +46,14 @@ namespace JsonModLoader
 
         internal static void LoadDirectory(string directory)
         {
-            string text = File.ReadAllText(Path.Combine(directory, "manifest.json"));
+            string manifestPath = Path.Combine(directory, "manifest.json");
+            if (!File.Exists(manifestPath))
+            {
+                logger.LogError($"Failed to load mod folder {directory}, because manifest file is missing!");
+                return;
+            }
+            
+            string text = File.ReadAllText(manifestPath);
             Manifest manifest = JsonSerializer.Deserialize<Manifest>(text);
 
             if (string.IsNullOrEmpty(manifest.author) ||
@@ -61,7 +67,15 @@ namespace JsonModLoader
             string fullModName = $"{manifest.author}-{manifest.name}";
 
             logger.LogDebug($"Loading JSON mod {fullModName} version {manifest.version_number}!");
-            JsonLoaderModule.LoadFolder(fullModName, directory);
+            try
+            {
+                JsonLoaderModule.LoadFolder(fullModName, directory);
+            }
+            catch (Exception e)
+            {
+                logger.LogError($"Failed to load mod {fullModName}:\n{e}");
+            }
+            
         }
     }
 }
