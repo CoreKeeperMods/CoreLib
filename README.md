@@ -9,6 +9,7 @@ A modding library for Core Keeper. Provides features that makes modding Core Kee
 - Add custom Rewired keybinds
 - Add custom chat commands
 - Add new items, blocks, enemies and more
+- Use JSON to add custom items
 
 ## Note on multiplayer and save compatibility
 If you are playing with friends MAKE SURE to sync your `CoreLib.ModEntityID.cfg` and `CoreLib.TilesetID.cfg` config files. If anything inside does not match you WILL encounter issues connecting, missing items, and errors.
@@ -40,6 +41,12 @@ This library is still WIP.
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.3.0
+- Public release of JSON loader module
+- Added Equipment Slot Module
+- Added RuntimeMaterialV2 which uses FixedString
+- Added ModObjectTypeAuthoring
 
 ### v1.2.4
 - Add IDynamicItemHandler interface
