@@ -11,6 +11,9 @@ namespace CoreLib.Components
         private GCHandle optionalColorSpriteRenderersHandle;
         private GCHandle defaultColorSpritesHandle;
         private GCHandle colorSpritesPerSpriteRendererHandle;
+        private GCHandle optionalSpriteRenderersToTintHandle;
+        private GCHandle colorTintsHandle;
+        private GCHandle defaultColorTintsHandle;
         private GCHandle optionalLightsToPaintHandle;
         private GCHandle optionalLightsDefaultColorsHandle;
         private GCHandle lightPaintColorsHandle;
@@ -28,6 +31,7 @@ namespace CoreLib.Components
         private GCHandle defaultSpritePositionsHandle;
         private GCHandle conditionsHandle;
         private GCHandle piercesWallTypesHandle;
+        private GCHandle tilesToCheckHandle;
 
         protected bool allocated;
 
@@ -49,6 +53,9 @@ namespace CoreLib.Components
             optionalColorSpriteRenderersHandle = GCHandle.Alloc(optionalColorSpriteRenderers);
             defaultColorSpritesHandle = GCHandle.Alloc(defaultColorSprites);
             colorSpritesPerSpriteRendererHandle = GCHandle.Alloc(colorSpritesPerSpriteRenderer);
+            optionalSpriteRenderersToTintHandle = GCHandle.Alloc(optionalSpriteRenderersToTint);
+            colorTintsHandle = GCHandle.Alloc(colorTints);
+            defaultColorTintsHandle = GCHandle.Alloc(defaultColorTints);
             optionalLightsToPaintHandle = GCHandle.Alloc(optionalLightsToPaint);
             optionalLightsDefaultColorsHandle = GCHandle.Alloc(optionalLightsDefaultColors);
             lightPaintColorsHandle = GCHandle.Alloc(lightPaintColors);
@@ -66,6 +73,7 @@ namespace CoreLib.Components
             defaultSpritePositionsHandle = GCHandle.Alloc(defaultSpritePositions);
             conditionsHandle = GCHandle.Alloc(conditions);
             piercesWallTypesHandle = GCHandle.Alloc(piercesWallTypesHandle);
+            tilesToCheckHandle = GCHandle.Alloc(tilesToCheck);
 
             allocated = true;
             return true;
@@ -81,6 +89,9 @@ namespace CoreLib.Components
             optionalColorSpriteRenderersHandle.Free();
             defaultColorSpritesHandle.Free();
             colorSpritesPerSpriteRendererHandle.Free();
+            optionalSpriteRenderersToTintHandle.Free();
+            colorTintsHandle.Free();
+            defaultColorTintsHandle.Free();
             optionalLightsToPaintHandle.Free();
             optionalLightsDefaultColorsHandle.Free();
             lightPaintColorsHandle.Free();
@@ -98,6 +109,7 @@ namespace CoreLib.Components
             defaultSpritePositionsHandle.Free();
             conditionsHandle.Free();
             piercesWallTypesHandle.Free();
+            tilesToCheckHandle.Free();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 
 namespace CoreLib.Components

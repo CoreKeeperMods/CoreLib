@@ -2,7 +2,7 @@
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 
-namespace CoreLib.Submodules.CustomEntity;
+namespace CoreLib.Submodules;
 
 public static class PrefabCrawler
 {

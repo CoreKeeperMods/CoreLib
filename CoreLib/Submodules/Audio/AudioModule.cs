@@ -67,6 +67,7 @@ public static class AudioModule
     /// <param name="sfxClipPath">Path to AudioClip in mod asset bundle</param>
     public static SfxID AddSoundEffect(string sfxClipPath)
     {
+        ThrowIfNotLoaded();
         AudioField effect = new AudioField();
         AudioClip effectClip = ResourcesModule.LoadAsset<AudioClip>(sfxClipPath);
 
@@ -85,6 +86,7 @@ public static class AudioModule
     /// <param name="playOrder">AudioClip play order</param>
     public static SfxID AddSoundEffect(string[] sfxClipsPaths, AudioField.AudioClipPlayOrder playOrder)
     {
+        ThrowIfNotLoaded();
         AudioField effect = new AudioField();
         effect.audioClipPlayOrder = playOrder;
         foreach (string sfxClipPath in sfxClipsPaths)

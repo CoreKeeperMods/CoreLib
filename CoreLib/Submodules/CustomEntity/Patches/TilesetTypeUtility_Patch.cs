@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using CoreLib.Util.Extensions;
+using HarmonyLib;
 using PugTilemap;
 using PugTilemap.Quads;
 using PugTilemap.Workshop;
@@ -40,16 +41,32 @@ public static class TilesetTypeUtility_Patch
     [HarmonyPatch(typeof(TilesetTypeUtility), nameof(GetTexture))]
     [HarmonyPrefix]
 
-    public static bool GetTexture(int tilesetIndex, ref Texture2D __result)
+    public static bool GetTexture(int tilesetIndex, LayerName layerName, ref Texture2D __result)
     {
 	    MapWorkshopTilesetBank.Tileset tileset = GetTileset(tilesetIndex);
 	    if (tileset != null)
 	    {
-		    __result = tileset.texture;
+		    GetTexture_Impl(out __result, tileset.tilesetTextures);
 		    return false;
 	    }
 
 	    return true;
+    }
+
+    private static void GetTexture_Impl(out Texture2D __result, MapWorkshopTilesetBank.TilesetTextures textures)
+    {
+	    Season season = Manager.prefs.season;
+	    if (season != Season.None &&
+	        textures.seasonalTextures != null)
+	    {
+		    MapWorkshopTilesetBank.SeasonalTexture texture = textures.seasonalTextures.Find(texture => texture.season == season);
+		    if (texture != null)
+		    {
+			    __result = texture.texture;
+		    }
+	    }
+
+	    __result = textures.texture;
     }
 
     [HarmonyPatch(typeof(TilesetTypeUtility), nameof(GetAdaptiveTexture))]
@@ -61,9 +78,9 @@ public static class TilesetTypeUtility_Patch
 	    if (tileset != null)
 	    {
 		    __result = null;
-		    if (tileset.adaptiveTextures.ContainsKey(layerName))
+		    if (tileset.adaptiveTilesetTextures.ContainsKey(layerName))
 		    {
-			    __result = tileset.adaptiveTextures[layerName];
+			    GetTexture_Impl(out __result, tileset.adaptiveTilesetTextures[layerName]);
 		    }
 		    return false;
 	    }

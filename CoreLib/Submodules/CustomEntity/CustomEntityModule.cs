@@ -4,10 +4,13 @@ using System.Linq;
 using System.Reflection;
 using BepInEx;
 using CoreLib.Components;
+using CoreLib.Submodules.Common.Patches;
 using CoreLib.Submodules.CustomEntity.Atributes;
+using CoreLib.Submodules.CustomEntity.Interfaces;
 using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
 using CoreLib.Submodules.ModResources;
+using CoreLib.Util;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
@@ -87,6 +90,16 @@ public static class CustomEntityModule
         return (Tileset)tilesetIDs.GetIndex(itemID);
     }
 
+    public static ObjectType GetObjectType(string typeName)
+    {
+        ThrowIfNotLoaded();
+
+        int index = objectTypeIDs.HasIndex(typeName) ? 
+            objectTypeIDs.GetIndex(typeName) : 
+            objectTypeIDs.GetNextId(typeName);
+        return (ObjectType)index;
+    }
+
     public static string[] GetAllModdedItems()
     {
         ThrowIfNotLoaded();
@@ -136,7 +149,12 @@ public static class CustomEntityModule
         ThrowIfTooLate(nameof(AddModWorkbench));
         ObjectID workbenchId = AddWorkbench(itemId, spritePath, recipe);
         if (bindToRootWorkbench)
+        {
+            if (rootWorkbenches.Count == 0)
+                AddRootWorkbench();
             AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        }
+
         return workbenchId;
     }
     
@@ -152,7 +170,25 @@ public static class CustomEntityModule
         ThrowIfTooLate(nameof(AddModWorkbench));
         ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe);
         if (bindToRootWorkbench)
+        {
+            if (rootWorkbenches.Count == 0)
+                AddRootWorkbench();
             AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        }
+        return workbenchId;
+    }
+    
+    internal static ObjectID AddModWorkbench(string itemId, Sprite bigIconPath, Sprite smallIconPath, List<CraftingData> recipe, bool bindToRootWorkbench)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(AddModWorkbench));
+        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe);
+        if (bindToRootWorkbench)
+        {
+            if (rootWorkbenches.Count == 0)
+                AddRootWorkbench();
+            AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+        }
         return workbenchId;
     }
 
@@ -232,7 +268,7 @@ public static class CustomEntityModule
             try
             {
                 EntityMonoBehaviourData entity = LoadPrefab(itemId, prefabPath);
-                CallAlloc(entity);
+                MonoBehaviourUtils.CallAlloc(entity);
                 entities.Add(entity);
             }
             catch (ArgumentException)
@@ -319,12 +355,10 @@ public static class CustomEntityModule
     /// <param name="enDesc">Object description in English</param>
     /// <param name="cnName">Object name in Chinese</param>
     /// <param name="cnDesc">Object description in Chinese</param>
+    [Obsolete("Use LocalizationModule.AddEntityLocalization() instead")]
     public static void AddEntityLocalization(ObjectID obj, string enName, string enDesc, string cnName = "", string cnDesc = "")
     {
-        if (obj == ObjectID.None) return;
-        
-        LocalizationModule.AddTerm($"Items/{obj}", enName, cnName);
-        LocalizationModule.AddTerm($"Items/{obj}Desc", enDesc, cnDesc);
+        LocalizationModule.AddEntityLocalization(obj, enName, enDesc, cnName, cnDesc);
     }
 
     /// <summary>
@@ -361,65 +395,19 @@ public static class CustomEntityModule
         return 0;
     }
 
-    /// <summary>
-    /// Set entity <see cref="EquipmentSkinCDAuthoring"/> skin 
-    /// </summary>
-    /// <param name="id">Target Entity ID</param>
-    /// <param name="skinId">new skin Index</param>
-    [Obsolete("Use ModEquipmentSkinCDAuthoring instead")]
-    public static void SetEquipmentSkin(ObjectID id, byte skinId)
+    public static void RegisterDynamicItemHandler<T>()
+    where T : IDynamicItemHandler, new()
     {
-        ThrowIfNotLoaded();
-        ThrowIfTooLate(nameof(SetEquipmentSkin));
-
-        if (GetMainEntity(id, out EntityMonoBehaviourData entity))
+        if (dynamicItemHandlers.Any(handler => handler.GetType() == typeof(T)))
         {
-            EquipmentSkinCDAuthoring skinCdAuthoring = entity.gameObject.GetComponent<EquipmentSkinCDAuthoring>();
-            if (skinCdAuthoring != null)
-            {
-                skinCdAuthoring.skin = skinId;
-            }
-            else
-            {
-                skinCdAuthoring = entity.gameObject.AddComponent<EquipmentSkinCDAuthoring>();
-                skinCdAuthoring.skin = skinId;
-            }
+            CoreLibPlugin.Logger.LogWarning($"Failed to register dynamic handler {typeof(T).FullName}, because it is already registered!");
+            return;
         }
-        else
-        {
-            CoreLibPlugin.Logger.LogError($"Failed to set equipment skin! Found no registered entities with ID: {id}.");
-        }
+        
+        T handler = Activator.CreateInstance<T>();
+        dynamicItemHandlers.Add(handler);
     }
-
-    /// <summary>
-    /// Set entity <see cref="TileCDAuthoring"/> component tileset variable.
-    /// </summary>
-    /// <param name="id">Target entity id</param>
-    /// <param name="tileset">new tileset</param>
-    [Obsolete("Use ModTileCDAuthoring component instead")]
-    public static void SetTileset(ObjectID id, Tileset tileset)
-    {
-        ThrowIfNotLoaded();
-        ThrowIfTooLate(nameof(SetTileset));
-
-        if (GetMainEntity(id, out EntityMonoBehaviourData entity))
-        {
-            TileCDAuthoring tileCdAuthoring = entity.gameObject.GetComponent<TileCDAuthoring>();
-            if (tileCdAuthoring != null)
-            {
-                tileCdAuthoring.tileset = tileset;
-            }
-            else
-            {
-                tileCdAuthoring = entity.gameObject.AddComponent<TileCDAuthoring>();
-                tileCdAuthoring.tileset = tileset;
-            }
-        }
-        else
-        {
-            CoreLibPlugin.Logger.LogError($"Failed to set tileset! Found no registered entities with ID: {id}.");
-        }
-    }
+    
 
     public static void RegisterECSComponent<T>()
     {
@@ -456,8 +444,11 @@ public static class CustomEntityModule
     internal static Dictionary<string, PugMapTileset> tilesetLayers = new Dictionary<string, PugMapTileset>();
     internal static MapWorkshopTilesetBank.Tileset missingTileset;
 
+    internal static List<IDynamicItemHandler> dynamicItemHandlers = new List<IDynamicItemHandler>();
+
     internal static IdBindConfigFile modEntityIDs;
     internal static IdBindConfigFile tilesetIDs;
+    internal static IdBind objectTypeIDs;
 
     internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
 
@@ -466,10 +457,13 @@ public static class CustomEntityModule
     internal static PlayerCustomizationTable customizationTable;
 
     public const int modEntityIdRangeStart = 33000;
-    public const int modEntityIdRangeEnd = 65535;
+    public const int modEntityIdRangeEnd = ushort.MaxValue;
 
     public const int modTilesetIdRangeStart = 100;
     public const int modTilesetIdRangeEnd = 200;
+    
+    public const int modObjectTypeIdRangeStart = 33000;
+    public const int modObjectTypeIdRangeEnd = ushort.MaxValue;
 
     internal static bool hasInjected;
     internal static bool hasConverted;
@@ -479,11 +473,13 @@ public static class CustomEntityModule
     [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
     internal static void SetHooks()
     {
-        CoreLibPlugin.harmony.PatchAll(typeof(MemoryManager_Patch));
+        MemoryManager_Patch.TryPatch();
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TypeManager_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(GameObjectConversionMappingSystem_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(PlayerController_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(ColorReplacer_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
@@ -492,9 +488,11 @@ public static class CustomEntityModule
         BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
         modEntityIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModEntityID.cfg", metadata, modEntityIdRangeStart, modEntityIdRangeEnd);
         tilesetIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.TilesetID.cfg", metadata, modTilesetIdRangeStart, modTilesetIdRangeEnd);
+        objectTypeIDs = new IdBind(modObjectTypeIdRangeStart, modObjectTypeIdRangeEnd);
 
         ClassInjector.RegisterTypeInIl2Cpp<EntityPrefabOverride>();
         ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterial>();
+        ClassInjector.RegisterTypeInIl2Cpp<RuntimeMaterialV2>();
         ClassInjector.RegisterTypeInIl2Cpp<ModEntityMonoBehavior>();
         ClassInjector.RegisterTypeInIl2Cpp<ModProjectile>();
         ClassInjector.RegisterTypeInIl2Cpp<ModCDAuthoringBase>();
@@ -502,10 +500,10 @@ public static class CustomEntityModule
         ClassInjector.RegisterTypeInIl2Cpp<ModEquipmentSkinCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModDropsLootFromTableCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModRangeWeaponCDAuthoring>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModObjectTypeAuthoring>();
         RegisterModifications(typeof(CustomEntityModule));
 
         InitTilesets();
-        AddRootWorkbench();
     }
 
     private static void InitTilesets()
@@ -540,15 +538,18 @@ public static class CustomEntityModule
     [EntityModification(ObjectID.Player)]
     private static void EditPlayer(EntityMonoBehaviourData entity)
     {
-        CraftingCDAuthoring craftingCdAuthoring = entity.GetComponent<CraftingCDAuthoring>();
-        craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = rootWorkbenches.First(), amount = 1 });
+        if (rootWorkbenches.Count > 0)
+        {
+            CraftingCDAuthoring craftingCdAuthoring = entity.GetComponent<CraftingCDAuthoring>();
+            craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = rootWorkbenches.First(), amount = 1 });
+        }
     }
 
     private static ObjectID AddRootWorkbench()
     {
         ObjectID workbench = AddWorkbench(RootWorkbench, "Assets/CoreLib/Textures/modWorkbench", null);
         rootWorkbenches.Add(workbench);
-        AddEntityLocalization(workbench, $"Root Workbench {rootWorkbenches.Count}", "This workbench contains all modded workbenches!");
+        LocalizationModule.AddEntityLocalization(workbench, $"Root Workbench {rootWorkbenches.Count}", "This workbench contains all modded workbenches!");
         return workbench;
     }
 
@@ -655,17 +656,7 @@ public static class CustomEntityModule
 
     internal static EntityMonoBehaviourData LoadPrefab(string itemId, string prefabPath)
     {
-        Object gameObject = ResourcesModule.LoadAsset(prefabPath);
-        if (gameObject == null)
-        {
-            throw new ArgumentException($"Found no prefab at path: {prefabPath}");
-        }
-
-        GameObject prefab = gameObject.TryCast<GameObject>();
-        if (prefab == null)
-        {
-            throw new ArgumentException($"Object at path: {prefabPath} is not a Prefab!");
-        }
+        GameObject prefab = ResourcesModule.LoadAsset<GameObject>(prefabPath);
 
         GameObject newPrefab = Object.Instantiate(prefab);
         ResourcesModule.Retain(newPrefab);
@@ -683,38 +674,8 @@ public static class CustomEntityModule
             ghost.Name = itemId;
             ghost.prefabId = fullItemId.GetGUID();
         }
-        
+
         return entityData;
-    }
-
-    public static void CallAlloc(EntityMonoBehaviourData entityData)
-    {
-        Il2CppArrayBase<MonoBehaviour> components;
-        foreach (PrefabInfo prefabInfo in entityData.objectInfo.prefabInfos)
-        {
-            if (prefabInfo.prefab == null) continue;
-
-            components = prefabInfo.prefab.GetComponentsInChildren<MonoBehaviour>();
-            foreach (MonoBehaviour component in components)
-            {
-                CallAlloc(component);
-            }
-        }
-
-        components = entityData.gameObject.GetComponents<MonoBehaviour>();
-        foreach (MonoBehaviour component in components)
-        {
-            CallAlloc(component);
-        }
-    }
-
-    public static void CallAlloc(MonoBehaviour component)
-    {
-        Il2CppSystem.Reflection.MethodInfo method = component.GetIl2CppType().GetMethod("Allocate", Reflection.all);
-        if (method != null)
-        {
-            method.Invoke(component, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
-        }
     }
 
     private static void RegisterModifications_Internal(Assembly assembly)
@@ -734,7 +695,7 @@ public static class CustomEntityModule
         IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(HasAttribute);
         foreach (MethodInfo method in methods)
         {
-            EntityModificationAttribute attribute = method.GetCustomAttribute<EntityModificationAttribute>();
+            var attributes = method.GetCustomAttributes<EntityModificationAttribute>();
 
             var parameters = method.GetParameters();
             if (method.ReturnParameter.ParameterType == typeof(void) &&
@@ -743,16 +704,19 @@ public static class CustomEntityModule
             {
                 Action<EntityMonoBehaviourData> modifyDelegate = method.CreateDelegate<Action<EntityMonoBehaviourData>>();
 
-                if (!string.IsNullOrEmpty(attribute.modTarget))
+                foreach (EntityModificationAttribute attribute in attributes)
                 {
-                    modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
-                }
-                else
-                {
-                    entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
-                }
+                    if (!string.IsNullOrEmpty(attribute.modTarget))
+                    {
+                        modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
+                    }
+                    else
+                    {
+                        entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
+                    }
 
-                modifiersCount++;
+                    modifiersCount++;
+                }
             }
             else
             {

@@ -5,7 +5,7 @@ namespace CoreLib.Submodules.CustomEntity.Atributes;
 /// <summary>
 /// Use this attribute to register your entity modification functions. Make sure to place one on the container class
 /// </summary>
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
 public class EntityModificationAttribute : Attribute
 {
     public ObjectID target = ObjectID.None;

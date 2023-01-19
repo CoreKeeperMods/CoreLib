@@ -25,6 +25,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                     throw new JsonException($"Failed to load sprite file at {fullPath}!");
                 }
 
+                ResourcesModule.Retain(sprite);
                 return sprite;
             }
             
@@ -32,8 +33,27 @@ namespace CoreLib.Submodules.JsonLoader.Converters
             {
                 JsonElement element = JsonDocument.ParseValue(ref reader).RootElement;
                 string path = element.GetProperty("path").GetString();
-                Rect rect = element.GetProperty("rect").Deserialize<Rect>();
-                CoreLibPlugin.Logger.LogInfo($"Path: {path}, Rect: {rect}");
+                Rect? rect = null;
+
+                if (element.TryGetProperty("type", out JsonElement typeElement))
+                {
+                    string typeString = typeElement.GetString();
+                    switch (typeString)
+                    {
+                        case "icon-top":
+                            rect = new Rect(0, 16, 16, 16);
+                            break;
+                        case "icon-bottom":
+                            rect = new Rect(0, 0, 16, 16);
+                            break;
+                    }
+                    
+                }
+                else if (element.TryGetProperty("rect", out JsonElement rectElement))
+                {
+                    rect = rectElement.Deserialize<Rect>();
+                }
+
                 string fullPath = Path.Combine(JsonLoaderModule.context, path);
                 Sprite sprite = ResourcesModule.LoadNewSprite(fullPath, 16, rect, new Vector2(0.5f,0.5f));
                 
@@ -41,7 +61,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                 {
                     throw new JsonException($"Failed to load sprite file at {fullPath}!");
                 }
-
+                ResourcesModule.Retain(sprite);
                 return sprite;
             }
 

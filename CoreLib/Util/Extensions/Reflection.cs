@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppInterop.Runtime.Runtime;
 using Mono.Cecil;
 using FieldInfo = Il2CppSystem.Reflection.FieldInfo;
@@ -28,6 +30,51 @@ public static class Reflection {
                                                               Il2CppSystem.Reflection.BindingFlags.GetField | Il2CppSystem.Reflection.BindingFlags.SetField |
                                                               Il2CppSystem.Reflection.BindingFlags.GetProperty |
                                                               Il2CppSystem.Reflection.BindingFlags.SetProperty;
+
+
+    public static void TryInvokeAction(this Object target, string methodName)
+    {
+        Il2CppSystem.Reflection.MethodInfo method = target?.GetIl2CppType()?.GetMethod(methodName, Reflection.all);
+        if (method != null)
+        {
+            method.Invoke(target, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+        }
+    }
+    
+    public static void TryInvokeAction(this Object target, string methodName, params Il2CppSystem.Object[] args)
+    {
+        Il2CppSystem.Reflection.MethodInfo method = target?.GetIl2CppType()?.GetMethod(methodName, Reflection.all);
+        if (method != null)
+        {
+            method.Invoke(target, new Il2CppReferenceArray<Il2CppSystem.Object>(args));
+        }
+    }
+    
+    public static Object TryInvokeFunc(this Object target, string methodName)
+    {
+        if (target == null) return null;
+        
+        Il2CppSystem.Reflection.MethodInfo method = target.GetIl2CppType().GetMethod(methodName, Reflection.all);
+        if (method != null)
+        {
+            return method.Invoke(target, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+        }
+
+        return null;
+    }
+    
+    public static Object TryInvokeFunc(this Object target, string methodName, params Il2CppSystem.Object[] args)
+    {
+        if (target == null) return null;
+        
+        Il2CppSystem.Reflection.MethodInfo method = target.GetIl2CppType().GetMethod(methodName, Reflection.all);
+        if (method != null)
+        {
+            return method.Invoke(target, new Il2CppReferenceArray<Il2CppSystem.Object>(args));
+        }
+
+        return null;
+    }
     
     internal static bool IsSubTypeOf(this TypeDefinition typeDefinition, string typeFullName) {
         if (typeDefinition.FullName == typeFullName) {
@@ -110,6 +157,15 @@ public static class Reflection {
         Type returnType = method.ReturnType;
         Type[] paramTypes = method.GetParameters().Select(info => info.ParameterType).ToArray();
         string[] parameters = paramTypes.Select(info => info.FullName).ToArray();
+        
+        for (int i = 0; i < paramTypes.Length; i++)
+        {
+            if (paramTypes[i].IsAssignableTo(typeof(Il2CppObjectBase)))
+            {
+                args[i] = IL2CPP.Il2CppObjectBaseToPtr((Il2CppObjectBase) args[i]);
+                paramTypes[i] = typeof(IntPtr);
+            }
+        }
             
         IntPtr klass = Il2CppClassPointerStore<T>.NativeClassPtr;
         IntPtr methodPtr = IL2CPP.GetIl2CppMethod(klass, false, name, returnType.FullName, parameters);

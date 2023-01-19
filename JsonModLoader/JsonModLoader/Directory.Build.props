@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup Label="Properties">
+        <ProjectDir>$(MSBuildThisFileDirectory)\</ProjectDir>
+        <PluginOutputDirectory>$(ProjectDir)Binaries\</PluginOutputDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Common Properties">
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+        <OutputPath>$(PluginOutputDirectory)</OutputPath>
+        <OutDir>$(PluginOutputDirectory)</OutDir>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <DefaultItemExcludes>$(DefaultItemExcludes);*.binlog</DefaultItemExcludes>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+
+        <PackageVersion>$(AssemblyVersion)</PackageVersion>
+        
+        <BepInExPluginGuid>org.example.JsonModLoader</BepInExPluginGuid>
+        <BepInExPluginName>JsonModLoader</BepInExPluginName>
+        <BepInExPluginVersion>1.0.0</BepInExPluginVersion>
+    </PropertyGroup>
+
+
+    <!-- Shared Items -->
+
+    <ItemGroup Label="Core Keeper">
+        <PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
+        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.1.*" />
+        <PackageReference Include="CoreKeeper.Modding.CoreLib" Version="1.2.4" />
+    </ItemGroup>
+
+</Project>

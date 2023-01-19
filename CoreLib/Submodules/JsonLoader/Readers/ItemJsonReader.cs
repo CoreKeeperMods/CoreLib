@@ -4,6 +4,8 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using CoreLib.Components;
 using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.Localization;
+using CoreLib.Util;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes;
@@ -112,7 +114,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                 string localizedName = jObject["localizedName"].GetValue<string>();
                 string localizedDescription = jObject["localizedDescription"].GetValue<string>();
 
-                CustomEntityModule.AddEntityLocalization(objectID, localizedName, localizedDescription);
+                LocalizationModule.AddEntityLocalization(objectID, localizedName, localizedDescription);
             }
         }
     }

@@ -1,3 +1,4 @@
+using System.Linq;
 using CoreLib.Components;
 using UnityEditor;
 using UnityEngine;
@@ -22,6 +23,32 @@ public class RuntimeMaterialEditor : Editor
             if (particleSystemRenderer != null)
             {
                 runtimeMaterial.materialName = particleSystemRenderer.sharedMaterial.name;
+            }
+            EditorUtility.SetDirty(runtimeMaterial);
+        }
+        
+        if (GUILayout.Button("Reassign material")){
+            RuntimeMaterial runtimeMaterial = (RuntimeMaterial)target;
+            SpriteRenderer renderer = runtimeMaterial.GetComponent<SpriteRenderer>();
+            ParticleSystemRenderer particleSystemRenderer = runtimeMaterial.GetComponent<ParticleSystemRenderer>();
+
+            
+
+            string[] results = AssetDatabase.FindAssets($"t:material {runtimeMaterial.materialName}");
+            if (results.Length > 0)
+            {
+                string result = results.First();
+                string path = AssetDatabase.GUIDToAssetPath(result);
+                if (renderer != null)
+                    renderer.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(path);
+                if (particleSystemRenderer != null)
+                    particleSystemRenderer.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(path);
+
+                EditorUtility.SetDirty(runtimeMaterial);
+            }
+            else
+            {
+                Debug.Log("No matches found!");
             }
         }
     }

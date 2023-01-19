@@ -167,6 +167,8 @@ public static class NativeTranspiler
                 break;
         }
 
+        IntPtr methodSizeInBytes = (IntPtr)(decoder.IP - (ulong)codeStart);
+
         IntPtr methodSize = (IntPtr)instructions.Count;
 
         if (printDebugInfo.Value)
@@ -184,7 +186,7 @@ public static class NativeTranspiler
             return;
         }
         
-        if (VirtualProtect(codeStart, methodSize, ProtectMode.PAGE_EXECUTE_READWRITE, out ProtectMode oldProtect))
+        if (VirtualProtect(codeStart, methodSizeInBytes, ProtectMode.PAGE_EXECUTE_READWRITE, out ProtectMode oldProtect))
         {
             var codeWriter = new MemoryCodeWriter(codeStart);
         
@@ -195,7 +197,7 @@ public static class NativeTranspiler
                 return;
             }
             
-            VirtualProtect(codeStart, methodSize, oldProtect, out ProtectMode _);
+            VirtualProtect(codeStart, methodSizeInBytes, oldProtect, out ProtectMode _);
             
             if (printDebugInfo.Value)
             {
