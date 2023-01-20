@@ -29,7 +29,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
 
             ReadComponents(jObject, entityData);
 
-            CustomEntityModule.CallAlloc(entityData);
+            MonoBehaviourUtils.CallAlloc(entityData);
             ObjectID objectID = CustomEntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
 
             ReadLocalization(jObject, objectID);
@@ -77,7 +77,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
 
                         MonoBehaviour componentMono = component.TryCast<MonoBehaviour>();
                         if (componentMono != null)
-                            CustomEntityModule.CallAlloc(componentMono);
+                            componentMono.TryInvokeAction(nameof(IAllocate.Allocate));
                     }
                 }
             }

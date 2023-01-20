@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Nodes;
 using CoreLib.Submodules.CustomEntity;
+using CoreLib.Util;
 using UnityEngine;
 
 namespace CoreLib.Submodules.JsonLoader.Readers
@@ -16,7 +17,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             ReadObjectInfo(jObject, entityData);
             ReadComponents(jObject, entityData);
 
-            CustomEntityModule.CallAlloc(entityData);
+            MonoBehaviourUtils.CallAlloc(entityData);
             ObjectID objectID = CustomEntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
 
             ReadLocalization(jObject, objectID);

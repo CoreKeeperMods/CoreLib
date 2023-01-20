@@ -119,7 +119,7 @@ namespace CoreLib.Util
             public int length;
             public Allocator allocatorLabel;
             
-            public static unsafe NativeArrayData ToNativeArray<T>(NativeArray<T> array) where T : new()
+            public static unsafe NativeArrayData ToNativeArray<T>(NativeArray<T> array) where T : unmanaged
             {
                 return new NativeArrayData()
                 {
@@ -141,6 +141,7 @@ namespace CoreLib.Util
         {
             int typeIndex = GetModTypeIndex<T>();
             var dataAccess = entityManager.GetCheckedEntityDataAccess();
+            
             if (!dataAccess->IsInExclusiveTransaction)
             {
                 (&dataAccess->m_DependencyManager)->CompleteWriteDependency(typeIndex);
@@ -164,6 +165,12 @@ namespace CoreLib.Util
             int typeIndex = GetModTypeIndex<T>();
             var dataAccess = entityManager.GetCheckedEntityDataAccess();
             var componentStore = dataAccess->EntityComponentStore;
+
+            if (dataAccess->HasComponent(entity, ComponentType.FromTypeIndex(typeIndex)))
+            {
+                CoreLibPlugin.Logger.LogWarning($"Tried to set component data for component {typeof(T).FullName}, which entity does not have!");
+                return;
+            }
 
             if (!dataAccess->IsInExclusiveTransaction)
             {
@@ -198,16 +205,20 @@ namespace CoreLib.Util
             if (!componentStore->Exists(entity))
                 throw new InvalidOperationException("The entity does not exist");
 
-            if (!dataAccess->IsInExclusiveTransaction)
-                dataAccess->BeforeStructuralChange();
+            //if (!dataAccess->IsInExclusiveTransaction)
+            //    dataAccess->BeforeStructuralChange();
 
-            var changes = componentStore->BeginArchetypeChangeTracking();
+            //var changes = componentStore->BeginArchetypeChangeTracking();
+            
+            var changes = dataAccess->BeginStructuralChanges();
 
             bool result = StructuralChange.AddComponentEntity(componentStore, &entity, componentType.TypeIndex);
             
-            componentStore->EndArchetypeChangeTracking(changes, &dataAccess->m_EntityQueryManager);
-            componentStore->InvalidateChunkListCacheForChangedArchetypes();
-            dataAccess->PlaybackManagedChangesMono();
+            dataAccess->EndStructuralChanges(ref changes);
+            
+            //componentStore->EndArchetypeChangeTracking(changes, &dataAccess->m_EntityQueryManager);
+            //componentStore->InvalidateChunkListCacheForChangedArchetypes();
+            //dataAccess->PlaybackManagedChangesMono();
 
             return result;
         }
@@ -235,133 +246,15 @@ namespace CoreLib.Util
         #endregion
 
         #region PrivateImplementation
-
-        private static readonly IntPtr GetCheckedEntityDataAccessFixMethodPtr;
-        private static readonly IntPtr AddComponentEntityMethodPtr;
-        private static readonly IntPtr EndArchetypeChangeTrackingMethodPtr;
-        private static readonly IntPtr GetComponentDataWithTypeRWMethodPtr;
-        private static readonly IntPtr GetComponentDataWithTypeROMethodPtr;
+        
         private static readonly IntPtr GetOrCreateSharedMemoryMethodPtr;
 
         static ECSExtensions()
         {
-            GetCheckedEntityDataAccessFixMethodPtr = (IntPtr)Il2CppInteropUtils
-                .GetIl2CppMethodInfoPointerFieldForGeneratedMethod(typeof(EntityManager).GetMethod("GetCheckedEntityDataAccess")).GetValue(null);
-
-            AddComponentEntityMethodPtr = (IntPtr)Il2CppInteropUtils
-                .GetIl2CppMethodInfoPointerFieldForGeneratedMethod(typeof(StructuralChange).GetMethod("AddComponentEntity")).GetValue(null);
-
-            EndArchetypeChangeTrackingMethodPtr = (IntPtr)Il2CppInteropUtils
-                .GetIl2CppMethodInfoPointerFieldForGeneratedMethod(typeof(EntityComponentStore).GetMethod("EndArchetypeChangeTracking")).GetValue(null);
-
-            GetComponentDataWithTypeRWMethodPtr = (IntPtr)Il2CppInteropUtils
-                .GetIl2CppMethodInfoPointerFieldForGeneratedMethod(typeof(EntityComponentStore).GetMethod("GetComponentDataWithTypeRW", AccessTools.all, new[]{typeof(Entity), typeof(int), typeof(uint)})).GetValue(null);
-
-            GetComponentDataWithTypeROMethodPtr = (IntPtr)Il2CppInteropUtils
-                .GetIl2CppMethodInfoPointerFieldForGeneratedMethod(typeof(EntityComponentStore).GetMethod("GetComponentDataWithTypeRO", AccessTools.all, new[]{typeof(Entity), typeof(int)})).GetValue(null);
-
             GetOrCreateSharedMemoryMethodPtr = (IntPtr)Il2CppInteropUtils
                 .GetIl2CppMethodInfoPointerFieldForGeneratedMethod(typeof(BurstCompilerService).GetMethod("GetOrCreateSharedMemory")).GetValue(null);
 
         }
-        
-        internal static unsafe ref T GetData<T>(this SharedStatic<T> shared) where T : new() 
-        {
-            IntPtr field = IL2CPP.GetIl2CppField(Il2CppClassPointerStore<SharedStatic<T>>.NativeClassPtr, "_buffer");
-            
-            IntPtr intPtr = IL2CPP.Il2CppObjectBaseToPtrNotNull(shared) + (int)IL2CPP.il2cpp_field_get_offset(field);
-            IntPtr intPtr2 = *(IntPtr*)intPtr;
-            
-            return ref System.Runtime.CompilerServices.Unsafe.AsRef<T>((void*)intPtr2);
-        }
-
-        internal static unsafe UnsafeList* GetMListData<T>(this NativeList<T> list) where T : new()
-        {
-            IntPtr field = IL2CPP.GetIl2CppField(Il2CppClassPointerStore<NativeList<T>>.NativeClassPtr, "m_ListData");
-            
-            IntPtr intPtr = IL2CPP.Il2CppObjectBaseToPtrNotNull(list) + (int)IL2CPP.il2cpp_field_get_offset(field);
-            IntPtr intPtr2 = *(IntPtr*)intPtr;
-            return (UnsafeList*)intPtr2;
-        }
-        /*
-        internal static unsafe Archetype* GetArchetype(EntityComponentStore* store, Entity entity)
-        {
-            return ((Archetype**)store->m_ArchetypeByEntity)[entity.Index];
-        }
-        
-        internal static unsafe void AssertCanAddComponent(EntityComponentStore* store, Archetype* archetype, ComponentType componentType)
-        {
-            var componentTypeInfo = ((TypeManager.TypeInfo*)store->m_TypeInfos)[componentType.TypeIndex & 0x00FFFFFF];
-            var componentInstanceSize = CollectionHelper.Align(componentTypeInfo.SizeInChunk, 64);
-            var archetypeInstanceSize = archetype->InstanceSizeWithOverhead + componentInstanceSize;
-            var chunkDataSize = Chunk.GetChunkBufferSize();
-            if (archetypeInstanceSize > chunkDataSize)
-                throw new InvalidOperationException("Entity archetype component data is too large. Previous archetype size per instance {archetype->InstanceSizeWithOverhead}  bytes. Attempting to add component size {componentInstanceSize} bytes. Maximum chunk size {chunkDataSize}.");
-        }
-
-        internal static unsafe EntityDataAccess* GetCheckedEntityDataAccessFix(this EntityManager entityManager)
-        {
-            IntPtr intPtr2 = IntPtr.Zero;
-            IntPtr intPtr = IL2CPP.il2cpp_runtime_invoke(GetCheckedEntityDataAccessFixMethodPtr, (IntPtr)Unsafe.AsPointer(ref entityManager), null, ref intPtr2);
-            Il2CppException.RaiseExceptionIfNecessary(intPtr2);
-            
-            return (EntityDataAccess*)intPtr;
-        }
-
-        internal static unsafe EntityComponentStore* GetEntityComponentStore(EntityDataAccess* dataAccess)
-        {
-            EntityComponentStore* ptr = &dataAccess->m_EntityComponentStore;
-            return ptr;
-        }
-
-        internal static unsafe bool AddComponentEntity(EntityComponentStore* entityComponentStore, Entity* entity, int typeIndex)
-        {
-            IntPtr* ptr = stackalloc IntPtr[3 * sizeof(IntPtr)];
-            ptr[0] = (IntPtr)entityComponentStore;
-            ptr[1] = (IntPtr)entity;
-            ptr[2] = (IntPtr)Unsafe.AsPointer(ref typeIndex);
-            
-            IntPtr intPtr2 = IntPtr.Zero;
-            IntPtr intPtr = IL2CPP.il2cpp_runtime_invoke(AddComponentEntityMethodPtr, IntPtr.Zero, (void**)ptr, ref intPtr2);
-            Il2CppException.RaiseExceptionIfNecessary(intPtr2);
-            return *(bool*)IL2CPP.il2cpp_object_unbox(intPtr);
-        }
-        
-        internal static unsafe void EndArchetypeChangeTracking(EntityComponentStore* entityComponentStore, EntityComponentStore.ArchetypeChanges changes, EntityQueryManager* queries)
-        {
-            IntPtr* ptr = stackalloc IntPtr[2 * sizeof(IntPtr)];
-            ptr[0] = (IntPtr)Unsafe.AsPointer(ref changes);
-            ptr[1] = (IntPtr)queries;
-            IntPtr intPtr2 = IntPtr.Zero;
-            IL2CPP.il2cpp_runtime_invoke(EndArchetypeChangeTrackingMethodPtr, (IntPtr)entityComponentStore, (void**)ptr, ref intPtr2);
-            Il2CppException.RaiseExceptionIfNecessary(intPtr2);
-        }
-        
-        internal static unsafe byte* GetComponentDataWithTypeRW(EntityComponentStore* entityComponentStore, Entity entity, int typeIndex, uint globalVersion)
-        {
-            IntPtr* ptr = stackalloc IntPtr[3 * sizeof(IntPtr)];
-            ptr[0] = (IntPtr)Unsafe.AsPointer(ref entity);
-            ptr[1] = (IntPtr)Unsafe.AsPointer(ref typeIndex);
-            ptr[2] = (IntPtr)Unsafe.AsPointer(ref globalVersion);
-            IntPtr intPtr2 = IntPtr.Zero;
-            IntPtr intPtr = IL2CPP.il2cpp_runtime_invoke(GetComponentDataWithTypeRWMethodPtr, (IntPtr)entityComponentStore, (void**)ptr, ref intPtr2);
-            Il2CppException.RaiseExceptionIfNecessary(intPtr2);
-
-            return (byte*)intPtr;
-        }
-        
-        internal static unsafe byte* GetComponentDataWithTypeRO(EntityComponentStore* entityComponentStore, Entity entity, int typeIndex)
-        {
-            IntPtr* ptr = stackalloc IntPtr[2 * sizeof(IntPtr)];
-            ptr[0] = (IntPtr)Unsafe.AsPointer(ref entity);
-            ptr[1] = (IntPtr)Unsafe.AsPointer(ref typeIndex);
-            
-            IntPtr intPtr2 = IntPtr.Zero;
-            IntPtr intPtr = IL2CPP.il2cpp_runtime_invoke(GetComponentDataWithTypeROMethodPtr, (IntPtr)entityComponentStore, (void**)ptr, ref intPtr2);
-            Il2CppException.RaiseExceptionIfNecessary(intPtr2);
-
-            return  (byte*)intPtr;
-        }*/
 
         internal static class SharedTypeIndex<TComponent>
         {

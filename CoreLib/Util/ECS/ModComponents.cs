@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Type = Il2CppSystem.Type;
@@ -18,7 +19,7 @@ namespace CoreLib.Util
         /// <param name="types"></param>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        internal static unsafe void AddNewComponentTypes(params Il2CppSystem.Type[] types)
+        internal static unsafe void AddNewComponentTypes(params Type[] types)
         {
             // We might invalidate the SharedStatics ptr so we must synchronize all jobs that might be using those ptrs
             foreach (var world in World.All)
@@ -35,9 +36,10 @@ namespace CoreLib.Util
             }
 
             // We may have added enough types to cause the underlying containers to resize so re-fetch their ptrs
-            TypeManager.SharedEntityOffsetInfo.Ref.GetData() = TypeManager.s_EntityOffsetList.GetMListData()->Ptr;
-            TypeManager.SharedBlobAssetRefOffset.Ref.GetData() = TypeManager.s_BlobAssetRefOffsetList.GetMListData()->Ptr;
-            TypeManager.SharedWriteGroup.Ref.GetData() = TypeManager.s_WriteGroupList.GetMListData()->Ptr;
+            TypeManager.SharedEntityOffsetInfo.Ref.Data = new IntPtr(TypeManager.s_EntityOffsetList.m_ListData->Ptr);
+            TypeManager.SharedBlobAssetRefOffset.Ref.Data = new IntPtr(TypeManager.s_BlobAssetRefOffsetList.m_ListData->Ptr);
+            TypeManager.SharedWeakAssetRefOffset.Ref.Data = new IntPtr(TypeManager.s_WeakAssetRefOffsetList.m_ListData->Ptr);
+            TypeManager.SharedWriteGroup.Ref.Data = new IntPtr(TypeManager.s_WriteGroupList.m_ListData->Ptr);
 
             // Since the ptrs may have changed we need to ensure all entity component stores are using the correct ones
             foreach (var w in World.All)
