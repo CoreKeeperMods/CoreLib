@@ -11,6 +11,7 @@ using CoreLib.Submodules.CustomEntity;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Submodules.JsonLoader.Readers;
 using HarmonyLib;
+using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 
@@ -96,6 +97,7 @@ namespace CoreLib.Submodules.JsonLoader
                 return;
             }
 
+            IL2CPP.il2cpp_gc_disable();
             string resourcesDir = Path.Combine(path, "resources");
             using (WithContext(resourcesDir))
             {
@@ -152,6 +154,7 @@ namespace CoreLib.Submodules.JsonLoader
                 }
                 modFolders.Add(modGuid, path);
             }
+            IL2CPP.il2cpp_gc_enable();
         }
 
         public static void RegisterJsonReaders(Assembly assembly)

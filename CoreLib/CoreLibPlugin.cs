@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using Il2CppInterop.Runtime.Injection;
-using Unity.Collections;
-using Unity.Entities;
+using Il2CppInterop.Runtime;
 using UnityEngine;
 
 namespace CoreLib;
@@ -34,6 +30,8 @@ public class CoreLibPlugin : BasePlugin
         Logger = base.Log;
 
         harmony = new Harmony("com.le4fless.corelib");
+        
+        IL2CPP.il2cpp_gc_disable();
 
         CheckIfUsedOnRightGameVersion();
 
@@ -42,6 +40,7 @@ public class CoreLibPlugin : BasePlugin
         LoadedSubmodules = submoduleHandler.LoadRequested(pluginScanner);
         pluginScanner.ScanPlugins();
 
+        IL2CPP.il2cpp_gc_enable();
         Log.LogInfo($"{PluginInfo.PLUGIN_NAME} is loaded!");
     }
 

@@ -5,6 +5,7 @@ namespace CoreLib.Components
 {
     public class ModEntityMonoBehavior : EntityMonoBehaviour, IAllocate
     {
+        private GCHandle conditionsEffectsSettingsHandle;
         private GCHandle optionalColorReplacersHandle;
         private GCHandle optionalColorSpriteSheetSkinsHandle;
         private GCHandle colorSpriteSheetsHandle;
@@ -20,14 +21,13 @@ namespace CoreLib.Components
         private GCHandle optionalSpriteSheetSkinsHandle;
         private GCHandle skinSpriteSheetsHandle;
         private GCHandle seasonalSkinSpriteSheetsHandle;
-        private GCHandle conditionsEffectsSettingsHandle;
-        private GCHandle spritesToRandomlyOffsetSlightlyOnZHandle;
         private GCHandle sfxParamsHandle;
         private GCHandle puffParamsHandle;
-        private GCHandle objectVariationsHandle;
         private GCHandle particleSpawnLocationsHandle;
-        private GCHandle spritesToRandomlyFlipHandle;
         private GCHandle particlesToDisableOnLowQualityHandle;
+        private GCHandle objectVariationsHandle;
+        private GCHandle spritesToRandomlyFlipHandle;
+        private GCHandle spritesToRandomlyOffsetSlightlyOnZHandle;
         private GCHandle defaultSpritePositionsHandle;
 
         protected bool allocated;

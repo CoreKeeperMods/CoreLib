@@ -263,6 +263,7 @@ public static class CustomEntityModule
 
         List<EntityMonoBehaviourData> entities = new List<EntityMonoBehaviourData>(prefabsPaths.Length);
 
+        IL2CPP.il2cpp_gc_disable();
         foreach (string prefabPath in prefabsPaths)
         {
             try
@@ -277,6 +278,7 @@ public static class CustomEntityModule
                 return ObjectID.None;
             }
         }
+        IL2CPP.il2cpp_gc_enable();
 
         entities.Sort((a, b) => a.objectInfo.variation.CompareTo(b.objectInfo.variation));
 
@@ -659,6 +661,7 @@ public static class CustomEntityModule
         GameObject prefab = ResourcesModule.LoadAsset<GameObject>(prefabPath);
 
         GameObject newPrefab = Object.Instantiate(prefab);
+        newPrefab.hideFlags = HideFlags.HideAndDontSave;
         ResourcesModule.Retain(newPrefab);
 
         EntityMonoBehaviourData entityData = newPrefab.GetComponent<EntityMonoBehaviourData>();
@@ -666,7 +669,6 @@ public static class CustomEntityModule
         string fullItemId = $"{itemId}_{entityData.objectInfo.variation}";
 
         newPrefab.name = $"{fullItemId}_Prefab";
-        newPrefab.hideFlags = HideFlags.HideAndDontSave;
 
         GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
         if (ghost != null)

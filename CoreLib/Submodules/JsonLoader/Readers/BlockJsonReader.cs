@@ -13,7 +13,8 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             string itemId = jObject["itemId"].GetValue<string>();
 
             EntityMonoBehaviourData entityData = CustomEntityModule.LoadPrefab(itemId, "Assets/CoreLib/Objects/TemplateBlockItem");
-
+            MonoBehaviourUtils.CallAlloc(entityData);
+            
             ReadObjectInfo(jObject, entityData);
             ReadComponents(jObject, entityData);
 
