@@ -1,5 +1,6 @@
 ﻿using CoreLib.Util;
 using HarmonyLib;
+using Il2CppSystem;
 
 namespace CoreLib.Submodules.CustomEntity.Patches;
 
@@ -21,6 +22,11 @@ public static class MemoryManager_IndirectPatch
             foreach (PrefabInfo prefabInfo in entity.objectInfo.prefabInfos)
             {
                 if (prefabInfo.prefab == null) continue;
+                EntityMonoBehaviour prefabMono = prefabInfo.prefab.GetComponent<EntityMonoBehaviour>();
+                if (prefabMono == null) continue;
+                
+                Type prefabType = prefabMono.GetIl2CppType();
+                if (CustomEntityModule.loadedPrefabTypes.Contains(prefabType)) continue;
 
                 MonoBehaviourUtils.ApplyPrefabModAuthorings(entity, prefabInfo.prefab.gameObject);
 
@@ -32,6 +38,7 @@ public static class MemoryManager_IndirectPatch
                 };
 
                 __instance.poolablePrefabBank.poolInitializers.Add(prefab);
+                CustomEntityModule.loadedPrefabTypes.Add(prefabType);
                 count++;
             }
         }

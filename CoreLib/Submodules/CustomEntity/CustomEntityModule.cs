@@ -440,6 +440,8 @@ public static class CustomEntityModule
     internal static Dictionary<ObjectID, Action<EntityMonoBehaviourData>> entityModifyFunctions = new Dictionary<ObjectID, Action<EntityMonoBehaviourData>>();
     internal static Dictionary<string, Action<EntityMonoBehaviourData>> modEntityModifyFunctions = new Dictionary<string, Action<EntityMonoBehaviourData>>();
 
+    internal static HashSet<Il2CppSystem.Type> loadedPrefabTypes = new HashSet<Il2CppSystem.Type>(new Il2CppTypeEqualityComparer());
+
     internal static Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>> customTilesets =
         new Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>>();
 
