@@ -51,6 +51,7 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new Il2CppListConverter());
             options.Converters.Add(new SpriteConverter());
             options.Converters.Add(new ColorConverter());
+            options.Converters.Add(new VectorConverter());
         }
 
         [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
@@ -76,6 +77,18 @@ namespace CoreLib.Submodules.JsonLoader
         public static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
         public static Dictionary<string, string> modFolders = new Dictionary<string, string>();
 
+        
+        public static void UseConverter(params JsonConverter[] converters)
+        {
+            foreach (JsonConverter converter in converters)
+            {
+                if (options.Converters.All(jsonConverter => jsonConverter.GetType() != converter.GetType()))
+                {
+                    options.Converters.Add(converter);
+                }
+            }
+        }
+        
         public static IDisposable WithContext(string path)
         {
             return new ContextHandle(path);
