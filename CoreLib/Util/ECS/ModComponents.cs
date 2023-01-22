@@ -1,6 +1,7 @@
 ﻿using System;
 using Unity.Burst;
 using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 using Type = Il2CppSystem.Type;
 
@@ -36,10 +37,10 @@ namespace CoreLib.Util
             }
 
             // We may have added enough types to cause the underlying containers to resize so re-fetch their ptrs
-            TypeManager.SharedEntityOffsetInfo.Ref.Data = new IntPtr(TypeManager.s_EntityOffsetList.m_ListData->Ptr);
-            TypeManager.SharedBlobAssetRefOffset.Ref.Data = new IntPtr(TypeManager.s_BlobAssetRefOffsetList.m_ListData->Ptr);
-            TypeManager.SharedWeakAssetRefOffset.Ref.Data = new IntPtr(TypeManager.s_WeakAssetRefOffsetList.m_ListData->Ptr);
-            TypeManager.SharedWriteGroup.Ref.Data = new IntPtr(TypeManager.s_WriteGroupList.m_ListData->Ptr);
+            TypeManager.SharedEntityOffsetInfo.Ref.GetData() = new IntPtr(TypeManager.s_EntityOffsetList.GetUnsafePtr());
+            TypeManager.SharedBlobAssetRefOffset.Ref.GetData() = new IntPtr(TypeManager.s_BlobAssetRefOffsetList.GetUnsafePtr());
+            TypeManager.SharedWeakAssetRefOffset.Ref.GetData() = new IntPtr(TypeManager.s_WeakAssetRefOffsetList.GetUnsafePtr());
+            TypeManager.SharedWriteGroup.Ref.GetData() = new IntPtr(TypeManager.s_WriteGroupList.GetUnsafePtr());
 
             // Since the ptrs may have changed we need to ensure all entity component stores are using the correct ones
             foreach (var w in World.All)
@@ -73,9 +74,8 @@ namespace CoreLib.Util
 
             if (PugDatabase.objectPrefabEntityLookup.ContainsKey(objectData))
             {
-                World world = World.DefaultGameObjectInjectionWorld;
                 Entity entity = PugDatabase.objectPrefabEntityLookup[objectData];
-                return world.EntityManager.GetModComponentData<T>(entity);
+                return PugDatabase.world.EntityManager.GetModComponentData<T>(entity);
             }
 
             CoreLibPlugin.Logger.LogWarning($"No prefab in PugDatabase with objectID: {objectData.objectID}");
@@ -107,9 +107,8 @@ namespace CoreLib.Util
 
             if (PugDatabase.objectPrefabEntityLookup.ContainsKey(objectData))
             {
-                World world = World.DefaultGameObjectInjectionWorld;
                 Entity entity = PugDatabase.objectPrefabEntityLookup[objectData];
-                world.EntityManager.SetModComponentData(entity, component);
+                PugDatabase.world.EntityManager.SetModComponentData(entity, component);
             }
             else
             {
@@ -140,9 +139,8 @@ namespace CoreLib.Util
 
             if (PugDatabase.objectPrefabEntityLookup.ContainsKey(objectData))
             {
-                World world = World.DefaultGameObjectInjectionWorld;
                 Entity entity = PugDatabase.objectPrefabEntityLookup[objectData];
-                return world.EntityManager.HasModComponent<T>(entity);
+                return PugDatabase.world.EntityManager.HasModComponent<T>(entity);
             }
 
             CoreLibPlugin.Logger.LogWarning($"No prefab in PugDatabase with objectID: {objectData.objectID}");
@@ -165,10 +163,9 @@ namespace CoreLib.Util
 
             if (PugDatabase.objectPrefabEntityLookup.ContainsKey(objectData))
             {
-                World world = World.DefaultGameObjectInjectionWorld;
                 Entity entity = PugDatabase.objectPrefabEntityLookup[objectData];
 
-                return GetComponentTypes(world.EntityManager, entity);
+                return GetComponentTypes(PugDatabase.world.EntityManager, entity);
             }
             
             CoreLibPlugin.Logger.LogWarning($"No prefab in PugDatabase with objectID: {objectData.objectID}");

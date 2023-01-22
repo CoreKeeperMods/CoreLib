@@ -1,5 +1,7 @@
-﻿using CoreLib.Util;
+﻿using System.Runtime.InteropServices;
+using CoreLib.Util;
 using HarmonyLib;
+using Il2CppSystem;
 using Unity.Entities;
 
 namespace CoreLib.Submodules.CustomEntity.Patches
@@ -17,7 +19,12 @@ namespace CoreLib.Submodules.CustomEntity.Patches
                 done = true;
 
                 CoreLibPlugin.Logger.LogInfo($"Adding {CustomEntityModule.customComponentsTypes.Count} custom components!");
-                ModComponents.AddNewComponentTypes(CustomEntityModule.customComponentsTypes.ToArray());
+
+
+                Type[] array = CustomEntityModule.customComponentsTypes.ToArray();
+                GCHandle handle = GCHandle.Alloc(array);
+                ModComponents.AddNewComponentTypes(array);
+                handle.Free();
             }
         }
     }

@@ -142,6 +142,11 @@ namespace CoreLib.Util
             int typeIndex = GetModTypeIndex<T>();
             var dataAccess = entityManager.GetCheckedEntityDataAccess();
             
+            if (!dataAccess->HasComponent(entity, ComponentType.FromTypeIndex(typeIndex)))
+            {
+                throw new InvalidOperationException($"Tried to get component data for component {typeof(T).FullName}, which entity does not have!");
+            }
+            
             if (!dataAccess->IsInExclusiveTransaction)
             {
                 (&dataAccess->m_DependencyManager)->CompleteWriteDependency(typeIndex);
@@ -166,10 +171,9 @@ namespace CoreLib.Util
             var dataAccess = entityManager.GetCheckedEntityDataAccess();
             var componentStore = dataAccess->EntityComponentStore;
 
-            if (dataAccess->HasComponent(entity, ComponentType.FromTypeIndex(typeIndex)))
+            if (!dataAccess->HasComponent(entity, ComponentType.FromTypeIndex(typeIndex)))
             {
-                CoreLibPlugin.Logger.LogWarning($"Tried to set component data for component {typeof(T).FullName}, which entity does not have!");
-                return;
+                throw new InvalidOperationException($"Tried to set component data for component {typeof(T).FullName}, which entity does not have!");
             }
 
             if (!dataAccess->IsInExclusiveTransaction)
@@ -196,29 +200,18 @@ namespace CoreLib.Util
             ComponentType componentType = ComponentType.FromTypeIndex(GetModTypeIndex<T>());
             var dataAccess = entityManager.GetCheckedEntityDataAccess();
             var componentStore = dataAccess->EntityComponentStore;
-            
-            CoreLibPlugin.Logger.LogInfo($"DataAccess: {(IntPtr)dataAccess}, ComponentStore: {(IntPtr)componentStore}");
-            
+
             if (dataAccess->HasComponent(entity, componentType))
                 return false;
             
             if (!componentStore->Exists(entity))
                 throw new InvalidOperationException("The entity does not exist");
-
-            //if (!dataAccess->IsInExclusiveTransaction)
-            //    dataAccess->BeforeStructuralChange();
-
-            //var changes = componentStore->BeginArchetypeChangeTracking();
             
             var changes = dataAccess->BeginStructuralChanges();
 
             bool result = StructuralChange.AddComponentEntity(componentStore, &entity, componentType.TypeIndex);
             
             dataAccess->EndStructuralChanges(ref changes);
-            
-            //componentStore->EndArchetypeChangeTracking(changes, &dataAccess->m_EntityQueryManager);
-            //componentStore->InvalidateChunkListCacheForChangedArchetypes();
-            //dataAccess->PlaybackManagedChangesMono();
 
             return result;
         }
@@ -254,6 +247,12 @@ namespace CoreLib.Util
             GetOrCreateSharedMemoryMethodPtr = (IntPtr)Il2CppInteropUtils
                 .GetIl2CppMethodInfoPointerFieldForGeneratedMethod(typeof(BurstCompilerService).GetMethod("GetOrCreateSharedMemory")).GetValue(null);
 
+        }
+
+        internal static unsafe ref T GetData<T>(this SharedStatic<T> sharedStatic) 
+            where T : unmanaged 
+        {
+            return ref Unsafe.AsRef<T>(sharedStatic._buffer);
         }
 
         internal static class SharedTypeIndex<TComponent>
