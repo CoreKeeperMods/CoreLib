@@ -1,6 +1,6 @@
 ﻿{
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$id" : "https://corelib.org/sprite.schema.json",
+    "$id" : "https://corelib.org/sprite_schema.json",
     "title": "Sprite",
     "description": "Defines Unity sprite resource",
     "type" : "object",

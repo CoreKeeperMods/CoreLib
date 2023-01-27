@@ -1,6 +1,6 @@
 ﻿{
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$id" : "https://corelib.org/vector.schema.json",
+    "$id" : "https://corelib.org/vector_schema.json",
     "title": "Vector",
     "description": "Defines Unity vectors",
     "type" : "object",
