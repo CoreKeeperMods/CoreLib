@@ -30,11 +30,11 @@
         },
         "icon" : {
             "description": "Main item sprite",
-            "$ref": "https://corelib.org/sprite_schema.json"
+            "$ref": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/sprite_schema.json"
         },
         "smallIcon" : {
             "description": "Secondary item sprite. Used when player is holding the item or on pedestals",
-            "$ref": "https://corelib.org/sprite_schema.json"
+            "$ref": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/sprite_schema.json"
         },
         "localizedName" : {
             "type" : "string",
@@ -87,7 +87,7 @@
             "type" : "number"
         },
         "iconOffset" : {
-            "$ref" : "https://corelib.org/vector_schema.json",
+            "$ref" : "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/vector_schema.json",
             "description" : "How should item icon be offset"
         },
         "isStackable" : {
@@ -95,11 +95,11 @@
             "description": "Is this item stackable?"
         },
         "prefabTileSize" : {
-            "$ref" : "https://corelib.org/vector_schema.json",
+            "$ref" : "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/vector_schema.json",
             "description": "Size in tiles that this entity occupies (or works within)"
         },
         "prefabCornerOffset" : {
-            "$ref" : "https://corelib.org/vector_schema.json",
+            "$ref" : "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/vector_schema.json",
             "description": "Offset for entities"
         },
         "centerIsAtEntityPosition" : {
@@ -133,7 +133,7 @@
         "mapColor" : {
             "anyOf" :[
                 { "type" : "string" },
-                { "$ref" : "https://corelib.org/color_schema.json" }
+                { "$ref" : "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/color_schema.json" }
             ],
             "description": "Color of this entity on the map"
         },
