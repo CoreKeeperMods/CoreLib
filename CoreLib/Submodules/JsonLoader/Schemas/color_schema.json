@@ -1,22 +1,27 @@
 ﻿{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "$id" : "https://corelib.org/color_schema.json",
-    "title": "Color",
-    "description": "Defines Unity color",
-    "type" : "object",
-    "properties": {
-        "r" : {
-            "type" : "number"
-        },
-        "g" : {
-            "type" : "number"
-        },
-        "b" : {
-            "type" : "number"
-        },
-        "a" : {
-            "type" : "number"
-        }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "https://corelib.org/color_schema.json",
+  "title": "Color",
+  "description": "Defines Unity color",
+  "type": "object",
+  "properties": {
+    "r": {
+      "type": "number"
     },
-    "required" : [ "r", "g", "b", "a" ]
+    "g": {
+      "type": "number"
+    },
+    "b": {
+      "type": "number"
+    },
+    "a": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "r",
+    "g",
+    "b",
+    "a"
+  ]
 }
