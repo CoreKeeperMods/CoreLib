@@ -1,0 +1,148 @@
+﻿{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$id" : "https://corelib.org/item.schema.json",
+    "title": "Item",
+    "description": "Custom item to be added to Core Keeper",
+    "type" : "object",
+    "definitions": {
+        "loaderTypes": {
+            "enum": [ "item", "modWorkbench", "block" ]
+        },
+        "ObjectCategoryTag" : {
+            "enum": [ "None", "Dirt", "Wood", "Stone", "Ruins", "Greenery", "Obsidian", "Player", "HostileCreature", "LarvaHive", "DefensiveWoodStructure", "DefensiveStoneStructure", "LightSource", "Destructible", "DamageCantGoThrough", "DefensiveScarletStructure", "DefensiveGalaxiteStructure", "UncommonOrLowerCookedFood", "RareOrHigherCookedFood" ]
+        },
+        "Rarity" : {
+            "enum": ["Poor", "Common", "Uncommon", "Rare", "Epic", "Legendary" ]
+        }
+    },
+    "properties": {
+        "type" : {
+            "type" : "string",
+            "description": "Type of the parser to use",
+            "anyOf": [
+                { "$ref": "#/definitions/loaderTypes" }
+            ]
+        },
+        "itemId" : {
+            "type" : "string",
+            "description": "New item id. Must in format of 'modid:itemid'",
+            "pattern": "^[A-Za-z0-9]+:[A-Za-z0-9]+$"
+        },
+        "icon" : {
+            "description": "Main item sprite",
+            "$ref": "https://corelib.org/sprite.schema.json"
+        },
+        "smallIcon" : {
+            "description": "Secondary item sprite. Used when player is holding the item or on pedestals",
+            "$ref": "https://corelib.org/sprite.schema.json"
+        },
+        "localizedName" : {
+            "type" : "string",
+            "description": "Item localized name"
+        },
+        "localizedDescription" : {
+            "type" : "string",
+            "description": "Item localized description"
+        },
+        "initialAmount" : {
+            "type" : "integer",
+            "description": "How many items player recieves when crafring the item. Also has special meaning for items with durability"
+        },
+        "variation" : {
+            "type" : "integer",
+            "description": "This item variation"
+        },
+        "variationIsDynamic" : {
+            "type" : "boolean",
+            "description": "Is variation supposed to change at runtime?"
+        },
+        "variationToToggleTo" : {
+            "type" : "integer"
+        },
+        "objectType" : {
+            "type" : "string",
+            "description" : "Item object type. Can be both existing vanilla types and custom modded values"
+        },
+        "tags" : {
+            "type" : "array",
+            "description": "Item tags",
+            "items": {
+                "$ref": "#/definitions/ObjectCategoryTag"
+            },
+            "uniqueItems": true
+        },
+        "rarity" : {
+            "$ref": "#/definitions/Rarity",
+            "description": "Item rarity type"
+        },
+        "onlyExistsInSeason" : {
+            "type" : "string",
+            "description": "In which season should this item appear"
+        },
+        "sellValue" : {
+            "type" : "integer",
+            "description": "How much the items costs when sold by a merchant"
+        },
+        "buyValueMultiplier" : {
+            "type" : "number"
+        },
+        "iconOffset" : {
+            "$ref" : "https://corelib.org/vector.schema.json",
+            "description" : "How should item icon be offset"
+        },
+        "isStackable" : {
+            "type" : "boolean",
+            "description": "Is this item stackable?"
+        },
+        "prefabTileSize" : {
+            "$ref" : "https://corelib.org/vector.schema.json",
+            "description": "Size in tiles that this entity occupies (or works within)"
+        },
+        "prefabCornerOffset" : {
+            "$ref" : "https://corelib.org/vector.schema.json",
+            "description": "Offset for entities"
+        },
+        "centerIsAtEntityPosition" : {
+            "type" : "boolean"
+        },
+        "requiredObjectsToCraft" : {
+            "type" : "array",
+            "items": {
+                "type" : "object",
+                "properties": {
+                    "objectID" : {
+                        "type" : "string",
+                        "description": "Ingridient item id"
+                    },
+                    "amount" : {
+                        "type" : "integer",
+                        "description" : "How many of this ingridient is needed?"
+                    }
+                },
+                "required" : [ "objectID", "amount"]
+            }
+        },
+        "craftingTime" : {
+            "type" : "number",
+            "description": "How long does it take to craft this item"
+        },
+        "appearInMapUI" : {
+            "type" : "boolean",
+            "description": "Should this entity appear on the map"
+        },
+        "mapColor" : {
+            "anyOf" :[
+                { "type" : "string" },
+                { "$ref" : "https://corelib.org/color.schema.json" }
+            ],
+            "description": "Color of this entity on the map"
+        },
+        "languageGenders" : {
+            "type" : "array",
+            "items": {
+                "type" : "object"
+            }
+        }
+    },
+    "required" : ["type", "itemId", "icon", "smallIcon", "localizedName", "localizedDescription" ]
+}
