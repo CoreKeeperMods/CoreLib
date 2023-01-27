@@ -1,6 +1,5 @@
 ﻿{
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "https://corelib.org/color_schema.json",
   "title": "Color",
   "description": "Defines Unity color",
   "type": "object",

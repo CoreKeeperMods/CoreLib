@@ -1,6 +1,5 @@
 ﻿{
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "https://corelib.org/item_schema.json",
   "title": "Item",
   "description": "Custom item to be added to Core Keeper",
   "type": "object",
