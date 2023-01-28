@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Sprite",
   "description": "Defines Unity sprite resource",
@@ -14,7 +14,8 @@
   "properties": {
     "path": {
       "type": "string",
-      "description": "Path relative to 'resources' folder"
+      "description": "Path relative to 'resources' folder",
+      "minLength" : 1
     },
     "type": {
       "type": "string",
@@ -27,6 +28,7 @@
     },
     "rect": {
       "type": "object",
+      "description": "Sprite rect to use",
       "properties": {
         "x": {
           "type": "number"

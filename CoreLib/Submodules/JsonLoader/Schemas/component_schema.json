@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Component",
+  "description": "Defines ECS component",
+  "type": "object",
+  "properties": {
+    "type" :{
+        "type" : "string",
+        "description": "Valid full name of the component class",
+        "minLength" : 1
+    }
+  },
+  "required" : [ "type" ]
+}

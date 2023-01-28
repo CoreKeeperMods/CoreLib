@@ -1,8 +1,17 @@
-﻿{
-  "$schema": "http://json-schema.org/draft-04/schema#",
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Item",
-  "description": "Custom item to be added to Core Keeper",
   "type": "object",
+  "description": "Defines custom item to be added to Core Keeper",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "itemId",
+    "icon",
+    "smallIcon",
+    "localizedName",
+    "localizedDescription"
+  ],
   "definitions": {
     "loaderTypes": {
       "enum": [
@@ -58,15 +67,22 @@
     "itemId": {
       "type": "string",
       "description": "New item id. Must in format of 'modid:itemid'",
-      "pattern": "^[A-Za-z0-9]+:[A-Za-z0-9]+$"
+      "pattern": "^[A-Za-z0-9]+:[A-Za-z0-9]+$",
+      "minLength" : 3
     },
     "icon": {
       "description": "Main item sprite",
-      "$ref": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/sprite_schema.json"
+      "anyOf": [
+        { "$ref": "sprite_schema.json" },
+        { "type" : "string" }
+      ]
     },
     "smallIcon": {
       "description": "Secondary item sprite. Used when player is holding the item or on pedestals",
-      "$ref": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/sprite_schema.json"
+      "anyOf": [
+        { "$ref": "sprite_schema.json" },
+        { "type" : "string" }
+      ]
     },
     "localizedName": {
       "type": "string",
@@ -75,6 +91,20 @@
     "localizedDescription": {
       "type": "string",
       "description": "Item localized description"
+    },
+    "components" : {
+      "type" : "array",
+      "items": {
+        "$ref": "component_schema.json"
+      },
+      "description": "Custom components this item should have"
+    },
+    "canCraft"  : {
+      "type" : "array",
+      "items": {
+        "type" : "string"
+      },
+      "description": "Defines what items workbench can craft. Only applies to mod workbenches!"
     },
     "initialAmount": {
       "type": "integer",
@@ -119,20 +149,29 @@
       "type": "number"
     },
     "iconOffset": {
-      "$ref": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/vector_schema.json",
-      "description": "How should item icon be offset"
+      "description": "How should item icon be offset",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
     },
     "isStackable": {
       "type": "boolean",
       "description": "Is this item stackable?"
     },
     "prefabTileSize": {
-      "$ref": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/vector_schema.json",
-      "description": "Size in tiles that this entity occupies (or works within)"
+      "description": "Size in tiles that this entity occupies (or works within)",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
     },
     "prefabCornerOffset": {
-      "$ref": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/vector_schema.json",
-      "description": "Offset for entities"
+      "description": "Offset for entities",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
     },
     "centerIsAtEntityPosition": {
       "type": "boolean"
@@ -171,7 +210,7 @@
           "type": "string"
         },
         {
-          "$ref": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/color_schema.json"
+           "$ref": "color_schema.json"
         }
       ],
       "description": "Color of this entity on the map"
@@ -181,14 +220,10 @@
       "items": {
         "type": "object"
       }
+    },
+    "$schema": {
+      "type": "string",
+      "description": "The schema to validate with"
     }
-  },
-  "required": [
-    "type",
-    "itemId",
-    "icon",
-    "smallIcon",
-    "localizedName",
-    "localizedDescription"
-  ]
+  }
 }
