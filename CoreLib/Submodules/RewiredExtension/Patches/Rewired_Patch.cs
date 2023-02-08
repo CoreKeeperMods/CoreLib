@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using CoreLib.Util;
 using HarmonyLib;
 using Rewired;
@@ -10,8 +11,18 @@ namespace CoreLib.Submodules.RewiredExtension.Patches;
 [HarmonyPatch]
 public static class Rewired_Patch
 {
-    // Method named 'zQQfvDZMmpVqPPLYlLuSJXXpwJcI' initializes user data, and is a good entry point
-    [HarmonyPatch(typeof(UserData), nameof(UserData.zQQfvDZMmpVqPPLYlLuSJXXpwJcI))]
+    public static MethodBase TargetMethod()
+    {
+        var method = AccessTools.FirstMethod(typeof(UserData), method => method.ReturnType == typeof(void) && method.GetParameters().Length == 0);
+        if (method == null)
+            return null;
+        
+        CoreLibPlugin.Logger.LogDebug($"Rewired patch. Found method: {method.FullDescription()}");
+        return method;
+    }
+    
+    
+    // Method named 'XOwBkQJVpYlgpbGQGFboTZRShRLKb' initializes user data, and is a good entry point
     [HarmonyPrefix]
     public static void OnRewiredDataInit(UserData __instance)
     {

@@ -16,7 +16,7 @@ namespace CoreLib.Submodules.CustomEntity.Patches
             bool apply = handler.ApplyColors(objectData, __instance.colorReplacementData);
             if (apply)
             {
-                __instance.ResetTextureColors();
+                __instance.ResetColors();
                 __instance.SetActiveColorReplacement(1);
             }
         }
