@@ -93,6 +93,8 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                         else
                             fieldInfo.SetValue(inst, Mathf.RoundToInt(value));
                     }
+
+                    index++;
                 }
             }
 
