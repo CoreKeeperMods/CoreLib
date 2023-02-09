@@ -10,6 +10,7 @@ using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Submodules.JsonLoader.Readers;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppInterop.Runtime.Runtime;
 using FieldInfo = Il2CppSystem.Reflection.FieldInfo;
 using Object = Il2CppSystem.Object;
@@ -170,6 +171,11 @@ namespace CoreLib.Submodules.JsonLoader
                 CoreLibPlugin.Logger.LogWarning($"Failed to register {type.FullName} Json Reader, because name {attribute.typeName} is already taken!");
             }
         }
+        
+        public static void PopulateObject<T>(T target, JsonNode jsonSource)
+        {
+            PopulateObject(typeof(T), target, jsonSource);
+        }
 
         public static void PopulateObject(Type type, object target, JsonNode jsonSource)
         {
@@ -183,17 +189,59 @@ namespace CoreLib.Submodules.JsonLoader
         private static void OverwriteProperty(Type type, object target, KeyValuePair<string, JsonNode> updatedProperty)
         {
             var propertyInfo = type.GetProperty(updatedProperty.Key);
+            var fieldInfo = type.GetField(updatedProperty.Key);
 
-            if (propertyInfo == null)
+            if (propertyInfo != null)
             {
-                CoreLibPlugin.Logger.LogInfo("No property!");
-                return;
+                var parsedValue = updatedProperty.Value.Deserialize(propertyInfo.PropertyType, options);
+
+                propertyInfo.SetValue(target, parsedValue);
+            }
+            else if (fieldInfo != null)
+            {
+                if (IsIl2CppField(fieldInfo.FieldType, out Type systemType))
+                {
+                    var parsedValue = updatedProperty.Value.Deserialize(systemType, options);
+                    object il2cppField = fieldInfo.GetValue(target);
+                    var property = fieldInfo.FieldType.GetProperty("Value");
+                    property.SetValue(il2cppField, parsedValue);
+                }
+                else
+                {
+                    var parsedValue = updatedProperty.Value.Deserialize(fieldInfo.FieldType, options);
+                    fieldInfo.SetValue(target, parsedValue);
+                }
+            }
+            else
+            {
+                CoreLibPlugin.Logger.LogInfo($"Found no property/field named {updatedProperty.Key} in {type.FullName}");
+            }
+        }
+        
+        public static bool IsIl2CppField(Type type, out Type systemType)
+        {
+            systemType = default;
+
+            if (type.IsGenericType &&
+                (type.GetGenericTypeDefinition() == typeof(Il2CppReferenceField<>) ||
+                 type.GetGenericTypeDefinition() == typeof(Il2CppValueField<>)))
+            {
+                systemType = type.GetGenericArguments()[0];
+                return true;
             }
 
-            var propertyType = propertyInfo.PropertyType;
-            var parsedValue = updatedProperty.Value.Deserialize(propertyType, options);
+            if (type == typeof(Il2CppStringField))
+            {
+                systemType = typeof(string);
+                return true;
+            }
 
-            propertyInfo.SetValue(target, parsedValue);
+            return false;
+        }
+        
+        public static void FillArrays<T>(T target)
+        {
+            FillArrays(typeof(T), target);
         }
 
         public static void FillArrays(Type type, object target)
@@ -211,6 +259,32 @@ namespace CoreLib.Submodules.JsonLoader
                     }
                 }
             }
+        }
+        
+        private static Type[] GetTypesFromAssembly(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                return ex.Types.Where(type => type != null).ToArray();
+            }
+        }
+
+        private static IEnumerable<Type> AllTypes() => AccessTools.AllAssemblies().SelectMany(GetTypesFromAssembly);
+
+        public static Type TypeByName(string name)
+        {
+            Type type = Type.GetType(name, false);
+
+            type ??= AllTypes().FirstOrDefault(t => t.FullName == name);
+            type ??= AllTypes().FirstOrDefault(t => t.Name == name);
+
+            if (type == null)
+                CoreLibPlugin.Logger.LogWarning($"Could not find type named {name}");
+            return type;
         }
     }
 }

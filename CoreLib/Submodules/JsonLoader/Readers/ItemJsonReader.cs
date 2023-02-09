@@ -18,49 +18,24 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("item")]
     public class ItemJsonReader : IJsonReader
     {
-        public void ApplyPre(JsonNode jObject)
+        public virtual void ApplyPre(JsonNode jObject)
         {
             string itemId = jObject["itemId"].GetValue<string>();
-            EntityMonoBehaviourData entityData = CustomEntityModule.LoadPrefab(itemId, "Assets/CoreLib/Objects/TemplateItem");
+            GameObject go = new GameObject();
+            EntityMonoBehaviourData entityData = go.AddComponent<EntityMonoBehaviourData>();
 
-            entityData.objectInfo = jObject.Deserialize<ObjectInfo>(JsonLoaderModule.options);
-            entityData.objectInfo.prefabInfos = new List<PrefabInfo>();
-            entityData.objectInfo.prefabInfos.Add(
-                new PrefabInfo()
-                {
-                    ecsPrefab = entityData.gameObject
-                });
-            JsonLoaderModule.FillArrays(typeof(ObjectInfo), entityData.objectInfo);
+            ReadObjectInfo(jObject, entityData);
+            go.hideFlags = HideFlags.HideAndDontSave;
 
-            if (jObject["components"] != null)
-            {
-                JsonArray array = jObject["components"].AsArray();
-                foreach (JsonNode node in array)
-                {
-                    if (node["type"] != null)
-                    {
-                        Type sysType = AccessTools.TypeByName(node["type"].GetValue<string>());
-                        Il2CppSystem.Type type = Il2CppType.From(sysType);
-                        Component component = entityData.gameObject.AddComponent(type);
-                        MethodInfo methonGen = typeof(Il2CppObjectBase).GetMethod(nameof(Il2CppObjectBase.Cast), AccessTools.all);
-                        MethodInfo method = methonGen.MakeGenericMethod(sysType);
-                        object castComponent = method.Invoke(component, Array.Empty<object>());
-                        JsonLoaderModule.PopulateObject(sysType, castComponent, node);
-                        JsonLoaderModule.FillArrays(sysType, castComponent);
-                    }
-                }
-            }
-/*
-            CustomCDAuthoring testComponent = entityData.gameObject.AddComponent<CustomCDAuthoring>();
-            testComponent.value = Random.Range(1,15);*/
-                
+            ReadComponents(jObject, entityData);
+
             MonoBehaviourUtils.CallAlloc(entityData);
             ObjectID objectID = CustomEntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
 
             ReadLocalization(jObject, objectID);
         }
-
-        public void ApplyPost(JsonNode jObject)
+        
+        public virtual void ApplyPost(JsonNode jObject)
         {
             string itemId = jObject["itemId"].GetValue<string>();
             ObjectID objectID = CustomEntityModule.GetObjectId(itemId);
@@ -76,6 +51,60 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             }
 
             throw new InvalidOperationException($"Failed to find item with ID {itemId}!");
+        }
+
+        public static void ReadComponents(JsonNode jObject, EntityMonoBehaviourData entityData)
+        {
+            if (jObject["components"] != null)
+            {
+                JsonArray array = jObject["components"].AsArray();
+                foreach (JsonNode node in array)
+                {
+                    if (node["type"] != null)
+                    {
+                        Type sysType = JsonLoaderModule.TypeByName(node["type"].GetValue<string>());
+                        Il2CppSystem.Type type = Il2CppType.From(sysType);
+
+                        Component component = entityData.gameObject.GetComponent(type);
+                        if (component == null)
+                            component = entityData.gameObject.AddComponent(type);
+
+                        MethodInfo methonGen = typeof(Il2CppObjectBase).GetMethod(nameof(Il2CppObjectBase.Cast), AccessTools.all);
+                        MethodInfo method = methonGen.MakeGenericMethod(sysType);
+                        object castComponent = method.Invoke(component, Array.Empty<object>());
+                        JsonLoaderModule.PopulateObject(sysType, castComponent, node);
+                        JsonLoaderModule.FillArrays(sysType, castComponent);
+
+                        MonoBehaviour componentMono = component.TryCast<MonoBehaviour>();
+                        if (componentMono != null)
+                            componentMono.TryInvokeAction(nameof(IAllocate.Allocate));
+                    }
+                }
+            }
+        }
+
+        public static void ReadObjectInfo(JsonNode jObject, EntityMonoBehaviourData entityData)
+        {
+            string itemId = jObject["itemId"].GetValue<string>();
+
+            entityData.objectInfo ??= new ObjectInfo();
+            JsonLoaderModule.PopulateObject(entityData.objectInfo, jObject);
+            //entityData.objectInfo = jObject.Deserialize<ObjectInfo>(JsonLoaderModule.options);
+
+            if (entityData.objectInfo.prefabInfos == null)
+            {
+                entityData.objectInfo.prefabInfos = new List<PrefabInfo>();
+                entityData.objectInfo.prefabInfos.Add(
+                    new PrefabInfo()
+                    {
+                        ecsPrefab = entityData.gameObject
+                    });
+            }
+
+            string fullItemId = $"{itemId}_{entityData.objectInfo.variation}";
+
+            entityData.gameObject.name = $"{fullItemId}_Prefab";
+            JsonLoaderModule.FillArrays(entityData.objectInfo);
         }
 
         public static void ReadLocalization(JsonNode jObject, ObjectID objectID)
