@@ -501,7 +501,7 @@ public static class CustomEntityModule
         {
             CoreLibPlugin.Logger.LogError("Failed to get default tileset layers!");
         }
-
+/*
         MapWorkshopTilesetBank tilesetBank = ResourcesModule.LoadAsset<MapWorkshopTilesetBank>("Assets/CoreLib/Tileset/MissingTileset");
 
         missingTileset = tilesetBank.tilesets._items[0];
@@ -509,7 +509,7 @@ public static class CustomEntityModule
         if (tilesetLayers.ContainsKey(missingTileset.layers.name))
         {
             missingTileset.layers = tilesetLayers[missingTileset.layers.name];
-        }
+        }*/
     }
 
     [EntityModification(ObjectID.Player)]
