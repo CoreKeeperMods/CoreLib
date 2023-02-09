@@ -51,5 +51,15 @@ public class RuntimeMaterialEditor : Editor
                 Debug.Log("No matches found!");
             }
         }
+        
+        if (GUILayout.Button("Update to V2"))
+        {
+            RuntimeMaterial runtimeMaterial = (RuntimeMaterial)target;
+
+            RuntimeMaterialV2 newRuntimeMaterialV2 = runtimeMaterial.gameObject.AddComponent<RuntimeMaterialV2>();
+            newRuntimeMaterialV2.materialName = runtimeMaterial.materialName;
+            Object.DestroyImmediate(runtimeMaterial);
+            EditorUtility.SetDirty(newRuntimeMaterialV2.gameObject);
+        }
     }
 }
