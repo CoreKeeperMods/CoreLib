@@ -318,6 +318,7 @@ public static class CustomEntityModule
     {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddCustomTileset));
+        CoreLibPlugin.Logger.LogWarning("Custom Tileset logic may not be fully functional! Use at your own risk!");
 
         MapWorkshopTilesetBank tilesetBank = ResourcesModule.LoadAsset<MapWorkshopTilesetBank>(tilesetPath);
         if (tilesetBank == null)
@@ -462,6 +463,7 @@ public static class CustomEntityModule
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
     internal static void Load()
     {
+        CoreLibPlugin.Logger.LogWarning("Custom Entity module may not be fully functional! Use at your own risk!");
         BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
         modEntityIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModEntityID.cfg", metadata, modEntityIdRangeStart, modEntityIdRangeEnd);
         tilesetIDs = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.TilesetID.cfg", metadata, modTilesetIdRangeStart, modTilesetIdRangeEnd);

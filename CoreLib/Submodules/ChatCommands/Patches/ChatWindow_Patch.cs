@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using CoreLib.Util;
 using HarmonyLib;
+using Il2CppInterop.Common;
+using Il2CppInterop.Runtime;
 using UnityEngine;
 
 namespace CoreLib.Submodules.ChatCommands.Patches;
@@ -139,7 +142,7 @@ internal class ChatWindow_Patch
 
     public static void SendMessage(ChatWindow window, string message, Color color)
     {
-        PugText pugText = window.AllocPugText(ChatWindow.MessageTextType.Sent, out PugTextEffectMaxFade fadeEffect);
+        PugText pugText = AllocPugText(window, ChatWindow.MessageTextType.Sent, out PugTextEffectMaxFade fadeEffect);
         pugText.Render(message);
         pugText.defaultStyle.color = color;
         if (fadeEffect != null)
@@ -147,5 +150,35 @@ internal class ChatWindow_Patch
             fadeEffect.FadeOut();
             window.AddPugText(ChatWindow.MessageTextType.Sent, pugText);
         }
+    }
+
+    private static readonly IntPtr AllocPugTextMethodPtr;
+
+    static ChatWindow_Patch()
+    {
+        AllocPugTextMethodPtr = (IntPtr)Il2CppInteropUtils
+            .GetIl2CppMethodInfoPointerFieldForGeneratedMethod(typeof(ChatWindow).GetMethod("AllocPugText")).GetValue(null);
+    }
+    
+    public static unsafe PugText AllocPugText(
+        ChatWindow window,
+        ChatWindow.MessageTextType type,
+        out PugTextEffectMaxFade fadeEffect)
+    {
+        IL2CPP.Il2CppObjectBaseToPtrNotNull(window);
+        IntPtr* numPtr1 = stackalloc IntPtr[2];
+        numPtr1[0] = (IntPtr)Unsafe.AsPointer(ref type);
+
+        IntPtr refPtr = IntPtr.Zero;
+        IntPtr* numPtr2 = &refPtr;
+        numPtr1[1] = (IntPtr) numPtr2;
+        
+        IntPtr exc = IntPtr.Zero;
+        IntPtr outPtr = IL2CPP.il2cpp_runtime_invoke(AllocPugTextMethodPtr, IL2CPP.Il2CppObjectBaseToPtrNotNull(window), (void**) numPtr1, ref exc);
+        Il2CppException.RaiseExceptionIfNecessary(exc);
+        
+        fadeEffect = refPtr == IntPtr.Zero ? null : new PugTextEffectMaxFade(refPtr);
+        
+        return outPtr == IntPtr.Zero ? null : new PugText(outPtr);
     }
 }
