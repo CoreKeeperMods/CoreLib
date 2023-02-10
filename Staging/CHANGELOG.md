@@ -1,5 +1,6 @@
 
 ### v1.4.0
+**WARNING: Update all of your mods when installing this version!**
 - Fixed compatibility with game version 0.5.2.0 and higher
 - Custom Entity module may not function fully due to Unity version bump. Use at your own risk.
 
