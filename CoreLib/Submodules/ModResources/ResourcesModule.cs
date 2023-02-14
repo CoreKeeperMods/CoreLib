@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using CoreLib.Submodules.JsonLoader;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
-using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.ModResources;
@@ -197,7 +195,7 @@ public static class ResourcesModule
     internal static string[] spriteFileExtensions = { ".jpg", ".png", ".tif" };
     internal static string[] audioClipFileExtensions = { ".mp3", ".ogg", ".wav", ".aif", ".flac" };
 
-    //internal static ResourceData internalResource;
+    internal static ResourceData internalResource;
     internal static ObjectRetainer objectRetainer;
 
     [CoreLibSubmoduleInit(Stage = InitStage.Load)]
@@ -206,9 +204,9 @@ public static class ResourcesModule
         objectRetainer = CoreLibPlugin.Instance.AddComponent<ObjectRetainer>();
         string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        //internalResource = new ResourceData(CoreLibPlugin.GUID, "CoreLib", pluginfolder);
-        //internalResource.LoadAssetBundle("corelibbundle");
-        //AddResource(internalResource);
+        internalResource = new ResourceData(CoreLibPlugin.GUID, "CoreLib", pluginfolder);
+        internalResource.LoadAssetBundle("corelibbundle");
+        AddResource(internalResource);
     }
 
 

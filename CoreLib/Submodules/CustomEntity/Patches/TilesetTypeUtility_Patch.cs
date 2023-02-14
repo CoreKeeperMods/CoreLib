@@ -16,11 +16,11 @@ public static class TilesetTypeUtility_Patch
 		{
 			return CustomEntityModule.customTilesets[tilesetId].obj;
 		}
-		/*
+		
 		if (index >= CustomEntityModule.modTilesetIdRangeStart)
 		{
 			return CustomEntityModule.missingTileset;
-		}*/
+		}
 
 		return null;
 	}
