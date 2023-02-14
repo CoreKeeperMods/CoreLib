@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace CoreLib
@@ -35,6 +36,17 @@ namespace CoreLib
 
             CoreLibPlugin.Logger.LogWarning($"Requesting ID for {itemID}, which is not registered!");
             return 0;
+        }
+
+        public string GetStringID(int index)
+        {
+            if (modIDs.ContainsValue(index))
+            {
+                return modIDs.First(pair => pair.Value == index).Key;
+            }
+            
+            CoreLibPlugin.Logger.LogWarning($"Requesting string ID for index {index}, which does not exist!");
+            return "missing:missing";
         }
 
 
