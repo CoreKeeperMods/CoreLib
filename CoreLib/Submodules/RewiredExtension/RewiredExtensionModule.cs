@@ -102,6 +102,7 @@ public static class RewiredExtensionModule
     internal static void SetHooks()
     {
         CoreLibPlugin.harmony.PatchAll(typeof(Rewired_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(Rewired_Init_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.Load)]

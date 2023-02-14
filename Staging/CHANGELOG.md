@@ -1,10 +1,15 @@
 
-### v1.3.1
-- Fixed a crash when using NativeTranspiler (Also AudioModule)
-- Allow to load AudioClip from a `.wav` file
+### v1.4.0
+**WARNING: Update all of your mods when installing this version!**
+- Fixed compatibility with game version 0.5.2.0 and higher
+- Custom Entity module may not function fully due to Unity version bump. Use at your own risk.
 
 <details>
 <summary>Changelog</summary>
+
+### v1.3.1
+- Fixed a crash when using NativeTranspiler (Also AudioModule)
+- Allow to load AudioClip from a `.wav` file
 
 ### v1.3.0
 - Public release of JSON loader module

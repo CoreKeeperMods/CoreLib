@@ -15,12 +15,12 @@ public class CoreLibPlugin : BasePlugin
     public const string GUID = "com.le4fless.corelib";
     public const string NAME = "CoreLib";
     public const string VERSION = ThisAssembly.AssemblyVersion;
-
-    public static readonly GameVersion buildFor = new GameVersion(0, 5, 1, 2, "4398");
+        
+    public static readonly GameVersion buildFor = new GameVersion(0,5,2, 2, "a842");
     internal static HashSet<string> LoadedSubmodules;
     internal static APISubmoduleHandler submoduleHandler;
     internal static Harmony harmony;
-
+        
     internal static CoreLibPlugin Instance { get; private set; }
     public static ManualLogSource Logger { get; private set; }
 
@@ -34,7 +34,7 @@ public class CoreLibPlugin : BasePlugin
         IL2CPP.il2cpp_gc_disable();
 
         CheckIfUsedOnRightGameVersion();
-
+            
         var pluginScanner = new PluginScanner();
         submoduleHandler = new APISubmoduleHandler(buildFor, Logger);
         LoadedSubmodules = submoduleHandler.LoadRequested(pluginScanner);
@@ -55,7 +55,7 @@ public class CoreLibPlugin : BasePlugin
         Logger.LogWarning($"This version of CoreLib was built for game version \"{buildFor}\", but you are running \"{buildId}\".");
         Logger.LogWarning("Should any problems arise, please check for a new version before reporting issues.");
     }
-
+        
     /// <summary>
     /// Return true if the specified submodule is loaded.
     /// </summary>
@@ -67,7 +67,6 @@ public class CoreLibPlugin : BasePlugin
             Logger.LogWarning("IsLoaded called before submodules were loaded, result may not reflect actual load status.");
             return false;
         }
-
         return LoadedSubmodules.Contains(submodule);
     }
 

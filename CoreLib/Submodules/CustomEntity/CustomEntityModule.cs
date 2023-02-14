@@ -16,7 +16,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.InteropTypes;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using PugTilemap;
 using PugTilemap.Quads;
 using PugTilemap.Workshop;
@@ -77,6 +76,13 @@ public static class CustomEntityModule
         ThrowIfNotLoaded();
 
         return (ObjectID)modEntityIDs.GetIndex(itemID);
+    }
+    
+    public static string GetObjectStringId(ObjectID itemID)
+    {
+        ThrowIfNotLoaded();
+
+        return modEntityIDs.GetStringID((int)itemID);
     }
 
     /// <summary>
@@ -147,12 +153,11 @@ public static class CustomEntityModule
     {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddModWorkbench));
-        ObjectID workbenchId = AddWorkbench(itemId, spritePath, recipe);
+        ObjectID workbenchId = AddWorkbench(itemId, spritePath, recipe, true);
         if (bindToRootWorkbench)
         {
-            if (rootWorkbenches.Count == 0)
-                AddRootWorkbench();
-            AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+            ObjectID root = TryAddRootWorkbench();
+            AddWorkbenchItem(root, workbenchId);
         }
 
         return workbenchId;
@@ -168,27 +173,27 @@ public static class CustomEntityModule
     {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddModWorkbench));
-        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe);
+        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe, true);
         if (bindToRootWorkbench)
         {
-            if (rootWorkbenches.Count == 0)
-                AddRootWorkbench();
-            AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+            ObjectID root = TryAddRootWorkbench();
+            AddWorkbenchItem(root, workbenchId);
         }
+
         return workbenchId;
     }
-    
+
     internal static ObjectID AddModWorkbench(string itemId, Sprite bigIconPath, Sprite smallIconPath, List<CraftingData> recipe, bool bindToRootWorkbench)
     {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddModWorkbench));
-        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe);
+        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe, true);
         if (bindToRootWorkbench)
         {
-            if (rootWorkbenches.Count == 0)
-                AddRootWorkbench();
-            AddWorkbenchItem(rootWorkbenches.Last(), workbenchId);
+            ObjectID root = TryAddRootWorkbench();
+            AddWorkbenchItem(root, workbenchId);
         }
+
         return workbenchId;
     }
 
@@ -202,29 +207,20 @@ public static class CustomEntityModule
     {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddModWorkbench));
-        if (GetMainEntity(workBenchId, out EntityMonoBehaviourData entity))
+        if (modWorkbenchesChain.ContainsKey(workBenchId))
         {
-            CraftingCDAuthoring craftingCdAuthoring = entity.gameObject.GetComponent<CraftingCDAuthoring>();
-            bool isRootWorkbench = IsRootWorkbench(workBenchId);
+            EntityMonoBehaviourData workbenchEntity = modWorkbenchesChain[workBenchId].Last();
+            CraftingCDAuthoring craftingCdAuthoring = workbenchEntity.gameObject.GetComponent<CraftingCDAuthoring>();
 
             CoreLibPlugin.Logger.LogDebug($"Adding item {entityId.ToString()} to workbench {workBenchId.ToString()}");
 
-            if (craftingCdAuthoring.canCraftObjects.Count < (isRootWorkbench ? 17 : 18))
+            if (craftingCdAuthoring.canCraftObjects.Count < 18)
             {
                 craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = entityId, amount = 1 });
                 return;
             }
-
-            if (isRootWorkbench)
-            {
-                ObjectID newWorkbench = AddRootWorkbench();
-                craftingCdAuthoring.canCraftObjects.Insert(0, new CraftableObject() { objectID = newWorkbench, amount = 1 });
-                AddWorkbenchItem(newWorkbench, entityId);
-                return;
-            }
-
-            CoreLibPlugin.Logger.LogWarning($"Workbench {workBenchId.ToString()} has ran out of slots!");
-            return;
+            CloneWorkbench(workbenchEntity);
+            AddWorkbenchItem(workBenchId, entityId);
         }
 
         CoreLibPlugin.Logger.LogError($"Failed to add workbench item! Found no entities in the list with ID: {workBenchId}.");
@@ -398,7 +394,7 @@ public static class CustomEntityModule
     }
 
     public static void RegisterDynamicItemHandler<T>()
-    where T : IDynamicItemHandler, new()
+        where T : IDynamicItemHandler, new()
     {
         if (dynamicItemHandlers.Any(handler => handler.GetType() == typeof(T)))
         {
@@ -441,6 +437,7 @@ public static class CustomEntityModule
     internal static Dictionary<string, Action<EntityMonoBehaviourData>> modEntityModifyFunctions = new Dictionary<string, Action<EntityMonoBehaviourData>>();
 
     internal static HashSet<Il2CppSystem.Type> loadedPrefabTypes = new HashSet<Il2CppSystem.Type>(new Il2CppTypeEqualityComparer());
+    internal static Dictionary<ObjectID, List<EntityMonoBehaviourData>> modWorkbenchesChain = new Dictionary<ObjectID, List<EntityMonoBehaviourData>>();
 
     internal static Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>> customTilesets =
         new Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>>();
@@ -454,7 +451,7 @@ public static class CustomEntityModule
     internal static IdBindConfigFile tilesetIDs;
     internal static IdBind objectTypeIDs;
 
-    internal static List<ObjectID> rootWorkbenches = new List<ObjectID>();
+    internal static ObjectID? rootWorkbench;
 
     internal static List<Il2CppSystem.Type> customComponentsTypes = new List<Il2CppSystem.Type>();
         
@@ -542,19 +539,63 @@ public static class CustomEntityModule
     [EntityModification(ObjectID.Player)]
     private static void EditPlayer(EntityMonoBehaviourData entity)
     {
-        if (rootWorkbenches.Count > 0)
+        if (rootWorkbench != null)
         {
             CraftingCDAuthoring craftingCdAuthoring = entity.GetComponent<CraftingCDAuthoring>();
-            craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = rootWorkbenches.First(), amount = 1 });
+            craftingCdAuthoring.canCraftObjects.Add(new CraftableObject() { objectID = rootWorkbench.Value, amount = 1 });
         }
     }
 
-    private static ObjectID AddRootWorkbench()
+    private static void CloneWorkbench(EntityMonoBehaviourData oldWorkbench)
     {
-        ObjectID workbench = AddWorkbench(RootWorkbench, "Assets/CoreLib/Textures/modWorkbench", null);
-        rootWorkbenches.Add(workbench);
-        LocalizationModule.AddEntityLocalization(workbench, $"Root Workbench {rootWorkbenches.Count}", "This workbench contains all modded workbenches!");
-        return workbench;
+        string prevId = GetObjectStringId(oldWorkbench.objectInfo.objectID);
+        string newId = IncrementID(prevId);
+
+        ObjectID newWorkbench = AddWorkbench(newId, "Assets/CoreLib/Textures/modWorkbench", null, false);
+
+        if (GetMainEntity(newWorkbench, out EntityMonoBehaviourData entity))
+        {
+            AddAdditionalWorkbench(oldWorkbench.objectInfo.objectID, entity);
+            CraftingCDAuthoring crafting = oldWorkbench.gameObject.GetComponent<CraftingCDAuthoring>();
+            crafting.includeCraftedObjectsFromBuildings.Add(entity.gameObject.GetComponent<CraftingCDAuthoring>());
+        }
+    }
+
+    private static void AddAdditionalWorkbench(ObjectID root, EntityMonoBehaviourData entity)
+    {
+        if (modWorkbenchesChain.TryGetValue(root, out var value))
+        {
+            value.Add(entity);
+        }
+        else
+        {
+            modWorkbenchesChain.Add(root, new List<EntityMonoBehaviourData>()
+            {
+                entity
+            });
+        }
+    }
+    
+    private static ObjectID TryAddRootWorkbench()
+    {
+        if (rootWorkbench == null)
+        {
+            ObjectID workbench = AddWorkbench(RootWorkbench, "Assets/CoreLib/Textures/modWorkbench", null, true);
+            rootWorkbench = workbench;
+            LocalizationModule.AddEntityLocalization(workbench, $"Root Workbench", "This workbench contains all modded workbenches!");
+        }
+        return rootWorkbench.Value;
+    }
+
+    private static string IncrementID(string prevId)
+    {
+        string[] idParts = prevId.Split("$$");
+        int currentIndex = 0;
+        
+        if (idParts.Length >= 2 && int.TryParse(idParts[1], out int result))
+            currentIndex = result;
+
+        return $"{idParts[0]}$${currentIndex}";
     }
 
     internal static void ThrowIfNotLoaded()
@@ -573,11 +614,6 @@ public static class CustomEntityModule
         {
             throw new InvalidOperationException($"{nameof(CustomEntityModule)}.{methodName}() method called too late! Entity injection is already done.");
         }
-    }
-
-    private static bool IsRootWorkbench(ObjectID objectID)
-    {
-        return rootWorkbenches.Contains(objectID);
     }
 
     internal static bool GetMainEntity(ObjectID objectID, out EntityMonoBehaviourData entity)
@@ -610,16 +646,16 @@ public static class CustomEntityModule
         entity = null;
         return false;
     }
-    
-    private static ObjectID AddWorkbench(string itemId, string bigIconPath, string smallIconPath, List<CraftingData> recipe)
+
+    private static ObjectID AddWorkbench(string itemId, string bigIconPath, string smallIconPath, List<CraftingData> recipe, bool isPrimary)
     {
         Sprite bigIcon = ResourcesModule.LoadAsset<Sprite>(bigIconPath);
         Sprite smallIcon = ResourcesModule.LoadAsset<Sprite>(smallIconPath);
 
-        return AddWorkbench(itemId, bigIcon, smallIcon, recipe);
+        return AddWorkbench(itemId, bigIcon, smallIcon, recipe, isPrimary);
     }
 
-    private static ObjectID AddWorkbench(string itemId, string spritePath, List<CraftingData> recipe)
+    private static ObjectID AddWorkbench(string itemId, string spritePath, List<CraftingData> recipe, bool isPrimary)
     {
         Sprite[] sprites = ResourcesModule.LoadSprites(spritePath).OrderSprites();
         if (sprites == null || sprites.Length != 2)
@@ -628,10 +664,10 @@ public static class CustomEntityModule
             return ObjectID.None;
         }
 
-        return AddWorkbench(itemId, sprites[0], sprites[1], recipe);
+        return AddWorkbench(itemId, sprites[0], sprites[1], recipe, isPrimary);
     }
-
-    private static ObjectID AddWorkbench(string itemId, Sprite bigIcon, Sprite smallIcon, List<CraftingData> recipe)
+    
+    private static ObjectID AddWorkbench(string itemId, Sprite bigIcon, Sprite smallIcon, List<CraftingData> recipe, bool isPrimary)
     {
         ObjectID id = AddEntity(itemId, "Assets/CoreLib/Objects/TemplateWorkbench");
         if (GetMainEntity(id, out EntityMonoBehaviourData entity))
@@ -653,6 +689,10 @@ public static class CustomEntityModule
             CraftingCDAuthoring comp = entity.gameObject.AddComponent<CraftingCDAuthoring>();
             comp.craftingType = CraftingType.Simple;
             comp.canCraftObjects = new Il2CppSystem.Collections.Generic.List<CraftableObject>(4);
+            comp.includeCraftedObjectsFromBuildings = new Il2CppSystem.Collections.Generic.List<CraftingCDAuthoring>();
+            
+            if(isPrimary)
+                AddAdditionalWorkbench(id, entity);
         }
 
         return id;

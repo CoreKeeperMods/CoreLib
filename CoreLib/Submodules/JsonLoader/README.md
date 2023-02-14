@@ -79,6 +79,12 @@ To be able to craft the item you also must add a mod workbench (Or write code th
 }
 ```
 
+If your editor supports validating using JSON schemas, then you can add this line to your json files:
+
+```
+"$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
+```
+
 You might need to look at the game code to determine what fields you need to set, and what values exist. To do so you
 can use basic dnSpy [project](https://core-keeper-modding.gitbook.io/modding-wiki/modding/view-source-code#using-cpp2il)
 
