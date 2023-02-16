@@ -74,6 +74,8 @@ public class ComponentDummyTask : Task
 
             ClassDeclarationSyntax newClassNode = classNode.WithAttributeLists(new SyntaxList<AttributeListSyntax>());
 
+            Compilation compilation = CSharpCompilation.Create("test");
+
             newClassNode = newClassNode.RemoveNodes(newClassNode
                 .ChildNodes()
                 .OfType<FieldDeclarationSyntax>()
@@ -83,8 +85,14 @@ public class ComponentDummyTask : Task
                 .ChildNodes()
                 .OfType<FieldDeclarationSyntax>(), (syntax, _) =>
             {
-                TypeArgumentListSyntax typeArgumentList = syntax.Declaration.Type.ChildNodes().First() as TypeArgumentListSyntax;
-                TypeSyntax typeSyntax = typeArgumentList.Arguments.First();
+                TypeSyntax typeSyntax;
+                if (syntax.Declaration.Type.ToString().Contains("Il2CppStringField"))
+                    typeSyntax = SyntaxFactory.PredefinedType(SyntaxFactory.ParseToken("string"));
+                else
+                {
+                    TypeArgumentListSyntax typeArgumentList = syntax.Declaration.Type.ChildNodes().First() as TypeArgumentListSyntax;
+                    typeSyntax = typeArgumentList.Arguments.First();
+                }
 
                 VariableDeclarationSyntax newVariable = syntax.Declaration.WithType(typeSyntax);
                 return syntax.WithDeclaration(newVariable);

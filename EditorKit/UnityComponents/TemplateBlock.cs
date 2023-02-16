@@ -13,11 +13,17 @@ namespace CoreLib.Components
         public SpriteRenderer horizontalEmmisiveRenderer;
         public SpriteRenderer shadowSpriteRenderer;
         public GameObject lightGO;
+        public Transform SRPivot;
         public void OnOccupied()
         {
         }
 
+        //TODO crash when interactible object calls a method.
         public void OnFree()
+        {
+        }
+
+        public void OnUse()
         {
         }
     }

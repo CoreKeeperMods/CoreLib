@@ -64,7 +64,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                     ParseFields(ref reader, inst, (ref Utf8JsonReader jsonReader, string key) => element.GetProperty(key).GetSingle());
                     return (TValue)inst;
                 }
-                throw new InvalidOperationException("Not supported");
+                throw new InvalidOperationException($"Vector converter can't convert  starting from token {reader.TokenType}!");
             }
 
             delegate float ReadFunc(ref Utf8JsonReader reader, string key);

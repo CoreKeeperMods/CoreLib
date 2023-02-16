@@ -1,4 +1,6 @@
 ﻿using System;
+using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.JsonLoader;
 using CoreLib.Util;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem.Collections.Generic;
@@ -17,6 +19,7 @@ namespace CoreLib.Components
         public Il2CppReferenceField<SpriteRenderer> shadowSpriteRenderer;
 
         public Il2CppReferenceField<GameObject> lightGO;
+        public Il2CppReferenceField<Transform> SRPivot;
 
         public TemplateBlock(IntPtr ptr) : base(ptr) { }
 
@@ -24,10 +27,13 @@ namespace CoreLib.Components
         {
             this.CallBase<EntityMonoBehaviour>(nameof(OnOccupied));
             List<Sprite> sprites = objectInfo.additionalSprites;
+            TemplateBlockCD templateBlockCd = world.EntityManager.GetModComponentData<TemplateBlockCD>(entity);
+            
             if (sprites._items[0] != null)
             {
                 verticalRenderer.Value.sprite = sprites._items[0];
                 verticalRenderer.Value.gameObject.SetActive(true);
+                verticalRenderer.Value.transform.localPosition = (Vector3)templateBlockCd.verticalSpriteOffset;
             }
             if (sprites._items[1] != null)
             {
@@ -38,6 +44,7 @@ namespace CoreLib.Components
             {
                 horizontalRenderer.Value.sprite = sprites._items[2];
                 horizontalRenderer.Value.gameObject.SetActive(true);
+                horizontalRenderer.Value.transform.localPosition = templateBlockCd.horizontalSpriteOffset;
             }
             if (sprites._items[3] != null)
             {
@@ -48,16 +55,26 @@ namespace CoreLib.Components
             {
                 shadowSpriteRenderer.Value.sprite = sprites._items[4];
                 shadowSpriteRenderer.Value.gameObject.SetActive(true);
+                shadowSpriteRenderer.Value.transform.localPosition = templateBlockCd.shadowOffset;
             }
+
+            SRPivot.Value.localPosition = templateBlockCd.prefabOffset;
             
-            TemplateBlockCD templateBlockCd = world.EntityManager.GetModComponentData<TemplateBlockCD>(entity);
             if (templateBlockCd.lightColor != Color.black)
             {
                 lightGO.Value.SetActive(true);
                 optionalLightOptimizer.lightToOptimize.color = templateBlockCd.lightColor;
             }
+
+            if (templateBlockCd.interactionId >= 0)
+            {
+                interactable.gameObject.SetActive(true);
+                interactable.optionalOutlineController.gameObject.SetActive(true);
+                interactable.additionalOutlineControllers._items[0].gameObject.SetActive(true);
+            }
         }
 
+        //TODO crash when interactible object calls a method.
         public override void OnFree()
         {
             this.CallBase<EntityMonoBehaviour>(nameof(OnFree));
@@ -67,6 +84,26 @@ namespace CoreLib.Components
             horizontalEmmisiveRenderer.Value.gameObject.SetActive(false);
             shadowSpriteRenderer.Value.gameObject.SetActive(false);
             lightGO.Value.SetActive(false);
+            interactable.gameObject.SetActive(false);
+            interactable.optionalOutlineController.gameObject.SetActive(false);
+            interactable.additionalOutlineControllers._items[0].gameObject.SetActive(false);
+        }
+
+        public void OnUse()
+        {
+            CoreLibPlugin.Logger.LogInfo("get Component");
+            TemplateBlockCD templateBlockCd = world.EntityManager.GetModComponentData<TemplateBlockCD>(entity);
+
+            try
+            {
+                IInteractionHandler handler = JsonLoaderModule.GetInteractionHandler<IInteractionHandler>(templateBlockCd.interactionId);
+                handler.OnInteraction(this);
+            }
+            catch (Exception e)
+            {
+                string stringId = CustomEntityModule.GetObjectStringId(objectInfo.objectID);
+                CoreLibPlugin.Logger.LogWarning($"Exception while executing object {stringId} interaction handler:\n{e}");
+            }
         }
         
     }

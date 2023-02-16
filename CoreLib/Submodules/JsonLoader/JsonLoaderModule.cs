@@ -49,9 +49,11 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new ObjectIDConverter());
             options.Converters.Add(new JsonStringEnumConverter());
             options.Converters.Add(new Il2CppListConverter());
+            options.Converters.Add(new Il2CppStringConverter());
             options.Converters.Add(new SpriteConverter());
             options.Converters.Add(new ColorConverter());
             options.Converters.Add(new VectorConverter());
+            interactionHandlers.Add(null);
         }
 
         [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
@@ -74,10 +76,11 @@ namespace CoreLib.Submodules.JsonLoader
         public static JsonSerializerOptions options;
         public static string context = "";
 
-        public static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
-        public static Dictionary<string, string> modFolders = new Dictionary<string, string>();
+        internal static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
+        internal static Dictionary<string, string> modFolders = new Dictionary<string, string>();
+        internal static List<object> interactionHandlers = new List<object>(10);
 
-        
+
         public static void UseConverter(params JsonConverter[] converters)
         {
             foreach (JsonConverter converter in converters)
@@ -88,7 +91,7 @@ namespace CoreLib.Submodules.JsonLoader
                 }
             }
         }
-        
+
         public static IDisposable WithContext(string path)
         {
             return new ContextHandle(path);
@@ -165,8 +168,10 @@ namespace CoreLib.Submodules.JsonLoader
                         }
                     }
                 }
+
                 modFolders.Add(modGuid, path);
             }
+
             IL2CPP.il2cpp_gc_enable();
         }
 
@@ -180,6 +185,46 @@ namespace CoreLib.Submodules.JsonLoader
             {
                 RegisterJsonReadersInType_Internal(type);
             }
+        }
+
+        public static int RegisterInteractHandler(string handlerType)
+        {
+            Type type = AccessTools.TypeByName(handlerType);
+            if (type == null)
+            {
+                CoreLibPlugin.Logger.LogError($"Failed to register interaction handler. Type '{handlerType}' not found!");
+                return 0;
+            }
+
+            if (!type.IsAssignableTo(typeof(IInteractionHandler)) &&
+                !type.IsAssignableTo(typeof(ITriggerListener)))
+            {
+                CoreLibPlugin.Logger.LogError($"Failed to register interaction handler. Type {handlerType} does not implement '{nameof(IInteractionHandler)}' or '{nameof(ITriggerListener)}'!");
+                return 0;
+            }
+
+            int existingMethod = interactionHandlers.FindIndex(info => info != null && info.GetType() == type);
+
+            if (existingMethod > 0)
+            {
+                return existingMethod;
+            }
+
+            CoreLibPlugin.Logger.LogDebug($"Registering {handlerType} as object interact handler!");
+            int index = interactionHandlers.Count;
+            interactionHandlers.Add(Activator.CreateInstance(type));
+            return index;
+        }
+
+        internal static T GetInteractionHandler<T>(int index)
+        where T : class
+        {
+            if (index == 0)
+            {
+                throw new InvalidOperationException("Interaction handler is not valid!");
+            }
+
+            return interactionHandlers[index] as T;
         }
 
         private static void RegisterJsonReadersInType_Internal(Type type)
@@ -223,6 +268,9 @@ namespace CoreLib.Submodules.JsonLoader
             }
             else if (fieldInfo != null)
             {
+                var attribute = fieldInfo.GetCustomAttribute<NonSerializedAttribute>();
+                if (attribute != null)  return;
+                
                 if (IsIl2CppField(fieldInfo.FieldType, out Type systemType))
                 {
                     var parsedValue = updatedProperty.Value.Deserialize(systemType, options);
@@ -267,7 +315,7 @@ namespace CoreLib.Submodules.JsonLoader
         {
             FillArrays(typeof(T), target);
         }
-        
+
         public static void FillArrays(Type type, object target)
         {
             foreach (PropertyInfo property in type.GetProperties())

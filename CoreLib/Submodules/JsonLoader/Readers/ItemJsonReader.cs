@@ -69,6 +69,8 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                         if (component == null)
                             component = entityData.gameObject.AddComponent(type);
                         
+                        component.TryInvokeAction(nameof(IHasDefaultValue.InitDefaultValues));
+                        
                         MethodInfo methonGen = typeof(Il2CppObjectBase).GetMethod(nameof(Il2CppObjectBase.Cast), AccessTools.all);
                         MethodInfo method = methonGen.MakeGenericMethod(sysType);
                         object castComponent = method.Invoke(component, Array.Empty<object>());
