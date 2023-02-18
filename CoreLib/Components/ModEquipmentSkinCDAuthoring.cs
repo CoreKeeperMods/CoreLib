@@ -36,7 +36,10 @@ namespace CoreLib.Components
         public override bool Apply(EntityMonoBehaviourData data)
         {
             byte skinId = GetSkinForObjectType(data.objectInfo.objectType);
-
+            ObjectCategoryTag itemTag = GetArmorTag(data.objectInfo.objectType);
+            if (!data.objectInfo.tags.Contains(itemTag))
+                data.objectInfo.tags.Add(itemTag);
+            
             if (skinId != 0)
             {
                 var skinCdAuthoring = gameObject.AddComponent<EquipmentSkinCDAuthoring>();
@@ -72,6 +75,21 @@ namespace CoreLib.Components
             }
 
             return 0;
+        }
+
+        private ObjectCategoryTag GetArmorTag(ObjectType type)
+        {
+            switch (type)
+            {
+                case ObjectType.Helm:
+                    return ObjectCategoryTag.Helm;
+                case ObjectType.BreastArmor:
+                    return ObjectCategoryTag.BreastArmor;
+                case ObjectType.PantsArmor:
+                    return ObjectCategoryTag.PantsArmor;
+            }
+
+            return ObjectCategoryTag.None;
         }
     }
 }
