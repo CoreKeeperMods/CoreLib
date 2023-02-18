@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using CoreLib.Submodules.JsonLoader;
 using CoreLib.Util;
 using Il2CppInterop.Runtime.Attributes;
@@ -9,7 +8,6 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 using IntPtr = System.IntPtr;
-using String = Il2CppSystem.String;
 
 #pragma warning disable CS0649
 
@@ -53,7 +51,7 @@ namespace CoreLib.Components
         public Il2CppValueField<float3> horizontalSpriteOffset;
         public Il2CppValueField<float3> shadowOffset;
         public Il2CppValueField<float3> prefabOffset;
-        public string interactMethod;
+        public string interactHandler;
 
         private Il2CppValueField<int> interactMethodIndex;
 
@@ -75,6 +73,12 @@ namespace CoreLib.Components
             interactMethodIndex.Value = -1;
         }
 
+        public void PostInit()
+        {
+            if (!string.IsNullOrEmpty(interactHandler))
+                interactMethodIndex.Value = JsonLoaderModule.RegisterInteractHandler(interactHandler);
+        }
+
         public override bool Apply(EntityMonoBehaviourData data)
         {
             List<Sprite> sprites = new List<Sprite>(5);
@@ -84,9 +88,6 @@ namespace CoreLib.Components
             sprites.Add(horizontalEmissiveSprite.Value);
             sprites.Add(shadowSprite.Value);
             data.objectInfo.additionalSprites = sprites;
-            
-            if (!string.IsNullOrEmpty(interactMethod))
-                interactMethodIndex.Value = JsonLoaderModule.RegisterInteractHandler(interactMethod);
 
             return true;
         }

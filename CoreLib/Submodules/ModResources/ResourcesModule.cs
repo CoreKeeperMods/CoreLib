@@ -127,9 +127,9 @@ public static class ResourcesModule
             }
         }
 
-        if (!JsonLoaderModule.context.Equals(""))
+        if (!JsonLoaderModule.context.loadPath.Equals(""))
         {
-            string fullPath = Path.Combine(JsonLoaderModule.context, assetPath);
+            string fullPath = Path.Combine(JsonLoaderModule.context.loadPath, assetPath);
             
             if (File.Exists(fullPath.WithExtension(".png")))
             {

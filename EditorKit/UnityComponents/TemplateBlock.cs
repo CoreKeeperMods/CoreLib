@@ -18,7 +18,6 @@ namespace CoreLib.Components
         {
         }
 
-        //TODO crash when interactible object calls a method.
         public void OnFree()
         {
         }

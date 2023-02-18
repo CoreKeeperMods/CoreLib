@@ -1,5 +1,7 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using CoreLib.Components;
 using CoreLib.Submodules.CustomEntity;
 using CoreLib.Util;
 using Unity.Mathematics;
@@ -20,6 +22,12 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             
             ReadObjectInfo(jObject, entityData);
             ReadComponents(jObject, entityData);
+
+            TemplateBlockCDAuthoring blockCdAuthoring = entityData.gameObject.GetComponent<TemplateBlockCDAuthoring>();
+            if (blockCdAuthoring == null)
+                throw new InvalidOperationException($"Missing required component '{typeof(TemplateBlockCDAuthoring).FullName}'");
+            
+            blockCdAuthoring.PostInit();
 
             Vector2 colliderSize = entityData.objectInfo.prefabTileSize;
             if (jObject["colliderSize"] !=  null) 

@@ -74,7 +74,7 @@ namespace CoreLib.Submodules.JsonLoader
         }
 
         public static JsonSerializerOptions options;
-        public static string context = "";
+        public static JsonContext context;
 
         internal static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
         internal static Dictionary<string, string> modFolders = new Dictionary<string, string>();
@@ -92,7 +92,7 @@ namespace CoreLib.Submodules.JsonLoader
             }
         }
 
-        public static IDisposable WithContext(string path)
+        public static IDisposable WithContext(JsonContext path)
         {
             return new ContextHandle(path);
         }
@@ -115,7 +115,7 @@ namespace CoreLib.Submodules.JsonLoader
 
             IL2CPP.il2cpp_gc_disable();
             string resourcesDir = Path.Combine(path, "resources");
-            using (WithContext(resourcesDir))
+            using (WithContext(new JsonContext(resourcesDir, Assembly.GetCallingAssembly())))
             {
                 List<JsonNode> objectsCache = new List<JsonNode>();
 
@@ -189,7 +189,13 @@ namespace CoreLib.Submodules.JsonLoader
 
         public static int RegisterInteractHandler(string handlerType)
         {
-            Type type = AccessTools.TypeByName(handlerType);
+            if (context.callingAssembly == null)
+            {
+                CoreLibPlugin.Logger.LogError("Failed to register interaction handler. Context assembly is null");
+                return 0;
+            }
+
+            Type type = context.callingAssembly.GetType(handlerType);
             if (type == null)
             {
                 CoreLibPlugin.Logger.LogError($"Failed to register interaction handler. Type '{handlerType}' not found!");
@@ -219,7 +225,7 @@ namespace CoreLib.Submodules.JsonLoader
         internal static T GetInteractionHandler<T>(int index)
         where T : class
         {
-            if (index == 0)
+            if (index <= 0)
             {
                 throw new InvalidOperationException("Interaction handler is not valid!");
             }

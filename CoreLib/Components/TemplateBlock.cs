@@ -72,9 +72,12 @@ namespace CoreLib.Components
                 interactable.optionalOutlineController.gameObject.SetActive(true);
                 interactable.additionalOutlineControllers._items[0].gameObject.SetActive(true);
             }
+            else
+            {
+                interactable.gameObject.SetActive(false);
+            }
         }
 
-        //TODO crash when interactible object calls a method.
         public override void OnFree()
         {
             this.CallBase<EntityMonoBehaviour>(nameof(OnFree));
@@ -91,7 +94,6 @@ namespace CoreLib.Components
 
         public void OnUse()
         {
-            CoreLibPlugin.Logger.LogInfo("get Component");
             TemplateBlockCD templateBlockCd = world.EntityManager.GetModComponentData<TemplateBlockCD>(entity);
 
             try

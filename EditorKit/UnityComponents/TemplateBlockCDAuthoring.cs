@@ -1,11 +1,9 @@
-using System;
 using CoreLib.Util;
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 using IntPtr = System.IntPtr;
-using String = System.String;
 
 #pragma warning disable CS0649
 namespace CoreLib.Components
@@ -38,6 +36,10 @@ namespace CoreLib.Components
         public float3 prefabOffset;
         private int interactMethodIndex;
         public void InitDefaultValues()
+        {
+        }
+
+        public void PostInit()
         {
         }
 
