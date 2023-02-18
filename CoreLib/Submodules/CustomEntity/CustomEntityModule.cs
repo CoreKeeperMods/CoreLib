@@ -471,6 +471,8 @@ public static class CustomEntityModule
 
     public const string RootWorkbench = "CoreLib:RootModWorkbench";
 
+    #region Initialization
+
     [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
     internal static void SetHooks()
     {
@@ -506,6 +508,24 @@ public static class CustomEntityModule
 
         InitTilesets();
     }
+    
+    internal static void ThrowIfNotLoaded()
+    {
+        if (!Loaded)
+        {
+            Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
+            string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+            throw new InvalidOperationException(message);
+        }
+    }
+
+    internal static void ThrowIfTooLate(string methodName)
+    {
+        if (hasInjected)
+        {
+            throw new InvalidOperationException($"{nameof(CustomEntityModule)}.{methodName}() method called too late! Entity injection is already done.");
+        }
+    }
 
     private static void InitTilesets()
     {
@@ -535,6 +555,22 @@ public static class CustomEntityModule
             missingTileset.layers = tilesetLayers[missingTileset.layers.name];
         }
     }
+    
+    private static void InitCustomizationTable()
+    {
+        if (customizationTable == null)
+        {
+            customizationTable = Resources.Load<PlayerCustomizationTable>("PlayerCustomizationTable");
+            foreach (BreastArmorSkin armorSkin in customizationTable.breastArmorSkins)
+            {
+                busyIDsSet.obj.Add(armorSkin.id);
+            }
+        }
+    }
+    
+    #endregion
+
+    #region Workbenches
 
     [EntityModification(ObjectID.Player)]
     private static void EditPlayer(EntityMonoBehaviourData entity)
@@ -586,67 +622,7 @@ public static class CustomEntityModule
         }
         return rootWorkbench.Value;
     }
-
-    private static string IncrementID(string prevId)
-    {
-        string[] idParts = prevId.Split("$$");
-        int currentIndex = 0;
-        
-        if (idParts.Length >= 2 && int.TryParse(idParts[1], out int result))
-            currentIndex = result;
-
-        return $"{idParts[0]}$${currentIndex}";
-    }
-
-    internal static void ThrowIfNotLoaded()
-    {
-        if (!Loaded)
-        {
-            Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-            string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
-            throw new InvalidOperationException(message);
-        }
-    }
-
-    internal static void ThrowIfTooLate(string methodName)
-    {
-        if (hasInjected)
-        {
-            throw new InvalidOperationException($"{nameof(CustomEntityModule)}.{methodName}() method called too late! Entity injection is already done.");
-        }
-    }
-
-    internal static bool GetMainEntity(ObjectID objectID, out EntityMonoBehaviourData entity)
-    {
-        if (entitiesToAdd.ContainsKey(objectID))
-        {
-            entity = entitiesToAdd[objectID][0];
-            return true;
-        }
-
-        entity = null;
-        return false;
-    }
-
-    internal static bool GetEntity(ObjectID objectID, int variation, out EntityMonoBehaviourData entity)
-    {
-        if (entitiesToAdd.ContainsKey(objectID))
-        {
-            var entities = entitiesToAdd[objectID];
-            foreach (EntityMonoBehaviourData entityData in entities)
-            {
-                if (entityData.objectInfo.variation == variation)
-                {
-                    entity = entityData;
-                    return true;
-                }
-            }
-        }
-
-        entity = null;
-        return false;
-    }
-
+    
     private static ObjectID AddWorkbench(string itemId, string bigIconPath, string smallIconPath, List<CraftingData> recipe, bool isPrimary)
     {
         Sprite bigIcon = ResourcesModule.LoadAsset<Sprite>(bigIconPath);
@@ -698,6 +674,52 @@ public static class CustomEntityModule
         return id;
     }
 
+    private static string IncrementID(string prevId)
+    {
+        string[] idParts = prevId.Split("$$");
+        int currentIndex = 0;
+        
+        if (idParts.Length >= 2 && int.TryParse(idParts[1], out int result))
+            currentIndex = result;
+
+        return $"{idParts[0]}$${currentIndex}";
+    }
+    
+    #endregion
+
+    #region Entities
+    
+    internal static bool GetMainEntity(ObjectID objectID, out EntityMonoBehaviourData entity)
+    {
+        if (entitiesToAdd.ContainsKey(objectID))
+        {
+            entity = entitiesToAdd[objectID][0];
+            return true;
+        }
+
+        entity = null;
+        return false;
+    }
+
+    internal static bool GetEntity(ObjectID objectID, int variation, out EntityMonoBehaviourData entity)
+    {
+        if (entitiesToAdd.ContainsKey(objectID))
+        {
+            var entities = entitiesToAdd[objectID];
+            foreach (EntityMonoBehaviourData entityData in entities)
+            {
+                if (entityData.objectInfo.variation == variation)
+                {
+                    entity = entityData;
+                    return true;
+                }
+            }
+        }
+
+        entity = null;
+        return false;
+    }
+
     internal static EntityMonoBehaviourData LoadPrefab(string itemId, string prefabPath)
     {
         GameObject prefab = ResourcesModule.LoadAsset<GameObject>(prefabPath);
@@ -731,6 +753,8 @@ public static class CustomEntityModule
             RegisterModificationsInType_Internal(type);
         }
     }
+    
+    #endregion
 
     private static void RegisterModificationsInType_Internal(Type type)
     {
