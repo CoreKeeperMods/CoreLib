@@ -16,4 +16,5 @@ where T : Object
     }
     
     public static implicit operator GCHandleObject<T>(T o) => new GCHandleObject<T>(o);
+    public static implicit operator T(GCHandleObject<T> o) => o.obj;
 }

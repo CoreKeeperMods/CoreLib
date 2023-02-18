@@ -22,6 +22,7 @@ using PugTilemap.Workshop;
 using Unity.NetCode;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Il2CppCollections = Il2CppSystem.Collections.Generic;
 
 namespace CoreLib.Submodules.CustomEntity;
 
@@ -365,23 +366,26 @@ public static class CustomEntityModule
     /// <param name="skin">Class with texture sheet information</param>
     /// <returns>New skin index. '0' if failed.</returns>
     public static byte AddPlayerCustomization<T>(T skin)
-        where T : Il2CppObjectBase
+        where T : SkinBase
     {
         ThrowIfNotLoaded();
-        if (customizationTable == null)
-        {
-            customizationTable = Resources.Load<PlayerCustomizationTable>("PlayerCustomizationTable");
-        }
+        InitCustomizationTable();
 
         try
         {
-            Il2CppSystem.Reflection.FieldInfo property = Il2CppType.Of<PlayerCustomizationTable>().GetFieldOfType<Il2CppSystem.Collections.Generic.List<T>>();
+            Il2CppSystem.Reflection.FieldInfo[] properties = Il2CppType.Of<PlayerCustomizationTable>().GetFieldsOfType<Il2CppSystem.Collections.Generic.List<T>>();
+            Il2CppSystem.Reflection.FieldInfo listProperty = properties.First(info => !info.Name.Contains("Sorted"));
+            Il2CppSystem.Reflection.FieldInfo sorttedListProperty = properties.First(info => info.Name.Contains("Sorted"));
 
-            Il2CppSystem.Collections.Generic.List<T> list = property.GetValue(customizationTable).Cast<Il2CppSystem.Collections.Generic.List<T>>();
+            Il2CppSystem.Collections.Generic.List<T> list = listProperty.GetValue(customizationTable).Cast<Il2CppSystem.Collections.Generic.List<T>>();
+            Il2CppSystem.Collections.Generic.List<T> sortedList = sorttedListProperty.GetValue(customizationTable).Cast<Il2CppSystem.Collections.Generic.List<T>>();
+            
             if (list.Count < 255)
             {
                 byte skinIndex = (byte)list.Count;
+                skin.id = skinIndex;
                 list.Add(skin);
+                sortedList.Add(skin);
                 return skinIndex;
             }
         }
@@ -454,7 +458,8 @@ public static class CustomEntityModule
     internal static ObjectID? rootWorkbench;
 
     internal static List<Il2CppSystem.Type> customComponentsTypes = new List<Il2CppSystem.Type>();
-        
+    internal static GCHandleObject<Il2CppCollections.HashSet<int>> busyIDsSet = new Il2CppCollections.HashSet<int>();
+
     internal static PlayerCustomizationTable customizationTable;
 
     public const int modEntityIdRangeStart = 33000;
