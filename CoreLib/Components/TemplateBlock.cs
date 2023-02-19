@@ -1,7 +1,7 @@
 ﻿using System;
 using CoreLib.Submodules.CustomEntity;
 using CoreLib.Submodules.JsonLoader;
-using CoreLib.Util;
+using CoreLib.Submodules.ModComponent;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem.Collections.Generic;
 using UnityEngine;
@@ -33,7 +33,7 @@ namespace CoreLib.Components
             {
                 verticalRenderer.Value.sprite = sprites._items[0];
                 verticalRenderer.Value.gameObject.SetActive(true);
-                verticalRenderer.Value.transform.localPosition = (Vector3)templateBlockCd.verticalSpriteOffset;
+                verticalRenderer.Value.transform.localPosition = templateBlockCd.verticalSpriteOffset;
             }
             if (sprites._items[1] != null)
             {

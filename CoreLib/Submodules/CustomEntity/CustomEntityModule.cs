@@ -410,25 +410,6 @@ public static class CustomEntityModule
         dynamicItemHandlers.Add(handler);
     }
     
-
-    public static void RegisterECSComponent<T>()
-    {
-        RegisterECSComponent(typeof(T));
-    }
-
-    public static void RegisterECSComponent(Type componentType)
-    {
-        if (!ClassInjector.IsTypeRegisteredInIl2Cpp(componentType))
-            ClassInjector.RegisterTypeInIl2Cpp(componentType);
-        
-        Il2CppSystem.Type il2CppType = Il2CppType.From(componentType);
-        
-        if (!customComponentsTypes.Contains(il2CppType))
-        {
-            CoreLibPlugin.Logger.LogDebug($"Registering ECS component {componentType.FullName}");
-            customComponentsTypes.Add(il2CppType);
-        }
-    }
     
     #endregion
 
@@ -456,8 +437,7 @@ public static class CustomEntityModule
     internal static IdBind objectTypeIDs;
 
     internal static ObjectID? rootWorkbench;
-
-    internal static List<Il2CppSystem.Type> customComponentsTypes = new List<Il2CppSystem.Type>();
+    
     internal static GCHandleObject<Il2CppCollections.HashSet<int>> busyIDsSet = new Il2CppCollections.HashSet<int>();
 
     internal static PlayerCustomizationTable customizationTable;
@@ -484,7 +464,6 @@ public static class CustomEntityModule
         MemoryManager_Patch.TryPatch();
         CoreLibPlugin.harmony.PatchAll(typeof(PugDatabaseAuthoring_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
-        CoreLibPlugin.harmony.PatchAll(typeof(TypeManager_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(GameObjectConversionMappingSystem_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(PlayerController_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(ColorReplacer_Patch));

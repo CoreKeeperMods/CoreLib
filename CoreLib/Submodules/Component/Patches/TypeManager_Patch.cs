@@ -1,10 +1,10 @@
 ﻿using System.Runtime.InteropServices;
-using CoreLib.Util;
+using CoreLib.Components;
 using HarmonyLib;
 using Il2CppSystem;
 using Unity.Entities;
 
-namespace CoreLib.Submodules.CustomEntity.Patches
+namespace CoreLib.Submodules.ModComponent.Patches
 {
     public class TypeManager_Patch
     {
@@ -18,12 +18,12 @@ namespace CoreLib.Submodules.CustomEntity.Patches
             {
                 done = true;
 
-                CoreLibPlugin.Logger.LogInfo($"Adding {CustomEntityModule.customComponentsTypes.Count} custom components!");
+                CoreLibPlugin.Logger.LogInfo($"Adding {ComponentModule.customComponentsTypes.Count} custom components!");
 
 
-                Type[] array = CustomEntityModule.customComponentsTypes.ToArray();
+                Type[] array = ComponentModule.customComponentsTypes.ToArray();
                 GCHandle handle = GCHandle.Alloc(array);
-                ModComponents.AddNewComponentTypes(array);
+                ComponentModule.AddNewComponentTypes(array);
                 handle.Free();
             }
         }

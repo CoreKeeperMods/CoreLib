@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using CoreLib.Submodules.JsonLoader;
-using CoreLib.Util;
+using CoreLib.Submodules.ModComponent;
 using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem.Collections.Generic;

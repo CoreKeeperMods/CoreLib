@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using CoreLib.Components;
+using CoreLib.Submodules.ModComponent;
 using CoreLib.Submodules.CustomEntity;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Submodules.JsonLoader.Readers;
@@ -17,7 +18,7 @@ using Il2CppInterop.Runtime.InteropTypes.Fields;
 
 namespace CoreLib.Submodules.JsonLoader
 {
-    [CoreLibSubmodule(Dependencies = new[] { typeof(CustomEntityModule) })]
+    [CoreLibSubmodule(Dependencies = new[] { typeof(CustomEntityModule), typeof(ComponentModule) })]
     public class JsonLoaderModule
     {
         /// <summary>
@@ -59,8 +60,8 @@ namespace CoreLib.Submodules.JsonLoader
         [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
         internal static void PostLoad()
         {
-            CustomEntityModule.RegisterECSComponent<TemplateBlockCD>();
-            CustomEntityModule.RegisterECSComponent<TemplateBlockCDAuthoring>();
+            ComponentModule.RegisterECSComponent<TemplateBlockCD>();
+            ComponentModule.RegisterECSComponent<TemplateBlockCDAuthoring>();
         }
 
         internal static void ThrowIfNotLoaded()

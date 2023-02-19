@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using CoreLib.Components;
+using CoreLib.Submodules.ModComponent;
 using Il2CppInterop.Runtime.Attributes;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 
-namespace CoreLib.Util.Jobs
+namespace CoreLib.ModComponent.Jobs
 {
     [Il2CppImplements(typeof(IComponentData))]
-    public struct ModParameterValueProvider_IComponentData<T>
+    internal struct ModParameterValueProvider_IComponentData<T>
         where T : struct
     {
         ModComponentTypeHandle<T> _typeHandle;
@@ -70,31 +72,7 @@ namespace CoreLib.Util.Jobs
 
         public StructuralChangeRuntime PrepareToExecuteWithStructuralChanges(ComponentSystemBase componentSystem, EntityQuery query)
         {
-            return new StructuralChangeRuntime() { _manager = componentSystem.EntityManager, _typeIndex = ECSExtensions.GetModTypeIndex<T>() };
-        }
-    }
-    
-    public struct ModComponentTypeHandle<T>
-    {
-        internal readonly int m_TypeIndex;
-        internal readonly uint m_GlobalSystemVersion;
-        internal readonly bool m_IsReadOnly;
-        internal readonly bool m_IsZeroSized;
-
-        public uint GlobalSystemVersion => m_GlobalSystemVersion;
-        public bool IsReadOnly => m_IsReadOnly;
-
-#pragma warning disable 0414
-        private readonly int m_Length;
-#pragma warning restore 0414
-        
-        internal unsafe ModComponentTypeHandle(bool isReadOnly, uint globalSystemVersion)
-        {
-            m_Length = 1;
-            m_TypeIndex = ECSExtensions.GetModTypeIndex<T>();
-            m_IsZeroSized = TypeManager.GetTypeInfoPointer()[m_TypeIndex & 0x00FFFFFF].IsZeroSized;
-            m_GlobalSystemVersion = globalSystemVersion;
-            m_IsReadOnly = isReadOnly;
+            return new StructuralChangeRuntime() { _manager = componentSystem.EntityManager, _typeIndex = ComponentModule.GetModTypeIndex<T>() };
         }
     }
 }
