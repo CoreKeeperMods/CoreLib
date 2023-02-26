@@ -33,6 +33,6 @@ public class MyCommandHanlder : IChatCommandHandler
 
 Now in your plugin `Load()` method write:
 ```cs
-AddCommands(Assembly.GetExecutingAssembly());
+CommandsModule.AddCommands(Assembly.GetExecutingAssembly());
 ```
 This will register any command handlers in your mod assembly. If you have multiple assemblies call this method for each one.
