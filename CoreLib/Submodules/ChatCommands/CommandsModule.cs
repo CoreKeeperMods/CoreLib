@@ -65,6 +65,7 @@ public static partial class CommandsModule
     internal static void SetHooks()
     {
         CoreLibPlugin.harmony.PatchAll(typeof(ChatWindow_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(TitleScreenAnimator_Patch));
     }
     
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]

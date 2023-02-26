@@ -22,6 +22,5 @@
   
   <ItemGroup>
     <Folder Include="Submodules\ChatCommands\Commands" />
-    <Folder Include="Submodules\ChatCommands\Patches" />
   </ItemGroup>
 </Project>
