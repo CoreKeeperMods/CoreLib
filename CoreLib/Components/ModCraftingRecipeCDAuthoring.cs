@@ -35,12 +35,22 @@ namespace CoreLib.Components
 
             foreach (ModCraftData modCraftData in requiredToCraft.Value)
             {
-                ObjectID objectID = EntityModule.GetObjectId(modCraftData.item);
-                if (objectID != ObjectID.None)
+                if (Enum.TryParse(modCraftData.item, true, out ObjectID objectID))
                 {
                     items.Add(new CraftingObject()
                     {
                         objectID = objectID,
+                        amount = modCraftData.amount
+                    });
+                    continue;
+                }
+            
+                ObjectID objectID1 = EntityModule.GetObjectId(modCraftData.item);
+                if (objectID1 != ObjectID.None)
+                {
+                    items.Add(new CraftingObject()
+                    {
+                        objectID = objectID1,
                         amount = modCraftData.amount
                     });
                 }
