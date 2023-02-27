@@ -56,31 +56,51 @@ public class ComponentDummyTask : Task
                 .Where(node => node.ToString().Contains("Il2Cpp") || node.ToString().Contains("Interop") || node.ToString().Contains("Submodules")),
             SyntaxRemoveOptions.KeepNoTrivia);
 
+        var structs = root.DescendantNodes().OfType<StructDeclarationSyntax>();
+
+        foreach (StructDeclarationSyntax structNode in structs)
+        {
+            try
+            {
+                StructDeclarationSyntax newStructNode = structNode.RemoveNodes(structNode
+                    .ChildNodes()
+                    .OfType<AttributeListSyntax>()
+                    .Where(syntax => syntax.ToString().Contains("Il2Cpp")), SyntaxRemoveOptions.KeepNoTrivia);
+
+                root = root.ReplaceNode(structNode, newStructNode).NormalizeWhitespace();
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
+        var classes = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
+
+        foreach (ClassDeclarationSyntax classNode in classes)
+        {
+            ClassDeclarationSyntax newClassNode = UpdateClass(classNode);
+
+            if (newClassNode != null)
+            {
+                root = root.ReplaceNode(classNode, newClassNode).NormalizeWhitespace();
+            }
+        }
+
+        newCode = root.ToString();
+        return true;
+    }
+
+    private static ClassDeclarationSyntax UpdateClass(ClassDeclarationSyntax classNode)
+    {
         try
         {
-            StructDeclarationSyntax structNode = root.DescendantNodes().OfType<StructDeclarationSyntax>().First();
-
-            StructDeclarationSyntax newStructNode = structNode.RemoveNodes(structNode
-                .ChildNodes()
-                .OfType<AttributeListSyntax>()
-                .Where(syntax => syntax.ToString().Contains("Il2Cpp")), SyntaxRemoveOptions.KeepNoTrivia);
-
-            root = root.ReplaceNode(structNode, newStructNode).NormalizeWhitespace();
-        }
-        catch (Exception)
-        {
-            // ignored
-        }
-
-        try
-        {
-            ClassDeclarationSyntax classNode = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
 
             ClassDeclarationSyntax newClassNode = classNode.RemoveNodes(classNode
                 .ChildNodes()
                 .OfType<AttributeListSyntax>()
                 .Where(syntax => syntax.ToString().Contains("Il2Cpp")), SyntaxRemoveOptions.KeepNoTrivia);
-            
+
 
             Compilation compilation = CSharpCompilation.Create("test");
 
@@ -134,17 +154,13 @@ public class ComponentDummyTask : Task
 
                 return syntax.WithBody(SyntaxFactory.Block(SyntaxFactory.ReturnStatement(SyntaxFactory.DefaultExpression(syntax.ReturnType))));
             });
-
-
-            root = root.ReplaceNode(classNode, newClassNode).NormalizeWhitespace();
+            return newClassNode;
         }
         catch (Exception)
         {
             // ignored
         }
 
-
-        newCode = root.ToString();
-        return true;
+        return null;
     }
 }
