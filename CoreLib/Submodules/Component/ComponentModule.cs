@@ -125,7 +125,7 @@ namespace CoreLib.Submodules.ModComponent
         /// List all <see cref="Il2CppSystem.Type"/> that are on the entity
         /// </summary>
         /// <param name="objectID">Entity ObjectID</param>
-        public static Il2CppSystem.Type[] GetComponentTypes(ObjectID objectID)
+        public static Il2CppSystem.Type[] GetPugComponentTypes(ObjectID objectID)
         {
             PugDatabase.InitObjectPrefabEntityLookup();
             ObjectDataCD objectData = new ObjectDataCD
@@ -139,29 +139,11 @@ namespace CoreLib.Submodules.ModComponent
             {
                 Entity entity = PugDatabase.objectPrefabEntityLookup[objectData];
 
-                return GetComponentTypes(PugDatabase.world.EntityManager, entity);
+                return PugDatabase.world.EntityManager.GetModComponentTypes(entity);
             }
 
             CoreLibPlugin.Logger.LogWarning($"No prefab in PugDatabase with objectID: {objectData.objectID}");
             return Array.Empty<Il2CppSystem.Type>();
-        }
-
-        /// <summary>
-        /// List all <see cref="Il2CppSystem.Type"/> that are on the entity
-        /// </summary>
-        /// <param name="entityManager">World EntityManager</param>
-        /// <param name="entity">Target Entity</param>
-        public static Il2CppSystem.Type[] GetComponentTypes(EntityManager entityManager, Entity entity)
-        {
-            NativeArray<ComponentType> typesArray = entityManager.GetComponentTypes(entity);
-            Il2CppSystem.Type[] types = new Il2CppSystem.Type[typesArray.Length];
-
-            for (var i = 0; i < typesArray.Length; i++)
-            {
-                types[i] = TypeManager.GetType(typesArray[i].TypeIndex);
-            }
-
-            return types;
         }
 
         public static ComponentType ReadOnly<T>()

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using ArgumentException = System.ArgumentException;
 using IntPtr = System.IntPtr;
@@ -77,8 +78,8 @@ namespace CoreLib.Submodules.ModComponent
         public static unsafe NativeArrayData GetNativeArray<T>(this ArchetypeChunk chunk, ModComponentTypeHandle<T> chunkComponentTypeHandle)
             where T : struct
         {
-            Chunk* chunks = (Chunk*)chunk.m_Chunk;
-            Archetype* archetype = (Archetype*)chunks->Archetype;
+            Chunk* chunks = chunk.m_Chunk;
+            Archetype* archetype = chunks->Archetype;
 
             var typeIndexInArchetype = ChunkDataUtility.GetIndexInTypeArray(archetype, chunkComponentTypeHandle.m_TypeIndex);
             if (typeIndexInArchetype == -1)
@@ -91,8 +92,8 @@ namespace CoreLib.Submodules.ModComponent
                 : ChunkDataUtility.GetComponentDataRW(chunks, 0, typeIndexInArchetype, chunkComponentTypeHandle.GlobalSystemVersion);
 
             var length = chunk.Count;
-            var batchStartOffset = chunk.m_BatchStartEntityIndex * ((ushort*)archetype->SizeOfs)[typeIndexInArchetype];
-            var result = new NativeArrayData()
+            var batchStartOffset = chunk.m_BatchStartEntityIndex * archetype->SizeOfs[typeIndexInArchetype];
+            var result = new NativeArrayData
             {
                 pointer = (IntPtr)ptr + batchStartOffset,
                 length = length
@@ -193,6 +194,24 @@ namespace CoreLib.Submodules.ModComponent
             var dataAccess = entityManager.GetCheckedEntityDataAccess();
 
             return dataAccess->HasComponent(entity, componentType);
+        }
+        
+        /// <summary>
+        /// List all <see cref="Il2CppSystem.Type"/> that are on the entity
+        /// </summary>
+        /// <param name="entityManager">World EntityManager</param>
+        /// <param name="entity">Target Entity</param>
+        public static Il2CppSystem.Type[] GetModComponentTypes(this EntityManager entityManager, Entity entity)
+        {
+            NativeArray<ComponentType> typesArray = entityManager.GetComponentTypes(entity);
+            Il2CppSystem.Type[] types = new Il2CppSystem.Type[typesArray.Length];
+
+            for (var i = 0; i < typesArray.Length; i++)
+            {
+                types[i] = TypeManager.GetType(typesArray[i].TypeIndex);
+            }
+
+            return types;
         }
 
         internal static unsafe ref T GetData<T>(this SharedStatic<T> sharedStatic)
