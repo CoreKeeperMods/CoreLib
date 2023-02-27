@@ -45,7 +45,7 @@ namespace CoreLib.Components
                     });
                 }
             }
-
+            Destroy(this);
             return true;
         }
     }
