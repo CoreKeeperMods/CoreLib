@@ -5,10 +5,10 @@ using System.Reflection;
 using BepInEx;
 using CoreLib.Components;
 using CoreLib.Submodules.Common.Patches;
-using CoreLib.Submodules.CustomEntity.Atributes;
-using CoreLib.Submodules.CustomEntity.Interfaces;
-using CoreLib.Submodules.CustomEntity.Patches;
 using CoreLib.Submodules.Localization;
+using CoreLib.Submodules.ModEntity.Atributes;
+using CoreLib.Submodules.ModEntity.Interfaces;
+using CoreLib.Submodules.ModEntity.Patches;
 using CoreLib.Submodules.ModResources;
 using CoreLib.Util;
 using CoreLib.Util.Extensions;
@@ -24,13 +24,13 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Il2CppCollections = Il2CppSystem.Collections.Generic;
 
-namespace CoreLib.Submodules.CustomEntity;
+namespace CoreLib.Submodules.ModEntity;
 
 /// <summary>
 /// This module provides means to add new content
 /// </summary>
 [CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule), typeof(ResourcesModule) })]
-public static class CustomEntityModule
+public static class EntityModule
 {
     #region PublicInterface
 
@@ -110,7 +110,7 @@ public static class CustomEntityModule
     public static string[] GetAllModdedItems()
     {
         ThrowIfNotLoaded();
-        return modEntityIDs.modIDs.Keys.ToArray();
+        return modEntityIDs.ModIDs.Keys.ToArray();
     }
 
     /// <summary>
@@ -488,7 +488,7 @@ public static class CustomEntityModule
         ClassInjector.RegisterTypeInIl2Cpp<ModDropsLootFromTableCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModRangeWeaponCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModObjectTypeAuthoring>();
-        RegisterModifications(typeof(CustomEntityModule));
+        RegisterModifications(typeof(EntityModule));
 
         InitTilesets();
     }
@@ -507,7 +507,7 @@ public static class CustomEntityModule
     {
         if (hasInjected)
         {
-            throw new InvalidOperationException($"{nameof(CustomEntityModule)}.{methodName}() method called too late! Entity injection is already done.");
+            throw new InvalidOperationException($"{nameof(EntityModule)}.{methodName}() method called too late! Entity injection is already done.");
         }
     }
 

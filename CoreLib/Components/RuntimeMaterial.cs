@@ -1,5 +1,5 @@
 ﻿using System.Runtime.InteropServices;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem;
 using UnityEngine;

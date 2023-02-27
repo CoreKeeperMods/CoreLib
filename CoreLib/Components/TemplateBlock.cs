@@ -1,5 +1,5 @@
 ﻿using System;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.JsonLoader;
 using CoreLib.Submodules.ModComponent;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
@@ -103,7 +103,7 @@ namespace CoreLib.Components
             }
             catch (Exception e)
             {
-                string stringId = CustomEntityModule.GetObjectStringId(objectInfo.objectID);
+                string stringId = EntityModule.GetObjectStringId(objectInfo.objectID);
                 CoreLibPlugin.Logger.LogWarning($"Exception while executing object {stringId} interaction handler:\n{e}");
             }
         }

@@ -102,7 +102,7 @@ public class MyCustomBlock : ModEntityMonoBehavior
 }
 ```
 
-After setting up the prefab make sure that every Sprite Renderer has a `RuntimeMaterial` component on them, with material name set. This will ensure that sprite materials will get replaced by real materials correctly.
+After setting up the prefab make sure that every Sprite Renderer has a `RuntimeMaterialV2` component on them, with material name set. This will ensure that sprite materials will get replaced by real materials correctly.
 
 Also if your block needs to be interacted with, ensure correct setup of Interactable component:
 

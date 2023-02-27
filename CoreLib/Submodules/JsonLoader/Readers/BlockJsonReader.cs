@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using CoreLib.Components;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using CoreLib.Util;
 using Unity.Mathematics;
 using Unity.Physics.Authoring;
@@ -17,7 +17,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         {
             string itemId = jObject["itemId"].GetValue<string>();
 
-            EntityMonoBehaviourData entityData = CustomEntityModule.LoadPrefab(itemId, "Assets/CoreLib/Objects/TemplateBlockItem");
+            EntityMonoBehaviourData entityData = EntityModule.LoadPrefab(itemId, "Assets/CoreLib/Objects/TemplateBlockItem");
             MonoBehaviourUtils.CallAlloc(entityData);
             
             ReadObjectInfo(jObject, entityData);
@@ -42,7 +42,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             physicsShapeAuthoring.m_PrimitiveCenter = new float3(colliderCenter.x, 0.5f, colliderCenter.y);
 
             MonoBehaviourUtils.CallAlloc(entityData);
-            ObjectID objectID = CustomEntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
+            ObjectID objectID = EntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
 
             ReadLocalization(jObject, objectID);
         }

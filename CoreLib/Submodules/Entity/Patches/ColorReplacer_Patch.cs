@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using CoreLib.Submodules.CustomEntity.Interfaces;
+using CoreLib.Submodules.ModEntity.Interfaces;
 using HarmonyLib;
 
-namespace CoreLib.Submodules.CustomEntity.Patches
+namespace CoreLib.Submodules.ModEntity.Patches
 {
     public class ColorReplacer_Patch
     {
@@ -10,7 +10,7 @@ namespace CoreLib.Submodules.CustomEntity.Patches
         [HarmonyPostfix]
         public static void UpdateReplacer(ColorReplacer __instance, ObjectDataCD objectData)
         {
-            IDynamicItemHandler handler = CustomEntityModule.dynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(objectData));
+            IDynamicItemHandler handler = EntityModule.dynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(objectData));
             if (handler == null) return;
 
             bool apply = handler.ApplyColors(objectData, __instance.colorReplacementData);

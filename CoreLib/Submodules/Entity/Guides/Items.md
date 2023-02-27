@@ -49,7 +49,7 @@ Here you will need to assign `Friendly Name` and some textures. Name field is no
 
 After setting up the asset just register the tileset in your `Load()` method:
 ```csharp
-CustomEntityModule.AddCustomTileset("Assets/myamazingmod/Prefab/MyAmazingTileset");
+EntityModule.AddCustomTileset("Assets/myamazingmod/Prefab/MyAmazingTileset");
 ```
 
 Now you can just use `ModTileCDAuthoring` component to set the tileset and tile type in Editor.

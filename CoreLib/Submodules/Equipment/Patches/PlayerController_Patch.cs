@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 
@@ -13,7 +13,7 @@ namespace CoreLib.Submodules.Equipment.Patches
         public static void DetermineSlotType(ObjectType objectType, ref Il2CppSystem.Type __result)
         {
             int objectId = (int)objectType;
-            if (objectId < CustomEntityModule.modObjectTypeIdRangeStart) return;
+            if (objectId < EntityModule.modObjectTypeIdRangeStart) return;
             
             try
             {

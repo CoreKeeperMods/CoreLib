@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CoreLib.Submodules.ChatCommands;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using HarmonyLib;
 using I2.Loc;
 
@@ -24,7 +24,7 @@ namespace CoreLib.Submodules.ChatCommands.Patches
                     CheckLocalizationSources();
                 }
 
-                if (CustomEntityModule.Loaded)
+                if (EntityModule.Loaded)
                 {
                     CheckModStringIDs();
                 }
@@ -35,7 +35,7 @@ namespace CoreLib.Submodules.ChatCommands.Patches
 
         private static void CheckModStringIDs()
         {
-            var modIDs = CustomEntityModule.modEntityIDs.modIDs;
+            var modIDs = EntityModule.modEntityIDs.ModIDs;
             int count = 0;
             
             foreach (KeyValuePair<string,int> pair in modIDs)

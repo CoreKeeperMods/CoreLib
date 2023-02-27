@@ -1,5 +1,5 @@
 ﻿using System.Runtime.InteropServices;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem;
 using PugTilemap;
@@ -32,7 +32,7 @@ namespace CoreLib.Components
         public override bool Apply(EntityMonoBehaviourData data)
         {
             TileCDAuthoring tileCdAuthoring = gameObject.AddComponent<TileCDAuthoring>();
-            tileCdAuthoring.tileset = CustomEntityModule.GetTilesetId(tileset.Value);
+            tileCdAuthoring.tileset = EntityModule.GetTilesetId(tileset.Value);
             tileCdAuthoring.tileType = tileType.Value;
             Destroy(this);
             return true;

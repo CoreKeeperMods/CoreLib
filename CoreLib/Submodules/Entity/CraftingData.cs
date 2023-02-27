@@ -1,4 +1,4 @@
-﻿namespace CoreLib.Submodules.CustomEntity;
+﻿namespace CoreLib.Submodules.ModEntity;
 
 public struct CraftingData
 {

@@ -1,4 +1,4 @@
-# Custom Entity Module
+# Entity Module
 Custom Entity Module is a submodule that allows to add new entities. This includes items, blocks, NPCs and other things. 
 
 ## Note on multiplayer and save compatibility
@@ -11,7 +11,7 @@ I recommend any mods adding custom content warn users about this on their page.
 This might get improved later, but right now this is best that you can do.
 
 ## Usage example:
-Make sure to add `[CoreLibSubmoduleDependency(nameof(CustomEntityModule))]` to your plugin attributes. This will load the submodule.
+Make sure to add `[CoreLibSubmoduleDependency(nameof(EntityModule))]` to your plugin attributes. This will load the submodule.
 
 Before continuing follow guide on [Resource Module](../ModResources/README.md) page to setup your asset bundle.
 
@@ -38,17 +38,17 @@ Once you are done setting up your prefab place it in a folder with the name of y
 With entity prefab made adding it is really easy. In your plugin `Load()` method add this code:
 ```cs
 // Register your prefab. Use a UNIQUE string id to identify your entity. I recommend to include your mod name in the ID.
-ObjectID entityID = CustomEntityModule.AddEntity($"{MODNAME}:MyAmazingEntity", "Assets/myamazingmod/Prefab/MyAmazingEntity");
+ObjectID entityID = EntityModule.AddEntity($"{MODNAME}:MyAmazingEntity", "Assets/myamazingmod/Prefab/MyAmazingEntity");
 
 // Add localization terms for your item
-CustomEntityModule.AddEntityLocalization(entityID,
+EntityModule.AddEntityLocalization(entityID,
     "My Amazing Item",
     "This amazing item will change the world!");
 ```
 
 If your entity need to have multiple variations use this method. Include list of all needed entity prefabs. Their variation fields have to be set to correct variations:
 ```cs
-ObjectID entityID = CustomEntityModule.AddEntityWithVariations($"{MODNAME}:MyAmazingEntity", new[]
+ObjectID entityID = EntityModule.AddEntityWithVariations($"{MODNAME}:MyAmazingEntity", new[]
 {
     "Assets/myamazingmod/Prefab/MyAmazingBackwardEntity",
     "Assets/myamazingmod/Prefab/MyAmazingForwardEntity",
@@ -61,16 +61,16 @@ To allow player to obtain the added entity (if it's an item), you will need to e
 ```cs
 // You only need to supply single texture, which was set multiple mode
 // Also you can specify the recipe and even disable automatic addition to root mod workbenches
-ObjectID workbench = CustomEntityModule.AddModWorkbench($"{MODNAME}:MyWorkbench",
+ObjectID workbench = EntityModule.AddModWorkbench($"{MODNAME}:MyWorkbench",
     "Assets/myamazingmodTextures/myworkbench-texture", 
     new List<CraftingData> {new CraftingData(ObjectID.ScarletBar, 4)});
 
 // Now you can add up to 18 items to this workbench
-CustomEntityModule.AddWorkbenchItem(workbench, entityID);
+EntityModule.AddWorkbenchItem(workbench, entityID);
 ```
 
 You should cache or remember `entityID` variable. It's the ObjectID that the game uses to identify the entity.
-If you ever need to get this ID you can use `CustomEntityModule.GetObjectId(string itemID)` method to access it again.
+If you ever need to get this ID you can use `EntityModule.GetObjectId(string itemID)` method to access it again.
 
 Also please note that you can't hardcode this ID. It will change depending on user mods installed. It can also be changed by user themselves by editing `CoreLib.ModItemID.cfg` config file found in `config` folder.
 
@@ -98,14 +98,14 @@ To register this add this to your `Load()` method:
 
 ```csharp
 // Register single type
-RegisterModifications(typeof(MyModifications));
+EntityModule.RegisterModifications(typeof(MyModifications));
 
 // Register all modifications in assembly (Class MUST have the EntityModification attribute)
-CustomEntityModule.RegisterModifications(Assembly.GetExecutingAssembly());
+EntityModule.RegisterModifications(Assembly.GetExecutingAssembly());
 ```
 
-## Creating custom components
-You can create custom components like `ModTileCDAuthoring`, that can be added to prefabs, and do custom things when loaded. Right now this provides mostly convenience to change ObjectID or another dynamic value after load. But hopefully later this will allow us to add custom ECS components too.
+## Creating wrapper components
+You can create wrapper components like `ModTileCDAuthoring`, that can be added to prefabs, and do custom things when loaded. Right now this provides mostly convenience to change ObjectID or another dynamic value after load.
 
 To do that create a Component overriding `ModCDAuthoringBase` like this:
 
@@ -129,6 +129,49 @@ Allocate works the same way as on `ModEntityMonoBehavior` and allows you to ensu
 
 Apply is the important method here. It is called before the prefab is added. So you can do slight tweaks here. 
 
-Custom components can be added to both entity prefab and visual prefab. When added to entity prefab you WILL need to destoy it after finishing your stuff in `Apply()`. This is due to the fact ECS expects every component to be convertable to ECS component. Which your component is not.
+Wrapper components can be added to both entity prefab and visual prefab. When added to entity prefab you WILL need to destoy it after finishing your stuff in `Apply()`. This is due to the fact ECS expects every component to be convertable to ECS component. Which your component is not.
 
 From here make sure to register the component in Il2Cpp domain, and make a dummy for your component in Unity.
+
+## Creating custom ECS components
+
+Creating custom ECS components is not much different from creating wrapper components. Custom ECS components need two things: 
+- ECS component struct - this will be holding your data
+- component authoring - this will perform `conversion` from authoring world to game world.
+
+<details><summary>Example</summary>
+
+```csharp
+[Il2CppImplements(typeof(IComponentData))]
+public struct MyECSComponentCD
+{
+    public int value;
+    public int3 position;
+}
+
+[Il2CppImplements(typeof(IConvertGameObjectToEntity))]
+public class MyECSComponentCDAuthoring : ModCDAuthoringBase
+{
+    public Il2CppValueField<int> value;
+    public Il2CppValueField<int3> position;
+
+    public MyECSComponentCDAuthoring(IntPtr ptr) : base(ptr) { }
+    
+    public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+    {
+        dstManager.AddModComponentData(entity, new MyECSComponentCD()
+        {
+            value = value,
+            position = position
+        });
+    }
+}
+```
+
+</details>
+
+When creating ECS component remember that components can only hold value types. That includes primitives such as `byte`, `int`, `float`, `char` and `bool` and any `blittable` structs that contain only other value types.
+
+For example your ECS component **CAN'T** contain these types: `object`, `string`, `Type`, `GameObject`, `MonoBehavior`, etc. It also can't contain any `non blittable` structs which use these types.
+
+However your authoring component **CAN** contain non value types, but you will need to perform some kind of conversion to value types. 

@@ -2,7 +2,7 @@
 using Unity.Entities.Conversion;
 using UnityEngine;
 
-namespace CoreLib.Submodules.CustomEntity.Patches
+namespace CoreLib.Submodules.ModEntity.Patches
 {
     public class GameObjectConversionMappingSystem_Patch
     {

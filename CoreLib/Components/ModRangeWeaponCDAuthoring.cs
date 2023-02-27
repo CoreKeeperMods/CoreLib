@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using String = Il2CppSystem.String;
 
@@ -32,7 +32,7 @@ namespace CoreLib.Components
         public override bool Apply(EntityMonoBehaviourData data)
         {
             RangeWeaponCDAuthoring rangeWeaponCdAuthoring = gameObject.AddComponent<RangeWeaponCDAuthoring>();
-            rangeWeaponCdAuthoring.projectileID = CustomEntityModule.GetObjectId(projectileID.Value);
+            rangeWeaponCdAuthoring.projectileID = EntityModule.GetObjectId(projectileID.Value);
             rangeWeaponCdAuthoring.spawnOffsetDistance = spawnOffsetDistance;
             Destroy(this);
             return true;

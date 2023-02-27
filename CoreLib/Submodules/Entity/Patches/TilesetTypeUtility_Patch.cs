@@ -5,21 +5,21 @@ using PugTilemap.Quads;
 using PugTilemap.Workshop;
 using UnityEngine;
 
-namespace CoreLib.Submodules.CustomEntity.Patches;
+namespace CoreLib.Submodules.ModEntity.Patches;
 
 public static class TilesetTypeUtility_Patch
 {
 	private static MapWorkshopTilesetBank.Tileset GetTileset(int index)
 	{
 		Tileset tilesetId = (Tileset)index;
-		if (CustomEntityModule.customTilesets.ContainsKey(tilesetId))
+		if (EntityModule.customTilesets.ContainsKey(tilesetId))
 		{
-			return CustomEntityModule.customTilesets[tilesetId].obj;
+			return EntityModule.customTilesets[tilesetId].obj;
 		}
 		
-		if (index >= CustomEntityModule.modTilesetIdRangeStart)
+		if (index >= EntityModule.modTilesetIdRangeStart)
 		{
-			return CustomEntityModule.missingTileset;
+			return EntityModule.missingTileset;
 		}
 
 		return null;

@@ -2,17 +2,17 @@
 using HarmonyLib;
 using Il2CppSystem;
 
-namespace CoreLib.Submodules.CustomEntity.Patches;
+namespace CoreLib.Submodules.ModEntity.Patches;
 
 public static class MemoryManager_IndirectPatch
 {
     internal static void InjectNewPrefabs(MemoryManager __instance)
     {
-        if (!CustomEntityModule.Loaded) return;
+        if (!EntityModule.Loaded) return;
         
         int count = 0;
 
-        foreach (var prefabs in CustomEntityModule.entitiesToAdd.Values)
+        foreach (var prefabs in EntityModule.entitiesToAdd.Values)
         {
             if (prefabs.Count <= 0) continue;
             if (MonoBehaviourUtils.HasPrefabOverrides(prefabs)) continue;
@@ -26,7 +26,7 @@ public static class MemoryManager_IndirectPatch
                 if (prefabMono == null) continue;
                 
                 Type prefabType = prefabMono.GetIl2CppType();
-                if (CustomEntityModule.loadedPrefabTypes.Contains(prefabType)) continue;
+                if (EntityModule.loadedPrefabTypes.Contains(prefabType)) continue;
 
                 MonoBehaviourUtils.ApplyPrefabModAuthorings(entity, prefabInfo.prefab.gameObject);
 
@@ -38,7 +38,7 @@ public static class MemoryManager_IndirectPatch
                 };
 
                 __instance.poolablePrefabBank.poolInitializers.Add(prefab);
-                CustomEntityModule.loadedPrefabTypes.Add(prefabType);
+                EntityModule.loadedPrefabTypes.Add(prefabType);
                 count++;
             }
         }

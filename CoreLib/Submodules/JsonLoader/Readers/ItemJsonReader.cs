@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using CoreLib.Components;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.Localization;
 using CoreLib.Util;
 using HarmonyLib;
@@ -30,7 +30,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             ReadComponents(jObject, entityData);
 
             MonoBehaviourUtils.CallAlloc(entityData);
-            ObjectID objectID = CustomEntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
+            ObjectID objectID = EntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
 
             ReadLocalization(jObject, objectID);
         }
@@ -38,9 +38,9 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         public virtual void ApplyPost(JsonNode jObject)
         {
             string itemId = jObject["itemId"].GetValue<string>();
-            ObjectID objectID = CustomEntityModule.GetObjectId(itemId);
+            ObjectID objectID = EntityModule.GetObjectId(itemId);
 
-            if (CustomEntityModule.GetMainEntity(objectID, out EntityMonoBehaviourData entity))
+            if (EntityModule.GetMainEntity(objectID, out EntityMonoBehaviourData entity))
             {
                 if (jObject["requiredObjectsToCraft"] != null)
                 {

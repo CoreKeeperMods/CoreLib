@@ -8,7 +8,7 @@ using Unity.Entities;
 using Unity.Entities.Conversion;
 using UnityEngine;
 
-namespace CoreLib.Submodules.CustomEntity.Patches;
+namespace CoreLib.Submodules.ModEntity.Patches;
 
 public static class PugDatabaseAuthoring_Patch
 {
@@ -16,7 +16,7 @@ public static class PugDatabaseAuthoring_Patch
     [HarmonyPrefix]
     public static void InitMaterials(PugDatabaseAuthoring __instance, List<GameObject> referencedPrefabs)
     {
-        if (!CustomEntityModule.hasConverted)
+        if (!EntityModule.hasConverted)
         {
             try
             {
@@ -27,7 +27,7 @@ public static class PugDatabaseAuthoring_Patch
                 CoreLibPlugin.Logger.LogInfo($"Second phase add failed!\n{e}");
             }
 
-            CustomEntityModule.hasConverted = true;
+            EntityModule.hasConverted = true;
         }
     }
 
@@ -36,33 +36,33 @@ public static class PugDatabaseAuthoring_Patch
     public static void InitMaterials(ECSManager __instance)
     {
         PugDatabaseAuthoring authoring = __instance.pugDatabase;
-        if (!CustomEntityModule.hasInjected)
+        if (!EntityModule.hasInjected)
         {
             PrefabCrawler.SetupPrefabIDMap(authoring.prefabList);
 
-            foreach (var pair in CustomEntityModule.modEntityModifyFunctions)
+            foreach (var pair in EntityModule.modEntityModifyFunctions)
             {
-                ObjectID objectID = CustomEntityModule.GetObjectId(pair.Key);
+                ObjectID objectID = EntityModule.GetObjectId(pair.Key);
                 if (objectID == ObjectID.None)
                 {
                     CoreLibPlugin.Logger.LogWarning($"Failed to resolve mod entity target: {pair.Key}!");
                     continue;
                 }
 
-                CustomEntityModule.entityModifyFunctions.AddDelegate(objectID, pair.Value);
+                EntityModule.entityModifyFunctions.AddDelegate(objectID, pair.Value);
             }
 
-            CustomEntityModule.modEntityModifyFunctions.Clear();
+            EntityModule.modEntityModifyFunctions.Clear();
         }
 
         ApplyOnDB(authoring);
 
-        CustomEntityModule.hasInjected = true;
+        EntityModule.hasInjected = true;
     }
 
     public static void ApplyOnDB(PugDatabaseAuthoring authoring)
     {
-        foreach (var prefabs in CustomEntityModule.entitiesToAdd.Values)
+        foreach (var prefabs in EntityModule.entitiesToAdd.Values)
         {
             if (!ApplyModAuthorings(prefabs)) continue;
 
@@ -73,24 +73,24 @@ public static class PugDatabaseAuthoring_Patch
         }
 
         CoreLibPlugin.Logger.LogInfo(
-            $"Added {CustomEntityModule.entitiesToAdd.Count} entities!");
+            $"Added {EntityModule.entitiesToAdd.Count} entities!");
 
-        if (!CustomEntityModule.hasInjected)
+        if (!EntityModule.hasInjected)
         {
             Action<EntityMonoBehaviourData> allAction = null;
 
-            if (CustomEntityModule.entityModifyFunctions.ContainsKey(ObjectID.None))
+            if (EntityModule.entityModifyFunctions.ContainsKey(ObjectID.None))
             {
-                allAction = CustomEntityModule.entityModifyFunctions[ObjectID.None];
+                allAction = EntityModule.entityModifyFunctions[ObjectID.None];
             }
 
             foreach (EntityMonoBehaviourData entity in authoring.prefabList)
             {
                 allAction?.Invoke(entity);
 
-                if (CustomEntityModule.entityModifyFunctions.ContainsKey(entity.objectInfo.objectID))
+                if (EntityModule.entityModifyFunctions.ContainsKey(entity.objectInfo.objectID))
                 {
-                    CustomEntityModule.entityModifyFunctions[entity.objectInfo.objectID]?.Invoke(entity);
+                    EntityModule.entityModifyFunctions[entity.objectInfo.objectID]?.Invoke(entity);
                 }
             }
 

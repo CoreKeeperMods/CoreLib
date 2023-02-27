@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using UnityEngine;
 
@@ -55,19 +55,19 @@ namespace CoreLib.Components
             switch (type)
             {
                 case ObjectType.Helm:
-                    return CustomEntityModule.AddPlayerCustomization(new HelmSkin()
+                    return EntityModule.AddPlayerCustomization(new HelmSkin()
                     {
                         helmTexture = skinTexture.Value,
                         hairType = helmHairType.Value
                     });
                 case ObjectType.BreastArmor:
-                    return CustomEntityModule.AddPlayerCustomization(new BreastArmorSkin()
+                    return EntityModule.AddPlayerCustomization(new BreastArmorSkin()
                     {
                         breastTexture = skinTexture.Value,
                         shirtVisibility = shirtVisibility.Value
                     });
                 case ObjectType.PantsArmor:
-                    return CustomEntityModule.AddPlayerCustomization(new PantsArmorSkin()
+                    return EntityModule.AddPlayerCustomization(new PantsArmorSkin()
                     {
                         pantsTexture = skinTexture.Value,
                         pantsVisibility = pantsVisibility.Value

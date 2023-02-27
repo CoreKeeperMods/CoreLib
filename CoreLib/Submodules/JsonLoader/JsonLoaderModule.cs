@@ -8,7 +8,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using CoreLib.Components;
 using CoreLib.Submodules.ModComponent;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Submodules.JsonLoader.Readers;
 using HarmonyLib;
@@ -18,7 +18,7 @@ using Il2CppInterop.Runtime.InteropTypes.Fields;
 
 namespace CoreLib.Submodules.JsonLoader
 {
-    [CoreLibSubmodule(Dependencies = new[] { typeof(CustomEntityModule), typeof(ComponentModule) })]
+    [CoreLibSubmodule(Dependencies = new[] { typeof(EntityModule), typeof(ComponentModule) })]
     public class JsonLoaderModule
     {
         /// <summary>

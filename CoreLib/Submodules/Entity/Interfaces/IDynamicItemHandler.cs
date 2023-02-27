@@ -1,4 +1,4 @@
-﻿namespace CoreLib.Submodules.CustomEntity.Interfaces
+﻿namespace CoreLib.Submodules.ModEntity.Interfaces
 {
     public interface IDynamicItemHandler
     {

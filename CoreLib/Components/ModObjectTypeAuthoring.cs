@@ -1,5 +1,5 @@
 ﻿using System;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Unity.Collections;
 
@@ -13,7 +13,7 @@ namespace CoreLib.Components
 
         public override bool Apply(EntityMonoBehaviourData data)
         {
-            ObjectType objectType = CustomEntityModule.GetObjectType(objectTypeId.Value.Value);
+            ObjectType objectType = EntityModule.GetObjectType(objectTypeId.Value.Value);
             data.objectInfo.objectType = objectType;
             return true;
         }
