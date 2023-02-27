@@ -59,8 +59,12 @@ public class ComponentDummyTask : Task
         try
         {
             StructDeclarationSyntax structNode = root.DescendantNodes().OfType<StructDeclarationSyntax>().First();
-            StructDeclarationSyntax newStructNode = structNode.WithAttributeLists(new SyntaxList<AttributeListSyntax>());
-            
+
+            StructDeclarationSyntax newStructNode = structNode.RemoveNodes(structNode
+                .ChildNodes()
+                .OfType<AttributeListSyntax>()
+                .Where(syntax => syntax.ToString().Contains("Il2Cpp")), SyntaxRemoveOptions.KeepNoTrivia);
+
             root = root.ReplaceNode(structNode, newStructNode).NormalizeWhitespace();
         }
         catch (Exception)
@@ -72,7 +76,11 @@ public class ComponentDummyTask : Task
         {
             ClassDeclarationSyntax classNode = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
 
-            ClassDeclarationSyntax newClassNode = classNode.WithAttributeLists(new SyntaxList<AttributeListSyntax>());
+            ClassDeclarationSyntax newClassNode = classNode.RemoveNodes(classNode
+                .ChildNodes()
+                .OfType<AttributeListSyntax>()
+                .Where(syntax => syntax.ToString().Contains("Il2Cpp")), SyntaxRemoveOptions.KeepNoTrivia);
+            
 
             Compilation compilation = CSharpCompilation.Create("test");
 
