@@ -60,6 +60,18 @@ namespace EditorKit.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            try
+            {
+                MainLogic(position, property, label);
+            }
+            catch (Exception)
+            {
+                EditorGUI.PropertyField(position, property, label, true);
+            }
+        }
+
+        private void MainLogic(Rect position, SerializedProperty property, GUIContent label)
+        {
             EditorGUI.BeginProperty(position, label, property);
 
             var intRect = new Rect(position.x, position.y, position.width / 2, 18);
@@ -71,10 +83,10 @@ namespace EditorKit.Editor
 
             int intValue = GetCurrentInt(property.propertyPath);
             if (intValue == 0)
-                intValue = GetInt(modCraftData.item);
-            
+                intValue = GetInt(modCraftData.item.ToString());
+
             EditorGUI.BeginChangeCheck();
-            
+
             int lastInt = EditorGUI.IntField(intRect, nameof(modCraftData.item), intValue);
             currentInt[property.propertyPath] = lastInt;
 
@@ -88,12 +100,12 @@ namespace EditorKit.Editor
             EditorGUI.indentLevel = 0;
 
             EditorGUI.BeginChangeCheck();
-            
-            modCraftData.item = EditorGUI.TextField(enumRect, modCraftData.item);
-            
+
+            modCraftData.item = EditorGUI.TextField(enumRect, modCraftData.item.ToString());
+
             if (EditorGUI.EndChangeCheck())
             {
-                if (Enum.TryParse(modCraftData.item, out ObjectID objectID1))
+                if (Enum.TryParse(modCraftData.item.ToString(), out ObjectID objectID1))
                 {
                     currentInt[property.propertyPath] = (int)objectID1;
                 }
@@ -101,14 +113,14 @@ namespace EditorKit.Editor
                 EditorUtility.SetDirty(property.serializedObject.targetObject);
             }
 
-            if (EditorGUI.DropdownButton(dropDownRect, new GUIContent(modCraftData.item), FocusType.Passive))
+            if (EditorGUI.DropdownButton(dropDownRect, new GUIContent(modCraftData.item.ToString()), FocusType.Passive))
             {
                 GenericMenu menu = new GenericMenu();
-                List<string> items = Enum.GetNames(typeof(ObjectID)).Where(s => Contains(s, modCraftData.item)).ToList();
+                List<string> items = Enum.GetNames(typeof(ObjectID)).Where(s => Contains(s, modCraftData.item.ToString())).ToList();
 
                 foreach (string item in items)
                 {
-                    menu.AddItem(new GUIContent(item), CheckEnum(modCraftData.item, item), data =>
+                    menu.AddItem(new GUIContent(item), CheckEnum(modCraftData.item.ToString(), item), data =>
                     {
                         if (Enum.TryParse((string)data, out ObjectID objectID1))
                         {
@@ -131,11 +143,11 @@ namespace EditorKit.Editor
             }
 
             EditorGUI.indentLevel = indent;
-            
+
             var amountRect = new Rect(position.x, position.y + 40, position.width, 18);
 
             EditorGUI.BeginChangeCheck();
-            
+
             modCraftData.amount = EditorGUI.IntField(amountRect, nameof(modCraftData.amount), modCraftData.amount);
 
             if (EditorGUI.EndChangeCheck())

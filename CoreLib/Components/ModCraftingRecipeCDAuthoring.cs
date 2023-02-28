@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using CoreLib.Submodules.ModEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem.Collections.Generic;
+using Unity.Collections;
 
 namespace CoreLib.Components
 {
@@ -35,7 +36,7 @@ namespace CoreLib.Components
 
             foreach (ModCraftData modCraftData in requiredToCraft.Value)
             {
-                if (Enum.TryParse(modCraftData.item, true, out ObjectID objectID))
+                if (Enum.TryParse(modCraftData.item.Value.ToString(), true, out ObjectID objectID))
                 {
                     items.Add(new CraftingObject()
                     {
@@ -45,7 +46,7 @@ namespace CoreLib.Components
                     continue;
                 }
             
-                ObjectID objectID1 = EntityModule.GetObjectId(modCraftData.item);
+                ObjectID objectID1 = EntityModule.GetObjectId(modCraftData.item.Value.ToString());
                 if (objectID1 != ObjectID.None)
                 {
                     items.Add(new CraftingObject()
@@ -61,9 +62,9 @@ namespace CoreLib.Components
     }
 
     [Serializable]
-    public class ModCraftData
+    public class ModCraftData : Il2CppSystem.Object
     {
-        public string item;
-        public int amount;
+        public Il2CppValueField<FixedString64Bytes> item;
+        public Il2CppValueField<int> amount;
     }
 }

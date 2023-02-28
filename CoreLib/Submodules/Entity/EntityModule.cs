@@ -488,6 +488,7 @@ public static class EntityModule
         ClassInjector.RegisterTypeInIl2Cpp<ModDropsLootFromTableCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModRangeWeaponCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModObjectTypeAuthoring>();
+        ClassInjector.RegisterTypeInIl2Cpp<ModCraftData>();
         ClassInjector.RegisterTypeInIl2Cpp<ModCraftingRecipeCDAuthoring>();
         RegisterModifications(typeof(EntityModule));
 

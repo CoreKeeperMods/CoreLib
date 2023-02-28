@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Collections;
 
 namespace CoreLib.Components
 {
@@ -18,9 +19,9 @@ namespace CoreLib.Components
     }
 
     [Serializable]
-    public class ModCraftData
+    public class ModCraftData : System.Object
     {
-        public string item;
+        public FixedString64Bytes item;
         public int amount;
     }
 }
