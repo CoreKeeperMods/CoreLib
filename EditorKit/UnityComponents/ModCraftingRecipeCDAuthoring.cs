@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using Unity.Collections;
+using UnityEngine;
+using String = System.String;
 
 namespace CoreLib.Components
 {
     public class ModCraftingRecipeCDAuthoring : ModCDAuthoringBase
     {
-        public List<ModCraftData> requiredToCraft;
+        [TreatAsObjectId]
+        public String item;
+        public int amount;
         public bool Allocate()
         {
             return default(bool);
@@ -18,10 +22,7 @@ namespace CoreLib.Components
         }
     }
 
-    [Serializable]
-    public class ModCraftData : System.Object
+    public class TreatAsObjectIdAttribute : PropertyAttribute
     {
-        public FixedString64Bytes item;
-        public int amount;
     }
 }

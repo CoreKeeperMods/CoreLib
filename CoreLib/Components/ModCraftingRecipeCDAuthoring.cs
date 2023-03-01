@@ -4,14 +4,19 @@ using CoreLib.Submodules.ModEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using Il2CppSystem.Collections.Generic;
 using Unity.Collections;
+using UnityEngine;
+using String = Il2CppSystem.String;
 
 namespace CoreLib.Components
 {
     public class ModCraftingRecipeCDAuthoring : ModCDAuthoringBase
     {
-        public Il2CppReferenceField<List<ModCraftData>> requiredToCraft;
-        public GCHandle requiredToCraftHandle;
-        
+        [TreatAsObjectId] 
+        public Il2CppReferenceField<String> item;
+        public Il2CppValueField<int> amount;
+
+        public GCHandle itemHandle;
+
         public ModCraftingRecipeCDAuthoring(IntPtr ptr) : base(ptr) { }
 
         public override bool Allocate()
@@ -19,52 +24,46 @@ namespace CoreLib.Components
             bool alloc = base.Allocate();
             if (alloc)
             {
-                requiredToCraftHandle = GCHandle.Alloc(requiredToCraft.Value);   
+                itemHandle = GCHandle.Alloc(item.Value);
             }
+
             return alloc;
         }
-        
+
         private void OnDestroy()
         {
-            requiredToCraftHandle.Free();
+            itemHandle.Free();
         }
 
         public override bool Apply(EntityMonoBehaviourData data)
         {
             List<CraftingObject> items = data.objectInfo.requiredObjectsToCraft;
-            items.Clear();
 
-            foreach (ModCraftData modCraftData in requiredToCraft.Value)
+            if (Enum.TryParse(item.Value, true, out ObjectID objectID))
             {
-                if (Enum.TryParse(modCraftData.item.Value.ToString(), true, out ObjectID objectID))
+                items.Add(new CraftingObject()
                 {
-                    items.Add(new CraftingObject()
-                    {
-                        objectID = objectID,
-                        amount = modCraftData.amount
-                    });
-                    continue;
-                }
-            
-                ObjectID objectID1 = EntityModule.GetObjectId(modCraftData.item.Value.ToString());
-                if (objectID1 != ObjectID.None)
-                {
-                    items.Add(new CraftingObject()
-                    {
-                        objectID = objectID1,
-                        amount = modCraftData.amount
-                    });
-                }
+                    objectID = objectID,
+                    amount = amount.Value
+                });
+                Destroy(this);
+                return true;
             }
+
+            ObjectID objectID1 = EntityModule.GetObjectId(item.Value);
+            if (objectID1 != ObjectID.None)
+            {
+                items.Add(new CraftingObject()
+                {
+                    objectID = objectID1,
+                    amount = amount.Value
+                });
+            }
+
             Destroy(this);
             return true;
         }
     }
 
-    [Serializable]
-    public class ModCraftData : Il2CppSystem.Object
-    {
-        public Il2CppValueField<FixedString64Bytes> item;
-        public Il2CppValueField<int> amount;
-    }
+    public class TreatAsObjectIdAttribute : Attribute { }
 }

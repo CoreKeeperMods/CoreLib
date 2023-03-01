@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using CoreLib.Components;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
 namespace CoreLib;

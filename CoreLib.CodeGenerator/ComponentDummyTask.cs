@@ -98,12 +98,16 @@ public class ComponentDummyTask : Task
                 .OfType<AttributeListSyntax>()
                 .Where(syntax => syntax.ToString().Contains("Il2Cpp")), SyntaxRemoveOptions.KeepNoTrivia);
 
-
             var newBaseTypeList = newClassNode.BaseList.ReplaceNodes(newClassNode.BaseList.Types, (syntax, _) =>
             {
                 if (syntax.Type.ToString().Equals("Il2CppSystem.Object"))
                 {
-                    return SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("System.Object", 0, true));
+                    return SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("Object", 0, true));
+                }
+
+                if (syntax.Type.ToString().Equals("Attribute"))
+                {
+                    return SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("PropertyAttribute", 0, true));
                 }
 
                 return syntax;

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace EditorKit.Editor
 {
-    [CustomPropertyDrawer(typeof(CoreLib.Components.ModCraftData))]
+    [CustomPropertyDrawer(typeof(TreatAsObjectIdAttribute))]
     public class ModCraftingRecipeDrawer : PropertyDrawer
     {
         private Dictionary<string, int> currentInt = new Dictionary<string, int>();
@@ -79,21 +79,20 @@ namespace EditorKit.Editor
 
             var dropDownRect = new Rect(enumRect.x, enumRect.y + enumRect.height + 4, enumRect.width, enumRect.height);
 
-            ModCraftData modCraftData = property.GetValue() as ModCraftData;
+            string currentItem = property.stringValue;
 
             int intValue = GetCurrentInt(property.propertyPath);
             if (intValue == 0)
-                intValue = GetInt(modCraftData.item.ToString());
+                intValue = GetInt(currentItem);
 
             EditorGUI.BeginChangeCheck();
 
-            int lastInt = EditorGUI.IntField(intRect, nameof(modCraftData.item), intValue);
+            int lastInt = EditorGUI.IntField(intRect, label, intValue);
             currentInt[property.propertyPath] = lastInt;
 
             if (EditorGUI.EndChangeCheck())
             {
-                modCraftData.item = ((ObjectID)lastInt).ToString();
-                EditorUtility.SetDirty(property.serializedObject.targetObject);
+                property.stringValue = ((ObjectID)lastInt).ToString();
             }
 
             var indent = EditorGUI.indentLevel;
@@ -101,26 +100,26 @@ namespace EditorKit.Editor
 
             EditorGUI.BeginChangeCheck();
 
-            modCraftData.item = EditorGUI.TextField(enumRect, modCraftData.item.ToString());
+            string value = EditorGUI.TextField(enumRect, currentItem);
 
             if (EditorGUI.EndChangeCheck())
             {
-                if (Enum.TryParse(modCraftData.item.ToString(), out ObjectID objectID1))
+                if (Enum.TryParse(value, out ObjectID objectID1))
                 {
                     currentInt[property.propertyPath] = (int)objectID1;
                 }
 
-                EditorUtility.SetDirty(property.serializedObject.targetObject);
+                property.stringValue = value;
             }
 
-            if (EditorGUI.DropdownButton(dropDownRect, new GUIContent(modCraftData.item.ToString()), FocusType.Passive))
+            if (EditorGUI.DropdownButton(dropDownRect, new GUIContent(currentItem), FocusType.Passive))
             {
                 GenericMenu menu = new GenericMenu();
-                List<string> items = Enum.GetNames(typeof(ObjectID)).Where(s => Contains(s, modCraftData.item.ToString())).ToList();
+                List<string> items = Enum.GetNames(typeof(ObjectID)).Where(s => Contains(s, currentItem)).ToList();
 
                 foreach (string item in items)
                 {
-                    menu.AddItem(new GUIContent(item), CheckEnum(modCraftData.item.ToString(), item), data =>
+                    menu.AddItem(new GUIContent(item), CheckEnum(currentItem, item), data =>
                     {
                         if (Enum.TryParse((string)data, out ObjectID objectID1))
                         {
@@ -136,31 +135,19 @@ namespace EditorKit.Editor
 
             if (didClick && property.propertyPath.Equals(clickName))
             {
-                modCraftData.item = lastClick.ToString();
+                property.stringValue = lastClick.ToString();
                 currentInt[property.propertyPath] = (int)lastClick;
                 didClick = false;
-                EditorUtility.SetDirty(property.serializedObject.targetObject);
             }
 
             EditorGUI.indentLevel = indent;
-
-            var amountRect = new Rect(position.x, position.y + 40, position.width, 18);
-
-            EditorGUI.BeginChangeCheck();
-
-            modCraftData.amount = EditorGUI.IntField(amountRect, nameof(modCraftData.amount), modCraftData.amount);
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                EditorUtility.SetDirty(property.serializedObject.targetObject);
-            }
 
             EditorGUI.EndProperty();
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return 60;
+            return 40;
         }
     }
 }
