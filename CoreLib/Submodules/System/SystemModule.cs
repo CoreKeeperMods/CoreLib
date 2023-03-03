@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BepInEx;
 using CoreLib.Submodules.ModSystem.Patches;
 using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
@@ -22,6 +23,15 @@ namespace CoreLib.Submodules.ModSystem
             internal set => _loaded = value;
         }
 
+        public static StateID GetModStateId(string stateId)
+        {
+            ThrowIfNotLoaded();
+            int index = stateIdBind.HasIndex(stateId) ? 
+                stateIdBind.GetIndex(stateId) : 
+                stateIdBind.GetNextId(stateId);
+            return (StateID) index;
+        }
+        
         public static void RegisterSystem<T>() 
             where T : MonoBehaviour
         {
@@ -49,10 +59,30 @@ namespace CoreLib.Submodules.ModSystem
                 success |= serverSystems.TryAdd(serverSystem);
             }
 
+            if (instance is IStateRequester stateRequester)
+            {
+                RegisterStateRequester_Internal(stateRequester);
+            }
+
             if (success)
             {
                 CoreLibPlugin.Logger.LogInfo($"Registered '{systemType.FullName}' as a Pseudo System!");
             }
+        }
+
+        public static void RegisterStateRequester<T>()
+            where T : IStateRequester
+        {
+            ThrowIfNotLoaded();
+            Type systemType = typeof(T);
+            
+            if (systemType.IsAssignableTo(typeof(MonoBehaviour)))
+            {
+                CoreLibPlugin.Logger.LogWarning($"Failed to register '{systemType.FullName}' State Requester. MonoBehaviour based State Requesters must be registered using '{nameof(RegisterSystem)}'");
+                return;
+            }
+
+            RegisterStateRequester_Internal(Activator.CreateInstance<T>());
         }
 
         #endregion
@@ -61,6 +91,13 @@ namespace CoreLib.Submodules.ModSystem
 
         public static List<IPseudoClientSystem> clientSystems = new List<IPseudoClientSystem>();
         public static List<IPseudoServerSystem> serverSystems = new List<IPseudoServerSystem>();
+
+        public static List<IStateRequester> stateRequesters = new List<IStateRequester>();
+
+        public static IdBindConfigFile stateIdBind; 
+
+        public const int modStateIdRangeStart = 33000;
+        public const int modStateIdRangeEnd = ushort.MaxValue;
 
 
         private static bool TryAdd<T>(this List<T> list, T item)
@@ -86,13 +123,30 @@ namespace CoreLib.Submodules.ModSystem
                 throw new InvalidOperationException(message);
             }
         }
-
-
+        
+        [CoreLibSubmoduleInit(Stage = InitStage.Load)]
+        internal static void Load()
+        {
+            BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
+            stateIdBind = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModStateID.cfg", metadata, modStateIdRangeStart, modStateIdRangeEnd);
+        }
+        
         [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
         internal static void SetHooks()
         {
             CoreLibPlugin.harmony.PatchAll(typeof(SceneHandler_Patch));
             CoreLibPlugin.harmony.PatchAll(typeof(RadicalPauseMenuOption_Patch));
+            CoreLibPlugin.harmony.PatchAll(typeof(StateRequestSystem_Patch));
+        }
+        
+        private static void RegisterStateRequester_Internal(IStateRequester stateRequester)
+        {
+            bool success = stateRequesters.TryAdd(stateRequester);
+            
+            if (success)
+            {
+                CoreLibPlugin.Logger.LogInfo($"Registered '{stateRequester.GetType().FullName}' as a State Requester!");
+            }
         }
 
         #endregion

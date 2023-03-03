@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Unity.Burst;
+﻿using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using ArgumentException = System.ArgumentException;
@@ -126,7 +125,7 @@ namespace CoreLib.Submodules.ModComponent
 
             byte* ret = dataAccess->EntityComponentStore->GetComponentDataWithTypeRO(entity, typeIndex);
 
-            return Marshal.PtrToStructure<T>((IntPtr)ret);
+            return Unsafe.Read<T>(ret);
         }
 
         /// <summary>
@@ -154,7 +153,7 @@ namespace CoreLib.Submodules.ModComponent
             }
 
             byte* writePtr = componentStore->GetComponentDataWithTypeRW(entity, typeIndex, componentStore->m_GlobalSystemVersion);
-            Marshal.StructureToPtr(component, (IntPtr)writePtr, false);
+            Unsafe.Copy(writePtr, ref component);
         }
 
         public static bool AddModComponentData<T>(this EntityManager entityManager, Entity entity, T component)
