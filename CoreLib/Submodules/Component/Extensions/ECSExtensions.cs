@@ -6,6 +6,8 @@ using IntPtr = System.IntPtr;
 using InvalidOperationException = System.InvalidOperationException;
 using Unsafe = System.Runtime.CompilerServices.Unsafe;
 
+// Code taken from Unity engine source code, licensed under the Unity Companion License
+
 namespace CoreLib.Submodules.ModComponent
 {
     /// <summary>

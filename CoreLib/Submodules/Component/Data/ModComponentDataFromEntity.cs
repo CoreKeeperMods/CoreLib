@@ -1,6 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using Unity.Entities;
 
+// Code taken from Unity engine source code, licensed under the Unity Companion License
+
 namespace CoreLib.Submodules.ModComponent
 {
     /// <summary>

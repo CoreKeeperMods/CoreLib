@@ -2,6 +2,8 @@
 using Unity.Collections;
 using Unity.Entities;
 
+// Code taken from Unity engine source code, licensed under the Unity Companion License
+
 namespace CoreLib.Submodules.ModComponent
 {
     public static class CommandBufferExtensions
