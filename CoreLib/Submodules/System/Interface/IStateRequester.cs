@@ -8,6 +8,12 @@ namespace CoreLib.Submodules.ModSystem
     /// </summary>
     public interface IStateRequester
     {
+        
+        /// <summary>
+        /// State execution priority. Lower value is higher priority;
+        /// </summary>
+        int priority { get; }
+
         /// <summary>
         /// Called when StateRequestSystem is created. Initialize your object state here 
         /// </summary>
@@ -18,6 +24,9 @@ namespace CoreLib.Submodules.ModSystem
         /// <summary>
         /// Determine whether this entity should switch state.
         /// </summary>
+        /// <remarks>
+        /// Do not set the StateInfoCD to ecb within this method. Instead return true when there are changes
+        /// </remarks>
         /// <param name="entity">Current entity</param>
         /// <param name="ecb">EntityCommandBuffer to write to</param>
         /// <param name="data">Current State Request common data</param>

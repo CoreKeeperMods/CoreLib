@@ -23,6 +23,12 @@ namespace CoreLib.Submodules.ModSystem
             internal set => _loaded = value;
         }
 
+        public const int LOWEST_PRIORITY = 700;
+        public const int LOWER_PRIORITY = 600;
+        public const int NORMAL_PRIORITY = 500;
+        public const int HIGHER_PRIORITY = 400;
+        public const int HIGHEST_PRIORITY = 300;
+
         public static StateID GetModStateId(string stateId)
         {
             ThrowIfNotLoaded();
