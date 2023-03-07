@@ -6,6 +6,7 @@ using BepInEx;
 using CoreLib.Submodules.ModSystem.Patches;
 using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
+// ReSharper disable SuspiciousTypeConversion.Global
 
 namespace CoreLib.Submodules.ModSystem
 {

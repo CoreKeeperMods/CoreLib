@@ -25,6 +25,7 @@ namespace CoreLib.Submodules.ModComponent
         /// <remarks>This version of the function blocks on all registered jobs that access any of the query components.</remarks>
         /// <exception cref="InvalidOperationException">Thrown if <typeparamref name="T"/> is not part of the query.</exception>
 
+        [Obsolete("Not tested, may produce invalid results!")]
         public static unsafe ModNativeArray<T> ToModComponentDataArray<T>(this EntityQuery query, Allocator allocator) where T : unmanaged
         {
             return ToComponentDataArrayImpl<T>(query.__impl, allocator, query);

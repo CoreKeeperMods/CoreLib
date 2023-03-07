@@ -5,7 +5,7 @@ Component module enables working with ECS components without restrictions posed 
 # Usage
 Make sure to add `[CoreLibSubmoduleDependency(nameof(ComponentModule))]` to your plugin attributes. This will load the submodule.
 
-## Using Mod versions of EntityManager methods
+## Using Mod versions of ECS methods
 Type `ECSExtensions` contains a number of extension methods that behave very similarly to those found in `EntityManager`. However they will work on ANY type that is a valid ECS component, including modded ones. These can be used as follows:
 ```csharp
 EntityManager entityManager = world.EntityManager;
@@ -14,8 +14,14 @@ bool value = entityManager.HasModComponent<TemplateBlockCD>(entity);
 TemplateBlockCD templateBlockCd = entityManager.GetModComponentData<TemplateBlockCD>(entity);
 entityManager.SetModComponentData(entity, templateBlockCd);
 ```
+### Additional helpers
+Some other helper methods exists that also will work on any valid ECS components.
 
-Also `ComponentModule` class has methods which mirror those found in `PugDatabase` and `ComponentType`. These methods also will work on any valid ECS components.
+- `ComponentModule` feature a number of methods which mirror those found in `PugDatabase` and `ComponentType`
+- `CommandBufferExtensions` feature a number of methods to work with `EntityCommandBuffer` class
+- `EntityQueryExtensions` feature a number of methods to work with `EntityQuery` class
+- `ModComponentDataFromEntity` is a class which allows to have faster cached access to data of a single component type
+
 
 # Creating custom ECS components
 
