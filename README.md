@@ -20,6 +20,9 @@ I recommend any mods adding custom content warn users about this on their page.
 
 This might get improved later, but right now this is best that you can do.
 
+# Documentation
+Documentation can be found in the [submodules](https://github.com/Jrprogrammer/CoreLib/tree/master/CoreLib/Submodules) folder. Browse each folder to find each module documentation
+
 # How to support development
 If you like what I do and would like to support development, you can [donate](https://boosty.to/kremnev8).
 
