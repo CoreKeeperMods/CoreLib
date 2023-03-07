@@ -25,7 +25,7 @@ Some other helper methods exists that also will work on any valid ECS components
 
 # Creating custom ECS components
 
-Creating custom ECS components is not much different from creating [wrapper components](../Entity/README.md#Creating wrapper components). Custom ECS components need two things:
+Creating custom ECS components is not much different from creating [wrapper components](../Entity/README.md#Creating-wrapper-components). Custom ECS components need two things:
 - ECS component struct - this will be holding your data
 - component authoring - this will perform `conversion` from authoring world to game world.
 

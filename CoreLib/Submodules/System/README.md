@@ -56,7 +56,7 @@ SystemModule.RegisterSystem<MyPseudoSystem>();
 ## Create Entity State Requester
 State Requester is a system that determines what state should entity have. Typically you should have one per unique state.
 
-It is recommended to create a [custom component](../Component/README.md#Creating custom ECS components) to house your state information and determine if entity should have that behaviour
+It is recommended to create a [custom component](../Component/README.md#Creating-custom-ECS-components) to house your state information and determine if entity should have that behaviour
 
 Register State Requester using `SystemModule.RegisterStateRequester<MyStateRequester>();` 
 
@@ -198,6 +198,6 @@ public class SlimeFleeStateSystem : MonoBehaviour, IPseudoServerSystem
 }
 ```
 
-Make sure to register these and add our component to your target entity. You can do that by either [entity modification](../Entity/README.md#Modifying existing entities) or creating a custom entity with the component.
+Make sure to register these and add our component to your target entity. You can do that by either [entity modification](../Entity/README.md#Modifying-existing-entities) or creating a custom entity with the component.
 
 </details>
