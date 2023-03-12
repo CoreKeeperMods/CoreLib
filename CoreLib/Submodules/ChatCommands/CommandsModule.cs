@@ -12,7 +12,7 @@ namespace CoreLib.Submodules.ChatCommands;
 /// This module provides means to add custom chat commands
 /// </summary>
 [CoreLibSubmodule(Dependencies = new []{typeof(RewiredExtensionModule)})]
-public static partial class CommandsModule
+public static class CommandsModule
 {
     #region Public Interface
     /// <summary>
@@ -47,6 +47,16 @@ public static partial class CommandsModule
                 CoreLibPlugin.Logger.LogWarning($"Failed to register command {commandType}!\n{e}");
             }
         }
+    }
+    
+    public static bool GetCommandHandler(string commandName, out IChatCommandHandler commandHandler)
+    {
+        commandHandler = commandHandlers
+            .Select(pair => pair.handler)
+            .FirstOrDefault(handler => handler
+                    .GetTriggerNames()
+                    .Any(s => s.Equals(commandName, StringComparison.InvariantCultureIgnoreCase)));
+        return commandHandler != null;
     }
 
     #endregion
