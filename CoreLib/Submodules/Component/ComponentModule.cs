@@ -25,6 +25,27 @@ namespace CoreLib.Submodules.ModComponent
             internal set => _loaded = value;
         }
 
+        public static T GetModComponentData<T>(Entity entity, World world)
+        {
+            if (!world.EntityManager.HasModComponent<T>(entity))
+            {
+                CoreLibPlugin.Logger.LogWarning($"Tried to get component {typeof(T).FullName} from entity which does not have it!");
+                return default;
+            }
+            return world.EntityManager.GetModComponentData<T>(entity);
+        }
+        
+        public static void SetModComponentData<T>(Entity entity, World world, T componentData)
+        {
+            if (!world.EntityManager.HasModComponent<T>(entity))
+            {
+                CoreLibPlugin.Logger.LogWarning($"Tried to set component {typeof(T).FullName} to entity which does not have it!");
+                return;
+            }
+            world.EntityManager.SetModComponentData<T>(entity, componentData);
+        }
+        
+
         /// <summary>
         /// Get Component Data for entity
         /// </summary>

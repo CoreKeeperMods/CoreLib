@@ -20,6 +20,15 @@ namespace CoreLib.Submodules.ModSystem
         /// <param name="world">Current SERVER world</param>
         void OnCreate(World world);
 
+        /// <summary>
+        /// Determine whether this system should run on this archetype CHUNK
+        /// You will be passed one entity from the chunk.
+        /// </summary>
+        /// <param name="entity">First entity from chunk</param>
+        /// <param name="data">Current State Request common data</param>
+        /// <param name="containers">Component from Entity object container</param>
+        /// <returns>Should the system run for whole chunk?</returns>
+        bool ShouldUpdate(Entity entity, ref StateRequestData data, ref StateRequestContainers containers);
         
         /// <summary>
         /// Determine whether this entity should switch state.
