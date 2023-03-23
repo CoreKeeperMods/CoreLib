@@ -37,6 +37,11 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         
         public virtual void ApplyPost(JsonNode jObject)
         {
+            ReadRecipes(jObject);
+        }
+
+        public static void ReadRecipes(JsonNode jObject)
+        {
             string itemId = jObject["itemId"].GetValue<string>();
             ObjectID objectID = EntityModule.GetObjectId(itemId);
 
@@ -47,6 +52,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                     List<CraftingObject> recipe = jObject["requiredObjectsToCraft"].Deserialize<List<CraftingObject>>(JsonLoaderModule.options);
                     entity.objectInfo.requiredObjectsToCraft = recipe;
                 }
+
                 return;
             }
 

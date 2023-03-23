@@ -20,7 +20,7 @@ MonoBehaviour:
   - EnemyCollider
   - PickUpObject
   - DefaultTrigger
-  - LightTrigger
+  - LightArea
   - DefaultLowCollider
   - DefaultLowTrigger
   - DefaultLowTriggerNonBlocking

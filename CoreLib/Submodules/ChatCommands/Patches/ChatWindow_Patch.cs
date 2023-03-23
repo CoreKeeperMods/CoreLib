@@ -153,6 +153,10 @@ internal class ChatWindow_Patch
 
                 UpdateHistory(input);
                 SendMessage(__instance, $"{input}\n{output.feedback}", output.color);
+                if (output.color == Color.red && CommandsModule.remindAboutHelpCommand.Value)
+                {
+                    SendMessage(__instance, $"Use /help {cmdName} to learn command usage!", Color.blue);
+                }
                 commit = false;
             }
             catch (Exception e)

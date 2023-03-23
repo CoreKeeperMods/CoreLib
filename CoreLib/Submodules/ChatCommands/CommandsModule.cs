@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BepInEx.Configuration;
 using CoreLib.Submodules.ChatCommands.Patches;
 using CoreLib.Submodules.RewiredExtension;
 using Rewired;
@@ -23,6 +24,8 @@ public static class CommandsModule
         get => _loaded;
         internal set => _loaded = value;
     }
+
+    internal static ConfigEntry<bool> remindAboutHelpCommand;
 
     /// <summary>
     /// Add all commands from specified assembly
@@ -59,6 +62,15 @@ public static class CommandsModule
         return commandHandler != null;
     }
 
+    public static IEnumerable<IChatCommandHandler> GetChatCommandHandlers(string commandName)
+    {
+        return commandHandlers
+            .Select(pair => pair.handler)
+            .Where(handler => handler
+                .GetTriggerNames()
+                .Any(s => s.Equals(commandName, StringComparison.InvariantCultureIgnoreCase)));
+    }
+
     #endregion
 
     #region Private Implementation
@@ -90,6 +102,11 @@ public static class CommandsModule
         RewiredExtensionModule.AddKeybind(UP_KEY, "Next command", KeyboardKeyCode.UpArrow);
         RewiredExtensionModule.AddKeybind(DOWN_KEY, "Previous command", KeyboardKeyCode.DownArrow);
         RewiredExtensionModule.AddKeybind(COMPLETE_KEY, "Autocomplete command", KeyboardKeyCode.Tab);
+        remindAboutHelpCommand = CoreLibPlugin.Instance.Config.Bind(
+            "ChatModule",
+            "remindAboutHelp",
+            true,
+            "Should user be reminded about existance of /help command any time a command returns error code output?");
     }
 
     internal static void ThrowIfNotLoaded()
