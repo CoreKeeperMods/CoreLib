@@ -216,4 +216,72 @@ Do note that the `mace.png` file contains a sprite as explained in the [item gui
 </details>
 
 ### Blocks and other entities
-Currently JSON loader module does not support adding custom blocks. This is being worked on though.
+Altough limited, blocks are now possible.
+
+To make a custom block use `block` loader.
+
+<details><summary>Custom block example</summary>
+  
+```json
+{
+	"$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
+	"type" : "block",
+	"itemId" : "MyMod:MetalTable",
+	"icon" : {
+		"path": "icons/metal-table-icons.png",
+		"type": "icon-top"
+	},
+	"smallIcon" : {
+		"path": "icons/metal-table-icons.png",
+		"type": "icon-bottom"
+	},
+	"localizedName" : "Metal Table",
+	"localizedDescription" : "This table was added using JSON!",
+	"isStackable" : true,
+	"prefabTileSize" : [2, 2],
+	"colliderSize" : [2, 1.65],
+	"colliderCenter" : [0.5, 0.37],
+	"components" : [
+		{
+			"type" : "CoreLib.Components.TemplateBlockCDAuthoring",
+			"verticalSprite" : "icons/metal-table-bottom.png",
+			"horizontalSprite" : "icons/metal-table-top.png",
+			"shadowSprite" : "icons/metal-table-shadow.png",
+			"verticalSpriteOffset" : [0, 0.343, 0],
+			"horizontalSpriteOffset" : [0, 0.655, 0.75],
+			"shadowOffset" : [0, 0.0625, 0.9],
+			"prefabOffset"  : [0.5, 0, -0.3125],
+			"interactHandler" : "MyMod.Blocks.MyInteractionHandler"
+		}
+	]
+}
+```
+
+This example adds a 2x2 metal table which can be used. To allow the usage you will need to write some code:
+```cs
+namespace MyMod.Blocks
+{
+    public class MyInteractionHandler : IInteractionHandler
+    {
+        public void OnInteraction(TemplateBlock block)
+        {
+            UnityEngine.Debug.Log("My block was used!");
+        }
+    }
+}
+```
+In the `interactHandler` property put full name of the class. In this case it is `MyMod.Blocks.MyInteractionHandler`.
+  
+Do note that the class MUST be in your mod assembly. It won't work if it's somewhere else!
+  
+</details>
+
+To fully setup your custom block you might need to set some values using UnityExplorer:
+1. Open scene view
+2. Select scene DontDestroyOnLoad
+3. Select manager game object
+4. Select Camera manager
+5. Under it find OrigoTransform game object
+6. Find game object named TemplateBlock (There might be a few)
+7. Locate individual sprite rendereres and tweak their position to your liking.
+8. Update values in JSON. local position Values you find in the inspector will be same as in JSON
