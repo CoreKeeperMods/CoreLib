@@ -8,6 +8,7 @@ using HarmonyLib;
 using Iced.Intel;
 using Il2CppInterop.Common;
 using Decoder = Iced.Intel.Decoder;
+using Marshal = Il2CppSystem.Runtime.InteropServices.Marshal;
 
 namespace CoreLib.Util;
 
@@ -148,9 +149,14 @@ public static class NativeTranspiler
         }
         
         IntPtr codeStart = *(IntPtr*)(IntPtr)fieldValue;
-
-        Decoder decoder = GetDecoder(codeStart, capacity);
-
+        bool hasRexAtStart = Marshal.ReadByte(codeStart) == 0x40;
+        if (hasRexAtStart) CoreLibPlugin.Logger.LogDebug("Method has empty REX at beginning, ignoring");
+        
+        IntPtr offsetStart = codeStart + (hasRexAtStart ? 1 : 0);
+        
+        Decoder decoder = GetDecoder(offsetStart, capacity);
+        
+        
         List<Instruction> instructions = new List<Instruction>(capacity);
 
         while (true)
@@ -167,14 +173,15 @@ public static class NativeTranspiler
                 break;
         }
 
-        IntPtr methodSizeInBytes = (IntPtr)(decoder.IP - (ulong)codeStart);
+        IntPtr methodSizeInBytes = (IntPtr)(decoder.IP - (ulong)offsetStart);
 
         IntPtr methodSize = (IntPtr)instructions.Count;
 
         if (printDebugInfo.Value)
         {
             CoreLibPlugin.Logger.LogDebug($"Original method {methodInfo.FullDescription()} body:");
-            PrintInstructions(instructions);
+            PrintMethodCodeFromMemory(codeStart, capacity);
+           // PrintInstructions(instructions);
         }
 
         CoreLibPlugin.Logger.LogDebug($"Patching {methodInfo.FullDescription()}");
@@ -186,18 +193,18 @@ public static class NativeTranspiler
             return;
         }
         
-        if (VirtualProtect(codeStart, methodSizeInBytes, ProtectMode.PAGE_EXECUTE_READWRITE, out ProtectMode oldProtect))
+        if (VirtualProtect(offsetStart, methodSizeInBytes, ProtectMode.PAGE_EXECUTE_READWRITE, out ProtectMode oldProtect))
         {
-            var codeWriter = new MemoryCodeWriter(codeStart);
+            var codeWriter = new MemoryCodeWriter(offsetStart);
         
-            var block = new InstructionBlock(codeWriter, instructions, (ulong)codeStart);
+            var block = new InstructionBlock(codeWriter, instructions, (ulong)offsetStart);
             bool success = BlockEncoder.TryEncode(decoder.Bitness, block, out var errorMessage, out _);
             if (!success) {
                 CoreLibPlugin.Logger.LogError($"Error patching method {methodInfo.FullDescription()}: {errorMessage}");
                 return;
             }
             
-            VirtualProtect(codeStart, methodSizeInBytes, oldProtect, out ProtectMode _);
+            VirtualProtect(offsetStart, methodSizeInBytes, oldProtect, out ProtectMode _);
             
             if (printDebugInfo.Value)
             {

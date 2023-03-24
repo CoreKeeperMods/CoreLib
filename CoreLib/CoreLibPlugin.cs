@@ -18,7 +18,7 @@ public class CoreLibPlugin : BasePlugin
     public const string NAME = "CoreLib";
     public const string VERSION = ThisAssembly.AssemblyVersion;
         
-    public static readonly GameVersion buildFor = new GameVersion(0,5,2, 5, "47b7");
+    public static readonly GameVersion buildFor = new GameVersion(0,5,4, 0, "18eb");
     internal static HashSet<string> LoadedSubmodules;
     internal static APISubmoduleHandler submoduleHandler;
     internal static Harmony harmony;

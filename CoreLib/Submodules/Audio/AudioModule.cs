@@ -114,9 +114,6 @@ public static class AudioModule
     {
         CoreLibPlugin.harmony.PatchAll(typeof(MusicManager_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(AudioManager_Patch));
-
-        CoreLibPlugin.Logger.LogInfo("Patching the method!");
-        NativeTranspiler.PatchAll(typeof(AudioManager_Patch));
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.Load)]
