@@ -88,7 +88,7 @@ If your editor supports validating using JSON schemas, then you can add this lin
 ```
 
 You might need to look at the game code to determine what fields you need to set, and what values exist. To do so you
-can use basic dnSpy [project](https://core-keeper-modding.gitbook.io/modding-wiki/modding/view-source-code#using-cpp2il)
+can use basic dnSpy [project](https://core-keeper-modding.gitbook.io/modding-wiki/modding/view-source-code)
 
 ### Sprites
 
@@ -298,12 +298,17 @@ Here you can see the prefab you are working with. The elements are moved further
 ![Create bundle](./documentation/block-prefab-setup.png)<br>
 
 To fully setup your custom block you might need to set some values using UnityExplorer:
-1. Open scene view
-2. Select scene DontDestroyOnLoad
-3. Select manager game object
-4. Select Camera manager
-5. Under it find OrigoTransform game object
-6. Find game object named TemplateBlock (There might be a few)
-7. Locate individual sprite rendereres and tweak their position to your liking.
-8. Update values in JSON. local position Values you find in the inspector will be same as in JSON
+1. Open `Object Explorer`
+2. Select scene `DontDestroyOnLoad`
+3. Navigate down to `Global Objects (Main Manager)(Clone)/Managers/Camera Manager/` in game object hierarchy
+4. Select `OrigoTransform` game object (There might be a few, pick one with more objects)
+5. Find game object named `TemplateBlock1x1` (There might be a few)
+6. Navigate down to `XScaler/AnimPositionRotation/AnimScale/SRPivot/` in game object hierarchy
+7. Locate individual sprite renderers.
+
+If you did it right you should see something like this:
+![Create bundle](./documentation/unityExplorerExample.png)<br>
+
+8. Now tweak local position value of each sprite as you want.
+9. Update values in JSON. Local position values you find in the inspector will be same as in JSON
 
