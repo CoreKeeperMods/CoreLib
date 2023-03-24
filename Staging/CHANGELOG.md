@@ -1,11 +1,21 @@
 
+### v2.0.0
+**WARNING: Update all of your mods when installing this version!**
+- Use Il2CppInterop from my PR branch to allow for advanced DOTS features
+- Added `Component` module, which allows to create custom ECS components
+- Added `System` module, which allows to create pseudo systems and state requesters
+- Renamed `CustomEntity` module to `Entity` module. Mods which used it need to update
+- Added `ModCraftingRecipeCDAuthoring` to allow to assign custom recipes from Unity editor
+- Json Loader module now can create custom blocks using JSON
+- Fix Entity module impaired functionality
+
+<details>
+<summary>Changelog</summary>
+
 ### v1.4.0
 **WARNING: Update all of your mods when installing this version!**
 - Fixed compatibility with game version 0.5.2.0 and higher
 - Custom Entity module may not function fully due to Unity version bump. Use at your own risk.
-
-<details>
-<summary>Changelog</summary>
 
 ### v1.3.1
 - Fixed a crash when using NativeTranspiler (Also AudioModule)

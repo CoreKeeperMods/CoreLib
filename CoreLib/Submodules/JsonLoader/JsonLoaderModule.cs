@@ -21,6 +21,8 @@ namespace CoreLib.Submodules.JsonLoader
     [CoreLibSubmodule(Dependencies = new[] { typeof(EntityModule), typeof(ComponentModule) })]
     public class JsonLoaderModule
     {
+        #region PUBLIC_INTERFACE
+
         /// <summary>
         /// Return true if the submodule is loaded.
         /// </summary>
@@ -29,58 +31,6 @@ namespace CoreLib.Submodules.JsonLoader
             get => _loaded;
             internal set => _loaded = value;
         }
-
-        private static bool _loaded;
-
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks() { }
-
-
-        [CoreLibSubmoduleInit(Stage = InitStage.Load)]
-        internal static void Load()
-        {
-            ClassInjector.RegisterTypeInIl2Cpp<TemplateBlock>();
-            RegisterJsonReaders(Assembly.GetExecutingAssembly());
-
-            options = new JsonSerializerOptions
-            {
-                IncludeFields = true
-            };
-            options.Converters.Add(new ObjectTypeConverter());
-            options.Converters.Add(new ObjectIDConverter());
-            options.Converters.Add(new JsonStringEnumConverter());
-            options.Converters.Add(new Il2CppListConverter());
-            options.Converters.Add(new Il2CppStringConverter());
-            options.Converters.Add(new SpriteConverter());
-            options.Converters.Add(new ColorConverter());
-            options.Converters.Add(new VectorConverter());
-            interactionHandlers.Add(null);
-        }
-
-        [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
-        internal static void PostLoad()
-        {
-            ComponentModule.RegisterECSComponent<TemplateBlockCD>();
-            ComponentModule.RegisterECSComponent<TemplateBlockCDAuthoring>();
-        }
-
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
-                throw new InvalidOperationException(message);
-            }
-        }
-
-        public static JsonSerializerOptions options;
-        public static JsonContext context;
-
-        internal static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
-        internal static Dictionary<string, string> modFolders = new Dictionary<string, string>();
-        internal static List<object> interactionHandlers = new List<object>(10);
-
 
         public static void UseConverter(params JsonConverter[] converters)
         {
@@ -116,6 +66,7 @@ namespace CoreLib.Submodules.JsonLoader
 
             IL2CPP.il2cpp_gc_disable();
             string resourcesDir = Path.Combine(path, "resources");
+
             using (WithContext(new JsonContext(resourcesDir, Assembly.GetCallingAssembly())))
             {
                 List<JsonNode> objectsCache = new List<JsonNode>();
@@ -206,7 +157,8 @@ namespace CoreLib.Submodules.JsonLoader
             if (!type.IsAssignableTo(typeof(IInteractionHandler)) &&
                 !type.IsAssignableTo(typeof(ITriggerListener)))
             {
-                CoreLibPlugin.Logger.LogError($"Failed to register interaction handler. Type {handlerType} does not implement '{nameof(IInteractionHandler)}' or '{nameof(ITriggerListener)}'!");
+                CoreLibPlugin.Logger.LogError(
+                    $"Failed to register interaction handler. Type {handlerType} does not implement '{nameof(IInteractionHandler)}' or '{nameof(ITriggerListener)}'!");
                 return 0;
             }
 
@@ -223,78 +175,16 @@ namespace CoreLib.Submodules.JsonLoader
             return index;
         }
 
-        internal static T GetInteractionHandler<T>(int index)
-        where T : class
+        public static Type TypeByName(string name)
         {
-            if (index <= 0)
-            {
-                throw new InvalidOperationException("Interaction handler is not valid!");
-            }
+            Type type = Type.GetType(name, false);
 
-            return interactionHandlers[index] as T;
-        }
+            type ??= AllTypes().FirstOrDefault(t => t.FullName == name);
+            type ??= AllTypes().FirstOrDefault(t => t.Name == name);
 
-        private static void RegisterJsonReadersInType_Internal(Type type)
-        {
-            RegisterReaderAttribute attribute = type.GetCustomAttribute<RegisterReaderAttribute>();
-            if (!jsonReaders.ContainsKey(attribute.typeName))
-            {
-                IJsonReader reader = Activator.CreateInstance(type) as IJsonReader;
-                jsonReaders.Add(attribute.typeName, reader);
-            }
-            else
-            {
-                CoreLibPlugin.Logger.LogWarning($"Failed to register {type.FullName} Json Reader, because name {attribute.typeName} is already taken!");
-            }
-        }
-
-        public static void PopulateObject<T>(T target, JsonNode jsonSource)
-        {
-            PopulateObject(typeof(T), target, jsonSource);
-        }
-
-        public static void PopulateObject(Type type, object target, JsonNode jsonSource)
-        {
-            foreach (KeyValuePair<string, JsonNode> property in jsonSource.AsObject())
-            {
-                CoreLibPlugin.Logger.LogInfo($"Overriding {property.Key} in {target.GetType().FullName}");
-                OverwriteProperty(type, target, property);
-            }
-        }
-
-        private static void OverwriteProperty(Type type, object target, KeyValuePair<string, JsonNode> updatedProperty)
-        {
-            var propertyInfo = type.GetProperty(updatedProperty.Key);
-            var fieldInfo = type.GetField(updatedProperty.Key);
-
-            if (propertyInfo != null)
-            {
-                var parsedValue = updatedProperty.Value.Deserialize(propertyInfo.PropertyType, options);
-
-                propertyInfo.SetValue(target, parsedValue);
-            }
-            else if (fieldInfo != null)
-            {
-                var attribute = fieldInfo.GetCustomAttribute<NonSerializedAttribute>();
-                if (attribute != null)  return;
-                
-                if (IsIl2CppField(fieldInfo.FieldType, out Type systemType))
-                {
-                    var parsedValue = updatedProperty.Value.Deserialize(systemType, options);
-                    object il2cppField = fieldInfo.GetValue(target);
-                    var property = fieldInfo.FieldType.GetProperty("Value");
-                    property.SetValue(il2cppField, parsedValue);
-                }
-                else
-                {
-                    var parsedValue = updatedProperty.Value.Deserialize(fieldInfo.FieldType, options);
-                    fieldInfo.SetValue(target, parsedValue);
-                }
-            }
-            else
-            {
-                CoreLibPlugin.Logger.LogInfo($"Found no property/field named {updatedProperty.Key} in {type.FullName}");
-            }
+            if (type == null)
+                CoreLibPlugin.Logger.LogWarning($"Could not find type named {name}");
+            return type;
         }
 
         public static bool IsIl2CppField(Type type, out Type systemType)
@@ -340,6 +230,135 @@ namespace CoreLib.Submodules.JsonLoader
             }
         }
 
+        public static void PopulateObject<T>(T target, JsonNode jsonSource)
+        {
+            PopulateObject(typeof(T), target, jsonSource);
+        }
+
+        public static void PopulateObject(Type type, object target, JsonNode jsonSource)
+        {
+            foreach (KeyValuePair<string, JsonNode> property in jsonSource.AsObject())
+            {
+                CoreLibPlugin.Logger.LogInfo($"Overriding {property.Key} in {target.GetType().FullName}");
+                OverwriteProperty(type, target, property);
+            }
+        }
+
+        #endregion
+
+        #region PRIVATE
+
+        private static bool _loaded;
+
+        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
+        internal static void SetHooks() { }
+
+
+        [CoreLibSubmoduleInit(Stage = InitStage.Load)]
+        internal static void Load()
+        {
+            ClassInjector.RegisterTypeInIl2Cpp<TemplateBlock>();
+            RegisterJsonReaders(Assembly.GetExecutingAssembly());
+
+            options = new JsonSerializerOptions
+            {
+                IncludeFields = true
+            };
+            options.Converters.Add(new ObjectTypeConverter());
+            options.Converters.Add(new ObjectIDConverter());
+            options.Converters.Add(new JsonStringEnumConverter());
+            options.Converters.Add(new Il2CppListConverter());
+            options.Converters.Add(new Il2CppStringConverter());
+            options.Converters.Add(new SpriteConverter());
+            options.Converters.Add(new ColorConverter());
+            options.Converters.Add(new VectorConverter());
+            interactionHandlers.Add(null);
+        }
+
+        [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
+        internal static void PostLoad()
+        {
+            ComponentModule.RegisterECSComponent<TemplateBlockCD>();
+            ComponentModule.RegisterECSComponent<TemplateBlockCDAuthoring>();
+        }
+
+        internal static void ThrowIfNotLoaded()
+        {
+            if (!Loaded)
+            {
+                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
+                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+                throw new InvalidOperationException(message);
+            }
+        }
+
+        public static JsonSerializerOptions options;
+        public static JsonContext context;
+
+        internal static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
+        internal static Dictionary<string, string> modFolders = new Dictionary<string, string>();
+        internal static List<object> interactionHandlers = new List<object>(10);
+
+        internal static T GetInteractionHandler<T>(int index)
+            where T : class
+        {
+            if (index <= 0)
+            {
+                throw new InvalidOperationException("Interaction handler is not valid!");
+            }
+
+            return interactionHandlers[index] as T;
+        }
+
+        private static void RegisterJsonReadersInType_Internal(Type type)
+        {
+            RegisterReaderAttribute attribute = type.GetCustomAttribute<RegisterReaderAttribute>();
+            if (!jsonReaders.ContainsKey(attribute.typeName))
+            {
+                IJsonReader reader = Activator.CreateInstance(type) as IJsonReader;
+                jsonReaders.Add(attribute.typeName, reader);
+            }
+            else
+            {
+                CoreLibPlugin.Logger.LogWarning($"Failed to register {type.FullName} Json Reader, because name {attribute.typeName} is already taken!");
+            }
+        }
+
+        private static void OverwriteProperty(Type type, object target, KeyValuePair<string, JsonNode> updatedProperty)
+        {
+            var propertyInfo = type.GetProperty(updatedProperty.Key);
+            var fieldInfo = type.GetField(updatedProperty.Key);
+
+            if (propertyInfo != null)
+            {
+                var parsedValue = updatedProperty.Value.Deserialize(propertyInfo.PropertyType, options);
+
+                propertyInfo.SetValue(target, parsedValue);
+            }
+            else if (fieldInfo != null)
+            {
+                var attribute = fieldInfo.GetCustomAttribute<NonSerializedAttribute>();
+                if (attribute != null) return;
+
+                if (IsIl2CppField(fieldInfo.FieldType, out Type systemType))
+                {
+                    var parsedValue = updatedProperty.Value.Deserialize(systemType, options);
+                    object il2cppField = fieldInfo.GetValue(target);
+                    var property = fieldInfo.FieldType.GetProperty("Value");
+                    property.SetValue(il2cppField, parsedValue);
+                }
+                else
+                {
+                    var parsedValue = updatedProperty.Value.Deserialize(fieldInfo.FieldType, options);
+                    fieldInfo.SetValue(target, parsedValue);
+                }
+            }
+            else
+            {
+                CoreLibPlugin.Logger.LogInfo($"Found no property/field named {updatedProperty.Key} in {type.FullName}");
+            }
+        }
+
         private static Type[] GetTypesFromAssembly(Assembly assembly)
         {
             try
@@ -354,16 +373,6 @@ namespace CoreLib.Submodules.JsonLoader
 
         private static IEnumerable<Type> AllTypes() => AccessTools.AllAssemblies().SelectMany(GetTypesFromAssembly);
 
-        public static Type TypeByName(string name)
-        {
-            Type type = Type.GetType(name, false);
-
-            type ??= AllTypes().FirstOrDefault(t => t.FullName == name);
-            type ??= AllTypes().FirstOrDefault(t => t.Name == name);
-
-            if (type == null)
-                CoreLibPlugin.Logger.LogWarning($"Could not find type named {name}");
-            return type;
-        }
+        #endregion
     }
 }

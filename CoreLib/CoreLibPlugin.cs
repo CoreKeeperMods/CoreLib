@@ -49,6 +49,7 @@ public class CoreLibPlugin : BasePlugin
     internal static void CheckIfUsedOnRightGameVersion()
     {
         var buildId = new GameVersion(Application.version);
+        Logger.LogInfo($"Running under game version \"{buildId}\".");
 
         if (buildFor.CompatibleWith(buildId))
             return;

@@ -1,15 +1,15 @@
 # CoreLib
 A modding library for Core Keeper. Provides features that makes modding Core Keeper easier.
 
-**WARNING!** Version 1.0.0 contains breaking changes. Make sure to update ALL of your mods before proceeding!
+**WARNING!** Version 2.0.0 contains breaking changes. Make sure to update ALL of your mods before proceeding!
 
 # List of features
-- Get main objects of the game, like `Managers`, `Players`
-- Add new localization terms
-- Add custom Rewired keybinds
-- Add custom chat commands
-- Add new items, blocks, enemies and more
-- Use JSON to add custom items
+- Custom items, blocks, enemies, NPC, etc.
+- Adding items using JSON
+- Easier access to Rewired input system, localization
+- Custom chat commands
+
+And much more!
 
 ## Note on multiplayer and save compatibility
 If you are playing with friends MAKE SURE to sync your `CoreLib.ModEntityID.cfg` and `CoreLib.TilesetID.cfg` config files. If anything inside does not match you WILL encounter issues connecting, missing items, and errors.
@@ -21,7 +21,7 @@ I recommend any mods adding custom content warn users about this on their page.
 This might get improved later, but right now this is best that you can do.
 
 # Documentation
-Documentation can be found in the [submodules](https://github.com/Jrprogrammer/CoreLib/tree/master/CoreLib/Submodules) folder. Browse each folder to find each module documentation
+Documentation can be found in the [submodules](./CoreLib/Submodules) folder. Browse each folder to find each module documentation
 
 # How to support development
 If you like what I do and would like to support development, you can [donate](https://boosty.to/kremnev8).
@@ -38,5 +38,3 @@ Then just click **Start modded**, and the game will run with the mod installed.
 Install BepInEx Pack from [here](https://core-keeper.thunderstore.io/package/BepInEx/BepInExPack_Core_Keeper/)<br/>
 
 Unzip all files into `Core Keeper\BepInEx\plugins\CoreLib/` (Create folder named `CoreLib`)<br/>
-
-This library is still WIP.
