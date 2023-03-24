@@ -27,7 +27,7 @@
         
         <OutputPath Condition="'$(ReleaseMode)' == '0' And Exists('$(CKGameDir)')">$(PluginOutputDirectory)</OutputPath>
         <OutputPath Condition="'$(ReleaseMode)' == '1'">$(MSBuildThisFileDirectory)\..\Staging\</OutputPath>
-        
+        <Optimize Condition="'$(ReleaseMode)' == '1'">true</Optimize>
         <OutDir>$(OutputPath)</OutDir>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
@@ -51,7 +51,11 @@
 		<PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.2.*" /> 
-        <PackageReference Include="Iced" Version="1.18.0" PrivateAssets="all"/>
-    </ItemGroup>
+        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.4.0" />  
+        <PackageReference Include="Iced" Version="1.18.0" PrivateAssets="all"/> 
+        
+        <PackageReference Include="Il2CppInterop.Common" Version="1.5.0-dots" PrivateAssets="all"/>  
+        <PackageReference Include="Il2CppInterop.Runtime" Version="1.5.0-dots" PrivateAssets="all"/>  
+        <PackageReference Include="Il2CppInterop.Generator" Version="1.5.0-dots" PrivateAssets="all"/>   
+	</ItemGroup>
 </Project>

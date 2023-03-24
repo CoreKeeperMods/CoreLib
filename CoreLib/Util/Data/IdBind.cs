@@ -9,10 +9,12 @@ namespace CoreLib
     {
         protected readonly int idRangeStart;
         protected readonly int idRangeEnd;
-        internal int firstUnusedId;
+        protected int firstUnusedId;
 
         protected HashSet<int> takenIDs = new HashSet<int>();
-        internal Dictionary<string, int> modIDs = new Dictionary<string, int>();
+        protected Dictionary<string, int> modIDs = new Dictionary<string, int>();
+
+        public IReadOnlyDictionary<string, int> ModIDs => modIDs;
 
         public IdBind(int idRangeStart, int idRangeEnd)
         {

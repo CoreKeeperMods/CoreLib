@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Unity.Mathematics;
 
 namespace CoreLib.Components
 {

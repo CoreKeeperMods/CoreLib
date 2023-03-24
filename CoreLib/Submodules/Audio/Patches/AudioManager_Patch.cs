@@ -38,6 +38,8 @@ public static class AudioManager_Patch
        }
 
        __instance.audioFieldMap = newClips;
+       
+       NativeTranspiler.PatchAll(typeof(AudioManager_Patch));
        CoreLibPlugin.Logger.LogInfo($"Loaded {customSoundEffect.Count} custom sound effects!");
     }
 
@@ -49,14 +51,14 @@ public static class AudioManager_Patch
     }
     
     [NativeTranspilerPatch(typeof(AudioManager), nameof(AudioManager.PlayAudioClip))]
-    public static System.Collections.Generic.List<Instruction> NativeTranspiler(System.Collections.Generic.List<Instruction> instructions)
+    public static System.Collections.Generic.List<Instruction> ChangeMaxID(System.Collections.Generic.List<Instruction> instructions)
     {
         for (int i = 0; i < instructions.Count; i++)
         {
             Instruction instr = instructions[i];
             if (instr.OpCode.Mnemonic == Mnemonic.Cmp && instr.Op0Kind == OpKind.Register && instr.Op1Kind == OpKind.Immediate32)
             {
-                instr.SetImmediate(1, 500);
+                instr.SetImmediate(1, AudioModule.lastFreeSfxId);
                 instructions[i] = instr;
                 break;
             }

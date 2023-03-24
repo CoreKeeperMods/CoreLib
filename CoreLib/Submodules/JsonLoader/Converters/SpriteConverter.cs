@@ -18,7 +18,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
             if (reader.TokenType == JsonTokenType.String)
             {
                 string spritePath = reader.GetString();
-                string fullPath = Path.Combine(JsonLoaderModule.context, spritePath);
+                string fullPath = Path.Combine(JsonLoaderModule.context.loadPath, spritePath);
                 Sprite sprite = ResourcesModule.LoadNewSprite(fullPath, 16);
                 if (sprite == null)
                 {
@@ -54,7 +54,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                     rect = rectElement.Deserialize<Rect>();
                 }
 
-                string fullPath = Path.Combine(JsonLoaderModule.context, path);
+                string fullPath = Path.Combine(JsonLoaderModule.context.loadPath, path);
                 Sprite sprite = ResourcesModule.LoadNewSprite(fullPath, 16, rect, new Vector2(0.5f,0.5f));
                 
                 if (sprite == null)

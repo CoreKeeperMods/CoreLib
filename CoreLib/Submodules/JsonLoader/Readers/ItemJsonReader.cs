@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using CoreLib.Components;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.Localization;
 using CoreLib.Util;
 using HarmonyLib;
@@ -30,23 +30,29 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             ReadComponents(jObject, entityData);
 
             MonoBehaviourUtils.CallAlloc(entityData);
-            ObjectID objectID = CustomEntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
+            ObjectID objectID = EntityModule.AddEntityWithVariations(itemId, new System.Collections.Generic.List<EntityMonoBehaviourData> { entityData });
 
             ReadLocalization(jObject, objectID);
         }
         
         public virtual void ApplyPost(JsonNode jObject)
         {
-            string itemId = jObject["itemId"].GetValue<string>();
-            ObjectID objectID = CustomEntityModule.GetObjectId(itemId);
+            ReadRecipes(jObject);
+        }
 
-            if (CustomEntityModule.GetMainEntity(objectID, out EntityMonoBehaviourData entity))
+        public static void ReadRecipes(JsonNode jObject)
+        {
+            string itemId = jObject["itemId"].GetValue<string>();
+            ObjectID objectID = EntityModule.GetObjectId(itemId);
+
+            if (EntityModule.GetMainEntity(objectID, out EntityMonoBehaviourData entity))
             {
                 if (jObject["requiredObjectsToCraft"] != null)
                 {
                     List<CraftingObject> recipe = jObject["requiredObjectsToCraft"].Deserialize<List<CraftingObject>>(JsonLoaderModule.options);
                     entity.objectInfo.requiredObjectsToCraft = recipe;
                 }
+
                 return;
             }
 
@@ -64,11 +70,13 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                     {
                         Type sysType = JsonLoaderModule.TypeByName(node["type"].GetValue<string>());
                         Il2CppSystem.Type type = Il2CppType.From(sysType);
-
+                        
                         Component component = entityData.gameObject.GetComponent(type);
                         if (component == null)
                             component = entityData.gameObject.AddComponent(type);
-
+                        
+                        component.TryInvokeAction(nameof(IHasDefaultValue.InitDefaultValues));
+                        
                         MethodInfo methonGen = typeof(Il2CppObjectBase).GetMethod(nameof(Il2CppObjectBase.Cast), AccessTools.all);
                         MethodInfo method = methonGen.MakeGenericMethod(sysType);
                         object castComponent = method.Invoke(component, Array.Empty<object>());
@@ -86,7 +94,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         public static void ReadObjectInfo(JsonNode jObject, EntityMonoBehaviourData entityData)
         {
             string itemId = jObject["itemId"].GetValue<string>();
-
+            
             entityData.objectInfo ??= new ObjectInfo();
             JsonLoaderModule.PopulateObject(entityData.objectInfo, jObject);
             //entityData.objectInfo = jObject.Deserialize<ObjectInfo>(JsonLoaderModule.options);
@@ -102,7 +110,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             }
 
             string fullItemId = $"{itemId}_{entityData.objectInfo.variation}";
-
+            
             entityData.gameObject.name = $"{fullItemId}_Prefab";
             JsonLoaderModule.FillArrays(entityData.objectInfo);
         }

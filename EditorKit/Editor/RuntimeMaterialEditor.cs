@@ -51,7 +51,7 @@ public class RuntimeMaterialEditor : Editor
                 Debug.Log("No matches found!");
             }
         }
-        
+
         if (GUILayout.Button("Update to V2"))
         {
             RuntimeMaterial runtimeMaterial = (RuntimeMaterial)target;

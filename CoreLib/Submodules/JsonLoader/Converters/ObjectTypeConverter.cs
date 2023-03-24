@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 
 namespace CoreLib.Submodules.JsonLoader.Converters
 {
@@ -22,7 +22,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                     return objectID;
                 }
 
-                return CustomEntityModule.GetObjectType(value);
+                return EntityModule.GetObjectType(value);
             }
 
             return ObjectType.NonUsable;

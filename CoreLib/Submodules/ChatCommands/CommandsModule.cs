@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BepInEx.Configuration;
 using CoreLib.Submodules.ChatCommands.Patches;
 using CoreLib.Submodules.RewiredExtension;
 using Rewired;
@@ -12,7 +13,7 @@ namespace CoreLib.Submodules.ChatCommands;
 /// This module provides means to add custom chat commands
 /// </summary>
 [CoreLibSubmodule(Dependencies = new []{typeof(RewiredExtensionModule)})]
-public static partial class CommandsModule
+public static class CommandsModule
 {
     #region Public Interface
     /// <summary>
@@ -23,6 +24,8 @@ public static partial class CommandsModule
         get => _loaded;
         internal set => _loaded = value;
     }
+
+    internal static ConfigEntry<bool> remindAboutHelpCommand;
 
     /// <summary>
     /// Add all commands from specified assembly
@@ -48,6 +51,25 @@ public static partial class CommandsModule
             }
         }
     }
+    
+    public static bool GetCommandHandler(string commandName, out IChatCommandHandler commandHandler)
+    {
+        commandHandler = commandHandlers
+            .Select(pair => pair.handler)
+            .FirstOrDefault(handler => handler
+                    .GetTriggerNames()
+                    .Any(s => s.Equals(commandName, StringComparison.InvariantCultureIgnoreCase)));
+        return commandHandler != null;
+    }
+
+    public static IEnumerable<IChatCommandHandler> GetChatCommandHandlers(string commandName)
+    {
+        return commandHandlers
+            .Select(pair => pair.handler)
+            .Where(handler => handler
+                .GetTriggerNames()
+                .Any(s => s.Equals(commandName, StringComparison.InvariantCultureIgnoreCase)));
+    }
 
     #endregion
 
@@ -65,6 +87,7 @@ public static partial class CommandsModule
     internal static void SetHooks()
     {
         CoreLibPlugin.harmony.PatchAll(typeof(ChatWindow_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(TitleScreenAnimator_Patch));
     }
     
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
@@ -79,6 +102,11 @@ public static partial class CommandsModule
         RewiredExtensionModule.AddKeybind(UP_KEY, "Next command", KeyboardKeyCode.UpArrow);
         RewiredExtensionModule.AddKeybind(DOWN_KEY, "Previous command", KeyboardKeyCode.DownArrow);
         RewiredExtensionModule.AddKeybind(COMPLETE_KEY, "Autocomplete command", KeyboardKeyCode.Tab);
+        remindAboutHelpCommand = CoreLibPlugin.Instance.Config.Bind(
+            "ChatModule",
+            "remindAboutHelp",
+            true,
+            "Should user be reminded about existance of /help command any time a command returns error code output?");
     }
 
     internal static void ThrowIfNotLoaded()

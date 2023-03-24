@@ -56,11 +56,66 @@ public class ComponentDummyTask : Task
                 .Where(node => node.ToString().Contains("Il2Cpp") || node.ToString().Contains("Interop") || node.ToString().Contains("Submodules")),
             SyntaxRemoveOptions.KeepNoTrivia);
 
+        var structs = root.DescendantNodes().OfType<StructDeclarationSyntax>();
+
+        root = root.ReplaceNodes(structs, (syntax, _) =>
+        {
+            StructDeclarationSyntax newStructNode = UpdateStruct(syntax);
+            
+            return newStructNode ?? syntax;
+        });
+
+        var classes = root.DescendantNodes().OfType<ClassDeclarationSyntax>();
+
+        root = root.ReplaceNodes(classes, (syntax, _) =>
+        {
+            ClassDeclarationSyntax newClassNode = UpdateClass(syntax);
+
+            return newClassNode ?? syntax;
+        });
+        root = root.NormalizeWhitespace();
+
+        newCode = root.ToString();
+        return true;
+    }
+
+    private StructDeclarationSyntax UpdateStruct(StructDeclarationSyntax structNode)
+    {
+        StructDeclarationSyntax newStructNode = structNode.RemoveNodes(structNode
+            .ChildNodes()
+            .OfType<AttributeListSyntax>()
+            .Where(syntax => syntax.ToString().Contains("Il2Cpp")), SyntaxRemoveOptions.KeepNoTrivia);
+        return newStructNode;
+    }
+
+    private ClassDeclarationSyntax UpdateClass(ClassDeclarationSyntax classNode)
+    {
         try
         {
-            ClassDeclarationSyntax classNode = root.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
 
             ClassDeclarationSyntax newClassNode = classNode.RemoveNodes(classNode
+                .ChildNodes()
+                .OfType<AttributeListSyntax>()
+                .Where(syntax => syntax.ToString().Contains("Il2Cpp")), SyntaxRemoveOptions.KeepNoTrivia);
+
+            var newBaseTypeList = newClassNode.BaseList.ReplaceNodes(newClassNode.BaseList.Types, (syntax, _) =>
+            {
+                if (syntax.Type.ToString().Equals("Il2CppSystem.Object"))
+                {
+                    return SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("Object", 0, true));
+                }
+
+                if (syntax.Type.ToString().Equals("Attribute"))
+                {
+                    return SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName("PropertyAttribute", 0, true));
+                }
+
+                return syntax;
+            });
+
+            newClassNode = newClassNode.WithBaseList(newBaseTypeList);
+
+            newClassNode = newClassNode.RemoveNodes(newClassNode
                 .ChildNodes()
                 .OfType<FieldDeclarationSyntax>()
                 .Where(fieldDeclaration => { return !fieldDeclaration.Declaration.Type.ToString().Contains("Il2Cpp"); }), SyntaxRemoveOptions.KeepNoTrivia);
@@ -69,8 +124,14 @@ public class ComponentDummyTask : Task
                 .ChildNodes()
                 .OfType<FieldDeclarationSyntax>(), (syntax, _) =>
             {
-                TypeArgumentListSyntax typeArgumentList = syntax.Declaration.Type.ChildNodes().First() as TypeArgumentListSyntax;
-                TypeSyntax typeSyntax = typeArgumentList.Arguments.First();
+                TypeSyntax typeSyntax;
+                if (syntax.Declaration.Type.ToString().Contains("Il2CppStringField"))
+                    typeSyntax = SyntaxFactory.PredefinedType(SyntaxFactory.ParseToken("string"));
+                else
+                {
+                    TypeArgumentListSyntax typeArgumentList = syntax.Declaration.Type.ChildNodes().First() as TypeArgumentListSyntax;
+                    typeSyntax = typeArgumentList.Arguments.First();
+                }
 
                 VariableDeclarationSyntax newVariable = syntax.Declaration.WithType(typeSyntax);
                 return syntax.WithDeclaration(newVariable);
@@ -104,17 +165,14 @@ public class ComponentDummyTask : Task
 
                 return syntax.WithBody(SyntaxFactory.Block(SyntaxFactory.ReturnStatement(SyntaxFactory.DefaultExpression(syntax.ReturnType))));
             });
-
-
-            root = root.ReplaceNode(classNode, newClassNode).NormalizeWhitespace();
+            return newClassNode;
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            Log.LogError(e.ToString());
             // ignored
         }
 
-
-        newCode = root.ToString();
-        return true;
+        return null;
     }
 }

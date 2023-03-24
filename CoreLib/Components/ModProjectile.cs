@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Il2CppSystem.Collections.Generic;
+using Unity.Mathematics;
 
 namespace CoreLib.Components
 {
@@ -13,8 +15,6 @@ namespace CoreLib.Components
         private GCHandle spritesToRandomlyFlipHandle;
         private GCHandle conditionsEffectsSettingsHandle;
         
-        private GCHandle conditionsHandle;
-        private GCHandle piercesWallTypesHandle;
         private GCHandle tilesToCheckHandle;
 
         protected bool allocated;
@@ -38,9 +38,8 @@ namespace CoreLib.Components
             objectVariationsHandle = GCHandle.Alloc(objectVariations);
             spritesToRandomlyFlipHandle = GCHandle.Alloc(spritesToRandomlyFlip);
             conditionsEffectsSettingsHandle = GCHandle.Alloc(conditionsEffectsSettings);
-            
-            conditionsHandle = GCHandle.Alloc(conditions);
-            piercesWallTypesHandle = GCHandle.Alloc(piercesWallTypesHandle);
+
+            tilesToCheck ??= new HashSet<int2>();
             tilesToCheckHandle = GCHandle.Alloc(tilesToCheck);
 
             allocated = true;
@@ -59,8 +58,6 @@ namespace CoreLib.Components
             spritesToRandomlyFlipHandle.Free();
             conditionsEffectsSettingsHandle.Free();
             
-            conditionsHandle.Free();
-            piercesWallTypesHandle.Free();
             tilesToCheckHandle.Free();
         }
     }

@@ -20,7 +20,7 @@ namespace CoreLib.Util
 
         internal static void AllocObject(GameObject prefab)
         {
-            var components = prefab.GetComponentsInChildren<MonoBehaviour>();
+            var components = prefab.GetComponentsInChildren<MonoBehaviour>(true);
             foreach (MonoBehaviour component in components)
             {
                 component.TryInvokeAction(nameof(IAllocate.Allocate));
@@ -47,7 +47,7 @@ namespace CoreLib.Util
 
         internal static void ApplyPrefabModAuthorings(EntityMonoBehaviourData entityData, GameObject gameObject)
         {
-            var customAuthorings = gameObject.GetComponentsInChildren<ModCDAuthoringBase>();
+            var customAuthorings = gameObject.GetComponentsInChildren<ModCDAuthoringBase>(true);
             foreach (ModCDAuthoringBase customAuthoring in customAuthorings)
             {
                 try

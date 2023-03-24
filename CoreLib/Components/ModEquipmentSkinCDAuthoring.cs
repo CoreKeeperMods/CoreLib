@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using CoreLib.Submodules.CustomEntity;
+using CoreLib.Submodules.ModEntity;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
 using UnityEngine;
 
@@ -36,7 +36,10 @@ namespace CoreLib.Components
         public override bool Apply(EntityMonoBehaviourData data)
         {
             byte skinId = GetSkinForObjectType(data.objectInfo.objectType);
-
+            ObjectCategoryTag itemTag = GetArmorTag(data.objectInfo.objectType);
+            if (!data.objectInfo.tags.Contains(itemTag))
+                data.objectInfo.tags.Add(itemTag);
+            
             if (skinId != 0)
             {
                 var skinCdAuthoring = gameObject.AddComponent<EquipmentSkinCDAuthoring>();
@@ -52,19 +55,19 @@ namespace CoreLib.Components
             switch (type)
             {
                 case ObjectType.Helm:
-                    return CustomEntityModule.AddPlayerCustomization(new HelmSkin()
+                    return EntityModule.AddPlayerCustomization(new HelmSkin()
                     {
                         helmTexture = skinTexture.Value,
                         hairType = helmHairType.Value
                     });
                 case ObjectType.BreastArmor:
-                    return CustomEntityModule.AddPlayerCustomization(new BreastArmorSkin()
+                    return EntityModule.AddPlayerCustomization(new BreastArmorSkin()
                     {
                         breastTexture = skinTexture.Value,
                         shirtVisibility = shirtVisibility.Value
                     });
                 case ObjectType.PantsArmor:
-                    return CustomEntityModule.AddPlayerCustomization(new PantsArmorSkin()
+                    return EntityModule.AddPlayerCustomization(new PantsArmorSkin()
                     {
                         pantsTexture = skinTexture.Value,
                         pantsVisibility = pantsVisibility.Value
@@ -72,6 +75,21 @@ namespace CoreLib.Components
             }
 
             return 0;
+        }
+
+        private ObjectCategoryTag GetArmorTag(ObjectType type)
+        {
+            switch (type)
+            {
+                case ObjectType.Helm:
+                    return ObjectCategoryTag.Helm;
+                case ObjectType.BreastArmor:
+                    return ObjectCategoryTag.BreastArmor;
+                case ObjectType.PantsArmor:
+                    return ObjectCategoryTag.PantsArmor;
+            }
+
+            return ObjectCategoryTag.None;
         }
     }
 }

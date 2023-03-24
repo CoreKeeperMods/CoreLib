@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
+using CoreLib.Components;
 using HarmonyLib;
+using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
 namespace CoreLib;
 
 [BepInPlugin(GUID, NAME, VERSION)]
-public class CoreLibPlugin : BasePlugin {
-
+public class CoreLibPlugin : BasePlugin
+{
     public const string GUID = "com.le4fless.corelib";
     public const string NAME = "CoreLib";
     public const string VERSION = ThisAssembly.AssemblyVersion;
         
-    public static readonly GameVersion buildFor = new GameVersion(0,5,2, 2, "a842");
+    public static readonly GameVersion buildFor = new GameVersion(0,5,4, 0, "18eb");
     internal static HashSet<string> LoadedSubmodules;
     internal static APISubmoduleHandler submoduleHandler;
     internal static Harmony harmony;
@@ -24,11 +26,14 @@ public class CoreLibPlugin : BasePlugin {
     internal static CoreLibPlugin Instance { get; private set; }
     public static ManualLogSource Logger { get; private set; }
 
-    public override void Load() {
+    public override void Load()
+    {
         Instance = this;
-        Logger = base.Log;  
-            
+        Logger = base.Log;
+
         harmony = new Harmony("com.le4fless.corelib");
+        
+        IL2CPP.il2cpp_gc_disable();
 
         CheckIfUsedOnRightGameVersion();
             
@@ -37,10 +42,12 @@ public class CoreLibPlugin : BasePlugin {
         LoadedSubmodules = submoduleHandler.LoadRequested(pluginScanner);
         pluginScanner.ScanPlugins();
 
+        IL2CPP.il2cpp_gc_enable();
         Log.LogInfo($"{PluginInfo.PLUGIN_NAME} is loaded!");
     }
-        
-    internal static void CheckIfUsedOnRightGameVersion() {
+
+    internal static void CheckIfUsedOnRightGameVersion()
+    {
         var buildId = new GameVersion(Application.version);
 
         if (buildFor.CompatibleWith(buildId))
@@ -55,8 +62,10 @@ public class CoreLibPlugin : BasePlugin {
     /// Return true if the specified submodule is loaded.
     /// </summary>
     /// <param name="submodule">nameof the submodule</param>
-    public static bool IsSubmoduleLoaded(string submodule) {
-        if (LoadedSubmodules == null) {
+    public static bool IsSubmoduleLoaded(string submodule)
+    {
+        if (LoadedSubmodules == null)
+        {
             Logger.LogWarning("IsLoaded called before submodules were loaded, result may not reflect actual load status.");
             return false;
         }

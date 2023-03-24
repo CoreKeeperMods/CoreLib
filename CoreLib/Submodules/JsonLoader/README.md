@@ -211,7 +211,7 @@ a `type` field, which must be a valid class name. This includes modded component
 }
 ```
 This JSON file defines a melee mace weapon, that has certain effects.
-Do note that the `mace.png` file contains a sprite as explained in the [item guide](../CustomEntity/Guides/Items.md)
+Do note that the `mace.png` file contains a sprite as explained in the [item guide](../Entity/Guides/Items.md)
 
 </details>
 

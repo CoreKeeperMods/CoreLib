@@ -204,11 +204,11 @@ public static class Reflection {
         baseFunc?.Invoke(obj.Pointer, (Il2CppMethodInfo*)IntPtr.Zero);
     }
 
-    public static FieldInfo GetFieldOfType<T>(this Il2CppSystem.Type type)
+    public static FieldInfo[] GetFieldsOfType<T>(this Il2CppSystem.Type type)
     {
         return type
             .GetFields(all)
-            .First(info =>
+            .Where(info =>
             {
                 /*Il2CppReferenceArray<Il2CppSystem.Type> args = info.FieldType.GetGenericArguments();
                 if (args != null && args.Count > 0)
@@ -218,6 +218,6 @@ public static class Reflection {
                 }*/
 
                 return info.FieldType.Equals(Il2CppType.Of<T>());
-            });
+            }).ToArray();
     }
 }
