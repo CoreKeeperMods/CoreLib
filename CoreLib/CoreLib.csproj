@@ -22,5 +22,6 @@
   
   <ItemGroup>
     <Folder Include="Submodules\ChatCommands\Commands" />
+    <Folder Include="Submodules\JsonLoader\documentation\blockExample" />
   </ItemGroup>
 </Project>

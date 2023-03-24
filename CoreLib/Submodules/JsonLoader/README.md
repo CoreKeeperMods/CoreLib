@@ -257,7 +257,9 @@ To make a custom block use `block` loader.
 }
 ```
 
-This example adds a 2x2 metal table which can be used. To allow the usage you will need to write some code:
+This example adds a 2x2 metal table which can be used. The sprites I used are included in [documentation folder](./documentation/blockExample)
+
+To allow the usage you will need to write some code:
 ```cs
 namespace MyMod.Blocks
 {
