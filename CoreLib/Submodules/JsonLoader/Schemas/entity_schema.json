@@ -173,6 +173,20 @@
         { "type" : "array", "items": {"type" : "number" }}
       ]
     },
+    "colliderSize": {
+      "description": "Size of block collider in world units",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
+    },
+    "colliderCenter": {
+      "description": "Center offset of block collider",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
+    },
     "centerIsAtEntityPosition": {
       "type": "boolean"
     },

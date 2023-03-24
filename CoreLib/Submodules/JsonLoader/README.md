@@ -40,6 +40,7 @@ Each item is contained it its own json file. Here is an example of a simple item
 
 ```json
 {
+  "$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
   "type": "item",
   "itemId": "MyMod:MyItem",
   "icon": "icons/my-item-big-icon.png",
@@ -60,6 +61,7 @@ To be able to craft the item you also must add a mod workbench (Or write code th
 
 ```json
 {
+  "$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
   "type": "modWorkbench",
   "itemId": "MyMod:MyWorkbench",
   "icon": "icons/wb-big-icon.png",
@@ -131,6 +133,7 @@ a `type` field, which must be a valid class name. This includes modded component
 
 ```json
 {
+  "$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
   "type": "item",
   "itemId": "MyMod:TestMace",
   "icon": {
@@ -216,7 +219,7 @@ Do note that the `mace.png` file contains a sprite as explained in the [item gui
 </details>
 
 ### Blocks and other entities
-Altough limited, blocks are now possible.
+Although limited, custom blocks via JSON are now possible.
 
 To make a custom block use `block` loader.
 
@@ -278,6 +281,22 @@ Do note that the class MUST be in your mod assembly. It won't work if it's somew
   
 </details>
 
+TemplateBlockCDAuthoring component has quite a few properties you can set:
+- `verticalSprite` - Normal sprite facing side of the block
+- `horizontalSprite` - Normal sprite facing top of the block
+- `verticalEmissiveSprite` - Emissive sprite facing side of the block
+- `horizontalEmissiveSprite` - Emissive sprite facing top of the block
+- `shadowSprite` - Shadow sprite located under the block
+- `lightColor` - Light color. Light is located at the center
+- `verticalSpriteOffset` - Position offset for `verticalSprite` and `verticalEmissiveSprite`
+- `horizontalSpriteOffset` - Position offset for `horizontalSprite` and `horizontalEmissiveSprite`
+- `shadowOffset` - Position offset for `shadowSprite`
+- `prefabOffset` - Whole prefab position offset
+- `interactHandler` - Interaction handler full name. Use to allow custom behavior when interacted
+
+Here you can see the prefab you are working with. The elements are moved further from where they are normally for demonstration purposes:
+![Create bundle](./documentation/block-prefab-setup.png)<br>
+
 To fully setup your custom block you might need to set some values using UnityExplorer:
 1. Open scene view
 2. Select scene DontDestroyOnLoad
@@ -287,3 +306,4 @@ To fully setup your custom block you might need to set some values using UnityEx
 6. Find game object named TemplateBlock (There might be a few)
 7. Locate individual sprite rendereres and tweak their position to your liking.
 8. Update values in JSON. local position Values you find in the inspector will be same as in JSON
+
