@@ -16,7 +16,6 @@ namespace CoreLib.Submodules.ModEntity.Patches
             bool apply = handler.ApplyColors(objectData, __instance.colorReplacementData);
             if (apply)
             {
-                __instance.ResetColors();
                 __instance.SetActiveColorReplacement(1);
             }
         }

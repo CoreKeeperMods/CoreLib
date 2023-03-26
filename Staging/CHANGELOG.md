@@ -1,6 +1,14 @@
 
+### v2.0.1
+**WARNING: Update all of your mods when installing version 2.0.0 or higher!**
+- Fixed crash on dedicated servers when Entity module tried to register visual prefabs
+- Fixed IDynamicItemHandler color replacement logic being broken
+
+<details>
+<summary>Changelog</summary>
+
 ### v2.0.0
-**WARNING: Update all of your mods when installing this version!**
+**WARNING: Update all of your mods when installing version 2.0.0 or higher!**
 - Use Il2CppInterop from my PR branch to allow for advanced DOTS features
 - Added `Component` module, which allows to create custom ECS components
 - Added `System` module, which allows to create pseudo systems and state requesters
@@ -8,9 +16,6 @@
 - Added `ModCraftingRecipeCDAuthoring` to allow to assign custom recipes from Unity editor
 - Json Loader module now can create custom blocks using JSON
 - Fix Entity module impaired functionality
-
-<details>
-<summary>Changelog</summary>
 
 ### v1.4.0
 **WARNING: Update all of your mods when installing this version!**

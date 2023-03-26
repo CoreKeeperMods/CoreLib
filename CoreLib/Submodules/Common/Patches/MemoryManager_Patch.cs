@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Diagnostics;
+using HarmonyLib;
 
 namespace CoreLib.Submodules.Common.Patches
 {
@@ -20,6 +21,8 @@ namespace CoreLib.Submodules.Common.Patches
         [HarmonyPrefix]
         public static void OnMemoryInit(MemoryManager __instance)
         {
+            if (__instance.poolablePrefabBank == null) return;
+            
             PrefabCrawler.FindMaterials(__instance.poolablePrefabBank.poolInitializers);
             CoreLibPlugin.Logger.LogInfo($"Finished crawling prefabs, found {PrefabCrawler.materials.Count} materials!");
 

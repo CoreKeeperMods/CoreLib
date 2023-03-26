@@ -35,6 +35,8 @@ namespace CoreLib.Submodules.Equipment.Patches
         public static void UpdateSlotVisuals(PlayerController __instance)
         {
             EquipmentSlot slot = __instance.GetEquippedSlot();
+            if (slot == null) return;
+            
             if ((int)slot.slotType >= EquipmentSlotModule.ModSlotTypeIdStart)
             {
                 slot.TryInvokeAction(nameof(IModEquipmentSlot.UpdateSlotVisuals), __instance);
