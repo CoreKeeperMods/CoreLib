@@ -34,6 +34,11 @@ namespace CoreLib.Util.Extensions
         {
             return new float3(vec.x, vec.y, vec.z);
         }
+        
+        public static Vector3 ToVector3(this int3 vec)
+        {
+            return new Vector3(vec.x, vec.y, vec.z);
+        }
 
         
     }

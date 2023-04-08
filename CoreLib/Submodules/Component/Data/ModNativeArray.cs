@@ -52,13 +52,11 @@ namespace CoreLib.Submodules.ModComponent
             return m_Buffer;
         }
 
-        private static int AlignOf<U>() where U : unmanaged => Unsafe.SizeOf<UnsafeUtility.AlignOfHelper<U>>() - Unsafe.SizeOf<U>();
-
         private static unsafe void Allocate(int length, Allocator allocator, out ModNativeArray<T> array)
         {
-            long num = Unsafe.SizeOf<T>() * (long)length;
+            long num = ModUnsafe.SizeOf<T>() * (long)length;
             array = new ModNativeArray<T>();
-            array.m_Buffer = UnsafeUtility.Malloc(num, AlignOf<T>(), allocator);
+            array.m_Buffer = UnsafeUtility.Malloc(num, ModUnsafe.AlignOf<T>(), allocator);
             array.m_Length = length;
             array.m_AllocatorLabel = allocator;
         }
@@ -67,16 +65,10 @@ namespace CoreLib.Submodules.ModComponent
 
         public unsafe T this[int index]
         {
-            get => ReadArrayElement<T>(m_Buffer, index);
-            set => WriteArrayElement(m_Buffer, index, value);
+            get => ModUnsafe.ReadArrayElement<T>(m_Buffer, index);
+            set => ModUnsafe.WriteArrayElement(m_Buffer, index, value);
         }
-
-        public static unsafe U ReadArrayElement<U>(void* source, int index) where U : unmanaged => *(U*)((IntPtr)source + (index * sizeof(U)));
-
-        public static unsafe void WriteArrayElement<U>(void* destination, int index, U value) where U : unmanaged =>
-            *(U*)((IntPtr)destination + index * sizeof(U)) = value;
-
-
+        
         public unsafe bool IsCreated => (IntPtr)m_Buffer != IntPtr.Zero;
 
         public unsafe void Dispose()
@@ -180,8 +172,8 @@ namespace CoreLib.Submodules.ModComponent
             int dstIndex,
             int length)
         {
-            UnsafeUtility.MemCpy((void*)((IntPtr)dst.m_Buffer + dstIndex * Unsafe.SizeOf<T>()), (void*)((IntPtr)src.m_Buffer + srcIndex * Unsafe.SizeOf<T>()),
-                length * Unsafe.SizeOf<T>());
+            UnsafeUtility.MemCpy((void*)((IntPtr)dst.m_Buffer + dstIndex * ModUnsafe.SizeOf<T>()), (void*)((IntPtr)src.m_Buffer + srcIndex * ModUnsafe.SizeOf<T>()),
+                length * ModUnsafe.SizeOf<T>());
         }
 
         public static unsafe void Copy(
@@ -195,8 +187,8 @@ namespace CoreLib.Submodules.ModComponent
                 throw new ArgumentNullException(nameof(src));
             GCHandle gcHandle = GCHandle.Alloc(src, GCHandleType.Pinned);
             IntPtr num = gcHandle.AddrOfPinnedObject();
-            UnsafeUtility.MemCpy((void*)((IntPtr)dst.m_Buffer + dstIndex * Unsafe.SizeOf<T>()), (void*)((IntPtr)(void*)num + srcIndex * Unsafe.SizeOf<T>()),
-                length * Unsafe.SizeOf<T>());
+            UnsafeUtility.MemCpy((void*)((IntPtr)dst.m_Buffer + dstIndex * ModUnsafe.SizeOf<T>()), (void*)((IntPtr)(void*)num + srcIndex * ModUnsafe.SizeOf<T>()),
+                length * ModUnsafe.SizeOf<T>());
             gcHandle.Free();
         }
 
@@ -210,19 +202,19 @@ namespace CoreLib.Submodules.ModComponent
             if (dst == null)
                 throw new ArgumentNullException(nameof(dst));
             GCHandle gcHandle = GCHandle.Alloc(dst, GCHandleType.Pinned);
-            UnsafeUtility.MemCpy((void*)((IntPtr)(void*)gcHandle.AddrOfPinnedObject() + dstIndex * Unsafe.SizeOf<T>()),
-                (void*)((IntPtr)src.m_Buffer + srcIndex * Unsafe.SizeOf<T>()), length * Unsafe.SizeOf<T>());
+            UnsafeUtility.MemCpy((void*)((IntPtr)(void*)gcHandle.AddrOfPinnedObject() + dstIndex * ModUnsafe.SizeOf<T>()),
+                (void*)((IntPtr)src.m_Buffer + srcIndex * ModUnsafe.SizeOf<T>()), length * ModUnsafe.SizeOf<T>());
             gcHandle.Free();
         }
 
         public unsafe U ReinterpretLoad<U>(int sourceIndex) where U : unmanaged
         {
-            return ReadArrayElement<U>((void*)((IntPtr)m_Buffer + (Unsafe.SizeOf<T>() * sourceIndex)), 0);
+            return ModUnsafe.ReadArrayElement<U>((void*)((IntPtr)m_Buffer + (ModUnsafe.SizeOf<T>() * sourceIndex)), 0);
         }
 
         public unsafe void ReinterpretStore<U>(int destIndex, U data) where U : unmanaged
         {
-            WriteArrayElement((void*)((IntPtr)m_Buffer + (Unsafe.SizeOf<T>() * destIndex)), 0, data);
+            ModUnsafe.WriteArrayElement((void*)((IntPtr)m_Buffer + (ModUnsafe.SizeOf<T>() * destIndex)), 0, data);
         }
 
         private unsafe ModNativeArray<U> InternalReinterpret<U>(int length) where U : unmanaged
@@ -263,8 +255,8 @@ namespace CoreLib.Submodules.ModComponent
 
         public ModNativeArray<U> Reinterpret<U>(int expectedTypeSize) where U : unmanaged
         {
-            long tSize = Unsafe.SizeOf<T>();
-            long uSize = Unsafe.SizeOf<U>();
+            long tSize = ModUnsafe.SizeOf<T>();
+            long uSize = ModUnsafe.SizeOf<U>();
             long byteLen = Length * tSize;
             long num = byteLen / uSize;
             return InternalReinterpret<U>((int)num);
@@ -273,7 +265,7 @@ namespace CoreLib.Submodules.ModComponent
         public unsafe ModNativeArray<T> GetSubArray(int start, int length)
         {
             ModNativeArray<T> modNativeArray =
-                ConvertExistingDataToNativeArray<T>((void*)((IntPtr)m_Buffer + (Unsafe.SizeOf<T>() * start)), length, Allocator.None);
+                ConvertExistingDataToNativeArray<T>((void*)((IntPtr)m_Buffer + (ModUnsafe.SizeOf<T>() * start)), length, Allocator.None);
             return modNativeArray;
         }
 
