@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using CoreLib.Components;
 using CoreLib.Submodules.ModComponent.Patches;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
-using Unity.Collections;
+using Il2CppSystem;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
+using ArgumentException = System.ArgumentException;
+using Array = System.Array;
+using IntPtr = System.IntPtr;
+using InvalidOperationException = System.InvalidOperationException;
 
 namespace CoreLib.Submodules.ModComponent
 {
@@ -42,7 +45,7 @@ namespace CoreLib.Submodules.ModComponent
                 CoreLibPlugin.Logger.LogWarning($"Tried to set component {typeof(T).FullName} to entity which does not have it!");
                 return;
             }
-            world.EntityManager.SetModComponentData<T>(entity, componentData);
+            world.EntityManager.SetModComponentData(entity, componentData);
         }
         
 
@@ -146,7 +149,7 @@ namespace CoreLib.Submodules.ModComponent
         /// List all <see cref="Il2CppSystem.Type"/> that are on the entity
         /// </summary>
         /// <param name="objectID">Entity ObjectID</param>
-        public static Il2CppSystem.Type[] GetPugComponentTypes(ObjectID objectID)
+        public static Type[] GetPugComponentTypes(ObjectID objectID)
         {
             PugDatabase.InitObjectPrefabEntityLookup();
             ObjectDataCD objectData = new ObjectDataCD
@@ -164,7 +167,7 @@ namespace CoreLib.Submodules.ModComponent
             }
 
             CoreLibPlugin.Logger.LogWarning($"No prefab in PugDatabase with objectID: {objectData.objectID}");
-            return Array.Empty<Il2CppSystem.Type>();
+            return Array.Empty<Type>();
         }
 
         public static ComponentType ReadOnly<T>()
@@ -209,13 +212,13 @@ namespace CoreLib.Submodules.ModComponent
             RegisterECSComponent(typeof(T));
         }
 
-        public static void RegisterECSComponent(Type componentType)
+        public static void RegisterECSComponent(System.Type componentType)
         {
             ThrowIfNotLoaded();
             if (!ClassInjector.IsTypeRegisteredInIl2Cpp(componentType))
                 ClassInjector.RegisterTypeInIl2Cpp(componentType);
 
-            Il2CppSystem.Type il2CppType = Il2CppType.From(componentType);
+            Type il2CppType = Il2CppType.From(componentType);
 
             if (!customComponentsTypes.Contains(il2CppType))
             {
@@ -230,13 +233,13 @@ namespace CoreLib.Submodules.ModComponent
 
         private static bool _loaded;
 
-        internal static List<Il2CppSystem.Type> customComponentsTypes = new List<Il2CppSystem.Type>();
+        internal static List<Type> customComponentsTypes = new List<Type>();
 
         internal static void ThrowIfNotLoaded()
         {
             if (!Loaded)
             {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
+                System.Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
                 string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
                 throw new InvalidOperationException(message);
             }
@@ -247,6 +250,7 @@ namespace CoreLib.Submodules.ModComponent
         internal static void SetHooks()
         {
             CoreLibPlugin.harmony.PatchAll(typeof(TypeManager_Patch));
+            CoreLibPlugin.harmony.PatchAll(typeof(GameObjectConversionMappingSystem_Patch));
         }
 
         [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
@@ -264,9 +268,9 @@ namespace CoreLib.Submodules.ModComponent
         /// <remarks>Types with [WriteGroup] attributes will be accepted for registration however their
         /// write group information will be ignored.</remarks>
         /// <param name="types"></param>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        internal static unsafe void AddNewComponentTypes(params Il2CppSystem.Type[] types)
+        /// <exception cref="System.InvalidOperationException"></exception>
+        /// <exception cref="System.ArgumentException"></exception>
+        internal static unsafe void AddNewComponentTypes(params Type[] types)
         {
             // We might invalidate the SharedStatics ptr so we must synchronize all jobs that might be using those ptrs
             foreach (var world in World.All)

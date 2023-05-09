@@ -54,8 +54,11 @@
         <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.4.0" />  
         <PackageReference Include="Iced" Version="1.18.0" PrivateAssets="all"/> 
         
-        <PackageReference Include="Il2CppInterop.Common" Version="1.5.0-dots" PrivateAssets="all"/>  
-        <PackageReference Include="Il2CppInterop.Runtime" Version="1.5.0-dots" PrivateAssets="all"/>  
-        <PackageReference Include="Il2CppInterop.Generator" Version="1.5.0-dots" PrivateAssets="all"/>   
+        <PackageReference Include="Il2CppInterop.Common" Version="1.5.7" PrivateAssets="all"/>   
+        <PackageReference Include="Il2CppInterop.Runtime" Version="1.5.7" PrivateAssets="all"/>  
+        <PackageReference Include="Il2CppInterop.Generator" Version="1.5.7" PrivateAssets="all"/>
+
+        <PackageReference Include="Fody" Version="6.6.4" PrivateAssets="all" />
+        <PackageReference Include="InlineIL.Fody" Version="1.7.4" PrivateAssets="all" />
 	</ItemGroup>
 </Project>

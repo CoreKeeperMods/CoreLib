@@ -467,6 +467,15 @@ public static class EntityModule
         CoreLibPlugin.harmony.PatchAll(typeof(GameObjectConversionMappingSystem_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(PlayerController_Patch));
         CoreLibPlugin.harmony.PatchAll(typeof(ColorReplacer_Patch));
+        CoreLibPlugin.harmony.PatchAll(typeof(PugDatabase_Patch));
+        
+        bool enableDebug = CoreLibPlugin.Instance.Config.Bind("Debug", "ExtendedGetComponentDataDebug", false,
+                "Extended EntityUtility.GetComponentData() debug output. This provides information about target component if an error occured. Please be warned that this patches every generic variation.")
+            .Value;
+        if (enableDebug)
+        {
+            EntityUtility_Patch.ApplyPatch();
+        }
     }
 
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
