@@ -250,7 +250,6 @@ namespace CoreLib.Submodules.ModComponent
         internal static void SetHooks()
         {
             CoreLibPlugin.harmony.PatchAll(typeof(TypeManager_Patch));
-            CoreLibPlugin.harmony.PatchAll(typeof(GameObjectConversionMappingSystem_Patch));
         }
 
         [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]

@@ -252,10 +252,20 @@ namespace CoreLib.Submodules.JsonLoader
         #region PRIVATE
 
         private static bool _loaded;
+        private static bool dumpCommandEnabled;
 
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks() { }
+        [CoreLibSubmoduleInit(Stage = InitStage.GetOptionalDependencies)]
+        internal static Type[] GetOptionalDeps()
+        {
+            dumpCommandEnabled = CoreLibPlugin.Instance.Config.Bind("Debug", "EnableDumpCommand", false, "Enable to allow object info to be dumped at runtime.").Value;
 
+            if (dumpCommandEnabled)
+            {
+                return new[] { typeof(CommandsModule) };
+            }
+
+            return Array.Empty<Type>();
+        }
 
         [CoreLibSubmoduleInit(Stage = InitStage.Load)]
         internal static void Load()
@@ -291,6 +301,11 @@ namespace CoreLib.Submodules.JsonLoader
         {
             ComponentModule.RegisterECSComponent<TemplateBlockCD>();
             ComponentModule.RegisterECSComponent<TemplateBlockCDAuthoring>();
+
+            if (dumpCommandEnabled)
+            {
+                CommandsModule.RegisterCommandHandler(typeof(DumpCommandHandler), CoreLibPlugin.NAME);
+            }
         }
 
         internal static void ThrowIfNotLoaded()

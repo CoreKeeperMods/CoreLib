@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -219,5 +220,31 @@ public static class Reflection {
 
                 return info.FieldType.Equals(Il2CppType.Of<T>());
             }).ToArray();
+    }
+    
+    /// <summary>
+    /// Note: only works when Unity Explorer is INSTALLED!
+    /// </summary>
+    /// <param name="obj">object to cast</param>
+    /// <returns>cast object</returns>
+    public static object CastToActualType(this Object obj)
+    {
+        Type sysType = Reflection.GetActualType(obj);
+        MethodInfo methonGen = typeof(Il2CppObjectBase).GetMethod(nameof(Il2CppObjectBase.Cast), AccessTools.all);
+        MethodInfo method = methonGen.MakeGenericMethod(sysType);
+        return method.Invoke(obj, Array.Empty<object>());
+    }
+    
+    internal static System.Type GetActualType(object obj)
+    {
+        Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().
+            SingleOrDefault(assembly => assembly.GetName().Name == "UniverseLib.IL2CPP.Interop");
+
+        if (assembly == null)
+            throw new InvalidOperationException("Can't use GetActualType when Unity Explorer is not installed!");
+
+        Type implType = assembly.GetType("UniverseLib.ReflectionExtensions");
+        MethodInfo implMethod = implType.GetMethod("GetActualType", AccessTools.all);
+        return (System.Type)implMethod.Invoke(null, new[] { obj });
     }
 }

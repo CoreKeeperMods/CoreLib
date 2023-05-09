@@ -48,7 +48,41 @@ namespace CoreLib
         /// <summary>
         /// Place a colored dot at specified position
         /// </summary>
+        public static void DisplayPos(int3 pos, Color color)
+        {
+            DisplayPos(pos.ToVector3(), color);
+        }
+
+        /// <summary>
+        /// Place a colored dot at specified position
+        /// </summary>
         public static void DisplayPos(Vector3 pos, Color color)
+        {
+            Vector3 localPos = pos - Manager.camera.RenderOrigo;
+            DisplayLocalPos(localPos, color);
+        }
+
+
+        /// <summary>
+        /// Place a colored dot at specified position
+        /// </summary>
+        public static void DisplayLocalPos(float3 pos, Color color)
+        {
+            DisplayLocalPos(pos.ToVector3(), color);
+        }
+        
+        /// <summary>
+        /// Place a colored dot at specified position
+        /// </summary>
+        public static void DisplayLocalPos(int3 pos, Color color)
+        {
+            DisplayLocalPos(pos.ToVector3(), color);
+        }
+        
+        /// <summary>
+        /// Place a colored dot at specified position
+        /// </summary>
+        public static void DisplayLocalPos(Vector3 pos, Color color)
         {
             MarkerData marker = CreateMarker();
             marker.Set(pos, color);

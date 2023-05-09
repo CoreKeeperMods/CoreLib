@@ -103,6 +103,14 @@ public static class ResourcesModule
                 CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(prefab != null ? "Success" : "Failure")}");
                 return prefab;
             }
+            
+            if (resource.bundle.Contains(assetPath.WithExtension(".mat")))
+            {
+                Object material = resource.bundle.LoadAsset<ScriptableObject>(assetPath.WithExtension(".mat"));
+                objectRetainer.Add(material);
+                CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(material != null ? "Success" : "Failure")}");
+                return material;
+            }
 
             foreach (string extension in spriteFileExtensions)
             {
