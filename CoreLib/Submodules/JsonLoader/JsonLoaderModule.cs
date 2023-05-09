@@ -8,20 +8,19 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using CoreLib.Components;
 using CoreLib.Submodules.ChatCommands;
+using CoreLib.Submodules.DropTables;
 using CoreLib.Submodules.ModComponent;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Submodules.JsonLoader.Readers;
-using CoreLib.Submodules.ModResources;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
-using UnityEngine;
 
 namespace CoreLib.Submodules.JsonLoader
 {
-    [CoreLibSubmodule(Dependencies = new[] { typeof(EntityModule), typeof(ComponentModule) })]
+    [CoreLibSubmodule(Dependencies = new[] { typeof(EntityModule), typeof(ComponentModule), typeof(DropTablesModule) })]
     public class JsonLoaderModule
     {
         #region PUBLIC_INTERFACE

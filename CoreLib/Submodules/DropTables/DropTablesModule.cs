@@ -22,6 +22,11 @@ public static class DropTablesModule
         internal set => _loaded = value;
     }
 
+    public static bool HasLootTableID(string lootTableId)
+    {
+        return customLootTableIdMap.ContainsKey(lootTableId);
+    }
+    
     public static LootTableID GetLootTableID(string lootTableId)
     {
         ThrowIfNotLoaded();
