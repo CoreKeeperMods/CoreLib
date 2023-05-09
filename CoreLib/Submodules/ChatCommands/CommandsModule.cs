@@ -38,20 +38,25 @@ public static class CommandsModule
 
         foreach (Type commandType in commands)
         {
-            if (commandType == typeof(IChatCommandHandler)) continue;
-
-            try
-            {
-                IChatCommandHandler handler = (IChatCommandHandler)Activator.CreateInstance(commandType);
-                commandHandlers.Add(new CommandPair(handler, modName));
-            }
-            catch (Exception e)
-            {
-                CoreLibPlugin.Logger.LogWarning($"Failed to register command {commandType}!\n{e}");
-            }
+            RegisterCommandHandler(commandType, modName);
         }
     }
-    
+
+    public static void RegisterCommandHandler(Type commandType, string modName)
+    {
+        if (commandType == typeof(IChatCommandHandler)) return;
+
+        try
+        {
+            IChatCommandHandler handler = (IChatCommandHandler)Activator.CreateInstance(commandType);
+            commandHandlers.Add(new CommandPair(handler, modName));
+        }
+        catch (Exception e)
+        {
+            CoreLibPlugin.Logger.LogWarning($"Failed to register command {commandType}!\n{e}");
+        }
+    }
+
     public static bool GetCommandHandler(string commandName, out IChatCommandHandler commandHandler)
     {
         commandHandler = commandHandlers
@@ -93,7 +98,7 @@ public static class CommandsModule
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
     internal static void Load()
     {
-        AddCommands(Assembly.GetExecutingAssembly(), CoreLibPlugin.NAME);
+        RegisterCommandHandler(typeof(HelpCommandHandler), CoreLibPlugin.NAME);
         RewiredExtensionModule.rewiredStart += () =>
         {
             rewiredPlayer = ReInput.players.GetPlayer(0);
