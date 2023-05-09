@@ -23,6 +23,7 @@ internal enum InitStage
     Unload = 1 << 3,
     UnsetHooks = 1 << 4,
     LoadCheck = 1 << 5,
+    GetOptionalDependencies
 }
 
 // ReSharper disable once InconsistentNaming
@@ -117,6 +118,9 @@ public class APISubmoduleHandler
         }
         catch (Exception e)
         {
+            if (e is TargetInvocationException te)
+                e = te.InnerException;
+            
             logger.Log(LogLevel.Error, $"{moduleType.Name} could not be initialized and has been disabled:\n\n{e.Message}");
         }
 
@@ -137,7 +141,9 @@ public class APISubmoduleHandler
                     IEnumerable<string> modulesToAdd = moduleType.GetDependants(type =>
                             {
                                 CoreLibSubmodule attr = type.GetCustomAttribute<CoreLibSubmodule>();
-                                return attr?.Dependencies ?? Array.Empty<Type>();
+                                var attrTypes = attr?.Dependencies ?? Array.Empty<Type>();
+                                var optional = (Type[])InvokeStage(type, InitStage.GetOptionalDependencies, Array.Empty<object>());
+                                return attrTypes.AddRangeToArray(optional ?? Array.Empty<Type>());
                             },
                             (start, end) =>
                             {
@@ -259,20 +265,21 @@ public class APISubmoduleHandler
         return true;
     }
 
-    internal void InvokeStage(Type type, InitStage stage, object[] parameters)
+    internal object InvokeStage(Type type, InitStage stage, object[] parameters)
     {
-        if (type == null) return;
-        var method = type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
+        if (type == null) return null;
+        var methods = type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
             .Where(m => m.GetCustomAttributes(typeof(CoreLibSubmoduleInit))
                 .Any(a => ((CoreLibSubmoduleInit)a).Stage.HasFlag(stage))).ToList();
 
-        if (method.Count == 0)
+        if (methods.Count == 0)
         {
-            logger.Log(LogLevel.Debug, $"{type.Name} has no static method registered for {stage}");
-            return;
+            return null;
         }
 
-        method.ForEach(m => m.Invoke(null, parameters));
+        var method = methods.First();
+
+        return method.Invoke(null, parameters);
     }
 }
 
