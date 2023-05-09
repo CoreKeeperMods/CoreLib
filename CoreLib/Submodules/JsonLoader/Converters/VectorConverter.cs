@@ -100,7 +100,31 @@ namespace CoreLib.Submodules.JsonLoader.Converters
 
             public override void Write(Utf8JsonWriter writer, TValue value, JsonSerializerOptions options)
             {
-                throw new InvalidOperationException("Not supported");
+                writer.WriteStartArray();
+                FieldInfo[] fields = _valueType.GetFields(BindingFlags.Instance | BindingFlags.Public);
+
+                foreach (FieldInfo field in fields)
+                {
+                    int index = Array.IndexOf(nameList, field.Name);
+                    if (index == -1)
+                        index = Array.IndexOf(altNameList, field.Name);
+
+                    if (index >= 0)
+                    {
+                        if (field.FieldType == typeof(float))
+                        {
+                            float val =  (float)field.GetValue(value);
+                            writer.WriteNumberValue(val);
+                        }
+                        else
+                        {
+                            int val =  (int)field.GetValue(value);
+                            writer.WriteNumberValue(val);
+                        }
+                    }
+                }
+                
+                writer.WriteEndArray();
             }
         }
     }

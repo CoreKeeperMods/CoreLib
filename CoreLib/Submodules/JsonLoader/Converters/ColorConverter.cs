@@ -30,6 +30,16 @@ namespace CoreLib.Submodules.JsonLoader.Converters
             return converter.Read(ref reader, typeToConvert, options);
         }
 
-        public override void Write(Utf8JsonWriter writer, Color value, JsonSerializerOptions options) { }
+        public override void Write(Utf8JsonWriter writer, Color value, JsonSerializerOptions options)
+        {
+            string htmlStr;
+
+            if (value.a == 1)
+                htmlStr = ColorUtility.ToHtmlStringRGB(value);
+            else
+                htmlStr = ColorUtility.ToHtmlStringRGBA(value);
+
+            writer.WriteStringValue($"#{htmlStr}");
+        }
     }
 }

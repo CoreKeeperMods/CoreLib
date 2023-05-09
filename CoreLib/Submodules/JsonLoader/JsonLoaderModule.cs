@@ -7,14 +7,17 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using CoreLib.Components;
+using CoreLib.Submodules.ChatCommands;
 using CoreLib.Submodules.ModComponent;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Submodules.JsonLoader.Readers;
+using CoreLib.Submodules.ModResources;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
 using Il2CppInterop.Runtime.InteropTypes.Fields;
+using UnityEngine;
 
 namespace CoreLib.Submodules.JsonLoader
 {
@@ -262,7 +265,8 @@ namespace CoreLib.Submodules.JsonLoader
 
             options = new JsonSerializerOptions
             {
-                IncludeFields = true
+                IncludeFields = true,
+                WriteIndented = true
             };
             options.Converters.Add(new ObjectTypeConverter());
             options.Converters.Add(new ObjectIDConverter());
@@ -272,6 +276,13 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new SpriteConverter());
             options.Converters.Add(new ColorConverter());
             options.Converters.Add(new VectorConverter());
+            options.Converters.Add(new RectConverter());
+            
+            // dummy converters
+            options.Converters.Add(new IntPtrConverter());
+            options.Converters.Add(new EntityMonoBehaviorDataConverter());
+            options.Converters.Add(new GameObjectConverter());
+            options.Converters.Add(new TransformConverter());
             interactionHandlers.Add(null);
         }
 
