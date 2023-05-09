@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6810371586750711348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0a82fec78ebc734d9ad1346cd40b5f9, type: 3}
+  m_Name: ThunderstoreData
+  m_EditorClassIdentifier: 
+  StagingPaths:
+  - <ManifestStagingRoot>
+  url: https://github.com/Jrprogrammer/CoreLib
+--- !u!114 &-2523868314809717836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f22bb7fd1d3b56a48bc52f8e407901d6, type: 3}
+  m_Name: ManifestIdentity
+  m_EditorClassIdentifier: 
+  StagingPaths: []
+  Author: CoreMods
+  Name: CoreKeeperEditorKit
+  Description: The Core Keeper Editor Kit is a Thunderkit Extension designed specifically
+    for helping mod creators create content for Core Keeper
+  Version: 1.0.0
+  Dependencies: []
+--- !u!114 &-221931170887336229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b243ff405b33b94dbf5b6775dd9aa33, type: 3}
+  m_Name: Files
+  m_EditorClassIdentifier: 
+  StagingPaths:
+  - <ManifestStagingRoot>
+  files:
+  - {fileID: 102900000, guid: 8e9aa678a825d884e8a18db33004e3dd, type: 3}
+  - {fileID: 102900000, guid: a217382d2eeaed74c9f5337a65e18605, type: 3}
+  - {fileID: 102900000, guid: 93ac362f17b093545a723c52d2fbca84, type: 3}
+  - {fileID: 102900000, guid: 5ee727942f7135c4c83baa69d50e6b5f, type: 3}
+  - {fileID: 11500000, guid: f9edd21fec2fdb74ca7a5a248b8f8153, type: 3}
+  - {fileID: 2800000, guid: 61946ebfe16f67749b4fb3e017634243, type: 3}
+  - {fileID: 4900000, guid: d85b43d0311152648a29ede89115af83, type: 3}
+  - {fileID: 4900000, guid: 5377d15a3e544feeae6b45ed0981b5a6, type: 3}
+  - {fileID: 4900000, guid: c16e46e010cf9064eb8e7b70a9a10d1b, type: 3}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e563561e08b6a3642a487177f5cfbb37, type: 3}
+  m_Name: CoreKeeperEditorKit
+  m_EditorClassIdentifier: 
+  Data:
+  - {fileID: -2523868314809717836}
+  - {fileID: -221931170887336229}
+  - {fileID: -6810371586750711348}
+  identity: {fileID: -2523868314809717836}
+  QuickAccess: 0
