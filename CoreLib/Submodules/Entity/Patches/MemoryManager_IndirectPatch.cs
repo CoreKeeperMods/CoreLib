@@ -1,12 +1,36 @@
-﻿using CoreLib.Util;
-using HarmonyLib;
-using Il2CppSystem;
+﻿using System;
+using CoreLib.Util;
 
 namespace CoreLib.Submodules.ModEntity.Patches;
 
 public static class MemoryManager_IndirectPatch
 {
-    internal static void InjectNewPrefabs(MemoryManager __instance)
+    internal static void ModifyPrefabs(MemoryManager memoryManager)
+    {
+        if (!EntityModule.Loaded) return;
+
+        foreach (var prefab in memoryManager.poolablePrefabBank.poolInitializers)
+        {
+            EntityMonoBehaviour prefabMono = prefab.prefab.GetComponent<EntityMonoBehaviour>();
+            if (prefabMono == null) continue;
+
+            Il2CppSystem.Type cppType = prefabMono.GetIl2CppType();
+            if (EntityModule.prefabModifyFunctions.ContainsKey(cppType))
+            {
+                try
+                {
+                    EntityModule.prefabModifyFunctions[cppType]?.Invoke(prefabMono);
+                }
+                catch (Exception e)
+                {
+                    CoreLibPlugin.Logger.LogError($"Error while executing prefab modification for type {cppType.FullName}!\n{e}");
+                }
+            }
+        }
+        CoreLibPlugin.Logger.LogInfo("Finished Modifying Prefabs!");
+    }
+    
+    internal static void InjectNewPrefabs(MemoryManager memoryManager)
     {
         if (!EntityModule.Loaded) return;
         
@@ -25,7 +49,7 @@ public static class MemoryManager_IndirectPatch
                 EntityMonoBehaviour prefabMono = prefabInfo.prefab.GetComponent<EntityMonoBehaviour>();
                 if (prefabMono == null) continue;
                 
-                Type prefabType = prefabMono.GetIl2CppType();
+                Il2CppSystem.Type prefabType = prefabMono.GetIl2CppType();
                 if (EntityModule.loadedPrefabTypes.Contains(prefabType)) continue;
 
                 MonoBehaviourUtils.ApplyPrefabModAuthorings(entity, prefabInfo.prefab.gameObject);
@@ -37,7 +61,7 @@ public static class MemoryManager_IndirectPatch
                     maxSize = 1024
                 };
 
-                __instance.poolablePrefabBank.poolInitializers.Add(prefab);
+                memoryManager.poolablePrefabBank.poolInitializers.Add(prefab);
                 EntityModule.loadedPrefabTypes.Add(prefabType);
                 count++;
             }

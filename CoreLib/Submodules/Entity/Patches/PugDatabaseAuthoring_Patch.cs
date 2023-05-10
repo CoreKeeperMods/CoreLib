@@ -127,13 +127,13 @@ public static class PugDatabaseAuthoring_Patch
         }
         catch (Exception e)
         {
-            CoreLibPlugin.Logger.LogWarning($"Exception in {modAuthoring.GetIl2CppType().FullName}:\n{e}");
+            CoreLibPlugin.Logger.LogError($"Exception in {modAuthoring.GetIl2CppType().FullName}:\n{e}");
             success = false;
         }
 
         if (!success)
         {
-            CoreLibPlugin.Logger.LogWarning(
+            CoreLibPlugin.Logger.LogError(
                 $"Failed to add entity {data.objectInfo.objectID.ToString()}, variation {data.objectInfo.variation} prefab, because {modAuthoring.GetIl2CppType().FullName} mod authoring failed to apply!");
             return false;
         }

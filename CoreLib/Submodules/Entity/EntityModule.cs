@@ -15,7 +15,6 @@ using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
-using Il2CppInterop.Runtime.InteropTypes;
 using PugTilemap;
 using PugTilemap.Quads;
 using PugTilemap.Workshop;
@@ -47,24 +46,60 @@ public static class EntityModule
     /// Register you entity modifications methods.
     /// </summary>
     /// <param name="assembly">Assembly to analyze</param>
+    [Obsolete($"Use {nameof(RegisterEntityModifications)} instead!")]
     public static void RegisterModifications(Assembly assembly)
     {
+        RegisterEntityModifications(assembly);
+    }
+    
+    /// <summary>
+    /// Register you entity modifications methods.
+    /// </summary>
+    /// <param name="assembly">Assembly to analyze</param>
+    public static void RegisterEntityModifications(Assembly assembly)
+    {
         ThrowIfNotLoaded();
-        ThrowIfTooLate(nameof(RegisterModifications));
+        ThrowIfTooLate(nameof(RegisterEntityModifications));
 
-        RegisterModifications_Internal(assembly);
+        RegisterEntityModifications_Internal(assembly);
+    }
+    
+    public static void RegisterPrefabModifications(Assembly assembly)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(RegisterPrefabModifications));
+
+        RegisterPrefabModifications_Internal(assembly);
+    }
+    
+    /// <summary>
+    /// Register you entity modifications methods.
+    /// </summary>
+    /// <param name="type">Type to analyze</param>
+    [Obsolete($"Use {nameof(RegisterEntityModifications)} instead!")]
+    public static void RegisterModifications(Type type)
+    {
+        RegisterEntityModifications(type);
     }
 
     /// <summary>
     /// Register you entity modifications methods.
     /// </summary>
     /// <param name="type">Type to analyze</param>
-    public static void RegisterModifications(Type type)
+    public static void RegisterEntityModifications(Type type)
     {
         ThrowIfNotLoaded();
-        ThrowIfTooLate(nameof(RegisterModifications));
+        ThrowIfTooLate(nameof(RegisterEntityModifications));
 
-        RegisterModificationsInType_Internal(type);
+        RegisterEntityModificationsInType_Internal(type);
+    }
+    
+    public static void RegisterPrefabModifications(Type type)
+    {
+        ThrowIfNotLoaded();
+        ThrowIfTooLate(nameof(RegisterPrefabModifications));
+
+        RegisterPrefabModificationsInType_Internal(type);
     }
 
 
@@ -342,7 +377,7 @@ public static class EntityModule
             }
             catch (Exception e)
             {
-                CoreLibPlugin.Logger.LogWarning($"Failed to add tileset {tileset.friendlyName}:\n{e}");
+                CoreLibPlugin.Logger.LogError($"Failed to add tileset {tileset.friendlyName}:\n{e}");
             }
         }
     }
@@ -420,6 +455,7 @@ public static class EntityModule
     internal static Dictionary<ObjectID, List<EntityMonoBehaviourData>> entitiesToAdd = new Dictionary<ObjectID, List<EntityMonoBehaviourData>>();
     internal static Dictionary<ObjectID, Action<EntityMonoBehaviourData>> entityModifyFunctions = new Dictionary<ObjectID, Action<EntityMonoBehaviourData>>();
     internal static Dictionary<string, Action<EntityMonoBehaviourData>> modEntityModifyFunctions = new Dictionary<string, Action<EntityMonoBehaviourData>>();
+    internal static Dictionary<Il2CppSystem.Type, Action<EntityMonoBehaviour>> prefabModifyFunctions = new Dictionary<Il2CppSystem.Type, Action<EntityMonoBehaviour>>(new Il2CppTypeEqualityComparer());
 
     internal static HashSet<Il2CppSystem.Type> loadedPrefabTypes = new HashSet<Il2CppSystem.Type>(new Il2CppTypeEqualityComparer());
     internal static Dictionary<ObjectID, List<EntityMonoBehaviourData>> modWorkbenchesChain = new Dictionary<ObjectID, List<EntityMonoBehaviourData>>();
@@ -738,61 +774,114 @@ public static class EntityModule
         return entityData;
     }
 
-    private static void RegisterModifications_Internal(Assembly assembly)
+    private static void RegisterEntityModifications_Internal(Assembly assembly)
     {
-        IEnumerable<Type> types = assembly.GetTypes().Where(HasAttribute);
+        IEnumerable<Type> types = assembly.GetTypes().Where(HasAttribute<EntityModificationAttribute>);
 
         foreach (Type type in types)
         {
-            RegisterModificationsInType_Internal(type);
+            RegisterEntityModificationsInType_Internal(type);
+        }
+    }
+    
+    private static void RegisterPrefabModifications_Internal(Assembly assembly)
+    {
+        IEnumerable<Type> types = assembly.GetTypes().Where(HasAttribute<PrefabModificationAttribute>);
+
+        foreach (Type type in types)
+        {
+            RegisterPrefabModificationsInType_Internal(type);
         }
     }
     
     #endregion
 
-    private static void RegisterModificationsInType_Internal(Type type)
+    private static void RegisterEntityModificationsInType_Internal(Type type)
     {
         int modifiersCount = 0;
 
-        IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(HasAttribute);
+        IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(HasAttribute<EntityModificationAttribute>);
         foreach (MethodInfo method in methods)
         {
-            var attributes = method.GetCustomAttributes<EntityModificationAttribute>();
-
-            var parameters = method.GetParameters();
-            if (method.ReturnParameter.ParameterType == typeof(void) &&
-                parameters.Length == 1 &&
-                parameters[0].ParameterType == typeof(EntityMonoBehaviourData))
+            if (!IsAction<EntityMonoBehaviourData>(method))
             {
-                Action<EntityMonoBehaviourData> modifyDelegate = method.CreateDelegate<Action<EntityMonoBehaviourData>>();
-
-                foreach (EntityModificationAttribute attribute in attributes)
-                {
-                    if (!string.IsNullOrEmpty(attribute.modTarget))
-                    {
-                        modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
-                    }
-                    else
-                    {
-                        entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
-                    }
-
-                    modifiersCount++;
-                }
-            }
-            else
-            {
-                CoreLibPlugin.Logger.LogWarning(
+                CoreLibPlugin.Logger.LogError(
                     $"Failed to add modify method '{method.FullDescription()}', because method signature is incorrect. Should be void ({nameof(EntityMonoBehaviourData)})!");
+                continue;
+            }
+
+            var attributes = method.GetCustomAttributes<EntityModificationAttribute>();
+            Action<EntityMonoBehaviourData> modifyDelegate = method.CreateDelegate<Action<EntityMonoBehaviourData>>();
+
+            foreach (EntityModificationAttribute attribute in attributes)
+            {
+                if (!string.IsNullOrEmpty(attribute.modTarget))
+                {
+                    modEntityModifyFunctions.AddDelegate(attribute.modTarget, modifyDelegate);
+                }
+                else
+                {
+                    entityModifyFunctions.AddDelegate(attribute.target, modifyDelegate);
+                }
+
+                modifiersCount++;
             }
         }
 
         CoreLibPlugin.Logger.LogInfo($"Registered {modifiersCount} entity modifiers in type {type.FullName}!");
     }
-
-    private static bool HasAttribute(MemberInfo type)
+    
+    private static void RegisterPrefabModificationsInType_Internal(Type type)
     {
-        return type.GetCustomAttribute<EntityModificationAttribute>() != null;
+        int modifiersCount = 0;
+
+        IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(HasAttribute<PrefabModificationAttribute>);
+        foreach (MethodInfo method in methods)
+        {
+            if (!IsAction<EntityMonoBehaviour>(method))
+            {
+                CoreLibPlugin.Logger.LogWarning(
+                    $"Failed to add prefab modify method '{method.FullDescription()}', because method signature is incorrect. Should be void ({nameof(EntityMonoBehaviour)})!");
+                continue;
+            }
+
+            var attributes = method.GetCustomAttributes<PrefabModificationAttribute>();
+            Action<EntityMonoBehaviour> modifyDelegate = method.CreateDelegate<Action<EntityMonoBehaviour>>();
+
+            foreach (PrefabModificationAttribute attribute in attributes)
+            {
+                if (attribute.targetType == null)
+                {
+                    CoreLibPlugin.Logger.LogWarning($"Attribute on method '{method.FullDescription()}' has no type info!");
+                    continue;
+                }
+
+                Il2CppSystem.Type cppType = Il2CppType.From(attribute.targetType, false);
+                if (cppType == null)
+                {
+                    CoreLibPlugin.Logger.LogWarning($"Type '{attribute.targetType.FullName}' is not registered in Il2Cpp!");
+                    continue;
+                }
+                    
+                prefabModifyFunctions.Add(cppType, modifyDelegate);
+                modifiersCount++;
+            }
+        }
+
+        CoreLibPlugin.Logger.LogInfo($"Registered {modifiersCount} prefab modifiers in type {type.FullName}!");
+    }
+
+    private static bool IsAction<T>(MethodInfo method)
+    {
+        var parameters = method.GetParameters();
+        return method.ReturnParameter.ParameterType == typeof(void) &&
+               parameters.Length == 1 &&
+               parameters[0].ParameterType == typeof(T);
+    }
+
+    private static bool HasAttribute<T>(MemberInfo type) where T : Attribute
+    {
+        return type.GetCustomAttribute<T>() != null;
     }
 
     #endregion
