@@ -10,6 +10,7 @@ public static class LootTableBank_Patch
     [HarmonyPrefix]
     private static void AddCustomLootTables(LootTableBank __instance)
     {
+        CoreLibPlugin.Logger.LogInfo("Adding new loot!");
         foreach (CustomLootTableData tableData in DropTablesModule.customLootTables)
         {
             LootTable lootTable = tableData.GetTable();

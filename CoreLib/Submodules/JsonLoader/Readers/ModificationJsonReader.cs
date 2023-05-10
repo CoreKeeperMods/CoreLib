@@ -11,7 +11,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         {
             string file = jObject["file"].GetValue<string>();
             string targetId = jObject["targetId"].GetValue<string>();
-            JsonLoaderModule.entityModificationFiles.Add(new ModifyFile(file, targetId));
+            JsonLoaderModule.entityModificationFiles.Add(new ModifyFile(file, JsonLoaderModule.context.loadPath, targetId));
         }
 
         public static void ModifyApply(JsonNode jObject, EntityMonoBehaviourData entity)

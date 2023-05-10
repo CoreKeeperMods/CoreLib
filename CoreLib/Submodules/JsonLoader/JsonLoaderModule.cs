@@ -262,7 +262,7 @@ namespace CoreLib.Submodules.JsonLoader
         internal static List<ModifyFile> entityModificationFiles = new List<ModifyFile>();
         
         private static List<string> postApplyFiles = new List<string>();
-        private static Dictionary<ObjectID, string> entityModificationFileCache = new Dictionary<ObjectID, string>(); 
+        private static Dictionary<ObjectID, ModifyFile> entityModificationFileCache = new Dictionary<ObjectID, ModifyFile>(); 
 
         [CoreLibSubmoduleInit(Stage = InitStage.GetOptionalDependencies)]
         internal static Type[] GetOptionalDeps()
@@ -325,6 +325,7 @@ namespace CoreLib.Submodules.JsonLoader
 
         internal static void PostApply()
         {
+            CoreLibPlugin.Logger.LogInfo("Start JSON post load");
             foreach (string file in postApplyFiles)
             {
                 string filename = file.Substring(file.LastIndexOf(Path.DirectorySeparatorChar) + 1);
@@ -357,11 +358,14 @@ namespace CoreLib.Submodules.JsonLoader
             
             if (entityModificationFileCache.ContainsKey(entity.objectInfo.objectID))
             {
-                string file = entityModificationFileCache[entity.objectInfo.objectID];
-                JsonNode jObject = JsonNode.Parse(File.ReadAllText(file));
+                ModifyFile modify = entityModificationFileCache[entity.objectInfo.objectID];
+                JsonNode jObject = JsonNode.Parse(File.ReadAllText(modify.filePath));
 
-                jObject["file"] = file;
-                ModificationJsonReader.ModifyApply(jObject, entity);
+                jObject["file"] = modify.filePath;
+                using (WithContext(new JsonContext(modify.contextPath, null)))
+                {
+                    ModificationJsonReader.ModifyApply(jObject, entity);
+                }
             }
         }
 
@@ -378,7 +382,7 @@ namespace CoreLib.Submodules.JsonLoader
                     continue;
                 }
                 
-                entityModificationFileCache.Add(objectID, modifyFile.filePath);
+                entityModificationFileCache.Add(objectID, modifyFile);
             }
 
             entityModificationFileCacheReady = true;

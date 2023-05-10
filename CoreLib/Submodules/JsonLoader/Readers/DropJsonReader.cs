@@ -10,29 +10,6 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     {
         public void ApplyPre(JsonNode jObject)
         {
-            LootTableID tableID = GetOrCreateDropTable(jObject);
-
-            if (jObject["add"] != null)
-            {
-                DropTableInfo[] addDrops = jObject["add"].Deserialize<DropTableInfo[]>(JsonLoaderModule.options);
-                foreach (DropTableInfo drop in addDrops)
-                    DropTablesModule.AddNewDrop(tableID, drop);
-            }
-
-            if (jObject["edit"] != null)
-            {
-                DropTableInfo[] editDrops = jObject["edit"].Deserialize<DropTableInfo[]>(JsonLoaderModule.options);
-                foreach (DropTableInfo drop in editDrops)
-                    DropTablesModule.EditDrop(tableID, drop);
-            }
-
-            if (jObject["remove"] != null)
-            {
-                ObjectID[] removeDrops = jObject["remove"].Deserialize<ObjectID[]>(JsonLoaderModule.options);
-                foreach (ObjectID drop in removeDrops)
-                    DropTablesModule.RemoveDrop(tableID, drop);
-            }
-
         }
 
         private static LootTableID GetOrCreateDropTable(JsonNode jObject)
@@ -58,6 +35,28 @@ namespace CoreLib.Submodules.JsonLoader.Readers
 
         public void ApplyPost(JsonNode jObject)
         {
+            LootTableID tableID = GetOrCreateDropTable(jObject);
+
+            if (jObject["add"] != null)
+            {
+                DropTableInfo[] addDrops = jObject["add"].Deserialize<DropTableInfo[]>(JsonLoaderModule.options);
+                foreach (DropTableInfo drop in addDrops)
+                    DropTablesModule.AddNewDrop(tableID, drop);
+            }
+
+            if (jObject["edit"] != null)
+            {
+                DropTableInfo[] editDrops = jObject["edit"].Deserialize<DropTableInfo[]>(JsonLoaderModule.options);
+                foreach (DropTableInfo drop in editDrops)
+                    DropTablesModule.EditDrop(tableID, drop);
+            }
+
+            if (jObject["remove"] != null)
+            {
+                ObjectID[] removeDrops = jObject["remove"].Deserialize<ObjectID[]>(JsonLoaderModule.options);
+                foreach (ObjectID drop in removeDrops)
+                    DropTablesModule.RemoveDrop(tableID, drop);
+            }
         }
     }
 }
