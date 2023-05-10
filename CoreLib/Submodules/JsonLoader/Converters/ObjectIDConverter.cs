@@ -17,15 +17,20 @@ namespace CoreLib.Submodules.JsonLoader.Converters
             if (reader.TokenType == JsonTokenType.String)
             {
                 string value = reader.GetString();
-                if (Enum.TryParse(value, true, out ObjectID objectID))
-                {
-                    return objectID;
-                }
-
-                return EntityModule.GetObjectId(value);
+                return GetObjectID(value);
             }
 
             return ObjectID.None;
+        }
+
+        internal static ObjectID GetObjectID(string value)
+        {
+            if (Enum.TryParse(value, true, out ObjectID objectID))
+            {
+                return objectID;
+            }
+
+            return EntityModule.GetObjectId(value);
         }
 
         public override void Write(Utf8JsonWriter writer, ObjectID value, JsonSerializerOptions options)

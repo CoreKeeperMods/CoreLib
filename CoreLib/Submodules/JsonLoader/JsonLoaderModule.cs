@@ -275,7 +275,9 @@ namespace CoreLib.Submodules.JsonLoader
             options = new JsonSerializerOptions
             {
                 IncludeFields = true,
-                WriteIndented = true
+                IgnoreReadOnlyProperties = true,
+                WriteIndented = true,
+                NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
             };
             options.Converters.Add(new ObjectTypeConverter());
             options.Converters.Add(new ObjectIDConverter());
@@ -286,12 +288,14 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new ColorConverter());
             options.Converters.Add(new VectorConverter());
             options.Converters.Add(new RectConverter());
+            options.Converters.Add(new Texture2DConverter());
             
             // dummy converters
             options.Converters.Add(new IntPtrConverter());
             options.Converters.Add(new EntityMonoBehaviorDataConverter());
             options.Converters.Add(new GameObjectConverter());
             options.Converters.Add(new TransformConverter());
+            options.Converters.Add(new EntityMonoBehaviorConverter());
             interactionHandlers.Add(null);
         }
 

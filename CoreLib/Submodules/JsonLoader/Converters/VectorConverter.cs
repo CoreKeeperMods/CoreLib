@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -114,7 +115,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                         if (field.FieldType == typeof(float))
                         {
                             float val =  (float)field.GetValue(value);
-                            writer.WriteNumberValue(val);
+                            WriteNumberSafe(writer, val);
                         }
                         else
                         {
@@ -125,6 +126,18 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                 }
                 
                 writer.WriteEndArray();
+            }
+
+            private static void WriteNumberSafe(Utf8JsonWriter writer, float value)
+            {
+                if (float.IsFinite(value))
+                {
+                    writer.WriteNumberValue(value);
+                }
+                else
+                {
+                    writer.WriteStringValue(value.ToString(CultureInfo.InvariantCulture));
+                }
             }
         }
     }

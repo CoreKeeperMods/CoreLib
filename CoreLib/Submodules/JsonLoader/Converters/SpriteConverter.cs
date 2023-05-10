@@ -119,7 +119,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
             writer.WriteStringValue("N/A");
         }
 
-        public Texture2D GetReadableTexture(Texture2D texture)
+        public static Texture2D GetReadableTexture(Texture2D texture)
         {
             if (texture.isReadable) return texture;
 
