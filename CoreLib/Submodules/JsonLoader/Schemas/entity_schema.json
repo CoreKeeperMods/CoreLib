@@ -190,6 +190,15 @@
     "centerIsAtEntityPosition": {
       "type": "boolean"
     },
+    "additionalSprites": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+        { "$ref": "sprite_schema.json" },
+        { "type" : "string" }
+        ]
+      }
+    },
     "requiredObjectsToCraft": {
       "type": "array",
       "items": {
