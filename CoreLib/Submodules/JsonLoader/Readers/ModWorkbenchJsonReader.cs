@@ -15,9 +15,10 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             string itemId = jObject["itemId"].GetValue<string>();
             Sprite icon = jObject["icon"].Deserialize<Sprite>(JsonLoaderModule.options);
             Sprite smallIcon = jObject["smallIcon"].Deserialize<Sprite>(JsonLoaderModule.options);
+            Texture2D variantsTexture = jObject["variations"].Deserialize<Texture2D>(JsonLoaderModule.options);
             List<CraftingData> recipe = jObject["requiredObjectsToCraft"].Deserialize<List<CraftingData>>(JsonLoaderModule.options);
 
-            ObjectID objectID = EntityModule.AddModWorkbench(itemId, icon, smallIcon, recipe, true);
+            ObjectID objectID = EntityModule.AddModWorkbench(itemId, icon, smallIcon, variantsTexture, recipe, true);
             
             ItemJsonReader.ReadLocalization(jObject, objectID);
             

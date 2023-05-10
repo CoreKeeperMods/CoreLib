@@ -122,9 +122,9 @@ public static class EntityModule
     }
 
     /// <summary>
-    /// Get Tileset from UNIQUE tilset id
+    /// Get Tileset from UNIQUE tileset id
     /// </summary>
-    /// <param name="itemID">UNIQUE string tilset ID</param>
+    /// <param name="itemID">UNIQUE string tileset ID</param>
     public static Tileset GetTilesetId(string itemID)
     {
         ThrowIfNotLoaded();
@@ -153,9 +153,10 @@ public static class EntityModule
     /// </summary>
     /// <param name="itemId">UNIQUE entity Id</param>
     /// <param name="spritePath">path to your sprite in asset bundle</param>
-    public static ObjectID AddModWorkbench(string itemId, string spritePath)
+    /// <param name="variantsPath">path to variants texture</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, string variantsPath)
     {
-        return AddModWorkbench(itemId, spritePath, null, true);
+        return AddModWorkbench(itemId, spritePath, variantsPath, null, true);
     }
 
     /// <summary>
@@ -163,9 +164,10 @@ public static class EntityModule
     /// </summary>
     /// <param name="itemId">UNIQUE entity Id</param>
     /// <param name="spritePath">path to your sprite in asset bundle</param>
-    public static ObjectID AddModWorkbench(string itemId, string spritePath, bool bindToRootWorkbench)
+    /// <param name="variantsPath">path to variants texture</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, string variantsPath, bool bindToRootWorkbench)
     {
-        return AddModWorkbench(itemId, spritePath, null, bindToRootWorkbench);
+        return AddModWorkbench(itemId, spritePath, variantsPath, null, bindToRootWorkbench);
     }
 
     /// <summary>
@@ -174,9 +176,10 @@ public static class EntityModule
     /// <param name="itemId">UNIQUE entity Id</param>
     /// <param name="spritePath">path to your sprite in asset bundle</param>
     /// <param name="recipe">workbench craft recipe</param>
-    public static ObjectID AddModWorkbench(string itemId, string spritePath, List<CraftingData> recipe)
+    /// <param name="variantsPath">path to variants texture</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, string variantsPath, List<CraftingData> recipe)
     {
-        return AddModWorkbench(itemId, spritePath, recipe, true);
+        return AddModWorkbench(itemId, spritePath, variantsPath, recipe, true);
     }
 
     /// <summary>
@@ -185,11 +188,12 @@ public static class EntityModule
     /// <param name="itemId">UNIQUE entity Id</param>
     /// <param name="spritePath">path to your sprite in asset bundle</param>
     /// <param name="recipe">workbench craft recipe</param>
-    public static ObjectID AddModWorkbench(string itemId, string spritePath, List<CraftingData> recipe, bool bindToRootWorkbench)
+    /// <param name="variantsPath">path to variants texture</param>
+    public static ObjectID AddModWorkbench(string itemId, string spritePath, string variantsPath, List<CraftingData> recipe, bool bindToRootWorkbench)
     {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddModWorkbench));
-        ObjectID workbenchId = AddWorkbench(itemId, spritePath, recipe, true);
+        ObjectID workbenchId = AddWorkbench(itemId, spritePath, variantsPath, recipe, true);
         if (bindToRootWorkbench)
         {
             ObjectID root = TryAddRootWorkbench();
@@ -205,11 +209,12 @@ public static class EntityModule
     /// <param name="itemId">UNIQUE entity Id</param>
     /// <param name="spritePath">path to your sprite in asset bundle</param>
     /// <param name="recipe">workbench craft recipe</param>
-    public static ObjectID AddModWorkbench(string itemId, string bigIconPath, string smallIconPath, List<CraftingData> recipe, bool bindToRootWorkbench)
+    /// <param name="variantsPath">path to variants texture</param>
+    public static ObjectID AddModWorkbench(string itemId, string bigIconPath, string smallIconPath, string variantsPath, List<CraftingData> recipe, bool bindToRootWorkbench)
     {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddModWorkbench));
-        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe, true);
+        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath,variantsPath, recipe, true);
         if (bindToRootWorkbench)
         {
             ObjectID root = TryAddRootWorkbench();
@@ -219,11 +224,11 @@ public static class EntityModule
         return workbenchId;
     }
 
-    internal static ObjectID AddModWorkbench(string itemId, Sprite bigIconPath, Sprite smallIconPath, List<CraftingData> recipe, bool bindToRootWorkbench)
+    internal static ObjectID AddModWorkbench(string itemId, Sprite bigIconPath, Sprite smallIconPath, Texture2D variantsTexture, List<CraftingData> recipe, bool bindToRootWorkbench)
     {
         ThrowIfNotLoaded();
         ThrowIfTooLate(nameof(AddModWorkbench));
-        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, recipe, true);
+        ObjectID workbenchId = AddWorkbench(itemId, bigIconPath, smallIconPath, variantsTexture, recipe, true);
         if (bindToRootWorkbench)
         {
             ObjectID root = TryAddRootWorkbench();
@@ -459,6 +464,7 @@ public static class EntityModule
 
     internal static HashSet<Il2CppSystem.Type> loadedPrefabTypes = new HashSet<Il2CppSystem.Type>(new Il2CppTypeEqualityComparer());
     internal static Dictionary<ObjectID, List<EntityMonoBehaviourData>> modWorkbenchesChain = new Dictionary<ObjectID, List<EntityMonoBehaviourData>>();
+    internal static Dictionary<ObjectID, Texture2D> workbenchTextures = new Dictionary<ObjectID, Texture2D>();
 
     internal static Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>> customTilesets =
         new Dictionary<Tileset, GCHandleObject<MapWorkshopTilesetBank.Tileset>>();
@@ -534,7 +540,8 @@ public static class EntityModule
         ClassInjector.RegisterTypeInIl2Cpp<ModRangeWeaponCDAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModObjectTypeAuthoring>();
         ClassInjector.RegisterTypeInIl2Cpp<ModCraftingRecipeCDAuthoring>();
-        RegisterModifications(typeof(EntityModule));
+        RegisterEntityModifications(typeof(EntityModule));
+        RegisterPrefabModifications(typeof(EntityModule));
 
         InitTilesets();
     }
@@ -612,12 +619,36 @@ public static class EntityModule
         }
     }
 
+    [PrefabModification(typeof(SimpleCraftingBuilding))]
+    private static void EditSimpleCraftingBuilding(EntityMonoBehaviour entityMono)
+    {
+        SimpleCraftingBuilding craftingBuilding = entityMono.Cast<SimpleCraftingBuilding>();
+
+        foreach (var pair in workbenchTextures)
+        {
+            var textureList = new Il2CppCollections.List<Texture2D>(1);
+            textureList.Add(pair.Value);
+            var reskinInfo = new EntityMonoBehaviour.ReskinInfo()
+            {
+                objectIDToUseReskinOn = pair.Key,
+                variation = 0,
+                textures = textureList
+            };
+            
+            foreach (var reskinOption in craftingBuilding.reskinOptions)
+            {
+                reskinOption.reskins.Add(reskinInfo);
+            }
+        }
+    }
+    
+
     private static void CloneWorkbench(EntityMonoBehaviourData oldWorkbench)
     {
         string prevId = GetObjectStringId(oldWorkbench.objectInfo.objectID);
         string newId = IncrementID(prevId);
 
-        ObjectID newWorkbench = AddWorkbench(newId, "Assets/CoreLib/Textures/modWorkbench", null, false);
+        ObjectID newWorkbench = AddWorkbench(newId, "Assets/CoreLib/Textures/modWorkbench","Assets/CoreLib/Textures/modWorkbenchVariants", null, false);
 
         if (GetMainEntity(newWorkbench, out EntityMonoBehaviourData entity))
         {
@@ -646,22 +677,23 @@ public static class EntityModule
     {
         if (rootWorkbench == null)
         {
-            ObjectID workbench = AddWorkbench(RootWorkbench, "Assets/CoreLib/Textures/modWorkbench", null, true);
+            ObjectID workbench = AddWorkbench(RootWorkbench, "Assets/CoreLib/Textures/modWorkbench", "Assets/CoreLib/Textures/modWorkbenchVariants", null, true);
             rootWorkbench = workbench;
             LocalizationModule.AddEntityLocalization(workbench, $"Root Workbench", "This workbench contains all modded workbenches!");
         }
         return rootWorkbench.Value;
     }
     
-    private static ObjectID AddWorkbench(string itemId, string bigIconPath, string smallIconPath, List<CraftingData> recipe, bool isPrimary)
+    private static ObjectID AddWorkbench(string itemId, string bigIconPath, string smallIconPath, string variantsPath, List<CraftingData> recipe, bool isPrimary)
     {
         Sprite bigIcon = ResourcesModule.LoadAsset<Sprite>(bigIconPath);
         Sprite smallIcon = ResourcesModule.LoadAsset<Sprite>(smallIconPath);
+        Texture2D skinsTexture = ResourcesModule.LoadAsset<Texture2D>(variantsPath);
 
-        return AddWorkbench(itemId, bigIcon, smallIcon, recipe, isPrimary);
+        return AddWorkbench(itemId, bigIcon, smallIcon, skinsTexture, recipe, isPrimary);
     }
 
-    private static ObjectID AddWorkbench(string itemId, string spritePath, List<CraftingData> recipe, bool isPrimary)
+    private static ObjectID AddWorkbench(string itemId, string spritePath, string variantsPath, List<CraftingData> recipe, bool isPrimary)
     {
         Sprite[] sprites = ResourcesModule.LoadSprites(spritePath).OrderSprites();
         if (sprites == null || sprites.Length != 2)
@@ -670,10 +702,12 @@ public static class EntityModule
             return ObjectID.None;
         }
 
-        return AddWorkbench(itemId, sprites[0], sprites[1], recipe, isPrimary);
+        Texture2D skinsTexture = ResourcesModule.LoadAsset<Texture2D>(variantsPath);
+
+        return AddWorkbench(itemId, sprites[0], sprites[1], skinsTexture, recipe, isPrimary);
     }
     
-    private static ObjectID AddWorkbench(string itemId, Sprite bigIcon, Sprite smallIcon, List<CraftingData> recipe, bool isPrimary)
+    private static ObjectID AddWorkbench(string itemId, Sprite bigIcon, Sprite smallIcon, Texture2D variantsTexture, List<CraftingData> recipe, bool isPrimary)
     {
         ObjectID id = AddEntity(itemId, "Assets/CoreLib/Objects/TemplateWorkbench");
         if (GetMainEntity(id, out EntityMonoBehaviourData entity))
@@ -696,6 +730,8 @@ public static class EntityModule
             comp.craftingType = CraftingType.Simple;
             comp.canCraftObjects = new Il2CppSystem.Collections.Generic.List<CraftableObject>(4);
             comp.includeCraftedObjectsFromBuildings = new Il2CppSystem.Collections.Generic.List<CraftingCDAuthoring>();
+            
+            workbenchTextures.Add(id, variantsTexture);
             
             if(isPrimary)
                 AddAdditionalWorkbench(id, entity);
