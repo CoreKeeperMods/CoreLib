@@ -26,6 +26,7 @@ namespace CoreLib.Submodules.Common.Patches
             PrefabCrawler.FindMaterials(__instance.poolablePrefabBank.poolInitializers);
             CoreLibPlugin.Logger.LogInfo($"Finished crawling prefabs, found {PrefabCrawler.materials.Count} materials!");
 
+            JsonLoader.Patch.MemoryManager_IndirectPatch.PerformPostLoad();
             ModEntity.Patches.MemoryManager_IndirectPatch.InjectNewPrefabs(__instance);
             Equipment.Patches.MemoryManager_IndirectPatch.InjectNewEquipmentSlots(__instance);
         }

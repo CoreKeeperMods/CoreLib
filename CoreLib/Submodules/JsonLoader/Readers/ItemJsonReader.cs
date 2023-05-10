@@ -18,6 +18,12 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("item")]
     public class ItemJsonReader : IJsonReader
     {
+        public static readonly string[] excludedProperties =
+        {
+            "objectID",
+            "prefabInfos"
+        };
+        
         public virtual void ApplyPre(JsonNode jObject)
         {
             string itemId = jObject["itemId"].GetValue<string>();
@@ -96,7 +102,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             string itemId = jObject["itemId"].GetValue<string>();
             
             entityData.objectInfo ??= new ObjectInfo();
-            JsonLoaderModule.PopulateObject(entityData.objectInfo, jObject);
+            JsonLoaderModule.PopulateObject(entityData.objectInfo, jObject, excludedProperties);
             //entityData.objectInfo = jObject.Deserialize<ObjectInfo>(JsonLoaderModule.options);
 
             if (entityData.objectInfo.prefabInfos == null)

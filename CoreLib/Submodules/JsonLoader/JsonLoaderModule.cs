@@ -13,6 +13,7 @@ using CoreLib.Submodules.ModComponent;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Submodules.JsonLoader.Readers;
+using CoreLib.Submodules.ModEntity.Atributes;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
@@ -53,6 +54,7 @@ namespace CoreLib.Submodules.JsonLoader
         public static void LoadFolder(string modGuid, string path)
         {
             ThrowIfNotLoaded();
+            ThrowIfTooLate();
 
             if (modFolders.ContainsKey(modGuid))
             {
@@ -71,8 +73,6 @@ namespace CoreLib.Submodules.JsonLoader
 
             using (WithContext(new JsonContext(resourcesDir, Assembly.GetCallingAssembly())))
             {
-                List<JsonNode> objectsCache = new List<JsonNode>();
-
                 foreach (string file in Directory.EnumerateFiles(resourcesDir, "*.json", SearchOption.AllDirectories))
                 {
                     string filename = file.Substring(file.LastIndexOf(Path.DirectorySeparatorChar) + 1);
@@ -85,6 +85,8 @@ namespace CoreLib.Submodules.JsonLoader
                         continue;
                     }
 
+                    jObject["filename"] = filename;
+                    jObject["file"] = file;
                     string type = jObject["type"].GetValue<string>();
 
                     if (jsonReaders.ContainsKey(type))
@@ -94,31 +96,11 @@ namespace CoreLib.Submodules.JsonLoader
                             CoreLibPlugin.Logger.LogInfo($"Loading JSON file {filename} with {type} reader.");
                             IJsonReader reader = jsonReaders[type];
                             reader.ApplyPre(jObject);
-                            jObject["filename"] = filename;
-                            objectsCache.Add(jObject);
+                            postApplyFiles.Add(file);
                         }
                         catch (Exception e)
                         {
-                            CoreLibPlugin.Logger.LogWarning($"Failed to add object:\n{e}");
-                        }
-                    }
-                }
-
-                foreach (JsonNode jObject in objectsCache)
-                {
-                    string type = jObject["type"].GetValue<string>();
-
-                    if (jsonReaders.ContainsKey(type))
-                    {
-                        try
-                        {
-                            CoreLibPlugin.Logger.LogInfo($"Post Loading JSON file {jObject["filename"].GetValue<string>()} with {type} reader.");
-                            IJsonReader reader = jsonReaders[type];
-                            reader.ApplyPost(jObject);
-                        }
-                        catch (Exception e)
-                        {
-                            CoreLibPlugin.Logger.LogWarning($"Failed to post load:\n{e}");
+                            CoreLibPlugin.Logger.LogError($"Failed to add object:\n{e}");
                         }
                     }
                 }
@@ -234,14 +216,30 @@ namespace CoreLib.Submodules.JsonLoader
 
         public static void PopulateObject<T>(T target, JsonNode jsonSource)
         {
-            PopulateObject(typeof(T), target, jsonSource);
+            PopulateObject(typeof(T), target, jsonSource, Array.Empty<string>());
+        }
+        
+        public static void PopulateObject<T>(T target, JsonNode jsonSource, string[] exclude)
+        {
+            PopulateObject(typeof(T), target, jsonSource, exclude);
         }
 
         public static void PopulateObject(Type type, object target, JsonNode jsonSource)
         {
+            PopulateObject(type, target, jsonSource, Array.Empty<string>());
+        }
+
+        public static void PopulateObject(Type type, object target, JsonNode jsonSource, string[] exclude)
+        {
             foreach (KeyValuePair<string, JsonNode> property in jsonSource.AsObject())
             {
-                CoreLibPlugin.Logger.LogInfo($"Overriding {property.Key} in {target.GetType().FullName}");
+                if (exclude.Contains(property.Key))
+                {
+                    CoreLibPlugin.Logger.LogWarning($"Overriding {property.Key} is not allowed!");
+                    continue;
+                }
+                    
+                CoreLibPlugin.Logger.LogDebug($"Overriding {property.Key} in {target.GetType().FullName}");
                 OverwriteProperty(type, target, property);
             }
         }
@@ -252,6 +250,19 @@ namespace CoreLib.Submodules.JsonLoader
 
         private static bool _loaded;
         private static bool dumpCommandEnabled;
+        private static bool finishedLoadingObjects = false;
+        private static bool entityModificationFileCacheReady = false;
+
+        public static JsonSerializerOptions options;
+        public static JsonContext context;
+
+        internal static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
+        internal static Dictionary<string, string> modFolders = new Dictionary<string, string>();
+        internal static List<object> interactionHandlers = new List<object>(10);
+        internal static List<ModifyFile> entityModificationFiles = new List<ModifyFile>();
+        
+        private static List<string> postApplyFiles = new List<string>();
+        private static Dictionary<ObjectID, string> entityModificationFileCache = new Dictionary<ObjectID, string>(); 
 
         [CoreLibSubmoduleInit(Stage = InitStage.GetOptionalDependencies)]
         internal static Type[] GetOptionalDeps()
@@ -309,6 +320,69 @@ namespace CoreLib.Submodules.JsonLoader
             {
                 CommandsModule.RegisterCommandHandler(typeof(DumpCommandHandler), CoreLibPlugin.NAME);
             }
+            EntityModule.RegisterEntityModifications(typeof(JsonLoaderModule));
+        }
+
+        internal static void PostApply()
+        {
+            foreach (string file in postApplyFiles)
+            {
+                string filename = file.Substring(file.LastIndexOf(Path.DirectorySeparatorChar) + 1);
+                JsonNode jObject = JsonNode.Parse(File.ReadAllText(file));
+
+                jObject["file"] = file;
+                string type = jObject["type"].GetValue<string>();
+
+                if (jsonReaders.ContainsKey(type))
+                {
+                    try
+                    {
+                        CoreLibPlugin.Logger.LogInfo($"Post Loading JSON file {filename} with {type} reader.");
+                        IJsonReader reader = jsonReaders[type];
+                        reader.ApplyPost(jObject);
+                    }
+                    catch (Exception e)
+                    {
+                        CoreLibPlugin.Logger.LogError($"Failed to post load:\n{e}");
+                    }
+                }
+            }
+            postApplyFiles.Clear();
+        }
+
+        [EntityModification]
+        internal static void ModificationsApply(EntityMonoBehaviourData entity)
+        {
+            BuildModificationCache();
+            
+            if (entityModificationFileCache.ContainsKey(entity.objectInfo.objectID))
+            {
+                string file = entityModificationFileCache[entity.objectInfo.objectID];
+                JsonNode jObject = JsonNode.Parse(File.ReadAllText(file));
+
+                jObject["file"] = file;
+                ModificationJsonReader.ModifyApply(jObject, entity);
+            }
+        }
+
+        private static void BuildModificationCache()
+        {
+            if (entityModificationFileCacheReady) return;
+
+            foreach (ModifyFile modifyFile in entityModificationFiles)
+            {
+                ObjectID objectID = ObjectIDConverter.GetObjectID(modifyFile.targetId);
+                if (objectID == ObjectID.None)
+                {
+                    CoreLibPlugin.Logger.LogError($"Failed to apply entity modification, '{modifyFile.targetId}' is not a valid entity!");
+                    continue;
+                }
+                
+                entityModificationFileCache.Add(objectID, modifyFile.filePath);
+            }
+
+            entityModificationFileCacheReady = true;
+            entityModificationFiles.Clear();
         }
 
         internal static void ThrowIfNotLoaded()
@@ -321,12 +395,13 @@ namespace CoreLib.Submodules.JsonLoader
             }
         }
 
-        public static JsonSerializerOptions options;
-        public static JsonContext context;
-
-        internal static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
-        internal static Dictionary<string, string> modFolders = new Dictionary<string, string>();
-        internal static List<object> interactionHandlers = new List<object>(10);
+        internal static void ThrowIfTooLate()
+        {
+            if (finishedLoadingObjects)
+            {
+                throw new InvalidOperationException("Json Loader finished loading items. Adding items at this stage is impossible!");
+            }
+        }
 
         internal static T GetInteractionHandler<T>(int index)
             where T : class
@@ -349,7 +424,7 @@ namespace CoreLib.Submodules.JsonLoader
             }
             else
             {
-                CoreLibPlugin.Logger.LogWarning($"Failed to register {type.FullName} Json Reader, because name {attribute.typeName} is already taken!");
+                CoreLibPlugin.Logger.LogError($"Failed to register {type.FullName} Json Reader, because name {attribute.typeName} is already taken!");
             }
         }
 
@@ -381,10 +456,6 @@ namespace CoreLib.Submodules.JsonLoader
                     var parsedValue = updatedProperty.Value.Deserialize(fieldInfo.FieldType, options);
                     fieldInfo.SetValue(target, parsedValue);
                 }
-            }
-            else
-            {
-                CoreLibPlugin.Logger.LogInfo($"Found no property/field named {updatedProperty.Key} in {type.FullName}");
             }
         }
 
