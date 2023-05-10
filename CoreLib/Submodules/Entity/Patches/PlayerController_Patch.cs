@@ -10,10 +10,10 @@ namespace CoreLib.Submodules.ModEntity.Patches
     {
         [HarmonyPatch(typeof(PlayerController), nameof(PlayerController.GetObjectName))]
         [HarmonyPostfix]
-        public static void GetObjectName(ObjectDataCD objectData, bool localize, TextAndFormatFields __result)
+        public static void GetObjectName(ContainedObjectsBuffer containedObject, bool localize, TextAndFormatFields __result)
         {
-            IDynamicItemHandler handler = EntityModule.dynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(objectData));
-            handler?.ApplyText(objectData, __result);
+            IDynamicItemHandler handler = EntityModule.dynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(containedObject.objectData));
+            handler?.ApplyText(containedObject.objectData, __result);
         }
     }
 }
