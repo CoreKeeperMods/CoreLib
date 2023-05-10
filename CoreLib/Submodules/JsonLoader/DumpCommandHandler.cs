@@ -11,6 +11,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace CoreLib.Submodules.JsonLoader
@@ -36,20 +37,15 @@ namespace CoreLib.Submodules.JsonLoader
 
         public CommandOutput Execute(string[] parameters)
         {
-            if (parameters.Length < 2)
+            if (parameters.Length < 1)
                 return new CommandOutput("Not enough arguments. Please see usage!", Color.red);
+            
+            string item = parameters.Join(null, " ");
+            string path = Path.Combine(Application.dataPath, "../dumps");
 
-            FindBrackets(parameters, out string item, out string path);
             CommandOutput output = CommandUtil.ParseItemName(item, out ObjectID objectID);
             if (objectID == ObjectID.None)
                 return output;
-
-            if (!IsValidPath(path, true))
-                return new CommandOutput($"Path '{path}' is not a valid path!", Color.red);
-
-            FileAttributes attr = File.GetAttributes(path);
-            if (!attr.HasFlag(FileAttributes.Directory))
-                return new CommandOutput($"Path '{path}' does not point to a directory!", Color.red);
 
             Directory.CreateDirectory(path);
 
@@ -161,53 +157,7 @@ namespace CoreLib.Submodules.JsonLoader
                     return "item";
             }
         }
-
-        private void FindBrackets(string[] parameters, out string item, out string path)
-        {
-            string fullInput = parameters.Join(null, " ");
-            if (!fullInput.Contains('"'))
-            {
-                item = parameters.Take(parameters.Length - 1).Join(null, " ");
-                path = parameters[^1];
-                return;
-            }
-
-            bool hadBracket = false;
-            int firstBracketIndex = -1;
-            StringBuilder stringBuilder = new StringBuilder(fullInput.Length / 2);
-
-            for (int i = 0; i < fullInput.Length; i++)
-            {
-                char c = fullInput[i];
-                if (c == '"') hadBracket = !hadBracket;
-                if (hadBracket && firstBracketIndex == -1) firstBracketIndex = i;
-                if (c != '"' && hadBracket) stringBuilder.Append(c);
-            }
-
-            item = fullInput[..(firstBracketIndex - 1)];
-            path = stringBuilder.ToString();
-        }
-
-        private bool IsValidPath(string path, bool allowRelativePaths = false)
-        {
-            try
-            {
-                Path.GetFullPath(path);
-
-                if (allowRelativePaths)
-                {
-                    return Path.IsPathRooted(path);
-                }
-
-                string root = Path.GetPathRoot(path);
-                return string.IsNullOrEmpty(root.Trim('\\', '/')) == false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
+        
         public string GetDescription()
         {
             return "Dump any object entity in JSON format for inspection and recreation\n" +
