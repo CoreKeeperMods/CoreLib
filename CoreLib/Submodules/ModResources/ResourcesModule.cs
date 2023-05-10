@@ -82,7 +82,18 @@ public static class ResourcesModule
     /// Load asset from mod asset bundles
     /// </summary>
     /// <param name="assetPath">path to the asset</param>
+    [Obsolete("To ensure correct results use the generic or typed version")]
     public static Object LoadAsset(string assetPath)
+    {
+        return LoadAsset(assetPath, typeof(Object));
+    }
+
+    /// <summary>
+    /// Load asset from mod asset bundles
+    /// </summary>
+    /// <param name="assetPath">path to the asset</param>
+    /// <param name="typeHint">Expected type of the asset</param>
+    public static Object LoadAsset(string assetPath, Type typeHint)
     {
         foreach (ResourceData resource in modResources)
         {
@@ -106,7 +117,7 @@ public static class ResourcesModule
             
             if (resource.bundle.Contains(assetPath.WithExtension(".mat")))
             {
-                Object material = resource.bundle.LoadAsset<ScriptableObject>(assetPath.WithExtension(".mat"));
+                Object material = resource.bundle.LoadAsset<Material>(assetPath.WithExtension(".mat"));
                 objectRetainer.Add(material);
                 CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(material != null ? "Success" : "Failure")}");
                 return material;
@@ -115,8 +126,8 @@ public static class ResourcesModule
             foreach (string extension in spriteFileExtensions)
             {
                 if (!resource.bundle.Contains(assetPath.WithExtension(extension))) continue;
-
-                Object sprite = resource.bundle.LoadAsset<Object>(assetPath.WithExtension(extension));
+                
+                Object sprite = resource.bundle.LoadAsset(assetPath.WithExtension(extension), Il2CppType.From(typeHint));
                 objectRetainer.Add(sprite);
 
                 CoreLibPlugin.Logger.LogDebug($"Loading registered asset {assetPath}: {(sprite != null ? "Success" : "Failure")}");
@@ -142,12 +153,20 @@ public static class ResourcesModule
             if (File.Exists(fullPath.WithExtension(".png")))
             {
                 fullPath = fullPath.WithExtension(".png");
-                Sprite sprite = LoadNewSprite(fullPath, 16);
-                if (sprite != null)
+                Object result = null;
+                if (typeHint == typeof(Sprite))
                 {
-                    objectRetainer.Add(sprite);
+                    result = LoadNewSprite(fullPath, 16);
+                }else if (typeHint == typeof(Texture2D))
+                {
+                    result = LoadTexture(fullPath);
+                }
+
+                if (result != null)
+                {
+                    objectRetainer.Add(result);
                     CoreLibPlugin.Logger.LogDebug($"Loading asset {assetPath} from context");
-                    return sprite;
+                    return result;
                 }
             }else if (File.Exists(fullPath.WithExtension(".wav")))
             {
@@ -174,7 +193,7 @@ public static class ResourcesModule
     public static T LoadAsset<T>(string path)
         where T : Object
     {
-        Object asset = LoadAsset(path);
+        Object asset = LoadAsset(path, typeof(T));
         if (asset == null)
         {
             throw new ArgumentException($"Found no asset at path: {path}");
