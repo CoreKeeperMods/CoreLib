@@ -31,12 +31,28 @@ When uploading your mod to thunderstore create a folder `plugins` in which you m
 
 Next to the `plugins` folder also include typical thunderstore files including a duplicate of the `manifest.json`.
 
+## Dumping existing entity in JSON format
+JSON loader module allows to dump existing entities into a format compatible with JSON loader module. While these dumps are not perfect, they allow to take a peek into vanilla entities without using Unity Editor.
+
+To do so go to your config for Core Lib and enable this property: `EnableDumpCommand`. After doing so you can use `/dump {item}` command ingame. 
+
+Results will appear in `<steam install dir>/Core Keeper/dumps`
+
+# JSON Loaders
+To start creating create a new folder named `resources` in your plugin folder. You can include here all textures
+and json files. You are allowed to create any subfolders, so it's recommended to structure your folder.
+
+One file can only contain one type of loader and only for one object.
+
+Following loaders are available:
+- `item` used to add items. This includes everything from resources to weapons
+- `modWorkbench` used to add mod workbenches
+- `block` used to add simple placeable objects
+- `drop` used to add new drop tables and modify existing ones
+- `modify` used to modify existing entities, including modded ones.
+
 ## Creating items using JSON
-
-To start creating items create a new folder named `resources` in your plugin folder. You can include here all textures
-and item json files. You are allowed to create any subfolders, so it's recommended to structure your folder.
-
-Each item is contained it its own json file. Here is an example of a simple item.
+Here is an example of a simple item.
 
 ```json
 {
@@ -66,6 +82,7 @@ To be able to craft the item you also must add a mod workbench (Or write code th
   "itemId": "MyMod:MyWorkbench",
   "icon": "icons/wb-big-icon.png",
   "smallIcon": "icons/wb-small-icon.png",
+  "variations" : "icons/wb-variations.png",
   "localizedName": "Test Workbench",
   "localizedDescription": "This workbench was added using JSON!",
   "isStackable": true,
@@ -227,36 +244,36 @@ To make a custom block use `block` loader.
   
 ```json
 {
-	"$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
-	"type" : "block",
-	"itemId" : "MyMod:MetalTable",
-	"icon" : {
-		"path": "icons/metal-table-icons.png",
-		"type": "icon-top"
-	},
-	"smallIcon" : {
-		"path": "icons/metal-table-icons.png",
-		"type": "icon-bottom"
-	},
-	"localizedName" : "Metal Table",
-	"localizedDescription" : "This table was added using JSON!",
-	"isStackable" : true,
-	"prefabTileSize" : [2, 2],
-	"colliderSize" : [2, 1.65],
-	"colliderCenter" : [0.5, 0.37],
-	"components" : [
-		{
-			"type" : "CoreLib.Components.TemplateBlockCDAuthoring",
-			"verticalSprite" : "icons/metal-table-bottom.png",
-			"horizontalSprite" : "icons/metal-table-top.png",
-			"shadowSprite" : "icons/metal-table-shadow.png",
-			"verticalSpriteOffset" : [0, 0.343, 0],
-			"horizontalSpriteOffset" : [0, 0.655, 0.75],
-			"shadowOffset" : [0, 0.0625, 0.9],
-			"prefabOffset"  : [0.5, 0, -0.3125],
-			"interactHandler" : "MyMod.Blocks.MyInteractionHandler"
-		}
-	]
+  "$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
+  "type": "block",
+  "itemId": "MyMod:MetalTable",
+  "icon": {
+    "path": "icons/metal-table-icons.png",
+    "type": "icon-top"
+  },
+  "smallIcon": {
+    "path": "icons/metal-table-icons.png",
+    "type": "icon-bottom"
+  },
+  "localizedName": "Metal Table",
+  "localizedDescription": "This table was added using JSON!",
+  "isStackable": true,
+  "prefabTileSize": [2, 2],
+  "colliderSize": [2, 1.65],
+  "colliderCenter": [0.5, 0.37],
+  "components": [
+    {
+      "type": "CoreLib.Components.TemplateBlockCDAuthoring",
+      "verticalSprite": "icons/metal-table-bottom.png",
+      "horizontalSprite": "icons/metal-table-top.png",
+      "shadowSprite": "icons/metal-table-shadow.png",
+      "verticalSpriteOffset": [0, 0.343, 0],
+      "horizontalSpriteOffset": [0, 0.655, 0.75],
+      "shadowOffset": [0, 0.0625, 0.9],
+      "prefabOffset": [0.5, 0, -0.3125],
+      "interactHandler": "MyMod.Blocks.MyInteractionHandler"
+    }
+  ]
 }
 ```
 
@@ -312,3 +329,74 @@ If you did it right you should see something like this:
 8. Now tweak local position value of each sprite as you want.
 9. Update values in JSON. Local position values you find in the inspector will be same as in JSON
 
+## Adding or modifying drop tables
+Using `drop` JSON loader it is possible to modify drop tables. Here is an example that add, modifies and removes drops from an enemy:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/drops_schema.json",
+  "type": "drop",
+  "lootTableId": "SlimeBlobs",
+  "add": [
+    {
+      "item": "MyMod:Gold",
+      "isGuaranteed": false,
+      "minAmount": 1,
+      "maxAmount": 1,
+      "weight": 1
+    }
+  ],
+  "edit": [
+    {
+      "item": "Slime",
+      "isGuaranteed": false,
+      "minAmount": 5,
+      "maxAmount": 5,
+      "weight": 0.1
+    }
+  ],
+  "remove": [
+    "ScrapPart"
+  ]
+}
+```
+
+You also can create new drop tables like so:
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/drops_schema.json",
+  "type": "drop",
+  "lootTableId": "MyMod:MyDropTable",
+  "areaLevel": "Slime",
+  "add": [
+    {
+      "item": "MyMod:Gold",
+      "isGuaranteed": false,
+      "minAmount": 1,
+      "maxAmount": 1,
+      "weight": 1
+    }
+  ]
+}
+```
+Now you can use `MyMod:MyDropTable` where you are expected to provide `LootTableID`. For example in component `DropsLootFromLootTableCD`
+
+## Modifying existing entities
+Using `modify` JSON loader you can modify any existing entity. Example:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
+  "type": "modify",
+  "targetId": "GoldBar",
+  "icon": {
+    "path": "icons/fake-gold.png",
+    "type": "icon-top"
+  },
+  "smallIcon": {
+    "path": "icons/fake-gold.png",
+    "type": "icon-bottom"
+  }
+}
+```
+This will replace item icons to one in `fake-gold.png`. If you want to know what properties can be changed, try dumping item in question.

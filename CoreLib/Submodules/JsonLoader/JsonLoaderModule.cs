@@ -300,6 +300,7 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new VectorConverter());
             options.Converters.Add(new RectConverter());
             options.Converters.Add(new Texture2DConverter());
+            options.Converters.Add(new LootTableIDConverter());
             
             // dummy converters
             options.Converters.Add(new IntPtrConverter());

@@ -10,6 +10,16 @@ public class DropTableInfo
     public int maxAmount;
     public float weight;
 
+    public int amount
+    {
+        get => minAmount;
+        set
+        {
+            minAmount = value;
+            maxAmount = value;
+        }
+    }
+
     public DropTableInfo() { }
 
     public DropTableInfo(ObjectID item, int amount, float weight, bool isGuaranteed = false)

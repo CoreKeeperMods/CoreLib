@@ -17,7 +17,9 @@
       "enum": [
         "item",
         "modWorkbench",
-        "block"
+        "block",
+        "bundle",
+        "modify"
       ]
     },
     "ObjectCategoryTag": {
@@ -83,6 +85,10 @@
         { "$ref": "sprite_schema.json" },
         { "type" : "string" }
       ]
+    },
+    "variations" : {
+      "description": "Object rotation variations. Only applies to modWorkbench type",
+      "type": "string"
     },
     "localizedName": {
       "type": "string",
