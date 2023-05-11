@@ -1,11 +1,22 @@
 
+### v2.1.1
+- Fixed error on launch due to reflection error
+
+### v2.1.0
+- Fixed compatibility with game version 0.6.0 and higher
+- Chat command handlers can be registered separately
+- Added Dump chat command
+- Added `drop` and `modify` JSON loader
+- Added Prefab modification API to `EntityModule`
+- Changed method signatures for workbench registration
+
+<details>
+<summary>Changelog</summary>
+
 ### v2.0.1
 **WARNING: Update all of your mods when installing version 2.0.0 or higher!**
 - Fixed crash on dedicated servers when Entity module tried to register visual prefabs
 - Fixed IDynamicItemHandler color replacement logic being broken
-
-<details>
-<summary>Changelog</summary>
 
 ### v2.0.0
 **WARNING: Update all of your mods when installing version 2.0.0 or higher!**

@@ -23,7 +23,7 @@ internal enum InitStage
     Unload = 1 << 3,
     UnsetHooks = 1 << 4,
     LoadCheck = 1 << 5,
-    GetOptionalDependencies
+    GetOptionalDependencies = 1 << 6
 }
 
 // ReSharper disable once InconsistentNaming
