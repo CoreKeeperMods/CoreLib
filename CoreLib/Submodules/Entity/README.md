@@ -98,10 +98,38 @@ To register this add this to your `Load()` method:
 
 ```csharp
 // Register single type
-EntityModule.RegisterModifications(typeof(MyModifications));
+EntityModule.RegisterEntityModifications(typeof(MyModifications));
 
 // Register all modifications in assembly (Class MUST have the EntityModification attribute)
-EntityModule.RegisterModifications(Assembly.GetExecutingAssembly());
+EntityModule.RegisterEntityModifications(Assembly.GetExecutingAssembly());
+```
+
+## Modifying prefabs
+Modifying prefabs is not very different from modifying entities.
+
+Create a static class with method like so:
+```csharp
+[PrefabModification]
+public static class MyModifications
+{
+    [PrefabModification(typeof(Chest))]
+    private static void EditChest(EntityMonoBehaviourData prefab)
+    {
+        Chest chest = prefab.Cast<Chest>();
+        // You are allowed to modify the prefab here in any way.
+    }
+}
+```
+You will need to explicitly define what prefab type you want to target. Your patch will get called ONLY for your specified type.
+
+To register this add this to your `Load()` method:
+
+```csharp
+// Register single type
+EntityModule.RegisterPrefabModifications(typeof(MyModifications));
+
+// Register all modifications in assembly (Class MUST have the PrefabModification attribute)
+EntityModule.RegisterPrefabModifications(Assembly.GetExecutingAssembly());
 ```
 
 ## Creating wrapper components
