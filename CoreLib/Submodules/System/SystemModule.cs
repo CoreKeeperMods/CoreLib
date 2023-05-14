@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
+using CoreLib.Submodules.ModComponent;
 using CoreLib.Submodules.ModSystem.Patches;
 using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 namespace CoreLib.Submodules.ModSystem
 {
-    [CoreLibSubmodule]
+    [CoreLibSubmodule(Dependencies = new []{typeof(ComponentModule)})]
     public static class SystemModule
     {
         #region PublicInterface

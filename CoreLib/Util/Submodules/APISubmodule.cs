@@ -2,6 +2,7 @@ using BepInEx.Logging;
 using Mono.Cecil;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -98,6 +99,10 @@ public class APISubmoduleHandler
     /// <returns>Is loading successful?</returns>
     public bool RequestModuleLoad(Type moduleType)
     {
+        return RequestModuleLoad(moduleType, false);
+    }
+    private bool RequestModuleLoad(Type moduleType, bool ignoreDependencies)
+    {
         if (moduleType == null) return false;
         if (IsLoaded(moduleType.Name)) return true;
 
@@ -105,6 +110,19 @@ public class APISubmoduleHandler
 
         try
         {
+            if (!ignoreDependencies)
+            {
+                var dependencies = GetModuleDependencies(moduleType);
+                foreach (Type dependency in dependencies)
+                {
+                    if (dependency == moduleType) continue;
+                    if (!RequestModuleLoad(dependency, true))
+                    {
+                        logger.Log(LogLevel.Error, $"{moduleType.Name} could not be initialized because one of it's dependencies failed to load.");
+                    }
+                }
+            }
+
             InvokeStage(moduleType, InitStage.SetHooks, null);
             InvokeStage(moduleType, InitStage.Load, null);
             FieldInfo fieldInfo = moduleType.GetField("_loaded", AccessTools.all);
@@ -112,6 +130,7 @@ public class APISubmoduleHandler
             {
                 fieldInfo.SetValue(null, true);
             }
+
             loadedModules.Add(moduleType.Name);
             InvokeStage(moduleType, InitStage.PostLoad, null);
             return true;
@@ -120,7 +139,7 @@ public class APISubmoduleHandler
         {
             if (e is TargetInvocationException te)
                 e = te.InnerException;
-            
+
             logger.Log(LogLevel.Error, $"{moduleType.Name} could not be initialized and has been disabled:\n\n{e.Message}");
         }
 
@@ -138,20 +157,9 @@ public class APISubmoduleHandler
                     string moduleName = (string)stringElement.Value;
                     Type moduleType = allModules.First(type => type.Name.Equals(moduleName));
 
-                    IEnumerable<string> modulesToAdd = moduleType.GetDependants(type =>
-                            {
-                                CoreLibSubmodule attr = type.GetCustomAttribute<CoreLibSubmodule>();
-                                var attrTypes = attr?.Dependencies ?? Array.Empty<Type>();
-                                var optional = (Type[])InvokeStage(type, InitStage.GetOptionalDependencies, Array.Empty<object>());
-                                return attrTypes.AddRangeToArray(optional ?? Array.Empty<Type>());
-                            },
-                            (start, end) =>
-                            {
-                                CoreLibPlugin.Logger.LogWarning(
-                                    $"Found Submodule circular dependency! Submodule {start.FullName} depends on {end.FullName}, which depends on {start.FullName}! Submodule {start.FullName} and all of its dependencies will not be loaded.");
-                            })
+                    var modulesToAdd = GetModuleDependencies(moduleType)
                         .Select(type => type.Name);
-
+                    
                     foreach (string module in modulesToAdd)
                     {
                         moduleSet.Add(module);
@@ -212,7 +220,24 @@ public class APISubmoduleHandler
         return loadedModules;
     }
 
-    private List<Type> GetSubmodules(bool allSubmodules = false)
+    private IEnumerable<Type> GetModuleDependencies(Type moduleType)
+    {
+        IEnumerable<Type> modulesToAdd = moduleType.GetDependants(type =>
+            {
+                CoreLibSubmodule attr = type.GetCustomAttribute<CoreLibSubmodule>();
+                var attrTypes = attr?.Dependencies ?? Array.Empty<Type>();
+                var optional = (Type[])InvokeStage(type, InitStage.GetOptionalDependencies, Array.Empty<object>());
+                return attrTypes.AddRangeToArray(optional ?? Array.Empty<Type>());
+            },
+            (start, end) =>
+            {
+                CoreLibPlugin.Logger.LogWarning(
+                    $"Found Submodule circular dependency! Submodule {start.FullName} depends on {end.FullName}, which depends on {start.FullName}! Submodule {start.FullName} and all of its dependencies will not be loaded.");
+            });
+        return modulesToAdd;
+    }
+
+    public List<Type> GetSubmodules(bool allSubmodules = false)
     {
         Type[] types;
         try

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using CoreLib.Components;
@@ -17,12 +20,14 @@ public class CoreLibPlugin : BasePlugin
     public const string GUID = "com.le4fless.corelib";
     public const string NAME = "CoreLib";
     public const string VERSION = ThisAssembly.AssemblyVersion;
-        
-    public static readonly GameVersion buildFor = new GameVersion(0,6,0, 0, "62a8");
+
+    public static readonly GameVersion buildFor = new GameVersion(0, 6, 0, 0, "62a8");
     internal static HashSet<string> LoadedSubmodules;
     internal static APISubmoduleHandler submoduleHandler;
     internal static Harmony harmony;
-        
+
+    internal static ConfigEntry<string> forceLoaded;
+
     internal static CoreLibPlugin Instance { get; private set; }
     public static ManualLogSource Logger { get; private set; }
 
@@ -32,18 +37,43 @@ public class CoreLibPlugin : BasePlugin
         Logger = base.Log;
 
         harmony = new Harmony("com.le4fless.corelib");
-        
+
         IL2CPP.il2cpp_gc_disable();
 
         CheckIfUsedOnRightGameVersion();
-            
+
         var pluginScanner = new PluginScanner();
         submoduleHandler = new APISubmoduleHandler(buildFor, Logger);
         LoadedSubmodules = submoduleHandler.LoadRequested(pluginScanner);
         pluginScanner.ScanPlugins();
 
+        CheckModuleForceLoad();
+
         IL2CPP.il2cpp_gc_enable();
         Log.LogInfo($"{PluginInfo.PLUGIN_NAME} is loaded!");
+    }
+
+    private void CheckModuleForceLoad()
+    {
+        List<Type> allSubmodules = submoduleHandler.GetSubmodules(true);
+        string[] submoduleNames = allSubmodules.Select(type => type.Name).ToArray();
+        
+        forceLoaded = Config.Bind("Debug", "ForceModuleLoad", "",
+            new ConfigDescription("Manually force certain modules to be loaded. Do not use unless you know what you are doing.",
+                new AcceptableValueOptionsList(submoduleNames)));
+
+        if (string.IsNullOrWhiteSpace(forceLoaded.Value))
+            return;
+
+        var forceLoadTypes = forceLoaded.Value
+            .Split(',')
+            .Select(name => allSubmodules.Find(type => type.Name.Equals(name)));
+
+        foreach (Type module in forceLoadTypes)
+        {
+            if (module == null) return;
+            TryLoadModule(module);
+        }
     }
 
     internal static void CheckIfUsedOnRightGameVersion()
@@ -58,7 +88,7 @@ public class CoreLibPlugin : BasePlugin
         Logger.LogWarning($"This version of CoreLib was built for game version \"{buildFor}\", but you are running \"{buildId}\".");
         Logger.LogWarning("Should any problems arise, please check for a new version before reporting issues.");
     }
-        
+
     /// <summary>
     /// Return true if the specified submodule is loaded.
     /// </summary>
@@ -70,6 +100,7 @@ public class CoreLibPlugin : BasePlugin
             Logger.LogWarning("IsLoaded called before submodules were loaded, result may not reflect actual load status.");
             return false;
         }
+
         return LoadedSubmodules.Contains(submodule);
     }
 
