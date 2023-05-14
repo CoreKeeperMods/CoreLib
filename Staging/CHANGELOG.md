@@ -1,4 +1,7 @@
 
+### v2.1.3
+- Fixed issues using ModProjectile
+
 ### v2.1.2
 - Allow to manually request any module to be loaded from config options
 - Added MigrationModule. Module is intended to be opt in functionality to fix issues with missing items. Enable in the config file.
