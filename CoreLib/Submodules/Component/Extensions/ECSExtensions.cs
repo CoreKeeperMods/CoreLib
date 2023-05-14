@@ -14,6 +14,8 @@ namespace CoreLib.Submodules.ModComponent
     /// </summary>
     public static class ECSExtensions
     {
+        public const int ClearFlagsMask = 8388607;
+        
         /// <summary>
         ///     Gets the run-time type information required to access an array of component data in a chunk.
         /// </summary>
@@ -148,8 +150,14 @@ namespace CoreLib.Submodules.ModComponent
                 header = (BufferHeader*)access->EntityComponentStore->GetComponentDataWithTypeRW(entity, typeIndex,
                     access->EntityComponentStore->GlobalSystemVersion);
 
-            int internalCapacity = TypeManager.GetTypeInfo(typeIndex).BufferCapacity;
+            int internalCapacity = GetTypeInfo(typeIndex).BufferCapacity;
             return new ModDynamicBuffer<T>(header, internalCapacity);
+        }
+        
+        private static unsafe ref readonly TypeManager.TypeInfo GetTypeInfo(int typeIndex)
+        {
+            TypeManager.TypeInfo* val = TypeManager.GetTypeInfoPointer() + (typeIndex & ClearFlagsMask);
+            return ref Unsafe.AsRef<TypeManager.TypeInfo>(val);
         }
 
         /// <summary>

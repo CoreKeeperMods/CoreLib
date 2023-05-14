@@ -237,6 +237,21 @@ namespace CoreLib.Submodules.ModComponent
                 m_AllocatorLabel = allocator,
             };
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe NativeArray<U> ConvertExistingDataToil2CppNativeArray<U>(
+            void* dataPointer,
+            int length,
+            Allocator allocator)
+            where U : unmanaged
+        {
+            return new NativeArray<U>
+            {
+                m_Buffer = dataPointer,
+                m_Length = length,
+                m_AllocatorLabel = allocator,
+            };
+        }
 
         public unsafe NativeArray<T> AsNativeArray()
         {

@@ -20,7 +20,8 @@ namespace CoreLib.Submodules.ModComponent
     /// <typeparam name="T">The data type stored in the buffer. Must be a value type.</typeparam>
     [StructLayout(LayoutKind.Sequential)]
     [DebuggerDisplay("Length = {Length}, Capacity = {Capacity}, IsCreated = {IsCreated}")]
-    public unsafe struct ModDynamicBuffer<T> : IEnumerable<T> where T : unmanaged
+    public unsafe struct ModDynamicBuffer<T> : IList<T>
+        where T : unmanaged
     {
         BufferHeader* m_Buffer;
 
@@ -128,6 +129,11 @@ namespace CoreLib.Submodules.ModComponent
             BufferHeader.EnsureCapacity(m_Buffer, length, ModUnsafe.SizeOf<T>(), ModUnsafe.AlignOf<T>(), BufferHeader.TrashMode.RetainOldData, false, 0);
         }
 
+        void ICollection<T>.Add(T item)
+        {
+            Add(item);
+        }
+
         /// <summary>
         /// Sets the buffer length to zero.
         /// </summary>
@@ -140,6 +146,34 @@ namespace CoreLib.Submodules.ModComponent
         {
             m_Buffer->Length = 0;
         }
+
+        public bool Contains(T item)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (this[i].Equals(item))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            throw new NotSupportedException();
+        }
+
+        public bool Remove(T item)
+        {
+            int index = IndexOf(item);
+            if (index >= 0)
+                RemoveAt(index);
+            return index >= 0;
+        }
+
+        public int Count => Length;
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Removes any excess capacity in the buffer.
@@ -202,6 +236,18 @@ namespace CoreLib.Submodules.ModComponent
             ResizeUninitialized(length + 1);
             this[length] = elem;
             return length;
+        }
+
+        public int IndexOf(T item)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (this[i].Equals(item))
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         /// <summary>
@@ -369,6 +415,12 @@ namespace CoreLib.Submodules.ModComponent
         {
             return ModNativeArray<T>.ConvertExistingDataToNativeArray<T>(BufferHeader.GetElementPointer(m_Buffer), Length, Allocator.None);
         }
+        
+        public NativeArray<T> AsIl2CppNativeArray()
+        {
+            return ModNativeArray<T>.ConvertExistingDataToil2CppNativeArray<T>(BufferHeader.GetElementPointer(m_Buffer), Length, Allocator.None);
+        }
+        
 
         /// <summary>
         /// Provides an enumerator for iterating over the buffer elements.
@@ -383,8 +435,8 @@ namespace CoreLib.Submodules.ModComponent
             return new ModNativeArray<T>.Enumerator(ref array);
         }
 
-        IEnumerator IEnumerable.GetEnumerator() { throw new Exception("Not Implemented"); }
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() { throw new Exception("Not Implemented"); }
+        IEnumerator IEnumerable.GetEnumerator() => new BufferEnumerator(this);
+        IEnumerator<T> IEnumerable<T>.GetEnumerator() => new BufferEnumerator(this);
 
         /// <summary>
         /// Copies the buffer into a new native array.
@@ -398,6 +450,11 @@ namespace CoreLib.Submodules.ModComponent
         public ModNativeArray<T> ToNativeArray(Allocator allocator)
         {
             return new ModNativeArray<T>(AsNativeArray(), allocator);
+        }
+        
+        public NativeArray<T> ToIl2CppNativeArray(Allocator allocator)
+        {
+            return new NativeArray<T>(AsIl2CppNativeArray(), allocator);
         }
 
         /// <summary>
@@ -435,6 +492,62 @@ namespace CoreLib.Submodules.ModComponent
 
             UnsafeUtility.MemCpy(BufferHeader.GetElementPointer(m_Buffer), (void*)num, Length * ModUnsafe.SizeOf<T>());
             gcHandle.Free();
+        }
+        
+        public struct BufferEnumerator : IEnumerator<T>
+        {
+            private readonly ModDynamicBuffer<T> _buffer;
+            private int _index;
+            private T _current;
+
+            internal BufferEnumerator(ModDynamicBuffer<T> buffer)
+            {
+                _buffer = buffer;
+                _index = 0;
+                _current = default;
+            }
+
+            public void Dispose() { }
+
+            public bool MoveNext()
+            {
+                if ((uint)_index < (uint)_buffer.Length)
+                {
+                    _current = _buffer[_index];
+                    _index++;
+                    return true;
+                }
+
+                return MoveNextRare();
+            }
+
+            private bool MoveNextRare()
+            {
+                _index = _buffer.Length + 1;
+                _current = default;
+                return false;
+            }
+
+            public T Current => _current;
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    if (_index == 0 || _index == _buffer.Length + 1)
+                    {
+                        throw new InvalidOperationException("Can't access Current, because state is invalid");
+                    }
+
+                    return Current;
+                }
+            }
+
+            void IEnumerator.Reset()
+            {
+                _index = 0;
+                _current = default;
+            }
         }
     }
 }
