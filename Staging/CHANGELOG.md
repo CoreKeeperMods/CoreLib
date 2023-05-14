@@ -1,4 +1,11 @@
 
+### v2.1.2
+- Allow to manually request any module to be loaded from config options
+- Added MigrationModule. Module is intended to be opt in functionality to fix issues with missing items. Enable in the config file.
+
+<details>
+<summary>Changelog</summary>
+
 ### v2.1.1
 - Fixed error on launch due to reflection error
 
@@ -9,9 +16,6 @@
 - Added `drop` and `modify` JSON loader
 - Added Prefab modification API to `EntityModule`
 - Changed method signatures for workbench registration
-
-<details>
-<summary>Changelog</summary>
 
 ### v2.0.1
 **WARNING: Update all of your mods when installing version 2.0.0 or higher!**
