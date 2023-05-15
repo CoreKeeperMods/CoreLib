@@ -34,9 +34,11 @@ Next to the `plugins` folder also include typical thunderstore files including a
 ## Dumping existing entity in JSON format
 JSON loader module allows to dump existing entities into a format compatible with JSON loader module. While these dumps are not perfect, they allow to take a peek into vanilla entities without using Unity Editor.
 
-To do so go to your config for Core Lib and enable this property: `EnableDumpCommand`. After doing so you can use `/dump {item}` command ingame. 
+To do so go to your config for Core Lib and enable this property: `EnableDumpCommand`. After doing so you can use `/dump {item}` command ingame. If the JsonLoader module is not being loaded you can force load it using this option: `ForceModuleLoad = JsonLoaderModule` in the same config file.
 
-Results will appear in `<steam install dir>/Core Keeper/dumps`
+Results will appear in `<steam install dir>/Core Keeper/dumps`.
+
+Note: this also tries to dump textures used. Unfortunately they are not actually identical to original ones because of the nature of dumping. Only use them for reference and to find that texture in the Asset Ripper dump.
 
 # JSON Loaders
 To start creating create a new folder named `resources` in your plugin folder. You can include here all textures
