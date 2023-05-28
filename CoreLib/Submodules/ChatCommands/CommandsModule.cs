@@ -5,14 +5,16 @@ using System.Reflection;
 using BepInEx.Configuration;
 using CoreLib.Submodules.ChatCommands.Patches;
 using CoreLib.Submodules.RewiredExtension;
+using CoreLib.Submodules.Security;
 using Rewired;
+// ReSharper disable SuspiciousTypeConversion.Global
 
 namespace CoreLib.Submodules.ChatCommands;
 
 /// <summary>
 /// This module provides means to add custom chat commands
 /// </summary>
-[CoreLibSubmodule(Dependencies = new []{typeof(RewiredExtensionModule)})]
+[CoreLibSubmodule(Dependencies = new []{typeof(RewiredExtensionModule), typeof(SecurityModule)})]
 public static class CommandsModule
 {
     #region Public Interface
@@ -57,14 +59,21 @@ public static class CommandsModule
         }
     }
 
+    [Obsolete]
     public static bool GetCommandHandler(string commandName, out IChatCommandHandler commandHandler)
     {
+        bool result = GetCommandHandler(commandName, out CommandPair pair);
+        commandHandler = pair.handler;
+        return result;
+    }
+    
+    public static bool GetCommandHandler(string commandName, out CommandPair commandHandler)
+    {
         commandHandler = commandHandlers
-            .Select(pair => pair.handler)
             .FirstOrDefault(handler => handler
-                    .GetTriggerNames()
-                    .Any(s => s.Equals(commandName, StringComparison.InvariantCultureIgnoreCase)));
-        return commandHandler != null;
+                .handler.GetTriggerNames()
+                .Any(s => s.Equals(commandName, StringComparison.InvariantCultureIgnoreCase)));
+        return commandHandler.handler != null;
     }
 
     public static IEnumerable<IChatCommandHandler> GetChatCommandHandlers(string commandName)
@@ -87,6 +96,25 @@ public static class CommandsModule
     internal static string DOWN_KEY = "CoreLib_DownKey";
     internal static string COMPLETE_KEY = "CoreLib_CompleteKey";
 
+    internal static CommandInfo currentCommandInfo;
+    internal static List<CommandPair> commandHandlers = new List<CommandPair>();
+
+    internal static CommandPair FindCommand(CommandInfo commandInfo)
+    {
+        return commandHandlers.Where(pair =>
+        {
+            return pair.modName.Equals(commandInfo.modId) &&
+                   pair.handler.GetType().Name.Equals(commandInfo.id);
+        }).FirstOrDefault();
+    } 
+    
+    internal static CommandKind DetermineCommandKind(CommandPair commandPair)
+    {
+        if (commandPair.handler is ICommandKind kindData)
+            return kindData.commandKind;
+        
+        return CommandKind.Cheat;
+    }
 
     [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
     internal static void SetHooks()
@@ -123,9 +151,6 @@ public static class CommandsModule
             throw new InvalidOperationException(message);
         }
     }
-    
-    
-    internal static List<CommandPair> commandHandlers = new List<CommandPair>();
 
     #endregion
 }

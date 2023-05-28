@@ -21,49 +21,6 @@ internal class ChatWindow_Patch
     public static int currentHistoryIndex = -1;
     public static int maxHistoryLen = 10;
 
-    private static CharacterCustomizationMenu customizationMenu;
-    public static ChatWindow chat;
-
-    [HarmonyPatch(typeof(RadicalMenu), nameof(RadicalMenu.Awake))]
-    [HarmonyPostfix]
-    public static void OnCreateCustomizationWindow(RadicalMenu __instance)
-    {
-        if (__instance.GetIl2CppType() != Il2CppType.Of<CharacterCustomizationMenu>()) return;
-        
-        customizationMenu = __instance.Cast<CharacterCustomizationMenu>();
-
-        if (chat != null && customizationMenu != null)
-            AddTextInputLogic();
-    }
-    
-    [HarmonyPatch(typeof(ChatWindow), nameof(ChatWindow.Awake))]
-    [HarmonyPostfix]
-    public static void OnCreate(ChatWindow __instance)
-    {
-        chat = __instance;
-        
-        if (chat != null && customizationMenu != null)
-            AddTextInputLogic();
-    }
-
-    private static void AddTextInputLogic()
-    {
-     /*   CoreLibPlugin.Logger.LogInfo("Modifying chat input field!");
-        CharacterCustomizationOption_NameInput nameInput = customizationMenu.nameInput;
-
-        var inputField = chat.inputField;
-        RadicalMenuOptionTextInput textInput = inputField.gameObject.AddComponent<RadicalMenuOptionTextInput>();
-        textInput.maxWidth = 5.4f;
-        textInput.pugText = chat.inputField;
-        textInput.dontAllowNewLines = true;
-        
-        //hint text must not be null
-
-        var blinkerGO = Object.Instantiate(nameInput.characterMarkBlinker.gameObject, textInput.transform);
-        textInput.characterMarkBlinker = blinkerGO.GetComponent<CharacterMarkBlinker>();
-        textInput.selectedMarker = Object.Instantiate(nameInput.selectedMarker, textInput.transform);
-  */  }
-
     [HarmonyPatch(typeof(ChatWindow), nameof(ChatWindow.Update))]
     [HarmonyPrefix]
     public static void OnUpdate(ChatWindow __instance)
@@ -139,7 +96,7 @@ internal class ChatWindow_Patch
             
             string cmdName = args[0].Substring(1);
             
-            if (!CommandsModule.GetCommandHandler(cmdName, out IChatCommandHandler commandHandler))
+            if (!CommandsModule.GetCommandHandler(cmdName, out CommandPair commandPair))
             {
                 SendMessage(__instance, $"{input}\n\nThat command does not exist.", Color.red);
                 commit = false;
@@ -149,7 +106,11 @@ internal class ChatWindow_Patch
 
             try
             {
-                CommandOutput output = commandHandler.Execute(parameters);
+                CommandKind kind = CommandsModule.DetermineCommandKind(commandPair);
+
+                CommandsModule.currentCommandInfo = new CommandInfo(commandPair.modName, commandPair.handler.GetType().Name, kind);
+                
+                CommandOutput output = commandPair.handler.Execute(parameters);
 
                 UpdateHistory(input);
                 SendMessage(__instance, $"{input}\n{output.feedback}", output.color);
@@ -166,6 +127,8 @@ internal class ChatWindow_Patch
                 SendMessage(__instance, $"{input}\nError executing command", Color.red);
                 commit = false;
             }
+
+            CommandsModule.currentCommandInfo = null;
         }
     }
 

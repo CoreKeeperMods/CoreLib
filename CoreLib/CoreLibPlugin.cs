@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
-using CoreLib.Components;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.Injection;
@@ -67,11 +65,11 @@ public class CoreLibPlugin : BasePlugin
 
         var forceLoadTypes = forceLoaded.Value
             .Split(',')
-            .Select(name => allSubmodules.Find(type => type.Name.Equals(name)));
-
+            .Select(name => allSubmodules.Find(type => type.Name.Equals(name.Trim())));
+        
         foreach (Type module in forceLoadTypes)
         {
-            if (module == null) return;
+            if (module == null) continue;
             TryLoadModule(module);
         }
     }

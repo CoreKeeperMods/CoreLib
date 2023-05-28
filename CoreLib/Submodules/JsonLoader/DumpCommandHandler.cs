@@ -16,7 +16,7 @@ using UnityEngine;
 
 namespace CoreLib.Submodules.JsonLoader
 {
-    public class DumpCommandHandler : IChatCommandHandler
+    public class DumpCommandHandler : IChatCommandHandler, ICommandKind
     {
         private string[] badPropertyNames =
         {
@@ -168,5 +168,7 @@ namespace CoreLib.Submodules.JsonLoader
         {
             return new[] { "dump" };
         }
+
+        public CommandKind commandKind => CommandKind.Info;
     }
 }

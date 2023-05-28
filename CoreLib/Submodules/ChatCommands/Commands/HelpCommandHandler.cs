@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CoreLib.Submodules.ChatCommands;
 
-public class HelpCommandHandler : IChatCommandHandler
+public class HelpCommandHandler : IChatCommandHandler, ICommandKind
 {
     public CommandOutput Execute(string[] parameters)
     {
@@ -52,4 +52,6 @@ public class HelpCommandHandler : IChatCommandHandler
     {
         return new[] {"help"};
     }
+
+    public CommandKind commandKind => CommandKind.Info;
 }

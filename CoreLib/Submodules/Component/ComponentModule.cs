@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using CoreLib.Components;
 using CoreLib.Submodules.ModComponent.Patches;
 using Il2CppInterop.Runtime;
