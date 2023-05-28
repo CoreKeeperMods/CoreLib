@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CoreLibKit;
 using PugTilemap;
@@ -10,62 +11,48 @@ using UnityEngine.Rendering;
 
 namespace EditorKit.Scripts
 {
-    public class TileView : MonoBehaviour
+    public class TileView : IEquatable<TileView>
     {
-        public MeshRenderer meshRenderer;
-        public MeshFilter meshFilter;
+        public struct MeshData
+        {
+            public int instId;
+            public float3 pos;
+            public float4 topRect;
+            public float4 sideRect;
+            public ViewFlags viewFlags;
+        };
 
         public int3 pos;
         public int tileset;
         public TileType tileType;
+        
+        public MeshData meshData;
 
-        private static readonly int baseMap = Shader.PropertyToID("_BaseMap");
-        private static readonly int topRect = Shader.PropertyToID("_TopRect");
-        private static readonly int sideRect = Shader.PropertyToID("_SideRect");
-        private static readonly int topGenTex = Shader.PropertyToID("_TopGenTex");
-        private static readonly int sideGenTex = Shader.PropertyToID("_SideGenTex");
-        private static readonly int hasGenTex = Shader.PropertyToID("_HasGenTex");
+        public bool useQuad;
+        public Texture2D basetex;
+        public Texture2D toptex;
+        public Texture2D sidetex;
 
         public void SetTile(int3 newPos, int newTileset, TileType newTileType)
         {
             pos = newPos;
             tileset = newTileset;
             tileType = newTileType;
-
-            var posVec = new Vector3(pos.x, pos.y + 0.5f, pos.z);
-            if (tileType == TileType.bigRoot ||
-                tileType == TileType.smallStones ||
-                tileType == TileType.floor ||
-                tileType == TileType.groundSlime ||
-                tileType == TileType.smallGrass ||
-                tileType == TileType.dugUpGround ||
-                tileType == TileType.rail ||
-                tileType == TileType.rug ||
-                tileType == TileType.debris ||
-                tileType == TileType.debris2)
-            {
-                posVec.y = pos.y - 0.4f;
-                meshRenderer.shadowCastingMode = ShadowCastingMode.Off;
-            }
-            else
-            {
-                meshRenderer.shadowCastingMode = ShadowCastingMode.On;
-            }
-
-            transform.position = posVec;
         }
 
+        public TileGroup GetTileGroup()
+        {
+            return new TileGroup(useQuad, basetex, toptex, sidetex);
+        }
+        
         public void UpdateVisuals()
         {
-            var propertyBlock = CustomSceneViewer.Instance.propertyBlock;
-            meshRenderer.GetPropertyBlock(propertyBlock);
-
             var tilesetObj = CustomSceneViewer.Instance.GetTileset(tileset);
             if (tilesetObj.tilesetTextures.texture == null) return;
 
-            propertyBlock.SetTexture(baseMap, tilesetObj.tilesetTextures.texture);
+            basetex = tilesetObj.tilesetTextures.texture;
             byte dirMask = CustomSceneViewer.Instance.GetAdjacentTileInfo(pos, this);
-            int adaptiveTexMask = 0;
+            meshData.viewFlags = ViewFlags.None;
 
             var quads = tilesetObj.layers.layers.Where(generator => generator.targetTile == tileType);
             if (quads.Any())
@@ -78,12 +65,14 @@ namespace EditorKit.Scripts
                 {
                     bool hasTopGenTex =
                         tilesetObj.adaptiveTilesetTextures.TryGetValue(topQuad.layerName, out MapWorkshopTilesetBank.TilesetTextures topTextures);
-                    adaptiveTexMask |= hasTopGenTex ? 1 : 0;
                     if (hasTopGenTex)
-                        propertyBlock.SetTexture(topGenTex, topTextures.texture);
+                    {
+                        meshData.viewFlags |= ViewFlags.AdaptiveTop;
+                        toptex = topTextures.texture;
+                    }
 
                     Rect rect = GetSpriteRect(dirMask, topQuad, hasTopGenTex, seed);
-                    propertyBlock.SetVector(topRect, rect.ToVector());
+                    meshData.topRect = rect.ToFloat4();
                 }
 
                 var sideQuad = quads.FirstOrDefault(generator => generator.tileFaces.Contains(QuadGenerator.TileFace.FRONT));
@@ -91,35 +80,45 @@ namespace EditorKit.Scripts
                 {
                     bool hasTopGenTex =
                         tilesetObj.adaptiveTilesetTextures.TryGetValue(sideQuad.layerName, out MapWorkshopTilesetBank.TilesetTextures sideTextures);
-                    adaptiveTexMask |= hasTopGenTex ? 2 : 0;
                     if (hasTopGenTex)
-                        propertyBlock.SetTexture(sideGenTex, sideTextures.texture);
+                    {
+                        meshData.viewFlags |= ViewFlags.AdaptiveBottom;
+                        sidetex = sideTextures.texture;
+                    }
 
                     Rect rect = GetSpriteRect(dirMask, sideQuad, hasTopGenTex, seed);
-                    propertyBlock.SetVector(sideRect, rect.ToVector());
+                    meshData.sideRect = rect.ToFloat4();
                 }
             }
-
-            propertyBlock.SetInt(hasGenTex, adaptiveTexMask);
-            meshRenderer.SetPropertyBlock(propertyBlock);
 
             if (tileType == TileType.wall)
             {
-                meshFilter.mesh = CustomSceneViewer.Instance.skewedMesh;
+                meshData.viewFlags |= ViewFlags.SkewBack;
 
                 int3 prevPos = pos - new int3(0, 0, 1);
-                if (CustomSceneViewer.Instance.TryGetTileAt(prevPos, out TileView tile))
+                if (CustomSceneViewer.Instance.TryGetTilesAt(prevPos, out List<TileView> tiles))
                 {
-                    if (tile.tileType == TileType.wall)
+                    if (tiles.Any(view => view.tileType == TileType.wall))
                     {
-                        meshFilter.mesh = CustomSceneViewer.Instance.skewedMesh2;
+                        meshData.viewFlags |= ViewFlags.SkewFront;
                     }
                 }
             }
-            else
+
+            if (tileType == TileType.bigRoot ||
+                tileType == TileType.smallStones ||
+                tileType == TileType.floor ||
+                tileType == TileType.groundSlime ||
+                tileType == TileType.smallGrass ||
+                tileType == TileType.dugUpGround ||
+                tileType == TileType.rail ||
+                tileType == TileType.rug ||
+                tileType == TileType.debris ||
+                tileType == TileType.debris2)
             {
-                meshFilter.mesh = CustomSceneViewer.Instance.boxMesh;
+                useQuad = true;
             }
+            meshData.pos = new Vector3(pos.x, pos.y + 0.5f, pos.z);
         }
 
         private static Rect GetSpriteRect(byte dirMask, QuadGenerator topQuad, bool hasGenTex, byte seed)
@@ -138,6 +137,36 @@ namespace EditorKit.Scripts
 
             rect = topQuad.GetAdaptativeSpriteLookupTable(lutType)[0].GetSpriteCoordsForDirCombination(0, seed);
             return rect;
+        }
+
+        public bool Equals(TileView other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return pos.Equals(other.pos) && tileset == other.tileset && tileType == other.tileType;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((TileView)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(pos, tileset, (int)tileType);
+        }
+
+        public static bool operator ==(TileView left, TileView right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(TileView left, TileView right)
+        {
+            return !Equals(left, right);
         }
     }
 }

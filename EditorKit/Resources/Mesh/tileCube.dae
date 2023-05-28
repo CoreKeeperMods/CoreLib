@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.91.2 commit date:2021-01-19, commit time:16:15, hash:5be9ef417703</authoring_tool>
     </contributor>
-    <created>2023-05-25T20:17:10</created>
-    <modified>2023-05-25T20:17:10</modified>
+    <created>2023-05-28T15:40:03</created>
+    <modified>2023-05-28T15:40:03</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -43,6 +43,17 @@
             </accessor>
           </technique_common>
         </source>
+        <source id="Cube-mesh-colors-Col" name="Col">
+          <float_array id="Cube-mesh-colors-Col-array" count="144">1 1 1 1 0.5019608 0.5019608 0.5019608 1 1 1 1 1 0.5019608 0.5019608 0.5019608 1 0.0117647 0.0117647 0.0117647 1 0 0 0 1 0.5019608 0.5019608 0.5019608 1 0 0 0 1 0.0117647 0.0117647 0.0117647 1 0 0 0 1 0.0117647 0.0117647 0.0117647 1 0 0 0 1 1 1 1 1 0 0 0 1 0 0 0 1 1 1 1 1 0 0 0 1 0 0 0 1 1 1 1 1 0.5019608 0.5019608 0.5019608 1 0.5019608 0.5019608 0.5019608 1 0.5019608 0.5019608 0.5019608 1 0.5019608 0.5019608 0.5019608 1 0.0117647 0.0117647 0.0117647 1 0.5019608 0.5019608 0.5019608 1 1 1 1 1 0 0 0 1 0 0 0 1 0 0 0 1 0.0117647 0.0117647 0.0117647 1 1 1 1 1 0.5019608 0.5019608 0.5019608 1 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Cube-mesh-colors-Col-array" count="36" stride="4">
+              <param name="R" type="float"/>
+              <param name="G" type="float"/>
+              <param name="B" type="float"/>
+              <param name="A" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
         <vertices id="Cube-mesh-vertices">
           <input semantic="POSITION" source="#Cube-mesh-positions"/>
         </vertices>
@@ -50,7 +61,8 @@
           <input semantic="VERTEX" source="#Cube-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Cube-mesh-normals" offset="1"/>
           <input semantic="TEXCOORD" source="#Cube-mesh-map-0" offset="2" set="0"/>
-          <p>4 0 0 2 0 1 0 0 2 2 1 3 7 1 4 3 1 5 6 2 6 5 2 7 7 2 8 1 3 9 7 3 10 5 3 11 0 4 12 3 4 13 1 4 14 4 5 15 1 5 16 5 5 17 4 0 18 6 0 19 2 0 20 2 1 21 6 1 22 7 1 23 6 2 24 4 2 25 5 2 26 1 3 27 3 3 28 7 3 29 0 4 30 2 4 31 3 4 32 4 5 33 0 5 34 1 5 35</p>
+          <input semantic="COLOR" source="#Cube-mesh-colors-Col" offset="3" set="0"/>
+          <p>4 0 0 0 2 0 1 1 0 0 2 2 2 1 3 3 7 1 4 4 3 1 5 5 6 2 6 6 5 2 7 7 7 2 8 8 1 3 9 9 7 3 10 10 5 3 11 11 0 4 12 12 3 4 13 13 1 4 14 14 4 5 15 15 1 5 16 16 5 5 17 17 4 0 18 18 6 0 19 19 2 0 20 20 2 1 21 21 6 1 22 22 7 1 23 23 6 2 24 24 4 2 25 25 5 2 26 26 1 3 27 27 3 3 28 28 7 3 29 29 0 4 30 30 2 4 31 31 3 4 32 32 4 5 33 33 0 5 34 34 1 5 35 35</p>
         </triangles>
       </mesh>
     </geometry>

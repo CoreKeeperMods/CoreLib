@@ -26,13 +26,13 @@ namespace EditorKit.Scripts
                 
                 foreach (PugMapLayerData.TileLayerChunk chunk in layer.tileDataChunks)
                 {
-                    PlaceTiles(chunk, transform, tileData.tilesetType, tileData.tileType);
+                    PlaceTiles(chunk, tileData.tilesetType, tileData.tileType);
                 }
             }
         }
         
         
-        private void PlaceTiles(PugMapLayerData.TileLayerChunk chunk, Transform root, int tileset, TileType tileType)
+        private void PlaceTiles(PugMapLayerData.TileLayerChunk chunk, int tileset, TileType tileType)
         {
             int starty = chunk.s / 100;
             int startx = chunk.s % 100;
@@ -52,21 +52,21 @@ namespace EditorKit.Scripts
             {
                 for (int y = starty; y < endy; y++)
                 {
-                    CreateTile(root, new int3(startx, yPos, y), tileset, tileType);
+                    CreateTile(new int3(startx, yPos, y), tileset, tileType);
                 }
             }
             else if (starty == endy)
             {
                 for (int x = startx; x < endx; x++)
                 {
-                    CreateTile(root, new int3(x, yPos, starty), tileset, tileType);
+                    CreateTile(new int3(x, yPos, starty), tileset, tileType);
                 }
             }
         }
 
-        private void CreateTile(Transform root, int3 localPos, int tileset, TileType tileType)
+        private void CreateTile(int3 localPos, int tileset, TileType tileType)
         {
-            TileView tile = Instantiate(TilePrefab, root.transform);
+            TileView tile = new TileView();
             int3 pos = localPos + map.localPosition.ToInt3();
             CustomSceneViewer.Instance.SetTileAt(pos, tile);
 

@@ -3,12 +3,10 @@ Shader "EditorKit/TilePreviewInstanced"
     Properties
     {
         [MainTexture] _BaseMap("Base Map (RGBA)", 2D) = "white" {}
-        [MainColor]   _BaseColor("Base Color", Color) = (1, 1, 1, 1)
-        
+        [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
+
         _TopGenTex("Side Texture (RGBA)", 2D) = "white" {}
         _SideGenTex("Side Texture (RGBA)", 2D) = "white" {}
-        
-        _HasGenTex("Has generated textures", Integer) = 0
 
         _Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
         _Cutoff("Cutoff", Range(0.0, 1.0)) = 1
@@ -25,16 +23,23 @@ Shader "EditorKit/TilePreviewInstanced"
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
+        struct meshData
+        {
+            int instId;
+            float3 pos;
+            float4 topRect;
+            float4 sideRect;
+            int viewFlags;
+        };
+
         TEXTURE2D(_TopGenTex);
         SAMPLER(sampler_TopGenTex);
 
         TEXTURE2D(_SideGenTex);
         SAMPLER(sampler_SideGenTex);
-        
+
         CBUFFER_START(UnityPerMaterial)
 
-        int _HasGenTex;
-        
         float4 _BaseMap_ST;
         float4 _BaseColor;
 
@@ -56,17 +61,11 @@ Shader "EditorKit/TilePreviewInstanced"
             HLSLPROGRAM
             #pragma vertex LitPassVertex
             #pragma fragment LitPassFragment
+
             #pragma target 4.5
 
-            struct meshData
-            {
-                float3 pos;
-                float4 topRect;
-                float4 sideRect;
-            };
-
             #if SHADER_TARGET >= 45
-                StructuredBuffer<meshData> instanceBuffer;
+            StructuredBuffer<meshData> instanceBuffer;
             #endif
 
             // Material Keywords
@@ -96,23 +95,22 @@ Shader "EditorKit/TilePreviewInstanced"
             #pragma multi_compile_fog
 
             // GPU Instancing (not supported)
-            //#pragma multi_compile_instancing
+            #pragma multi_compile_instancing
 
             // Includes
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
-            
+
             // Structs
             struct Attributes
             {
-                uint instanceID : SV_InstanceID;
                 float4 positionOS : POSITION;
                 float4 normalOS : NORMAL;
 
                 float2 uv : TEXCOORD0;
                 float2 lightmapUV : TEXCOORD1;
                 float4 color : COLOR;
-                
+                uint instanceID : SV_InstanceID;
             };
 
             struct Varyings
@@ -125,39 +123,35 @@ Shader "EditorKit/TilePreviewInstanced"
 
                 float4 topRect : TEXCOORD4;
                 float4 sideRect : TEXCOORD5;
-                
+                int viewFlags : TEXCOORD6;
+
                 #ifdef _ADDITIONAL_LIGHTS_VERTEX
-					half4 fogFactorAndVertexLight	: TEXCOORD6; // x: fogFactor, yzw: vertex light
+					half4 fogFactorAndVertexLight	: TEXCOORD7; // x: fogFactor, yzw: vertex light
                 #else
-                half fogFactor : TEXCOORD6;
+                half fogFactor : TEXCOORD7;
                 #endif
 
                 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
-					float4 shadowCoord 				: TEXCOORD7;
+					float4 shadowCoord 				: TEXCOORD8;
                 #endif
-
-                float4 color : COLOR;
-                //UNITY_VERTEX_OUTPUT_STEREO
             };
-
-            // Textures, Samplers & Global Properties
-            // (note, BaseMap, BumpMap and EmissionMap is being defined by the SurfaceInput.hlsl include)
-
+            
             //  SurfaceData & InputData
             void InitalizeSurfaceData(Varyings IN, out SurfaceData surfaceData)
             {
                 surfaceData = (SurfaceData)0; // avoids "not completely initalized" errors
 
-                half4 baseMap;
+                half4 baseMap = half4(0, 0, 0, 1);
 
                 if (IN.uv.x < 0.5)
                 {
                     IN.uv.x *= 2;
                     float2 newUV = IN.topRect.xy + IN.uv * IN.topRect.zw;
-                    if ((_HasGenTex & 1) == 1)
+                    if ((IN.viewFlags & 1) == 1)
                     {
                         baseMap = SAMPLE_TEXTURE2D(_TopGenTex, sampler_TopGenTex, newUV);
-                    }else
+                    }
+                    else
                     {
                         baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, newUV);
                     }
@@ -166,16 +160,21 @@ Shader "EditorKit/TilePreviewInstanced"
                 {
                     IN.uv.x = (IN.uv.x - 0.5f) * 2;
                     float2 newUV = IN.sideRect.xy + IN.uv * IN.sideRect.zw;
-                    if ((_HasGenTex & 2) == 2)
+                    if ((IN.viewFlags & 2) == 2)
                     {
                         baseMap = SAMPLE_TEXTURE2D(_SideGenTex, sampler_SideGenTex, newUV);
-                    }else
+                    }
+                    else
                     {
                         baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, newUV);
                     }
                 }
 
-                half4 diffuse = baseMap * _BaseColor * IN.color;
+
+                // Alpha Clipping
+                clip(baseMap.a - _Cutoff);
+
+                half4 diffuse = baseMap * _BaseColor;
                 surfaceData.albedo = diffuse.rgb;
                 surfaceData.occlusion = 1.0; // unused
                 surfaceData.alpha = baseMap.a;
@@ -215,16 +214,6 @@ Shader "EditorKit/TilePreviewInstanced"
                 inputData.vertexLighting = half3(0, 0, 0);
                 #endif
 
-                /* in v11/v12?, could use :
-                #ifdef _ADDITIONAL_LIGHTS_VERTEX
-                    inputData.fogCoord = InitializeInputDataFog(float4(inputData.positionWS, 1.0), input.fogFactorAndVertexLight.x);
-                    inputData.vertexLighting = input.fogFactorAndVertexLight.yzw;
-                #else
-                    inputData.fogCoord = InitializeInputDataFog(float4(inputData.positionWS, 1.0), input.fogFactor);
-                    inputData.vertexLighting = half3(0, 0, 0);
-                #endif
-                */
-
                 inputData.bakedGI = SAMPLE_GI(input.lightmapUV, input.vertexSH, inputData.normalWS);
                 inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
                 inputData.shadowMask = SAMPLE_SHADOWMASK(input.lightmapUV);
@@ -235,29 +224,49 @@ Shader "EditorKit/TilePreviewInstanced"
             {
                 Varyings OUT;
 
-                UNITY_SETUP_INSTANCE_ID(IN);
-                //UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
-                //UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
-
                 #if SHADER_TARGET >= 45
-                    meshData data = instanceBuffer[IN.instanceID];
+                meshData data = instanceBuffer[IN.instanceID];
+
+                if (data.instId == IN.instanceID)
+                {
+                    if (IN.color.r > 0.2f)
+                    {
+                        if (IN.color.r < 0.7f &&
+                            (data.viewFlags & 8) == 8)
+                        {
+                            IN.positionOS.z -= 0.3f;
+                        }
+                        if (IN.color.r > 0.7f &&
+                            (data.viewFlags & 4) == 4)
+                        {
+                            IN.positionOS.z -= 0.3f;
+                        }
+                    }
+
+                    IN.positionOS.xyz += data.pos;
+                    OUT.topRect = data.topRect;
+                    OUT.sideRect = data.sideRect;
+                    OUT.viewFlags = data.viewFlags;
+                }
+                else
+                {
+                    OUT.topRect = 0;
+                    OUT.sideRect = 0;
+                    OUT.viewFlags = 128;
+                }
+
                 #else
-                    meshData data = 0;
+                OUT.topRect = 0;
+                OUT.sideRect = 0;
+                OUT.viewFlags = 128;
                 #endif
 
-                IN.positionOS.xyz += data.pos;
-                OUT.topRect = data.topRect;
-                OUT.sideRect = data.sideRect;
-                
                 VertexPositionInputs positionInputs = GetVertexPositionInputs(IN.positionOS.xyz);
                 VertexNormalInputs normalInputs = GetVertexNormalInputs(IN.normalOS.xyz);
-
-
+                
                 OUT.positionCS = positionInputs.positionCS;
                 OUT.positionWS = positionInputs.positionWS;
 
-                //half3 viewDirWS = GetWorldSpaceViewDir(positionInputs.positionWS);
-                //half3 vertexLight = VertexLighting(positionInputs.positionWS, normalInputs.normalWS);
                 half fogFactor = ComputeFogFactor(positionInputs.positionCS.z);
 
                 OUT.normalWS = NormalizeNormalPerVertex(normalInputs.normalWS);
@@ -276,15 +285,14 @@ Shader "EditorKit/TilePreviewInstanced"
                 #endif
 
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
-                OUT.color = IN.color;
                 return OUT;
             }
 
             // Fragment Shader
             half4 LitPassFragment(Varyings IN) : SV_Target
             {
-                //UNITY_SETUP_INSTANCE_ID(IN);
-                //UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
+                if (IN.viewFlags == 128)
+                    discard;
 
                 // Setup SurfaceData
                 SurfaceData surfaceData;
@@ -296,10 +304,6 @@ Shader "EditorKit/TilePreviewInstanced"
 
                 // Simple Lighting (Lambert & BlinnPhong)
                 half4 color = UniversalFragmentBlinnPhong(inputData, surfaceData); // v12 only
-                //half4 color = UniversalFragmentBlinnPhong(inputData, surfaceData.albedo, half4(surfaceData.specular, 1), 
-                //surfaceData.smoothness, surfaceData.emission, surfaceData.alpha);
-                // See Lighting.hlsl to see how this is implemented.
-                // https://github.com/Unity-Technologies/Graphics/blob/master/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl
 
                 color.rgb = MixFog(color.rgb, inputData.fogCoord);
                 //color.a = 1;
@@ -307,9 +311,6 @@ Shader "EditorKit/TilePreviewInstanced"
             }
             ENDHLSL
         }
-
-        //UsePass "Universal Render Pipeline/Lit/ShadowCaster"
-        //UsePass "Universal Render Pipeline/Lit/DepthOnly"
 
         Pass
         {
@@ -323,8 +324,8 @@ Shader "EditorKit/TilePreviewInstanced"
             ZTest LEqual
 
             HLSLPROGRAM
-            #pragma vertex ShadowPassVertex
             #pragma fragment ShadowPassFragment
+            #pragma vertex DisplacedShadowPassVertex
 
             // Material Keywords
             #pragma shader_feature_local_fragment _ALPHATEST_ON
@@ -340,12 +341,94 @@ Shader "EditorKit/TilePreviewInstanced"
 
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
-            
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+
+            #pragma target 4.5
+
+            float3 _LightDirection;
+            float3 _LightPosition;
+
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float3 normalOS : NORMAL;
+                float2 texcoord : TEXCOORD0;
+                float4 color : COLOR;
+                uint instanceID : SV_InstanceID;
+            };
+
+            struct Varyings
+            {
+                float2 uv : TEXCOORD0;
+                float4 positionCS : SV_POSITION;
+            };
+
+            float4 GetShadowPositionHClip(Attributes input)
+            {
+                float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
+                float3 normalWS = TransformObjectToWorldNormal(input.normalOS);
+
+                #if _CASTING_PUNCTUAL_LIGHT_SHADOW
+                    float3 lightDirectionWS = normalize(_LightPosition - positionWS);
+                #else
+                float3 lightDirectionWS = _LightDirection;
+                #endif
+
+                float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
+
+                #if UNITY_REVERSED_Z
+                positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE);
+                #else
+                    positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE);
+                #endif
+
+                return positionCS;
+            }
+
+            #if SHADER_TARGET >= 45
+            StructuredBuffer<meshData> instanceBuffer;
+            #endif
+
+            Varyings DisplacedShadowPassVertex(Attributes input)
+            {
+                Varyings output = (Varyings)0;
+
+                // Example Displacement
+                #if SHADER_TARGET >= 45
+                meshData data = instanceBuffer[input.instanceID];
+                #else
+                meshData data = (meshData)0;
+                #endif
+
+                if (input.color.r > 0.2f)
+                {
+                    if (input.color.r < 0.7f &&
+                        (data.viewFlags & 8) == 8)
+                    {
+                        input.positionOS.z -= 0.3f;
+                    }
+                    if (input.color.r > 0.7f &&
+                        (data.viewFlags & 4) == 4)
+                    {
+                        input.positionOS.z -= 0.3f;
+                    }
+                }
+
+                input.positionOS.xyz += data.pos;
+
+                output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
+                output.positionCS = GetShadowPositionHClip(input);
+                return output;
+            }
+
+            half4 ShadowPassFragment(Varyings input) : SV_TARGET
+            {
+                Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
+                return 0;
+            }
             ENDHLSL
         }
 
-        // DepthOnly, used for Camera Depth Texture (if cannot copy depth buffer instead, and the DepthNormals below isn't used)
         Pass
         {
             Name "DepthOnly"
@@ -372,8 +455,62 @@ Shader "EditorKit/TilePreviewInstanced"
 
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl"
-            
+
+            struct Attributes
+            {
+                float4 position : POSITION;
+                float2 texcoord : TEXCOORD0;
+                float4 color : COLOR;
+                uint instanceID : SV_InstanceID;
+            };
+
+            struct Varyings
+            {
+                float2 uv : TEXCOORD0;
+                float4 positionCS : SV_POSITION;
+            };
+
+            #if SHADER_TARGET >= 45
+                StructuredBuffer<meshData> instanceBuffer;
+            #endif
+
+            Varyings DepthOnlyVertex(Attributes input)
+            {
+                Varyings output = (Varyings)0;
+
+                // Example Displacement
+                #if SHADER_TARGET >= 45
+                meshData data = instanceBuffer[input.instanceID];
+                #else
+                meshData data = (meshData)0;
+                #endif
+
+                if (input.color.r > 0.2f)
+                {
+                    if (input.color.r < 0.7f &&
+                        (data.viewFlags & 8) == 8)
+                    {
+                        input.position.z -= 0.3f;
+                    }
+                    if (input.color.r > 0.7f &&
+                        (data.viewFlags & 4) == 4)
+                    {
+                        input.position.z -= 0.3f;
+                    }
+                }
+
+                input.position.xyz += data.pos;
+
+                output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
+                output.positionCS = TransformObjectToHClip(input.position.xyz);
+                return output;
+            }
+
+            half4 DepthOnlyFragment(Varyings input) : SV_TARGET
+            {
+                Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
+                return 0;
+            }
             ENDHLSL
         }
 
@@ -404,8 +541,80 @@ Shader "EditorKit/TilePreviewInstanced"
 
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthNormalsPass.hlsl"
 
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float4 tangentOS : TANGENT;
+                float2 texcoord : TEXCOORD0;
+                float3 normal : NORMAL;
+                float4 color : COLOR;
+                uint instanceID : SV_InstanceID;
+            };
+
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float2 uv : TEXCOORD1;
+                float3 normalWS : TEXCOORD2;
+            };
+
+            #if SHADER_TARGET >= 45
+                StructuredBuffer<meshData> instanceBuffer;
+            #endif
+
+            Varyings DepthNormalsVertex(Attributes input)
+            {
+                Varyings output = (Varyings)0;
+
+                 // Example Displacement
+                #if SHADER_TARGET >= 45
+                meshData data = instanceBuffer[input.instanceID];
+                #else
+                meshData data = (meshData)0;
+                #endif
+
+                if (input.color.r > 0.2f)
+                {
+                    if (input.color.r < 0.7f &&
+                        (data.viewFlags & 8) == 8)
+                    {
+                        input.positionOS.z -= 0.3f;
+                    }
+                    if (input.color.r > 0.7f &&
+                        (data.viewFlags & 4) == 4)
+                    {
+                        input.positionOS.z -= 0.3f;
+                    }
+                }
+
+                input.positionOS.xyz += data.pos;
+
+                output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
+                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
+
+                VertexNormalInputs normalInput = GetVertexNormalInputs(input.normal, input.tangentOS);
+                output.normalWS = NormalizeNormalPerVertex(normalInput.normalWS);
+
+                return output;
+            }
+
+            half4 DepthNormalsFragment(Varyings input) : SV_TARGET
+            {
+
+                Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
+
+                #if defined(_GBUFFER_NORMALS_OCT)
+                    float3 normalWS = normalize(input.normalWS);
+                    float2 octNormalWS = PackNormalOctQuadEncode(normalWS);           // values between [-1, +1], must use fp32 on some platforms.
+                    float2 remappedOctNormalWS = saturate(octNormalWS * 0.5 + 0.5);   // values between [ 0,  1]
+                    half3 packedNormalWS = PackFloat2To888(remappedOctNormalWS);      // values between [ 0,  1]
+                    return half4(packedNormalWS, 0.0);
+                #else
+                float3 normalWS = NormalizeNormalPerPixel(input.normalWS);
+                return half4(normalWS, 0.0);
+                #endif
+            }
             ENDHLSL
         }
     }

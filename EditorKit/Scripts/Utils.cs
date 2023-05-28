@@ -32,5 +32,10 @@ namespace CoreLibKit
         {
             return new Vector4(rect.x, rect.y, rect.width, rect.height);
         }
+        
+        public static float4 ToFloat4(this Rect rect)
+        {
+            return new float4(rect.x, rect.y, rect.width, rect.height);
+        }
     }
 }
