@@ -75,9 +75,14 @@ namespace CoreLib.Submodules.ModComponent
         /// </param>
         /// <typeparam name="T">The compile-time type of the component.</typeparam>
         /// <returns>The run-time type information of the component.</returns>
-        public static ModComponentTypeHandle<T> GetModComponentTypeHandle<T>(this EntityManager entityManager, bool isReadOnly)
+        public static ModComponentTypeHandle<T> GetModComponentTypeHandle<T>(this EntityManager entityManager, bool isReadOnly) where T : struct
         {
             return new ModComponentTypeHandle<T>(isReadOnly, entityManager.GlobalSystemVersion);
+        }
+        
+        public static ModBufferTypeHandle<T> GetModBufferTypeHandle<T>(this EntityManager entityManager, bool isReadOnly) where T : struct
+        {
+            return new ModBufferTypeHandle<T>(isReadOnly, entityManager.GlobalSystemVersion);
         }
 
         /// <summary>

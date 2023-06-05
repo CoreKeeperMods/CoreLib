@@ -206,6 +206,18 @@ namespace CoreLib.Submodules.ModComponent
 
             return index;
         }
+        
+        public const int ClearFlagsMask = 0x007FFFFF;
+
+        public static unsafe ref readonly TypeManager.TypeInfo GetTypeInfo(int typeIndex)
+        {
+            return ref TypeManager.GetTypeInfoPointer()[typeIndex & ClearFlagsMask];
+        }
+        
+        public static ref readonly TypeManager.TypeInfo GetTypeInfo<T>()
+        {
+            return ref GetTypeInfo(GetModTypeIndex<T>());
+        }
 
         public static void RegisterECSComponent<T>()
         {

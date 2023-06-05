@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using System;
+using Unity.Entities;
 
 namespace CoreLib.Submodules.ModSystem
 {
@@ -6,6 +7,7 @@ namespace CoreLib.Submodules.ModSystem
     /// Define Pseudo Client System by implementing this interface
     /// Pseudo Systems can perform actions on certain entities every tick 
     /// </summary>
+    [Obsolete("Use BaseModSystem instead")]
     public interface IPseudoClientSystem
     {
         /// <summary>

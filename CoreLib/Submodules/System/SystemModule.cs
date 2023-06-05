@@ -9,6 +9,7 @@ using CoreLib.Submodules.ModSystem.Patches;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 // ReSharper disable SuspiciousTypeConversion.Global
+#pragma warning disable CS0618
 
 namespace CoreLib.Submodules.ModSystem
 {
@@ -100,6 +101,7 @@ namespace CoreLib.Submodules.ModSystem
 
         public static List<IPseudoClientSystem> clientSystems = new List<IPseudoClientSystem>();
         public static List<IPseudoServerSystem> serverSystems = new List<IPseudoServerSystem>();
+        
 
         public static List<IStateRequester> stateRequesters = new List<IStateRequester>();
 
@@ -137,7 +139,8 @@ namespace CoreLib.Submodules.ModSystem
         internal static void Load()
         {
             ClassInjector.RegisterTypeInIl2Cpp<JobExtensions.JobDelegate>();
-            
+            ClassInjector.RegisterTypeInIl2Cpp<BaseModSystem>();
+                
             BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
             stateIdBind = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModStateID.cfg", metadata, modStateIdRangeStart, modStateIdRangeEnd);
         }

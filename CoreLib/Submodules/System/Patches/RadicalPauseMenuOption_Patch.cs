@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+#pragma warning disable CS0618
 
 namespace CoreLib.Submodules.ModSystem.Patches
 {

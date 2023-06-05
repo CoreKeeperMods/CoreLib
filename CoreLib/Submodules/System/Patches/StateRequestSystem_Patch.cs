@@ -40,7 +40,7 @@ namespace CoreLib.Submodules.ModSystem.Patches
                         }))));
         }
 
-        private static unsafe NativeArray<T> GetNativeArrayB<T>(ref ArchetypeChunk chunk, ComponentTypeHandle<T> chunkComponentTypeHandle)
+        private static unsafe NativeArray<T> GetNativeArrayB<T>(ref ArchetypeChunk chunk, ComponentTypeHandle_Unboxed<T> chunkComponentTypeHandle)
             where T : unmanaged
         {
             IntPtr* numPtr = stackalloc IntPtr[1];

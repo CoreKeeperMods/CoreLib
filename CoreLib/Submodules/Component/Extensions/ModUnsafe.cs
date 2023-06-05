@@ -92,5 +92,20 @@ namespace CoreLib.Submodules.ModComponent
             Sizeof(typeof(T));
             return IL.Return<int>();
         }
+        
+        public static unsafe void CopyStructureToPtr<T>(ref T input, void* ptr) where T : struct
+        {
+            if ((IntPtr) ptr == IntPtr.Zero)
+                throw new ArgumentNullException();
+            InternalCopyStructureToPtr<T>(ref input, ptr);
+        }
+
+        private static void InternalCopyStructureToPtr<T>(ref T input, void* ptr) where T : struct
+        {
+            Ldarg_1();
+            Ldarg_0();
+            Ldobj<T>();
+            Stobj<T>();
+        }
     }
 }

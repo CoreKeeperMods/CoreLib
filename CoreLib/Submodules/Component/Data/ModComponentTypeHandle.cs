@@ -4,7 +4,7 @@
 
 namespace CoreLib.Submodules.ModComponent
 {
-    public struct ModComponentTypeHandle<T>
+    public struct ModComponentTypeHandle<T>  where T : struct
     {
         internal readonly int m_TypeIndex;
         internal readonly uint m_GlobalSystemVersion;

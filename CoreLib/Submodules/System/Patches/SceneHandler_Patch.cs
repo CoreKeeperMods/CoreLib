@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Unity.Entities;
+#pragma warning disable CS0618
 
 namespace CoreLib.Submodules.ModSystem.Patches
 {
