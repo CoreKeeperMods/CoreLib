@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using BepInEx.Configuration;
 using CoreLib.Util;
 using HarmonyLib;
 using Rewired;
@@ -11,6 +12,8 @@ namespace CoreLib.Submodules.RewiredExtension.Patches
     [HarmonyPatch]
     public static class Rewired_Init_Patch
     {
+        // This searches for a method with void name() signature where name is always obfuscated
+        // It initializes user data, and is a good entry point
         public static MethodBase TargetMethod()
         {
             var method = AccessTools.FirstMethod(typeof(UserData), method => method.ReturnType == typeof(void) && method.GetParameters().Length == 0);
@@ -20,14 +23,11 @@ namespace CoreLib.Submodules.RewiredExtension.Patches
             CoreLibPlugin.Logger.LogDebug($"Rewired patch. Found method: {method.FullDescription()}");
             return method;
         }
-
-
-        // Method named 'XOwBkQJVpYlgpbGQGFboTZRShRLKb' initializes user data, and is a good entry point
+        
         [HarmonyPrefix]
         public static void OnRewiredDataInit(UserData __instance)
         {
             List<string> invalidKeybinds = new List<string>();
-
 
             foreach (var pair in RewiredExtensionModule.keyBinds)
             {
@@ -39,11 +39,17 @@ namespace CoreLib.Submodules.RewiredExtension.Patches
                     continue;
                 }
 
-                int keyBindId = RewiredExtensionModule.keybindIdCache.Bind("KeyBinds", pair.Key, __instance.actionIdCounter + 50).Value;
-
+                ConfigEntry<int> keyBindId = RewiredExtensionModule.keybindIdCache.Bind("KeyBinds", pair.Key, __instance.actionIdCounter + 50);
+                
+                if (ActionExists(__instance, keyBindId.Value))
+                {
+                    CoreLibPlugin.Logger.LogWarning($"Found keybind cache id conflict, force rebinding {pair.Key} keybind id!");
+                    keyBindId.Value = __instance.actionIdCounter + 50;
+                }
+                
                 InputAction newAction = new InputAction()
                 {
-                    _id = keyBindId,
+                    _id = keyBindId.Value,
                     _categoryId = 0,
                     _name = pair.Key,
                     _type = InputActionType.Button,
@@ -83,6 +89,16 @@ namespace CoreLib.Submodules.RewiredExtension.Patches
             }
 
             CoreLibPlugin.Logger.LogInfo("Done adding mod keybinds!");
+        }
+
+        private static bool ActionExists(UserData userData, int keyBindId)
+        {
+            foreach (InputAction action in userData.actions)
+            {
+                if (action._id == keyBindId) return true;
+            }
+
+            return false;
         }
     }
 }
