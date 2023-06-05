@@ -4,8 +4,9 @@ using System.Linq;
 using System.Reflection;
 using BepInEx;
 using CoreLib.Submodules.ModComponent;
+using CoreLib.Submodules.ModSystem.Jobs;
 using CoreLib.Submodules.ModSystem.Patches;
-using Il2CppInterop.Runtime.InteropTypes;
+using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 // ReSharper disable SuspiciousTypeConversion.Global
 
@@ -135,6 +136,8 @@ namespace CoreLib.Submodules.ModSystem
         [CoreLibSubmoduleInit(Stage = InitStage.Load)]
         internal static void Load()
         {
+            ClassInjector.RegisterTypeInIl2Cpp<JobExtensions.JobDelegate>();
+            
             BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
             stateIdBind = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModStateID.cfg", metadata, modStateIdRangeStart, modStateIdRangeEnd);
         }
