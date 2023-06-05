@@ -7,6 +7,7 @@ using CoreLib.Submodules.ModComponent;
 using CoreLib.Submodules.ModSystem.Jobs;
 using CoreLib.Submodules.ModSystem.Patches;
 using Il2CppInterop.Runtime.Injection;
+using Unity.Entities;
 using UnityEngine;
 // ReSharper disable SuspiciousTypeConversion.Global
 #pragma warning disable CS0618
@@ -32,6 +33,9 @@ namespace CoreLib.Submodules.ModSystem
         public const int NORMAL_PRIORITY = 500;
         public const int HIGHER_PRIORITY = 400;
         public const int HIGHEST_PRIORITY = 300;
+
+        public static event Action<World> OnClientWorldStarted; 
+        public static event Action<World> OnServerWorldStarted;
 
         public static StateID GetModStateId(string stateId)
         {
@@ -160,6 +164,31 @@ namespace CoreLib.Submodules.ModSystem
             if (success)
             {
                 CoreLibPlugin.Logger.LogInfo($"Registered '{stateRequester.GetType().FullName}' as a State Requester!");
+            }
+        }
+
+        internal static void OnWorldsReady()
+        {
+            World serverWorld = Manager.ecs.ServerWorld;
+            if (serverWorld != null)
+            {
+                CoreLibPlugin.Logger.LogInfo("Loading Server Systems!");
+                OnServerWorldStarted.Invoke(serverWorld);
+                foreach (IPseudoServerSystem serverSystem in serverSystems)
+                {
+                    serverSystem.OnServerStarted(serverWorld);
+                }
+            }
+
+            World clientWorld = Manager.ecs.ClientWorld;
+            if (clientWorld != null)
+            {
+                CoreLibPlugin.Logger.LogInfo("Loading Client Systems!");
+                OnClientWorldStarted.Invoke(clientWorld);
+                foreach (IPseudoClientSystem serverSystem in clientSystems)
+                {
+                    serverSystem.OnClientStarted(serverWorld);
+                }
             }
         }
 
