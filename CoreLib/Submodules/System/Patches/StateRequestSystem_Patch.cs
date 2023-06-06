@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using CoreLib.Submodules.ModSystem.Jobs;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Reflection;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Jobs;
 using CommandBufferExtensions = CoreLib.Submodules.ModComponent.CommandBufferExtensions;
 using ComponentModule = CoreLib.Submodules.ModComponent.ComponentModule;
 using Type = Il2CppSystem.Type;
@@ -27,6 +29,12 @@ namespace CoreLib.Submodules.ModSystem.Patches
             return ref Unsafe.AsRef<StateRequestSystem.UpdateJob>((void*)fieldPtr);
         }
 
+        private static unsafe StateRequestSystem.UpdateJob* GetJobPtr(StateRequestSystem system)
+        {
+            IntPtr fieldPtr = IL2CPP.Il2CppObjectBaseToPtrNotNull(system) + (int)IL2CPP.il2cpp_field_get_offset(updateJobFieldPtr);
+            return (StateRequestSystem.UpdateJob*)fieldPtr;
+        }
+
         private sealed class MethodInfoStoreGeneric_GetNativeArray<T>
         {
             internal static IntPtr Pointer = IL2CPP.il2cpp_method_get_from_reflection(
@@ -40,7 +48,7 @@ namespace CoreLib.Submodules.ModSystem.Patches
                         }))));
         }
 
-        private static unsafe NativeArray<T> GetNativeArrayB<T>(ref ArchetypeChunk chunk, ComponentTypeHandle_Unboxed<T> chunkComponentTypeHandle)
+        private static unsafe NativeArray<T> GetNativeArrayB<T>(ref ArchetypeChunk chunk, ComponentTypeHandle<T> chunkComponentTypeHandle)
             where T : unmanaged
         {
             IntPtr* numPtr = stackalloc IntPtr[1];
@@ -80,62 +88,100 @@ namespace CoreLib.Submodules.ModSystem.Patches
 
         [HarmonyPatch(typeof(StateRequestSystem), nameof(StateRequestSystem.OnUpdate))]
         [HarmonyPostfix]
-        public static void OnUpdate(StateRequestSystem __instance)
+        public static unsafe void OnUpdate(StateRequestSystem __instance)
         {
             if (SystemModule.stateRequesters.Count == 0) return;
 
-            __instance.Dependency.Complete();
-
-            ref StateRequestSystem.UpdateJob job = ref GetJob(__instance);
+            StateRequestSystem.UpdateJob* jobPtr = GetJobPtr(__instance);
 
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
-            NativeArray<ArchetypeChunk> chunkArray = entityQuery.CreateArchetypeChunkArray(Allocator.Temp);
+            NativeArray<ArchetypeChunk> chunkArray = entityQuery.CreateArchetypeChunkArrayAsync(Allocator.Temp, out JobHandle queryJob);
 
-            for (int i = 0; i < chunkArray.Length; i++)
+            JobHandle jobHandle = JobHandle.CombineDependencies(__instance.Dependency, queryJob);
+
+            ModStateRequesterJob stateRequesterJob = new ModStateRequesterJob()
             {
-                ArchetypeChunk chunk = chunkArray[i];
-                UpdateForChunk(ref chunk, ref job, ref ecb);
-            }
+                ecb = ecb,
+                chunkArray = chunkArray,
+                updateJob = jobPtr
+            };
 
-            ecb.Playback(__instance.EntityManager);
-            ecb.Dispose();
+            JobHandle modStatesHandle = stateRequesterJob.ModSchedule(chunkArray.Length, 1, jobHandle);
 
-            chunkArray.Dispose();
+            ModStateFinishJob finishJob = new ModStateFinishJob()
+            {
+                ecb = ecb,
+                chunkArray = chunkArray,
+                entityManager = __instance.EntityManager
+            };
+
+            __instance.Dependency = finishJob.ModSchedule(modStatesHandle);
         }
 
-        private static void UpdateForChunk(ref ArchetypeChunk chunk, ref StateRequestSystem.UpdateJob job, ref EntityCommandBuffer ecb)
+        public unsafe struct ModStateRequesterJob : IModParallelJob
         {
-            NativeArray<Entity> entities = chunk.GetNativeArray(job.Entity);
-            NativeArray<StateInfoCD> stateInfos = GetNativeArrayB(ref chunk, job.StateInfo);
+            public EntityCommandBuffer ecb;
+            public NativeArray<ArchetypeChunk> chunkArray;
+            public StateRequestSystem.UpdateJob* updateJob;
 
-            foreach (IStateRequester stateRequester in SystemModule.stateRequesters)
+            public void Execute(int index)
             {
-                if (!stateRequester.ShouldUpdate(entities[0], ref job.Data, ref job.Containers)) continue;
+                ArchetypeChunk chunk = chunkArray[index];
+                if (chunk.Count == 0) return;
+                
+                UpdateForChunk(ref chunk);
+            }
 
-                for (int j = 0; j < entities.Length; j++)
+            private void UpdateForChunk(ref ArchetypeChunk chunk)
+            {
+                ref var job = ref Unsafe.AsRef<StateRequestSystem.UpdateJob>(updateJob);
+                NativeArray<Entity> entities = chunk.GetNativeArray(job.Entity);
+                NativeArray<StateInfoCD> stateInfos = GetNativeArrayB(ref chunk, job.StateInfo);
+
+                foreach (IStateRequester stateRequester in SystemModule.stateRequesters)
                 {
-                    Entity entity = entities[j];
-                    StateInfoCD stateInfoCd = stateInfos[j];
-                    bool hasChanged = false;
+                    if (!stateRequester.ShouldUpdate(entities[0], ref job.Data, ref job.Containers)) continue;
 
-                    try
+                    for (int j = 0; j < entities.Length; j++)
                     {
-                        hasChanged |= stateRequester.OnUpdate(
-                            entity,
-                            ecb,
-                            ref job.Data,
-                            ref job.Containers,
-                            ref stateInfoCd);
-                    }
-                    catch (Exception e)
-                    {
-                        CoreLibPlugin.Logger.LogError($"Error while executing {stateRequester.GetType().FullName} State Requester OnUpdate():\n{e}");
-                    }
+                        Entity entity = entities[j];
+                        StateInfoCD stateInfoCd = stateInfos[j];
+                        bool hasChanged = false;
+
+                        try
+                        {
+                            hasChanged |= stateRequester.OnUpdate(
+                                entity,
+                                ecb,
+                                ref job.Data,
+                                ref job.Containers,
+                                ref stateInfoCd);
+                        }
+                        catch (Exception e)
+                        {
+                            CoreLibPlugin.Logger.LogError($"Error while executing {stateRequester.GetType().FullName} State Requester OnUpdate():\n{e}");
+                        }
 
 
-                    if (hasChanged)
-                        CommandBufferExtensions.SetModComponent(ecb, entity, stateInfoCd);
+                        if (hasChanged)
+                            CommandBufferExtensions.SetModComponent(ecb, entity, stateInfoCd);
+                    }
                 }
+            }
+        }
+
+        public struct ModStateFinishJob : IModJob
+        {
+            public EntityManager entityManager;
+            public EntityCommandBuffer ecb;
+            public NativeArray<ArchetypeChunk> chunkArray;
+
+            public void Execute()
+            {
+                ecb.Playback(entityManager);
+                ecb.Dispose();
+
+                chunkArray.Dispose();
             }
         }
     }
