@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using CoreLib.Submodules.ModComponent;
 using Il2CppInterop.Runtime.Attributes;
+using PugTilemap;
 using Unity.Entities;
 using Unity.Jobs;
 
@@ -14,6 +15,9 @@ namespace CoreLib.Submodules.ModSystem
 	/// </summary>
     public unsafe class BaseModSystem : ComponentSystemBase
     {
+	    private bool tileAccessorCreated;
+	    private TileAccessor tileAccessor;
+	    
 	    public BaseModSystem(IntPtr ptr) : base(ptr) { }
 	    
 	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -30,18 +34,18 @@ namespace CoreLib.Submodules.ModSystem
 
 	    protected JobHandle Dependency
 	    {
-		    get => base.CheckedState()->Dependency;
-		    set => base.CheckedState()->Dependency = value;
+		    get => CheckedState()->Dependency;
+		    set => CheckedState()->Dependency = value;
 	    }
 
 	    protected void CompleteDependency()
 	    {
-		    base.CheckedState()->CompleteDependency();
+		    CheckedState()->CompleteDependency();
 	    }
 	    
 	    public sealed override void Update()
 	    {
-		    SystemState* ptr = base.CheckedState();
+		    SystemState* ptr = CheckedState();
 		    if (Enabled && ShouldRunSystem())
 		    {
 			    if (!ptr->PreviouslyEnabled)
@@ -76,9 +80,26 @@ namespace CoreLib.Submodules.ModSystem
 		    }
 	    }
 
-	    protected void OnUpdate()
+	    protected virtual void OnUpdate()
 	    {
-		    throw new Exception("Not implemented!");
+		    tileAccessorCreated = false;
+	    }
+	    
+	    protected TileAccessor GetTileAccessor(bool readOnly = true)
+	    {
+		    if (!tileAccessorCreated)
+		    {
+			    tileAccessorCreated = true;
+			    tileAccessor = new TileAccessor()
+			    {
+				    subMapMap = World.GetExistingSystem<UpdateSubMapSystem>().SubMapMap,
+				    tilePriorityLookup = TileTypeUtility.GetSurfacePriorityLookup(World.UpdateAllocator.ToAllocator),
+				    bufferFromEntity = base.GetBufferFromEntity<SubMapLayerBuffer>(readOnly),
+				    lastSubMapEntity = Entity.Null,
+				    lastSubMapPos = int.MinValue,
+			    };
+		    }
+		    return tileAccessor;
 	    }
 	    
 	    [HideFromIl2Cpp]
