@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using CoreLib.Components;
@@ -237,6 +238,18 @@ namespace CoreLib.Submodules.ModComponent
             {
                 CoreLibPlugin.Logger.LogDebug($"Registering ECS component {componentType.FullName}");
                 customComponentsTypes.Add(il2CppType);
+            }
+        }
+
+        public static void RegisterComponents(Assembly assembly)
+        {
+            ThrowIfNotLoaded();
+            
+            IEnumerable<System.Type> types = assembly.GetTypes().Where(Reflection.HasAttribute<ModComponentAttribute>);
+            
+            foreach (System.Type type in types)
+            {
+                RegisterECSComponent(type);
             }
         }
 

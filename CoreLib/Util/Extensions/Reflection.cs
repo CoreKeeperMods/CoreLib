@@ -247,4 +247,17 @@ public static class Reflection {
         MethodInfo implMethod = implType.GetMethod("GetActualType", AccessTools.all);
         return (System.Type)implMethod.Invoke(null, new[] { obj });
     }
+    
+    public static bool IsAction<T>(MethodInfo method)
+    {
+        var parameters = method.GetParameters();
+        return method.ReturnParameter.ParameterType == typeof(void) &&
+               parameters.Length == 1 &&
+               parameters[0].ParameterType == typeof(T);
+    }
+
+    public static bool HasAttribute<T>(MemberInfo type) where T : Attribute
+    {
+        return type.GetCustomAttribute<T>() != null;
+    }
 }

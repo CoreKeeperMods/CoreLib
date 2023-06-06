@@ -811,7 +811,7 @@ public static class EntityModule
 
     private static void RegisterEntityModifications_Internal(Assembly assembly)
     {
-        IEnumerable<Type> types = assembly.GetTypes().Where(HasAttribute<EntityModificationAttribute>);
+        IEnumerable<Type> types = assembly.GetTypes().Where(Reflection.HasAttribute<EntityModificationAttribute>);
 
         foreach (Type type in types)
         {
@@ -821,7 +821,7 @@ public static class EntityModule
     
     private static void RegisterPrefabModifications_Internal(Assembly assembly)
     {
-        IEnumerable<Type> types = assembly.GetTypes().Where(HasAttribute<PrefabModificationAttribute>);
+        IEnumerable<Type> types = assembly.GetTypes().Where(Reflection.HasAttribute<PrefabModificationAttribute>);
 
         foreach (Type type in types)
         {
@@ -835,10 +835,10 @@ public static class EntityModule
     {
         int modifiersCount = 0;
 
-        IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(HasAttribute<EntityModificationAttribute>);
+        IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(Reflection.HasAttribute<EntityModificationAttribute>);
         foreach (MethodInfo method in methods)
         {
-            if (!IsAction<EntityMonoBehaviourData>(method))
+            if (!Reflection.IsAction<EntityMonoBehaviourData>(method))
             {
                 CoreLibPlugin.Logger.LogError(
                     $"Failed to add modify method '{method.FullDescription()}', because method signature is incorrect. Should be void ({nameof(EntityMonoBehaviourData)})!");
@@ -870,10 +870,10 @@ public static class EntityModule
     {
         int modifiersCount = 0;
 
-        IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(HasAttribute<PrefabModificationAttribute>);
+        IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic).Where(Reflection.HasAttribute<PrefabModificationAttribute>);
         foreach (MethodInfo method in methods)
         {
-            if (!IsAction<EntityMonoBehaviour>(method))
+            if (!Reflection.IsAction<EntityMonoBehaviour>(method))
             {
                 CoreLibPlugin.Logger.LogWarning(
                     $"Failed to add prefab modify method '{method.FullDescription()}', because method signature is incorrect. Should be void ({nameof(EntityMonoBehaviour)})!");
@@ -904,19 +904,6 @@ public static class EntityModule
         }
 
         CoreLibPlugin.Logger.LogInfo($"Registered {modifiersCount} prefab modifiers in type {type.FullName}!");
-    }
-
-    private static bool IsAction<T>(MethodInfo method)
-    {
-        var parameters = method.GetParameters();
-        return method.ReturnParameter.ParameterType == typeof(void) &&
-               parameters.Length == 1 &&
-               parameters[0].ParameterType == typeof(T);
-    }
-
-    private static bool HasAttribute<T>(MemberInfo type) where T : Attribute
-    {
-        return type.GetCustomAttribute<T>() != null;
     }
 
     #endregion
