@@ -63,7 +63,11 @@ namespace CoreLib.Submodules.MigrationModule
             
             var inventoriesQuery = world.EntityManager.CreateEntityQuery(new EntityQueryDesc()
             {
-                All = new[] { ComponentModule.ReadOnly<InventoryCD>() },
+                All = new[]
+                {
+                    ComponentModule.ReadOnly<InventoryCD>(),
+                    ComponentType.ReadOnly<ContainedObjectsBuffer>() 
+                },
                 Options = EntityQueryOptions.IncludeDisabled
             });
 

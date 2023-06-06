@@ -2,17 +2,20 @@
 using CoreLib.Submodules.ModComponent;
 using CoreLib.Submodules.ModSystem;
 using CoreLib.Submodules.ModSystem.Jobs;
+using Il2CppInterop.Runtime.Attributes;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 
 namespace CoreLib.Submodules.MigrationModule
 {
-    public struct IDMigrationJob : JobExtensions.IModJob
+    public struct IDMigrationJob : IModJob
     {
         public NativeArray<Entity> objectsEntities;
         public NativeArray<Entity> inventoryEntities;
+        [HideFromIl2Cpp]
         public ModComponentDataFromEntity<ObjectDataCD> objectDataFromEntity;
+        [HideFromIl2Cpp]
         public ModBufferFromEntity<ContainedObjectsBuffer> containedObjectsFromEntity;
 
         public void Execute()
