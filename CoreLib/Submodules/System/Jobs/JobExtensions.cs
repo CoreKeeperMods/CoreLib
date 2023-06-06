@@ -76,6 +76,20 @@ namespace CoreLib.Submodules.ModSystem.Jobs
             public int* m_PtrToReferences;
         }
 
+        public static void EarlyInit<T>() where T : unmanaged
+        {
+            Type structType;
+            if (typeof(T).IsAssignableTo(typeof(IModJob)))
+                structType = typeof(JobStruct<>);
+            else if (typeof(T).IsAssignableTo(typeof(IModParallelJob)))
+                structType = typeof(ParallelForJobStruct<>);
+            else
+                throw new ArgumentException($"{typeof(T).FullName} is not a job!");
+            
+            Type genericStructType = structType.MakeGenericType(typeof(T));
+            RuntimeHelpers.RunClassConstructor(genericStructType.TypeHandle);
+        }  
+        
         public static JobHandle ModSchedule<T>(this ref T jobData, JobHandle dependsOn = default) where T : unmanaged, IModJob
         {
             SystemModule.ThrowIfNotLoaded();
@@ -83,6 +97,8 @@ namespace CoreLib.Submodules.ModSystem.Jobs
             
             JobsUtility.JobScheduleParameters parameters =
                 CreateParams(ptr, JobStruct<T>.jobReflectionDataPtr, dependsOn, ScheduleMode.Single);
+            if (sizeof(T) != JobStruct<T>.elementSize)
+                CoreLibPlugin.Logger.LogWarning($"Struct size for job {typeof(T).FullName} does not match! Prepare for unforeseen consequences. Actual size: {sizeof(T)}, element_size: {JobStruct<T>.jobReflectionData.element_size}");
             return JobsUtility.Schedule(ref parameters);
         }
         
@@ -91,6 +107,8 @@ namespace CoreLib.Submodules.ModSystem.Jobs
             SystemModule.ThrowIfNotLoaded();
             IntPtr ptr = JobToPtr(ref jobData);
             JobsUtility.JobScheduleParameters jobScheduleParameters = CreateParams(ptr, JobStruct<T>.jobReflectionDataPtr, default, ScheduleMode.Run);
+            if (sizeof(T) != JobStruct<T>.elementSize)
+                CoreLibPlugin.Logger.LogWarning($"Struct size for job {typeof(T).FullName} does not match! Prepare for unforeseen consequences. Actual size: {sizeof(T)}, element_size: {JobStruct<T>.jobReflectionData.element_size}");
             JobsUtility.Schedule(ref jobScheduleParameters);
         }
 
@@ -101,6 +119,8 @@ namespace CoreLib.Submodules.ModSystem.Jobs
             IntPtr ptr = JobToPtr(ref jobData);
             JobsUtility.JobScheduleParameters jobScheduleParameters = CreateParams(ptr,
                 ParallelForJobStruct<T>.jobReflectionDataPtr, dependsOn, ScheduleMode.Batched);
+            if (sizeof(T) != ParallelForJobStruct<T>.elementSize)
+                CoreLibPlugin.Logger.LogWarning($"Struct size for job {typeof(T).FullName} does not match! Prepare for unforeseen consequences. Actual size: {sizeof(T)}, element_size: {ParallelForJobStruct<T>.jobReflectionData.element_size}");
             return JobsUtility.ScheduleParallelFor(ref jobScheduleParameters, arrayLength, innerloopBatchCount);
         }
         
@@ -110,6 +130,8 @@ namespace CoreLib.Submodules.ModSystem.Jobs
             IntPtr ptr = JobToPtr(ref jobData);
             JobsUtility.JobScheduleParameters jobScheduleParameters = CreateParams(ptr,
                 ParallelForJobStruct<T>.jobReflectionDataPtr, default, ScheduleMode.Run);
+            if (sizeof(T) != ParallelForJobStruct<T>.elementSize)
+                CoreLibPlugin.Logger.LogWarning($"Struct size for job {typeof(T).FullName} does not match! Prepare for unforeseen consequences. Actual size: {sizeof(T)}, element_size: {ParallelForJobStruct<T>.jobReflectionData.element_size}");
             JobsUtility.ScheduleParallelFor(ref jobScheduleParameters, arrayLength, arrayLength);
         }
 
@@ -159,10 +181,12 @@ namespace CoreLib.Submodules.ModSystem.Jobs
         {
             public static readonly IntPtr jobReflectionDataPtr;
             public static ref JobReflectionData jobReflectionData => ref Unsafe.AsRef<JobReflectionData>((void*)jobReflectionDataPtr);
-
+            public static int elementSize => (int)jobReflectionData.element_size;
+            
             static ParallelForJobStruct()
             {
                 jobReflectionDataPtr = JobsUtility.CreateJobReflectionData(Il2CppType.Of<T>(), new JobDelegate(Execute));
+                jobReflectionData.jobHandle.Complete();
                 jobReflectionData.element_size = sizeof(T);
             }
             
@@ -197,10 +221,12 @@ namespace CoreLib.Submodules.ModSystem.Jobs
         {
             public static readonly IntPtr jobReflectionDataPtr;
             public static ref JobReflectionData jobReflectionData => ref Unsafe.AsRef<JobReflectionData>((void*)jobReflectionDataPtr);
-
+            public static int elementSize => (int)jobReflectionData.element_size;
+            
             static JobStruct()
             {
                 jobReflectionDataPtr = JobsUtility.CreateJobReflectionData(Il2CppType.Of<T>(), new JobDelegate(Execute));
+                jobReflectionData.jobHandle.Complete();
                 jobReflectionData.element_size = sizeof(T);
             }
 

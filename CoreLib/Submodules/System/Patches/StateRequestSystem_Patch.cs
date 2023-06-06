@@ -93,9 +93,9 @@ namespace CoreLib.Submodules.ModSystem.Patches
             if (SystemModule.stateRequesters.Count == 0) return;
 
             StateRequestSystem.UpdateJob* jobPtr = GetJobPtr(__instance);
-
-            EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
-            NativeArray<ArchetypeChunk> chunkArray = entityQuery.CreateArchetypeChunkArrayAsync(Allocator.Temp, out JobHandle queryJob);
+            
+            EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
+            NativeArray<ArchetypeChunk> chunkArray = entityQuery.CreateArchetypeChunkArrayAsync(Allocator.TempJob, out JobHandle queryJob);
 
             JobHandle jobHandle = JobHandle.CombineDependencies(__instance.Dependency, queryJob);
 

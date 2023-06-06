@@ -99,6 +99,12 @@ namespace CoreLib.Submodules.ModSystem
             RegisterStateRequester_Internal(Activator.CreateInstance<T>());
         }
 
+        public static void RegisterJob<T>() where T : unmanaged
+        {
+            ClassInjector.RegisterTypeInIl2Cpp<T>();
+            JobExtensions.EarlyInit<T>();
+        }
+
         #endregion
 
         #region PrivateImplementation
@@ -145,9 +151,9 @@ namespace CoreLib.Submodules.ModSystem
             ClassInjector.RegisterTypeInIl2Cpp<JobExtensions.JobDelegate>();
             ClassInjector.RegisterTypeInIl2Cpp<BaseModSystem>();
             
-            ClassInjector.RegisterTypeInIl2Cpp<StateRequestSystem_Patch.ModStateRequesterJob>();
-            ClassInjector.RegisterTypeInIl2Cpp<StateRequestSystem_Patch.ModStateFinishJob>();
-                
+            RegisterJob<StateRequestSystem_Patch.ModStateRequesterJob>();
+            RegisterJob<StateRequestSystem_Patch.ModStateFinishJob>();
+            
             BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
             stateIdBind = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModStateID.cfg", metadata, modStateIdRangeStart, modStateIdRangeEnd);
         }

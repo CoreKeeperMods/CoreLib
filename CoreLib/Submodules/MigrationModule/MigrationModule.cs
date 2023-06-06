@@ -49,7 +49,7 @@ namespace CoreLib.Submodules.MigrationModule
         [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
         internal static void Load()
         {
-            ClassInjector.RegisterTypeInIl2Cpp<IDMigrationJob>();
+            SystemModule.RegisterJob<IDMigrationJob>();
             SystemModule.OnServerWorldStarted += ScheduleMigration;
         }
 
