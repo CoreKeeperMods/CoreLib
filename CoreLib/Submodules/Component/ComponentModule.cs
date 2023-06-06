@@ -265,7 +265,7 @@ namespace CoreLib.Submodules.ModComponent
             CoreLibPlugin.harmony.PatchAll(typeof(TypeManager_Patch));
         }
 
-        [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
+        [CoreLibSubmoduleInit(Stage = InitStage.Load)]
         internal static void Load()
         {
             ClassInjector.RegisterTypeInIl2Cpp<ModCDAuthoringBase>();

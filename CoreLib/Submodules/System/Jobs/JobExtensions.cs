@@ -76,16 +76,6 @@ namespace CoreLib.Submodules.ModSystem.Jobs
             public int* m_PtrToReferences;
         }
 
-        public interface IModJob
-        {
-            void Execute();
-        }
-
-        public interface IModParallelJob
-        {
-            void Execute(int index);
-        }
-
         public static JobHandle ModSchedule<T>(this ref T jobData, JobHandle dependsOn = default) where T : unmanaged, IModJob
         {
             SystemModule.ThrowIfNotLoaded();

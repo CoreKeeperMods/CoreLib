@@ -7,9 +7,17 @@ using Unity.Jobs;
 
 namespace CoreLib.Submodules.ModSystem
 {
-    public abstract unsafe class BaseModSystem : ComponentSystemBase
+	/// <summary>
+	/// Base class for modded ECS systems. Used identically to SystemBase.
+	/// All methods function for any generic variants
+	/// Please ensure to use methods provided in this class for safety
+	/// </summary>
+    public unsafe class BaseModSystem : ComponentSystemBase
     {
+	    public BaseModSystem(IntPtr ptr) : base(ptr) { }
+	    
 	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+	    [HideFromIl2Cpp]
 	    internal new SystemState* CheckedState()
 	    {
 		    SystemState* statePtr = m_StatePtr;
@@ -67,7 +75,11 @@ namespace CoreLib.Submodules.ModSystem
 			    OnStopRunning();
 		    }
 	    }
-	    protected abstract void OnUpdate();
+
+	    protected void OnUpdate()
+	    {
+		    throw new Exception("Not implemented!");
+	    }
 	    
 	    [HideFromIl2Cpp]
 	    protected internal T GetComponent<T>(Entity entity) where T : unmanaged

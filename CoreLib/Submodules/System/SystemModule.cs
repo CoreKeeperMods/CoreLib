@@ -173,7 +173,7 @@ namespace CoreLib.Submodules.ModSystem
             if (serverWorld != null)
             {
                 CoreLibPlugin.Logger.LogInfo("Loading Server Systems!");
-                OnServerWorldStarted.Invoke(serverWorld);
+                OnServerWorldStarted?.Invoke(serverWorld);
                 foreach (IPseudoServerSystem serverSystem in serverSystems)
                 {
                     serverSystem.OnServerStarted(serverWorld);
@@ -184,7 +184,7 @@ namespace CoreLib.Submodules.ModSystem
             if (clientWorld != null)
             {
                 CoreLibPlugin.Logger.LogInfo("Loading Client Systems!");
-                OnClientWorldStarted.Invoke(clientWorld);
+                OnClientWorldStarted?.Invoke(clientWorld);
                 foreach (IPseudoClientSystem serverSystem in clientSystems)
                 {
                     serverSystem.OnClientStarted(serverWorld);
