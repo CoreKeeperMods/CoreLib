@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using CoreLib.Submodules.ModComponent;
 using Il2CppInterop.Runtime.Attributes;
 using PugTilemap;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 
@@ -19,18 +21,6 @@ namespace CoreLib.Submodules.ModSystem
 	    private TileAccessor tileAccessor;
 	    
 	    public BaseModSystem(IntPtr ptr) : base(ptr) { }
-	    
-	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-	    [HideFromIl2Cpp]
-	    internal new SystemState* CheckedState()
-	    {
-		    SystemState* statePtr = m_StatePtr;
-		    if (statePtr == null)
-		    {
-			    throw new InvalidOperationException("system state is not initialized or has already been destroyed");
-		    }
-		    return statePtr;
-	    }
 
 	    protected JobHandle Dependency
 	    {
@@ -85,6 +75,26 @@ namespace CoreLib.Submodules.ModSystem
 		    tileAccessorCreated = false;
 	    }
 	    
+	    [HideFromIl2Cpp]
+	    public ref RewindableAllocator WorldUpdateAllocator
+	    {
+		    get
+		    {
+			    ref var impl = ref Unsafe.AsRef<WorldUnmanagedImpl>(World.Unmanaged.m_Impl);
+			    return ref Unsafe.AsRef<RewindableAllocator>(impl.UpdateAllocator);
+		    }
+	    }
+	    
+	    [HideFromIl2Cpp]
+	    public new ref Unity.Core.TimeData Time
+	    {
+		    get
+		    {
+			    ref var impl = ref Unsafe.AsRef<WorldUnmanagedImpl>(World.Unmanaged.m_Impl);
+			    return ref impl.CurrentTime;
+		    }
+	    }
+	    
 	    protected TileAccessor GetTileAccessor(bool readOnly = true)
 	    {
 		    if (!tileAccessorCreated)
@@ -93,7 +103,7 @@ namespace CoreLib.Submodules.ModSystem
 			    tileAccessor = new TileAccessor()
 			    {
 				    subMapMap = World.GetExistingSystem<UpdateSubMapSystem>().SubMapMap,
-				    tilePriorityLookup = TileTypeUtility.GetSurfacePriorityLookup(World.UpdateAllocator.ToAllocator),
+				    tilePriorityLookup = TileTypeUtility.GetSurfacePriorityLookup(WorldUpdateAllocator.ToAllocator),
 				    bufferFromEntity = base.GetBufferFromEntity<SubMapLayerBuffer>(readOnly),
 				    lastSubMapEntity = Entity.Null,
 				    lastSubMapPos = int.MinValue,
