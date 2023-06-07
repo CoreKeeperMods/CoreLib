@@ -157,13 +157,9 @@ namespace CoreLib.Submodules.ModSystem.Patches
                         {
                             CoreLibPlugin.Logger.LogError($"Error while executing {stateRequester.GetType().FullName} State Requester OnUpdate():\n{e}");
                         }
-
-
+                        
                         if (hasChanged)
-                        {
-                            CoreLibPlugin.Logger.LogInfo("Data has changed!");
                             CommandBufferExtensions.SetModComponent(ecb, entity, stateInfoCd);
-                        }
                     }
                 }
             }
