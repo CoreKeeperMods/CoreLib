@@ -152,7 +152,6 @@ namespace CoreLib.Submodules.ModSystem
             ClassInjector.RegisterTypeInIl2Cpp<BaseModSystem>();
             
             RegisterJob<StateRequestSystem_Patch.ModStateRequesterJob>();
-            RegisterJob<StateRequestSystem_Patch.ModStateFinishJob>();
             
             BepInPlugin metadata = MetadataHelper.GetMetadata(typeof(CoreLibPlugin));
             stateIdBind = new IdBindConfigFile($"{Paths.ConfigPath}/CoreLib/CoreLib.ModStateID.cfg", metadata, modStateIdRangeStart, modStateIdRangeEnd);

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using CoreLib.Submodules.ModSystem.Jobs;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.Attributes;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Reflection;
 using Unity.Collections;
@@ -93,8 +95,8 @@ namespace CoreLib.Submodules.ModSystem.Patches
             if (SystemModule.stateRequesters.Count == 0) return;
 
             StateRequestSystem.UpdateJob* jobPtr = GetJobPtr(__instance);
-            
-            EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
+
+            EntityCommandBuffer ecb = __instance.ecbSystem.CreateCommandBuffer();
             NativeArray<ArchetypeChunk> chunkArray = entityQuery.CreateArchetypeChunkArrayAsync(Allocator.TempJob, out JobHandle queryJob);
 
             JobHandle jobHandle = JobHandle.CombineDependencies(__instance.Dependency, queryJob);
@@ -107,20 +109,14 @@ namespace CoreLib.Submodules.ModSystem.Patches
             };
 
             JobHandle modStatesHandle = stateRequesterJob.ModSchedule(chunkArray.Length, 1, jobHandle);
-
-            ModStateFinishJob finishJob = new ModStateFinishJob()
-            {
-                ecb = ecb,
-                chunkArray = chunkArray,
-                entityManager = __instance.EntityManager
-            };
-
-            __instance.Dependency = finishJob.ModSchedule(modStatesHandle);
+            __instance.ecbSystem.AddJobHandleForProducer(modStatesHandle);
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public unsafe struct ModStateRequesterJob : IModParallelJob
         {
             public EntityCommandBuffer ecb;
+            [Il2CppAttribute(typeof(DeallocateOnJobCompletionAttribute))]
             public NativeArray<ArchetypeChunk> chunkArray;
             public StateRequestSystem.UpdateJob* updateJob;
 
@@ -164,24 +160,12 @@ namespace CoreLib.Submodules.ModSystem.Patches
 
 
                         if (hasChanged)
+                        {
+                            CoreLibPlugin.Logger.LogInfo("Data has changed!");
                             CommandBufferExtensions.SetModComponent(ecb, entity, stateInfoCd);
+                        }
                     }
                 }
-            }
-        }
-
-        public struct ModStateFinishJob : IModJob
-        {
-            public EntityManager entityManager;
-            public EntityCommandBuffer ecb;
-            public NativeArray<ArchetypeChunk> chunkArray;
-
-            public void Execute()
-            {
-                ecb.Playback(entityManager);
-                ecb.Dispose();
-
-                chunkArray.Dispose();
             }
         }
     }
