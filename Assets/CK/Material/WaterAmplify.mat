@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterAmplify
+  m_Shader: {fileID: 4800000, guid: 5329a08211ea3db478223b9a8f6f85b6, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _CausticsTex:
+        m_Texture: {fileID: 2800000, guid: a3d4f483ee677c440967bab85eeaddb2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissiveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlowMap:
+        m_Texture: {fileID: 2800000, guid: ea2acfd5f9a478d429ad4d588d78076a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: c6686651ab3a9674996f4fb1bd580785, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaCutoff: 0.5
+    - _EdgeLength: 15
+    - _EnvironmentReflections: 1
+    - _IndirectMultiplier: 1
+    - _PhysicalAttenuation: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _ReflWarpAmount: 2
+    - _ReflWarpScale: 2
+    - _ReflWarpScrollSpeed: 0.5
+    - _SpecularHighlights: 1
+    - _TessPhongStrength: 0.5
+    - _UnderwaterFog: 0.3
+    - __dirty: 0
+    - _edgeStrength: 0.5
+    - _wobbleScale: 0
+    m_Colors:
+    - _BackgroundTint: {r: 0.8537736, g: 0.9985829, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _CausticsColor: {r: 0.11556596, g: 0.2969778, b: 0.462264, a: 0.3764706}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EnissiveColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FoamColor: {r: 0.6580189, g: 0.75123817, b: 0.8773585, a: 1}
+    - _ReflectionColor1: {r: 0.4283019, g: 0.7141509, b: 1, a: 1}
+    - _ReflectionColor2: {r: 0, g: 0.2558639, b: 0.490566, a: 1}
+    - _ReflectionTint: {r: 0.4509804, g: 0.4509804, b: 0.4509804, a: 1}
+    - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
+    - _WaterColor: {r: 0.028853921, g: 0.16591004, b: 0.32099995, a: 0.07058824}
+    - _wobblePosition: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
