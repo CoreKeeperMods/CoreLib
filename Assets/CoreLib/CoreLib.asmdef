@@ -1,0 +1,41 @@
+{
+    "name": "CoreLib",
+    "rootNamespace": "",
+    "references": [
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Jobs",
+        "Unity.Mathematics",
+        "Unity.NetCode",
+        "Unity.NetCode.Physics",
+        "Unity.Physics",
+        "Unity.Physics.Hybrid",
+        "Unity.Properties",
+        "Unity.Transforms",
+        "NaughtyAttributes.Core",
+        "PugMod.SDK"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Pug.Base.dll",
+        "Pug.Other.dll",
+        "Pug.ECS.Authoring.dll",
+        "Pug.ECS.Components.dll",
+        "Pug.ECS.ConditionExtensions.dll",
+        "Pug.Public.dll",
+        "Pug.UnityExtensions.dll",
+        "PugRP.dll",
+        "SpriteInstancing.dll",
+        "SpriteInstancing.Editor.dll",
+        "0Harmony.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
