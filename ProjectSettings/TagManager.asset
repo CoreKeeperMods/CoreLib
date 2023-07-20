@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - ExcludeFromSpriteAutoSort
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Layer 3
+  - Water
+  - UI
+  - Layer 6
+  - Layer 7
+  - Layer 8
+  - Layer 9
+  - Layer 10
+  - Layer 11
+  - Layer 12
+  - Layer 13
+  - Layer 14
+  - Layer 15
+  - Layer 16
+  - Layer 17
+  - Layer 18
+  - Layer 19
+  - Layer 20
+  - Layer 21
+  - Layer 22
+  - Layer 23
+  - Layer 24
+  - Layer 25
+  - Layer 26
+  - Layer 27
+  - Layer 28
+  - Layer 29
+  - Layer 30
+  - Layer 31
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
