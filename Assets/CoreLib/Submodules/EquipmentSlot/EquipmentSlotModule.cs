@@ -55,6 +55,7 @@ namespace CoreLib.Submodules.Equipment
             }
 
             slotPrefabs.Add(slotType, prefab);
+            EntityModule.EntityModule.EnablePooling(prefab);
         }
 
         public static Emote.EmoteType RegisterTextEmote(string emoteId)

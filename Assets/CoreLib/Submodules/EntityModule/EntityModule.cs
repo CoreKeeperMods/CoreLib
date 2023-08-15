@@ -7,10 +7,16 @@ namespace CoreLib.Submodules.EntityModule
     public static class EntityModule
     {
         internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
+        internal static List<GameObject> poolablePrefabs = new List<GameObject>();
 
         public static void AddToAuthoringList(GameObject gameObject)
         {
             modAuthoringTargets.Add(gameObject);
+        }
+        
+        public static void EnablePooling(GameObject gameObject)
+        {
+            poolablePrefabs.Add(gameObject);
         }
 
         internal static void ApplyAll()
