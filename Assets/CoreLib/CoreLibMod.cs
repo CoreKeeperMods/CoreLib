@@ -14,23 +14,19 @@ namespace CoreLib
 {
     public class CoreLibMod : IMod
     {
-        public static ScriptableObject materialSwapTable;
+        public static Logger Log = new Logger("Core Lib");
+        
+        public static Harmony harmony;
+        public static VirtualAssetBundle assetBundle;
 
         public void EarlyInit()
         {
+            harmony = new Harmony("CoreLib");
             API.Server.OnWorldCreated += WorldInitialize;
         }
 
         public void Init()
-        { 
-            materialSwapTable = Resources.Load<ScriptableObject>("ModSDK/MaterialSwapTable");
-            IEnumerable matList = materialSwapTable.GetType().GetField("materials").GetValue(materialSwapTable) as IEnumerable;
-            foreach (object matData in matList)
-            {
-                var matName = matData.GetType().GetField("materialName").GetValue(matData) as string;
-                Logger.LogInfo($"Material: {matName}");
-            }
-
+        {
         }
 
         public void Shutdown()
@@ -39,6 +35,7 @@ namespace CoreLib
 
         public void ModObjectLoaded(Object obj)
         {
+            assetBundle.Register(obj);
         }
 
         public bool CanBeUnloaded()
@@ -52,7 +49,6 @@ namespace CoreLib
 
         public void WorldInitialize()
         {
-            //PrefabCrawler.SetupPrefabIDMap(Manager.ecs.pugDatabase.prefabList);
         }
         
         private void OnObjectSpawned(Entity entity, EntityManager entitymanager, GameObject graphicalobject)

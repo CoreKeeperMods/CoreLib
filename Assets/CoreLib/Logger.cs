@@ -2,29 +2,33 @@
 
 namespace CoreLib
 {
-    public static class Logger
+    public class Logger
     {
-        const string Tag = "[Core Lib]";
+        private readonly string tag;
 
-        public static void LogDebug(string text)
+        public Logger(string tag)
         {
-            
-            Debug.unityLogger.Log(LogType.Log, Tag, text);
+            this.tag = $"[{tag}]";
+        }
+
+        public void LogDebug(string text)
+        {
+            UnityEngine.Debug.unityLogger.Log(LogType.Log, tag, text);
         }
         
-        public static void LogInfo(string text)
+        public void LogInfo(string text)
         {
-            Debug.unityLogger.Log(LogType.Log, Tag, text);
+            UnityEngine.Debug.unityLogger.Log(LogType.Log, tag, text);
         }
         
-        public static void LogWarning(string text)
+        public void LogWarning(string text)
         {
-            Debug.unityLogger.Log(LogType.Warning, Tag, text);
+            UnityEngine.Debug.unityLogger.Log(LogType.Warning, tag, text);
         }
         
-        public static void LogError(string text)
+        public void LogError(string text)
         {
-            Debug.unityLogger.Log(LogType.Error, Tag, text);
+            UnityEngine.Debug.unityLogger.Log(LogType.Error, tag, text);
         }
     }
 }

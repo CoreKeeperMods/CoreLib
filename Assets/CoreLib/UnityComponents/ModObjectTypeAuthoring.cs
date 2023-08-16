@@ -10,7 +10,7 @@ namespace CoreLib.Components
         public string objectTypeId;
         public override bool Apply(MonoBehaviour data)
         {
-            ObjectType objectType = EquipmentSlotModule.GetObjectType(objectTypeId);
+            ObjectType objectType = EquipmentModule.GetObjectType(objectTypeId);
             if (data is EntityMonoBehaviourData monoData)
             {
                 monoData.objectInfo.objectType = objectType;

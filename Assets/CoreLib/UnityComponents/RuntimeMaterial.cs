@@ -29,12 +29,12 @@ namespace CoreLib.Components
 
                 if (!anyWorked)
                 {
-                    Logger.LogInfo($"Error applying material {materialName}, found no valid target!");
+                    CoreLibMod.Log.LogInfo($"Error applying material {materialName}, found no valid target!");
                 }
             }
             else
             {
-                Logger.LogInfo($"Error applying material {materialName}, such material is not found!");
+                CoreLibMod.Log.LogInfo($"Error applying material {materialName}, such material is not found!");
             }
 
             return true;

@@ -10,6 +10,7 @@
         "Unity.Mathematics",
         "Unity.NetCode",
         "Unity.NetCode.Physics",
+        "Unity.NetCode.Authoring.Hybrid",
         "Unity.Physics",
         "Unity.Physics.Hybrid",
         "Unity.Properties",
@@ -23,7 +24,9 @@
     "overrideReferences": true,
     "precompiledReferences": [
         "Pug.Base.dll",
+        "PugMap.Common.dll",
         "Pug.Other.dll",
+        "Pug.Objects.dll",
         "Pug.ECS.Authoring.dll",
         "Pug.ECS.Components.dll",
         "Pug.ECS.ConditionExtensions.dll",
@@ -32,7 +35,10 @@
         "PugRP.dll",
         "SpriteInstancing.dll",
         "SpriteInstancing.Editor.dll",
-        "0Harmony.dll"
+        "0Harmony.dll",
+        "Rewired.dll",
+        "Rewired_Core.dll",
+        "I2.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
