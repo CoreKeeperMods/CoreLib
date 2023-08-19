@@ -32,6 +32,7 @@
         "Pug.ECS.ConditionExtensions.dll",
         "Pug.Public.dll",
         "Pug.UnityExtensions.dll",
+        "PugConversion.dll",
         "PugRP.dll",
         "SpriteInstancing.dll",
         "SpriteInstancing.Editor.dll",

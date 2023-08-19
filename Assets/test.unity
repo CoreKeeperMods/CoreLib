@@ -391,22 +391,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd6cce82e614d2dbf75874f494b8c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  style:
-    fontFace: 67108896
-    capitalization: 0
-    horizontalAlignment: 1
-    verticalAlignment: 1
-    extraCharSpacing: 0
-    extraSpaceWidth: 0
-    extraLineSpacing: 0
-    extraEmptyLineSpacing: 0
-    forceMonospace: 0
-    rightToLeftXOffset: 0
-    invertHorizontalAlignment: 0
-    color: {r: 1, g: 1, b: 1, a: 1}
-    sortingLayer: -2147483648
-    orderInLayer: 9999
-    maskInteraction: 0
+  fontFace: 67108896
+  capitalization: 0
+  horizontalAlignment: 1
+  verticalAlignment: 1
+  extraCharSpacing: 0
+  extraSpaceWidth: 0
+  extraLineSpacing: 0
+  extraEmptyLineSpacing: 0
+  forceMonospace: 0
+  rightToLeftXOffset: 0
+  invertHorizontalAlignment: 0
+  color: {r: 1, g: 1, b: 1, a: 1}
+  sortingLayer: -2147483648
+  orderInLayer: 9999
+  maskInteraction: 0
 --- !u!4 &1760557127
 Transform:
   m_ObjectHideFlags: 0
