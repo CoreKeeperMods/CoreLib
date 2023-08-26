@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using CoreLib.Extensions;
-using CoreLib.Util;
 using HarmonyLib;
 using Rewired;
 using Rewired.Data;

@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using CoreLib.Util;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Rewired;
-using Rewired.Data;
-using Rewired.Data.Mapping;
 
 namespace CoreLib.Submodules.RewiredExtension.Patches
 {

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using PugTilemap;
+﻿using PugTilemap;
 using PugTilemap.Quads;
-using PugTilemap.Workshop;
 using UnityEngine;
 
 namespace CoreLib.Submodules.TileSet

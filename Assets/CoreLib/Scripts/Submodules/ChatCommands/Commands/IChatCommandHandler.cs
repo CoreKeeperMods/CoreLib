@@ -1,4 +1,6 @@
 ﻿
+using Unity.Entities;
+
 namespace CoreLib.Submodules.ChatCommands
 {
     /// <summary>
@@ -13,8 +15,8 @@ namespace CoreLib.Submodules.ChatCommands
         /// </summary>
         /// <param name="parameters">List of arguments entered by user</param>
         /// <returns>Command message feedback</returns>
-        CommandOutput Execute(string[] parameters);
-    
+        CommandOutput Execute(string[] parameters, Entity sender);
+        
         /// <summary>
         /// Returns detailed description of commands actions and usage
         /// </summary>

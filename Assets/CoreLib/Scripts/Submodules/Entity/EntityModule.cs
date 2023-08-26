@@ -2,20 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using CoreLib.Extensions;
-using CoreLib.Submodules.Entity.Patches;
 using CoreLib.Submodules.Localization;
-using CoreLib.Submodules.Entity.Atributes;
-using CoreLib.Submodules.Entity.Interfaces;
+using CoreLib.Submodules.ModEntity.Atributes;
+using CoreLib.Submodules.ModEntity.Interfaces;
+using CoreLib.Submodules.ModEntity.Patches;
 using CoreLib.Util;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
-using PugTilemap;
-using PugTilemap.Quads;
-using PugTilemap.Workshop;
 using UnityEngine;
 
-namespace CoreLib.Submodules.Entity
+namespace CoreLib.Submodules.ModEntity
 {
     public static class EntityModule
     {

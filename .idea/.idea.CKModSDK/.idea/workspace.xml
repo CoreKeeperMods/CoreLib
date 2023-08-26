@@ -2,30 +2,45 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/EntityTileCDAuthoring.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/EntityTileCDAuthoring.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/ModTileCreatedFromEntityCD.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/ModTileCreatedFromEntityCD.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/ObjectAuthoring_Patch.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/ObjectAuthoring_Patch.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/PlayerController_Patch.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/PlayerController_Patch.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/EntityTileSystem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/EntityTileSystem.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Util/JobEarlyInitHelper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Util/JobEarlyInitHelper.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/DirectMessageCommandHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/DirectMessageCommandHandler.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandCommSystem.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandCommSystem.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandMessageRPC.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandMessageRPC.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/PugMod.SDK.Editor.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/PugMod.SDK.Editor.asmdef" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asmdef" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandInfo.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandKind.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandKind.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandOutput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandOutput.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/HelpCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/HelpCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/IChatCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/IChatCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/IChatCommandHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/IChatCommandHandler.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/ICommandKind.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/ICommandKind.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Util/CommandUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Util/CommandUtil.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Atributes/EntityModificationAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Atributes/EntityModificationAttribute.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Atributes/PrefabModificationAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Atributes/PrefabModificationAttribute.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/CraftingData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/CraftingData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Interfaces/IDynamicItemHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Interfaces/IDynamicItemHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/ColorReplacer_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/ColorReplacer_Patch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/EntityUtility_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/EntityUtility_Patch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/MemoryManager_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/MemoryManager_Patch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/PlayerController_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/PlayerController_Patch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/UnityComponents/TemplateBlock.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/UnityComponents/TemplateBlock.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Items/Powered Rail.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Items/Powered Rail.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/ChestMinecartEntity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/ChestMinecartEntity.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/LocomotiveEntity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/LocomotiveEntity.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/ModMinecartEntity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/ModMinecartEntity.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/RailLogisticsMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/RailLogisticsMod.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/MinecartJointCDAuthoring.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/MinecartJointCDAuthoring.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/MinecartMoveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/MinecartMoveSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Commands/TestCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Commands/TestCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/EntityTileSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/EntityTileSystem.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +65,9 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode@0.51.1-preview.21/Runtime/Authoring/GhostFieldAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode@0.51.1-preview.21/Runtime/Authoring/Hybrid/GhostAuthoringComponent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode@0.51.1-preview.21/Runtime/Authoring/Hybrid/Unity.NetCode.Authoring.Hybrid.asmdef" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode@0.51.1-preview.21/Runtime/Rpc/IRpcCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode@0.51.1-preview.21/Runtime/Rpc/RpcCommandRequest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.transport@1.3.0/Runtime/DataStream.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/109beb498e934204be8a5a52f9001eaf363d18/90/792fb8aa/Process.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/237edc7a4e504d758400d42a8273fdca3c800/2b/ade58d0e/Harmony.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/377d90b6a60246c8b0fcf7d6e7b8f936568ba0/a3/99f3e62e/Directory.cs" root0="FORCE_HIGHLIGHTING" />
@@ -69,6 +87,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7fb80e7e71474ba9a2b7085379c47dd64a9368/5e/6c9ecb67/SyntaxFactory.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7fb80e7e71474ba9a2b7085379c47dd64a9368/a0/e685d56e/CSharpSyntaxNode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7fb80e7e71474ba9a2b7085379c47dd64a9368/a8/849d4cee/MemberDeclarationSyntax.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/89d3d3b50d824d82bffba6675126335a57800/8f/1b95f967/SendRpcCommandRequestComponent.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a4b50a178b484dbf8c8eaf98d624a36e11800/18/e8eae340/FixedArray64.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a4b50a178b484dbf8c8eaf98d624a36e11800/bb/7f242040/Direction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a4b50a178b484dbf8c8eaf98d624a36e11800/c0/930116ee/ExtensionMethods.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a866accb941c4f19b205c5678adccd1b2000/3d/2a3d3e03/IServer.cs" root0="SKIP_HIGHLIGHTING" />
@@ -88,6 +108,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/c4/2641b839/Debug.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/d7/1bcd6c98/Allocator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/e1/35935517/ILogger.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/fc/771c2add/Color.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cd379a3381d5469592bddd62cb8945c536000/9e/b7996ea2/EffectEventCD.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dd5b7ed4aa5c418d9a263136ff4339c81d9600/3f/78cd3dd7/ReInput.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dd5b7ed4aa5c418d9a263136ff4339c81d9600/7c/bfcbaba0/InputAction.cs" root0="SKIP_HIGHLIGHTING" />
@@ -105,18 +126,21 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/03/360cac31/PugSimulationSystemBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/21/b0013518/EffectsManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/2a/5ab5374c/Manager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/31/2aa4e417/NetworkCommMessageType.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/36/0ca0ab9e/MapWorkshopTilesetBank.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/44/e1d6cefd/AudioManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/57/d6878eca/InventoryUI.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/58/0bc85bd2/PlayerController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/5a/1c7bf90f/ButtonUIElement.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/90/89070074/PugText.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/92/40c249e9/NetworkCommMessageRPC.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/9b/4172b42d/ItemSlotsUIContainer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/a9/f505f3ff/PugTextStyle.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/af/22f60104/SendClientSubMapToPugMapSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/c8/5d70f4ed/EntityUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/d1/0e157743/UIelement.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/dd/569905af/PugMapTileset.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/de/acbdb43e/NetworkCommSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/df/d8c331d5/TilesetTypeUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd288400/14/e409d05d/UIManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd288400/64/a3c0d7df/InventoryUI.cs" root0="FORCE_HIGHLIGHTING" />
@@ -244,7 +268,8 @@
       <workItem from="1692639923353" duration="5156000" />
       <workItem from="1692683699761" duration="8155000" />
       <workItem from="1692692905155" duration="8194000" />
-      <workItem from="1692778363686" duration="6184000" />
+      <workItem from="1692778363686" duration="7782000" />
+      <workItem from="1693035023870" duration="11213000" />
     </task>
     <task id="LOCAL-00001" summary="Add core lib assets">
       <created>1689854482675</created>
@@ -358,7 +383,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692436252931</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Fix bugs related to powered rails">
+      <created>1692791531027</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1692791531027</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -390,7 +422,8 @@
     <MESSAGE value="Add more parts of Core Lib" />
     <MESSAGE value="Refactor folder structure and fix issues" />
     <MESSAGE value="Add first version of powered rail tiles" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add first version of powered rail tiles" />
+    <MESSAGE value="Fix bugs related to powered rails" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix bugs related to powered rails" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
-using CoreLib.Components;
-using CoreLib.Submodules;
-using CoreLib.Submodules.Equipment;
+using CoreLib.Util;
 using HarmonyLib;
 using PugMod;
+using Unity.Burst;
 using Unity.Entities;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -27,6 +24,9 @@ namespace CoreLib
 
         public void EarlyInit()
         {
+            BurstRuntime.LoadAdditionalLibrary($"{Application.streamingAssetsPath}/Mods/CoreLib/CoreLib_burst_generated.dll");
+            JobEarlyInitHelper.PerformJobEarlyInit(Assembly.GetExecutingAssembly());
+            
             harmony = new Harmony("CoreLib");
             API.Server.OnWorldCreated += WorldInitialize;
             

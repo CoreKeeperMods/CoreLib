@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using CoreLib.Util;
+﻿using CoreLib.Util;
 using HarmonyLib;
 using UnityEngine;
 
-namespace CoreLib.Submodules.Entity.Patches
+namespace CoreLib.Submodules.ModEntity.Patches
 {
     public static class MemoryManager_Patch
     {

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using CoreLib.Submodules.Entity.Interfaces;
+using CoreLib.Submodules.ModEntity.Interfaces;
 using HarmonyLib;
-using UnityEngine;
 
-namespace CoreLib.Submodules.Entity.Patches
+namespace CoreLib.Submodules.ModEntity.Patches
 {
     [SuppressMessage("Method Declaration", "Harmony003:Harmony non-ref patch parameters modified")]
     public class PlayerController_Patch

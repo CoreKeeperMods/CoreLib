@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoreLib.Submodules.Entity.Atributes
+namespace CoreLib.Submodules.ModEntity.Atributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class PrefabModificationAttribute : Attribute

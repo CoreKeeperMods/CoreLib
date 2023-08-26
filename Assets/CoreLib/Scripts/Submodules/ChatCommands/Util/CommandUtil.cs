@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoreLib.Submodules.ChatCommands.Communication;
 using HarmonyLib;
 using Unity.Mathematics;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace CoreLib.Submodules.ChatCommands
             if (keys.Length == 0)
             {
                 objectID = ObjectID.None;
-                return new CommandOutput($"No item named '{fullName}' found!", Color.red);
+                return new CommandOutput($"No item named '{fullName}' found!", CommandStatus.Error);
             }
 
             if (keys.Length > 1)
@@ -39,7 +40,7 @@ namespace CoreLib.Submodules.ChatCommands
                     objectID = ObjectID.None;
                     return new CommandOutput(
                         $"Ambigous match ({keys.Length} results):\n{keys.Take(10).Join(null, "\n")}{(keys.Length > 10 ? "\n..." : "")}",
-                        Color.red);
+                        CommandStatus.Error);
                 }
             }
 
@@ -64,7 +65,7 @@ namespace CoreLib.Submodules.ChatCommands
             }
             catch (Exception)
             {
-                commandOutput = new CommandOutput("Failed to parse position parameters!", Color.red);
+                commandOutput = new CommandOutput("Failed to parse position parameters!", CommandStatus.Error);
                 return int2.zero;
             }
 
@@ -80,6 +81,24 @@ namespace CoreLib.Submodules.ChatCommands
             }
 
             return playerPos + int.Parse(posText);
+        }
+        
+        public static Color GetColor(this CommandStatus status)
+        {
+            switch (status)
+            {
+                case CommandStatus.None:
+                    return Color.white;
+                case CommandStatus.Info:
+                    return Color.green;
+                case CommandStatus.Hint:
+                    return Color.blue;
+                case CommandStatus.Warning:
+                    return Color.yellow;
+                case CommandStatus.Error:
+                    return Color.red;
+            }
+            return Color.white;
         }
         
     }

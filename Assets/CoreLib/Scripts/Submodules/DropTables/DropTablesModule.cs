@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CoreLib.Submodules.DropTables.Patches;
-using CoreLib.Util.Extensions;
 using LootList = System.Collections.Generic.List<LootInfo>;
 
 namespace CoreLib.Submodules.DropTables

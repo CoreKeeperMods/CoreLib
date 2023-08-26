@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CoreLib.Submodules.ChatCommands.Communication;
 using CoreLib.Submodules.ChatCommands.Patches;
 using CoreLib.Submodules.RewiredExtension;
+using PugMod;
 using Rewired;
+
 // ReSharper disable SuspiciousTypeConversion.Global
 
 namespace CoreLib.Submodules.ChatCommands
@@ -16,6 +19,9 @@ namespace CoreLib.Submodules.ChatCommands
     public static class CommandsModule
     {
         #region Public Interface
+        
+        public static CommandCommSystem commSystem;
+        
         /// <summary>
         /// Return true if the submodule is loaded.
         /// </summary>
@@ -87,6 +93,9 @@ namespace CoreLib.Submodules.ChatCommands
 
         #region Private Implementation
 
+        internal const string CommandPrefix = "/";
+        private static readonly char[] brackets = { '{', '}', '[', ']' };
+        
         private static bool _loaded;
         internal static Player rewiredPlayer;
 
@@ -94,26 +103,8 @@ namespace CoreLib.Submodules.ChatCommands
         internal static string DOWN_KEY = "CoreLib_DownKey";
         internal static string COMPLETE_KEY = "CoreLib_CompleteKey";
 
-        internal static CommandInfo currentCommandInfo;
         internal static List<CommandPair> commandHandlers = new List<CommandPair>();
 
-        internal static CommandPair FindCommand(CommandInfo commandInfo)
-        {
-            return commandHandlers.Where(pair =>
-            {
-                return pair.modName.Equals(commandInfo.modId) &&
-                       pair.handler.GetType().Name.Equals(commandInfo.id);
-            }).FirstOrDefault();
-        } 
-    
-        internal static CommandKind DetermineCommandKind(CommandPair commandPair)
-        {
-            if (commandPair.handler is ICommandKind kindData)
-                return kindData.commandKind;
-        
-            return CommandKind.Cheat;
-        }
-        
         [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
         internal static void SetHooks()
         {
@@ -126,6 +117,7 @@ namespace CoreLib.Submodules.ChatCommands
         {
             CoreLibMod.Log.LogInfo("Commands Module Post Load");
             RegisterCommandHandler(typeof(HelpCommandHandler), "Core Lib");
+            RegisterCommandHandler(typeof(DirectMessageCommandHandler), "Core Lib");
             RewiredExtensionModule.rewiredStart += () =>
             {
                 rewiredPlayer = ReInput.players.GetPlayer(0);
@@ -139,6 +131,23 @@ namespace CoreLib.Submodules.ChatCommands
                 "remindAboutHelp",
                 true,
                 "Should user be reminded about existance of /help command any time a command returns error code output?");*/
+
+            API.Client.OnWorldCreated += ClientWorldReady;
+            API.Server.OnWorldCreated += ServerWorldReady;
+        }
+        
+        private static void ClientWorldReady()
+        {
+            var world = API.Client.World;
+            commSystem = world.CreateSystem<CommandCommSystem>();
+            API.Client.AddScheduledSystem(commSystem);
+        }
+
+        private static void ServerWorldReady()
+        {
+            var world = API.Server.World;
+            commSystem = world.CreateSystem<CommandCommSystem>();
+            API.Server.AddScheduledSystem(commSystem);
         }
 
         internal static void ThrowIfNotLoaded()
@@ -148,6 +157,46 @@ namespace CoreLib.Submodules.ChatCommands
                 Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
                 string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
                 throw new InvalidOperationException(message);
+            }
+        }
+
+        internal static void HandleCommand(CommandMessage message)
+        {
+            string[] args = message.message.Split(' ');
+            if (args.Length < 1 || !args[0].StartsWith(CommandPrefix)) return;
+            
+            string cmdName = args[0].Substring(1);
+            
+            if (!GetCommandHandler(cmdName, out CommandPair commandPair))
+            {
+                commSystem.SendResponse($"Command {cmdName} does not exist!", CommandStatus.Error);
+                return;
+            }
+
+            string[] parameters = args.Skip(1).ToArray();
+
+            try
+            {
+                CommandOutput output = commandPair.handler.Execute(parameters, message.sender);
+                commSystem.SendResponse(output.feedback, output.status);
+                
+                if (output.status == CommandStatus.Error)// && CommandsModule.remindAboutHelpCommand.Value)
+                {
+                    if (brackets.Any(c => message.message.Contains(c)))
+                    {
+                        commSystem.SendResponse( "Do not use brackets in your command! Brackets are meant as placeholder name separators only.", CommandStatus.Hint);
+                    }
+                    else
+                    {
+                        commSystem.SendResponse(  $"Use /help {cmdName} to learn command usage!", CommandStatus.Hint);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                CoreLibMod.Log.LogWarning($"Error executing command {cmdName}:\n{e}");
+
+                commSystem.SendResponse(  $"Error executing command {cmdName}", CommandStatus.Error);
             }
         }
 

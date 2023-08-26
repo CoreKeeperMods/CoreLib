@@ -1,6 +1,4 @@
-using System;
 using CoreLib.Submodules.Equipment;
-using Unity.Collections;
 using UnityEngine;
 
 namespace CoreLib.Components

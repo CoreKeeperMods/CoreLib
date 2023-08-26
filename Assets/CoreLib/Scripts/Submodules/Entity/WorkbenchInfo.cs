@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CoreLib.Submodules.Entity
+namespace CoreLib.Submodules.ModEntity
 {
     public class WorkbenchInfo : ScriptableObject
     {

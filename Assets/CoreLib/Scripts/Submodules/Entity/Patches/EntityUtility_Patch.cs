@@ -3,7 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using Unity.Entities;
 
-namespace CoreLib.Submodules.Entity.Patches
+namespace CoreLib.Submodules.ModEntity.Patches
 {
     public static class EntityUtility_Patch
     {

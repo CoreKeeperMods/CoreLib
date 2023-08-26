@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreLib.Submodules.Entity;
+using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.Equipment.Patches;
 using UnityEngine;
 

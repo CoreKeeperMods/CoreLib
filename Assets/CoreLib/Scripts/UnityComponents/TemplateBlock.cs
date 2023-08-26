@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreLib.Submodules.Entity;
+using CoreLib.Submodules.ModEntity;
 using UnityEngine;
 
 namespace CoreLib.Components

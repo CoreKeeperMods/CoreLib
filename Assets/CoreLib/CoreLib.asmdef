@@ -16,11 +16,12 @@
         "Unity.Properties",
         "Unity.Transforms",
         "NaughtyAttributes.Core",
+        "Unity.Networking.Transport",
         "PugMod.SDK"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": true,
     "precompiledReferences": [
         "Pug.Base.dll",

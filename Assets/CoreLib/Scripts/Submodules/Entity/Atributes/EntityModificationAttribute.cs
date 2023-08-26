@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoreLib.Submodules.Entity.Atributes
+namespace CoreLib.Submodules.ModEntity.Atributes
 {
     /// <summary>
     /// Use this attribute to register your entity modification functions. Make sure to place one on the container class

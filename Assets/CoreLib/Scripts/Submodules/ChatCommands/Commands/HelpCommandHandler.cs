@@ -1,11 +1,12 @@
 ﻿using System.Linq;
-using UnityEngine;
+using CoreLib.Submodules.ChatCommands.Communication;
+using Unity.Entities;
 
 namespace CoreLib.Submodules.ChatCommands
 {
-    public class HelpCommandHandler : IChatCommandHandler, ICommandKind
+    public class HelpCommandHandler : IChatCommandHandler
     {
-        public CommandOutput Execute(string[] parameters)
+        public CommandOutput Execute(string[] parameters, Entity sender)
         {
             string commandsString;
             switch (parameters.Length)
@@ -34,7 +35,7 @@ namespace CoreLib.Submodules.ChatCommands
                 
                     
                 default:
-                    return new CommandOutput("Invalid arguments. Do /help to view all commands.", Color.red);
+                    return new CommandOutput("Invalid arguments. Do /help to view all commands.", CommandStatus.Error);
             }
         }
 
@@ -52,7 +53,5 @@ namespace CoreLib.Submodules.ChatCommands
         {
             return new[] {"help"};
         }
-
-        public CommandKind commandKind => CommandKind.Info;
     }
 }
