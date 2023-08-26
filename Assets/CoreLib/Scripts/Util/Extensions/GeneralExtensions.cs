@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace CoreLib.Util.Extensions
@@ -39,6 +41,22 @@ namespace CoreLib.Util.Extensions
             }
             return rel;
         }
-    
+
+        public static unsafe void CopyFrom(this ref FixedArray64 fixedArray, byte[] bytes, int startIndex)
+        {
+            fixed (byte* ptr = bytes)
+            {
+                UnsafeUtility.MemCpy(fixedArray.GetUnsafePtr(), ptr + startIndex, math.min(fixedArray.Size, bytes.Length - startIndex));
+            }
+        }
+
+        public static unsafe void CopyTo(this ref FixedArray64 fixedArray, byte[] bytes, int startIndex)
+        {
+            fixed (byte* ptr = bytes)
+            {
+                UnsafeUtility.MemCpy(ptr + startIndex, fixedArray.GetUnsafePtr(), math.min(fixedArray.Size, bytes.Length - startIndex));
+            }
+        }
+
     }
 }

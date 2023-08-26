@@ -18,9 +18,9 @@ namespace CoreLib.Submodules.ChatCommands.Patches
         [HarmonyPrefix]
         public static void OnUpdate(ChatWindow __instance)
         {
-            if (CommandsModule.commSystem == null) return;
+            if (CommandsModule.ClientCommSystem == null) return;
             
-            while (CommandsModule.commSystem.TryGetNextMessage(out CommandMessage message))
+            while (CommandsModule.ClientCommSystem.TryGetNextMessage(out CommandMessage message))
             {
                 SendMessage(__instance, message.message, message.status.GetColor());
             }
@@ -93,13 +93,20 @@ namespace CoreLib.Submodules.ChatCommands.Patches
 
                 string[] args = input.Split(' ');
                 if (args.Length < 1 || !args[0].StartsWith(CommandsModule.CommandPrefix)) return;
-                if (CommandsModule.commSystem == null) return;
+                if (CommandsModule.ClientCommSystem == null) return;
                 
                 SendMessage(__instance, input, Color.white);
-                CommandsModule.commSystem.SendCommand(input);
+                CommandsModule.ClientCommSystem.SendCommand(input);
                 UpdateHistory(input);
                 commit = false;
             }
+        }
+
+        [HarmonyPatch(typeof(ChatWindow), "AllocPugText")]
+        [HarmonyPostfix]
+        public static void OnAllocPugText(PugText __result)
+        {
+            SetColor(__result, Color.white);
         }
 
         private static void UpdateHistory(string input)
@@ -120,14 +127,19 @@ namespace CoreLib.Submodules.ChatCommands.Patches
             PugTextEffectMaxFade fadeEffect = (PugTextEffectMaxFade)args[1];
             
             pugText.Render(message);
-            pugText.style.color = color;
-            pugText.GetField<PugTextStyle>("defaultStyle").color = color;
-            pugText.color = color;
+            SetColor(pugText, color);
             if (fadeEffect != null)
             {
                 fadeEffect.FadeOut();
                 window.InvokeVoid("AddPugText", new object[]{ChatWindow.MessageTextType.Sent, pugText});
             }
+        }
+
+        private static void SetColor(PugText pugText, Color color)
+        {
+            pugText.style.color = color;
+            pugText.GetField<PugTextStyle>("defaultStyle").color = color;
+            pugText.color = color;
         }
     }
 }

@@ -19,8 +19,9 @@ namespace CoreLib.Submodules.ChatCommands
     public static class CommandsModule
     {
         #region Public Interface
-        
-        public static CommandCommSystem commSystem;
+
+        public static CommandCommSystem ClientCommSystem => clientCommSystem;
+        public static CommandCommSystem ServerCommSystem => serverCommSystem;
         
         /// <summary>
         /// Return true if the submodule is loaded.
@@ -104,6 +105,9 @@ namespace CoreLib.Submodules.ChatCommands
         internal static string COMPLETE_KEY = "CoreLib_CompleteKey";
 
         internal static List<CommandPair> commandHandlers = new List<CommandPair>();
+        
+        private static CommandCommSystem clientCommSystem;
+        private static CommandCommSystem serverCommSystem;
 
         [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
         internal static void SetHooks()
@@ -139,15 +143,15 @@ namespace CoreLib.Submodules.ChatCommands
         private static void ClientWorldReady()
         {
             var world = API.Client.World;
-            commSystem = world.CreateSystem<CommandCommSystem>();
-            API.Client.AddScheduledSystem(commSystem);
+            clientCommSystem = world.CreateSystem<CommandCommSystem>();
+            API.Client.AddScheduledSystem(clientCommSystem);
         }
 
         private static void ServerWorldReady()
         {
             var world = API.Server.World;
-            commSystem = world.CreateSystem<CommandCommSystem>();
-            API.Server.AddScheduledSystem(commSystem);
+            serverCommSystem = world.CreateSystem<CommandCommSystem>();
+            API.Server.AddScheduledSystem(clientCommSystem);
         }
 
         internal static void ThrowIfNotLoaded()
@@ -169,7 +173,7 @@ namespace CoreLib.Submodules.ChatCommands
             
             if (!GetCommandHandler(cmdName, out CommandPair commandPair))
             {
-                commSystem.SendResponse($"Command {cmdName} does not exist!", CommandStatus.Error);
+                serverCommSystem.SendResponse($"Command {cmdName} does not exist!", CommandStatus.Error);
                 return;
             }
 
@@ -178,17 +182,17 @@ namespace CoreLib.Submodules.ChatCommands
             try
             {
                 CommandOutput output = commandPair.handler.Execute(parameters, message.sender);
-                commSystem.SendResponse(output.feedback, output.status);
+                serverCommSystem.SendResponse(output.feedback, output.status);
                 
                 if (output.status == CommandStatus.Error)// && CommandsModule.remindAboutHelpCommand.Value)
                 {
                     if (brackets.Any(c => message.message.Contains(c)))
                     {
-                        commSystem.SendResponse( "Do not use brackets in your command! Brackets are meant as placeholder name separators only.", CommandStatus.Hint);
+                        serverCommSystem.SendResponse( "Do not use brackets in your command! Brackets are meant as placeholder name separators only.", CommandStatus.Hint);
                     }
                     else
                     {
-                        commSystem.SendResponse(  $"Use /help {cmdName} to learn command usage!", CommandStatus.Hint);
+                        serverCommSystem.SendResponse(  $"Use /help {cmdName} to learn command usage!", CommandStatus.Hint);
                     }
                 }
             }
@@ -196,7 +200,7 @@ namespace CoreLib.Submodules.ChatCommands
             {
                 CoreLibMod.Log.LogWarning($"Error executing command {cmdName}:\n{e}");
 
-                commSystem.SendResponse(  $"Error executing command {cmdName}", CommandStatus.Error);
+                serverCommSystem.SendResponse(  $"Error executing command {cmdName}", CommandStatus.Error);
             }
         }
 

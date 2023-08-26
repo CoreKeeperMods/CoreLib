@@ -32,7 +32,7 @@ namespace CoreLib.Submodules.ChatCommands
 
                 Entity targetConnection = entityManager.GetComponentData<PlayerGhost>(targetPlayer.entity).connection;
                 string message = string.Join(" ", parameters.Skip(1));
-                CommandsModule.commSystem.SendChatMessage($"[{fromPlayer} whispers]: {message}", targetConnection);
+                CommandsModule.ServerCommSystem.SendChatMessage($"[{fromPlayer} whispers]: {message}", targetConnection);
                 return "Message Sent";
             }
 
