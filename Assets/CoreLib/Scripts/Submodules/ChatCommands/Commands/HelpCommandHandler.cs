@@ -23,7 +23,11 @@ namespace CoreLib.Submodules.ChatCommands
                             .Select(pair => pair.handler)
                             .First(element => element.GetTriggerNames().Contains(parameters[0]));
                         return validCommandHandler.GetDescription();
-                    } catch { return "This command does not exist. Do /help to view all commands.";}
+                    }
+                    catch
+                    {
+                        return "This command does not exist. Do /help to view all commands.";
+                    }
                 case 2 when parameters[0].Equals("mod"):
                     string search = parameters[1].ToLowerInvariant();
                     commandsString = CommandsModule.commandHandlers
@@ -32,8 +36,8 @@ namespace CoreLib.Submodules.ChatCommands
                         .Aggregate("\n", GetNames);
 
                     return $"Mod {parameters[1]} commands:\n{commandsString}";
-                
-                    
+
+
                 default:
                     return new CommandOutput("Invalid arguments. Do /help to view all commands.", CommandStatus.Error);
             }
@@ -51,7 +55,7 @@ namespace CoreLib.Submodules.ChatCommands
 
         public string[] GetTriggerNames()
         {
-            return new[] {"help"};
+            return new[] { "help" };
         }
     }
 }

@@ -27,7 +27,7 @@ namespace CoreLib.Submodules.ChatCommands
             this.feedback = feedback;
             status = ConvertToStatus(color);
         }
-        
+
         /// <summary>
         /// Feedback with status
         /// </summary>
@@ -47,10 +47,10 @@ namespace CoreLib.Submodules.ChatCommands
                 return CommandStatus.Hint;
             if (color == Color.yellow)
                 return CommandStatus.Warning;
-            
+
             return CommandStatus.Info;
         }
-        
+
         /// <summary>
         /// Default feedback means success
         /// </summary>

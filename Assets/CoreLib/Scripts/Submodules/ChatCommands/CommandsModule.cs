@@ -15,14 +15,14 @@ namespace CoreLib.Submodules.ChatCommands
     /// <summary>
     /// This module provides means to add custom chat commands
     /// </summary>
-    [CoreLibSubmodule(Dependencies = new []{typeof(RewiredExtensionModule)})]
+    [CoreLibSubmodule(Dependencies = new[] { typeof(RewiredExtensionModule) })]
     public static class CommandsModule
     {
         #region Public Interface
 
         public static CommandCommSystem ClientCommSystem => clientCommSystem;
         public static CommandCommSystem ServerCommSystem => serverCommSystem;
-        
+
         /// <summary>
         /// Return true if the submodule is loaded.
         /// </summary>
@@ -71,7 +71,7 @@ namespace CoreLib.Submodules.ChatCommands
             commandHandler = pair.handler;
             return result;
         }
-    
+
         public static bool GetCommandHandler(string commandName, out CommandPair commandHandler)
         {
             commandHandler = commandHandlers
@@ -96,7 +96,7 @@ namespace CoreLib.Submodules.ChatCommands
 
         internal const string CommandPrefix = "/";
         private static readonly char[] brackets = { '{', '}', '[', ']' };
-        
+
         private static bool _loaded;
         internal static Player rewiredPlayer;
 
@@ -105,7 +105,7 @@ namespace CoreLib.Submodules.ChatCommands
         internal static string COMPLETE_KEY = "CoreLib_CompleteKey";
 
         internal static List<CommandPair> commandHandlers = new List<CommandPair>();
-        
+
         private static CommandCommSystem clientCommSystem;
         private static CommandCommSystem serverCommSystem;
 
@@ -122,11 +122,8 @@ namespace CoreLib.Submodules.ChatCommands
             CoreLibMod.Log.LogInfo("Commands Module Post Load");
             RegisterCommandHandler(typeof(HelpCommandHandler), "Core Lib");
             RegisterCommandHandler(typeof(DirectMessageCommandHandler), "Core Lib");
-            RewiredExtensionModule.rewiredStart += () =>
-            {
-                rewiredPlayer = ReInput.players.GetPlayer(0);
-            };
-        
+            RewiredExtensionModule.rewiredStart += () => { rewiredPlayer = ReInput.players.GetPlayer(0); };
+
             RewiredExtensionModule.AddKeybind(UP_KEY, "Next command", KeyboardKeyCode.UpArrow);
             RewiredExtensionModule.AddKeybind(DOWN_KEY, "Previous command", KeyboardKeyCode.DownArrow);
             RewiredExtensionModule.AddKeybind(COMPLETE_KEY, "Autocomplete command", KeyboardKeyCode.Tab);
@@ -139,7 +136,7 @@ namespace CoreLib.Submodules.ChatCommands
             API.Client.OnWorldCreated += ClientWorldReady;
             API.Server.OnWorldCreated += ServerWorldReady;
         }
-        
+
         private static void ClientWorldReady()
         {
             var world = API.Client.World;
@@ -168,9 +165,9 @@ namespace CoreLib.Submodules.ChatCommands
         {
             string[] args = message.message.Split(' ');
             if (args.Length < 1 || !args[0].StartsWith(CommandPrefix)) return;
-            
+
             string cmdName = args[0].Substring(1);
-            
+
             if (!GetCommandHandler(cmdName, out CommandPair commandPair))
             {
                 serverCommSystem.SendResponse($"Command {cmdName} does not exist!", CommandStatus.Error);
@@ -183,16 +180,17 @@ namespace CoreLib.Submodules.ChatCommands
             {
                 CommandOutput output = commandPair.handler.Execute(parameters, message.sender);
                 serverCommSystem.SendResponse(output.feedback, output.status);
-                
-                if (output.status == CommandStatus.Error)// && CommandsModule.remindAboutHelpCommand.Value)
+
+                if (output.status == CommandStatus.Error) // && CommandsModule.remindAboutHelpCommand.Value)
                 {
                     if (brackets.Any(c => message.message.Contains(c)))
                     {
-                        serverCommSystem.SendResponse( "Do not use brackets in your command! Brackets are meant as placeholder name separators only.", CommandStatus.Hint);
+                        serverCommSystem.SendResponse("Do not use brackets in your command! Brackets are meant as placeholder name separators only.",
+                            CommandStatus.Hint);
                     }
                     else
                     {
-                        serverCommSystem.SendResponse(  $"Use /help {cmdName} to learn command usage!", CommandStatus.Hint);
+                        serverCommSystem.SendResponse($"Use /help {cmdName} to learn command usage!", CommandStatus.Hint);
                     }
                 }
             }
@@ -200,7 +198,7 @@ namespace CoreLib.Submodules.ChatCommands
             {
                 CoreLibMod.Log.LogWarning($"Error executing command {cmdName}:\n{e}");
 
-                serverCommSystem.SendResponse(  $"Error executing command {cmdName}", CommandStatus.Error);
+                serverCommSystem.SendResponse($"Error executing command {cmdName}", CommandStatus.Error);
             }
         }
 

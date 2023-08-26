@@ -1,5 +1,4 @@
-﻿
-using Unity.Entities;
+﻿using Unity.Entities;
 
 namespace CoreLib.Submodules.ChatCommands
 {
@@ -9,18 +8,18 @@ namespace CoreLib.Submodules.ChatCommands
     /// </summary>
     public interface IChatCommandHandler
     {
-
         /// <summary>
         /// Execute command & return feedback
         /// </summary>
         /// <param name="parameters">List of arguments entered by user</param>
         /// <returns>Command message feedback</returns>
         CommandOutput Execute(string[] parameters, Entity sender);
-        
+
         /// <summary>
         /// Returns detailed description of commands actions and usage
         /// </summary>
         string GetDescription();
+
         /// <summary>
         /// Returns all command names that trigger this handler
         /// </summary>

@@ -19,7 +19,7 @@ namespace CoreLib.Submodules.ChatCommands.Patches
                 {
                     CheckLocalizationSources();
                 }
-                
+
                 initialized = true;
             }
         }
@@ -37,7 +37,7 @@ namespace CoreLib.Submodules.ChatCommands.Patches
                         if (term.Term.Contains("Desc")) continue;
 
                         string objIdName = term.Term[6..];
-                        ObjectID objectID =  (ObjectID)Enum.Parse(typeof(ObjectID), objIdName);
+                        ObjectID objectID = (ObjectID)Enum.Parse(typeof(ObjectID), objIdName);
                         CommandUtil.friendlyNameDict.Add(term.Languages[0].ToLower(), objectID);
                         count++;
                     }

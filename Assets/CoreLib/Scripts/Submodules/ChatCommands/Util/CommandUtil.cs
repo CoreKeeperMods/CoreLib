@@ -11,7 +11,7 @@ namespace CoreLib.Submodules.ChatCommands
     public static class CommandUtil
     {
         internal static Dictionary<string, ObjectID> friendlyNameDict = new Dictionary<string, ObjectID>();
-        
+
         public static CommandOutput ParseItemName(string fullName, out ObjectID objectID)
         {
             if (Enum.TryParse(fullName, true, out ObjectID objId))
@@ -47,7 +47,7 @@ namespace CoreLib.Submodules.ChatCommands
             objectID = friendlyNameDict[keys[0]];
             return "";
         }
-        
+
         public static int2 ParsePos(string[] parameters, int startIndex, PlayerController player, out CommandOutput? commandOutput)
         {
             string xPosStr = parameters[startIndex - 1];
@@ -57,7 +57,7 @@ namespace CoreLib.Submodules.ChatCommands
             int zPos;
 
             int2 playerPos = player.WorldPosition.RoundToInt2();
-            
+
             try
             {
                 xPos = ParsePosAxis(xPosStr, -playerPos.x);
@@ -72,7 +72,7 @@ namespace CoreLib.Submodules.ChatCommands
             commandOutput = null;
             return new int2(xPos, zPos);
         }
-        
+
         private static int ParsePosAxis(string posText, int playerPos)
         {
             if (posText[0] == '~')
@@ -82,7 +82,7 @@ namespace CoreLib.Submodules.ChatCommands
 
             return playerPos + int.Parse(posText);
         }
-        
+
         public static Color GetColor(this CommandStatus status)
         {
             switch (status)
@@ -98,8 +98,8 @@ namespace CoreLib.Submodules.ChatCommands
                 case CommandStatus.Error:
                     return Color.red;
             }
+
             return Color.white;
         }
-        
     }
 }

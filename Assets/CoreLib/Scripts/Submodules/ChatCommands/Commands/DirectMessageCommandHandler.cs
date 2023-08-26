@@ -14,7 +14,7 @@ namespace CoreLib.Submodules.ChatCommands
             {
                 return new CommandOutput("Not enough arguments!", CommandStatus.Error);
             }
-            
+
             var entityManager = API.Server.World.EntityManager;
             var playerEntity = entityManager.GetComponentData<CommandTargetComponent>(sender).targetEntity;
             if (playerEntity != Entity.Null)

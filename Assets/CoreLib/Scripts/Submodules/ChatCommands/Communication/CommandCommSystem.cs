@@ -117,25 +117,25 @@ namespace CoreLib.Submodules.ChatCommands.Communication
         protected override void OnUpdate()
         {
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
-            
-            Entities.ForEach((Entity entity, in CommandMessageRPC rpc, in ReceiveRpcCommandRequestComponent req) =>
-            {
-                if (partialMessages.ContainsKey(rpc.messageNumber))
-                {
-                    CoreLibMod.Log.LogWarning("Got message with same number twice");
-                    ecb.DestroyEntity(entity);
-                    return;
-                }
 
-                partialMessages.Add(rpc.messageNumber, new CommandMessage
+            Entities.ForEach((Entity entity, in CommandMessageRPC rpc, in ReceiveRpcCommandRequestComponent req) =>
                 {
-                    sender = req.SourceConnection,
-                    messageType = rpc.messageType,
-                    status = rpc.status
-                });
-                partialMessagesData.Add(rpc.messageNumber, new byte[rpc.totalSize]);
-                ecb.DestroyEntity(entity);
-            }).WithoutBurst()
+                    if (partialMessages.ContainsKey(rpc.messageNumber))
+                    {
+                        CoreLibMod.Log.LogWarning("Got message with same number twice");
+                        ecb.DestroyEntity(entity);
+                        return;
+                    }
+
+                    partialMessages.Add(rpc.messageNumber, new CommandMessage
+                    {
+                        sender = req.SourceConnection,
+                        messageType = rpc.messageType,
+                        status = rpc.status
+                    });
+                    partialMessagesData.Add(rpc.messageNumber, new byte[rpc.totalSize]);
+                    ecb.DestroyEntity(entity);
+                }).WithoutBurst()
                 .Run();
 
             Entities.ForEach((Entity entity, in CommandDataMessageRPC rpc) =>
@@ -149,7 +149,7 @@ namespace CoreLib.Submodules.ChatCommands.Communication
 
                     byte[] bytes = partialMessagesData[rpc.messageNumber];
                     FixedArray64 part = rpc.messagePart;
-                    
+
                     part.CopyTo(bytes, rpc.startByte);
 
                     int startByte = rpc.startByte;
@@ -175,7 +175,7 @@ namespace CoreLib.Submodules.ChatCommands.Communication
                 }).WithAll<ReceiveRpcCommandRequestComponent>()
                 .WithoutBurst()
                 .Run();
-            
+
             ecb.Playback(EntityManager);
             ecb.Dispose();
 

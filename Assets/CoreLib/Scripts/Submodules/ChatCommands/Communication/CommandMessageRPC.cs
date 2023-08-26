@@ -26,14 +26,14 @@ namespace CoreLib.Submodules.ChatCommands.Communication
         public CommandStatus status;
         public int totalSize;
     }
-    
+
     public struct CommandDataMessageRPC : IRpcCommand
     {
         public int messageNumber;
         public FixedArray64 messagePart;
         public int startByte;
     }
-    
+
     public struct CommandMessage
     {
         public string message;

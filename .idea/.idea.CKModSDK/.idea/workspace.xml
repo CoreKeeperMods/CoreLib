@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="Clean up">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/DirectMessageCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/DirectMessageCommandHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandCommSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandCommSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" afterDir="false" />
-    </list>
+    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="CoreLib: Fix chat commands bugs" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -289,7 +282,7 @@
       <workItem from="1692683699761" duration="8155000" />
       <workItem from="1692692905155" duration="8194000" />
       <workItem from="1692778363686" duration="7782000" />
-      <workItem from="1693035023870" duration="17006000" />
+      <workItem from="1693035023870" duration="17413000" />
     </task>
     <task id="LOCAL-00001" summary="Add core lib assets">
       <created>1689854482675</created>
@@ -424,7 +417,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693047344385</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="CoreLib: Fix chat commands bugs">
+      <created>1693056387049</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1693056387049</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -459,7 +459,8 @@
     <MESSAGE value="Fix bugs related to powered rails" />
     <MESSAGE value="CoreLib: add server sided chat commands" />
     <MESSAGE value="Clean up" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean up" />
+    <MESSAGE value="CoreLib: Fix chat commands bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="CoreLib: Fix chat commands bugs" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
