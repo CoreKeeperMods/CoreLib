@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/AcceleratorRailCDAuthoring.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/AcceleratorRailCDAuthoring.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/EntityTileLookupCD.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/EntityTileLookupCD.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/UpdateSubMapSystem_Patch.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/UpdateSubMapSystem_Patch.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/BaseModExtendedSystem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/BaseModExtendedSystem.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/PlayerPushSystem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/PlayerPushSystem.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/RailTriggerSystem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/RailTriggerSystem.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Util/ExtendedTileAccessor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Util/ExtendedTileAccessor.cs.meta" afterDir="false" />
+    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="Refactor code">
+      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/Minecarts/MinecartRailStateCDAuthoring.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/Minecarts/MinecartRailStateCDAuthoring.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/Rails/AcceleratorRailCDAuthoring.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/Rails/AcceleratorRailCDAuthoring.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/RailEffectsSystem.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/RailEffectsSystem.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Items/Powered Rail.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Items/Powered Rail.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/ChestMinecartEntity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/ChestMinecartEntity.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/LocomotiveEntity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/LocomotiveEntity.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/RailLogisticsMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/RailLogisticsMod.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/MinecartInputCDAuthoring.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/MinecartInputCDAuthoring.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/EntityTileSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/EntityTileSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/MinecartMoveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/MinecartMoveSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/ModMinecartEntity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Prefab/ModMinecartEntity.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/MinecartMovementSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/MinecartMovementSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/MinecartStateSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/MinecartStateSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/PlayerPushSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/PlayerPushSystem.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +27,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/UnityComponents/TemplateBlock.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/UnityComponents/TemplateBlockCDAuthoring.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/IdBindConfigFile.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Scripts/Commands/TestCommandHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Scripts/Systems/MinecartMovementSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/BurstCompatibleAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/NativeParallelHashMap.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/NativeParallelMultiHashMap.cs" root0="SKIP_HIGHLIGHTING" />
@@ -49,6 +43,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/IJobEntity.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/IJobEntityBatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/Iterators/ComponentDataFromEntity.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/ScriptBehaviourUpdateOrder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/SystemBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/SystemState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/Types/Entity.cs" root0="SKIP_HIGHLIGHTING" />
@@ -283,6 +278,7 @@
       <workItem from="1693035023870" duration="19863000" />
       <workItem from="1693150472851" duration="12448000" />
       <workItem from="1693210163718" duration="14450000" />
+      <workItem from="1693295135238" duration="7957000" />
     </task>
     <task id="LOCAL-00001" summary="Add core lib assets">
       <created>1689854482675</created>
@@ -431,7 +427,28 @@
       <option name="project" value="LOCAL" />
       <updated>1693057025361</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Refactor code">
+      <created>1693302813252</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1693302813252</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Refactor code">
+      <created>1693304068894</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1693304068894</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Refactor code">
+      <created>1693304076204</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1693304076204</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -468,7 +485,8 @@
     <MESSAGE value="Clean up" />
     <MESSAGE value="CoreLib: Fix chat commands bugs" />
     <MESSAGE value="Cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleanup" />
+    <MESSAGE value="Refactor code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor code" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
