@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="Add accelerator rails">
+    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="Replace hacks with a custom RPC">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -14,8 +14,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/UnityComponents/TemplateBlock.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/UnityComponents/TemplateBlockCDAuthoring.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/IdBindConfigFile.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Scripts/Commands/TestCommandHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Scripts/Systems/MinecartMovementSystem.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Scripts/Slots/CrowbarEquipmentSlot.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Scripts/UI/LocomotiveUI.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/BurstCompatibleAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/NativeParallelHashMap.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/NativeParallelMultiHashMap.cs" root0="SKIP_HIGHLIGHTING" />
@@ -34,6 +34,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/SystemBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/SystemState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/Types/Entity.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/World.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.mathematics@1.2.6/Unity.Mathematics/float2.gen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.mathematics@1.2.6/Unity.Mathematics/float3.gen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.mathematics@1.2.6/Unity.Mathematics/int2.gen.cs" root0="SKIP_HIGHLIGHTING" />
@@ -74,7 +75,10 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7fb80e7e71474ba9a2b7085379c47dd64a9368/5e/6c9ecb67/SyntaxFactory.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7fb80e7e71474ba9a2b7085379c47dd64a9368/a0/e685d56e/CSharpSyntaxNode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7fb80e7e71474ba9a2b7085379c47dd64a9368/a8/849d4cee/MemberDeclarationSyntax.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/89d3d3b50d824d82bffba6675126335a57800/75/9aa74e79/ICommandData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/89d3d3b50d824d82bffba6675126335a57800/8f/1b95f967/SendRpcCommandRequestComponent.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/89d3d3b50d824d82bffba6675126335a57800/f6/6cd9ff4b/GhostPrefabType.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a0e0c9fe5ed2410fb693f75e4f61d4da40200/18/e1065c04/ObjectType.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a4b50a178b484dbf8c8eaf98d624a36e11800/18/e8eae340/FixedArray64.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a4b50a178b484dbf8c8eaf98d624a36e11800/bb/7f242040/Direction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a4b50a178b484dbf8c8eaf98d624a36e11800/c0/930116ee/ExtensionMethods.cs" root0="SKIP_HIGHLIGHTING" />
@@ -130,6 +134,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/9b/4172b42d/ItemSlotsUIContainer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/a9/f505f3ff/PugTextStyle.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/af/22f60104/SendClientSubMapToPugMapSystem.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/b2/0b612e98/State.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/c8/5d70f4ed/EntityUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/d1/0e157743/UIelement.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/f8f9d840d78a433695949c546bdc47bd287e00/dd/569905af/PugMapTileset.cs" root0="SKIP_HIGHLIGHTING" />
@@ -265,7 +270,9 @@
       <workItem from="1693035023870" duration="19863000" />
       <workItem from="1693150472851" duration="12448000" />
       <workItem from="1693210163718" duration="14450000" />
-      <workItem from="1693295135238" duration="9063000" />
+      <workItem from="1693295135238" duration="13822000" />
+      <workItem from="1693319818753" duration="673000" />
+      <workItem from="1693377639887" duration="8165000" />
     </task>
     <task id="LOCAL-00001" summary="Add core lib assets">
       <created>1689854482675</created>
@@ -442,7 +449,21 @@
       <option name="project" value="LOCAL" />
       <updated>1693312364139</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Refactor">
+      <created>1693314562265</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1693314562265</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Replace hacks with a custom RPC">
+      <created>1693410785897</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1693410785897</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -481,7 +502,9 @@
     <MESSAGE value="Cleanup" />
     <MESSAGE value="Refactor code" />
     <MESSAGE value="Add accelerator rails" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add accelerator rails" />
+    <MESSAGE value="Refactor" />
+    <MESSAGE value="Replace hacks with a custom RPC" />
+    <option name="LAST_COMMIT_MESSAGE" value="Replace hacks with a custom RPC" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
