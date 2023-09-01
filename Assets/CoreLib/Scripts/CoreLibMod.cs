@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using CoreLib.Submodules.TileSet;
 using CoreLib.Util;
 using HarmonyLib;
 using PugMod;
@@ -33,6 +34,11 @@ namespace CoreLib
             //CheckIfUsedOnRightGameVersion();
             
             submoduleHandler = new APISubmoduleHandler(buildFor, Log);
+        }
+        
+        public void Init()
+        {
+            TileSetModule.TrySave();
         }
         
         /// <summary>
@@ -78,10 +84,6 @@ namespace CoreLib
             // ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable
             Log.LogWarning($"This version of CoreLib was built for game version \"{buildFor}\", but you are running \"{buildId}\".");
             Log.LogWarning("Should any problems arise, please check for a new version before reporting issues.");
-        }
-
-        public void Init()
-        {
         }
 
         public void Shutdown()

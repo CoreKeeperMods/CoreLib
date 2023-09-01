@@ -107,7 +107,7 @@ namespace CoreLib.Submodules.RewiredExtension
         [CoreLibSubmoduleInit(Stage = InitStage.Load)]
         internal static void Load()
         {
-           keybindIdCache = new JsonConfigFile($"CoreLib/CoreLib.KeybindID.cfg", true);
+           keybindIdCache = new JsonConfigFile("CoreLib", "CoreLib.KeybindID", true);
         }
 
         internal static void ThrowIfNotLoaded()

@@ -405,7 +405,7 @@ namespace CoreLib.Submodules.ModEntity
     [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
     internal static void Load()
     {
-        modEntityIDs = new IdBindConfigFile($"CoreLib/CoreLib.ModEntityID.cfg", modEntityIdRangeStart, modEntityIdRangeEnd);
+        modEntityIDs = new IdBindConfigFile("CoreLib","CoreLib.ModEntityID", modEntityIdRangeStart, modEntityIdRangeEnd);
         objectTypeIDs = new IdBind(modObjectTypeIdRangeStart, modObjectTypeIdRangeEnd);
         
         RegisterEntityModifications(typeof(EntityModule));

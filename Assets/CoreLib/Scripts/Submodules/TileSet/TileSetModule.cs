@@ -107,9 +107,14 @@ namespace CoreLib.Submodules.TileSet
         [CoreLibSubmoduleInit(Stage = InitStage.Load)]
         internal static void Load()
         {
-            tilesetIDs = new IdBindConfigFile($"CoreLib/CoreLib.TilesetID.cfg", modTilesetIdRangeStart, modTilesetIdRangeEnd);
+            tilesetIDs = new IdBindConfigFile("CoreLib", "CoreLib.TilesetID", modTilesetIdRangeStart, modTilesetIdRangeEnd);
             InitTilesets();
             EntityModule.MaterialSwapReady += SwapMaterials;
+        }
+
+        internal static void TrySave()
+        {
+            tilesetIDs.configFile.Save();
         }
 
         private static void SwapMaterials()
@@ -124,6 +129,8 @@ namespace CoreLib.Submodules.TileSet
                 
                 foreach (QuadGenerator layer in layers.layers)
                 {
+                    if (layer.overrideMaterial == null) continue;
+                    
                     materialName = layer.overrideMaterial.name;
                     if (PrefabCrawler.materials.ContainsKey(materialName))
                     {

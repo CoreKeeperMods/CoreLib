@@ -9,6 +9,7 @@ namespace CoreLib
     public class JsonConfigFile
     {
         private readonly string ConfigFilePath;
+        private readonly string Mod;
 
         [Serializable]
         public struct EntryData
@@ -26,10 +27,11 @@ namespace CoreLib
         public Dictionary<string, ConfigEntryBase> Entries { get; } = new();
         public Dictionary<string, string> OrphanedEntries { get; } = new();
 
-        public JsonConfigFile(string configPath, bool saveOnInit)
+        public JsonConfigFile(string mod, string configPath, bool saveOnInit)
         {
             if (configPath == null) throw new ArgumentNullException(nameof(configPath));
             ConfigFilePath = configPath;
+            Mod = mod;
 
             if (saveOnInit && !Reload()) Save();
         }
@@ -60,7 +62,7 @@ namespace CoreLib
                 CoreLibMod.Log.LogWarning("Tried to save too early!");
                 return;
             }
-            API.Config.Set(ConfigFilePath, fileData);
+            API.Config.Set(Mod, ConfigFilePath, "json", fileData);
         }
 
         public bool Reload()
@@ -71,7 +73,7 @@ namespace CoreLib
                 return false;
             }
             
-            bool success = API.Config.TryGet(ConfigFilePath, out FileData fileData);
+            bool success = API.Config.TryGet(Mod, ConfigFilePath, "json", out FileData fileData);
             if (success)
             {
                 foreach (EntryData entry in fileData.entries)

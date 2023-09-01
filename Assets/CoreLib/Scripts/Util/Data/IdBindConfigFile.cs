@@ -6,11 +6,11 @@ namespace CoreLib
     {
         public JsonConfigFile configFile;
 
-        public IdBindConfigFile(string configPath, int idRangeStart, int idRangeEnd) : base(idRangeStart, idRangeEnd)
+        public IdBindConfigFile(string mod, string configPath, int idRangeStart, int idRangeEnd) : base(idRangeStart, idRangeEnd)
         {
-            configFile = new JsonConfigFile(configPath, true);
+            configFile = new JsonConfigFile(mod, configPath, true);
         }
-    
+
         protected override bool IsIdFree(int id)
         {
             if (configFile.OrphanedEntries.Any(pair =>
