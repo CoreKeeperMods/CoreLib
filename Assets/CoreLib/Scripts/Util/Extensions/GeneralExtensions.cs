@@ -42,21 +42,19 @@ namespace CoreLib.Util.Extensions
             return rel;
         }
 
-        public static unsafe void CopyFrom(this ref FixedArray64 fixedArray, byte[] bytes, int startIndex)
+        public static void CopyFrom(this ref FixedArray64 fixedArray, byte[] bytes, int startIndex)
         {
-            fixed (byte* ptr = bytes)
-            {
-                UnsafeUtility.MemCpy(fixedArray.GetUnsafePtr(), ptr + startIndex, math.min(fixedArray.Size, bytes.Length - startIndex));
-            }
+            var size = math.min(fixedArray.Size, bytes.Length - startIndex);
+            byte[] dataBytes = new byte[size];
+            Array.Copy(bytes, startIndex, dataBytes, 0, size);
+            fixedArray.Set(dataBytes);
         }
 
-        public static unsafe void CopyTo(this ref FixedArray64 fixedArray, byte[] bytes, int startIndex)
+        public static void CopyTo(this ref FixedArray64 fixedArray, byte[] bytes, int startIndex)
         {
-            fixed (byte* ptr = bytes)
-            {
-                UnsafeUtility.MemCpy(ptr + startIndex, fixedArray.GetUnsafePtr(), math.min(fixedArray.Size, bytes.Length - startIndex));
-            }
+            var size = math.min(fixedArray.Size, bytes.Length - startIndex);
+            var dataBytes = fixedArray.ToArray<byte>(size);
+            Array.Copy(dataBytes, 0, bytes, startIndex, size);
         }
-
     }
 }

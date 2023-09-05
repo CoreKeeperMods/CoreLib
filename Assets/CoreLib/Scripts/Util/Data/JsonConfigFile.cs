@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using PugMod;
+using UnityEngine;
+
 // ReSharper disable PossibleInvalidCastExceptionInForeachLoop
 
 namespace CoreLib
@@ -12,7 +15,7 @@ namespace CoreLib
         private readonly string Mod;
 
         [Serializable]
-        public struct EntryData
+        public class EntryData
         {
             public string key;
             public string value;
@@ -47,7 +50,7 @@ namespace CoreLib
                     value = kv.Value.GetSerializedValue()
                 });
             }
-            
+
             foreach (var kv in OrphanedEntries)
             {
                 fileData.entries.Add(new EntryData()
@@ -57,25 +60,17 @@ namespace CoreLib
                 });
             }
 
-            if (API.Config == null)
-            {
-                CoreLibMod.Log.LogWarning("Tried to save too early!");
-                return;
-            }
-            API.Config.Set(Mod, ConfigFilePath, "json", fileData);
+            string jsonString = JsonConvert.SerializeObject(fileData);
+
+            API.Config.Set(Mod, ConfigFilePath, "json", jsonString);
         }
 
         public bool Reload()
         {
-            if (API.Config == null)
+            bool success = API.Config.TryGet(Mod, ConfigFilePath, "json", out string json);
+            if (success && json != null)
             {
-                CoreLibMod.Log.LogWarning("Tried to load too early!");
-                return false;
-            }
-            
-            bool success = API.Config.TryGet(Mod, ConfigFilePath, "json", out FileData fileData);
-            if (success)
-            {
+                var fileData = JsonConvert.DeserializeObject<FileData>(json);
                 foreach (EntryData entry in fileData.entries)
                 {
                     OrphanedEntries.Add(entry.key, entry.value);
@@ -109,7 +104,7 @@ namespace CoreLib
                 entry.SetSerializedValue(homelessValue);
                 OrphanedEntries.Remove(key);
             }
-            
+
             Save();
 
             return entry;
@@ -130,7 +125,7 @@ namespace CoreLib
             /// </summary>
             public ConfigEntryBase ChangedSetting { get; }
         }
-        
+
         /// <summary>
         ///     Fired when one of the settings is changed.
         /// </summary>
@@ -139,7 +134,7 @@ namespace CoreLib
         internal void OnSettingChanged(object sender, ConfigEntryBase changedEntryBase)
         {
             if (changedEntryBase == null) throw new ArgumentNullException(nameof(changedEntryBase));
-            
+
             Save();
 
             var settingChanged = SettingChanged;
