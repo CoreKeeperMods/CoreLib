@@ -10,7 +10,7 @@
         "Unity.Core.Editor",
         "Unity.RenderPipelines.Universal.Runtime",
         "CoreLib",
-        "CoreLib.Unity"
+        "Unity.EditorCoroutines.Editor"
     ],
     "includePlatforms": [
         "Editor"

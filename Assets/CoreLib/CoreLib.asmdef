@@ -40,7 +40,8 @@
         "0Harmony.dll",
         "Rewired.dll",
         "Rewired_Core.dll",
-        "I2.dll"
+        "I2.dll",
+        "Newtonsoft.Json.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
