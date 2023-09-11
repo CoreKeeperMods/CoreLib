@@ -340,6 +340,7 @@ namespace CoreLib.Submodules.JsonLoader
             postApplyFiles.Clear();
         }
 
+        //TODO update this API for new modification method
         [EntityModification]
         internal static void ModificationsApply(MonoBehaviour entity)
         {

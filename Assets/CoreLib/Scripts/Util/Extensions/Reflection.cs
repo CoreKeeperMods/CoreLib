@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using System.Text;
 using HarmonyLib;
 using FieldInfo = System.Reflection.FieldInfo;
-using Object = System.Object;
-
 
 // ReSharper disable All
 #pragma warning disable 8603
@@ -83,17 +82,58 @@ namespace CoreLib
                 .Where(info => { return info.FieldType.Equals(typeof(T)); }).ToArray();
         }
 
-        public static bool IsAction<T>(MethodInfo method)
-        {
-            var parameters = method.GetParameters();
-            return method.ReturnParameter.ParameterType == typeof(void) &&
-                   parameters.Length == 1 &&
-                   parameters[0].ParameterType == typeof(T);
-        }
-
         public static bool HasAttribute<T>(MemberInfo type) where T : Attribute
         {
             return type.GetCustomAttribute<T>() != null;
+        }
+
+        public static string GetSignature(this MethodInfo member)
+        {
+            if (member == null)
+                return "null";
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            stringBuilder.Append(member.ReturnType.FullDescription());
+            stringBuilder.Append(" ");
+            
+            string str = ((IEnumerable<ParameterInfo>) member.GetParameters()).Join<ParameterInfo>((Func<ParameterInfo, string>) (p => p.ParameterType.FullDescription() + " " + p.Name));
+            stringBuilder.Append("(");
+            stringBuilder.Append(str);
+            stringBuilder.Append(")");
+            return stringBuilder.ToString();
+        }
+        
+        public static int RegisterAttributeFunction<TAttr, TDel>(Type type, Func<TDel, TAttr, bool> handler)
+            where TAttr : Attribute
+            where TDel : Delegate
+        {
+            int modifiersCount = 0;
+
+            IEnumerable<MethodInfo> methods = type
+                .GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic)
+                .Where(Reflection.HasAttribute<TAttr>);
+        
+            foreach (MethodInfo method in methods)
+            {
+                TDel methodDelegate = (TDel)Delegate.CreateDelegate(typeof(TDel), method, false);
+                if (methodDelegate == null)
+                {
+                    MethodInfo delegateInvoke = typeof(TDel).GetMethod("Invoke");
+                    CoreLibMod.Log.LogError(
+                        $"Failed to add modify method '{method.FullDescription()}', because method signature is incorrect. Should be {delegateInvoke.GetSignature()}!");
+                    continue;
+                }
+
+                var attributes = method.GetCustomAttributes<TAttr>();
+
+                foreach (TAttr attribute in attributes)
+                {
+                    if (handler(methodDelegate, attribute))
+                        modifiersCount++;
+                }
+            }
+
+            return modifiersCount;
         }
     }
 }

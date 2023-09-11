@@ -1,4 +1,5 @@
-﻿using CoreLib.Util;
+﻿using System;
+using CoreLib.Util;
 using HarmonyLib;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace CoreLib.Submodules.ModEntity.Patches
             PrefabCrawler.FindMaterials(__instance.poolablePrefabBank.poolInitializers);
             EntityModule.ApplyAll();
             
+            EntityModule.ApplyPrefabModifications(__instance);
+
             foreach (GameObject prefab in EntityModule.poolablePrefabs)
             {
                 MonoBehaviourUtils.ApplyPrefabModAuthorings(null, prefab);

@@ -1,36 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Editor/SwapEntityMonoBehaviorEditor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Editor/SwapEntityMonoBehaviorEditor.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ObjectDataExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ObjectDataExtensions.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/TextureUtil.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/TextureUtil.cs.meta" afterDir="false" />
+    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="Add initial port of Json Loader Module, reimplement features from Entity Module">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asmdef" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/Patches/AudioManager_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/Patches/AudioManager_Patch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/Patches/MusicManager_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/Patches/MusicManager_Patch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/CraftingData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/CraftingData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchDefinition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchInfo.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchDefinition.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Patches/Emote_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Patches/Emote_Patch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/Patches/Rewired_Init_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/Patches/Rewired_Init_Patch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/RewiredExtensionModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/RewiredExtensionModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/Extensions.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/Extensions.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/MemoryManager_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/MemoryManager_Patch.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/Reflection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/Reflection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/RewiredExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/RewiredExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/Sentry.System.Text.Json.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/Sentry.System.Text.Json.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/Minecarts/PlacementHandler_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/Minecarts/PlacementHandler_Patch.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/UpdateSubMapSystem_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/UpdateSubMapSystem_Patch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/UI/StyleSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/UI/StyleSettings.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +14,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/CoreLib/Scripts/Submodules/Audio/Patches/AudioManager_Patch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Scripts/Patches/Minecarts/PlacementHandler_Patch.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Scripts/Patches/UpdateSubMapSystem_Patch.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Scripts/Patches/UpdateSubMapSystem_Patch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/BurstCompatibleAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/Deprecated.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/NativeParallelHashMap.cs" root0="SKIP_HIGHLIGHTING" />
@@ -89,6 +69,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/377d90b6a60246c8b0fcf7d6e7b8f936568ba0/a3/99f3e62e/Directory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3eb17ad1b1ca496fb8c17fd74f372d7629400/32/dd8fe4b4/GUILayoutOption.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3eb17ad1b1ca496fb8c17fd74f372d7629400/4f/5d88e9ef/GUILayout.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/40a82cc9705b4865b72ee4c45165e7e940400/d8/ff20b7fb/AccessTools.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/40a82cc9705b4865b72ee4c45165e7e940400/ea/3e9ff644/GeneralExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/45499d95dd89417f88ab4e01794e214c296368/5c/af50f08c/SyntaxAnnotation.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/45499d95dd89417f88ab4e01794e214c296368/92/2fff5bd8/SyntaxNode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4564e41b4e324b32b7a550bfadc7a7173fc00/dc/ec7430d0/ObjectType.cs" root0="SKIP_HIGHLIGHTING" />
@@ -100,6 +82,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4d107ff09ee940489dfdee4710cf4e1247a00/c9/3230af1f/SubMapLayerBuffer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4d107ff09ee940489dfdee4710cf4e1247a00/cb/8428c408/SubMapLayer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/54e1399533fa4e8292630610385f3a8c12400/df/47a1a44e/FixedArray64.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/7a/6bb50028/Action`3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/618aa0ba2091409bba60e7868380c4ed127000/25/54d7e814/IJobEntityBatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/06/551da127/AssetDatabase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/13/c7436450/PlayerBuildInterface.cs" root0="FORCE_HIGHLIGHTING" />
@@ -335,7 +318,7 @@
       <workItem from="1694004141306" duration="782000" />
       <workItem from="1694004980283" duration="2625000" />
       <workItem from="1694092958187" duration="10818000" />
-      <workItem from="1694425973252" duration="9294000" />
+      <workItem from="1694425973252" duration="13662000" />
     </task>
     <task id="LOCAL-00001" summary="Add core lib assets">
       <created>1689854482675</created>
@@ -561,7 +544,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693926407487</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Add initial port of Json Loader Module, reimplement features from Entity Module">
+      <created>1694453733139</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1694453733139</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -580,7 +570,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Add materials" />
     <MESSAGE value="Add SDK assets" />
     <MESSAGE value="Add RailLogistics assets" />
     <MESSAGE value="Add other assets" />
@@ -605,7 +594,8 @@
     <MESSAGE value="Refactor mod tilesets and add an editor" />
     <MESSAGE value="Fix updated sdk" />
     <MESSAGE value="Add functional catapult rail" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add functional catapult rail" />
+    <MESSAGE value="Add initial port of Json Loader Module, reimplement features from Entity Module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add initial port of Json Loader Module, reimplement features from Entity Module" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
