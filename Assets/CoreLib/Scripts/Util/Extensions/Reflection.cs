@@ -17,88 +17,70 @@ using Object = System.Object;
 
 namespace CoreLib
 {
-    public static class Reflection {
-        public static System.Reflection.FieldInfo GetNestedField(Type type, string fieldName) {
-            var nestedTypes = type.GetNestedTypes(AccessTools.all);
-            foreach (Type nestedType in nestedTypes) {
-                var fieldInfo = nestedType.GetField(fieldName, AccessTools.all);
-                if (fieldInfo != null) {
-                    return fieldInfo;
-                }
-            }
-            return null;
-        }
-
-        public static System.Reflection.MethodInfo GetNestedMethod(Type type, string methodName) {
-            var nestedTypes = type.GetNestedTypes(AccessTools.all);
-            foreach (Type nestedType in nestedTypes) {
-                var methodInfo = nestedType.GetMethod(methodName, AccessTools.all);
-                if (methodInfo != null) {
-                    return methodInfo;
-                }
-            }
-            return null;
-        }
-
-        public static MethodInfo GetGenericMethod(Type type, string name, Type[] parameters) {
-            var classMethods = type.GetMethods(AccessTools.all);
-            foreach (System.Reflection.MethodInfo methodInfo in classMethods) {
-                if (methodInfo.Name == name) {
-                    System.Reflection.ParameterInfo[] parameterInfos = methodInfo.GetParameters();
-                    if (parameterInfos.Length == parameters.Length) {
-                        bool parameterMatch = true;
-                        for (int parameterIndex = 0; parameterIndex < parameters.Length; parameterIndex++) {
-                            if (parameterInfos[parameterIndex].ParameterType.Name != parameters[parameterIndex].Name) {
-                                parameterMatch = false;
-                                break;
-                            }
-                        }
-                        if (parameterMatch) {
-                            return methodInfo;
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-
-        private static MethodInfo m_getDelegate;
-        private static MethodInfo getDelegate
+    public static class Reflection
+    {
+        public static void InvokeVoid(this object obj, string methodName, object[] args)
         {
-            get
-            {
-                if (m_getDelegate == null)
-                    m_getDelegate = typeof(Marshal).GetMethod("GetDelegateForFunctionPointerInternal", AccessTools.all);
-                return m_getDelegate;
-            }
+            var method = obj.GetType().GetMethod(methodName, AccessTools.all);
+            if (method == null)
+                throw new MissingMethodException(obj.GetType().Name, methodName);
+            method.Invoke(obj, args);
+        }
+
+        public static T Invoke<T>(this object obj, string methodName, object[] args)
+        {
+            var method = obj.GetType().GetMethod(methodName, AccessTools.all);
+            if (method == null)
+                throw new MissingMethodException(obj.GetType().Name, methodName);
+            return (T)method.Invoke(obj, args);
+        }
+
+        public static T GetProperty<T>(this Type obj, string propertyName)
+        {
+            var property = obj.GetProperty(propertyName, AccessTools.all);
+            if (property == null)
+                throw new MissingMemberException(obj.Name, propertyName);
+
+            return (T)property.GetValue(null);
+        }
+
+        public static T GetProperty<T>(this object obj, string propertyName)
+        {
+            var property = obj.GetType().GetProperty(propertyName, AccessTools.all);
+            if (property == null)
+                throw new MissingMemberException(obj.GetType().Name, propertyName);
+
+            return (T)property.GetValue(obj);
+        }
+
+        public static T GetField<T>(this object obj, string fieldName)
+        {
+            var field = obj.GetType().GetField(fieldName, AccessTools.all);
+            if (field == null)
+                throw new MissingFieldException(obj.GetType().Name, fieldName);
+
+            return (T)field.GetValue(obj);
+        }
+
+        public static void SetField<T>(this object obj, string fieldName, T value)
+        {
+            var field = obj.GetType().GetField(fieldName, AccessTools.all);
+            if (field == null)
+                throw new MissingFieldException(obj.GetType().Name, fieldName);
+
+            field.SetValue(obj, value);
+        }
+
+        public static bool IsAssignableTo(this Type type, Type otherType)
+        {
+            return otherType.IsAssignableFrom(type);
         }
 
         public static FieldInfo[] GetFieldsOfType<T>(this Type type)
         {
             return type
                 .GetFields(AccessTools.all)
-                .Where(info =>
-                {
-                    /*Il2CppReferenceArray<Il2CppSystem.Type> args = info.FieldType.GetGenericArguments();
-                    if (args != null && args.Count > 0)
-                    {
-                        Il2CppSystem.Type genericType = args.Single();
-                        return genericType.Equals(Il2CppType.Of<T>());
-                    }*/
-
-                    return info.FieldType.Equals(typeof(T));
-                }).ToArray();
-        }
-    
-        /// <summary>
-        /// Does nothing, it's not il2cpp!
-        /// </summary>
-        /// <param name="obj">object to cast</param>
-        /// <returns>cast object</returns>
-        [Obsolete]
-        public static object CastToActualType(this Object obj)
-        {
-            return obj;
+                .Where(info => { return info.FieldType.Equals(typeof(T)); }).ToArray();
         }
 
         public static bool IsAction<T>(MethodInfo method)

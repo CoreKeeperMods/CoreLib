@@ -1,0 +1,62 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Drop",
+  "type": "object",
+  "description": "Defines or modifies drop table",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "lootTableId"
+  ],
+  "definitions": {
+    "loaderTypes": {
+      "enum": [
+        "drop"
+      ]
+    }
+  },
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Type of the parser to use",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/loaderTypes"
+        }
+      ]
+    },
+    "lootTableId": {
+      "type": "string",
+      "description": "Existing or new drop table id."
+    },
+    "areaLevel": {
+      "type": "string",
+      "description": "Loot table area level"
+    },
+    "add" : {
+      "type" : "array",
+      "items": {
+        "$ref": "loot_data_schema.json"
+      },
+      "description": "Loot to add to drop table"
+    },
+    "edit" : {
+      "type" : "array",
+      "items": {
+        "$ref": "loot_data_schema.json"
+      },
+      "description": "Loot to edit in drop table"
+    },
+    "remove" : {
+      "type" : "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Items to remove from drop table"
+    },
+    "$schema": {
+      "type": "string",
+      "description": "The schema to validate with"
+    }
+  }
+}

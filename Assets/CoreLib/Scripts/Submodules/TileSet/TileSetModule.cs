@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using CoreLib.Extensions;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.TileSet.Patches;
 using PugTilemap;
@@ -160,7 +159,7 @@ namespace CoreLib.Submodules.TileSet
                 CoreLibMod.Log.LogError("Failed to get default tileset layers!");
             }
 
-            missingTileset = CoreLibMod.assetBundle.Get<ModTileset>("MissingTileset");
+            missingTileset = CoreLibMod.assetBundle.LoadAsset<ModTileset>("MissingTileset");
 
             if (tilesetLayers.ContainsKey(missingTileset.layers.name))
             {

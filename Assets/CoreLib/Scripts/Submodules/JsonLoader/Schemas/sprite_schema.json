@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Sprite",
+  "description": "Defines Unity sprite resource",
+  "type": "object",
+  "definitions": {
+    "iconTypes": {
+      "enum": [
+        "icon-top",
+        "icon-bottom"
+      ]
+    }
+  },
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "Path relative to 'resources' folder",
+      "minLength" : 1
+    },
+    "type": {
+      "type": "string",
+      "description": "Shorthand sprite type",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/iconTypes"
+        }
+      ]
+    },
+    "rect": {
+      "type": "object",
+      "description": "Sprite rect to use",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ]
+    }
+  },
+  "required": [
+    "path"
+  ]
+}

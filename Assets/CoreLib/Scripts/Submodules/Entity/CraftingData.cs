@@ -1,9 +1,12 @@
-﻿namespace CoreLib.Submodules.ModEntity
+﻿using System;
+
+namespace CoreLib.Submodules.ModEntity
 {
+    [Serializable]
     public struct CraftingData
     {
-        public ObjectID objectID { get; set; }
-        public int amount { get; set; }
+        public ObjectID objectID;
+        public int amount;
 
         public CraftingData(ObjectID objectID, int amount)
         {

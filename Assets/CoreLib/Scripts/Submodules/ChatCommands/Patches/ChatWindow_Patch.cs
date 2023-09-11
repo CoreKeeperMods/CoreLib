@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CoreLib.Extensions;
 using CoreLib.Submodules.ChatCommands.Communication;
 using HarmonyLib;
 using UnityEngine;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using CoreLib.Submodules.ModEntity;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
@@ -55,6 +56,16 @@ namespace CoreLib.Util.Extensions
             var size = math.min(fixedArray.Size, bytes.Length - startIndex);
             var dataBytes = fixedArray.ToArray<byte>(size);
             Array.Copy(dataBytes, 0, bytes, startIndex, size);
+        }
+        
+        public static ObjectID GetObjectID(this string value)
+        {
+            if (Enum.TryParse(value, true, out ObjectID objectID))
+            {
+                return objectID;
+            }
+
+            return EntityModule.GetObjectId(value);
         }
     }
 }

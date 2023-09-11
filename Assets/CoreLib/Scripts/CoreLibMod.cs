@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using CoreLib.Submodules.TileSet;
 using CoreLib.Util;
@@ -15,11 +16,14 @@ namespace CoreLib
 {
     public class CoreLibMod : IMod
     {
-        public static Logger Log = new Logger("Core Lib");
+        public const string ID = "CoreLib";
+        public const string NAME = "Core Lib";
+        
+        public static Logger Log = new Logger(NAME);
         public static readonly GameVersion buildFor = new GameVersion(0, 6, 0, 3, "3a54");
         
         public static Harmony harmony;
-        public static VirtualAssetBundle assetBundle = new VirtualAssetBundle();
+        public static AssetBundle assetBundle;
         
         internal static APISubmoduleHandler submoduleHandler;
 
@@ -28,8 +32,10 @@ namespace CoreLib
             BurstRuntime.LoadAdditionalLibrary($"{Application.streamingAssetsPath}/Mods/CoreLib/CoreLib_burst_generated.dll");
             JobEarlyInitHelper.PerformJobEarlyInit(Assembly.GetExecutingAssembly());
             
-            harmony = new Harmony("CoreLib");
+            harmony = new Harmony(ID);
             API.Server.OnWorldCreated += WorldInitialize;
+
+            assetBundle = API.ModLoader.LoadedMods.FirstOrDefault(mod => mod.Metadata.name == ID)?.AssetBundles.FirstOrDefault();
             
             //CheckIfUsedOnRightGameVersion();
             
@@ -92,7 +98,6 @@ namespace CoreLib
 
         public void ModObjectLoaded(Object obj)
         {
-            assetBundle.Register(obj);
         }
 
         public bool CanBeUnloaded()

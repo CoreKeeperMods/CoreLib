@@ -41,7 +41,10 @@
         "Rewired.dll",
         "Rewired_Core.dll",
         "I2.dll",
-        "Newtonsoft.Json.dll"
+        "Newtonsoft.Json.dll",
+        "Sentry.System.Text.Json.dll",
+        "Sentry.System.Buffers.dll",
+        "Sentry.System.Memory.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

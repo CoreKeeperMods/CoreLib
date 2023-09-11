@@ -1,0 +1,258 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Item",
+  "type": "object",
+  "description": "Defines custom item to be added to Core Keeper",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "itemId",
+    "icon",
+    "smallIcon",
+    "localizedName",
+    "localizedDescription"
+  ],
+  "definitions": {
+    "loaderTypes": {
+      "enum": [
+        "item",
+        "modWorkbench",
+        "block",
+        "bundle",
+        "modify"
+      ]
+    },
+    "ObjectCategoryTag": {
+      "enum": [
+        "None",
+        "Dirt",
+        "Wood",
+        "Stone",
+        "Ruins",
+        "Greenery",
+        "Obsidian",
+        "Player",
+        "HostileCreature",
+        "LarvaHive",
+        "DefensiveWoodStructure",
+        "DefensiveStoneStructure",
+        "LightSource",
+        "Destructible",
+        "DamageCantGoThrough",
+        "DefensiveScarletStructure",
+        "DefensiveGalaxiteStructure",
+        "UncommonOrLowerCookedFood",
+        "RareOrHigherCookedFood"
+      ]
+    },
+    "Rarity": {
+      "enum": [
+        "Poor",
+        "Common",
+        "Uncommon",
+        "Rare",
+        "Epic",
+        "Legendary"
+      ]
+    }
+  },
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Type of the parser to use",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/loaderTypes"
+        }
+      ]
+    },
+    "itemId": {
+      "type": "string",
+      "description": "New item id. Must in format of 'modid:itemid'",
+      "pattern": "^[A-Za-z0-9]+:[A-Za-z0-9]+$",
+      "minLength" : 3
+    },
+    "icon": {
+      "description": "Main item sprite",
+      "anyOf": [
+        { "$ref": "sprite_schema.json" },
+        { "type" : "string" }
+      ]
+    },
+    "smallIcon": {
+      "description": "Secondary item sprite. Used when player is holding the item or on pedestals",
+      "anyOf": [
+        { "$ref": "sprite_schema.json" },
+        { "type" : "string" }
+      ]
+    },
+    "variations" : {
+      "description": "Object rotation variations. Only applies to modWorkbench type",
+      "type": "string"
+    },
+    "localizedName": {
+      "type": "string",
+      "description": "Item localized name"
+    },
+    "localizedDescription": {
+      "type": "string",
+      "description": "Item localized description"
+    },
+    "components" : {
+      "type" : "array",
+      "items": {
+        "$ref": "component_schema.json"
+      },
+      "description": "Custom components this item should have"
+    },
+    "canCraft"  : {
+      "type" : "array",
+      "items": {
+        "type" : "string"
+      },
+      "description": "Defines what items workbench can craft. Only applies to mod workbenches!"
+    },
+    "initialAmount": {
+      "type": "integer",
+      "description": "How many items player recieves when crafring the item. Also has special meaning for items with durability"
+    },
+    "variation": {
+      "type": "integer",
+      "description": "This item variation"
+    },
+    "variationIsDynamic": {
+      "type": "boolean",
+      "description": "Is variation supposed to change at runtime?"
+    },
+    "variationToToggleTo": {
+      "type": "integer"
+    },
+    "objectType": {
+      "type": "string",
+      "description": "Item object type. Can be both existing vanilla types and custom modded values"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Item tags",
+      "items": {
+        "$ref": "#/definitions/ObjectCategoryTag"
+      },
+      "uniqueItems": true
+    },
+    "rarity": {
+      "$ref": "#/definitions/Rarity",
+      "description": "Item rarity type"
+    },
+    "onlyExistsInSeason": {
+      "type": "string",
+      "description": "In which season should this item appear"
+    },
+    "sellValue": {
+      "type": "integer",
+      "description": "How much the items costs when sold by a merchant"
+    },
+    "buyValueMultiplier": {
+      "type": "number"
+    },
+    "iconOffset": {
+      "description": "How should item icon be offset",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
+    },
+    "isStackable": {
+      "type": "boolean",
+      "description": "Is this item stackable?"
+    },
+    "prefabTileSize": {
+      "description": "Size in tiles that this entity occupies (or works within)",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
+    },
+    "prefabCornerOffset": {
+      "description": "Offset for entities",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
+    },
+    "colliderSize": {
+      "description": "Size of block collider in world units",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
+    },
+    "colliderCenter": {
+      "description": "Center offset of block collider",
+      "anyOf": [
+        { "$ref": "vector_schema.json" },
+        { "type" : "array", "items": {"type" : "number" }}
+      ]
+    },
+    "centerIsAtEntityPosition": {
+      "type": "boolean"
+    },
+    "additionalSprites": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+        { "$ref": "sprite_schema.json" },
+        { "type" : "string" }
+        ]
+      }
+    },
+    "requiredObjectsToCraft": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "objectID": {
+            "type": "string",
+            "description": "Ingridient item id"
+          },
+          "amount": {
+            "type": "integer",
+            "description": "How many of this ingridient is needed?"
+          }
+        },
+        "required": [
+          "objectID",
+          "amount"
+        ]
+      }
+    },
+    "craftingTime": {
+      "type": "number",
+      "description": "How long does it take to craft this item"
+    },
+    "appearInMapUI": {
+      "type": "boolean",
+      "description": "Should this entity appear on the map"
+    },
+    "mapColor": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+           "$ref": "color_schema.json"
+        }
+      ],
+      "description": "Color of this entity on the map"
+    },
+    "languageGenders": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "$schema": {
+      "type": "string",
+      "description": "The schema to validate with"
+    }
+  }
+}

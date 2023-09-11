@@ -1,5 +1,4 @@
-﻿using CoreLib.Extensions;
-using HarmonyLib;
+﻿using HarmonyLib;
 namespace CoreLib.Submodules.Audio.Patches
 {
     public static class MusicManager_Patch

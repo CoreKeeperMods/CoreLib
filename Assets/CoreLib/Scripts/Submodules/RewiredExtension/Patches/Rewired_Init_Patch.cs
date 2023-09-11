@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using CoreLib.Extensions;
 using HarmonyLib;
 using Rewired;
 using Rewired.Data;
