@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using CoreLib.Submodules.Localization.Patches;
 using I2.Loc;
 
@@ -86,6 +85,7 @@ namespace CoreLib.Submodules.Localization
         #region Private Implementation
     
         private static bool _loaded;
+        public const string submoduleName = nameof(LocalizationModule);
 
         [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
         internal static void SetHooks()
@@ -97,8 +97,7 @@ namespace CoreLib.Submodules.Localization
         {
             if (!Loaded)
             {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
                 throw new InvalidOperationException(message);
             }
         }

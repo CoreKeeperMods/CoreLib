@@ -72,6 +72,7 @@ namespace CoreLib.Submodules.Equipment
         }
 
         private static bool _loaded;
+        public const string submoduleName = nameof(EquipmentModule);
 
         public const int ModSlotTypeIdStart = 128;
         public const int ModSlotTypeIdEnd = byte.MaxValue;
@@ -95,6 +96,15 @@ namespace CoreLib.Submodules.Equipment
         {
             CoreLibMod.harmony.PatchAll(typeof(Emote_Patch));
             CoreLibMod.harmony.PatchAll(typeof(PlayerController_Patch_2));
+        }
+        
+        internal static void ThrowIfNotLoaded()
+        {
+            if (!Loaded)
+            {
+                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
+                throw new InvalidOperationException(message);
+            }
         }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using CoreLib.Submodules.ChatCommands;
-using CoreLib.Submodules.JsonLoader.Converters;
-using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Unity.Entities;
 using UnityEngine;

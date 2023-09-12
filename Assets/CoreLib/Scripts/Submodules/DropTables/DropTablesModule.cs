@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using CoreLib.Submodules.DropTables.Patches;
 using LootList = System.Collections.Generic.List<LootInfo>;
 
@@ -105,6 +104,7 @@ namespace CoreLib.Submodules.DropTables
         #region Private Implementation
 
         private static bool _loaded;
+        public const string submoduleName = nameof(DropTablesModule);
 
         [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
         internal static void SetHooks()
@@ -116,8 +116,7 @@ namespace CoreLib.Submodules.DropTables
         {
             if (!Loaded)
             {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
                 throw new InvalidOperationException(message);
             }
         }

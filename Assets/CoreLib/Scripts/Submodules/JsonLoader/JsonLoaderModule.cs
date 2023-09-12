@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using CoreLib.Components;
 using CoreLib.Submodules.ChatCommands;
 using CoreLib.Submodules.DropTables;
 using CoreLib.Submodules.ModEntity;
@@ -21,7 +20,7 @@ using UnityEngine.Serialization;
 namespace CoreLib.Submodules.JsonLoader
 {
     [CoreLibSubmodule(Dependencies = new[] { typeof(EntityModule), typeof(DropTablesModule) })]
-    public class JsonLoaderModule
+    public static class JsonLoaderModule
     {
         #region PUBLIC_INTERFACE
 
@@ -229,6 +228,9 @@ namespace CoreLib.Submodules.JsonLoader
 
         #region PRIVATE
 
+        private static bool _loaded;
+        public const string submoduleName = nameof(JsonLoaderModule);
+        
         private static readonly string[] specialProperties =
         {
             "itemId",
@@ -240,7 +242,6 @@ namespace CoreLib.Submodules.JsonLoader
             "colliderCenter"
         };
 
-        private static bool _loaded;
         private static bool dumpCommandEnabled;
         private static bool finishedLoadingObjects = false;
         private static bool entityModificationFileCacheReady = false;
@@ -386,8 +387,7 @@ namespace CoreLib.Submodules.JsonLoader
         {
             if (!Loaded)
             {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
                 throw new InvalidOperationException(message);
             }
         }

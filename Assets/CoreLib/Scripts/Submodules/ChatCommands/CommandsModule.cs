@@ -94,10 +94,12 @@ namespace CoreLib.Submodules.ChatCommands
 
         #region Private Implementation
 
+        private static bool _loaded;
+        public const string submoduleName = nameof(CommandsModule);
+        
         internal const string CommandPrefix = "/";
         private static readonly char[] brackets = { '{', '}', '[', ']' };
-
-        private static bool _loaded;
+        
         internal static Player rewiredPlayer;
 
         internal static string UP_KEY = "CoreLib_UpKey";
@@ -155,8 +157,7 @@ namespace CoreLib.Submodules.ChatCommands
         {
             if (!Loaded)
             {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
                 throw new InvalidOperationException(message);
             }
         }

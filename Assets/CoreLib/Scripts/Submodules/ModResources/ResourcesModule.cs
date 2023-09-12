@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using CoreLib.Submodules.JsonLoader;
 using PugMod;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -157,6 +155,8 @@ namespace CoreLib.Submodules.ModResources
         #region PrivateImplementation
 
         private static bool _loaded;
+        public const string submoduleName = nameof(ResourcesModule);
+
         internal static List<AssetBundle> modAssetBundles = new List<AssetBundle>();
         internal static int lastModCount = 0;
         
@@ -185,8 +185,7 @@ namespace CoreLib.Submodules.ModResources
         {
             if (!Loaded)
             {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
                 throw new InvalidOperationException(message);
             }
         }

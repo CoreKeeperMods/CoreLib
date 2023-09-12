@@ -317,7 +317,8 @@ namespace CoreLib.Submodules.ModEntity
         #region PrivateImplementation
 
         private static bool _loaded;
-
+        public const string submoduleName = nameof(EntityModule);
+        
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
         internal static Dictionary<ObjectID, List<ObjectAuthoring>> moddedEntities = new Dictionary<ObjectID, List<ObjectAuthoring>>();
@@ -375,8 +376,7 @@ namespace CoreLib.Submodules.ModEntity
         {
             if (!Loaded)
             {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
                 throw new InvalidOperationException(message);
             }
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.TileSet.Patches;
 using PugTilemap;
@@ -74,6 +73,7 @@ namespace CoreLib.Submodules.TileSet
         #region PrivateImplementation
 
         private static bool _loaded;
+        public const string submoduleName = nameof(TileSetModule);
 
         internal static Dictionary<Tileset, ModTileset> customTilesets =
             new Dictionary<Tileset, ModTileset>();
@@ -91,8 +91,7 @@ namespace CoreLib.Submodules.TileSet
         {
             if (!Loaded)
             {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
                 throw new InvalidOperationException(message);
             }
         }

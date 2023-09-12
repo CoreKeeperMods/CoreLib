@@ -1,5 +1,4 @@
-﻿using System;
-using CoreLib.Util;
+﻿using CoreLib.Util;
 using HarmonyLib;
 using UnityEngine;
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using CoreLib.Submodules.Audio.Patches;
 using UnityEngine;
 using MusicList = System.Collections.Generic.List<MusicManager.MusicTrack>;
@@ -80,6 +79,7 @@ namespace CoreLib.Submodules.Audio
         #region Private Implementation
 
         private static bool _loaded;
+        public const string submoduleName = nameof(AudioModule);
         
         public static Dictionary<int, MusicManager.MusicRoster> customRosterMusic;
         public static Dictionary<int, MusicManager.MusicRoster> vanillaRosterAddTracksInfos;
@@ -103,8 +103,7 @@ namespace CoreLib.Submodules.Audio
         {
             if (!Loaded)
             {
-                Type submoduleType = MethodBase.GetCurrentMethod().DeclaringType;
-                string message = $"{submoduleType.Name} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleType.Name})]";
+                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
                 throw new InvalidOperationException(message);
             }
         }

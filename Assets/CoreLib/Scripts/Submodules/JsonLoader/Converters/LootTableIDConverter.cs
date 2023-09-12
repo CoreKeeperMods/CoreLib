@@ -2,7 +2,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CoreLib.Submodules.DropTables;
-using CoreLib.Submodules.ModEntity;
 
 namespace CoreLib.Submodules.JsonLoader.Converters
 {
