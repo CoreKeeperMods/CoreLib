@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Reflection;
 
 namespace CoreLib.Submodules.JsonLoader
 {
     public struct JsonContext
     {
         public string loadPath;
-        public Assembly callingAssembly;
         
-        public JsonContext(string loadPath, Assembly callingAssembly)
+        public JsonContext(string loadPath)
         {
             this.loadPath = loadPath;
-            this.callingAssembly = callingAssembly;
         }
     }
     

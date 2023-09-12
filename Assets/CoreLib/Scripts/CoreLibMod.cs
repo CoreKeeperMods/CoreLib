@@ -10,8 +10,6 @@ using Unity.Entities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-[assembly: AssemblyVersion("1.0.0.0")]
-
 namespace CoreLib
 {
     public class CoreLibMod : IMod

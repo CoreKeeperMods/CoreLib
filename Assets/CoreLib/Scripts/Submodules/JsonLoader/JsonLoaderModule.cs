@@ -68,7 +68,7 @@ namespace CoreLib.Submodules.JsonLoader
 
             string resourcesDir = Path.Combine(path, "resources");
 
-            using (WithContext(new JsonContext(resourcesDir, Assembly.GetCallingAssembly())))
+            using (WithContext(new JsonContext(resourcesDir)))
             {
                 foreach (string file in Directory.EnumerateFiles(resourcesDir, "*.json", SearchOption.AllDirectories))
                 {
@@ -120,7 +120,8 @@ namespace CoreLib.Submodules.JsonLoader
 
         public static int RegisterInteractHandler(string handlerType)
         {
-            if (context.callingAssembly == null)
+            //TODO this needs to be reimplemented
+            /*if (context.callingAssembly == null)
             {
                 CoreLibMod.Log.LogError("Failed to register interaction handler. Context assembly is null");
                 return 0;
@@ -151,7 +152,8 @@ namespace CoreLib.Submodules.JsonLoader
             CoreLibMod.Log.LogDebug($"Registering {handlerType} as object interact handler!");
             int index = interactionHandlers.Count;
             interactionHandlers.Add(Activator.CreateInstance(type));
-            return index;
+            return index;*/
+            return 0;
         }
 
         public static Type TypeByName(string name)
@@ -287,7 +289,8 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new JsonStringEnumConverter());
             options.Converters.Add(new SpriteConverter());
             options.Converters.Add(new ColorConverter());
-            options.Converters.Add(new VectorConverter());
+            options.AddGeneratedVectorConverters();
+            
             options.Converters.Add(new RectConverter());
             options.Converters.Add(new Texture2DConverter());
             options.Converters.Add(new LootTableIDConverter());
@@ -354,7 +357,7 @@ namespace CoreLib.Submodules.JsonLoader
                 ModifyFile modify = entityModificationFileCache[objectId];
                 JsonDocument jObject = JsonDocument.Parse(File.ReadAllText(modify.filePath));
 
-                using (WithContext(new JsonContext(modify.contextPath, null)))
+                using (WithContext(new JsonContext(modify.contextPath)))
                 {
                     ModificationJsonReader.ModifyApply(jObject.RootElement, entity);
                 }
