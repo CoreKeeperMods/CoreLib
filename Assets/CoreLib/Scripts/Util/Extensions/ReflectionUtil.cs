@@ -16,7 +16,7 @@ using FieldInfo = System.Reflection.FieldInfo;
 
 namespace CoreLib
 {
-    public static class Reflection
+    public static class ReflectionUtil
     {
         public static void InvokeVoid(this object obj, string methodName, object[] args)
         {
@@ -86,6 +86,28 @@ namespace CoreLib
         {
             return type.GetCustomAttribute<T>() != null;
         }
+        
+        public static Type[] GetTypesFromAssembly(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                return ex.Types.Where(type => type != null).ToArray();
+            }
+        }
+        
+        public static Type[] GetTypesFromCallingAssembly()
+        {
+            return GetTypesFromAssembly(Assembly.GetCallingAssembly());
+        }
+        
+        public static Type[] AllTypes()
+        {
+            return AccessTools.AllAssemblies().SelectMany(ReflectionUtil.GetTypesFromAssembly).ToArray();
+        }
 
         public static string GetSignature(this MethodInfo member)
         {
@@ -111,7 +133,7 @@ namespace CoreLib
 
             IEnumerable<MethodInfo> methods = type
                 .GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic)
-                .Where(Reflection.HasAttribute<TAttr>);
+                .Where(ReflectionUtil.HasAttribute<TAttr>);
         
             foreach (MethodInfo method in methods)
             {

@@ -4,7 +4,7 @@
     {
         internal static void PerformPostLoad()
         {
-            if (!JsonLoaderModule.Loaded) return;
+            if (!JsonLoaderModule.Instance.Loaded) return;
             
             JsonLoaderModule.PostApply();
         }

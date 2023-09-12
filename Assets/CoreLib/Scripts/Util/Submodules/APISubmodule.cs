@@ -1,65 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using HarmonyLib;
 
 #pragma warning disable 649
 
-// ReSharper disable UnusedMember.Global
-// ReSharper disable ClassNeverInstantiated.Global
-
 namespace CoreLib
 {
-    // Source code is taken from R2API: https://github.com/risk-of-thunder/R2API/tree/master
-
-    [Flags]
-    internal enum InitStage
-    {
-        SetHooks = 1 << 0,
-        Load = 1 << 1,
-        PostLoad = 1 << 2,
-        Unload = 1 << 3,
-        UnsetHooks = 1 << 4,
-        LoadCheck = 1 << 5,
-        GetOptionalDependencies = 1 << 6
-    }
-
-// ReSharper disable once InconsistentNaming
-    [AttributeUsage(AttributeTargets.Class)]
-    internal class CoreLibSubmodule : Attribute
-    {
-        public GameVersion Build;
-        public Type[] Dependencies;
-    }
-
-// ReSharper disable once InconsistentNaming
-    [AttributeUsage(AttributeTargets.Method)]
-    internal class CoreLibSubmoduleInit : Attribute
-    {
-        public InitStage Stage;
-    }
-
-    /// <summary>
-    /// Attribute to have at the top of your BaseUnityPlugin class if you want to load a specific R2API Submodule.
-    /// Parameter(s) are the nameof the submodules.
-    /// e.g: [CommonAPISubmoduleDependency("", "")]
-    /// </summary>
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
-    public class CoreLibSubmoduleDependency : Attribute
-    {
-        public string[] SubmoduleNames { get; }
-
-        public CoreLibSubmoduleDependency(params string[] submoduleName)
-        {
-            SubmoduleNames = submoduleName;
-        }
-    }
-
-// ReSharper disable once InconsistentNaming
-    /// <summary>
-    ///
-    /// </summary>
     public class APISubmoduleHandler
     {
         private readonly GameVersion _build;
@@ -67,7 +14,7 @@ namespace CoreLib
 
         private readonly HashSet<string> loadedModules;
 
-        private List<Type> allModules;
+        private Dictionary<Type, BaseSubmodule> allModules;
 
         internal APISubmoduleHandler(GameVersion build, Logger logger)
         {
@@ -75,7 +22,18 @@ namespace CoreLib
             this.logger = logger;
             loadedModules = new HashSet<string>();
 
-            allModules = GetSubmodules(true);
+            allModules = GetSubmodules();
+        }
+        
+        internal T GetModuleInstance<T>()
+        where T : BaseSubmodule
+        {
+            if (allModules.TryGetValue(typeof(T), out BaseSubmodule submodule))
+            {
+                return (T)submodule;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -95,7 +53,12 @@ namespace CoreLib
         }
         private bool RequestModuleLoad(Type moduleType, bool ignoreDependencies)
         {
-            if (moduleType == null) return false;
+            if (moduleType == null)
+                throw new ArgumentNullException(nameof(moduleType));
+            
+            if (!allModules.ContainsKey(moduleType))
+                throw new InvalidOperationException($"Tried to load unknown submodule: '{moduleType.FullName}'!");
+
             if (IsLoaded(moduleType.Name)) return true;
 
             CoreLibMod.Log.LogInfo($"Enabling CoreLib Submodule: {moduleType.Name}");
@@ -115,29 +78,27 @@ namespace CoreLib
                     }
                 }
 
-                InvokeStage(moduleType, InitStage.SetHooks, null);
-                InvokeStage(moduleType, InitStage.Load, null);
-                FieldInfo fieldInfo = moduleType.GetField("_loaded", AccessTools.all);
-                if (fieldInfo != null)
+                BaseSubmodule submodule = allModules[moduleType];
+
+                if (!submodule.Build.Equals(GameVersion.zero) &&
+                    !submodule.Build.CompatibleWith(_build))
                 {
-                    fieldInfo.SetValue(null, true);
+                    logger.LogWarning($"Submodule {moduleType.Name} was built for {submodule.Build}, but current build is {_build}.");
                 }
 
+                submodule.SetHooks();
+                submodule.Load();
+
+                submodule.Loaded = true;
                 loadedModules.Add(moduleType.Name);
-                InvokeStage(moduleType, InitStage.PostLoad, null);
+                
+                submodule.PostLoad();
                 return true;
             }
             catch (Exception e)
             {
-                Exception logException = e;
-                if (e is TargetInvocationException te)
-                {
-                    if (te.InnerException != null)
-                        logException = te.InnerException;
-                }
-
                 logger.LogError($"{moduleType.Name} could not be initialized and has been disabled:\n\n");
-                logger.LogError($"{logException.Message}");
+                logger.LogError($"{e.Message}");
             }
 
             return false;
@@ -147,10 +108,8 @@ namespace CoreLib
         {
             IEnumerable<Type> modulesToAdd = moduleType.GetDependants(type =>
                 {
-                    CoreLibSubmodule attr = type.GetCustomAttribute<CoreLibSubmodule>();
-                    var attrTypes = attr?.Dependencies ?? Array.Empty<Type>();
-                    var optional = (Type[])InvokeStage(type, InitStage.GetOptionalDependencies, Array.Empty<object>());
-                    return attrTypes.AddRangeToArray(optional ?? Array.Empty<Type>());
+                    BaseSubmodule submodule = allModules[type];
+                    return submodule.Dependencies.AddRangeToArray(submodule.GetOptionalDependencies());
                 },
                 (start, end) =>
                 {
@@ -160,57 +119,17 @@ namespace CoreLib
             return modulesToAdd;
         }
 
-        public List<Type> GetSubmodules(bool allSubmodules = false)
+        public Dictionary<Type, BaseSubmodule> GetSubmodules()
         {
-            Type[] types;
-            try
+            var moduleTypes = ReflectionUtil.GetTypesFromCallingAssembly().Where(type => type.IsAssignableTo(typeof(BaseSubmodule))).ToList();
+            
+            var moduleDict = new Dictionary<Type, BaseSubmodule>();
+            foreach (Type moduleType in moduleTypes)
             {
-                types = Assembly.GetExecutingAssembly().GetTypes();
+                moduleDict.Add(moduleType, (BaseSubmodule)Activator.CreateInstance(moduleType));
             }
-            catch (ReflectionTypeLoadException e)
-            {
-                types = e.Types;
-            }
-
-            var moduleTypes = types.Where(type => APISubmoduleFilter(type, allSubmodules)).ToList();
-            return moduleTypes!;
-        }
-
-        // ReSharper disable once InconsistentNaming
-        private bool APISubmoduleFilter(Type type, bool allSubmodules = false)
-        {
-            if (type == null) return false;
-            var attr = type.GetCustomAttribute<CoreLibSubmodule>();
-
-            if (attr == null)
-                return false;
-
-            if (allSubmodules)
-            {
-                return true;
-            }
-
-            if (!attr.Build.Equals(GameVersion.zero) && attr.Build.CompatibleWith(_build))
-                logger.LogDebug($"{type.Name} was built for build {attr.Build}, current build is {_build}.");
-
-            return true;
-        }
-
-        internal object InvokeStage(Type type, InitStage stage, object[] parameters)
-        {
-            if (type == null) return null;
-            var methods = type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(m => m.GetCustomAttributes(typeof(CoreLibSubmoduleInit))
-                    .Any(a => ((CoreLibSubmoduleInit)a).Stage.HasFlag(stage))).ToList();
-
-            if (methods.Count == 0)
-            {
-                return null;
-            }
-
-            var method = methods.First();
-
-            return method.Invoke(null, parameters);
+            
+            return moduleDict;
         }
     }
 }

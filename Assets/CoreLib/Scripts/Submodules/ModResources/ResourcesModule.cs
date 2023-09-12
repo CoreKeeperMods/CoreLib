@@ -8,20 +8,9 @@ using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.ModResources
 {
-
-    [CoreLibSubmodule]
-    public static class ResourcesModule
+    public class ResourcesModule : BaseSubmodule
     {
         #region Public Interface
-
-        /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
 
         public static Object[] LoadSprites(string assetPath)
         {
@@ -41,22 +30,6 @@ namespace CoreLib.Submodules.ModResources
             }
 
             return Array.Empty<Object>();
-        }
-
-        public static Sprite[] OrderSprites(this Object[] sprites)
-        {
-            List<Sprite> list = sprites.Select(o => (Sprite)o).ToList();
-
-            return list.OrderBy(sprite =>
-            {
-                if (sprite.name.Contains('_'))
-                {
-                    string index = sprite.name.Split('_').Last();
-                    return int.Parse(index);
-                }
-
-                return 0;
-            }).ToArray();
         }
 
         /// <summary>
@@ -154,18 +127,16 @@ namespace CoreLib.Submodules.ModResources
 
         #region PrivateImplementation
 
-        private static bool _loaded;
-        public const string submoduleName = nameof(ResourcesModule);
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal static ResourcesModule Instance => CoreLibMod.GetModuleInstance<ResourcesModule>();
 
         internal static List<AssetBundle> modAssetBundles = new List<AssetBundle>();
         internal static int lastModCount = 0;
         
         internal static string[] spriteFileExtensions = { ".jpg", ".png", ".tif" };
         internal static string[] audioClipFileExtensions = { ".mp3", ".ogg", ".wav", ".aif", ".flac" };
-
-
-        [CoreLibSubmoduleInit(Stage = InitStage.Load)]
-        internal static void Load()
+        
+        internal override void Load()
         {
             RefreshResources();
         }
@@ -178,26 +149,6 @@ namespace CoreLib.Submodules.ModResources
                 modAssetBundles = API.ModLoader.LoadedMods.SelectMany(mod => mod.AssetBundles).ToList();
                 lastModCount = currentModCount;
             }
-        }
-
-
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
-        }
-
-        private static string WithExtension(this string path, string extension)
-        {
-            if (path.EndsWith(extension))
-            {
-                return path;
-            }
-
-            return path + extension;
         }
 
         internal static Sprite LoadNewSprite(string filePath, float pixelsPerUnit = 100.0f)

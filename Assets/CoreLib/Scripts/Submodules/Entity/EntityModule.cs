@@ -19,8 +19,11 @@ using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.ModEntity
 {
-    public static class EntityModule
+    public class EntityModule : BaseSubmodule
     {
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
+
         internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
         internal static List<GameObject> poolablePrefabs = new List<GameObject>();
 
@@ -60,21 +63,12 @@ namespace CoreLib.Submodules.ModEntity
         #region PublicInterface
 
         /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
-
-        /// <summary>
         /// Register you entity modifications methods.
         /// </summary>
         /// <param name="assembly">Assembly to analyze</param>
         public static void RegisterEntityModifications(Assembly assembly)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(RegisterEntityModifications));
 
             RegisterEntityModifications_Internal(assembly);
@@ -82,7 +76,7 @@ namespace CoreLib.Submodules.ModEntity
 
         public static void RegisterPrefabModifications(Assembly assembly)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(RegisterPrefabModifications));
 
             RegisterPrefabModifications_Internal(assembly);
@@ -94,7 +88,7 @@ namespace CoreLib.Submodules.ModEntity
         /// <param name="type">Type to analyze</param>
         public static void RegisterEntityModifications(Type type)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(RegisterEntityModifications));
 
             RegisterEntityModificationsInType_Internal(type);
@@ -102,7 +96,7 @@ namespace CoreLib.Submodules.ModEntity
 
         public static void RegisterPrefabModifications(Type type)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(RegisterPrefabModifications));
 
             RegisterPrefabModificationsInType_Internal(type);
@@ -114,21 +108,21 @@ namespace CoreLib.Submodules.ModEntity
         /// <param name="itemID">UNIQUE string entity ID</param>
         public static ObjectID GetObjectId(string itemID)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
 
             return (ObjectID)modEntityIDs.GetIndex(itemID);
         }
 
         public static string GetObjectStringId(ObjectID itemID)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
 
             return modEntityIDs.GetStringID((int)itemID);
         }
 
         public static ObjectType GetObjectType(string typeName)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
 
             int index = objectTypeIDs.HasIndex(typeName) ? objectTypeIDs.GetIndex(typeName) : objectTypeIDs.GetNextId(typeName);
             return (ObjectType)index;
@@ -136,13 +130,13 @@ namespace CoreLib.Submodules.ModEntity
 
         public static string[] GetAllModdedItems()
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             return modEntityIDs.ModIDs.Keys.ToArray();
         }
 
         public static ObjectID AddModWorkbench(WorkbenchDefinition workbenchDefinition)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(AddModWorkbench));
             ObjectID workbenchId = AddWorkbench(workbenchDefinition, true);
             if (workbenchDefinition.bindToRootWorkbench)
@@ -162,7 +156,7 @@ namespace CoreLib.Submodules.ModEntity
         /// <param name="entityId">entity Id</param>
         public static void AddWorkbenchItem(ObjectID workBenchId, ObjectID entityId)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(AddModWorkbench));
             if (modWorkbenchesChain.ContainsKey(workBenchId))
             {
@@ -218,7 +212,7 @@ namespace CoreLib.Submodules.ModEntity
         /// <exception cref="InvalidOperationException">Throws if called too late</exception>
         public static ObjectID AddEntityWithVariations(string itemId, string[] prefabsPaths)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(AddEntityWithVariations));
 
             if (prefabsPaths.Length == 0)
@@ -270,7 +264,7 @@ namespace CoreLib.Submodules.ModEntity
         public static byte AddPlayerCustomization<T>(T skin)
             where T : SkinBase
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             InitCustomizationTable();
 
             try
@@ -316,9 +310,6 @@ namespace CoreLib.Submodules.ModEntity
 
         #region PrivateImplementation
 
-        private static bool _loaded;
-        public const string submoduleName = nameof(EntityModule);
-        
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
         internal static Dictionary<ObjectID, List<ObjectAuthoring>> moddedEntities = new Dictionary<ObjectID, List<ObjectAuthoring>>();
@@ -352,16 +343,14 @@ namespace CoreLib.Submodules.ModEntity
 
         #region Initialization
 
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks()
+        internal override void SetHooks()
         {
             CoreLibMod.harmony.PatchAll(typeof(MemoryManager_Patch));
             CoreLibMod.harmony.PatchAll(typeof(PlayerController_Patch));
             CoreLibMod.harmony.PatchAll(typeof(ColorReplacer_Patch));
         }
 
-        [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
-        internal static void Load()
+        internal override void Load()
         {
             modEntityIDs = new IdBindConfigFile("CoreLib", "CoreLib.ModEntityID", modEntityIdRangeStart, modEntityIdRangeEnd);
             objectTypeIDs = new IdBind(modObjectTypeIdRangeStart, modObjectTypeIdRangeEnd);
@@ -370,15 +359,6 @@ namespace CoreLib.Submodules.ModEntity
             RegisterPrefabModifications(typeof(EntityModule));
 
             API.Authoring.OnObjectTypeAdded += OnObjectTypeAdded;
-        }
-
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
         }
 
         internal static void ThrowIfTooLate(string methodName)
@@ -589,7 +569,7 @@ namespace CoreLib.Submodules.ModEntity
 
         private static void RegisterEntityModifications_Internal(Assembly assembly)
         {
-            IEnumerable<Type> types = assembly.GetTypes().Where(Reflection.HasAttribute<EntityModificationAttribute>);
+            IEnumerable<Type> types = assembly.GetTypes().Where(ReflectionUtil.HasAttribute<EntityModificationAttribute>);
 
             foreach (Type type in types)
             {
@@ -599,7 +579,7 @@ namespace CoreLib.Submodules.ModEntity
 
         private static void RegisterEntityModificationsInType_Internal(Type type)
         {
-            int result = Reflection.RegisterAttributeFunction<EntityModificationAttribute, ModifyAction>(type, (action, attribute) =>
+            int result = ReflectionUtil.RegisterAttributeFunction<EntityModificationAttribute, ModifyAction>(type, (action, attribute) =>
             {
                 if (!string.IsNullOrEmpty(attribute.modTarget))
                 {
@@ -623,7 +603,7 @@ namespace CoreLib.Submodules.ModEntity
 
         private static void RegisterPrefabModifications_Internal(Assembly assembly)
         {
-            IEnumerable<Type> types = assembly.GetTypes().Where(Reflection.HasAttribute<PrefabModificationAttribute>);
+            IEnumerable<Type> types = assembly.GetTypes().Where(ReflectionUtil.HasAttribute<PrefabModificationAttribute>);
 
             foreach (Type type in types)
             {
@@ -633,7 +613,7 @@ namespace CoreLib.Submodules.ModEntity
 
         private static void RegisterPrefabModificationsInType_Internal(Type type)
         {
-            int result = Reflection.RegisterAttributeFunction<PrefabModificationAttribute, Action<MonoBehaviour>>(type, (action, attribute) =>
+            int result = ReflectionUtil.RegisterAttributeFunction<PrefabModificationAttribute, Action<MonoBehaviour>>(type, (action, attribute) =>
             {
                 if (attribute.targetType == null)
                 {

@@ -13,25 +13,18 @@ using CoreLib.Util.Extensions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CoreLib.Scripts.Util.Extensions;
-using HarmonyLib;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace CoreLib.Submodules.JsonLoader
 {
-    [CoreLibSubmodule(Dependencies = new[] { typeof(EntityModule), typeof(DropTablesModule) })]
-    public static class JsonLoaderModule
+    public class JsonLoaderModule : BaseSubmodule
     {
         #region PUBLIC_INTERFACE
 
-        /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal override Type[] Dependencies => new[] { typeof(EntityModule), typeof(DropTablesModule) };
+        internal static JsonLoaderModule Instance => CoreLibMod.GetModuleInstance<JsonLoaderModule>();
 
         public static void UseConverter(params JsonConverter[] converters)
         {
@@ -51,7 +44,7 @@ namespace CoreLib.Submodules.JsonLoader
 
         public static void LoadFolder(string modGuid, string path)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             ThrowIfTooLate();
 
             if (modFolders.ContainsKey(modGuid))
@@ -160,8 +153,8 @@ namespace CoreLib.Submodules.JsonLoader
         {
             Type type = Type.GetType(name, false);
 
-            type ??= AllTypes().FirstOrDefault(t => t.FullName == name);
-            type ??= AllTypes().FirstOrDefault(t => t.Name == name);
+            type ??= allTypes.FirstOrDefault(t => t.FullName == name);
+            type ??= allTypes.FirstOrDefault(t => t.Name == name);
 
             if (type == null)
                 CoreLibMod.Log.LogWarning($"Could not find type named {name}");
@@ -230,7 +223,6 @@ namespace CoreLib.Submodules.JsonLoader
 
         #region PRIVATE
 
-        private static bool _loaded;
         public const string submoduleName = nameof(JsonLoaderModule);
         
         private static readonly string[] specialProperties =
@@ -258,9 +250,10 @@ namespace CoreLib.Submodules.JsonLoader
 
         private static List<string> postApplyFiles = new List<string>();
         private static Dictionary<ObjectID, ModifyFile> entityModificationFileCache = new Dictionary<ObjectID, ModifyFile>();
+        
+        private static Type[] allTypes = ReflectionUtil.AllTypes();
 
-        [CoreLibSubmoduleInit(Stage = InitStage.GetOptionalDependencies)]
-        internal static Type[] GetOptionalDeps()
+        internal override Type[] GetOptionalDependencies()
         {
             //dumpCommandEnabled = CoreLibMod.Config.Bind("Debug", "EnableDumpCommand", false, "Enable to allow object info to be dumped at runtime.").Value;
 
@@ -272,8 +265,7 @@ namespace CoreLib.Submodules.JsonLoader
             return Array.Empty<Type>();
         }
 
-        [CoreLibSubmoduleInit(Stage = InitStage.Load)]
-        internal static void Load()
+        internal override void Load()
         {
             RegisterJsonReaders(Assembly.GetExecutingAssembly());
 
@@ -304,8 +296,7 @@ namespace CoreLib.Submodules.JsonLoader
             interactionHandlers.Add(null);
         }
 
-        [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
-        internal static void PostLoad()
+        internal override void PostLoad()
         {
             if (dumpCommandEnabled)
             {
@@ -386,15 +377,6 @@ namespace CoreLib.Submodules.JsonLoader
             entityModificationFiles.Clear();
         }
 
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
-        }
-
         internal static void ThrowIfTooLate()
         {
             if (finishedLoadingObjects)
@@ -465,20 +447,6 @@ namespace CoreLib.Submodules.JsonLoader
                 fieldInfo.SetValue(target, parsedValue);
             }
         }
-
-        private static Type[] GetTypesFromAssembly(Assembly assembly)
-        {
-            try
-            {
-                return assembly.GetTypes();
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                return ex.Types.Where(type => type != null).ToArray();
-            }
-        }
-
-        private static IEnumerable<Type> AllTypes() => AccessTools.AllAssemblies().SelectMany(GetTypesFromAssembly);
 
         #endregion
     }

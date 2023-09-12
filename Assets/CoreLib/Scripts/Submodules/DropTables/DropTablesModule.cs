@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CoreLib.Submodules.DropTables.Patches;
 using LootList = System.Collections.Generic.List<LootInfo>;
 
 namespace CoreLib.Submodules.DropTables
 {
-    [CoreLibSubmodule]
-    public static class DropTablesModule
+    public class DropTablesModule : BaseSubmodule
     {
         #region Public Interface
 
-        /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal static DropTablesModule Instance => CoreLibMod.GetModuleInstance<DropTablesModule>();
 
         public static bool HasLootTableID(string lootTableId)
         {
@@ -27,7 +19,7 @@ namespace CoreLib.Submodules.DropTables
     
         public static LootTableID GetLootTableID(string lootTableId)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             if (customLootTableIdMap.ContainsKey(lootTableId))
             {
                 return customLootTableIdMap[lootTableId];
@@ -60,7 +52,7 @@ namespace CoreLib.Submodules.DropTables
 
         public static void AddNewDrop(LootTableID tableID, DropTableInfo info)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             DropTableModificationData data = GetModificationData(tableID);
 
             List<DropTableInfo> addInfos = data.addDrops;
@@ -75,7 +67,7 @@ namespace CoreLib.Submodules.DropTables
 
         public static void EditDrop(LootTableID tableID, DropTableInfo info)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             DropTableModificationData data = GetModificationData(tableID);
 
             List<DropTableInfo> editInfos = data.editDrops;
@@ -90,7 +82,7 @@ namespace CoreLib.Submodules.DropTables
 
         public static void RemoveDrop(LootTableID tableID, ObjectID item)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             DropTableModificationData data = GetModificationData(tableID);
             List<ObjectID> removeInfos = data.removeDrops;
             if (!removeInfos.Contains(item))
@@ -103,22 +95,9 @@ namespace CoreLib.Submodules.DropTables
 
         #region Private Implementation
 
-        private static bool _loaded;
-        public const string submoduleName = nameof(DropTablesModule);
-
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks()
+        internal override void SetHooks()
         {
             CoreLibMod.harmony.PatchAll(typeof(LootTableBank_Patch));
-        }
-        
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
         }
 
         internal static Dictionary<LootTableID, DropTableModificationData> dropTableModification = new Dictionary<LootTableID, DropTableModificationData>();

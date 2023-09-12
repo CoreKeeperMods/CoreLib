@@ -8,8 +8,7 @@ using PugTilemap.Workshop;
 
 namespace CoreLib.Submodules.TileSet
 {
-    [CoreLibSubmodule(Dependencies = new[] { typeof(EntityModule) })]
-    public static class TileSetModule
+    public class TileSetModule : BaseSubmodule
     {
         #region PublicInterface
 
@@ -19,7 +18,7 @@ namespace CoreLib.Submodules.TileSet
         /// <param name="itemID">UNIQUE string tileset ID</param>
         public static Tileset GetTilesetId(string itemID)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
 
             return (Tileset)tilesetIDs.GetIndex(itemID);
         }
@@ -32,7 +31,7 @@ namespace CoreLib.Submodules.TileSet
         /// <exception cref="InvalidOperationException">Throws if called too late</exception>
         public static void AddCustomTileset(ModTileset tileset)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             
             try
             {
@@ -58,22 +57,15 @@ namespace CoreLib.Submodules.TileSet
             }
         }
 
-
-        /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
-
         #endregion
 
         #region PrivateImplementation
 
-        private static bool _loaded;
-        public const string submoduleName = nameof(TileSetModule);
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+
+        internal override Type[] Dependencies => new[] { typeof(EntityModule) };
+
+        internal static TileSetModule Instance => CoreLibMod.GetModuleInstance<TileSetModule>();
 
         internal static Dictionary<Tileset, ModTileset> customTilesets =
             new Dictionary<Tileset, ModTileset>();
@@ -87,23 +79,12 @@ namespace CoreLib.Submodules.TileSet
         public const int modTilesetIdRangeStart = 100;
         public const int modTilesetIdRangeEnd = 200;
 
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
-        }
-
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks()
+        internal override void SetHooks()
         {
             CoreLibMod.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
         }
-
-        [CoreLibSubmoduleInit(Stage = InitStage.Load)]
-        internal static void Load()
+        
+        internal override void Load()
         {
             tilesetIDs = new IdBindConfigFile("CoreLib", "CoreLib.TilesetID", modTilesetIdRangeStart, modTilesetIdRangeEnd);
             InitTilesets();

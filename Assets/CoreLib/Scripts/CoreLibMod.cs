@@ -90,6 +90,12 @@ namespace CoreLib
             Log.LogWarning("Should any problems arise, please check for a new version before reporting issues.");
         }
 
+        internal static T GetModuleInstance<T>()
+            where T : BaseSubmodule
+        {
+            return submoduleHandler.GetModuleInstance<T>();
+        }
+
         public void Shutdown()
         {
         }
@@ -112,14 +118,6 @@ namespace CoreLib
         }
         
         private void OnObjectSpawned(Entity entity, EntityManager entitymanager, GameObject graphicalobject)
-        {
-        }
-
-        public void MessageReceivedOnClient(int messageType, Entity entity, int value0, int value1)
-        {
-        }
-
-        public void MessageReceivedOnServer(int messageType, Entity entity, int value0, int value1)
         {
         }
     }

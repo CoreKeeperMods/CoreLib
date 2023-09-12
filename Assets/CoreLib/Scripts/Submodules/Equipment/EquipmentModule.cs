@@ -6,22 +6,14 @@ using UnityEngine;
 
 namespace CoreLib.Submodules.Equipment
 {
-    [CoreLibSubmodule]
-    public static class EquipmentModule
+    public class EquipmentModule : BaseSubmodule
     {
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal static EquipmentModule Instance => CoreLibMod.GetModuleInstance<EquipmentModule>();
+
         public static readonly string EMPTY_PREFAB = "Assets/CoreLib/Slots/EmptySlot";
         public static readonly string PLACEMENT_PREFAB = "Assets/CoreLib/Slots/DefaultPlaceSlot";
 
-
-        /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
-        
         public static ObjectType GetObjectType(string typeName)
         {
             int index = objectTypeIDs.HasIndex(typeName) ? 
@@ -90,21 +82,10 @@ namespace CoreLib.Submodules.Equipment
         internal static IdBind emoteTypeBind = new IdBind(ModEmoteTypeIdStart, ModEmoteTypeIdEnd);
         internal static IdBind objectTypeIDs = new IdBind(modObjectTypeIdRangeStart, modObjectTypeIdRangeEnd);
         
-                
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks()
+        internal override void SetHooks()
         {
             CoreLibMod.harmony.PatchAll(typeof(Emote_Patch));
             CoreLibMod.harmony.PatchAll(typeof(PlayerController_Patch_2));
-        }
-        
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
         }
     }
 }

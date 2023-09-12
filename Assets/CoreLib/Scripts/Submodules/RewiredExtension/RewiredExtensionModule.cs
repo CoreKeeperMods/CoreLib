@@ -10,19 +10,9 @@ namespace CoreLib.Submodules.RewiredExtension
     /// <summary>
     /// This module provides means to add custom Rewired Key binds
     /// </summary>
-    [CoreLibSubmodule(Dependencies = new[] { typeof(LocalizationModule) })]
-    public static class RewiredExtensionModule
+    public class RewiredExtensionModule : BaseSubmodule
     {
         #region Public Interface
-
-        /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
 
         /// <summary>
         /// Use this event to receive a callback when rewired input system is initialized
@@ -38,7 +28,7 @@ namespace CoreLib.Submodules.RewiredExtension
         /// <param name="modifier">key bind modifier</param>
         public static void AddKeybind(string keyBindName, string description, KeyboardKeyCode defaultKeyCode, ModifierKey modifier = ModifierKey.None)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
 
             AddKeybind(keyBindName, new Dictionary<string, string> { { "en", description } }, defaultKeyCode, modifier);
         }
@@ -53,7 +43,7 @@ namespace CoreLib.Submodules.RewiredExtension
         public static void AddKeybind(string keyBindName, Dictionary<string, string> descriptions, KeyboardKeyCode defaultKeyCode,
             ModifierKey modifier = ModifierKey.None)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
 
             if (keyBinds.ContainsKey(keyBindName))
             {
@@ -73,7 +63,7 @@ namespace CoreLib.Submodules.RewiredExtension
         /// <exception cref="ArgumentException">thrown if there are no key binds registered with keyBindName</exception>
         public static int GetKeybindId(string keyBindName)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
 
             if (keyBinds.ContainsKey(keyBindName))
             {
@@ -93,29 +83,20 @@ namespace CoreLib.Submodules.RewiredExtension
 
         #region Private Implementation
 
-        private static bool _loaded;
-        public const string submoduleName = nameof(RewiredExtensionModule);
-    
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks()
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+
+        internal override Type[] Dependencies => new[] { typeof(LocalizationModule) };
+        internal static RewiredExtensionModule Instance => CoreLibMod.GetModuleInstance<RewiredExtensionModule>();
+
+        internal override void SetHooks()
         {
             CoreLibMod.harmony.PatchAll(typeof(Rewired_Patch));
             CoreLibMod.harmony.PatchAll(typeof(Rewired_Init_Patch));
         }
 
-        [CoreLibSubmoduleInit(Stage = InitStage.Load)]
-        internal static void Load()
+        internal override void Load()
         {
            keybindIdCache = new JsonConfigFile("CoreLib", "CoreLib.KeybindID", true);
-        }
-
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
         }
 
         internal static Dictionary<string, KeyBindData> keyBinds = new Dictionary<string, KeyBindData>();

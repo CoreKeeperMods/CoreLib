@@ -15,31 +15,26 @@ namespace CoreLib.Submodules.ChatCommands
     /// <summary>
     /// This module provides means to add custom chat commands
     /// </summary>
-    [CoreLibSubmodule(Dependencies = new[] { typeof(RewiredExtensionModule) })]
-    public static class CommandsModule
+    public class CommandsModule : BaseSubmodule
     {
         #region Public Interface
 
         public static CommandCommSystem ClientCommSystem => clientCommSystem;
         public static CommandCommSystem ServerCommSystem => serverCommSystem;
 
-        /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal override Type[] Dependencies => new[] { typeof(RewiredExtensionModule) };
+        internal static CommandsModule Instance => CoreLibMod.GetModuleInstance<CommandsModule>();
 
         //internal static ConfigEntry<bool> remindAboutHelpCommand;
 
         /// <summary>
         /// Add all commands from specified assembly
         /// </summary>
+        //TODO remove reflection use
         public static void AddCommands(Assembly assembly, string modName)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             Type[] commands = assembly.GetTypes().Where(type => typeof(IChatCommandHandler).IsAssignableFrom(type)).ToArray();
             commandHandlers.Capacity += commands.Length;
 
@@ -94,9 +89,6 @@ namespace CoreLib.Submodules.ChatCommands
 
         #region Private Implementation
 
-        private static bool _loaded;
-        public const string submoduleName = nameof(CommandsModule);
-        
         internal const string CommandPrefix = "/";
         private static readonly char[] brackets = { '{', '}', '[', ']' };
         
@@ -111,15 +103,13 @@ namespace CoreLib.Submodules.ChatCommands
         private static CommandCommSystem clientCommSystem;
         private static CommandCommSystem serverCommSystem;
 
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks()
+        internal override void SetHooks()
         {
             CoreLibMod.harmony.PatchAll(typeof(ChatWindow_Patch));
             CoreLibMod.harmony.PatchAll(typeof(TitleScreenAnimator_Patch));
         }
 
-        [CoreLibSubmoduleInit(Stage = InitStage.PostLoad)]
-        internal static void Load()
+        internal override void Load()
         {
             CoreLibMod.Log.LogInfo("Commands Module Post Load");
             RegisterCommandHandler(typeof(HelpCommandHandler), "Core Lib");
@@ -151,15 +141,6 @@ namespace CoreLib.Submodules.ChatCommands
             var world = API.Server.World;
             serverCommSystem = world.CreateSystem<CommandCommSystem>();
             API.Server.AddScheduledSystem(clientCommSystem);
-        }
-
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
         }
 
         internal static void HandleCommand(CommandMessage message)

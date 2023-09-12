@@ -7,20 +7,13 @@ using MusicList = System.Collections.Generic.List<MusicManager.MusicTrack>;
 
 namespace CoreLib.Submodules.Audio
 {
-
-    [CoreLibSubmodule]
-    public static class AudioModule
+    public class AudioModule : BaseSubmodule
     {
         #region Public Interface
 
-        /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+
+        internal static AudioModule Instance => CoreLibMod.GetModuleInstance<AudioModule>();
 
         public static bool IsVanilla(MusicRosterType rosterType)
         {
@@ -33,7 +26,7 @@ namespace CoreLib.Submodules.Audio
         /// <returns>Unique ID of new music roster</returns>
         public static MusicRosterType AddCustomRoster()
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             int id = lastFreeMusicRosterId;
             lastFreeMusicRosterId++;
             return (MusicRosterType)id;
@@ -47,7 +40,7 @@ namespace CoreLib.Submodules.Audio
         /// <param name="introPath">path to intro clip in asset bundle</param>
         public static void AddMusicToRoster(MusicRosterType rosterType, AudioClip music, AudioClip intro = null)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             MusicManager.MusicRoster roster = GetRosterTracks(rosterType);
             MusicManager.MusicTrack track = new MusicManager.MusicTrack();
 
@@ -63,7 +56,7 @@ namespace CoreLib.Submodules.Audio
         /// <param name="sfxClipPath">Path to AudioClip in mod asset bundle</param>
         public static SfxID AddSoundEffect(AudioClip effectClip)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
             AudioField effect = new AudioField();
 
             if (effectClip != null)
@@ -78,34 +71,20 @@ namespace CoreLib.Submodules.Audio
 
         #region Private Implementation
 
-        private static bool _loaded;
-        public const string submoduleName = nameof(AudioModule);
-        
         public static Dictionary<int, MusicManager.MusicRoster> customRosterMusic;
         public static Dictionary<int, MusicManager.MusicRoster> vanillaRosterAddTracksInfos;
         public static List<AudioField> customSoundEffects;
 
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks()
+        internal override void SetHooks()
         {
             CoreLibMod.harmony.PatchAll(typeof(MusicManager_Patch));
             CoreLibMod.harmony.PatchAll(typeof(AudioManager_Patch));
         }
         
-        [CoreLibSubmoduleInit(Stage = InitStage.Load)]
-        internal static void Load()
+        internal override void Load()
         {
             lastFreeSfxId = (int)(SfxID)Enum.Parse(typeof(SfxID), nameof(SfxID.__max__));
             CoreLibMod.Log.LogInfo($"Max Sfx ID: {lastFreeSfxId}");
-        }
-
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
         }
 
         private const int maxVanillaRosterId = 49;

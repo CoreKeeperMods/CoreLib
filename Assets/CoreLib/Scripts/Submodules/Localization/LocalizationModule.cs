@@ -8,20 +8,10 @@ namespace CoreLib.Submodules.Localization
     /// <summary>
     /// This modules provides means to add localization strings to the game
     /// </summary>
-    [CoreLibSubmodule]
-    public static class LocalizationModule
+    public class LocalizationModule : BaseSubmodule
     {
 
         #region Public Interface
-    
-        /// <summary>
-        /// Return true if the submodule is loaded.
-        /// </summary>
-        public static bool Loaded
-        {
-            get => _loaded;
-            internal set => _loaded = value;
-        }
 
         /// <summary>
         /// Add new localization term
@@ -31,7 +21,7 @@ namespace CoreLib.Submodules.Localization
         /// <exception cref="ArgumentException">thrown if english translation is not specified</exception>
         public static void AddTerm(string term, Dictionary<string, string> translations)
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
         
             if (!translations.ContainsKey("en")) throw new ArgumentException("Translation dictionary must contain english translation!");
 
@@ -60,7 +50,7 @@ namespace CoreLib.Submodules.Localization
         /// <param name="cn">Chinese translation</param>
         public static void AddTerm(string term, string en, string cn = "")
         {
-            ThrowIfNotLoaded();
+            Instance.ThrowIfNotLoaded();
         
             AddTerm(term, new Dictionary<string, string> { { "en", en }, { "zh-CN", cn } });
         }
@@ -83,54 +73,18 @@ namespace CoreLib.Submodules.Localization
         #endregion
 
         #region Private Implementation
-    
-        private static bool _loaded;
-        public const string submoduleName = nameof(LocalizationModule);
 
-        [CoreLibSubmoduleInit(Stage = InitStage.SetHooks)]
-        internal static void SetHooks()
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal static LocalizationModule Instance => CoreLibMod.GetModuleInstance<LocalizationModule>();
+
+        internal override void SetHooks()
         {
             CoreLibMod.harmony.PatchAll(typeof(TextManager_Patch));
-        }
-        
-        internal static void ThrowIfNotLoaded()
-        {
-            if (!Loaded)
-            {
-                string message = $"{submoduleName} is not loaded. Please use [{nameof(CoreLibSubmoduleDependency)}(nameof({submoduleName})]";
-                throw new InvalidOperationException(message);
-            }
         }
 
         internal static Dictionary<string, Dictionary<string, string>> addedTranslations = new Dictionary<string, Dictionary<string, string>>();
         internal static bool localizationSystemReady;
 
-        internal static void AddTerm(this LanguageSourceData source, string term, Dictionary<string, string> translations)
-        {
-            if (source.mDictionary.ContainsKey(term))
-            {
-                CoreLibMod.Log.LogWarning($"Tried to add term with key {term}, which already exists!");
-                return;
-            }
-            
-            TermData termdata = new TermData
-            {
-                Term = term,
-                TermType = eTermType.Text,
-                Flags = new byte[source.mLanguages.Count]
-            };
-
-            List<string> languages = new List<string>(source.mLanguages.Count);
-            foreach (LanguageData data in source.mLanguages)
-            {
-                languages.Add(translations.ContainsKey(data.Code) ? translations[data.Code] : translations["en"]);
-            }
-
-            termdata.Languages = languages.ToArray();
-            source.mDictionary.Add(termdata.Term, termdata);
-            source.mTerms.Add(termdata);
-        }
-    
         #endregion
     }
 }
