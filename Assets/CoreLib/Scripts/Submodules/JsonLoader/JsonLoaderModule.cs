@@ -341,7 +341,7 @@ namespace CoreLib.Submodules.JsonLoader
         {
             BuildModificationCache();
 
-            var objectId = entity.gameObject.getEntityObjectID();
+            var objectId = entity.gameObject.GetEntityObjectID();
 
             if (entityModificationFileCache.ContainsKey(objectId))
             {

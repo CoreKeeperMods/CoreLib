@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using CoreLib.Scripts.Util.Extensions;
 using CoreLib.Submodules.ChatCommands;
+using CoreLib.Submodules.ChatCommands.Communication;
 using HarmonyLib;
 using Unity.Entities;
 using UnityEngine;
@@ -29,30 +31,31 @@ namespace CoreLib.Submodules.JsonLoader
         public CommandOutput Execute(string[] parameters, Entity conn)
         {
             if (parameters.Length < 1)
-                return new CommandOutput("Not enough arguments. Please see usage!", Color.red);
+                return new CommandOutput("Not enough arguments. Please see usage!", CommandStatus.Error);
             
             string item = parameters.Join(null, " ");
             string path = Path.Combine(Application.dataPath, "../dumps");
 
-            CommandOutput output = CommandUtil.ParseItemName(item, out ObjectID objectID);
-            if (objectID == ObjectID.None)
+            CommandOutput output = CommandUtil.ParseItemName(item, out ObjectID targetObjectId);
+            if (targetObjectId == ObjectID.None)
                 return output;
 
             Directory.CreateDirectory(path);
 
             PugDatabaseAuthoring pugDB = Manager.ecs.pugDatabase;
-            EntityMonoBehaviourData targetEntity = null;
+            MonoBehaviour targetEntity = null;
 
-            foreach (EntityMonoBehaviourData entity in pugDB.prefabList)
+            foreach (MonoBehaviour entity in pugDB.prefabList)
             {
-                if (entity.objectInfo.objectID != objectID) continue;
+                var objectId = entity.GetEntityObjectID();
+                if (objectId != targetObjectId) continue;
 
                 targetEntity = entity;
                 break;
             }
 
             if (targetEntity == null)
-                return new CommandOutput($"Failed to find entity for object ID {objectID}!", Color.red);
+                return new CommandOutput($"Failed to find entity for object ID {targetObjectId}!", CommandStatus.Error);
 
             try
             {
@@ -60,8 +63,8 @@ namespace CoreLib.Submodules.JsonLoader
             }
             catch (Exception e)
             {
-                CoreLibMod.Log.LogWarning($"Failed to dump object {objectID}:\n{e}");
-                return new CommandOutput("Failed to dump object! See log/console for error.", Color.red);
+                CoreLibMod.Log.LogWarning($"Failed to dump object {targetObjectId}:\n{e}");
+                return new CommandOutput("Failed to dump object! See log/console for error.", CommandStatus.Error);
             }
 
             return "Feature disabled!";

@@ -14,7 +14,7 @@ namespace CoreLib
 
         private readonly HashSet<string> loadedModules;
 
-        private Dictionary<Type, BaseSubmodule> allModules;
+        private readonly Dictionary<Type, BaseSubmodule> allModules;
 
         internal APISubmoduleHandler(GameVersion build, Logger logger)
         {
@@ -97,8 +97,7 @@ namespace CoreLib
             }
             catch (Exception e)
             {
-                logger.LogError($"{moduleType.Name} could not be initialized and has been disabled:\n\n");
-                logger.LogError($"{e.Message}");
+                logger.LogError($"{moduleType.Name} could not be initialized and has been disabled:\n{e}");
             }
 
             return false;

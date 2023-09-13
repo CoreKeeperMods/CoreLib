@@ -652,7 +652,7 @@ namespace CoreLib.Submodules.ModEntity
 
             if (entityModifyFunctions.Count == 0) return;
 
-            ObjectID objectID = authoring.getEntityObjectID();
+            ObjectID objectID = authoring.GetEntityObjectID();
 
             if (entityModifyFunctions.ContainsKey(objectID))
             {

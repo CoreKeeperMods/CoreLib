@@ -20,8 +20,13 @@ namespace CoreLib.Scripts.Util.Extensions
 
             return 0;
         }
-        
-        public static ObjectID getEntityObjectID(this GameObject gameObject)
+
+        public static ObjectID GetEntityObjectID(this MonoBehaviour monoBehaviour)
+        {
+            return GetEntityObjectID(monoBehaviour.gameObject);
+        }
+
+        public static ObjectID GetEntityObjectID(this GameObject gameObject)
         {
             var entityMonoBehaviorData = gameObject.GetComponent<EntityMonoBehaviourData>();
             var objectAuthoring = gameObject.GetComponent<ObjectAuthoring>();

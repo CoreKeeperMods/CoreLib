@@ -2,27 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationExtension.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationExtension.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesExtension.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesExtension.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/BaseSubmodule.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/BaseSubmodule.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/AudioModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/AudioModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/DropTablesModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/DropTablesModule.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/DumpCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/DumpCommandHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Patch/MemoryManager_IndirectPatch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Patch/MemoryManager_IndirectPatch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/RewiredExtensionModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/RewiredExtensionModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/Reflection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ReflectionUtil.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/Reflection.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ReflectionUtil.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ObjectDataExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ObjectDataExtensions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/APISubmodule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/APISubmodule.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -339,7 +323,7 @@
       <workItem from="1694425973252" duration="14009000" />
       <workItem from="1694459249100" duration="865000" />
       <workItem from="1694505046832" duration="9743000" />
-      <workItem from="1694515651922" duration="9737000" />
+      <workItem from="1694515651922" duration="13183000" />
     </task>
     <task id="LOCAL-00001" summary="Add core lib assets">
       <created>1689854482675</created>
@@ -593,7 +577,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694524931694</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Refactor Submodules system">
+      <created>1694530468035</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1694530468035</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -612,7 +603,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Improve locomotive backwards movement" />
     <MESSAGE value="Some changes to joint logic" />
     <MESSAGE value="Improve minecart move logic" />
     <MESSAGE value="Remove logging" />
@@ -637,7 +627,8 @@
     <MESSAGE value="Make modification API use new modification approach" />
     <MESSAGE value="Remove uses of reflection for determining type name" />
     <MESSAGE value="Replace reflection in vector conversion with code gen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Replace reflection in vector conversion with code gen" />
+    <MESSAGE value="Refactor Submodules system" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor Submodules system" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
