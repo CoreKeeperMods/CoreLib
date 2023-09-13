@@ -8,6 +8,7 @@ using Unity.Entities;
 
 namespace CoreLib.Submodules.ChatCommands.Communication
 {
+    [UpdateInWorld(TargetWorld.ClientAndServer)]
     public partial class CommandCommSystem : PugSimulationSystemBase
     {
         private const int maxReceivedMessages = 10;

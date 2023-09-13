@@ -23,7 +23,7 @@ namespace CoreLib
         public static Harmony harmony;
         public static AssetBundle assetBundle;
         
-        internal static APISubmoduleHandler submoduleHandler;
+        internal static SubmoduleHandler submoduleHandler;
 
         public void EarlyInit()
         {
@@ -33,11 +33,11 @@ namespace CoreLib
             harmony = new Harmony(ID);
             API.Server.OnWorldCreated += WorldInitialize;
 
-            assetBundle = API.ModLoader.LoadedMods.FirstOrDefault(mod => mod.Metadata.name == ID)?.AssetBundles.FirstOrDefault();
+            assetBundle = API.ModLoader.LoadedMods.FirstOrDefault(mod => mod.Metadata.name.Equals(ID))?.AssetBundles.FirstOrDefault();
             
             //CheckIfUsedOnRightGameVersion();
             
-            submoduleHandler = new APISubmoduleHandler(buildFor, Log);
+            submoduleHandler = new SubmoduleHandler(buildFor, Log);
         }
         
         public void Init()

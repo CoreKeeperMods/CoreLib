@@ -7,18 +7,17 @@ using HarmonyLib;
 
 namespace CoreLib
 {
-    public class APISubmoduleHandler
+    public class SubmoduleHandler
     {
-        private readonly GameVersion _build;
+        private readonly GameVersion currentBuild;
         private readonly Logger logger;
 
         private readonly HashSet<string> loadedModules;
-
         private readonly Dictionary<Type, BaseSubmodule> allModules;
 
-        internal APISubmoduleHandler(GameVersion build, Logger logger)
+        internal SubmoduleHandler(GameVersion build, Logger logger)
         {
-            _build = build;
+            currentBuild = build;
             this.logger = logger;
             loadedModules = new HashSet<string>();
 
@@ -81,9 +80,9 @@ namespace CoreLib
                 BaseSubmodule submodule = allModules[moduleType];
 
                 if (!submodule.Build.Equals(GameVersion.zero) &&
-                    !submodule.Build.CompatibleWith(_build))
+                    !submodule.Build.CompatibleWith(currentBuild))
                 {
-                    logger.LogWarning($"Submodule {moduleType.Name} was built for {submodule.Build}, but current build is {_build}.");
+                    logger.LogWarning($"Submodule {moduleType.Name} was built for {submodule.Build}, but current build is {currentBuild}.");
                 }
 
                 submodule.SetHooks();
@@ -120,7 +119,7 @@ namespace CoreLib
 
         public Dictionary<Type, BaseSubmodule> GetSubmodules()
         {
-            var moduleTypes = ReflectionUtil.GetTypesFromCallingAssembly().Where(type => type.IsAssignableTo(typeof(BaseSubmodule))).ToList();
+            var moduleTypes = ReflectionUtil.GetTypesFromCallingAssembly().Where(IsSubmodule).ToList();
             
             var moduleDict = new Dictionary<Type, BaseSubmodule>();
             foreach (Type moduleType in moduleTypes)
@@ -129,6 +128,12 @@ namespace CoreLib
             }
             
             return moduleDict;
+        }
+
+        private static bool IsSubmodule(Type type)
+        {
+            return type.IsAssignableTo(typeof(BaseSubmodule)) &&
+                   type != typeof(BaseSubmodule);
         }
     }
 }

@@ -132,15 +132,15 @@ namespace CoreLib.Submodules.ChatCommands
         private static void ClientWorldReady()
         {
             var world = API.Client.World;
-            clientCommSystem = world.CreateSystem<CommandCommSystem>();
+            clientCommSystem = world.GetOrCreateSystem<CommandCommSystem>();
             API.Client.AddScheduledSystem(clientCommSystem);
         }
 
         private static void ServerWorldReady()
         {
             var world = API.Server.World;
-            serverCommSystem = world.CreateSystem<CommandCommSystem>();
-            API.Server.AddScheduledSystem(clientCommSystem);
+            serverCommSystem = world.GetOrCreateSystem<CommandCommSystem>();
+            API.Server.AddScheduledSystem(serverCommSystem);
         }
 
         internal static void HandleCommand(CommandMessage message)

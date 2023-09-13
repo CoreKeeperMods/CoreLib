@@ -350,7 +350,7 @@ namespace CoreLib.Submodules.ModEntity
             CoreLibMod.harmony.PatchAll(typeof(ColorReplacer_Patch));
         }
 
-        internal override void Load()
+        internal override void PostLoad()
         {
             modEntityIDs = new IdBindConfigFile("CoreLib", "CoreLib.ModEntityID", modEntityIdRangeStart, modEntityIdRangeEnd);
             objectTypeIDs = new IdBind(modObjectTypeIdRangeStart, modObjectTypeIdRangeEnd);

@@ -4,10 +4,6 @@ namespace CoreLib
 {
     public abstract class BaseSubmodule
     {
-        internal BaseSubmodule()
-        {
-        }
-        
         /// <summary>
         /// Return true if the submodule is loaded.
         /// </summary>

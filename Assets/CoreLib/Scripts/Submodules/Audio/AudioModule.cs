@@ -7,6 +7,7 @@ using MusicList = System.Collections.Generic.List<MusicManager.MusicTrack>;
 
 namespace CoreLib.Submodules.Audio
 {
+    //TODO test the AudioModule
     public class AudioModule : BaseSubmodule
     {
         #region Public Interface
