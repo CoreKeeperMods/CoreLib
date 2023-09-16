@@ -13,6 +13,7 @@ using CoreLib.Util;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using PugMod;
+using QFSW.QC;
 using Unity.Entities;
 using Unity.NetCode;
 using UnityEngine;
@@ -21,13 +22,10 @@ using Object = UnityEngine.Object;
 namespace CoreLib.Submodules.ModEntity
 {
     //TODO test the EntityModule
+    [CommandPrefix("mod.")]
     public class EntityModule : BaseSubmodule
     {
-        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
-        internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
-
-        internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
-        internal static List<GameObject> poolablePrefabs = new List<GameObject>();
+        #region PublicInterface
 
         public static event Action MaterialSwapReady;
 
@@ -40,29 +38,6 @@ namespace CoreLib.Submodules.ModEntity
         {
             poolablePrefabs.Add(gameObject);
         }
-
-        internal static void ApplyAllModAuthorings()
-        {
-            MaterialSwapReady?.Invoke();
-            foreach (GameObject gameObject in modAuthoringTargets)
-            {
-                var objectAuthoring = gameObject.GetComponent<ObjectAuthoring>();
-                var entityData = gameObject.GetComponent<EntityMonoBehaviourData>();
-
-                MonoBehaviour dataMonoBehaviour = objectAuthoring != null ? objectAuthoring : entityData;
-                MonoBehaviourUtils.ApplyPrefabModAuthorings(dataMonoBehaviour, gameObject);
-                if (objectAuthoring != null && objectAuthoring.graphicalPrefab != null)
-                {
-                    MonoBehaviourUtils.ApplyPrefabModAuthorings(dataMonoBehaviour, objectAuthoring.graphicalPrefab);
-                }
-                else if (entityData != null && entityData.objectInfo.prefabInfos[0].prefab != null)
-                {
-                    MonoBehaviourUtils.ApplyPrefabModAuthorings(dataMonoBehaviour, entityData.objectInfo.prefabInfos[0].prefab.gameObject);
-                }
-            }
-        }
-
-        #region PublicInterface
 
         /// <summary>
         /// Register you entity modifications methods.
@@ -140,46 +115,14 @@ namespace CoreLib.Submodules.ModEntity
         {
             Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(AddModWorkbench));
-            ObjectID workbenchId = AddWorkbench(workbenchDefinition, true);
+            ObjectID workbenchId = AddWorkbench(workbenchDefinition);
             if (workbenchDefinition.bindToRootWorkbench)
             {
-                ObjectID root = TryAddRootWorkbench();
-                AddWorkbenchItem(root, workbenchId);
+                AddRootWorkbenchItem(workbenchId);
             }
 
             return workbenchId;
         }
-
-
-        /// <summary>
-        /// Add entity to workbench. This will allow player to craft it
-        /// </summary>
-        /// <param name="workBenchId">Target workbench id</param>
-        /// <param name="entityId">entity Id</param>
-        public static void AddWorkbenchItem(ObjectID workBenchId, ObjectID entityId)
-        {
-            Instance.ThrowIfNotLoaded();
-            ThrowIfTooLate(nameof(AddModWorkbench));
-            if (modWorkbenchesChain.ContainsKey(workBenchId))
-            {
-                ObjectAuthoring workbenchEntity = modWorkbenchesChain[workBenchId].Last();
-                CraftingAuthoring craftingCdAuthoring = workbenchEntity.gameObject.GetComponent<CraftingAuthoring>();
-
-                CoreLibMod.Log.LogDebug($"Adding item {entityId.ToString()} to workbench {workBenchId.ToString()}");
-
-                if (craftingCdAuthoring.canCraftObjects.Count < 18)
-                {
-                    craftingCdAuthoring.canCraftObjects.Add(new CraftingAuthoring.CraftableObject { objectID = entityId, amount = 1 });
-                    return;
-                }
-
-                CloneWorkbench(workbenchEntity);
-                AddWorkbenchItem(workBenchId, entityId);
-            }
-
-            CoreLibMod.Log.LogError($"Failed to add workbench item! Found no entities in the list with ID: {workBenchId}.");
-        }
-
 
         /// <summary>
         /// Add new entity.
@@ -251,6 +194,7 @@ namespace CoreLib.Submodules.ModEntity
             {
                 prefab.objectID = itemIndex;
                 API.Authoring.RegisterAuthoringGameObject(prefab.gameObject);
+                AddToAuthoringList(prefab.gameObject);
             }
 
             moddedEntities.Add(objectID, prefabs);
@@ -314,20 +258,25 @@ namespace CoreLib.Submodules.ModEntity
 
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
+        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
+
+        internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
+        internal static List<GameObject> poolablePrefabs = new List<GameObject>();
+
         internal static Dictionary<ObjectID, List<ObjectAuthoring>> moddedEntities = new Dictionary<ObjectID, List<ObjectAuthoring>>();
         internal static Dictionary<ObjectID, ModifyAction> entityModifyFunctions = new Dictionary<ObjectID, ModifyAction>();
         internal static Dictionary<string, ModifyAction> modEntityModifyFunctions = new Dictionary<string, ModifyAction>();
         internal static Dictionary<Type, Action<MonoBehaviour>> prefabModifyFunctions = new Dictionary<Type, Action<MonoBehaviour>>();
 
-        internal static Dictionary<ObjectID, List<ObjectAuthoring>> modWorkbenchesChain = new Dictionary<ObjectID, List<ObjectAuthoring>>();
         internal static Dictionary<ObjectID, WorkbenchDefinition> modWorkbenches = new Dictionary<ObjectID, WorkbenchDefinition>();
+        internal static List<ObjectAuthoring> rootWorkbenchesChain = new List<ObjectAuthoring>();
+        internal static WorkbenchDefinition rootWorkbenchDefinition;
 
         internal static List<IDynamicItemHandler> dynamicItemHandlers = new List<IDynamicItemHandler>();
 
         internal static IdBindConfigFile modEntityIDs;
         internal static IdBind objectTypeIDs;
-
-        internal static ObjectID? rootWorkbench;
 
         internal static HashSet<int> busyIDsSet = new HashSet<int>();
 
@@ -355,6 +304,7 @@ namespace CoreLib.Submodules.ModEntity
         {
             modEntityIDs = new IdBindConfigFile("CoreLib", "CoreLib.ModEntityID", modEntityIdRangeStart, modEntityIdRangeEnd);
             objectTypeIDs = new IdBind(modObjectTypeIdRangeStart, modObjectTypeIdRangeEnd);
+            rootWorkbenchDefinition = ResourcesModule.LoadAsset<WorkbenchDefinition>("Assets/CoreLib/Resources/RootWorkbench");
 
             RegisterEntityModifications(typeof(EntityModule));
             RegisterPrefabModifications(typeof(EntityModule));
@@ -382,6 +332,38 @@ namespace CoreLib.Submodules.ModEntity
             }
         }
 
+        [Command("spawn", "Spawns any object by integer ID")]
+        public void Spawn(string itemId, int amount)
+        {
+            PlayerController player = Manager.main.player;
+            if (player == null)
+            {
+                return;
+            }
+
+            var results = modEntityIDs.ModIDs.Keys.Where(id => id.Contains(itemId, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            if (results.Count > 1)
+            {
+                CoreLibMod.Log.LogWarning($"Ambiguous id! Found {results.Count} matches!");
+                return;
+            }
+
+            var objectID = GetObjectId(results.First());
+            if (objectID == ObjectID.None)
+            {
+                CoreLibMod.Log.LogWarning($"Unknown item: {itemId}");
+                return;
+            }
+
+            ObjectInfo objectInfo = PugDatabase.GetObjectInfo(objectID, 0);
+
+            if (objectInfo.objectType != ObjectType.Creature && objectInfo.objectType != ObjectType.NonObtainable)
+            {
+                Vector3 b = new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 0f, UnityEngine.Random.Range(-0.5f, 0.5f));
+                player.playerCommandSystem.CreateAndDropEntity(objectID, player.transform.position + b, amount, player.entity, 0);
+            }
+        }
+
         #endregion
 
         #region Workbenches
@@ -389,10 +371,9 @@ namespace CoreLib.Submodules.ModEntity
         [EntityModification(ObjectID.Player)]
         private static void EditPlayer(Entity entity, GameObject authoring, EntityManager entityManager)
         {
-            if (rootWorkbench != null)
+            if (rootWorkbenchesChain.Count > 0)
             {
-                var rootWorkbenchId = rootWorkbench.Value;
-                var lastRootWorkbenchId = modWorkbenchesChain[rootWorkbenchId].Last().objectID;
+                var lastRootWorkbenchId = rootWorkbenchesChain.Last().objectID;
 
                 var canCraftBuffer = entityManager.GetBuffer<CanCraftObjectsBuffer>(entity);
                 canCraftBuffer.Add(new CanCraftObjectsBuffer
@@ -417,11 +398,11 @@ namespace CoreLib.Submodules.ModEntity
                     CoreLibMod.Log.LogWarning($"Failed to add {pair.Key} workbench skinsTexture because it's null!");
                     continue;
                 }
-                
+
                 var reskinInfo = new EntityMonoBehaviour.ReskinInfo
                 {
                     objectIDToUseReskinOn = pair.Key,
-                    variation = 0,
+                    worksForAnyVariation = true,
                     textures = new List<Texture2D>(1) { skinsTexture }
                 };
 
@@ -432,41 +413,53 @@ namespace CoreLib.Submodules.ModEntity
             }
         }
 
-        private static void CloneWorkbench(ObjectAuthoring oldWorkbench)
+        private static void AddRootWorkbench()
         {
-            ObjectID oldId = (ObjectID)oldWorkbench.objectID;
-            if (modWorkbenches.ContainsKey(oldId))
-            {
-                var oldDefinition = modWorkbenches[oldId];
-                string newId = IncrementID(oldDefinition.itemId);
+            rootWorkbenchDefinition.itemId = IncrementID(rootWorkbenchDefinition.itemId);
 
-                var newDefinition = Object.Instantiate(oldDefinition);
-                newDefinition.itemId = newId;
-                var newObjectId = AddModWorkbench(newDefinition);
-                if (GetMainEntity(newObjectId, out ObjectAuthoring entity))
+            ObjectID workbench = AddWorkbench(rootWorkbenchDefinition);
+            if (GetMainEntity(workbench, out ObjectAuthoring entity))
+            {
+                if (rootWorkbenchesChain.Count > 0)
                 {
+                    var oldWorkbench = rootWorkbenchesChain.Last();
                     CraftingAuthoring crafting = oldWorkbench.gameObject.GetComponent<CraftingAuthoring>();
                     crafting.includeCraftedObjectsFromBuildings.Add(entity.gameObject.GetComponent<CraftingAuthoring>());
                 }
+
+                rootWorkbenchesChain.Add(entity);
             }
+
+            LocalizationModule.AddEntityLocalization(workbench, $"Root Workbench {rootWorkbenchesChain.Count}",
+                "This workbench contains all modded workbenches!");
         }
 
-
-        private static ObjectID TryAddRootWorkbench()
+        private static void AddRootWorkbenchItem(ObjectID entityId)
         {
-            if (rootWorkbench == null)
+            Instance.ThrowIfNotLoaded();
+            ThrowIfTooLate(nameof(AddModWorkbench));
+            
+            if (rootWorkbenchesChain.Count == 0) 
+                AddRootWorkbench();
+            
+            while (true)
             {
-                WorkbenchDefinition definition = ResourcesModule.LoadAsset<WorkbenchDefinition>("Assets/CoreLib/Resources/RootWorkbench");
+                ObjectAuthoring workbenchEntity = rootWorkbenchesChain.Last();
+                CraftingAuthoring craftingCdAuthoring = workbenchEntity.gameObject.GetComponent<CraftingAuthoring>();
 
-                ObjectID workbench = AddWorkbench(definition, true);
-                rootWorkbench = workbench;
-                LocalizationModule.AddEntityLocalization(workbench, "Root Workbench", "This workbench contains all modded workbenches!");
+                CoreLibMod.Log.LogDebug($"Adding item {entityId.ToString()} to root workbench");
+
+                if (craftingCdAuthoring.canCraftObjects.Count < 18)
+                {
+                    craftingCdAuthoring.canCraftObjects.Add(new CraftingAuthoring.CraftableObject { objectID = entityId, amount = 1 });
+                    return;
+                }
+
+                AddRootWorkbench();
             }
-
-            return rootWorkbench.Value;
         }
 
-        private static ObjectID AddWorkbench(WorkbenchDefinition workbenchDefinition, bool isPrimary)
+        private static ObjectID AddWorkbench(WorkbenchDefinition workbenchDefinition)
         {
             ObjectID id = AddEntity(workbenchDefinition.itemId, "Assets/CoreLib/Prefab/Objects/TemplateWorkbench");
             if (GetMainEntity(id, out ObjectAuthoring entity))
@@ -502,6 +495,27 @@ namespace CoreLib.Submodules.ModEntity
         #endregion
 
         #region Entities
+
+        internal static void ApplyAllModAuthorings()
+        {
+            MaterialSwapReady?.Invoke();
+            foreach (GameObject gameObject in modAuthoringTargets)
+            {
+                var objectAuthoring = gameObject.GetComponent<ObjectAuthoring>();
+                var entityData = gameObject.GetComponent<EntityMonoBehaviourData>();
+
+                MonoBehaviour dataMonoBehaviour = objectAuthoring != null ? objectAuthoring : entityData;
+                MonoBehaviourUtils.ApplyPrefabModAuthorings(dataMonoBehaviour, gameObject);
+                if (objectAuthoring != null && objectAuthoring.graphicalPrefab != null)
+                {
+                    MonoBehaviourUtils.ApplyPrefabModAuthorings(dataMonoBehaviour, objectAuthoring.graphicalPrefab);
+                }
+                else if (entityData != null && entityData.objectInfo.prefabInfos[0].prefab != null)
+                {
+                    MonoBehaviourUtils.ApplyPrefabModAuthorings(dataMonoBehaviour, entityData.objectInfo.prefabInfos[0].prefab.gameObject);
+                }
+            }
+        }
 
         internal static bool GetMainEntity(ObjectID objectID, out ObjectAuthoring entity)
         {

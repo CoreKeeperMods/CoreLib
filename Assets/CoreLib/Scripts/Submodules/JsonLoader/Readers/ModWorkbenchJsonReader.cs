@@ -31,10 +31,20 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             string itemId = jObject.GetProperty("itemId").GetString();
             ObjectID objectID = EntityModule.GetObjectId(itemId);
 
-            List<ObjectID> canCraft = jObject.GetProperty("canCraft").Deserialize<List<ObjectID>>(JsonLoaderModule.options);
-            foreach (ObjectID recipe in canCraft)
+            List<CraftingAuthoring.CraftableObject> canCraft = jObject.GetProperty("canCraft").Deserialize<List<CraftingAuthoring.CraftableObject>>(JsonLoaderModule.options);
+            
+            if (EntityModule.GetMainEntity(objectID, out var entity))
             {
-                EntityModule.AddWorkbenchItem(objectID, recipe);
+                CraftingAuthoring craftingCdAuthoring = entity.gameObject.GetComponent<CraftingAuthoring>();
+                
+                foreach (CraftingAuthoring.CraftableObject recipe in canCraft)
+                {
+                    if (craftingCdAuthoring.canCraftObjects.Count < 18)
+                    {
+                        craftingCdAuthoring.canCraftObjects.Add(recipe);
+                        return;
+                    }
+                }
             }
         }
     }

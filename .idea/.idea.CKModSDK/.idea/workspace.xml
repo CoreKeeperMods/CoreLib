@@ -1,32 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Editor/EntityMonoBehaviorDataEditor.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Editor/EntityMonoBehaviorDataEditor.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/CraftableObjectConverter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/CraftableObjectConverter.cs.meta" afterDir="false" />
+    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="Fixes until first json item loads">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CodeGen/VectorConverterGenerator.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/CodeGen/VectorConverterGenerator.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/CoreLib.Editor.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Editor/CoreLib.Editor.asmdef" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateBlockItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateBlockItem.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateWorkbench.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateWorkbench.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asmdef" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/MemoryManager_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/MemoryManager_Patch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/PrefabCrawler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/PrefabCrawler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BlockJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BlockJsonReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ItemJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ItemJsonReader.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModWorkbenchJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModWorkbenchJsonReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModificationJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModificationJsonReader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ObjectDataExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ObjectDataExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/tileset/missing_tileset.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Textures/tileset/missing_tileset.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/tileset/missing_tileset.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Textures/tileset/missing_tileset.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/ObjectAuthoring_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/ObjectAuthoring_Patch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationExtension.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +19,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandCommSystem.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BlockJsonReader.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/BurstCompatibleAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/Deprecated.cs" root0="SKIP_HIGHLIGHTING" />
@@ -346,7 +328,7 @@
       <workItem from="1694505046832" duration="9743000" />
       <workItem from="1694515651922" duration="13183000" />
       <workItem from="1694612304075" duration="16166000" />
-      <workItem from="1694872127061" duration="7007000" />
+      <workItem from="1694872127061" duration="12353000" />
     </task>
     <task id="LOCAL-00001" summary="Add core lib assets">
       <created>1689854482675</created>
@@ -621,7 +603,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694624115803</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Fixes until first json item loads">
+      <created>1694879980043</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1694879980043</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -640,7 +629,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Remove logging" />
     <MESSAGE value="General improvements" />
     <MESSAGE value="Add more parts of Core Lib" />
     <MESSAGE value="Refactor folder structure and fix issues" />
@@ -665,7 +653,8 @@
     <MESSAGE value="Refactor Submodules system" />
     <MESSAGE value="Small fixes" />
     <MESSAGE value="Bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes" />
+    <MESSAGE value="Fixes until first json item loads" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixes until first json item loads" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

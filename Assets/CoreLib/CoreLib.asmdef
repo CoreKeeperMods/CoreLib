@@ -44,7 +44,8 @@
         "Newtonsoft.Json.dll",
         "Sentry.System.Text.Json.dll",
         "Sentry.System.Buffers.dll",
-        "Sentry.System.Memory.dll"
+        "Sentry.System.Memory.dll",
+        "QFSW.QC.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

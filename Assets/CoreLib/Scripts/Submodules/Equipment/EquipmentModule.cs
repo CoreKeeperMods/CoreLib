@@ -63,9 +63,6 @@ namespace CoreLib.Submodules.Equipment
             return emoteType;
         }
 
-        private static bool _loaded;
-        public const string submoduleName = nameof(EquipmentModule);
-
         public const int ModSlotTypeIdStart = 128;
         public const int ModSlotTypeIdEnd = byte.MaxValue;
 
