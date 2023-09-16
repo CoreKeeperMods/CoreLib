@@ -13,6 +13,8 @@ using CoreLib.Util.Extensions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CoreLib.Scripts.Util.Extensions;
+using CoreLib.Submodules.Localization;
+using PugMod;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -23,7 +25,7 @@ namespace CoreLib.Submodules.JsonLoader
         #region PUBLIC_INTERFACE
 
         internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
-        internal override Type[] Dependencies => new[] { typeof(EntityModule), typeof(DropTablesModule) };
+        internal override Type[] Dependencies => new[] { typeof(EntityModule), typeof(DropTablesModule), typeof(LocalizationModule) };
         internal static JsonLoaderModule Instance => CoreLibMod.GetModuleInstance<JsonLoaderModule>();
 
         public static void UseConverter(params JsonConverter[] converters)
@@ -42,6 +44,12 @@ namespace CoreLib.Submodules.JsonLoader
             return new ContextHandle(path);
         }
 
+        public static void LoadMod(IMod mod)
+        {
+            var modInfo = mod.GetModInfo();
+            LoadFolder(modInfo.Metadata.name, modInfo.Directory);
+        }
+
         public static void LoadFolder(string modGuid, string path)
         {
             Instance.ThrowIfNotLoaded();
@@ -53,13 +61,13 @@ namespace CoreLib.Submodules.JsonLoader
                 return;
             }
 
-            if (!Directory.Exists(Path.Combine(path, "resources")))
+            if (!Directory.Exists(Path.Combine(path, "JsonResources")))
             {
-                CoreLibMod.Log.LogWarning($"Mod {modGuid} folder does not contain 'resources' folder!");
+                CoreLibMod.Log.LogWarning($"Mod {modGuid} folder does not contain 'JsonResources' folder!");
                 return;
             }
 
-            string resourcesDir = Path.Combine(path, "resources");
+            string resourcesDir = Path.Combine(path, "JsonResources");
 
             using (WithContext(new JsonContext(resourcesDir)))
             {
@@ -168,16 +176,16 @@ namespace CoreLib.Submodules.JsonLoader
 
         public static void FillArrays(Type type, object target)
         {
-            foreach (PropertyInfo property in type.GetProperties())
+            foreach (FieldInfo property in type.GetFields())
             {
-                if (!property.PropertyType.IsGenericType) continue;
+                if (!property.FieldType.IsGenericType) continue;
 
-                if (property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                if (property.FieldType.GetGenericTypeDefinition() == typeof(List<>))
                 {
                     object value = property.GetValue(target);
                     if (value == null)
                     {
-                        property.SetValue(target, Activator.CreateInstance(property.PropertyType));
+                        property.SetValue(target, Activator.CreateInstance(property.FieldType));
                     }
                 }
             }
@@ -185,28 +193,34 @@ namespace CoreLib.Submodules.JsonLoader
 
         public static void PopulateObject<T>(T target, JsonElement jsonSource)
         {
-            PopulateObject(typeof(T), target, jsonSource, Array.Empty<string>());
+            PopulateObject(typeof(T), target, jsonSource, Array.Empty<string>(), Array.Empty<string>());
         }
 
-        public static void PopulateObject<T>(T target, JsonElement jsonSource, string[] exclude)
+        public static void PopulateObject<T>(T target, JsonElement jsonSource, string[] restricted)
         {
-            PopulateObject(typeof(T), target, jsonSource, exclude);
+            PopulateObject(typeof(T), target, jsonSource, restricted, Array.Empty<string>());
+        }
+        
+        public static void PopulateObject<T>(T target, JsonElement jsonSource, string[] restricted, string[] skip)
+        {
+            PopulateObject(typeof(T), target, jsonSource, restricted, skip);
         }
 
         public static void PopulateObject(Type type, object target, JsonElement jsonSource)
         {
-            PopulateObject(type, target, jsonSource, Array.Empty<string>());
+            PopulateObject(type, target, jsonSource, Array.Empty<string>(), Array.Empty<string>());
         }
 
-        public static void PopulateObject(Type type, object target, JsonElement jsonSource, string[] exclude)
+        public static void PopulateObject(Type type, object target, JsonElement jsonSource, string[] restricted, string[] skip)
         {
             foreach (JsonProperty property in jsonSource.EnumerateObject())
             {
-                if (exclude.Contains(property.Name))
+                if (restricted.Contains(property.Name))
                 {
                     CoreLibMod.Log.LogWarning($"Overriding {property.Name} is not allowed!");
                     continue;
                 }
+                if (skip.Contains(property.Name)) continue;
 
                 try
                 {
@@ -227,6 +241,8 @@ namespace CoreLib.Submodules.JsonLoader
         
         private static readonly string[] specialProperties =
         {
+            "$schema",
+            "type",
             "itemId",
             "requiredObjectsToCraft",
             "components",
@@ -286,6 +302,7 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new RectConverter());
             options.Converters.Add(new Texture2DConverter());
             options.Converters.Add(new LootTableIDConverter());
+            options.Converters.Add(new CraftableObjectConverter());
 
             // dummy converters
             options.Converters.Add(new IntPtrConverter());
@@ -303,7 +320,7 @@ namespace CoreLib.Submodules.JsonLoader
                 CommandsModule.RegisterCommandHandler(typeof(DumpCommandHandler), CoreLibMod.NAME);
             }
 
-            EntityModule.RegisterEntityModifications(typeof(JsonLoaderModule));
+            //EntityModule.RegisterEntityModifications(typeof(JsonLoaderModule));
         }
 
         internal static void PostApply()
@@ -336,7 +353,7 @@ namespace CoreLib.Submodules.JsonLoader
         }
 
         //TODO update this API for new modification method
-        [EntityModification]
+       // [EntityModification]
         internal static void ModificationsApply(MonoBehaviour entity)
         {
             BuildModificationCache();

@@ -20,13 +20,13 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             var inventoryItemAuthoring = entity.GetComponent<InventoryItemAuthoring>();
 
             if (entityMonoBehaviorData != null)
-                JsonLoaderModule.PopulateObject(entityMonoBehaviorData.objectInfo, jObject, ItemJsonReader.excludedProperties);
+                JsonLoaderModule.PopulateObject(entityMonoBehaviorData.objectInfo, jObject, ItemJsonReader.restrictedProperties);
 
             if (objectAuthoring != null)
-                JsonLoaderModule.PopulateObject(objectAuthoring, jObject, ItemJsonReader.excludedProperties);
+                JsonLoaderModule.PopulateObject(objectAuthoring, jObject, ItemJsonReader.restrictedProperties);
 
             if (inventoryItemAuthoring != null)
-                JsonLoaderModule.PopulateObject(inventoryItemAuthoring, jObject, ItemJsonReader.excludedProperties);
+                JsonLoaderModule.PopulateObject(inventoryItemAuthoring, jObject, ItemJsonReader.restrictedProperties);
 
             ItemJsonReader.ReadComponents(jObject, entity.gameObject);
         }

@@ -91,11 +91,6 @@ namespace CoreLib.Submodules.TileSet
             EntityModule.MaterialSwapReady += SwapMaterials;
         }
 
-        internal static void TrySave()
-        {
-            tilesetIDs.configFile.Save();
-        }
-
         private static void SwapMaterials()
         {
             foreach (PugMapTileset layers in customLayers)

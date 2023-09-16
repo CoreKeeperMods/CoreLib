@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using CoreLib.Scripts.Util.Extensions;
@@ -19,6 +20,7 @@ using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.ModEntity
 {
+    //TODO test the EntityModule
     public class EntityModule : BaseSubmodule
     {
         internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
@@ -39,7 +41,7 @@ namespace CoreLib.Submodules.ModEntity
             poolablePrefabs.Add(gameObject);
         }
 
-        internal static void ApplyAll()
+        internal static void ApplyAllModAuthorings()
         {
             MaterialSwapReady?.Invoke();
             foreach (GameObject gameObject in modAuthoringTargets)
@@ -339,7 +341,6 @@ namespace CoreLib.Submodules.ModEntity
         internal const int modObjectTypeIdRangeEnd = ushort.MaxValue;
 
         internal static bool hasInjected;
-        internal static bool hasConverted;
 
         #region Initialization
 
@@ -410,14 +411,18 @@ namespace CoreLib.Submodules.ModEntity
 
             foreach (var pair in modWorkbenches)
             {
+                var skinsTexture = pair.Value.skinsTexture;
+                if (skinsTexture == null)
+                {
+                    CoreLibMod.Log.LogWarning($"Failed to add {pair.Key} workbench skinsTexture because it's null!");
+                    continue;
+                }
+                
                 var reskinInfo = new EntityMonoBehaviour.ReskinInfo
                 {
                     objectIDToUseReskinOn = pair.Key,
                     variation = 0,
-                    textures =
-                    {
-                        pair.Value.skinsTexture
-                    }
+                    textures = new List<Texture2D>(1) { skinsTexture }
                 };
 
                 foreach (var reskinOption in craftingBuilding.reskinOptions)
@@ -463,7 +468,7 @@ namespace CoreLib.Submodules.ModEntity
 
         private static ObjectID AddWorkbench(WorkbenchDefinition workbenchDefinition, bool isPrimary)
         {
-            ObjectID id = AddEntity(workbenchDefinition.itemId, "Assets/CoreLib/Resources/Tileset/MissingTileset");
+            ObjectID id = AddEntity(workbenchDefinition.itemId, "Assets/CoreLib/Prefab/Objects/TemplateWorkbench");
             if (GetMainEntity(id, out ObjectAuthoring entity))
             {
                 var itemAuthoring = entity.GetComponent<InventoryItemAuthoring>();

@@ -17,7 +17,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         {
             string itemId = jObject.GetProperty("itemId").GetString();
 
-            ObjectAuthoring objectAuthoring = EntityModule.LoadPrefab(itemId, "Assets/CoreLib/Objects/TemplateBlockItem");
+            ObjectAuthoring objectAuthoring = EntityModule.LoadPrefab(itemId, "Assets/CoreLib/Prefab/Objects/TemplateBlockItem");
             InventoryItemAuthoring itemAuthoring = objectAuthoring.GetComponent<InventoryItemAuthoring>();
             
             ReadObjectInfo(jObject, objectAuthoring, itemAuthoring);

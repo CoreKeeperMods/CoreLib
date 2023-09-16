@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using CoreLib.Components;
 using CoreLib.Submodules.ModEntity;
@@ -12,10 +13,39 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("item")]
     public class ItemJsonReader : IJsonReader
     {
-        public static readonly string[] excludedProperties =
+        public static readonly string[] restrictedProperties =
         {
             "objectID",
-            "prefabInfos"
+            "prefabInfos",
+            "graphicalPrefab",
+            "requiredObjectsToCraft"
+        };
+        
+        public static readonly string[] objectAuthoringSkip =
+        {
+            "onlyExistsInSeason",
+            "sellValue",
+            "buyValueMultiplier",
+            "icon",
+            "iconOffset",
+            "smallIcon",
+            "isStackable",
+            "craftingSettings",
+            "requiredObjectsToCraft",
+            "craftingTime"
+        };
+        
+        public static readonly string[] inventoryItemSkip =
+        {
+            "objectID",
+            "initialAmount",
+            "variation",
+            "variationIsDynamic",
+            "variationToToggleTo",
+            "objectType",
+            "tags",
+            "rarity",
+            "additionalSprites"
         };
         
         public virtual void ApplyPre(JsonElement jObject, FileContext context)
@@ -53,7 +83,12 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                 if (jObject.TryGetProperty("requiredObjectsToCraft", out var itemsElement))
                 {
                     List<InventoryItemAuthoring.CraftingObject> recipe = 
-                        itemsElement.Deserialize<List<InventoryItemAuthoring.CraftingObject>>(JsonLoaderModule.options);
+                        itemsElement.Deserialize<List<CraftingObject>>(JsonLoaderModule.options)
+                            .Select(item => new InventoryItemAuthoring.CraftingObject()
+                            {
+                                objectID = (int)item.objectID,
+                                amount = item.amount
+                            }).ToList();
                     itemAuthoring.requiredObjectsToCraft = recipe;
                 }
 
@@ -61,6 +96,12 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             }
 
             throw new InvalidOperationException($"Failed to find item with ID {itemId}!");
+        }
+        
+        public struct CraftingObject
+        {
+            public ObjectID objectID;
+            public int amount;
         }
 
         public static void ReadComponents(JsonElement jObject, GameObject gameObject)
@@ -91,9 +132,9 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         {
             string itemId = jObject.GetProperty("itemId").GetString();
             
-            JsonLoaderModule.PopulateObject(objectAuthoring, jObject, excludedProperties);
+            JsonLoaderModule.PopulateObject(objectAuthoring, jObject, restrictedProperties, objectAuthoringSkip);
             if (itemAuthoring != null)
-                JsonLoaderModule.PopulateObject(itemAuthoring, jObject, excludedProperties);
+                JsonLoaderModule.PopulateObject(itemAuthoring, jObject, restrictedProperties, inventoryItemSkip);
 
             string fullItemId = $"{itemId}_{objectAuthoring.variation}";
             

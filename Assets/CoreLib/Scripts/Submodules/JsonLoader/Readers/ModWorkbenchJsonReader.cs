@@ -9,10 +9,16 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("modWorkbench")]
     public class ModWorkbenchJsonReader : IJsonReader
     {
+        public static readonly string[] excludedProperties =
+        {
+            "requiredObjectsToCraft"
+        };
+        
         public void ApplyPre(JsonElement jObject, FileContext context)
         {
             WorkbenchDefinition workbenchDefinition = ScriptableObject.CreateInstance<WorkbenchDefinition>();
-            JsonLoaderModule.PopulateObject(workbenchDefinition, jObject);
+            JsonLoaderModule.PopulateObject(workbenchDefinition, jObject, excludedProperties);
+            JsonLoaderModule.FillArrays(workbenchDefinition);
 
             ObjectID objectID = EntityModule.AddModWorkbench(workbenchDefinition);
             
@@ -21,6 +27,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
 
         public void ApplyPost(JsonElement jObject, FileContext context)
         {
+            ItemJsonReader.ReadRecipes(jObject);
             string itemId = jObject.GetProperty("itemId").GetString();
             ObjectID objectID = EntityModule.GetObjectId(itemId);
 

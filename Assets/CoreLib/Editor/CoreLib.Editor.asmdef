@@ -22,7 +22,8 @@
         "Pug.Base.dll",
         "Pug.Other.dll",
         "Pug.Objects.dll",
-        "Pug.UnityExtensions.dll"
+        "Pug.UnityExtensions.dll",
+        "Pug.ECS.Authoring.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

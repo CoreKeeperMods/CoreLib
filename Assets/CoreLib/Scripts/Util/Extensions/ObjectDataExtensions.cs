@@ -4,6 +4,11 @@ namespace CoreLib.Scripts.Util.Extensions
 {
     public static class ObjectDataExtensions
     {
+        public static int GetEntityVariation(this MonoBehaviour monoBehaviour)
+        {
+            return GetEntityVariation(monoBehaviour.gameObject);
+        }
+        
         public static int GetEntityVariation(this GameObject gameObject)
         {
             var entityMonoBehaviorData = gameObject.GetComponent<EntityMonoBehaviourData>();
@@ -42,6 +47,8 @@ namespace CoreLib.Scripts.Util.Extensions
 
             return 0;
         }
+        
+        
         
     }
 }

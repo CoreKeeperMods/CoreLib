@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4246525439771981}
-  - component: {fileID: 114470712011656837}
+  - component: {fileID: 7122531607901913587}
+  - component: {fileID: 8965365665492073857}
   - component: {fileID: 4308706192904822958}
   - component: {fileID: 114396391988895895}
   - component: {fileID: 114319276868496248}
@@ -48,7 +49,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
---- !u!114 &114470712011656837
+--- !u!114 &7122531607901913587
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,49 +58,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 1779668189522198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1814889704, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: 318086258, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectInfo:
-    objectID: 4003
-    initialAmount: 1
-    variation: 0
-    variationIsDynamic: 0
-    variationToToggleTo: 0
-    objectType: 800
-    tags: 
-    rarity: 0
-    level: 0
-    onlyExistsInSeason: 0
-    sellValue: -1
-    buyValueMultiplier: 1
-    icon: {fileID: 6052145283139932220, guid: ab77b76a069f0694daa74862dbbf932f, type: 3}
-    iconOffset: {x: 0, y: 0}
-    iconSkinAsset: {fileID: 0}
-    smallIcon: {fileID: 4889364612262949874, guid: ab77b76a069f0694daa74862dbbf932f,
-      type: 3}
-    isStackable: 1
-    prefabTileSize: {x: 1, y: 1}
-    prefabCornerOffset: {x: 0, y: 0}
-    centerIsAtEntityPosition: 0
-    additionalSprites: []
-    tileset: 0
-    tileType: 0
-    prefabInfos:
-    - prefab: {fileID: 0}
-      ecsPrefab: {fileID: 1779668189522198}
-    craftingSettings:
-      canOnlyUseAnyMaterialsWithTag: 0
-      iconType: 0
-    requiredObjectsToCraft:
-    - objectID: 1610
-      amount: 8
-    craftingTime: 1
-    appearInMapUI: 0
-    mapColor: {r: 0, g: 0, b: 0, a: 0}
-    isCustomScenePrefab: 0
-    languageGenders: []
-  optionalPreviewPrefab: {fileID: 0}
+  objectID: 4003
+  initialAmount: 1
+  variation: 0
+  variationIsDynamic: 0
+  variationToToggleTo: 0
+  objectType: 800
+  tags: 
+  rarity: 0
+  graphicalPrefab: {fileID: 0}
+  isCustomScenePrefab: 0
+  additionalSprites: []
+--- !u!114 &8965365665492073857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779668189522198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 244469479, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onlyExistsInSeason: 0
+  sellValue: -1
+  buyValueMultiplier: 1
+  icon: {fileID: 6052145283139932220, guid: ab77b76a069f0694daa74862dbbf932f, type: 3}
+  iconOffset: {x: 0, y: 0}
+  smallIcon: {fileID: 4889364612262949874, guid: ab77b76a069f0694daa74862dbbf932f,
+    type: 3}
+  isStackable: 1
+  craftingSettings:
+    canOnlyUseAnyMaterialsWithTag: 0
+    iconType: 0
+  requiredObjectsToCraft:
+  - objectID: 1610
+    amount: 8
+  craftingTime: 1
 --- !u!114 &4308706192904822958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +320,9 @@ MonoBehaviour:
   m_Script: {fileID: 1739311503, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabTileSize: {x: 1, y: 1}
+  prefabCornerOffset: {x: 0, y: 0}
+  centerIsAtEntityPosition: 0
   variationToPlace: 0
   canBePlacedOnPlayer: 0
   canBePlacedOnAnyWalkableTile: 1
@@ -335,6 +337,8 @@ MonoBehaviour:
   canPlaceOnSideOfWall: 0
   wallSideVariationStartsOnIndex1: 0
   blocksHangingWallObjects: 0
+  appearInMapUI: 0
+  mapColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114147632245008397
 MonoBehaviour:
   m_ObjectHideFlags: 0

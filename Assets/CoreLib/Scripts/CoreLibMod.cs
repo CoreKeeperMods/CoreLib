@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using CoreLib.Submodules.TileSet;
 using CoreLib.Util;
+using CoreLib.Util.Extensions;
 using HarmonyLib;
 using PugMod;
 using Unity.Burst;
@@ -27,22 +29,29 @@ namespace CoreLib
 
         public void EarlyInit()
         {
-            BurstRuntime.LoadAdditionalLibrary($"{Application.streamingAssetsPath}/Mods/CoreLib/CoreLib_burst_generated.dll");
+            var coreLibMod = this.GetModInfo();
+            if (coreLibMod == null)
+            {
+                Log.LogError("Failed to load CoreLib: mod metadata not found!");
+                return;
+            }
+
+            BurstRuntime.LoadAdditionalLibrary(Path.Combine(coreLibMod.Directory, "CoreLib_burst_generated.dll"));
             JobEarlyInitHelper.PerformJobEarlyInit(Assembly.GetExecutingAssembly());
             
             harmony = new Harmony(ID);
             API.Server.OnWorldCreated += WorldInitialize;
-
-            assetBundle = API.ModLoader.LoadedMods.FirstOrDefault(mod => mod.Metadata.name.Equals(ID))?.AssetBundles.FirstOrDefault();
+            
+            assetBundle = coreLibMod.AssetBundles.FirstOrDefault();
             
             //CheckIfUsedOnRightGameVersion();
             
             submoduleHandler = new SubmoduleHandler(buildFor, Log);
+            LoadModule(typeof(TileSetModule));
         }
         
         public void Init()
         {
-            TileSetModule.TrySave();
         }
         
         /// <summary>

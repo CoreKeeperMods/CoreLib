@@ -11,7 +11,8 @@ namespace CoreLib.Submodules.ModEntity.Patches
         public static void InjectPoolablePrefabs(MemoryManager __instance)
         {
             PrefabCrawler.FindMaterials(__instance.poolablePrefabBank.poolInitializers);
-            EntityModule.ApplyAll();
+            PrefabCrawler.SetupPrefabIDMap(Manager.ecs.pugDatabase.prefabList);
+            EntityModule.ApplyAllModAuthorings();
             
             EntityModule.ApplyPrefabModifications(__instance);
 
@@ -28,6 +29,8 @@ namespace CoreLib.Submodules.ModEntity.Patches
 
                 CoreLibMod.Log.LogInfo($"Added Poolable Prefab {prefab.name}");
             }
+
+            EntityModule.hasInjected = true;
         }
     }
 }

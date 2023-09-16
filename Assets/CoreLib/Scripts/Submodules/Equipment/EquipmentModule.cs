@@ -11,8 +11,8 @@ namespace CoreLib.Submodules.Equipment
         internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
         internal static EquipmentModule Instance => CoreLibMod.GetModuleInstance<EquipmentModule>();
 
-        public static readonly string EMPTY_PREFAB = "Assets/CoreLib/Slots/EmptySlot";
-        public static readonly string PLACEMENT_PREFAB = "Assets/CoreLib/Slots/DefaultPlaceSlot";
+        public static readonly string EMPTY_PREFAB = "Assets/CoreLib/Prefab/Slots/EmptySlot";
+        public static readonly string PLACEMENT_PREFAB = "Assets/CoreLib/Prefab/Slots/DefaultPlaceSlot";
 
         public static ObjectType GetObjectType(string typeName)
         {

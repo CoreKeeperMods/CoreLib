@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using CoreLib.Submodules.ModEntity;
+using PugMod;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -65,6 +67,11 @@ namespace CoreLib.Util.Extensions
             }
 
             return EntityModule.GetObjectId(value);
+        }
+        
+        public static LoadedMod GetModInfo(this IMod mod)
+        {
+            return API.ModLoader.LoadedMods.FirstOrDefault(modInfo => modInfo.Handlers.Contains(mod));
         }
     }
 }

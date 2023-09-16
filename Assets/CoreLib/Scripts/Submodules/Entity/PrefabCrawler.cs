@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoreLib.Scripts.Util.Extensions;
 using PugTilemap.Quads;
 using UnityEngine;
 
@@ -13,16 +14,36 @@ namespace CoreLib.Submodules
 
         public static void SetupPrefabIDMap(List<MonoBehaviour> prefabList)
         {
+            if (prefabList == null)
+            {
+                CoreLibMod.Log.LogWarning($"Failed to setup ID to prefab map: '{nameof(prefabList)}' is null!");
+                return;
+            }
             if (entityPrefabsReady) return;
 
-            foreach (MonoBehaviour monoBeh in prefabList)
+            foreach (MonoBehaviour entity in prefabList)
             {
-                var data = monoBeh.GetComponent<IEntityMonoBehaviourData>();
-                if (!entityPrefabs.ContainsKey(data.ObjectInfo.objectID))
+                var entityMonoBehaviorData = entity.GetComponent<EntityMonoBehaviourData>();
+                var objectAuthoring = entity.GetComponent<ObjectAuthoring>();
+                
+                if (entityMonoBehaviorData != null)
                 {
-                    PrefabInfo info = data.ObjectInfo.prefabInfos[0];
-                    if (info == null) continue;
-                    entityPrefabs.Add(data.ObjectInfo.objectID, info.prefab.gameObject);
+                    if (!entityPrefabs.ContainsKey(entityMonoBehaviorData.objectInfo.objectID))
+                    {
+                        PrefabInfo info = entityMonoBehaviorData.ObjectInfo.prefabInfos[0];
+                        if (info == null ||
+                            info.prefab == null) continue;
+                        
+                        entityPrefabs.Add(entityMonoBehaviorData.ObjectInfo.objectID, info.prefab.gameObject);
+                    }
+                }
+                if (objectAuthoring != null)
+                {
+                    if (!entityPrefabs.ContainsKey((ObjectID)objectAuthoring.objectID))
+                    {
+                        if (objectAuthoring.graphicalPrefab == null) continue;
+                        entityPrefabs.Add((ObjectID)objectAuthoring.objectID, objectAuthoring.graphicalPrefab);
+                    }
                 }
             }
 
