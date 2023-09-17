@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CoreLib
+namespace CoreLib.Util.Extensions
 {
     public static class TopologicalSortExtension
     {

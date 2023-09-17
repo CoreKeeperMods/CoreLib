@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoreLib.Util.Extensions;
 using HarmonyLib;
 
 #pragma warning disable 649

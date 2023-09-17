@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.TileSet.Patches;
+using CoreLib.Util.Extensions;
 using PugTilemap;
 using PugTilemap.Quads;
 using PugTilemap.Workshop;

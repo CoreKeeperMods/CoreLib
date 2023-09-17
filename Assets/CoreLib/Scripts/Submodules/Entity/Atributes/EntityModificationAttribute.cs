@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace CoreLib.Submodules.ModEntity.Atributes
 {
@@ -6,6 +7,7 @@ namespace CoreLib.Submodules.ModEntity.Atributes
     /// Use this attribute to register your entity modification functions. Make sure to place one on the container class
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
+    [MeansImplicitUse]
     public class EntityModificationAttribute : Attribute
     {
         public ObjectID target = ObjectID.None;

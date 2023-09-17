@@ -1,6 +1,6 @@
 {
     "name": "CoreLib",
-    "rootNamespace": "",
+    "rootNamespace": "CoreLib",
     "references": [
         "Unity.Burst",
         "Unity.Collections",

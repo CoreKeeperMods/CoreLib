@@ -3,7 +3,7 @@ using CoreLib.Submodules.RewiredExtension;
 using Rewired;
 using Rewired.Data.Mapping;
 
-namespace CoreLib.Util
+namespace CoreLib.Util.Extensions
 {
     public static class RewiredExtensions
     {

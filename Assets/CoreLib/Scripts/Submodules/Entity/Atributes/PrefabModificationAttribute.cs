@@ -1,8 +1,10 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace CoreLib.Submodules.ModEntity.Atributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
+    [MeansImplicitUse]
     public class PrefabModificationAttribute : Attribute
     {
         internal readonly Type targetType;

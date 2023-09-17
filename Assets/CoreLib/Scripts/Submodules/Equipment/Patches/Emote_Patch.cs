@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using CoreLib.Util.Extensions;
+using HarmonyLib;
 using UnityEngine;
 
 namespace CoreLib.Submodules.Equipment.Patches

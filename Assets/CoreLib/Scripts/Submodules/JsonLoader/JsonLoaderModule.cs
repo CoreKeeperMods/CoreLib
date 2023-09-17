@@ -12,9 +12,9 @@ using CoreLib.Submodules.ModEntity.Atributes;
 using CoreLib.Util.Extensions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using CoreLib.Scripts.Util.Extensions;
 using CoreLib.Submodules.Localization;
 using PugMod;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -302,6 +302,7 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new RectConverter());
             options.Converters.Add(new Texture2DConverter());
             options.Converters.Add(new LootTableIDConverter());
+            options.Converters.Add(new CraftingObjectConverter());
             options.Converters.Add(new CraftableObjectConverter());
 
             // dummy converters
@@ -311,6 +312,8 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new TransformConverter());
             options.Converters.Add(new EntityMonoBehaviorConverter());
             interactionHandlers.Add(null);
+            
+            API.Authoring.OnObjectTypeAdded += PostConversionModificationsApply;
         }
 
         internal override void PostLoad()
@@ -320,11 +323,16 @@ namespace CoreLib.Submodules.JsonLoader
                 CommandsModule.RegisterCommandHandler(typeof(DumpCommandHandler), CoreLibMod.NAME);
             }
 
-            //EntityModule.RegisterEntityModifications(typeof(JsonLoaderModule));
         }
 
         internal static void PostApply()
         {
+            CoreLibMod.Log.LogInfo("Start pre conversion modification");
+            foreach (MonoBehaviour entity in Manager.ecs.pugDatabase.prefabList)
+            {
+                PreConversionModificationsApply(entity);
+            }
+            
             CoreLibMod.Log.LogInfo("Start JSON post load");
             foreach (string file in postApplyFiles)
             {
@@ -353,8 +361,8 @@ namespace CoreLib.Submodules.JsonLoader
         }
 
         //TODO update this API for new modification method
-       // [EntityModification]
-        internal static void ModificationsApply(MonoBehaviour entity)
+
+        internal static void PreConversionModificationsApply(MonoBehaviour entity)
         {
             BuildModificationCache();
 
@@ -367,7 +375,25 @@ namespace CoreLib.Submodules.JsonLoader
 
                 using (WithContext(new JsonContext(modify.contextPath)))
                 {
-                    ModificationJsonReader.ModifyApply(jObject.RootElement, entity);
+                    ModificationJsonReader.ModifyPre(jObject.RootElement, entity);
+                }
+
+                jObject.Dispose();
+            }
+        }
+        
+        internal static void PostConversionModificationsApply(Entity entity, GameObject authoring, EntityManager entityManager)
+        {
+            var objectId = authoring.GetEntityObjectID();
+
+            if (entityModificationFileCache.ContainsKey(objectId))
+            {
+                ModifyFile modify = entityModificationFileCache[objectId];
+                JsonDocument jObject = JsonDocument.Parse(File.ReadAllText(modify.filePath));
+
+                using (WithContext(new JsonContext(modify.contextPath)))
+                {
+                    ModificationJsonReader.ModifyPost(jObject.RootElement, entity, authoring, entityManager);
                 }
 
                 jObject.Dispose();

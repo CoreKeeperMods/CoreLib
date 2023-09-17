@@ -9,15 +9,10 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("modWorkbench")]
     public class ModWorkbenchJsonReader : IJsonReader
     {
-        public static readonly string[] excludedProperties =
-        {
-            "requiredObjectsToCraft"
-        };
-        
         public void ApplyPre(JsonElement jObject, FileContext context)
         {
             WorkbenchDefinition workbenchDefinition = ScriptableObject.CreateInstance<WorkbenchDefinition>();
-            JsonLoaderModule.PopulateObject(workbenchDefinition, jObject, excludedProperties);
+            JsonLoaderModule.PopulateObject(workbenchDefinition, jObject);
             JsonLoaderModule.FillArrays(workbenchDefinition);
 
             ObjectID objectID = EntityModule.AddModWorkbench(workbenchDefinition);

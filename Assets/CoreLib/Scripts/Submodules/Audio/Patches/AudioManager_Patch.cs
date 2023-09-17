@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoreLib.Util.Extensions;
 using HarmonyLib;
 
 namespace CoreLib.Submodules.Audio.Patches

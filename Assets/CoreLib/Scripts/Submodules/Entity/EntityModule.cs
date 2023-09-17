@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using CoreLib.Scripts.Util.Extensions;
 using CoreLib.Submodules.Localization;
 using CoreLib.Submodules.ModEntity.Atributes;
 using CoreLib.Submodules.ModEntity.Interfaces;

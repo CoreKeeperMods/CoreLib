@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using CoreLib.Scripts.Util.Extensions;
 using CoreLib.Submodules.ChatCommands;
 using CoreLib.Submodules.ChatCommands.Communication;
+using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Unity.Entities;
 using UnityEngine;

@@ -14,7 +14,7 @@ using FieldInfo = System.Reflection.FieldInfo;
 #pragma warning disable 8620
 #pragma warning disable 8605
 
-namespace CoreLib
+namespace CoreLib.Util.Extensions
 {
     public static class ReflectionUtil
     {

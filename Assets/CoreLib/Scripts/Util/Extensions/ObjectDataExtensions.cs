@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CoreLib.Scripts.Util.Extensions
+namespace CoreLib.Util.Extensions
 {
     public static class ObjectDataExtensions
     {

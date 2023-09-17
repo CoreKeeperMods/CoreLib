@@ -43,12 +43,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                 };
             }
 
-            return new CraftingAuthoring.CraftableObject()
-            {
-                objectID = ObjectID.None,
-                amount = 1,
-                craftingConsumesEntityAmount = false
-            };
+            throw new InvalidOperationException("Failed to deserialize CraftableObject. Unsupported token found!");
         }
 
         public override void Write(Utf8JsonWriter writer, CraftingAuthoring.CraftableObject value, JsonSerializerOptions options)

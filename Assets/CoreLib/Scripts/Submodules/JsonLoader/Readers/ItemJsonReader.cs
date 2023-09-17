@@ -17,8 +17,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         {
             "objectID",
             "prefabInfos",
-            "graphicalPrefab",
-            "requiredObjectsToCraft"
+            "graphicalPrefab"
         };
         
         public static readonly string[] objectAuthoringSkip =
@@ -83,12 +82,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                 if (jObject.TryGetProperty("requiredObjectsToCraft", out var itemsElement))
                 {
                     List<InventoryItemAuthoring.CraftingObject> recipe = 
-                        itemsElement.Deserialize<List<CraftingObject>>(JsonLoaderModule.options)
-                            .Select(item => new InventoryItemAuthoring.CraftingObject()
-                            {
-                                objectID = (int)item.objectID,
-                                amount = item.amount
-                            }).ToList();
+                        itemsElement.Deserialize<List<InventoryItemAuthoring.CraftingObject>>(JsonLoaderModule.options);
                     itemAuthoring.requiredObjectsToCraft = recipe;
                 }
 
@@ -96,12 +90,6 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             }
 
             throw new InvalidOperationException($"Failed to find item with ID {itemId}!");
-        }
-        
-        public struct CraftingObject
-        {
-            public ObjectID objectID;
-            public int amount;
         }
 
         public static void ReadComponents(JsonElement jObject, GameObject gameObject)

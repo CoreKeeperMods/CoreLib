@@ -1,4 +1,8 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using CoreLib.Util.Extensions;
+using Unity.Entities;
 using UnityEngine;
 
 namespace CoreLib.Submodules.JsonLoader.Readers
@@ -13,7 +17,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             JsonLoaderModule.entityModificationFiles.Add(new ModifyFile(context.file, JsonLoaderModule.context.loadPath, targetId));
         }
 
-        public static void ModifyApply(JsonElement jObject, MonoBehaviour entity)
+        public static void ModifyPre(JsonElement jObject, MonoBehaviour entity)
         {
             var entityMonoBehaviorData = entity.GetComponent<EntityMonoBehaviourData>();
             var objectAuthoring = entity.GetComponent<ObjectAuthoring>();
@@ -29,6 +33,102 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                 JsonLoaderModule.PopulateObject(inventoryItemAuthoring, jObject, ItemJsonReader.restrictedProperties);
 
             ItemJsonReader.ReadComponents(jObject, entity.gameObject);
+        }
+
+        public static void ModifyPost(JsonElement jObject, Entity entity, GameObject authoring, EntityManager entityManager)
+        {
+            ReadECSComponents(jObject, entity, entityManager);
+        }
+
+        private static void ReadECSComponents(JsonElement jObject, Entity entity, EntityManager entityManager)
+        {
+            if (jObject.TryGetProperty("ecsComponents", out var componentsElement))
+            {
+                foreach (var node in componentsElement.EnumerateArray())
+                {
+                    if (node.TryGetProperty("type", out var typeElement))
+                    {
+                        Type type = JsonLoaderModule.TypeByName(typeElement.GetString());
+                        if (!type.IsValueType)
+                        {
+                            CoreLibMod.Log.LogWarning($"Failed to edit component '{type.FullName}': Non Value type components are not supported!");
+                            continue;
+                        }
+
+                        if (type.IsAssignableTo(typeof(IComponentData)))
+                        {
+                            typeof(ModificationJsonReader)
+                                .GetMethod(nameof(ReadComponent))
+                                .MakeGenericMethod(type)
+                                .Invoke(null, new object[] { jObject, entity, entityManager });
+                        }else if (type.IsAssignableTo(typeof(IBufferElementData)))
+                        {
+                            typeof(ModificationJsonReader)
+                                .GetMethod(nameof(ReadBuffer))
+                                .MakeGenericMethod(type)
+                                .Invoke(null, new object[] { jObject, entity, entityManager });
+                        }
+                        else
+                        {
+                            CoreLibMod.Log.LogWarning($"Failed to edit component '{type.FullName}': Unknown component kind!");
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void ReadComponent<T>(JsonElement jObject, Entity entity, EntityManager entityManager)
+        where T : struct, IComponentData
+        {
+            T component = entityManager.GetOrAddComponentData<T>(entity);
+
+            object boxedComponent = component;
+            JsonLoaderModule.PopulateObject(typeof(T), boxedComponent, jObject);
+            component = (T)boxedComponent;
+            
+            entityManager.SetComponentData(entity, component);
+        }
+
+        private static void ReadBuffer<T>(JsonElement jObject, Entity entity, EntityManager entityManager)
+            where T : struct, IBufferElementData
+        {
+            var buffer = entityManager.GetOrAddBuffer<T>(entity);
+
+            ModifyMode mode = ModifyMode.Edit;
+            if (jObject.TryGetProperty("modifyMode", out var modeElement))
+            {
+                mode = modeElement.Deserialize<ModifyMode>(JsonLoaderModule.options);
+            }
+
+            if (mode == ModifyMode.Edit)
+            {
+                if (jObject.TryGetProperty("remove", out var removeElement))
+                {
+                    var elements = removeElement.Deserialize<T[]>(JsonLoaderModule.options);
+                    foreach (T bufferElementData in elements)
+                    {
+                        buffer.Remove(bufferElementData);
+                    }
+                }
+            }else if (mode == ModifyMode.Overwrite)
+            {
+                buffer.Clear();
+            }
+            
+            if (jObject.TryGetProperty("add", out var addElement))
+            {
+                var elements = addElement.Deserialize<T[]>(JsonLoaderModule.options);
+                foreach (T bufferElementData in elements)
+                {
+                    buffer.Add(bufferElementData);
+                }
+            }
+        }
+
+        public enum ModifyMode
+        {
+            Edit,
+            Overwrite
         }
 
         public void ApplyPost(JsonElement jObject, FileContext context) { }
