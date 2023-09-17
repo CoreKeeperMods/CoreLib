@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-namespace EditorKit.Editor
+namespace CoreLib.Editor
 {
     public static class RenderingFix
     {

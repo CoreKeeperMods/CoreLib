@@ -1,4 +1,4 @@
-﻿using CoreLib.Components;
+﻿using CoreLib.Submodules.JsonLoader.Components;
 
 namespace CoreLib.Submodules.JsonLoader
 {

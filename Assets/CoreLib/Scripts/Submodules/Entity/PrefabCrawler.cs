@@ -2,7 +2,7 @@
 using PugTilemap.Quads;
 using UnityEngine;
 
-namespace CoreLib.Submodules
+namespace CoreLib.Submodules.ModEntity
 {
     public static class PrefabCrawler
     {

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace CoreLib.Scripts.Util
+namespace CoreLib.Util
 {
     public static class TextureUtil
     {

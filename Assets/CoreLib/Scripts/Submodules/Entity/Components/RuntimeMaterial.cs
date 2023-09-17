@@ -2,7 +2,7 @@ using System;
 using CoreLib.Submodules;
 using UnityEngine;
 
-namespace CoreLib.Components
+namespace CoreLib.Submodules.ModEntity.Components
 {
     public class RuntimeMaterial : ModCDAuthoringBase
     {

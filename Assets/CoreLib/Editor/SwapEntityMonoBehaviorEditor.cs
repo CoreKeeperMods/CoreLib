@@ -7,7 +7,7 @@ using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace EditorKit.Editor
+namespace CoreLib.Editor
 {
     [CustomEditor(typeof(EntityMonoBehaviour), true)]
     public class SwapEntityMonoBehaviorEditor : UnityEditor.Editor

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CoreLib.Data;
 using CoreLib.Submodules.Localization;
 using CoreLib.Submodules.ModEntity.Atributes;
 using CoreLib.Submodules.ModEntity.Interfaces;

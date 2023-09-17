@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using CoreLib.Scripts.Util.Atributes;
+using CoreLib.Util.Atributes;
 using CoreLib.Submodules.TileSet;
 using UnityEditor;
 using UnityEngine;
 using Unity.EditorCoroutines.Editor;
 
-namespace EditorKit.Editor
+namespace CoreLib.Editor
 {
     [CustomPropertyDrawer(typeof(ModTilesetAttribute))]
     public class ModTilesetDrawer : PropertyDrawer

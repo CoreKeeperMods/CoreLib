@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoreLib.Data;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.TileSet.Patches;
 using CoreLib.Util.Extensions;

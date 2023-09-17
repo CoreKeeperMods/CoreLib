@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using CoreLib.Scripts.Util;
+using CoreLib.Util;
 using CoreLib.Util.Extensions;
 using UnityEngine;
 

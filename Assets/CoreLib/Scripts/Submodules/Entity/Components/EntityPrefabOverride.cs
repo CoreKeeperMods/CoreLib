@@ -1,7 +1,8 @@
 using CoreLib.Submodules;
+using CoreLib.Submodules.ModEntity;
 using UnityEngine;
 
-namespace CoreLib.Components
+namespace CoreLib.Submodules.ModEntity.Components
 {
     public class EntityPrefabOverride : ModCDAuthoringBase
     {

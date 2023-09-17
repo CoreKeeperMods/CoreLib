@@ -1,10 +1,10 @@
-using CoreLib.Scripts.Util.Atributes;
+using CoreLib.Util.Atributes;
 using CoreLib.Submodules.TileSet;
 using PugConversion;
 using PugTilemap;
 using UnityEngine;
 
-namespace CoreLib.Components
+namespace CoreLib.Submodules.TileSet.Components
 {
     public class ModTileCDAuthoring : MonoBehaviour
     {

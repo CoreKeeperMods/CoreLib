@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoreLib
+namespace CoreLib.Util
 {
     public static class GameManagers {
 

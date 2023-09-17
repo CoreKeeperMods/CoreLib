@@ -3,7 +3,7 @@ using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
 
-namespace EditorKit.Editor
+namespace CoreLib.Editor
 {
     [CustomPropertyDrawer(typeof(FixedString64Bytes))]
     public class FixedString64Drawer : PropertyDrawer

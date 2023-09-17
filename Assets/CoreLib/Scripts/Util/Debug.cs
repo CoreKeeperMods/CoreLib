@@ -3,7 +3,7 @@ using CoreLib.Util.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace CoreLib
+namespace CoreLib.Util
 {
     /// <summary>
     /// Utility to display dots at specific points in the world

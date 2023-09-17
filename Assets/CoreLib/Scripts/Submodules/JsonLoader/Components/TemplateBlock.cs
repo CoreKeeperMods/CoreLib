@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CoreLib.Submodules.ModEntity;
 using UnityEngine;
 
-namespace CoreLib.Components
+namespace CoreLib.Submodules.JsonLoader.Components
 {
     public class TemplateBlock : EntityMonoBehaviour
     {

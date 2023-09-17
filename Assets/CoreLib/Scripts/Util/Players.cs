@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CoreLib
+namespace CoreLib.Util
 {
     public static class Players {
         public static List<PlayerController> GetAllPlayers() {

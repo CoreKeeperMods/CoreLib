@@ -1,4 +1,4 @@
-namespace CoreLib.Components
+namespace CoreLib.Submodules.JsonLoader.Components
 {
     public interface IHasDefaultValue
     {

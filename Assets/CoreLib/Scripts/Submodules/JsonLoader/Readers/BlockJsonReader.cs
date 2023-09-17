@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text.Json;
-using CoreLib.Components;
+using CoreLib.Submodules.JsonLoader.Components;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Util.Extensions;
 using Unity.Mathematics;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoreLib
+namespace CoreLib.Data
 {
 /// <summary>
 ///     Provides access to a single setting inside of a <see cref="Configuration.ConfigFile" />.

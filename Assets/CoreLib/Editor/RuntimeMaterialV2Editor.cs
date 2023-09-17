@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using CoreLib.Components;
+using CoreLib.Submodules.ModEntity.Components;
 using UnityEditor;
 using UnityEngine;
 
-namespace EditorKit.Editor
+namespace CoreLib.Editor
 {
     [CustomEditor(typeof(RuntimeMaterial))]
     public class RuntimeMaterialV2Editor : UnityEditor.Editor

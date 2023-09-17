@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CoreLib.Submodules.ModEntity.Components;
 using PugConversion;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 #pragma warning disable CS0649
 
-namespace CoreLib.Components
+namespace CoreLib.Submodules.JsonLoader.Components
 {
     public struct TemplateBlockCD : IComponentData
     {

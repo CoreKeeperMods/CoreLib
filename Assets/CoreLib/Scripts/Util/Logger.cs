@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CoreLib
+namespace CoreLib.Util
 {
     public class Logger
     {

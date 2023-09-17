@@ -1,4 +1,4 @@
-﻿namespace CoreLib
+﻿namespace CoreLib.Util
 {
     public static class State {
         public static bool IsInGame() {

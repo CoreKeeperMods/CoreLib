@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CoreLib.Scripts.Util.Atributes
+namespace CoreLib.Util.Atributes
 {
     public class ModTilesetAttribute : PropertyAttribute
     {

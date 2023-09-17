@@ -10,6 +10,7 @@ using PugMod;
 using Unity.Burst;
 using Unity.Entities;
 using UnityEngine;
+using Logger = CoreLib.Util.Logger;
 using Object = UnityEngine.Object;
 
 namespace CoreLib

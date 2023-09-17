@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace CoreLib
+namespace CoreLib.Data
 {
     /// <summary>
     ///     A serializer/deserializer combo for some type(s). Used by the config system.

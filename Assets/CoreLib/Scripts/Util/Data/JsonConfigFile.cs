@@ -6,7 +6,7 @@ using PugMod;
 
 // ReSharper disable PossibleInvalidCastExceptionInForeachLoop
 
-namespace CoreLib
+namespace  CoreLib.Data
 {
     public class JsonConfigFile
     {

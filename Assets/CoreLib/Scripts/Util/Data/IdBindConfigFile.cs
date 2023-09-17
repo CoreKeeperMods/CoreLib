@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace CoreLib
+namespace  CoreLib.Data
 {
     public class IdBindConfigFile : IdBind
     {

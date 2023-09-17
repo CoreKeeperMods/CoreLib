@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace EditorKit.Editor
+namespace CoreLib.Editor
 {
     [CustomEditor(typeof(EntityMonoBehaviourData))]
     public class EntityMonoBehaviorDataEditor : UnityEditor.Editor

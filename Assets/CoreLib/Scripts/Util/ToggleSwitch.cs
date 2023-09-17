@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace CoreLib
+namespace CoreLib.Util
 {
     public class ToggleSwitch
     {
