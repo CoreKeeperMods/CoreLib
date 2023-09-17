@@ -1,5 +1,3 @@
-using CoreLib.Submodules;
-using CoreLib.Submodules.ModEntity;
 using UnityEngine;
 
 namespace CoreLib.Submodules.ModEntity.Components

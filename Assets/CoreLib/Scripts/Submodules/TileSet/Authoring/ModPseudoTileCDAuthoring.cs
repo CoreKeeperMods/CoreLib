@@ -1,5 +1,4 @@
 ﻿using CoreLib.Util.Atributes;
-using CoreLib.Submodules.TileSet;
 using PugConversion;
 using PugTilemap;
 using UnityEngine;

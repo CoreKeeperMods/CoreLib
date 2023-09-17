@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Unity.Entities;
+﻿using Unity.Entities;
 
 namespace CoreLib.Submodules.ChatCommands
 {

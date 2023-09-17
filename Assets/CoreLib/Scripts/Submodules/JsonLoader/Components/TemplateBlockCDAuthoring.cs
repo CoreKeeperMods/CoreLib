@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoreLib.Submodules.ModEntity.Components;
 using PugConversion;
 using Unity.Entities;
@@ -33,6 +34,7 @@ namespace CoreLib.Submodules.JsonLoader.Components
         public float3 prefabOffset;
         public string interactHandler;
 
+        [NonSerialized]
         internal int interactMethodIndex;
 
         public void InitDefaultValues()

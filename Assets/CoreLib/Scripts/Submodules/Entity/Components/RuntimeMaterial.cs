@@ -1,5 +1,4 @@
 using System;
-using CoreLib.Submodules;
 using UnityEngine;
 
 namespace CoreLib.Submodules.ModEntity.Components
