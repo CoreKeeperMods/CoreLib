@@ -8,11 +8,11 @@ using CoreLib.Submodules.DropTables;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Submodules.JsonLoader.Readers;
-using CoreLib.Submodules.ModEntity.Atributes;
 using CoreLib.Util.Extensions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CoreLib.Submodules.Localization;
+using JetBrains.Annotations;
 using PugMod;
 using Unity.Entities;
 using UnityEngine;
@@ -44,6 +44,7 @@ namespace CoreLib.Submodules.JsonLoader
             return new ContextHandle(path);
         }
 
+        [UsedImplicitly]
         public static void LoadMod(IMod mod)
         {
             var modInfo = mod.GetModInfo();
@@ -161,6 +162,8 @@ namespace CoreLib.Submodules.JsonLoader
         {
             Type type = Type.GetType(name, false);
 
+            Type[] allTypes = ReflectionUtil.AllTypes();
+            
             type ??= allTypes.FirstOrDefault(t => t.FullName == name);
             type ??= allTypes.FirstOrDefault(t => t.Name == name);
 
@@ -171,6 +174,8 @@ namespace CoreLib.Submodules.JsonLoader
 
         public static void FillArrays<T>(T target)
         {
+            if (target == null) return;
+            
             FillArrays(typeof(T), target);
         }
 
@@ -193,26 +198,28 @@ namespace CoreLib.Submodules.JsonLoader
 
         public static void PopulateObject<T>(T target, JsonElement jsonSource)
         {
-            PopulateObject(typeof(T), target, jsonSource, Array.Empty<string>(), Array.Empty<string>());
+            PopulateObject(typeof(T), target, jsonSource, Array.Empty<string>(), Array.Empty<Type>());
         }
 
         public static void PopulateObject<T>(T target, JsonElement jsonSource, string[] restricted)
         {
-            PopulateObject(typeof(T), target, jsonSource, restricted, Array.Empty<string>());
+            PopulateObject(typeof(T), target, jsonSource, restricted, Array.Empty<Type>());
         }
-        
-        public static void PopulateObject<T>(T target, JsonElement jsonSource, string[] restricted, string[] skip)
+
+        public static void PopulateObject<T>(T target, JsonElement jsonSource, string[] restricted, Type[] typeSet)
         {
-            PopulateObject(typeof(T), target, jsonSource, restricted, skip);
+            PopulateObject(typeof(T), target, jsonSource, restricted, typeSet);
         }
 
         public static void PopulateObject(Type type, object target, JsonElement jsonSource)
         {
-            PopulateObject(type, target, jsonSource, Array.Empty<string>(), Array.Empty<string>());
+            PopulateObject(type, target, jsonSource, Array.Empty<string>(), Array.Empty<Type>());
         }
 
-        public static void PopulateObject(Type type, object target, JsonElement jsonSource, string[] restricted, string[] skip)
+        public static void PopulateObject(Type type, object target, JsonElement jsonSource, string[] restricted, Type[] typeSet)
         {
+            if (target == null) return;
+            
             foreach (JsonProperty property in jsonSource.EnumerateObject())
             {
                 if (restricted.Contains(property.Name))
@@ -220,11 +227,10 @@ namespace CoreLib.Submodules.JsonLoader
                     CoreLibMod.Log.LogWarning($"Overriding {property.Name} is not allowed!");
                     continue;
                 }
-                if (skip.Contains(property.Name)) continue;
 
                 try
                 {
-                    OverwriteProperty(type, target, property);
+                    OverwriteField(type, target, property, typeSet);
                 }
                 catch (Exception e)
                 {
@@ -237,8 +243,6 @@ namespace CoreLib.Submodules.JsonLoader
 
         #region PRIVATE
 
-        public const string submoduleName = nameof(JsonLoaderModule);
-        
         private static readonly string[] specialProperties =
         {
             "$schema",
@@ -266,8 +270,8 @@ namespace CoreLib.Submodules.JsonLoader
 
         private static List<string> postApplyFiles = new List<string>();
         private static Dictionary<ObjectID, ModifyFile> entityModificationFileCache = new Dictionary<ObjectID, ModifyFile>();
-        
-        private static Type[] allTypes = ReflectionUtil.AllTypes();
+
+        #region Init
 
         internal override Type[] GetOptionalDependencies()
         {
@@ -298,7 +302,7 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new SpriteConverter());
             options.Converters.Add(new ColorConverter());
             options.AddGeneratedVectorConverters();
-            
+
             options.Converters.Add(new RectConverter());
             options.Converters.Add(new Texture2DConverter());
             options.Converters.Add(new LootTableIDConverter());
@@ -312,7 +316,7 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new TransformConverter());
             options.Converters.Add(new EntityMonoBehaviorConverter());
             interactionHandlers.Add(null);
-            
+
             API.Authoring.OnObjectTypeAdded += PostConversionModificationsApply;
         }
 
@@ -322,8 +326,19 @@ namespace CoreLib.Submodules.JsonLoader
             {
                 CommandsModule.RegisterCommandHandler(typeof(DumpCommandHandler), CoreLibMod.NAME);
             }
-
         }
+
+        internal static void ThrowIfTooLate()
+        {
+            if (finishedLoadingObjects)
+            {
+                throw new InvalidOperationException("Json Loader finished loading items. Adding items at this stage is impossible!");
+            }
+        }
+
+        #endregion
+
+        #region Modification
 
         internal static void PostApply()
         {
@@ -332,7 +347,7 @@ namespace CoreLib.Submodules.JsonLoader
             {
                 PreConversionModificationsApply(entity);
             }
-            
+
             CoreLibMod.Log.LogInfo("Start JSON post load");
             foreach (string file in postApplyFiles)
             {
@@ -360,8 +375,6 @@ namespace CoreLib.Submodules.JsonLoader
             postApplyFiles.Clear();
         }
 
-        //TODO update this API for new modification method
-
         internal static void PreConversionModificationsApply(MonoBehaviour entity)
         {
             BuildModificationCache();
@@ -381,7 +394,7 @@ namespace CoreLib.Submodules.JsonLoader
                 jObject.Dispose();
             }
         }
-        
+
         internal static void PostConversionModificationsApply(Entity entity, GameObject authoring, EntityManager entityManager)
         {
             var objectId = authoring.GetEntityObjectID();
@@ -420,13 +433,7 @@ namespace CoreLib.Submodules.JsonLoader
             entityModificationFiles.Clear();
         }
 
-        internal static void ThrowIfTooLate()
-        {
-            if (finishedLoadingObjects)
-            {
-                throw new InvalidOperationException("Json Loader finished loading items. Adding items at this stage is impossible!");
-            }
-        }
+        #endregion
 
         internal static T GetInteractionHandler<T>(int index)
             where T : class
@@ -453,10 +460,32 @@ namespace CoreLib.Submodules.JsonLoader
             }
         }
 
-        private static void OverwriteProperty(Type type, object target, JsonProperty updatedProperty)
+        private static void OverwriteField(Type type, object target, JsonProperty property, Type[] typeSet)
         {
-            var propertyInfo = type.GetProperty(updatedProperty.Name);
-            var fieldInfo = type.GetField(updatedProperty.Name);
+            FieldInfo fieldInfo = FindFieldInType(type, property.Name);
+
+            if (fieldInfo == null)
+            {
+                if (!specialProperties.Contains(property.Name) &&
+                    typeSet.All(otherType => FindFieldInType(otherType, property.Name) == null))
+                {
+                    CoreLibMod.Log.LogWarning($"Property '{property.Name}' not found!");
+                }
+
+                return;
+            }
+
+
+            var attribute = fieldInfo.GetCustomAttribute<NonSerializedAttribute>();
+            if (attribute != null) return;
+
+            var parsedValue = property.Value.Deserialize(fieldInfo.FieldType, options);
+            fieldInfo.SetValue(target, parsedValue);
+        }
+
+        private static FieldInfo FindFieldInType(Type type, string name)
+        {
+            var fieldInfo = type.GetField(name);
 
             if (fieldInfo == null)
             {
@@ -464,31 +493,11 @@ namespace CoreLib.Submodules.JsonLoader
                     .Where(field =>
                     {
                         var oldNameAttr = field.GetCustomAttribute<FormerlySerializedAsAttribute>();
-                        return oldNameAttr != null && oldNameAttr.oldName.Equals(updatedProperty.Name);
+                        return oldNameAttr != null && oldNameAttr.oldName.Equals(name);
                     }).FirstOrDefault();
             }
 
-            if (propertyInfo == null && fieldInfo == null)
-            {
-                if (!specialProperties.Contains(updatedProperty.Name))
-                    CoreLibMod.Log.LogWarning($"Property '{updatedProperty.Name}' not found!");
-                return;
-            }
-
-            if (propertyInfo != null)
-            {
-                var parsedValue = updatedProperty.Value.Deserialize(propertyInfo.PropertyType, options);
-
-                propertyInfo.SetValue(target, parsedValue);
-            }
-            else
-            {
-                var attribute = fieldInfo.GetCustomAttribute<NonSerializedAttribute>();
-                if (attribute != null) return;
-
-                var parsedValue = updatedProperty.Value.Deserialize(fieldInfo.FieldType, options);
-                fieldInfo.SetValue(target, parsedValue);
-            }
+            return fieldInfo;
         }
 
         #endregion

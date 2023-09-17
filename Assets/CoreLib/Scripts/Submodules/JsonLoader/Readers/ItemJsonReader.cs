@@ -20,33 +20,13 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             "graphicalPrefab"
         };
         
-        public static readonly string[] objectAuthoringSkip =
+        public static readonly Type[] objectAuthoringSet =
         {
-            "onlyExistsInSeason",
-            "sellValue",
-            "buyValueMultiplier",
-            "icon",
-            "iconOffset",
-            "smallIcon",
-            "isStackable",
-            "craftingSettings",
-            "requiredObjectsToCraft",
-            "craftingTime"
+            typeof(ObjectAuthoring),
+            typeof(InventoryItemAuthoring),
+            typeof(PlaceableObjectAuthoring)
         };
-        
-        public static readonly string[] inventoryItemSkip =
-        {
-            "objectID",
-            "initialAmount",
-            "variation",
-            "variationIsDynamic",
-            "variationToToggleTo",
-            "objectType",
-            "tags",
-            "rarity",
-            "additionalSprites"
-        };
-        
+
         public virtual void ApplyPre(JsonElement jObject, FileContext context)
         {
             string itemId = jObject.GetProperty("itemId").GetString();
@@ -56,9 +36,12 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             };
 
             ObjectAuthoring objectAuthoring = go.AddComponent<ObjectAuthoring>();
-            InventoryItemAuthoring itemAuthoring = go.AddComponent<InventoryItemAuthoring>();
+            go.AddComponent<InventoryItemAuthoring>();
+            
+            if (jObject.TryGetProperty("prefabTileSize", out _))
+                go.AddComponent<PlaceableObjectAuthoring>();
 
-            ReadObjectInfo(jObject, objectAuthoring, itemAuthoring);
+            ReadObjectInfo(jObject, objectAuthoring);
             ReadComponents(jObject, go);
 
             ObjectID objectID = EntityModule.AddEntity(itemId, objectAuthoring);
@@ -116,20 +99,24 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             }
         }
 
-        public static void ReadObjectInfo(JsonElement jObject, ObjectAuthoring objectAuthoring, InventoryItemAuthoring itemAuthoring)
+        public static void ReadObjectInfo(JsonElement jObject, ObjectAuthoring objectAuthoring)
         {
             string itemId = jObject.GetProperty("itemId").GetString();
+            var itemAuthoring = objectAuthoring.GetComponent<InventoryItemAuthoring>();
+            var placeablePrefab = objectAuthoring.GetComponent<PlaceableObjectAuthoring>();
+
+            var typeSet = objectAuthoringSet.Where(type => objectAuthoring.GetComponent(type) != null).ToArray();
             
-            JsonLoaderModule.PopulateObject(objectAuthoring, jObject, restrictedProperties, objectAuthoringSkip);
-            if (itemAuthoring != null)
-                JsonLoaderModule.PopulateObject(itemAuthoring, jObject, restrictedProperties, inventoryItemSkip);
+            JsonLoaderModule.PopulateObject(objectAuthoring, jObject, restrictedProperties, typeSet);
+            JsonLoaderModule.PopulateObject(itemAuthoring, jObject, restrictedProperties, typeSet);
+            JsonLoaderModule.PopulateObject(placeablePrefab, jObject, restrictedProperties, typeSet);
 
             string fullItemId = $"{itemId}_{objectAuthoring.variation}";
             
             objectAuthoring.gameObject.name = $"{fullItemId}_Prefab";
             JsonLoaderModule.FillArrays(objectAuthoring);
-            if (itemAuthoring != null)
-                JsonLoaderModule.FillArrays(itemAuthoring);
+            JsonLoaderModule.FillArrays(itemAuthoring);
+            JsonLoaderModule.FillArrays(placeablePrefab);
         }
 
         public static void ReadLocalization(JsonElement jObject, ObjectID objectID)
