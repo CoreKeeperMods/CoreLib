@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using CoreLib.Submodules.ChatCommands;
 using CoreLib.Submodules.ChatCommands.Communication;
+using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Unity.Entities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.JsonLoader
 {
@@ -28,6 +34,47 @@ namespace CoreLib.Submodules.JsonLoader
             "entityMono"
         };
 
+        private Type[] componentsToIgnore =
+        {
+            typeof(Transform),
+            typeof(EntityMonoBehaviourData),
+            typeof(ObjectAuthoring)
+        };
+
+        private static GameObject tmpGameObject;
+
+        public class ObjectDumpData
+        {
+            [JsonPropertyName("$schema")]
+            public string schema;
+            
+            public string type;
+            public string itemId;
+            
+            public string localizedName;
+            public string localizedDescription;
+            
+            // ObjectAuthoring properties
+            public int initialAmount = 1;
+            public int variation;
+            public bool variationIsDynamic;
+            public int variationToToggleTo;
+            public ObjectType objectType;
+            public List<ObjectCategoryTag> tags;
+            public Rarity rarity;
+            public bool isCustomScenePrefab;
+            public List<Sprite> additionalSprites;
+
+            public List<ComponentDumpData> components;
+        }
+        
+        public class ComponentDumpData
+        {
+            public string type;
+            [JsonPropertyName("$data")]
+            public object data;
+        }
+        
         public CommandOutput Execute(string[] parameters, Entity conn)
         {
             if (parameters.Length < 1)
@@ -57,84 +104,147 @@ namespace CoreLib.Submodules.JsonLoader
             if (targetEntity == null)
                 return new CommandOutput($"Failed to find entity for object ID {targetObjectId}!", CommandStatus.Error);
 
+            tmpGameObject = new GameObject();
             try
             {
-               // PerformDump(path, targetEntity);
+               PerformDump(path, targetEntity);
             }
             catch (Exception e)
             {
                 CoreLibMod.Log.LogWarning($"Failed to dump object {targetObjectId}:\n{e}");
+                Object.Destroy(tmpGameObject);
                 return new CommandOutput("Failed to dump object! See log/console for error.", CommandStatus.Error);
             }
-
-            return "Feature disabled!";
+            Object.Destroy(tmpGameObject);
+            return "Dumped successfully!";
         }
-/*
-        private void PerformDump(string path, EntityMonoBehaviourData targetEntity)
+
+        private void PerformDump(string path, MonoBehaviour targetEntity)
         {
             SpriteConverter.outputPath = Path.Combine(path, "icons");
             Directory.CreateDirectory(SpriteConverter.outputPath);
 
-            JsonNode node = JsonSerializer.SerializeToNode(targetEntity.objectInfo, JsonLoaderModule.options);
-            JsonObject jsonObject = node.AsObject();
-            string kind = GetObjectType(targetEntity.objectInfo.objectType);
-
-            node["$schema"] = "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json";
-            node["type"] = GetObjectType(targetEntity.objectInfo.objectType);
-            ;
-            node["itemId"] = targetEntity.objectInfo.objectID.ToString();
-
-            RemoveBadProperties(node);
-            JsonArray itemNeeded = node["requiredObjectsToCraft"].AsArray();
-            foreach (JsonNode jsonNode in itemNeeded)
-            {
-                RemoveBadProperties(jsonNode);
-            }
+            IEntityMonoBehaviourData entityData = targetEntity.GetComponent<IEntityMonoBehaviourData>();
+            var objectInfo = entityData.ObjectInfo;
             
-            jsonObject.Remove("objectID");
-            jsonObject.Remove("prefabInfos");
+            ObjectDumpData dumpData = new ObjectDumpData();
 
-            JsonArray array = new JsonArray();
+            //JsonNode node = JsonSerializer.SerializeToNode(targetEntity.objectInfo, JsonLoaderModule.options);
+            //JsonObject jsonObject = node.AsObject();
+            string kind = GetObjectType(objectInfo.objectType);
+
+            dumpData.schema = "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json";
+            dumpData.type = GetObjectType(objectInfo.objectType);
             
+            dumpData.itemId = objectInfo.objectID.ToString();
+
             var components = targetEntity.GetComponents<Component>();
+            List<ComponentDumpData> componentDumpDatas = new List<ComponentDumpData>(components.Length);
+            
             foreach (Component component in components)
             {
-                if (component.GetType() == typeof(Transform)) continue;
-                if (component.GetType() == typeof(EntityMonoBehaviourData)) continue;
-
-                JsonNode componentNode = JsonSerializer.SerializeToNode(component, JsonLoaderModule.options);
-                RemoveBadProperties(componentNode);
-                componentNode["type"] = component.GetType().FullName;
-                array.Add(componentNode);
+                if (componentsToIgnore.Contains(component.GetType())) continue;
+                ComponentDumpData componentData = new ComponentDumpData
+                {
+                    type = component.GetType().FullName,
+                    data = component
+                };
+                componentDumpDatas.Add(componentData);
             }
 
-            node["components"] = array;
+            dumpData.components = componentDumpDatas;
+            
+            CopyObjectData(targetEntity, dumpData);
+
+            var jsonData = JsonSerializer.Serialize(dumpData, JsonLoaderModule.options);
 
             SpriteConverter.outputPath = "";
 
             string outFolder = Path.Combine(path, kind);
             Directory.CreateDirectory(outFolder);
-            string filePath = Path.Combine(outFolder, $"{targetEntity.objectInfo.objectID}.json");
-            File.WriteAllText(filePath, node.ToJsonString(JsonLoaderModule.options));
+            string filePath = Path.Combine(outFolder, $"{objectInfo.objectID}.json");
+            File.WriteAllText(filePath, jsonData);
         }
 
-        private void RemoveBadProperties(JsonNode node)
+        private static void CopyObjectData(MonoBehaviour entity, ObjectDumpData dumpData)
         {
-            try
+            if (entity is EntityMonoBehaviourData entityMonoBehaviourData)
             {
-                JsonObject jsonObject = node.AsObject();
-
-                foreach (string propertyName in badPropertyNames)
-                {
-                    jsonObject.Remove(propertyName);
-                }
-            }
-            catch (Exception)
+                CopyEntityMonoBehaviourData(entityMonoBehaviourData, dumpData);
+            }else if (entity is ObjectAuthoring objectAuthoring)
             {
-                //ignored
+                CopyObjectAuthoringData(objectAuthoring, dumpData);
             }
         }
-*/
+        
+        private static void CopyObjectAuthoringData(ObjectAuthoring objectAuthoring, ObjectDumpData dumpData)
+        {
+            dumpData.initialAmount = objectAuthoring.initialAmount;
+            dumpData.variation = objectAuthoring.variation;
+            dumpData.variationIsDynamic = objectAuthoring.variationIsDynamic;
+            dumpData.variationToToggleTo = objectAuthoring.variationToToggleTo;
+            dumpData.objectType = objectAuthoring.objectType;
+            dumpData.tags = objectAuthoring.tags;
+            dumpData.rarity = objectAuthoring.rarity;
+            dumpData.isCustomScenePrefab = objectAuthoring.isCustomScenePrefab;
+            dumpData.additionalSprites = objectAuthoring.additionalSprites;
+        }
+        
+        private static void CopyEntityMonoBehaviourData(EntityMonoBehaviourData entityData, ObjectDumpData dumpData )
+        {
+            dumpData.initialAmount = entityData.ObjectInfo.initialAmount;
+            dumpData.variation = entityData.ObjectInfo.variation;
+            dumpData.variationIsDynamic = entityData.ObjectInfo.variationIsDynamic;
+            dumpData.variationToToggleTo = entityData.ObjectInfo.variationToToggleTo;
+            dumpData.objectType = entityData.ObjectInfo.objectType;
+            dumpData.tags = entityData.ObjectInfo.tags;
+            dumpData.rarity = entityData.ObjectInfo.rarity;
+            dumpData.isCustomScenePrefab = entityData.ObjectInfo.isCustomScenePrefab;
+            dumpData.additionalSprites = entityData.ObjectInfo.additionalSprites;
+
+            var itemAuthoring = entityData.GetComponent<InventoryItemAuthoring>();
+
+            if (itemAuthoring == null)
+            {
+                itemAuthoring = tmpGameObject.AddComponent<InventoryItemAuthoring>();
+                dumpData.components.Add(new ComponentDumpData()
+                {
+                    type = typeof(InventoryItemAuthoring).FullName,
+                    data = itemAuthoring
+                });
+
+                itemAuthoring.onlyExistsInSeason = (int)entityData.ObjectInfo.onlyExistsInSeason;
+                itemAuthoring.sellValue = entityData.ObjectInfo.sellValue;
+                itemAuthoring.buyValueMultiplier = entityData.ObjectInfo.buyValueMultiplier;
+                itemAuthoring.icon = entityData.ObjectInfo.icon;
+                itemAuthoring.iconOffset = entityData.ObjectInfo.iconOffset;
+                itemAuthoring.smallIcon = entityData.ObjectInfo.smallIcon;
+                itemAuthoring.isStackable = entityData.ObjectInfo.isStackable;
+                itemAuthoring.craftingSettings = entityData.ObjectInfo.craftingSettings;
+                itemAuthoring.requiredObjectsToCraft = entityData.ObjectInfo.requiredObjectsToCraft
+                    .Select(o => new InventoryItemAuthoring.CraftingObject()
+                    {
+                        objectID = (int)o.objectID,
+                        amount = o.amount
+                    }).ToList();
+                itemAuthoring.craftingTime = entityData.ObjectInfo.craftingTime;
+            }
+            
+            var placeableObject = entityData.GetComponent<PlaceableObjectAuthoring>();
+            if (placeableObject == null)
+            {
+                placeableObject = tmpGameObject.AddComponent<PlaceableObjectAuthoring>();
+                dumpData.components.Add(new ComponentDumpData()
+                {
+                    type = typeof(PlaceableObjectAuthoring).FullName,
+                    data = placeableObject
+                });
+            }
+
+            placeableObject.prefabTileSize = entityData.ObjectInfo.prefabTileSize;
+            placeableObject.prefabCornerOffset = entityData.ObjectInfo.prefabCornerOffset;
+        }
+
         private string GetObjectType(ObjectType objectType)
         {
             switch (objectType)

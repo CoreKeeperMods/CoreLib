@@ -91,8 +91,17 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                         
                         if (component is IHasDefaultValue hasDefaultValue)
                             hasDefaultValue.InitDefaultValues();
+
+                        if (node.TryGetProperty("$data", out var dataElement) &&
+                            dataElement.TokenType == JsonTokenType.StartObject)
+                        {
+                            JsonLoaderModule.PopulateObject(type, component, dataElement);
+                        }
+                        else
+                        {
+                            JsonLoaderModule.PopulateObject(type, component, node);
+                        }
                         
-                        JsonLoaderModule.PopulateObject(type, component, node);
                         JsonLoaderModule.FillArrays(type, component);
                     }
                 }
