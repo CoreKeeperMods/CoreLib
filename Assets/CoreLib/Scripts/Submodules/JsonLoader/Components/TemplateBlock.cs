@@ -17,6 +17,8 @@ namespace CoreLib.Submodules.JsonLoader.Components
         
         public GameObject lightGO;
         public Transform SRPivot;
+        
+        private int InteractHandler => world.EntityManager.GetComponentData<TemplateBlockCD>(entity).interactHandlerId;
 
         public override void OnOccupied()
         {
@@ -61,11 +63,12 @@ namespace CoreLib.Submodules.JsonLoader.Components
                 optionalLightOptimizer.lightToOptimize.color = templateBlockCd.lightColor;
             }
 
-            if (templateBlockCd.interactionId >= 0)
+            if (templateBlockCd.interactHandlerId > 0)
             {
                 interactable.gameObject.SetActive(true);
                 interactable.optionalOutlineController.gameObject.SetActive(true);
                 interactable.additionalOutlineControllers[0].gameObject.SetActive(true);
+                interactable.radius = templateBlockCd.interactRadius;
             }
             else
             {
@@ -89,12 +92,24 @@ namespace CoreLib.Submodules.JsonLoader.Components
 
         public void OnUse()
         {
-            TemplateBlockCD templateBlockCd = world.EntityManager.GetComponentData<TemplateBlockCD>(entity);
-
             try
             {
-                //IInteractionHandler handler = JsonLoaderModule.GetInteractionHandler<IInteractionHandler>(templateBlockCd.interactionId);
-                //handler.OnInteraction(this);
+                IInteractionHandler handler = JsonLoaderModule.GetInteractionHandler<IInteractionHandler>(InteractHandler);
+                handler?.OnInteract(this);
+            }
+            catch (Exception e)
+            {
+                string stringId = EntityModule.GetObjectStringId(objectInfo.objectID);
+                CoreLibMod.Log.LogWarning($"Exception while executing object {stringId} interaction handler:\n{e}");
+            }
+        }
+
+        public void OnEnter()
+        {
+            try
+            {
+                IInteractionHandler handler = JsonLoaderModule.GetInteractionHandler<IInteractionHandler>(InteractHandler);
+                handler?.OnEnter(this);
             }
             catch (Exception e)
             {
@@ -103,5 +118,18 @@ namespace CoreLib.Submodules.JsonLoader.Components
             }
         }
         
+        public void OnExit()
+        {
+            try
+            {
+                IInteractionHandler handler = JsonLoaderModule.GetInteractionHandler<IInteractionHandler>(InteractHandler);
+                handler?.OnExit(this);
+            }
+            catch (Exception e)
+            {
+                string stringId = EntityModule.GetObjectStringId(objectInfo.objectID);
+                CoreLibMod.Log.LogWarning($"Exception while executing object {stringId} interaction handler:\n{e}");
+            }
+        }
     }
 }

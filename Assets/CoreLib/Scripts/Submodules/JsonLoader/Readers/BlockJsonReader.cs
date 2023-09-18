@@ -26,7 +26,6 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             if (blockCdAuthoring == null)
                 throw new InvalidOperationException($"Missing required component '{typeof(TemplateBlockCDAuthoring).FullName}'");
             
-            blockCdAuthoring.PostInit();
             var placeableAuthoring = objectAuthoring.GetComponent<PlaceableObjectAuthoring>();
             
             Vector2 colliderSize = placeableAuthoring.prefabTileSize;

@@ -17,10 +17,11 @@ namespace CoreLib.Submodules.JsonLoader.Components
         public float3 horizontalSpriteOffset;
         public float3 shadowOffset;
         public float3 prefabOffset;
-        public int interactionId;
+        public int interactHandlerId;
+        public float interactRadius;
     }
     
-    public class TemplateBlockCDAuthoring : ModCDAuthoringBase
+    public class TemplateBlockCDAuthoring : ModCDAuthoringBase, IHasDefaultValue
     {
         public Sprite verticalSprite;
         public Sprite horizontalSprite;
@@ -33,9 +34,7 @@ namespace CoreLib.Submodules.JsonLoader.Components
         public float3 shadowOffset;
         public float3 prefabOffset;
         public string interactHandler;
-
-        [NonSerialized]
-        internal int interactMethodIndex;
+        public float interactRadius;
 
         public void InitDefaultValues()
         {
@@ -43,23 +42,20 @@ namespace CoreLib.Submodules.JsonLoader.Components
             horizontalSpriteOffset = new float3(0, 0.1f, 0.5f);
             prefabOffset = new float3(0, 0, -0.5f);
             shadowOffset = new float3(0, 0.0625f, 0.4375f);
-            interactMethodIndex = -1;
-        }
-
-        public void PostInit()
-        {
-            //if (!string.IsNullOrEmpty(interactHandler))
-            //    interactMethodIndex = JsonLoaderModule.RegisterInteractHandler(interactHandler);
+            interactRadius = 1.3f;
         }
 
         public override bool Apply(MonoBehaviour data)
         {
-            List<Sprite> sprites = new List<Sprite>(5);
-            sprites.Add(verticalSprite);
-            sprites.Add(verticalEmissiveSprite);
-            sprites.Add(horizontalSprite);
-            sprites.Add(horizontalEmissiveSprite);
-            sprites.Add(shadowSprite);
+            List<Sprite> sprites = new List<Sprite>(5)
+            {
+                verticalSprite,
+                verticalEmissiveSprite,
+                horizontalSprite,
+                horizontalEmissiveSprite,
+                shadowSprite
+            };
+            
             if (data is EntityMonoBehaviourData oldData)
                 oldData.objectInfo.additionalSprites = sprites;
             else if (data is ObjectAuthoring newData)
@@ -80,7 +76,8 @@ namespace CoreLib.Submodules.JsonLoader.Components
                 horizontalSpriteOffset = authoring.horizontalSpriteOffset,
                 shadowOffset = authoring.shadowOffset,
                 prefabOffset = authoring.prefabOffset,
-                interactionId = authoring.interactMethodIndex,
+                interactHandlerId = JsonLoaderModule.GetInteractHandlerId(authoring.interactHandler),
+                interactRadius = authoring.interactRadius
             });
         }
     }

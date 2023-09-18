@@ -121,42 +121,14 @@ namespace CoreLib.Submodules.JsonLoader
             }
         }
 
-        public static int RegisterInteractHandler(string handlerType)
+        public static void RegisterInteractHandler<T>()
+            where T : IInteractionHandler, new()
         {
-            //TODO this needs to be reimplemented
-            /*if (context.callingAssembly == null)
-            {
-                CoreLibMod.Log.LogError("Failed to register interaction handler. Context assembly is null");
-                return 0;
-            }
-
-            Type type = context.callingAssembly.GetType(handlerType);
-            if (type == null)
-            {
-                CoreLibMod.Log.LogError($"Failed to register interaction handler. Type '{handlerType}' not found!");
-                return 0;
-            }
-
-            if (!typeof(IInteractionHandler).IsAssignableFrom(type) &&
-                !typeof(ITriggerListener).IsAssignableFrom(type))
-            {
-                CoreLibMod.Log.LogError(
-                    $"Failed to register interaction handler. Type {handlerType} does not implement '{nameof(IInteractionHandler)}' or '{nameof(ITriggerListener)}'!");
-                return 0;
-            }
-
-            int existingMethod = interactionHandlers.FindIndex(info => info != null && info.GetType() == type);
-
-            if (existingMethod > 0)
-            {
-                return existingMethod;
-            }
-
-            CoreLibMod.Log.LogDebug($"Registering {handlerType} as object interact handler!");
-            int index = interactionHandlers.Count;
-            interactionHandlers.Add(Activator.CreateInstance(type));
-            return index;*/
-            return 0;
+            int existingMethod = interactionHandlers.FindIndex(info => info != null && info.GetType() == typeof(T));
+            if (existingMethod > 0) return;
+            
+            CoreLibMod.Log.LogDebug($"Registering {typeof(T)} as object interact handler!");
+            interactionHandlers.Add(new T());
         }
 
         public static Type TypeByName(string name)
@@ -266,11 +238,13 @@ namespace CoreLib.Submodules.JsonLoader
 
         internal static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
         internal static Dictionary<string, string> modFolders = new Dictionary<string, string>();
-        internal static List<object> interactionHandlers = new List<object>(10);
+        internal static List<IInteractionHandler> interactionHandlers = new List<IInteractionHandler>();
         internal static List<ModifyFile> entityModificationFiles = new List<ModifyFile>();
 
         private static List<string> postApplyFiles = new List<string>();
         private static Dictionary<ObjectID, ModifyFile> entityModificationFileCache = new Dictionary<ObjectID, ModifyFile>();
+        
+        
 
         #region Init
 
@@ -444,12 +418,25 @@ namespace CoreLib.Submodules.JsonLoader
         internal static T GetInteractionHandler<T>(int index)
             where T : class
         {
-            if (index <= 0)
-            {
-                throw new InvalidOperationException("Interaction handler is not valid!");
-            }
+            if (index <= 0) return null;
 
             return interactionHandlers[index] as T;
+        }
+        
+        internal static int GetInteractHandlerId(string typeName)
+        {
+            int existingMethod = interactionHandlers.FindIndex(info =>
+            {
+                return info != null && 
+                       info.GetType().FullName.Equals(typeName, StringComparison.InvariantCultureIgnoreCase);
+            });
+            
+            if (existingMethod > 0)
+            {
+                return existingMethod;
+            }
+
+            return 0;
         }
 
         private static void RegisterJsonReadersInType_Internal(Type type)
