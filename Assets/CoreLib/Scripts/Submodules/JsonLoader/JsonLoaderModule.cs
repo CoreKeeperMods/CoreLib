@@ -11,6 +11,7 @@ using CoreLib.Submodules.JsonLoader.Readers;
 using CoreLib.Util.Extensions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using CoreLib.Submodules.JsonLoader.Patch;
 using CoreLib.Submodules.Localization;
 using JetBrains.Annotations;
 using PugMod;
@@ -283,6 +284,11 @@ namespace CoreLib.Submodules.JsonLoader
             }
 
             return Array.Empty<Type>();
+        }
+
+        internal override void SetHooks()
+        {
+            CoreLibMod.harmony.PatchAll(typeof(MemoryManager_Patch_2));
         }
 
         internal override void Load()

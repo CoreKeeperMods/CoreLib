@@ -2,7 +2,7 @@
 
 namespace CoreLib.Submodules.JsonLoader.Patch
 {
-    public class MemoryManager_Patch
+    public class MemoryManager_Patch_2
     {
         [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init))]
         [HarmonyPrefix]

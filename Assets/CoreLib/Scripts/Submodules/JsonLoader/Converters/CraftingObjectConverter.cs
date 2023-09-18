@@ -14,7 +14,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                 JsonElement element = JsonDocument.ParseValue(ref reader).RootElement;
                 return new InventoryItemAuthoring.CraftingObject()
                 {
-                    objectID = (int)element.GetProperty("objectID").Deserialize<ObjectID>(),
+                    objectID = (int)element.GetProperty("objectID").Deserialize<ObjectID>(options),
                     amount = element.GetProperty("amount").GetInt32(),
                 };
             }

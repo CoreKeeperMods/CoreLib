@@ -36,7 +36,7 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                 JsonElement element = JsonDocument.ParseValue(ref reader).RootElement;
                 return new CraftingAuthoring.CraftableObject()
                 {
-                    objectID = element.GetProperty("objectID").Deserialize<ObjectID>(),
+                    objectID = element.GetProperty("objectID").Deserialize<ObjectID>(options),
                     amount = element.GetProperty("amount").GetInt32(),
                     craftingConsumesEntityAmount = element.GetProperty("craftingConsumesEntityAmount").GetBoolean(),
                     entityAmountToConsume = element.GetProperty("entityAmountToConsume").GetInt32()
