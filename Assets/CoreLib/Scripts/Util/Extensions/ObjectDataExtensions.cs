@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PugMod;
+using UnityEngine;
 
 namespace CoreLib.Util.Extensions
 {
@@ -42,7 +43,7 @@ namespace CoreLib.Util.Extensions
             }
             if (objectAuthoring != null)
             {
-                return (ObjectID)objectAuthoring.objectID;
+                return API.Authoring.GetObjectID(objectAuthoring.objectName);
             }
 
             return 0;

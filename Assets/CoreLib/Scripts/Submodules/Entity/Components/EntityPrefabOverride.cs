@@ -17,7 +17,7 @@ namespace CoreLib.Submodules.ModEntity.Components
             }else if (PrefabCrawler.entityPrefabs.ContainsKey(entityId) &&
                       data is ObjectAuthoring objectAuthoring)
             {
-                CoreLibMod.Log.LogInfo($"Overriding prefab for {objectAuthoring.objectID.ToString()} to {entityId.ToString()} prefab!");
+                CoreLibMod.Log.LogInfo($"Overriding prefab for {objectAuthoring.objectName} to {entityId.ToString()} prefab!");
                 objectAuthoring.graphicalPrefab = PrefabCrawler.entityPrefabs[entityId];
                 Destroy(this);
             }

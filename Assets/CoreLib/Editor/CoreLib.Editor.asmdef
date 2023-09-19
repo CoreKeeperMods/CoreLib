@@ -10,7 +10,9 @@
         "Unity.Core.Editor",
         "Unity.RenderPipelines.Universal.Runtime",
         "CoreLib",
-        "Unity.EditorCoroutines.Editor"
+        "Unity.EditorCoroutines.Editor",
+        "ModSDK.Editor",
+        "PugMod.SDK"
     ],
     "includePlatforms": [
         "Editor"

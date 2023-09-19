@@ -37,7 +37,9 @@ namespace CoreLib
                 return;
             }
 
-            BurstRuntime.LoadAdditionalLibrary(Path.Combine(coreLibMod.Directory, "CoreLib_burst_generated.dll"));
+            string directory = API.ModLoader.GetDirectory(coreLibMod.ModId);
+            
+            BurstRuntime.LoadAdditionalLibrary(Path.Combine(directory, "CoreLib_burst_generated.dll"));
             JobEarlyInitHelper.PerformJobEarlyInit(Assembly.GetExecutingAssembly());
             
             harmony = new Harmony(ID);

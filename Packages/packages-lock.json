@@ -21,11 +21,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.assetbundlebrowser": {
-      "version": "https://github.com/Unity-Technologies/AssetBundles-Browser.git",
+      "version": "1.7.0",
       "depth": 0,
-      "source": "git",
+      "source": "registry",
       "dependencies": {},
-      "hash": "ad2a81ec3068eafd48753df1825a8dd7201ce60c"
+      "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
       "version": "1.7.3",

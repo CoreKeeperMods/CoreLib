@@ -30,7 +30,7 @@ namespace CoreLib.Editor
             objectAuthoring = entityData.GameObject.AddComponent<ObjectAuthoring>();
             var itemAuthoring = entityData.GameObject.AddComponent<InventoryItemAuthoring>();
 
-            objectAuthoring.objectID = (int)entityData.objectInfo.objectID;
+            objectAuthoring.objectName = entityData.objectInfo.objectID.ToString();
             objectAuthoring.initialAmount = entityData.objectInfo.initialAmount;
             objectAuthoring.variation = entityData.objectInfo.variation;
             objectAuthoring.variationIsDynamic = entityData.objectInfo.variationIsDynamic;
@@ -54,11 +54,10 @@ namespace CoreLib.Editor
             itemAuthoring.iconOffset = entityData.objectInfo.iconOffset;
             itemAuthoring.smallIcon = entityData.objectInfo.smallIcon;
             itemAuthoring.isStackable = entityData.objectInfo.isStackable;
-            itemAuthoring.craftingSettings = entityData.objectInfo.craftingSettings;
             itemAuthoring.requiredObjectsToCraft = entityData.objectInfo.requiredObjectsToCraft
                 .Select(item => new InventoryItemAuthoring.CraftingObject()
                 {
-                    objectID = (int)item.objectID,
+                    objectName = item.objectID.ToString(),
                     amount = item.amount
                 }).ToList();
             itemAuthoring.craftingTime = entityData.objectInfo.craftingTime;

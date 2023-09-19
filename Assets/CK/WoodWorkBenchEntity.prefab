@@ -1,46 +1,43 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1779668189522198
+--- !u!1 &1443115304598739
 GameObject:
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
   m_Component:
-  - component: {fileID: 4246525439771981}
-  - component: {fileID: 7122531607901913587}
-  - component: {fileID: 8965365665492073857}
-  - component: {fileID: 4308706192904822958}
-  - component: {fileID: 114396391988895895}
-  - component: {fileID: 114319276868496248}
-  - component: {fileID: 114824835375541792}
-  - component: {fileID: 114978018213277848}
-  - component: {fileID: 114034721442785089}
-  - component: {fileID: 114147632245008397}
-  - component: {fileID: 114577291948304388}
-  - component: {fileID: 114744703120429938}
-  - component: {fileID: 114404191813998439}
-  - component: {fileID: 6266910433821575672}
-  - component: {fileID: 3962886950420039620}
-  - component: {fileID: 8571973730515583902}
-  - component: {fileID: 6474434745783719307}
-  - component: {fileID: 7748293547601496477}
-  - component: {fileID: 7005205680907690483}
+  - component: {fileID: 4994588351617047}
+  - component: {fileID: 114734527519660416}
+  - component: {fileID: 114660849615632727}
+  - component: {fileID: 114136307297479609}
+  - component: {fileID: 114148078896938000}
+  - component: {fileID: 114111064662853494}
+  - component: {fileID: 114108464548204474}
+  - component: {fileID: 114964126360797741}
+  - component: {fileID: 114959937988257140}
+  - component: {fileID: 114347364966182629}
+  - component: {fileID: 114250206171558101}
+  - component: {fileID: 114474019740783689}
+  - component: {fileID: 114443666282966838}
+  - component: {fileID: 114261351797834390}
+  - component: {fileID: 114123304308332499}
+  - component: {fileID: 114736024573711372}
   m_Layer: 0
-  m_Name: TemplateWorkbench
+  m_Name: WoodWorkBenchEntity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4246525439771981
+--- !u!4 &4994588351617047
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -49,81 +46,69 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
---- !u!114 &7122531607901913587
+--- !u!114 &114734527519660416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 318086258, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectID: 4003
-  initialAmount: 1
-  variation: 0
-  variationIsDynamic: 0
-  variationToToggleTo: 0
-  objectType: 800
-  tags: 
-  rarity: 0
-  graphicalPrefab: {fileID: 0}
-  isCustomScenePrefab: 0
-  additionalSprites: []
---- !u!114 &8965365665492073857
+  m_Script: {fileID: 1814889704, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  objectInfo:
+    objectID: 4003
+    initialAmount: 1
+    variation: 0
+    variationIsDynamic: 0
+    variationToToggleTo: 0
+    objectType: 800
+    tags:
+    rarity: 0
+    level: 0
+    onlyExistsInSeason: 0
+    sellValue: -1
+    buyValueMultiplier: 1
+    icon: {fileID: 21300000, guid: d7d87e03bc3e6694d9f720e7455e59f6, type: 2}
+    iconOffset: {x: 0, y: 0}
+    iconSkinAsset: {fileID: 0}
+    smallIcon: {fileID: 21300000, guid: c181500aa3b46b2408cf7bc6b700734c, type: 2}
+    isStackable: 1
+    prefabTileSize: {x: 1, y: 1}
+    prefabCornerOffset: {x: 0, y: 0}
+    centerIsAtEntityPosition: 0
+    additionalSprites: []
+    tileset: 0
+    tileType: 0
+    prefabInfos:
+    - prefab: {fileID: 114003263644093787, guid: 510ce0d6ea8815b41af9374a7d6f0eff, type: 2}
+      ecsPrefab: {fileID: 1443115304598739}
+    craftingSettings:
+      canOnlyUseAnyMaterialsWithTag: 0
+      iconType: 0
+    requiredObjectsToCraft:
+    - objectID: 1610
+      amount: 8
+    craftingTime: 2
+    appearInMapUI: 0
+    mapColor: {r: 0, g: 0, b: 0, a: 0}
+    isCustomScenePrefab: 0
+    languageGenders: []
+  optionalPreviewPrefab: {fileID: 0}
+--- !u!114 &114660849615632727
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 244469479, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onlyExistsInSeason: 0
-  sellValue: -1
-  buyValueMultiplier: 1
-  icon: {fileID: 6052145283139932220, guid: ab77b76a069f0694daa74862dbbf932f, type: 3}
-  iconOffset: {x: 0, y: 0}
-  smallIcon: {fileID: 4889364612262949874, guid: ab77b76a069f0694daa74862dbbf932f,
-    type: 3}
-  isStackable: 1
-  craftingSettings:
-    canOnlyUseAnyMaterialsWithTag: 0
-    iconType: 0
-  requiredObjectsToCraft:
-  - objectID: 1610
-    amount: 8
-  craftingTime: 1
---- !u!114 &4308706192904822958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fd2a8feb4dc8a5499a71f058d5ae49d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sourceEntity: 4003
---- !u!114 &114396391988895895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_ShapeType: 0
   m_PrimitiveCenter:
     x: 0
@@ -255,18 +240,18 @@ MonoBehaviour:
         Tag07: 0
     m_SerializedVersion: 1
   m_SerializedVersion: 1
---- !u!114 &114319276868496248
+--- !u!114 &114136307297479609
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 863540370, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   sizeX: 0
   sizeY: 0
   maxExtraSize: 0
@@ -276,31 +261,119 @@ MonoBehaviour:
   slotRequirements: []
   itemsInInventory: []
   addLootFromTable: 0
---- !u!114 &114824835375541792
+--- !u!114 &114148078896938000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1018308397, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  craftingType: 0
+  showLoopEffectOnOutputSlot: 0
+  canCraftObjects:
+  - objectID: 8909
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 13
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 8501
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 8601
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 8701
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4004
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4013
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4025
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 1301
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4043
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 0
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 320
+    amount: 2
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4700
+    amount: 2
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4770
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4703
+    amount: 2
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4702
+    amount: 2
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  - objectID: 4701
+    amount: 1
+    craftingConsumesEntityAmount: 0
+    entityAmountToConsume: 0
+  includeCraftedObjectsFromBuildings: []
+--- !u!114 &114111064662853494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 793611198, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   canBeHitAtSameTimeAsEnemy: 0
---- !u!114 &114978018213277848
+--- !u!114 &114108464548204474
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1594252633, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   dontCalculateHealthFromLevel: 0
   overrideStartHealth: 0
   normalizedOverrideStartHealth: 1
@@ -308,18 +381,18 @@ MonoBehaviour:
   maxHealth: 2
   maxHealthMultiplier: 1
   isBoss: 0
---- !u!114 &114034721442785089
+--- !u!114 &114964126360797741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1739311503, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   prefabTileSize: {x: 1, y: 1}
   prefabCornerOffset: {x: 0, y: 0}
   centerIsAtEntityPosition: 0
@@ -331,169 +404,145 @@ MonoBehaviour:
   canBePlacedOnPit: 0
   canBePlacedOnBlockingObjects: 0
   dontDestroyObjectIfInvalidPlacement: 0
-  canBePlacedOnObjects: 
-  canNotBePlacedOnObjects: 
+  canBePlacedOnObjects:
+  canNotBePlacedOnObjects:
   hasVariationsThatCanBePlacedOnWalls: 0
   canPlaceOnSideOfWall: 0
   wallSideVariationStartsOnIndex1: 0
   blocksHangingWallObjects: 0
   appearInMapUI: 0
   mapColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &114147632245008397
+--- !u!114 &114959937988257140
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 775935493, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   animID: 0
   triggerCount: 0
---- !u!114 &114577291948304388
+--- !u!114 &114347364966182629
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c79d771cedb4794bf100ce60df5f764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   DefaultGhostMode: 0
   SupportedGhostModes: 3
   OptimizationMode: 1
   Importance: 1
-  prefabId: 3e61e50e48b25124b896bf335716fa57
+  prefabId: c9704eda22d8b8244a13f8d52190e19f
   Name: WoodenWorkBench0
   HasOwner: 0
   SupportAutoCommandTarget: 0
   UsePreSerialization: 0
   RefGameObjects: []
-  RefGuids: 
+  RefGuids:
   ComponentNames: []
   PrefabTypeOverrides: []
   SendTypeOverrides: []
   VariantOverrides: []
   SendForChild: []
---- !u!114 &114744703120429938
+--- !u!114 &114250206171558101
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1798704345, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: -1880593741, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
   currentState: 0
   newState: 0
   locked: 0
---- !u!114 &114404191813998439
+--- !u!114 &114474019740783689
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1029918251, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healInCombatAsWell: 0
-  healDirectlyWhenLeavingCombat: 0
-  healthPercentagePerFifthSecond: 100
---- !u!114 &6266910433821575672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1089278989, guid: f82af41547c04984b9d9f524e1859828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 1116757471, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
   duration: 0
---- !u!114 &3962886950420039620
+--- !u!114 &114443666282966838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 282287656, guid: f82af41547c04984b9d9f524e1859828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   timeBeforeLootDrop: 0
   skipDeathAnimation: 0
---- !u!114 &8571973730515583902
+--- !u!114 &114261351797834390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -818048808, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   calculateReductionFromLevel: 0
   reductionMultiplier: 1
   reduction: 0
   maxDamagePerHit: 1
   minDamagePerHit: 0
---- !u!114 &6474434745783719307
+--- !u!114 &114123304308332499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
+  m_GameObject: {fileID: 1443115304598739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1029918251, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  healInCombatAsWell: 0
+  healDirectlyWhenLeavingCombat: 0
+  healthPercentagePerFifthSecond: 100
+--- !u!114 &114736024573711372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443115304598739}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 74837128, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   initialDirection:
     x: 0
     y: 0
     z: -1
   rotatePhysics: 0
   rotationIconOffset: 0
---- !u!114 &7748293547601496477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 178800199, guid: f82af41547c04984b9d9f524e1859828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7005205680907690483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779668189522198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 83705680, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

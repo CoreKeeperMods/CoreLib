@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreLib.Submodules.ModEntity;
+using PugMod;
 using UnityEngine;
 
 namespace CoreLib.Submodules.JsonLoader.Components
@@ -99,7 +100,7 @@ namespace CoreLib.Submodules.JsonLoader.Components
             }
             catch (Exception e)
             {
-                string stringId = EntityModule.GetObjectStringId(objectInfo.objectID);
+                string stringId = API.Authoring.ObjectProperties.GetPropertyString(objectInfo.objectID, "name");
                 CoreLibMod.Log.LogWarning($"Exception while executing object {stringId} interaction handler:\n{e}");
             }
         }
@@ -113,7 +114,7 @@ namespace CoreLib.Submodules.JsonLoader.Components
             }
             catch (Exception e)
             {
-                string stringId = EntityModule.GetObjectStringId(objectInfo.objectID);
+                string stringId = API.Authoring.ObjectProperties.GetPropertyString(objectInfo.objectID, "name");
                 CoreLibMod.Log.LogWarning($"Exception while executing object {stringId} interaction handler:\n{e}");
             }
         }
@@ -127,7 +128,7 @@ namespace CoreLib.Submodules.JsonLoader.Components
             }
             catch (Exception e)
             {
-                string stringId = EntityModule.GetObjectStringId(objectInfo.objectID);
+                string stringId = API.Authoring.ObjectProperties.GetPropertyString(objectInfo.objectID, "name");
                 CoreLibMod.Log.LogWarning($"Exception while executing object {stringId} interaction handler:\n{e}");
             }
         }

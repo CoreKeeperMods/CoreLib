@@ -19,8 +19,8 @@ namespace CoreLib.Submodules.ModEntity
         
         [FormerlySerializedAs("requiredObjectsToCraft")] 
         public List<InventoryItemAuthoring.CraftingObject> recipe;
-
-        public List<CraftingAuthoring.CraftableObject> canCraft;
+        
+        public List<InventoryItemAuthoring.CraftingObject> canCraft;
         public List<string> relatedWorkbenches;
     }
 }

@@ -49,7 +49,8 @@ namespace CoreLib.Submodules.JsonLoader
         public static void LoadMod(IMod mod)
         {
             var modInfo = mod.GetModInfo();
-            LoadFolder(modInfo.Metadata.name, modInfo.Directory);
+            string directory = API.ModLoader.GetDirectory(modInfo.ModId);
+            LoadFolder(modInfo.Metadata.name, directory);
         }
 
         public static void LoadFolder(string modGuid, string path)
@@ -286,7 +287,6 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new RectConverter());
             options.Converters.Add(new Texture2DConverter());
             options.Converters.Add(new LootTableIDConverter());
-            options.Converters.Add(new CraftingObjectConverter());
             options.Converters.Add(new CraftableObjectConverter());
 
             // dummy converters

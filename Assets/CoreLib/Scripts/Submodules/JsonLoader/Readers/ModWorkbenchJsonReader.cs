@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
 using CoreLib.Submodules.ModEntity;
+using CoreLib.Submodules.ModEntity.Components;
 using CoreLib.Util.Extensions;
 using UnityEngine;
 
@@ -15,32 +16,17 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             JsonLoaderModule.PopulateObject(workbenchDefinition, jObject);
             JsonLoaderModule.FillArrays(workbenchDefinition);
 
-            ObjectID objectID = EntityModule.AddModWorkbench(workbenchDefinition);
+            EntityModule.AddModWorkbench(workbenchDefinition);
             
-            ItemJsonReader.ReadLocalization(jObject, objectID);
+            if (EntityModule.GetMainEntity(workbenchDefinition.itemId, out ObjectAuthoring entity))
+            {
+                ItemJsonReader.ReadLocalization(jObject, entity.gameObject, workbenchDefinition.itemId);
+            }
         }
 
         public void ApplyPost(JsonElement jObject, FileContext context)
         {
             ItemJsonReader.ReadRecipes(jObject);
-            string itemId = jObject.GetProperty("itemId").GetString();
-            ObjectID objectID = EntityModule.GetObjectId(itemId);
-
-            List<CraftingAuthoring.CraftableObject> canCraft = jObject.GetProperty("canCraft").Deserialize<List<CraftingAuthoring.CraftableObject>>(JsonLoaderModule.options);
-            
-            if (EntityModule.GetMainEntity(objectID, out var entity))
-            {
-                CraftingAuthoring craftingCdAuthoring = entity.gameObject.GetComponent<CraftingAuthoring>();
-                
-                foreach (CraftingAuthoring.CraftableObject recipe in canCraft)
-                {
-                    if (craftingCdAuthoring.canCraftObjects.Count < 18)
-                    {
-                        craftingCdAuthoring.canCraftObjects.Add(recipe);
-                        return;
-                    }
-                }
-            }
         }
     }
 }

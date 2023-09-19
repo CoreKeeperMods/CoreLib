@@ -46,9 +46,10 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                 BevelRadius = 0
             });
             
-            ObjectID objectID = EntityModule.AddEntity(itemId, objectAuthoring);
+            ReadLocalization(jObject, objectAuthoring.gameObject, itemId);
+            
+            EntityModule.AddEntity(itemId, objectAuthoring);
 
-            ReadLocalization(jObject, objectID);
         }
     }
 }

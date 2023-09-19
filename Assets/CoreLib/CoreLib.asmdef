@@ -45,7 +45,9 @@
         "Sentry.System.Text.Json.dll",
         "Sentry.System.Buffers.dll",
         "Sentry.System.Memory.dll",
-        "QFSW.QC.dll"
+        "QFSW.QC.dll",
+        "PugMod.SDK.Runtime.dll",
+        "PugProperties.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

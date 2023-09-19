@@ -20,8 +20,12 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                 paths.AddRange(prefabsElement.Deserialize<List<string>>(JsonLoaderModule.options));
             }
 
-            ObjectID objectID = EntityModule.AddEntityWithVariations(itemId, paths.ToArray());
-            ItemJsonReader.ReadLocalization(jObject, objectID);
+            EntityModule.AddEntityWithVariations(itemId, paths.ToArray());
+
+            if (EntityModule.GetMainEntity(itemId, out ObjectAuthoring entity))
+            {
+                ItemJsonReader.ReadLocalization(jObject, entity.gameObject, itemId);
+            }
         }
 
         public void ApplyPost(JsonElement jObject, FileContext context)

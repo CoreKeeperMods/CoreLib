@@ -23,7 +23,6 @@ namespace CoreLib.Submodules.ModEntity
             foreach (MonoBehaviour entity in prefabList)
             {
                 var entityMonoBehaviorData = entity.GetComponent<EntityMonoBehaviourData>();
-                var objectAuthoring = entity.GetComponent<ObjectAuthoring>();
                 
                 if (entityMonoBehaviorData != null)
                 {
@@ -34,14 +33,6 @@ namespace CoreLib.Submodules.ModEntity
                             info.prefab == null) continue;
                         
                         entityPrefabs.Add(entityMonoBehaviorData.ObjectInfo.objectID, info.prefab.gameObject);
-                    }
-                }
-                if (objectAuthoring != null)
-                {
-                    if (!entityPrefabs.ContainsKey((ObjectID)objectAuthoring.objectID))
-                    {
-                        if (objectAuthoring.graphicalPrefab == null) continue;
-                        entityPrefabs.Add((ObjectID)objectAuthoring.objectID, objectAuthoring.graphicalPrefab);
                     }
                 }
             }

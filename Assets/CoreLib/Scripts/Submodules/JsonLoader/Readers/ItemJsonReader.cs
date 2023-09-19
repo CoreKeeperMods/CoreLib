@@ -43,10 +43,10 @@ namespace CoreLib.Submodules.JsonLoader.Readers
 
             ReadObjectInfo(jObject, objectAuthoring);
             ReadComponents(jObject, go);
-
-            ObjectID objectID = EntityModule.AddEntity(itemId, objectAuthoring);
-
-            ReadLocalization(jObject, objectID);
+            
+            ReadLocalization(jObject, go, itemId);
+            
+            EntityModule.AddEntity(itemId, objectAuthoring);
         }
         
         public virtual void ApplyPost(JsonElement jObject, FileContext context)
@@ -57,9 +57,8 @@ namespace CoreLib.Submodules.JsonLoader.Readers
         public static void ReadRecipes(JsonElement jObject)
         {
             string itemId = jObject.GetProperty("itemId").GetString();
-            ObjectID objectID = EntityModule.GetObjectId(itemId);
-
-            if (EntityModule.GetMainEntity(objectID, out ObjectAuthoring entity))
+            
+            if (EntityModule.GetMainEntity(itemId, out ObjectAuthoring entity))
             {
                 InventoryItemAuthoring itemAuthoring = entity.GetComponent<InventoryItemAuthoring>();
                 if (jObject.TryGetProperty("requiredObjectsToCraft", out var itemsElement))
@@ -128,10 +127,8 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             JsonLoaderModule.FillArrays(placeablePrefab);
         }
 
-        public static void ReadLocalization(JsonElement jObject, ObjectID objectID)
+        public static void ReadLocalization(JsonElement jObject, GameObject entity, string itemId)
         {
-            if (objectID == ObjectID.None) return;
-            
             void ApplyLocalization(string term, string valueKey)
             {
                 if (!jObject.TryGetProperty(valueKey, out var textData)) return;
@@ -148,8 +145,11 @@ namespace CoreLib.Submodules.JsonLoader.Readers
                 }
             }
             
-            ApplyLocalization($"Items/{objectID}", "localizedName");
-            ApplyLocalization($"Items/{objectID}Desc", "localizedDescription");
+            var localization = entity.AddComponent<LocalizationAuthoring>();
+            localization.termKey = $"Items/{itemId}";
+            
+            ApplyLocalization(localization.termKey, "localizedName");
+            ApplyLocalization($"{localization.termKey}Desc", "localizedDescription");
         }
     }
 }

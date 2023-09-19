@@ -9,6 +9,7 @@ using CoreLib.Submodules.ChatCommands.Communication;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
+using PugMod;
 using Unity.Entities;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -220,11 +221,10 @@ namespace CoreLib.Submodules.JsonLoader
                 itemAuthoring.iconOffset = entityData.ObjectInfo.iconOffset;
                 itemAuthoring.smallIcon = entityData.ObjectInfo.smallIcon;
                 itemAuthoring.isStackable = entityData.ObjectInfo.isStackable;
-                itemAuthoring.craftingSettings = entityData.ObjectInfo.craftingSettings;
                 itemAuthoring.requiredObjectsToCraft = entityData.ObjectInfo.requiredObjectsToCraft
                     .Select(o => new InventoryItemAuthoring.CraftingObject()
                     {
-                        objectID = (int)o.objectID,
+                        objectName = API.Authoring.ObjectProperties.GetPropertyString(o.objectID, "name"),
                         amount = o.amount
                     }).ToList();
                 itemAuthoring.craftingTime = entityData.ObjectInfo.craftingTime;

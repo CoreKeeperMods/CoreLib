@@ -66,7 +66,7 @@ namespace CoreLib.Util.Extensions
                 return objectID;
             }
 
-            return EntityModule.GetObjectId(value);
+            return API.Authoring.GetObjectID(value);
         }
         
         public static LoadedMod GetModInfo(this IMod mod)
