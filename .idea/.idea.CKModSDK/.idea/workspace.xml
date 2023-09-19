@@ -1,34 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="Update mod sdk">
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Editor/PickStringFromEnumDrawer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Editor/PickStringFromEnumDrawer.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/CraftingObjectConverter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/CraftingObjectConverter.cs.meta" afterDir="false" />
+    <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="Fix issues adding items using JSON">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/EntityMonoBehaviorDataEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Editor/EntityMonoBehaviorDataEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/SwapEntityMonoBehaviorEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Editor/SwapEntityMonoBehaviorEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateWorkbench.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateWorkbench.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/RootWorkbench.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Resources/RootWorkbench.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchDefinition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/JobEarlyInitHelper.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/JobEarlyInitHelper.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.UnityExtensions.Editor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.UnityExtensions.Editor.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Items/Crowbar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Items/Crowbar.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Items/Minecarts/ChestMinecartEntity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Items/Minecarts/ChestMinecartEntity.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Items/Minecarts/LocomotiveEntity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Items/Minecarts/LocomotiveEntity.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Items/Minecarts/ModMinecartEntity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Items/Minecarts/ModMinecartEntity.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Items/Rails/Catapult Rail Entity.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Items/Rails/Catapult Rail Entity.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Items/Rails/Powered Rail.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Items/Rails/Powered Rail.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Localization/Localization.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Localization/Localization.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/RailLogisticsMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/RailLogisticsMod.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/Minecart/MinecartMovementSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Systems/Minecart/MinecartMovementSystem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/Minecarts/UIManager_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/Minecarts/UIManager_Patch.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +17,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/RailLogistics/Items/Rails/Catapult Rail Entity.prefab" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/BurstCompatibleAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/Deprecated.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/NativeParallelHashMap.cs" root0="SKIP_HIGHLIGHTING" />
@@ -374,14 +351,7 @@
       <workItem from="1695023926905" duration="532000" />
       <workItem from="1695046237546" duration="8149000" />
       <workItem from="1695063167398" duration="2298000" />
-      <workItem from="1695107509683" duration="21112000" />
-    </task>
-    <task id="LOCAL-00004" summary="Add RailLogistics assets">
-      <created>1689854623367</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1689854623367</updated>
+      <workItem from="1695107509683" duration="21609000" />
     </task>
     <task id="LOCAL-00005" summary="Add other assets">
       <created>1689854644912</created>
@@ -719,7 +689,14 @@
       <option name="project" value="LOCAL" />
       <updated>1695123110190</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Fix issues adding items using JSON">
+      <created>1695139274197</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1695139274197</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -738,7 +715,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Refactor code" />
     <MESSAGE value="Add accelerator rails" />
     <MESSAGE value="Refactor" />
     <MESSAGE value="Replace hacks with a custom RPC" />
@@ -763,7 +739,8 @@
     <MESSAGE value="Update Interaction Handler logic" />
     <MESSAGE value="Reimplement Dump Command" />
     <MESSAGE value="Update mod sdk" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update mod sdk" />
+    <MESSAGE value="Fix issues adding items using JSON" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix issues adding items using JSON" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
