@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 318086258, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectID: 4003
+  objectName: 
   initialAmount: 1
   variation: 0
   variationIsDynamic: 0
@@ -92,11 +92,8 @@ MonoBehaviour:
   smallIcon: {fileID: 4889364612262949874, guid: ab77b76a069f0694daa74862dbbf932f,
     type: 3}
   isStackable: 1
-  craftingSettings:
-    canOnlyUseAnyMaterialsWithTag: 0
-    iconType: 0
   requiredObjectsToCraft:
-  - objectID: 1610
+  - objectName: None
     amount: 8
   craftingTime: 1
 --- !u!114 &4308706192904822958
@@ -308,6 +305,7 @@ MonoBehaviour:
   maxHealth: 2
   maxHealthMultiplier: 1
   isBoss: 0
+  level: {fileID: 0}
 --- !u!114 &114034721442785089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,8 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 775935493, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animID: 0
-  triggerCount: 0
+  orientationSupport: 0
 --- !u!114 &114577291948304388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,9 +390,6 @@ MonoBehaviour:
   m_Script: {fileID: 1798704345, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
-  newState: 0
-  locked: 0
 --- !u!114 &114404191813998439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,6 +449,7 @@ MonoBehaviour:
   reduction: 0
   maxDamagePerHit: 1
   minDamagePerHit: 0
+  level: {fileID: 0}
 --- !u!114 &6474434745783719307
 MonoBehaviour:
   m_ObjectHideFlags: 0

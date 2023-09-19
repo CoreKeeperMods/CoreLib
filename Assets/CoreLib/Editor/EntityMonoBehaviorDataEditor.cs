@@ -77,7 +77,7 @@ namespace CoreLib.Editor
 
         private static void MoveToTop(Component newComponent)
         {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 40; i++)
             {
                 bool result = UnityEditorInternal.ComponentUtility.MoveComponentUp(newComponent);
                 if (!result) break;

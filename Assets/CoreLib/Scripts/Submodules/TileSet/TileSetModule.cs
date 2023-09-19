@@ -128,6 +128,12 @@ namespace CoreLib.Submodules.TileSet
                     if (!tilesetLayers.ContainsKey(layersName))
                     {
                         tilesetLayers.Add(layersName, tileset.layers);
+
+                        if (!layersName.Equals("tileset_extras")) continue;
+                        
+                        int railLayer = tileset.layers.layers.FindIndex(generator => generator.targetTile == TileType.rail);
+                        if (railLayer > 0)
+                            tileset.layers.layers[railLayer].onlyAdaptToOwnTileset = false;
                     }
                 }
             }

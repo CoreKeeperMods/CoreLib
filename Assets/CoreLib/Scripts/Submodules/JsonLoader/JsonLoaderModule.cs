@@ -288,6 +288,7 @@ namespace CoreLib.Submodules.JsonLoader
             options.Converters.Add(new Texture2DConverter());
             options.Converters.Add(new LootTableIDConverter());
             options.Converters.Add(new CraftableObjectConverter());
+            options.Converters.Add(new CraftingObjectConverter());
 
             // dummy converters
             options.Converters.Add(new IntPtrConverter());

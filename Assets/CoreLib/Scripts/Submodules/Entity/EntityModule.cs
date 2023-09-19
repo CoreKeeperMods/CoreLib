@@ -296,7 +296,7 @@ namespace CoreLib.Submodules.ModEntity
             }
         }
 
-        /*[Command("spawn", "Spawns any object by integer ID")]
+        [Command("spawn", "Spawns any object by integer ID")]
         public void Spawn(string itemId, int amount)
         {
             PlayerController player = Manager.main.player;
@@ -305,14 +305,14 @@ namespace CoreLib.Submodules.ModEntity
                 return;
             }
 
-            var results = modEntityIDs.ModIDs.Keys.Where(id => id.Contains(itemId, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            var results = Manager.mod.Authoring.ObjectIDLookup.Keys.Where(id => id.Contains(itemId, StringComparison.InvariantCultureIgnoreCase)).ToList();
             if (results.Count > 1)
             {
                 CoreLibMod.Log.LogWarning($"Ambiguous id! Found {results.Count} matches!");
                 return;
             }
 
-            var objectID = GetObjectId(results.First());
+            var objectID = API.Authoring.GetObjectID(results.First());
             if (objectID == ObjectID.None)
             {
                 CoreLibMod.Log.LogWarning($"Unknown item: {itemId}");
@@ -326,7 +326,7 @@ namespace CoreLib.Submodules.ModEntity
                 Vector3 b = new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 0f, UnityEngine.Random.Range(-0.5f, 0.5f));
                 player.playerCommandSystem.CreateAndDropEntity(objectID, player.transform.position + b, amount, player.entity, 0);
             }
-        }*/
+        }
 
         #endregion
 
@@ -340,12 +340,23 @@ namespace CoreLib.Submodules.ModEntity
                 var lastRootWorkbenchId = API.Authoring.GetObjectID(rootWorkbenchesChain.Last().objectName);
 
                 var canCraftBuffer = entityManager.GetBuffer<CanCraftObjectsBuffer>(entity);
-                canCraftBuffer.Add(new CanCraftObjectsBuffer
+                var lastItem = canCraftBuffer[^1];
+
+                if (lastItem.objectID == ObjectID.None)
                 {
-                    objectID = (ObjectID)lastRootWorkbenchId,
-                    amount = 1,
-                    entityAmountToConsume = 0
-                });
+                    lastItem.objectID = lastRootWorkbenchId;
+                    lastItem.amount = 1;
+                    canCraftBuffer[^1] = lastItem;
+                }
+                else
+                {
+                    canCraftBuffer.Add(new CanCraftObjectsBuffer
+                    {
+                        objectID = lastRootWorkbenchId,
+                        amount = 1,
+                        entityAmountToConsume = 0
+                    });
+                }
             }
         }
 
@@ -356,19 +367,24 @@ namespace CoreLib.Submodules.ModEntity
 
             foreach (var definition in modWorkbenches)
             {
-                var skinsTexture = definition.skinsTexture;
+                var skinsTexture = definition.texture;
                 if (skinsTexture == null)
                 {
                     CoreLibMod.Log.LogWarning($"Failed to add {definition.itemId} workbench skinsTexture because it's null!");
                     continue;
                 }
 
+                var emissiveTextures = new List<Texture2D>();
+                if (definition.emissiveTexture != null)
+                    emissiveTextures.Add(definition.emissiveTexture);
+
                 var reskinInfo = new EntityMonoBehaviour.ReskinInfo
                 {
                     //TODO the timing here is not right. This will get executed before value is ready
                     objectIDToUseReskinOn = API.Authoring.GetObjectID(definition.itemId),
                     worksForAnyVariation = true,
-                    textures = new List<Texture2D>(1) { skinsTexture }
+                    textures = new List<Texture2D>() { skinsTexture },
+                    emissiveTextures = emissiveTextures
                 };
 
                 foreach (var reskinOption in craftingBuilding.reskinOptions)

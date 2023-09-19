@@ -40,8 +40,7 @@ namespace CoreLib
             string directory = API.ModLoader.GetDirectory(coreLibMod.ModId);
             
             BurstRuntime.LoadAdditionalLibrary(Path.Combine(directory, "CoreLib_burst_generated.dll"));
-            JobEarlyInitHelper.PerformJobEarlyInit(Assembly.GetExecutingAssembly());
-            
+
             harmony = new Harmony(ID);
             API.Server.OnWorldCreated += WorldInitialize;
             

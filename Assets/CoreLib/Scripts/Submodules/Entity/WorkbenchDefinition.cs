@@ -13,8 +13,9 @@ namespace CoreLib.Submodules.ModEntity
         public Sprite bigIcon;
         public Sprite smallIcon;
         [FormerlySerializedAs("variations")] 
-        public Texture2D skinsTexture;
-
+        public Texture2D texture;
+        public Texture2D emissiveTexture;
+        
         public bool bindToRootWorkbench;
         
         [FormerlySerializedAs("requiredObjectsToCraft")] 
