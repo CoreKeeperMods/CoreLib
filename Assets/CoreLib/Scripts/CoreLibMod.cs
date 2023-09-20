@@ -51,7 +51,7 @@ namespace CoreLib
             submoduleHandler = new SubmoduleHandler(buildFor, Log);
             LoadModule(typeof(TileSetModule));
         }
-        
+
         public void Init()
         {
         }

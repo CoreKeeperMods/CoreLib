@@ -17,6 +17,7 @@ using QFSW.QC;
 using Unity.Entities;
 using Unity.NetCode;
 using UnityEngine;
+using UnityEngine.Scripting;
 using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.ModEntity
@@ -263,6 +264,7 @@ namespace CoreLib.Submodules.ModEntity
             CoreLibMod.harmony.PatchAll(typeof(MemoryManager_Patch));
             CoreLibMod.harmony.PatchAll(typeof(PlayerController_Patch));
             CoreLibMod.harmony.PatchAll(typeof(ColorReplacer_Patch));
+            CoreLibMod.harmony.PatchAll(typeof(SimpleCraftingBuilding_Patch));
         }
 
         internal override void PostLoad()
@@ -297,11 +299,13 @@ namespace CoreLib.Submodules.ModEntity
         }
 
         [Command("spawn", "Spawns any object by integer ID")]
+        [Preserve]
         public void Spawn(string itemId, int amount)
         {
             PlayerController player = Manager.main.player;
             if (player == null)
             {
+                CoreLibMod.Log.LogWarning("Error player is null!");
                 return;
             }
 
@@ -363,7 +367,7 @@ namespace CoreLib.Submodules.ModEntity
         [PrefabModification(typeof(SimpleCraftingBuilding))]
         private static void EditSimpleCraftingBuilding(MonoBehaviour entityMono)
         {
-            SimpleCraftingBuilding craftingBuilding = (SimpleCraftingBuilding)entityMono;
+            var modSkins = entityMono.gameObject.AddComponent<ModWorkbenchSkins>();
 
             foreach (var definition in modWorkbenches)
             {
@@ -380,17 +384,12 @@ namespace CoreLib.Submodules.ModEntity
 
                 var reskinInfo = new EntityMonoBehaviour.ReskinInfo
                 {
-                    //TODO the timing here is not right. This will get executed before value is ready
-                    objectIDToUseReskinOn = API.Authoring.GetObjectID(definition.itemId),
                     worksForAnyVariation = true,
                     textures = new List<Texture2D>() { skinsTexture },
                     emissiveTextures = emissiveTextures
                 };
 
-                foreach (var reskinOption in craftingBuilding.reskinOptions)
-                {
-                    reskinOption.reskins.Add(reskinInfo);
-                }
+                modSkins.modReskinInfos.Add(definition.itemId, reskinInfo);
             }
         }
 
