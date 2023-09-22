@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using CoreLib.Data;
 using CoreLib.Submodules.Localization;
 using CoreLib.Submodules.ModEntity.Atributes;
@@ -27,7 +26,7 @@ namespace CoreLib.Submodules.ModEntity
     public class EntityModule : BaseSubmodule
     {
         #region PublicInterface
-
+        
         public static event Action MaterialSwapReady;
 
         public static void AddToAuthoringList(GameObject gameObject)
@@ -43,21 +42,21 @@ namespace CoreLib.Submodules.ModEntity
         /// <summary>
         /// Register you entity modifications methods.
         /// </summary>
-        /// <param name="assembly">Assembly to analyze</param>
-        public static void RegisterEntityModifications(Assembly assembly)
+        /// <param name="modId">Mod to analyze</param>
+        public static void RegisterEntityModifications(long modId)
         {
             Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(RegisterEntityModifications));
 
-            RegisterEntityModifications_Internal(assembly);
+            RegisterEntityModifications_Internal(modId);
         }
 
-        public static void RegisterPrefabModifications(Assembly assembly)
+        public static void RegisterPrefabModifications(long modId)
         {
             Instance.ThrowIfNotLoaded();
             ThrowIfTooLate(nameof(RegisterPrefabModifications));
 
-            RegisterPrefabModifications_Internal(assembly);
+            RegisterPrefabModifications_Internal(modId);
         }
 
         /// <summary>
@@ -189,8 +188,9 @@ namespace CoreLib.Submodules.ModEntity
                 var listProperty = properties.First(info => !info.Name.Contains("Sorted"));
                 var sorttedListProperty = properties.First(info => info.Name.Contains("Sorted"));
 
-                var list = (List<T>)listProperty.GetValue(customizationTable);
-                var sortedList = (List<T>)sorttedListProperty.GetValue(customizationTable);
+                
+                var list = (List<T>)API.Reflection.GetValue(listProperty, customizationTable);
+                var sortedList = (List<T>)API.Reflection.GetValue(sorttedListProperty, customizationTable);
 
                 if (list.Count < 255)
                 {
@@ -261,10 +261,10 @@ namespace CoreLib.Submodules.ModEntity
 
         internal override void SetHooks()
         {
-            CoreLibMod.harmony.PatchAll(typeof(MemoryManager_Patch));
-            CoreLibMod.harmony.PatchAll(typeof(PlayerController_Patch));
-            CoreLibMod.harmony.PatchAll(typeof(ColorReplacer_Patch));
-            CoreLibMod.harmony.PatchAll(typeof(SimpleCraftingBuilding_Patch));
+            HarmonyUtil.PatchAll(typeof(MemoryManager_Patch));
+            HarmonyUtil.PatchAll(typeof(PlayerController_Patch));
+            HarmonyUtil.PatchAll(typeof(ColorReplacer_Patch));
+            HarmonyUtil.PatchAll(typeof(SimpleCraftingBuilding_Patch));
         }
 
         internal override void PostLoad()
@@ -295,40 +295,6 @@ namespace CoreLib.Submodules.ModEntity
                 {
                     busyIDsSet.Add(armorSkin.id);
                 }
-            }
-        }
-
-        [Command("spawn", "Spawns any object by integer ID")]
-        [Preserve]
-        public void Spawn(string itemId, int amount)
-        {
-            PlayerController player = Manager.main.player;
-            if (player == null)
-            {
-                CoreLibMod.Log.LogWarning("Error player is null!");
-                return;
-            }
-
-            var results = Manager.mod.Authoring.ObjectIDLookup.Keys.Where(id => id.Contains(itemId, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            if (results.Count > 1)
-            {
-                CoreLibMod.Log.LogWarning($"Ambiguous id! Found {results.Count} matches!");
-                return;
-            }
-
-            var objectID = API.Authoring.GetObjectID(results.First());
-            if (objectID == ObjectID.None)
-            {
-                CoreLibMod.Log.LogWarning($"Unknown item: {itemId}");
-                return;
-            }
-
-            ObjectInfo objectInfo = PugDatabase.GetObjectInfo(objectID, 0);
-
-            if (objectInfo.objectType != ObjectType.Creature && objectInfo.objectType != ObjectType.NonObtainable)
-            {
-                Vector3 b = new Vector3(UnityEngine.Random.Range(-0.5f, 0.5f), 0f, UnityEngine.Random.Range(-0.5f, 0.5f));
-                player.playerCommandSystem.CreateAndDropEntity(objectID, player.transform.position + b, amount, player.entity, 0);
             }
         }
 
@@ -564,9 +530,9 @@ namespace CoreLib.Submodules.ModEntity
 
         #region Modification
 
-        private static void RegisterEntityModifications_Internal(Assembly assembly)
+        private static void RegisterEntityModifications_Internal(long modId)
         {
-            IEnumerable<Type> types = assembly.GetTypes().Where(ReflectionUtil.HasAttribute<EntityModificationAttribute>);
+            IEnumerable<Type> types = API.Reflection.GetTypes(modId).Where(ModAPIExtensions.HasAttributeChecked<EntityModificationAttribute>);
 
             foreach (Type type in types)
             {
@@ -576,7 +542,7 @@ namespace CoreLib.Submodules.ModEntity
 
         private static void RegisterEntityModificationsInType_Internal(Type type)
         {
-            int result = ReflectionUtil.RegisterAttributeFunction<EntityModificationAttribute, ModifyAction>(type, (action, attribute) =>
+            int result = API.Experimental.RegisterAttributeFunction<EntityModificationAttribute, ModifyAction>(type, (action, attribute) =>
             {
                 if (!string.IsNullOrEmpty(attribute.modTarget))
                 {
@@ -598,9 +564,9 @@ namespace CoreLib.Submodules.ModEntity
             CoreLibMod.Log.LogInfo($"Registered {result} entity modifiers in type {type.FullName}!");
         }
 
-        private static void RegisterPrefabModifications_Internal(Assembly assembly)
+        private static void RegisterPrefabModifications_Internal(long modId)
         {
-            IEnumerable<Type> types = assembly.GetTypes().Where(ReflectionUtil.HasAttribute<PrefabModificationAttribute>);
+            IEnumerable<Type> types = API.Reflection.GetTypes(modId).Where(ModAPIExtensions.HasAttributeChecked<PrefabModificationAttribute>);
 
             foreach (Type type in types)
             {
@@ -610,7 +576,7 @@ namespace CoreLib.Submodules.ModEntity
 
         private static void RegisterPrefabModificationsInType_Internal(Type type)
         {
-            int result = ReflectionUtil.RegisterAttributeFunction<PrefabModificationAttribute, Action<MonoBehaviour>>(type, (action, attribute) =>
+            int result = API.Experimental.RegisterAttributeFunction<PrefabModificationAttribute, Action<MonoBehaviour>>(type, (action, attribute) =>
             {
                 if (attribute.targetType == null)
                 {

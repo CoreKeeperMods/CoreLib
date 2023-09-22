@@ -10,7 +10,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("modWorkbench")]
     public class ModWorkbenchJsonReader : IJsonReader
     {
-        public void ApplyPre(JsonElement jObject, FileContext context)
+        public void ApplyPre(JsonElement jObject, FileReference context)
         {
             WorkbenchDefinition workbenchDefinition = ScriptableObject.CreateInstance<WorkbenchDefinition>();
             JsonLoaderModule.PopulateObject(workbenchDefinition, jObject);
@@ -24,7 +24,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             }
         }
 
-        public void ApplyPost(JsonElement jObject, FileContext context)
+        public void ApplyPost(JsonElement jObject, FileReference context)
         {
             ItemJsonReader.ReadRecipes(jObject);
         }

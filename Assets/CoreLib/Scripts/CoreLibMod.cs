@@ -1,9 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using CoreLib.Submodules.TileSet;
-using CoreLib.Util;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using PugMod;
@@ -19,34 +15,30 @@ namespace CoreLib
     {
         public const string ID = "CoreLib";
         public const string NAME = "Core Lib";
+
+        internal static LoadedMod modInfo;
+        public static AssetBundle AssetBundle => modInfo.AssetBundles[0];
         
         public static Logger Log = new Logger(NAME);
         public static readonly GameVersion buildFor = new GameVersion(0, 6, 0, 3, "3a54");
-        
-        public static Harmony harmony;
-        public static AssetBundle assetBundle;
-        
+
         internal static SubmoduleHandler submoduleHandler;
 
         public void EarlyInit()
         {
-            var coreLibMod = this.GetModInfo();
-            if (coreLibMod == null)
+            modInfo = this.GetModInfo();
+            if (modInfo == null)
             {
                 Log.LogError("Failed to load CoreLib: mod metadata not found!");
                 return;
             }
 
-            string directory = API.ModLoader.GetDirectory(coreLibMod.ModId);
+            string directory = API.ModLoader.GetDirectory(modInfo.ModId);
             
-            BurstRuntime.LoadAdditionalLibrary(Path.Combine(directory, "CoreLib_burst_generated.dll"));
-
-            harmony = new Harmony(ID);
+            BurstRuntime.LoadAdditionalLibrary(ModPath.Combine(directory, "CoreLib_burst_generated.dll"));
             API.Server.OnWorldCreated += WorldInitialize;
-            
-            assetBundle = coreLibMod.AssetBundles.FirstOrDefault();
-            
-            //CheckIfUsedOnRightGameVersion();
+
+            CheckIfUsedOnRightGameVersion();
             
             submoduleHandler = new SubmoduleHandler(buildFor, Log);
             LoadModule(typeof(TileSetModule));
@@ -92,7 +84,8 @@ namespace CoreLib
         {
             var buildId = new GameVersion(Application.version);
             Log.LogInfo($"Running under game version \"{buildId}\".");
-
+            if (buildId == GameVersion.zero) return;
+            
             if (buildFor.CompatibleWith(buildId))
                 return;
 

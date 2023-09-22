@@ -2,7 +2,7 @@
 
 namespace CoreLib
 {
-    public readonly struct GameVersion
+    public readonly struct GameVersion : IEquatable<GameVersion>
     {
         public readonly int release;
         public readonly int major;
@@ -58,6 +58,26 @@ namespace CoreLib
                    major == other.major && 
                    minor == other.minor && 
                    patch == other.patch;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is GameVersion other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(release, major, minor, patch);
+        }
+
+        public static bool operator ==(GameVersion left, GameVersion right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(GameVersion left, GameVersion right)
+        {
+            return !left.Equals(right);
         }
 
         public override string ToString()

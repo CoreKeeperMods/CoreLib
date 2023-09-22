@@ -1,8 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CoreLib.Util;
+using CoreLib.Util.Extensions;
 using UnityEngine;
 
 namespace CoreLib.Submodules.JsonLoader.Converters
@@ -14,8 +14,8 @@ namespace CoreLib.Submodules.JsonLoader.Converters
             if (reader.TokenType == JsonTokenType.String)
             {
                 string spritePath = reader.GetString();
-                string fullPath = Path.Combine(JsonLoaderModule.context.loadPath, spritePath);
-                Texture2D sprite = TextureUtil.LoadTexture(fullPath);
+                string fullPath = ModPath.Combine(JsonLoaderModule.context.loadPath, spritePath);
+                Texture2D sprite = TextureUtil.LoadTexture(JsonLoaderModule.context.mod, fullPath);
                 if (sprite == null)
                 {
                     throw new JsonException($"Failed to load texture file at {fullPath}!");
@@ -33,8 +33,8 @@ namespace CoreLib.Submodules.JsonLoader.Converters
             {
                 texture = SpriteConverter.GetReadableTexture(texture);
                 byte[] bytes = texture.EncodeToPNG();
-                string filePath = Path.Combine(SpriteConverter.outputPath, $"{texture.name}.png");
-                File.WriteAllBytes(filePath, bytes);
+                string filePath = ModPath.Combine(SpriteConverter.outputPath, $"{texture.name}.png");
+                JsonLoaderModule.fileAccess.WriteAllBytes(filePath, bytes);
 
                 writer.WriteStringValue(filePath);
                 return;

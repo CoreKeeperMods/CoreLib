@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CoreLib.Data;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Submodules.Equipment.Patches;
+using CoreLib.Util.Extensions;
 using UnityEngine;
 
 namespace CoreLib.Submodules.Equipment
@@ -82,8 +83,8 @@ namespace CoreLib.Submodules.Equipment
         
         internal override void SetHooks()
         {
-            CoreLibMod.harmony.PatchAll(typeof(Emote_Patch));
-            CoreLibMod.harmony.PatchAll(typeof(PlayerController_Patch_2));
+            HarmonyUtil.PatchAll(typeof(Emote_Patch));
+            HarmonyUtil.PatchAll(typeof(PlayerController_Patch_2));
         }
     }
 }

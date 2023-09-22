@@ -1,13 +1,16 @@
 ﻿using System;
+using PugMod;
 
 namespace CoreLib.Submodules.JsonLoader
 {
     public struct JsonContext
     {
+        public LoadedMod mod;
         public string loadPath;
         
-        public JsonContext(string loadPath)
+        public JsonContext(LoadedMod mod, string loadPath)
         {
+            this.mod = mod;
             this.loadPath = loadPath;
         }
     }

@@ -13,7 +13,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("block")]
     public class BlockJsonReader : ItemJsonReader
     {
-        public override void ApplyPre(JsonElement jObject, FileContext context)
+        public override void ApplyPre(JsonElement jObject, FileReference context)
         {
             string itemId = jObject.GetProperty("itemId").GetString();
 

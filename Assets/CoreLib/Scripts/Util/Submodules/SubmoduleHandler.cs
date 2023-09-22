@@ -4,6 +4,7 @@ using System.Linq;
 using CoreLib.Util;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
+using PugMod;
 
 #pragma warning disable 649
 
@@ -60,9 +61,11 @@ namespace CoreLib
             if (!allModules.ContainsKey(moduleType))
                 throw new InvalidOperationException($"Tried to load unknown submodule: '{moduleType.FullName}'!");
 
-            if (IsLoaded(moduleType.Name)) return true;
+            var name = moduleType.GetNameChecked();
+            
+            if (IsLoaded(name)) return true;
 
-            CoreLibMod.Log.LogInfo($"Enabling CoreLib Submodule: {moduleType.Name}");
+            CoreLibMod.Log.LogInfo($"Enabling CoreLib Submodule: {name}");
 
             try
             {
@@ -74,7 +77,7 @@ namespace CoreLib
                         if (dependency == moduleType) continue;
                         if (!RequestModuleLoad(dependency, true))
                         {
-                            logger.LogError($"{moduleType.Name} could not be initialized because one of it's dependencies failed to load.");
+                            logger.LogError($"{name} could not be initialized because one of it's dependencies failed to load.");
                         }
                     }
                 }
@@ -84,21 +87,21 @@ namespace CoreLib
                 if (!submodule.Build.Equals(GameVersion.zero) &&
                     !submodule.Build.CompatibleWith(currentBuild))
                 {
-                    logger.LogWarning($"Submodule {moduleType.Name} was built for {submodule.Build}, but current build is {currentBuild}.");
+                    logger.LogWarning($"Submodule {name} was built for {submodule.Build}, but current build is {currentBuild}.");
                 }
 
                 submodule.SetHooks();
                 submodule.Load();
 
                 submodule.Loaded = true;
-                loadedModules.Add(moduleType.Name);
+                loadedModules.Add(name);
                 
                 submodule.PostLoad();
                 return true;
             }
             catch (Exception e)
             {
-                logger.LogError($"{moduleType.Name} could not be initialized and has been disabled:\n{e}");
+                logger.LogError($"{name} could not be initialized and has been disabled:\n{e}");
             }
 
             return false;
@@ -121,7 +124,7 @@ namespace CoreLib
 
         public Dictionary<Type, BaseSubmodule> GetSubmodules()
         {
-            var moduleTypes = ReflectionUtil.GetTypesFromCallingAssembly().Where(IsSubmodule).ToList();
+            var moduleTypes = API.Reflection.GetTypes(CoreLibMod.modInfo.ModId).Where(IsSubmodule).ToList();
             
             var moduleDict = new Dictionary<Type, BaseSubmodule>();
             foreach (Type moduleType in moduleTypes)

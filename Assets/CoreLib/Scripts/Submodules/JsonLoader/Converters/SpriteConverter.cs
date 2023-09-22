@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CoreLib.Util;
@@ -20,8 +19,8 @@ namespace CoreLib.Submodules.JsonLoader.Converters
             if (reader.TokenType == JsonTokenType.String)
             {
                 string spritePath = reader.GetString();
-                string fullPath = Path.Combine(JsonLoaderModule.context.loadPath, spritePath);
-                Sprite sprite = TextureUtil.LoadNewSprite(fullPath, 16);
+                string fullPath = ModPath.Combine(JsonLoaderModule.context.loadPath, spritePath);
+                Sprite sprite = TextureUtil.LoadNewSprite(JsonLoaderModule.context.mod, fullPath, 16);
                 if (sprite == null)
                 {
                     throw new JsonException($"Failed to load sprite file at {fullPath}!");
@@ -54,8 +53,8 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                     rect = rectElement.Deserialize<Rect>();
                 }
 
-                string fullPath = Path.Combine(JsonLoaderModule.context.loadPath, path);
-                Sprite sprite = TextureUtil.LoadNewSprite(fullPath, 16, rect, new Vector2(0.5f, 0.5f));
+                string fullPath = ModPath.Combine(JsonLoaderModule.context.loadPath, path);
+                Sprite sprite = TextureUtil.LoadNewSprite(JsonLoaderModule.context.mod, fullPath, 16, rect, new Vector2(0.5f, 0.5f));
 
                 if (sprite == null)
                 {
@@ -80,8 +79,8 @@ namespace CoreLib.Submodules.JsonLoader.Converters
                 {
                     texture = GetReadableTexture(texture);
                     byte[] bytes = texture.EncodeToPNG();
-                    string filePath = Path.Combine(outputPath, $"{texture.name}.png");
-                    File.WriteAllBytes(filePath, bytes);
+                    string filePath = ModPath.Combine(outputPath, $"{texture.name}.png");
+                    JsonLoaderModule.fileAccess.WriteAllBytes(filePath, bytes);
                     writer.WriteStartObject();
 
                     writer.WriteString("path", filePath);

@@ -3,6 +3,7 @@ using System.Linq;
 using CoreLib.Submodules.ChatCommands.Communication;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
+using PugMod;
 using UnityEngine;
 
 namespace CoreLib.Submodules.ChatCommands.Patches

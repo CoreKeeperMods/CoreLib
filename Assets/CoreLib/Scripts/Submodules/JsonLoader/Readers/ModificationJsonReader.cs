@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 using CoreLib.Util.Extensions;
+using PugMod;
 using Unity.Entities;
 using UnityEngine;
 
@@ -9,11 +10,11 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("modify")]
     public class ModificationJsonReader : IJsonReader
     {
-        public void ApplyPre(JsonElement jObject, FileContext context)
+        public void ApplyPre(JsonElement jObject, FileReference context)
         {
             string targetId = jObject.GetProperty("targetId").GetString();
-
-            JsonLoaderModule.entityModificationFiles.Add(new ModifyFile(context.file, JsonLoaderModule.context.loadPath, targetId));
+            context.targetId = targetId;
+            JsonLoaderModule.entityModificationFiles.Add(context);
         }
 
         public static void ModifyPre(JsonElement jObject, MonoBehaviour entity)
@@ -56,16 +57,16 @@ namespace CoreLib.Submodules.JsonLoader.Readers
 
                         if (type.IsAssignableTo(typeof(IComponentData)))
                         {
-                            typeof(ModificationJsonReader)
+                            API.Reflection.Invoke(typeof(ModificationJsonReader)
                                 .GetMethod(nameof(ReadComponent))
-                                .MakeGenericMethod(type)
-                                .Invoke(null, new object[] { jObject, entity, entityManager });
+                                .MakeGenericMethod(type), null, 
+                                jObject, entity, entityManager);
                         }else if (type.IsAssignableTo(typeof(IBufferElementData)))
                         {
-                            typeof(ModificationJsonReader)
+                            API.Reflection.Invoke(typeof(ModificationJsonReader)
                                 .GetMethod(nameof(ReadBuffer))
-                                .MakeGenericMethod(type)
-                                .Invoke(null, new object[] { jObject, entity, entityManager });
+                                .MakeGenericMethod(type), null, 
+                                jObject, entity, entityManager);
                         }
                         else
                         {
@@ -130,6 +131,6 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             Overwrite
         }
 
-        public void ApplyPost(JsonElement jObject, FileContext context) { }
+        public void ApplyPost(JsonElement jObject, FileReference context) { }
     }
 }

@@ -27,7 +27,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             typeof(PlaceableObjectAuthoring)
         };
 
-        public virtual void ApplyPre(JsonElement jObject, FileContext context)
+        public virtual void ApplyPre(JsonElement jObject, FileReference context)
         {
             string itemId = jObject.GetProperty("itemId").GetString();
             GameObject go = new GameObject
@@ -49,7 +49,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             EntityModule.AddEntity(itemId, objectAuthoring);
         }
         
-        public virtual void ApplyPost(JsonElement jObject, FileContext context)
+        public virtual void ApplyPost(JsonElement jObject, FileReference context)
         {
             ReadRecipes(jObject);
         }

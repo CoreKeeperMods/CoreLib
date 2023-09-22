@@ -6,15 +6,15 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using CoreLib.Submodules.ChatCommands;
 using CoreLib.Submodules.ChatCommands.Communication;
+using CoreLib.Submodules.JsonLoader;
 using CoreLib.Submodules.JsonLoader.Converters;
 using CoreLib.Util.Extensions;
-using HarmonyLib;
 using PugMod;
 using Unity.Entities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace CoreLib.Submodules.JsonLoader
+namespace CoreLib.ModderTools
 {
     public class DumpCommandHandler : IChatCommandHandler
     {
@@ -80,8 +80,8 @@ namespace CoreLib.Submodules.JsonLoader
         {
             if (parameters.Length < 1)
                 return new CommandOutput("Not enough arguments. Please see usage!", CommandStatus.Error);
-            
-            string item = parameters.Join(null, " ");
+
+            string item = string.Join(' ', parameters);
             string path = Path.Combine(Application.dataPath, "../dumps");
 
             CommandOutput output = CommandUtil.ParseItemName(item, out ObjectID targetObjectId);

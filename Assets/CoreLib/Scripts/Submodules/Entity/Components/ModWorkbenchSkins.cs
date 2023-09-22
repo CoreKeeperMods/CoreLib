@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using PugMod;
-using SpriteInstancing;
+﻿using PugMod;
 using UnityEngine;
 
 namespace CoreLib.Submodules.ModEntity.Components
@@ -18,9 +14,6 @@ namespace CoreLib.Submodules.ModEntity.Components
         {
             if (hasBeenApplied) return;
 
-            CoreLibMod.Log.LogInfo("Applying mod workbench skins!");
-            Debugger.Break();
-            
             var craftingBuilding = gameObject.GetComponent<SimpleCraftingBuilding>();
             foreach (var pair in modReskinInfos)
             {

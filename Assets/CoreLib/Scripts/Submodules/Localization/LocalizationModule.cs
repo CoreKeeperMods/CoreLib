@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreLib.Submodules.Localization.Patches;
+using CoreLib.Util.Extensions;
 using I2.Loc;
 
 namespace CoreLib.Submodules.Localization
@@ -79,7 +80,7 @@ namespace CoreLib.Submodules.Localization
 
         internal override void SetHooks()
         {
-            CoreLibMod.harmony.PatchAll(typeof(TextManager_Patch));
+            HarmonyUtil.PatchAll(typeof(TextManager_Patch));
         }
 
         internal static Dictionary<string, Dictionary<string, string>> addedTranslations = new Dictionary<string, Dictionary<string, string>>();

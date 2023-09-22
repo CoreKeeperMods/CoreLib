@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using CoreLib.Data;
 using CoreLib.Submodules.Localization;
 using CoreLib.Submodules.RewiredExtension.Patches;
 using CoreLib.Util.Extensions;
+using PugMod;
 using Rewired;
 using Rewired.Data;
+using MemberInfo = PugMod.MemberInfo;
 
 namespace CoreLib.Submodules.RewiredExtension
 {
@@ -92,8 +96,22 @@ namespace CoreLib.Submodules.RewiredExtension
 
         internal override void SetHooks()
         {
-            CoreLibMod.harmony.PatchAll(typeof(Rewired_Patch));
-            CoreLibMod.harmony.PatchAll(typeof(Rewired_Init_Patch));
+            HarmonyUtil.PatchAll(typeof(Rewired_Patch));
+            HarmonyUtil.PatchAll(typeof(Rewired_Init_Patch));
+
+            var method = (MemberInfo)typeof(UserData)
+                .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                .FirstOrDefault(method =>
+                    method.ReturnType == typeof(void) &&
+                    method.GetParameters().Length == 0 &&
+                    Rewired_Init_Patch.IsObfuscated(method.Name));
+
+            if (method == null) return;
+
+            var patch = typeof(Rewired_Init_Patch).GetMethod("OnRewiredDataInit");
+
+            CoreLibMod.Log.LogDebug($"Found rewired init method: {method.GetNameChecked()}");
+            HarmonyUtil.Patch(method,patch);
         }
 
         internal override void Load()

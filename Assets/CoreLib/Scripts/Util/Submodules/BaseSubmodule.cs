@@ -1,4 +1,5 @@
 ﻿using System;
+using PugMod;
 
 namespace CoreLib
 {
@@ -16,7 +17,7 @@ namespace CoreLib
         {
             if (!Loaded)
             {
-                var submoduleName = GetType().Name;
+                var submoduleName = GetType().GetNameChecked();
                 string message = $"{submoduleName} is not loaded. Please use CoreLibMod.LoadModules(typeof({submoduleName})) to load the module!";
                 throw new InvalidOperationException(message);
             }

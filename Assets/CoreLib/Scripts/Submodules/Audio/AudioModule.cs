@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreLib.Submodules.Audio.Patches;
+using CoreLib.Util.Extensions;
 using UnityEngine;
 using MusicList = System.Collections.Generic.List<MusicManager.MusicTrack>;
 
@@ -78,8 +79,8 @@ namespace CoreLib.Submodules.Audio
 
         internal override void SetHooks()
         {
-            CoreLibMod.harmony.PatchAll(typeof(MusicManager_Patch));
-            CoreLibMod.harmony.PatchAll(typeof(AudioManager_Patch));
+            HarmonyUtil.PatchAll(typeof(MusicManager_Patch));
+            HarmonyUtil.PatchAll(typeof(AudioManager_Patch));
         }
         
         internal override void Load()

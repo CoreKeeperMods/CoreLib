@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using PugMod;
 
 namespace CoreLib.Data
 {
@@ -144,7 +145,7 @@ namespace CoreLib.Data
         {
             var conv = GetConverter(valueType);
             if (conv == null)
-                throw new InvalidOperationException($"Cannot convert to type {valueType.Name}");
+                throw new InvalidOperationException($"Cannot convert to type {valueType.GetNameChecked()}");
 
             return conv.ConvertToObject(value, valueType);
         }

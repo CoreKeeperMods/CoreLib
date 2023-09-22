@@ -8,7 +8,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("drop")]
     public class DropJsonReader : IJsonReader
     {
-        public void ApplyPre(JsonElement jObject, FileContext context)
+        public void ApplyPre(JsonElement jObject, FileReference context)
         {
         }
 
@@ -33,7 +33,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             return tableID;
         }
 
-        public void ApplyPost(JsonElement jObject, FileContext context)
+        public void ApplyPost(JsonElement jObject, FileReference context)
         {
             LootTableID tableID = GetOrCreateDropTable(jObject);
 

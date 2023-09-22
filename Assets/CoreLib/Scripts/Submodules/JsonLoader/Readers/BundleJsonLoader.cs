@@ -8,7 +8,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
     [RegisterReader("bundle")]
     public class BundleJsonLoader : IJsonReader
     {
-        public void ApplyPre(JsonElement jObject, FileContext context)
+        public void ApplyPre(JsonElement jObject, FileReference context)
         {
             string itemId = jObject.GetProperty("itemId").GetString();
             List<string> paths = new List<string>();
@@ -28,7 +28,7 @@ namespace CoreLib.Submodules.JsonLoader.Readers
             }
         }
 
-        public void ApplyPost(JsonElement jObject, FileContext context)
+        public void ApplyPost(JsonElement jObject, FileReference context)
         {
             ItemJsonReader.ReadRecipes(jObject);
         }

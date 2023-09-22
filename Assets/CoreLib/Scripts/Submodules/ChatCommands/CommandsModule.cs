@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using CoreLib.Submodules.ChatCommands.Communication;
 using CoreLib.Submodules.ChatCommands.Patches;
 using CoreLib.Submodules.RewiredExtension;
+using CoreLib.Util.Extensions;
 using PugMod;
 using Rewired;
 
@@ -32,10 +32,10 @@ namespace CoreLib.Submodules.ChatCommands
         /// Add all commands from specified assembly
         /// </summary>
         //TODO remove reflection use
-        public static void AddCommands(Assembly assembly, string modName)
+        public static void AddCommands(long modId, string modName)
         {
             Instance.ThrowIfNotLoaded();
-            Type[] commands = assembly.GetTypes().Where(type => typeof(IChatCommandHandler).IsAssignableFrom(type)).ToArray();
+            Type[] commands = API.Reflection.GetTypes(modId).Where(type => typeof(IChatCommandHandler).IsAssignableFrom(type)).ToArray();
             commandHandlers.Capacity += commands.Length;
 
             foreach (Type commandType in commands)
@@ -44,19 +44,25 @@ namespace CoreLib.Submodules.ChatCommands
             }
         }
 
-        public static void RegisterCommandHandler(Type commandType, string modName)
+        public static void RegisterCommandHandler(Type handlerType, string modName)
         {
-            if (commandType == typeof(IChatCommandHandler)) return;
+            if (handlerType == typeof(IChatCommandHandler)) return;
 
             try
             {
-                IChatCommandHandler handler = (IChatCommandHandler)Activator.CreateInstance(commandType);
+                IChatCommandHandler handler = (IChatCommandHandler)Activator.CreateInstance(handlerType);
                 commandHandlers.Add(new CommandPair(handler, modName));
             }
             catch (Exception e)
             {
-                CoreLibMod.Log.LogWarning($"Failed to register command {commandType}!\n{e}");
+                CoreLibMod.Log.LogWarning($"Failed to register command {handlerType}!\n{e}");
             }
+        }
+
+        public static void UnregisterCommandHandler(Type handlerType)
+        {
+            if (handlerType == typeof(IChatCommandHandler)) return;
+            commandHandlers.RemoveAll(pair => pair.handler.GetType() == handlerType);
         }
 
         [Obsolete]
@@ -93,7 +99,7 @@ namespace CoreLib.Submodules.ChatCommands
         private static readonly char[] brackets = { '{', '}', '[', ']' };
         
         internal static Player rewiredPlayer;
-
+        
         internal static string UP_KEY = "CoreLib_UpKey";
         internal static string DOWN_KEY = "CoreLib_DownKey";
         internal static string COMPLETE_KEY = "CoreLib_CompleteKey";
@@ -105,8 +111,8 @@ namespace CoreLib.Submodules.ChatCommands
 
         internal override void SetHooks()
         {
-            CoreLibMod.harmony.PatchAll(typeof(ChatWindow_Patch));
-            CoreLibMod.harmony.PatchAll(typeof(TitleScreenAnimator_Patch));
+            HarmonyUtil.PatchAll(typeof(ChatWindow_Patch));
+            HarmonyUtil.PatchAll(typeof(TitleScreenAnimator_Patch));
         }
 
         internal override void Load()

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CoreLib.Submodules.DropTables.Patches;
+using CoreLib.Util.Extensions;
 using LootList = System.Collections.Generic.List<LootInfo>;
 
 namespace CoreLib.Submodules.DropTables
@@ -98,7 +99,7 @@ namespace CoreLib.Submodules.DropTables
 
         internal override void SetHooks()
         {
-            CoreLibMod.harmony.PatchAll(typeof(LootTableBank_Patch));
+            HarmonyUtil.PatchAll(typeof(LootTableBank_Patch));
         }
 
         internal static Dictionary<LootTableID, DropTableModificationData> dropTableModification = new Dictionary<LootTableID, DropTableModificationData>();

@@ -39,28 +39,11 @@ namespace CoreLib.Submodules.RewiredExtension.Patches
             "Enabler",
         };
         
-        private static bool IsObfuscated(string name)
+        internal static bool IsObfuscated(string name)
         {
             return words.All(word => !name.Contains(word));
         }
-        
-        // This searches for a method with void name() signature where name is always obfuscated
-        // It initializes user data, and is a good entry point
-        public static MethodBase TargetMethod()
-        {
-            var method = AccessTools.FirstMethod(typeof(UserData), method => 
-                method.ReturnType == typeof(void) && 
-                method.GetParameters().Length == 0 && 
-                IsObfuscated(method.Name));
-            
-            if (method == null)
-                return null;
 
-            CoreLibMod.Log.LogDebug($"Rewired patch. Found method: {method.FullDescription()}");
-            return method;
-        }
-
-        [HarmonyPrefix]
         public static void OnRewiredDataInit(UserData __instance)
         {
             List<string> invalidKeybinds = new List<string>();

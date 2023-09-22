@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using CoreLib.Submodules.ChatCommands;
@@ -18,17 +17,19 @@ using PugMod;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Serialization;
+using MemberInfo = PugMod.MemberInfo;
 
 namespace CoreLib.Submodules.JsonLoader
 {
     public class JsonLoaderModule : BaseSubmodule
     {
         #region PUBLIC_INTERFACE
+        
+        public static IFileAccess fileAccess = new NoFileAccess();
 
         internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
         internal override Type[] Dependencies => new[] { typeof(EntityModule), typeof(DropTablesModule), typeof(LocalizationModule) };
         internal static JsonLoaderModule Instance => CoreLibMod.GetModuleInstance<JsonLoaderModule>();
-
         public static void UseConverter(params JsonConverter[] converters)
         {
             foreach (JsonConverter converter in converters)
@@ -49,12 +50,9 @@ namespace CoreLib.Submodules.JsonLoader
         public static void LoadMod(IMod mod)
         {
             var modInfo = mod.GetModInfo();
-            string directory = API.ModLoader.GetDirectory(modInfo.ModId);
-            LoadFolder(modInfo.Metadata.name, directory);
-        }
-
-        public static void LoadFolder(string modGuid, string path)
-        {
+            string path = API.ModLoader.GetDirectory(modInfo.ModId);
+            var modGuid = modInfo.Metadata.name;
+            
             Instance.ThrowIfNotLoaded();
             ThrowIfTooLate();
 
@@ -64,27 +62,24 @@ namespace CoreLib.Submodules.JsonLoader
                 return;
             }
 
-            if (!Directory.Exists(Path.Combine(path, "JsonResources")))
+            using (WithContext(new JsonContext(modInfo, "JsonResources")))
             {
-                CoreLibMod.Log.LogWarning($"Mod {modGuid} folder does not contain 'JsonResources' folder!");
-                return;
-            }
-
-            string resourcesDir = Path.Combine(path, "JsonResources");
-
-            using (WithContext(new JsonContext(resourcesDir)))
-            {
-                foreach (string file in Directory.EnumerateFiles(resourcesDir, "*.json", SearchOption.AllDirectories))
+                var modJsonFiles = modInfo.Metadata.files
+                    .Where(file => file.path.EndsWith(".json") && file.path.Contains("JsonResources"))
+                    .Select(file => file.path);
+                
+                foreach (var file in modJsonFiles)
                 {
-                    string filename = file.Substring(file.LastIndexOf(Path.DirectorySeparatorChar) + 1);
-                    JsonDocument document = JsonDocument.Parse(File.ReadAllText(file));
+                    string filename = file.GetFileName();
+                    var jsonText = modInfo.GetAllText(file);
+                    JsonDocument document = JsonDocument.Parse(jsonText);
                     JsonElement jObject = document.RootElement;
-                    FileContext fileContext = new FileContext(file, filename);
+                    var fileReference = new FileReference(modInfo, file, "JsonResources");
 
                     if (!jObject.TryGetProperty("type", out var typeElement))
                     {
                         CoreLibMod.Log.LogWarning(
-                            $"JSON definition file {resourcesDir.GetRelativePath(file)} does not contain type information! Please specify 'type' value!");
+                            $"JSON definition file {file} does not contain type information! Please specify 'type' value!");
                         continue;
                     }
 
@@ -96,8 +91,8 @@ namespace CoreLib.Submodules.JsonLoader
                         {
                             CoreLibMod.Log.LogInfo($"Loading JSON file {filename} with {type} reader.");
                             IJsonReader reader = jsonReaders[type];
-                            reader.ApplyPre(jObject, fileContext);
-                            postApplyFiles.Add(file);
+                            reader.ApplyPre(jObject, fileReference);
+                            postApplyFiles.Add(fileReference);
                         }
                         catch (Exception e)
                         {
@@ -109,12 +104,11 @@ namespace CoreLib.Submodules.JsonLoader
                 modFolders.Add(modGuid, path);
             }
         }
-
-        public static void RegisterJsonReaders(Assembly assembly)
+        
+        public static void RegisterJsonReaders(long modId)
         {
-            IEnumerable<Type> types = assembly
-                .GetTypes()
-                .Where(type => type.GetCustomAttribute<RegisterReaderAttribute>() != null);
+            IEnumerable<Type> types = API.Reflection.GetTypes(modId)
+                .Where(type => type.GetAttributeChecked<RegisterReaderAttribute>() != null);
 
             foreach (Type type in types)
             {
@@ -136,7 +130,7 @@ namespace CoreLib.Submodules.JsonLoader
         {
             Type type = Type.GetType(name, false);
 
-            Type[] allTypes = ReflectionUtil.AllTypes();
+            Type[] allTypes = API.Reflection.AllTypes();
             
             type ??= allTypes.FirstOrDefault(t => t.FullName == name);
             type ??= allTypes.FirstOrDefault(t => t.Name == name);
@@ -230,7 +224,6 @@ namespace CoreLib.Submodules.JsonLoader
             "colliderCenter"
         };
 
-        private static bool dumpCommandEnabled;
         private static bool finishedLoadingObjects = false;
         private static bool entityModificationFileCacheReady = false;
 
@@ -240,35 +233,21 @@ namespace CoreLib.Submodules.JsonLoader
         internal static Dictionary<string, IJsonReader> jsonReaders = new Dictionary<string, IJsonReader>();
         internal static Dictionary<string, string> modFolders = new Dictionary<string, string>();
         internal static List<IInteractionHandler> interactionHandlers = new List<IInteractionHandler>();
-        internal static List<ModifyFile> entityModificationFiles = new List<ModifyFile>();
+        internal static List<FileReference> entityModificationFiles = new List<FileReference>();
 
-        private static List<string> postApplyFiles = new List<string>();
-        private static Dictionary<ObjectID, ModifyFile> entityModificationFileCache = new Dictionary<ObjectID, ModifyFile>();
+        private static List<FileReference> postApplyFiles = new List<FileReference>();
+        private static Dictionary<ObjectID, FileReference> entityModificationFileCache = new Dictionary<ObjectID, FileReference>();
         
-        
-
         #region Init
-
-        internal override Type[] GetOptionalDependencies()
-        {
-            //dumpCommandEnabled = CoreLibMod.Config.Bind("Debug", "EnableDumpCommand", false, "Enable to allow object info to be dumped at runtime.").Value;
-
-            if (dumpCommandEnabled)
-            {
-                return new[] { typeof(CommandsModule) };
-            }
-
-            return Array.Empty<Type>();
-        }
 
         internal override void SetHooks()
         {
-            CoreLibMod.harmony.PatchAll(typeof(MemoryManager_Patch_2));
+            HarmonyUtil.PatchAll(typeof(MemoryManager_Patch_2));
         }
 
         internal override void Load()
         {
-            RegisterJsonReaders(Assembly.GetExecutingAssembly());
+            RegisterJsonReaders(CoreLibMod.modInfo.ModId);
 
             options = new JsonSerializerOptions
             {
@@ -301,14 +280,6 @@ namespace CoreLib.Submodules.JsonLoader
             API.Authoring.OnObjectTypeAdded += PostConversionModificationsApply;
         }
 
-        internal override void PostLoad()
-        {
-            if (dumpCommandEnabled)
-            {
-                CommandsModule.RegisterCommandHandler(typeof(DumpCommandHandler), CoreLibMod.NAME);
-            }
-        }
-
         internal static void ThrowIfTooLate()
         {
             if (finishedLoadingObjects)
@@ -330,11 +301,11 @@ namespace CoreLib.Submodules.JsonLoader
             }
 
             CoreLibMod.Log.LogInfo("Start JSON post load");
-            foreach (string file in postApplyFiles)
+            foreach (var file in postApplyFiles)
             {
-                string filename = file.Substring(file.LastIndexOf(Path.DirectorySeparatorChar) + 1);
-                var jObject = JsonDocument.Parse(File.ReadAllText(file)).RootElement;
-                FileContext fileContext = new FileContext(file, filename);
+                string filename = file.filePath.GetFileName();
+                var jsonText = file.mod.GetAllText(file.filePath);
+                var jObject = JsonDocument.Parse(jsonText).RootElement;
 
                 string type = jObject.GetProperty("type").GetString();
 
@@ -344,7 +315,7 @@ namespace CoreLib.Submodules.JsonLoader
                     {
                         CoreLibMod.Log.LogInfo($"Post Loading JSON file {filename} with {type} reader.");
                         IJsonReader reader = jsonReaders[type];
-                        reader.ApplyPost(jObject, fileContext);
+                        reader.ApplyPost(jObject, file);
                     }
                     catch (Exception e)
                     {
@@ -364,10 +335,11 @@ namespace CoreLib.Submodules.JsonLoader
 
             if (entityModificationFileCache.ContainsKey(objectId))
             {
-                ModifyFile modify = entityModificationFileCache[objectId];
-                JsonDocument jObject = JsonDocument.Parse(File.ReadAllText(modify.filePath));
+                FileReference modify = entityModificationFileCache[objectId];
+                var jsonText = modify.mod.GetAllText(modify.filePath);
+                JsonDocument jObject = JsonDocument.Parse(jsonText);
 
-                using (WithContext(new JsonContext(modify.contextPath)))
+                using (WithContext(new JsonContext(modify.mod, modify.contextPath)))
                 {
                     ModificationJsonReader.ModifyPre(jObject.RootElement, entity);
                 }
@@ -382,10 +354,11 @@ namespace CoreLib.Submodules.JsonLoader
 
             if (entityModificationFileCache.ContainsKey(objectId))
             {
-                ModifyFile modify = entityModificationFileCache[objectId];
-                JsonDocument jObject = JsonDocument.Parse(File.ReadAllText(modify.filePath));
+                FileReference modify = entityModificationFileCache[objectId];
+                var jsonText = modify.mod.GetAllText(modify.filePath);
+                JsonDocument jObject = JsonDocument.Parse(jsonText);
 
-                using (WithContext(new JsonContext(modify.contextPath)))
+                using (WithContext(new JsonContext(modify.mod, modify.contextPath)))
                 {
                     ModificationJsonReader.ModifyPost(jObject.RootElement, entity, authoring, entityManager);
                 }
@@ -398,7 +371,7 @@ namespace CoreLib.Submodules.JsonLoader
         {
             if (entityModificationFileCacheReady) return;
 
-            foreach (ModifyFile modifyFile in entityModificationFiles)
+            foreach (FileReference modifyFile in entityModificationFiles)
             {
                 ObjectID objectID = modifyFile.targetId.GetObjectID();
                 if (objectID == ObjectID.None)
@@ -442,7 +415,7 @@ namespace CoreLib.Submodules.JsonLoader
 
         private static void RegisterJsonReadersInType_Internal(Type type)
         {
-            RegisterReaderAttribute attribute = type.GetCustomAttribute<RegisterReaderAttribute>();
+            RegisterReaderAttribute attribute = type.GetAttributeChecked<RegisterReaderAttribute>();
             if (!jsonReaders.ContainsKey(attribute.typeName))
             {
                 IJsonReader reader = Activator.CreateInstance(type) as IJsonReader;
@@ -457,7 +430,7 @@ namespace CoreLib.Submodules.JsonLoader
         private static void OverwriteField(Type type, object target, JsonProperty property, Type[] typeSet)
         {
             FieldInfo fieldInfo = FindFieldInType(type, property.Name);
-
+            
             if (fieldInfo == null)
             {
                 if (!specialProperties.Contains(property.Name) &&
@@ -469,12 +442,11 @@ namespace CoreLib.Submodules.JsonLoader
                 return;
             }
 
+            var attribute = ((MemberInfo)fieldInfo).HasAttributeChecked<NonSerializedAttribute>();
+            if (attribute) return;
 
-            var attribute = fieldInfo.GetCustomAttribute<NonSerializedAttribute>();
-            if (attribute != null) return;
-
-            var parsedValue = property.Value.Deserialize(fieldInfo.FieldType, options);
-            fieldInfo.SetValue(target, parsedValue);
+            var parsedValue = property.Value.Deserialize((fieldInfo).FieldType, options);
+            API.Reflection.SetValue(fieldInfo, target, parsedValue);
         }
 
         private static FieldInfo FindFieldInType(Type type, string name)
@@ -486,7 +458,7 @@ namespace CoreLib.Submodules.JsonLoader
                 fieldInfo = type.GetFields()
                     .Where(field =>
                     {
-                        var oldNameAttr = field.GetCustomAttribute<FormerlySerializedAsAttribute>();
+                        var oldNameAttr = ((MemberInfo)field).GetAttributeChecked<FormerlySerializedAsAttribute>();
                         return oldNameAttr != null && oldNameAttr.oldName.Equals(name);
                     }).FirstOrDefault();
             }

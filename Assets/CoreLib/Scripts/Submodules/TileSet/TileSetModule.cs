@@ -83,7 +83,7 @@ namespace CoreLib.Submodules.TileSet
 
         internal override void SetHooks()
         {
-            CoreLibMod.harmony.PatchAll(typeof(TilesetTypeUtility_Patch));
+            HarmonyUtil.PatchAll(typeof(TilesetTypeUtility_Patch));
         }
         
         internal override void Load()
@@ -142,7 +142,7 @@ namespace CoreLib.Submodules.TileSet
                 CoreLibMod.Log.LogError("Failed to get default tileset layers!");
             }
 
-            missingTileset = CoreLibMod.assetBundle.LoadAsset<ModTileset>("Assets/CoreLib/Resources/Tileset/MissingTileset.asset");
+            missingTileset = CoreLibMod.AssetBundle.LoadAsset<ModTileset>("Assets/CoreLib/Resources/Tileset/MissingTileset.asset");
 
             if (tilesetLayers.ContainsKey(missingTileset.layers.name))
             {
