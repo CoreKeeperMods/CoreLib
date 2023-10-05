@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using CoreLib.Submodules.ChatCommands;
-using CoreLib.Submodules.ChatCommands.Communication;
-using CoreLib.Submodules.JsonLoader;
-using CoreLib.Submodules.JsonLoader.Converters;
+using CoreLib.Commands;
+using CoreLib.Commands.Communication;
+using CoreLib.JsonLoader;
+using CoreLib.JsonLoader.Converters;
 using CoreLib.Util.Extensions;
 using PugMod;
 using Unity.Entities;
@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 
 namespace CoreLib.ModderTools
 {
-    public class DumpCommandHandler : IChatCommandHandler
+    public class DumpCommandHandler : IServerCommandHandler
     {
         private string[] badPropertyNames =
         {

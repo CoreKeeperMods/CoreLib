@@ -1,14 +1,16 @@
 ﻿using System.Linq;
+using CoreLib.Data.Configuration;
+using PugMod;
 
 namespace  CoreLib.Data
 {
     public class IdBindConfigFile : IdBind
     {
-        public JsonConfigFile configFile;
+        public ConfigFile configFile;
 
-        public IdBindConfigFile(string mod, string configPath, int idRangeStart, int idRangeEnd) : base(idRangeStart, idRangeEnd)
+        public IdBindConfigFile(LoadedMod mod, string configPath, int idRangeStart, int idRangeEnd) : base(idRangeStart, idRangeEnd)
         {
-            configFile = new JsonConfigFile(mod, configPath, true);
+            configFile = new ConfigFile(configPath, true, mod);
         }
 
         protected override bool IsIdFree(int id)
@@ -36,7 +38,7 @@ namespace  CoreLib.Data
 
         protected override int BindId(string itemId, int freeId)
         {
-            int newId = configFile.Bind(itemId, freeId).Value;
+            int newId = configFile.Bind("ID Binds", itemId, freeId).Value;
             return base.BindId(itemId, newId);
         }
     }

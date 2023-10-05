@@ -1,5 +1,5 @@
-﻿using CoreLib.Submodules.ChatCommands;
-using CoreLib.Submodules.JsonLoader;
+﻿using CoreLib.Commands;
+using CoreLib.JsonLoader;
 using PugMod;
 using UnityEngine;
 

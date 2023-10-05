@@ -15,7 +15,6 @@
         "Unity.Physics.Hybrid",
         "Unity.Properties",
         "Unity.Transforms",
-        "NaughtyAttributes.Core",
         "Unity.Networking.Transport",
         "PugMod.SDK"
     ],
@@ -42,12 +41,10 @@
         "Rewired_Core.dll",
         "I2.dll",
         "Newtonsoft.Json.dll",
-        "Sentry.System.Text.Json.dll",
-        "Sentry.System.Buffers.dll",
-        "Sentry.System.Memory.dll",
         "QFSW.QC.dll",
         "PugMod.SDK.Runtime.dll",
-        "PugProperties.dll"
+        "PugProperties.dll",
+        "System.Text.Json.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

@@ -1,23 +1,420 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="4" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="bc173aff-1964-4425-9aab-124774c008a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModWorkbenchSkins.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModWorkbenchSkins.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/SimpleCraftingBuilding_Patch.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/SimpleCraftingBuilding_Patch.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/BuildExtensions/ChainBuilder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/BuildExtensions/ChainBuilder.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib.JsonLoader/Scripts/Atrribute.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib.JsonLoader/Scripts/Atrribute/GenerateVectorReadersAttribute.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib.JsonLoader/Scripts/Atrribute/GenerateVectorReadersAttribute.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib.JsonLoader/Scripts/Util.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib.JsonLoader/Scripts/Util/JsonExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/ModResources.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/CoreLib.ModderTools.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/CoreLib.ModderTools.asmdef" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/CoreLib.ModderTools.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/CoreLib.ModderTools.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/CoreLib.ModderTools_modio.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/CoreLib.ModderTools_modio.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/Scripts/CoreLibModderToolsMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/Scripts/CoreLibModderToolsMod.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/Scripts/DumpCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/Scripts/DumpCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CHANGELOG.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CodeGen.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CodeGen/VectorConverterGenerator.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CodeGen/VectorConverterGenerator.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CodeGen/VectorConverterGenerator.pdb.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asmdef" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CoreLib_modio.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CoreLib_modio.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/BurstModBuilder.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/BurstModBuilder.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/CoreLib.Editor.asmdef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/CoreLib.Editor.asmdef.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/EntityMonoBehaviorDataEditor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/EntityMonoBehaviorDataEditor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/FixedString64Drawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/FixedString64Drawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/ModTilesetDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/ModTilesetDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/ObjectIdDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/ObjectIdDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/PickStringFromEnumDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/PickStringFromEnumDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/RenderingFix.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/RenderingFix.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/RuntimeMaterialV2Editor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/RuntimeMaterialV2Editor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/SerializedPropertyExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/SerializedPropertyExtensions.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/SfxIdDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/SfxIdDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/SwapEntityMonoBehaviorEditor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Editor/SwapEntityMonoBehaviorEditor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateBlock1x1.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateBlock1x1.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateBlockItem.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateBlockItem.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateWorkbench.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Objects/TemplateWorkbench.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Slots.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Slots/DefaultPlaceSlot.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Slots/DefaultPlaceSlot.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Slots/EmptySlot.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Prefab/Slots/EmptySlot.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/RootWorkbench.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/RootWorkbench.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/Tileset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/Tileset/MissingTileset.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/Tileset/MissingTileset.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/Tileset/tileset_base_building.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/Tileset/tileset_base_building.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/Tileset/tileset_extras.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/Tileset/tileset_extras.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/Tileset/tileset_main.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Resources/Tileset/tileset_main.asset.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/AudioModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/AudioModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/MusicInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/MusicInfo.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/Patches.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/Patches/AudioManager_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/Patches/AudioManager_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/Patches/MusicManager_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/Patches/MusicManager_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandOutput.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandOutput.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandPair.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandPair.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/DirectMessageCommandHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/DirectMessageCommandHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/HelpCommandHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/HelpCommandHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/IChatCommandHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Commands/IChatCommandHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandCommSystem.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandCommSystem.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandMessageRPC.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandMessageRPC.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/TitleScreenAnimator_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/TitleScreenAnimator_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Util.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Util/CommandUtil.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Util/CommandUtil.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/CustomLootTableData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/CustomLootTableData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/DropTableModificationData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/DropTableModificationData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/DropTablesModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/DropTablesModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/Patches.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/Patches/LootTableBank_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/Patches/LootTableBank_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/documentation.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/documentation/lootComponent.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/documentation/lootComponent.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Atributes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Atributes/EntityModificationAttribute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Atributes/EntityModificationAttribute.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Atributes/PrefabModificationAttribute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Atributes/PrefabModificationAttribute.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/EntityPrefabOverride.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/EntityPrefabOverride.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModCDAuthoringBase.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModCDAuthoringBase.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModCraftingAuthoring.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModCraftingAuthoring.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModWorkbenchSkins.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModWorkbenchSkins.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/RuntimeMaterial.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/RuntimeMaterial.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/CraftingData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/CraftingData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Interfaces.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Interfaces/IDynamicItemHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Interfaces/IDynamicItemHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/ColorReplacer_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/ColorReplacer_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/MemoryManager_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/MemoryManager_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/PlayerController_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/PlayerController_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/SimpleCraftingBuilding_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/SimpleCraftingBuilding_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/PrefabCrawler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/PrefabCrawler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchDefinition.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/WorkbenchDefinition.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Component.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Component/ModObjectTypeAuthoring.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Component/ModObjectTypeAuthoring.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/IModEquipmentSlot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/IModEquipmentSlot.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Patches.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Patches/Emote_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Patches/Emote_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Patches/PlayerController_Patch_2.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/Patches/PlayerController_Patch_2.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Components.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Components/IHasDefaultValue.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Components/IHasDefaultValue.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Components/TemplateBlock.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Components/TemplateBlock.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Components/TemplateBlockCDAuthoring.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Components/TemplateBlockCDAuthoring.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/ContextHandle.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/ContextHandle.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/ColorConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/ColorConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/ConverterUtil.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/ConverterUtil.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/CraftableObjectConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/CraftableObjectConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/CraftingObjectConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/CraftingObjectConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/LootTableIDConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/LootTableIDConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/ObjectIDConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/ObjectIDConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/ObjectTypeConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/ObjectTypeConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/RectConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/RectConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/SpriteConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/SpriteConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/EntityMonoBehaviorConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/EntityMonoBehaviorConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/EntityMonoBehaviorDataConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/EntityMonoBehaviorDataConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/GameObjectConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/GameObjectConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/IntPtrConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/IntPtrConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/TransformConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Stubs/TransformConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Texture2DConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Texture2DConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/FileReference.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/FileReference.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/IFileAccess.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/IFileAccess.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/IInteractionHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/IInteractionHandler.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Patch.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Patch/MemoryManager_Patch_2.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Patch/MemoryManager_Patch_2.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BlockJsonReader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BlockJsonReader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BundleJsonLoader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BundleJsonLoader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/DropJsonReader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/DropJsonReader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/IJsonReader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/IJsonReader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ItemJsonReader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ItemJsonReader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModWorkbenchJsonReader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModWorkbenchJsonReader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModificationJsonReader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModificationJsonReader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/RegisterReaderAttribute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/RegisterReaderAttribute.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/color_schema.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/color_schema.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/component_schema.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/component_schema.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/drops_schema.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/drops_schema.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/entity_schema.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/entity_schema.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/loot_data_schema.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/loot_data_schema.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/sprite_schema.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/sprite_schema.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/vector_schema.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Schemas/vector_schema.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/block-prefab-setup.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/block-prefab-setup.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/blockExample.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/blockExample/metal-table-bottom.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/blockExample/metal-table-bottom.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/blockExample/metal-table-icons.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/blockExample/metal-table-icons.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/blockExample/metal-table-shadow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/blockExample/metal-table-shadow.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/blockExample/metal-table-top.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/blockExample/metal-table-top.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/unityExplorerExample.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/documentation/unityExplorerExample.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationExtension.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationExtension.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/Patches.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/Patches/TextManager_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/Patches/TextManager_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesExtension.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesExtension.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/BuildIT.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/BuildIT.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/assignTheBundle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/assignTheBundle.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/bundleBrowser.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/bundleBrowser.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/createBundle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/createBundle.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/folderStructure.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/documentation/folderStructure.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/KeyBindData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/KeyBindData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/Patches.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/Patches/Rewired_Init_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/Patches/Rewired_Init_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/Patches/Rewired_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/Patches/Rewired_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/RewiredExtensionModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/RewiredExtensionModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/Authoring.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/Authoring/ModPseudoTileCDAuthoring.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/Authoring/ModPseudoTileCDAuthoring.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/Authoring/ModTileCDAuthoring.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/Authoring/ModTileCDAuthoring.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/ModTileset.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/ModTileset.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/Patches.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/Patches/TilesetTypeUtility_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/Patches/TilesetTypeUtility_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Attribute.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.Tilesets/Scripts/Attribute.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Attribute/ModTilesetAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.Tilesets/Scripts/Attribute/ModTilesetAttribute.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Attribute/ModTilesetAttribute.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.Tilesets/Scripts/Attribute/ModTilesetAttribute.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/ConfigEntry.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/ConfigEntry.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/IdBindConfigFile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/IdBindConfigFile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/JsonConfigFile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/JsonConfigFile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/TypeConverter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/TypeConverter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/HarmonyUtil.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/HarmonyUtil.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/JsonExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/JsonExtensions.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.JsonLoader/Scripts/Util/JsonExtensions.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ModPath.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ModPath.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ReflectionUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ReflectionUtil.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/RewiredExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/RewiredExtensions.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/MonoBehaviourUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.Entity/Scripts/MonoBehaviourUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/MonoBehaviourUtils.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.Entity/Scripts/MonoBehaviourUtils.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/block-shadow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/block-shadow.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/block.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/block.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/cursor_inv.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/cursor_inv.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/cursor_placement.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/cursor_placement.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/cursor_placement_padding.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/cursor_placement_padding.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/missing.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/missing.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/modWorkbench.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/modWorkbench.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/modWorkbenchVariants.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/modWorkbenchVariants.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/tileset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/tileset/missing_tileset.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Textures/tileset/missing_tileset.png.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Data/ConditionsTable.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Data/ConditionsTable.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Data/ConditionsTable.json.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Data/ConditionsTable.json.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Data/SpriteAssetManifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Data/SpriteAssetManifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Data/SpriteAssetManifest.json.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Data/SpriteAssetManifest.json.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/EditorAssemblies.zip" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/EditorAssemblies.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Images/DefaultLogo.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Images/DefaultLogo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/ModSDKSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/ModSDKSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/ModSDKSettings.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/ModSDKSettings.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Physics/PhysicsCategoryNames.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Physics/PhysicsCategoryNames.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Resources/Shaders/SpriteAssetUI.shader.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Resources/Shaders/SpriteAssetUI.shader.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Resources/Shaders/SpriteAtlas.shader.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Resources/Shaders/SpriteAtlas.shader.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Resources/Textures/AnimationEventMarker.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Resources/Textures/AnimationEventMarker.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/AssemblyDefinitionCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/AssemblyDefinitionCreator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilderSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilderSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilderWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilderWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/AcceptTermsWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/AcceptTermsWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/CreateMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/CreateMod.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/ModSDKWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/ModSDKWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/UpdateSDK.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/UpdateSDK.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/UploadMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModSDKWindow/UploadMod.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/SpriteInstancingModBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/SpriteInstancingModBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Shaders/SpriteObjectPugRP.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Shaders/SpriteObjectPugRP.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Importer/ImporterSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Importer/ImporterSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Importer/ImporterWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Importer/ImporterWindow.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Shaders/SpriteObjectSimple.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Shaders/SpriteObjectSimple.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Shaders/UGCDummy_Additive.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Shaders/UGCDummy_Additive.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Shaders/UGCDummy_Opaque.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Shaders/UGCDummy_Opaque.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Shaders/UGCDummy_SpriteObjectSpecial.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Shaders/UGCDummy_SpriteObjectSpecial.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/Shaders/UGCDummy_Transparent.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/Shaders/UGCDummy_Transparent.shader" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/UI/AcceptTermsPopUp.uxml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/UI/AcceptTermsPopUp.uxml.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/UI/ModDependencyEntry.uxml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/UI/ModDependencyEntry.uxml.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/ModSDK/UI/ModSDKWindow.uxml" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/UI/ModSDKWindow.uxml" afterDir="false" />
@@ -56,25 +453,31 @@
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/QFSW.QC.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/QFSW.QC.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/Rewired.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/Rewired.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/Rewired_Windows_Functions.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/Rewired_Windows_Functions.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/Sentry.System.Text.Json.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/Sentry.System.Text.Json.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/ZipSaveFolder.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/ZipSaveFolder.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/io.sentry.unity.runtime.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeper/io.sentry.unity.runtime.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/NaughtyAttributes.Editor.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/NaughtyAttributes.Editor.dll.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.Base.Editor.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.Base.Editor.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/NaughtyAttributes.Editor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/NaughtyAttributes.Editor.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.Base.Editor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.Base.Editor.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.UnityExtensions.Editor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.UnityExtensions.Editor.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.UnityExtensions.Editor.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/Pug.UnityExtensions.Editor.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/PugProperties.Editor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/PugProperties.Editor.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/PugText.Editor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/PugText.Editor.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/SpriteInstancing.Editor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/SpriteInstancing.Editor.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/SpriteInstancing.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/CoreKeeperModSDK/SpriteInstancing.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Interactable.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Interactable.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ObjectName.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ObjectName.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ShadowSprite.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ShadowSprite.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/Minecarts/UIManager_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/Minecarts/UIManager_Patch.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/SpriteAssetManifest.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/SpriteAssetManifest.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/mod.io/config.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/mod.io/config.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/PresetManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/PresetManager.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/NGTools/NGMissingScriptRecovery/Editor/NGMissingScriptRecoveryEditor.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/NGTools/NGMissingScriptRecovery/Editor/NGMissingScriptRecoveryEditor.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/RailLogistics.asmdef" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/RailLogistics.asmdef" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/RailLogistics.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/RailLogistics.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/RailLogisticsMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/RailLogisticsMod.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Commands/TestCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Commands/TestCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/Tiles/EntityTileCDAuthoring.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Components/Tiles/EntityTileCDAuthoring.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/ConsoleCommands_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/ConsoleCommands_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/Minecarts/PlacementHandler_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/Minecarts/PlacementHandler_Patch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/UpdateSubMapSystem_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Patches/UpdateSubMapSystem_Patch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Slots/CrowbarEquipmentSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/Slots/CrowbarEquipmentSlot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/UI/StyleSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/Scripts/UI/StyleSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Test.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Test.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,24 +485,33 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Communication/CommandCommSystem.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/BuildExtensions/BurstModBuilder.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/ChatCommands/Scripts/Patches/MapUI_Patch.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/ChatCommands/Scripts/Util/Extensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/ConfigFile/AcceptableValueBase.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/ModSDK/Data/ConditionsTable.json.meta" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/ModSDK/ModSDKSettings.asset.meta" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/ModSDK/Resources/Textures/AnimationEventMarker.png.meta" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/ModSDK/SDK/Editor/AssemblyDefinitionCreator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Projects/Unity/Projects/CKModSDK/Assets/ModSDK/UI/AcceptTermsPopUp.uxml.meta" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.addressables@1.19.19/Runtime/AssemblyInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/BurstCompatibleAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/Deprecated.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/NativeParallelHashMap.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/NativeParallelMultiHashMap.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collections@1.4.0/Unity.Collections/UnsafeParallelHashMap.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.editorcoroutines@1.0.0/Editor/EditorCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.editorcoroutines@1.0.0/Editor/EditorCoroutineUtility.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities.Hybrid/JetBrains.Annotations.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/CodeGeneratedJobForEach/LambdaJobDescription.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/CodeGeneratedJobForEach/LambdaJobQueryConstructionMethods.gen.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/ComponentSystemBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/ComponentSystemGroup.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/DOTSCompilerPatchedMethodAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/DefaultWorld.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/EntityCommandBuffer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/EntityComponentStore.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/EntityComponentStoreDebug.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/EntityDataAccess.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/EntityManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/IJobChunk.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.entities@0.51.1-preview.21/Unity.Entities/IJobEntity.cs" root0="SKIP_HIGHLIGHTING" />
@@ -126,6 +538,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.physics@0.51.1-preview.21/Unity.Physics/Dynamics/Simulation/ITriggerEventsJob.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.physics@0.51.1-preview.21/Unity.Physics/Dynamics/Simulation/TriggerEvent.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.physics@0.51.1-preview.21/Unity.Physics/ECS/Base/Systems/StepPhysicsWorld.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@12.1.8/Tests/Editor/ReflectionUtils.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.transport@1.3.0/Runtime/DataStream.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0c8d9eb9dc8d4c24b69dc48e94638142a4800/34/1e16ffa9/ModIOUnityAsync.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0c8d9eb9dc8d4c24b69dc48e94638142a4800/40/18b255c5/ModIOUnity.cs" root0="SKIP_HIGHLIGHTING" />
@@ -134,20 +547,28 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2220e8ae70c84351a285bac17d6b755628d800/7c/ed505642/EntityMonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/237edc7a4e504d758400d42a8273fdca3c800/2b/ade58d0e/Harmony.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/27df87cb8eec48ac973466fc85e399c03e200/ed/3475c491/JsonPropertyAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/29e3dfd7379d434ca9881f8263fe42fea8e00/e6/d0ba9a39/JsonConvert.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/30d47639c59a46718ee8599c77751cbc6b800/5b/4975bb87/ITriggerEventsJob.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/377d90b6a60246c8b0fcf7d6e7b8f936568ba0/2f/3f52801d/Path.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/377d90b6a60246c8b0fcf7d6e7b8f936568ba0/80/f63f2643/BindingFlags.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/377d90b6a60246c8b0fcf7d6e7b8f936568ba0/a3/99f3e62e/Directory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3c1a0ea74cc3472d93ce484c5f5bdc232c9a00/62/c3873444/MapUI.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3eb17ad1b1ca496fb8c17fd74f372d7629400/32/dd8fe4b4/GUILayoutOption.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3eb17ad1b1ca496fb8c17fd74f372d7629400/4f/5d88e9ef/GUILayout.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/40a82cc9705b4865b72ee4c45165e7e940400/d8/ff20b7fb/AccessTools.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/40a82cc9705b4865b72ee4c45165e7e940400/ea/3e9ff644/GeneralExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/40dddee2ed5c458e9c3158a10ca0acf740400/07/31d92763/Tileset.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/40dddee2ed5c458e9c3158a10ca0acf740400/52/57a7a858/ConditionID.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/40dddee2ed5c458e9c3158a10ca0acf740400/7a/1f58e6a3/TileTypeUtility.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/40dddee2ed5c458e9c3158a10ca0acf740400/7b/41c87cf3/ObjectID.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/40dddee2ed5c458e9c3158a10ca0acf740400/f2/5b97447c/RespawnData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/411ecce8315f4230b5756636e86e851913000/33/b64d5643/SerializableDictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4182827c4a48429188771c90e53435fb2c800/fd/c5242f09/SimpleCraftingBuilding.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/45499d95dd89417f88ab4e01794e214c296368/5c/af50f08c/SyntaxAnnotation.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/45499d95dd89417f88ab4e01794e214c296368/92/2fff5bd8/SyntaxNode.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4564e41b4e324b32b7a550bfadc7a7173fc00/dc/ec7430d0/ObjectType.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4564e41b4e324b32b7a550bfadc7a7173fc00/e6/1b703ea0/IEntityMonoBehaviourData.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/47d13c71199b476ea37060cc9ce00af64800/e3/6a1eea47/ModAPIExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4a3c7c29fbd84e65b9f63307541b5e18127000/d8/d51a05cf/IJobEntityBatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4d107ff09ee940489dfdee4710cf4e1247a00/2b/36c09323/DirectionCD.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4d107ff09ee940489dfdee4710cf4e1247a00/2f/61ec1aed/MinecartCD.cs" root0="SKIP_HIGHLIGHTING" />
@@ -159,14 +580,28 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/7a/6bb50028/Action`3.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/618aa0ba2091409bba60e7868380c4ed127000/25/54d7e814/IJobEntityBatch.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/618aa0ba2091409bba60e7868380c4ed127000/74/4c15a6ac/IComponentData.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/02/f888131b/EditorStyles.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/06/551da127/AssetDatabase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/13/c7436450/PlayerBuildInterface.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/51/e7ec226d/PropertyDrawer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/7b/39a005d4/EditorWindow.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/91/3c0eee98/Editor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/97/831dd105/EditorGUI.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/c2/7f7a8f6c/GUIDrawer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/c3/4b72b0b2/BuildTarget.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/cb/2b233070/ComponentUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6a5b55f2e18b419e9faedac06ac6af94817600/d8/2843eca4/EditorGUILayout.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/06/0fbb05a2/Manager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/40/35e0f067/PugDatabase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/59/8a631d9f/PugTile.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/5e/135c4ad9/EntityUtility.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/96/b5997fd7/KilledByPlayer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/9e/db5aa9dc/ClientSystem.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/a6/c0397ce8/PlayerController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/b4/70a6e8f7/SkillExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/c5/3f931864/UIManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/c6/c0617f1f/State.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/746eb97af9734bf8924a08c944bbedb328b400/cc/d49cfe3a/PugSimulationSystemBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/763b941658c14b96af0ce768cfdf5af9ca00/41/c99ec050/CraftingAuthoring.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/763b941658c14b96af0ce768cfdf5af9ca00/5e/aebf344b/InventoryItemAuthoring.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/763b941658c14b96af0ce768cfdf5af9ca00/a2/c72f69f6/ObjectAuthoring.cs" root0="SKIP_HIGHLIGHTING" />
@@ -192,6 +627,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b3e428868f024fbf9c6c113508562be5b200/70/0b76f734/PseudoTileAuthoring.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b9aadcfc2b974b4492d4135b3858144740400/3d/43cb5682/ObjectInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b9aadcfc2b974b4492d4135b3858144740400/a3/6cc3b289/CraftingSettings.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba5271851b6f4132b89594ebbbcf09fd49000/43/065db7e7/CookingIngredientCD.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ba5271851b6f4132b89594ebbbcf09fd49000/d2/79f23158/GrowingCD.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/04/d5e0d7ad/NativeArrayOptions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/16/16e40802/IJobExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/28/b912dc45/Object.cs" root0="SKIP_HIGHLIGHTING" />
@@ -201,6 +638,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/5a/d6953c59/Vector2Int.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/5d/81752d2b/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/5f/99c70f94/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/7e/e28a5323/Random.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/83/d743886d/Behaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/a4/6b3181ef/LogType.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/bf/507737bf/TextureFormat.cs" root0="SKIP_HIGHLIGHTING" />
@@ -210,19 +648,29 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/e4/8413e8da/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/f9/96548c6a/Vector2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/bae255e3e08e46f7bc2fbd23dde96338158800/fc/771c2add/Color.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c04206fb40aa4aa796216e051c4c84904600/01/b7ebf8ca/MemberInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c04206fb40aa4aa796216e051c4c84904600/0c/ef02cec5/IConfig.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c04206fb40aa4aa796216e051c4c84904600/55/65810fdc/IReflection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/c04206fb40aa4aa796216e051c4c84904600/77/ccc541fd/ModAPIExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/55/7835ae66/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/55/812a0885/Utf8JsonWriter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/69/8a4e5c75/JsonDocument.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/9c/3677f836/JsonConverter`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/a7/cf0e0fc5/JsonPropertyNameAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/c6/2fdd529e/JsonSerializerOptions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/d3/6f1d7bf8/JsonReaderHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/dd/215c5630/JsonProperty.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/df/51a61b03/JsonElement.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cb68364b029e41c3bf425990b94c94d953600/e3/cc03d12e/JsonValueKind.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cc438d31b81343ceba6531ec429c0afe40a00/4d/1a6dc3e2/HarmonyMethod.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cc438d31b81343ceba6531ec429c0afe40a00/a3/ad7bd680/Harmony.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/cd379a3381d5469592bddd62cb8945c536000/9e/b7996ea2/EffectEventCD.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dd5b7ed4aa5c418d9a263136ff4339c81d9600/3f/78cd3dd7/ReInput.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dd5b7ed4aa5c418d9a263136ff4339c81d9600/7c/bfcbaba0/InputAction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dd5b7ed4aa5c418d9a263136ff4339c81d9600/97/0f42cc42/UserData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dd5b7ed4aa5c418d9a263136ff4339c81d9600/e1/bfd728a0/ActionCategoryMap.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e27fc4654ea54a928eb7b20086643b62ca00/a2/c37ff978/InventoryAuthoring.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e27fc4654ea54a928eb7b20086643b62ca00/a6/eb20c699/InventoryItemAuthoring.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6153b22dba9494490ce0b1b40e7e4f8b000/16/48aa6f61/PugConverter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ec1cf85c5f2c42c7a1c8e6a872c38ed440200/95/6d68b54f/PlayerCustomizationTable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ec1cf85c5f2c42c7a1c8e6a872c38ed440200/bb/de441d6e/CraftingObject.cs" root0="SKIP_HIGHLIGHTING" />
@@ -280,6 +728,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/da6a1787df247a0274ec8fc4840f41df092ee13874f55f87a9db568acab1bd2/System.Reflection.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f547e88ca61ed0dceca1eabca811c17384657179b4394e074d325274e3fe2f1/System.ComponentModel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ffe351aa6232372f4a3b8c3ff36a636f33de226f60e607acbfe569289d7289d/System.IO.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -300,7 +749,7 @@
     &quot;TODO_SCOPE&quot;: &quot;All Places&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.5063063&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;RiderUnityFileTemplatesSettings&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;rider.external.source.directories&quot;: [
@@ -425,28 +874,36 @@
       <workItem from="1695046237546" duration="8149000" />
       <workItem from="1695063167398" duration="2298000" />
       <workItem from="1695107509683" duration="28322000" />
-      <workItem from="1695193784594" duration="181000" />
-    </task>
-    <task id="LOCAL-00006" summary="Improve locomotive backwards movement">
-      <created>1689965639757</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1689965639757</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Some changes to joint logic">
-      <created>1691682133540</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1691682133540</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Improve minecart move logic">
-      <created>1692034533567</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1692034533567</updated>
+      <workItem from="1695193784594" duration="14149000" />
+      <workItem from="1695211992049" duration="1973000" />
+      <workItem from="1695217491974" duration="2452000" />
+      <workItem from="1695222908214" duration="533000" />
+      <workItem from="1695279589427" duration="4952000" />
+      <workItem from="1695308809624" duration="6207000" />
+      <workItem from="1695320225088" duration="440000" />
+      <workItem from="1695321459282" duration="1101000" />
+      <workItem from="1695362800168" duration="19640000" />
+      <workItem from="1695390406630" duration="1323000" />
+      <workItem from="1695395242910" duration="1594000" />
+      <workItem from="1695403731832" duration="2032000" />
+      <workItem from="1695453568463" duration="1543000" />
+      <workItem from="1695460525402" duration="6791000" />
+      <workItem from="1695477860077" duration="5255000" />
+      <workItem from="1695488095830" duration="87000" />
+      <workItem from="1695490691692" duration="371000" />
+      <workItem from="1695544794692" duration="1971000" />
+      <workItem from="1696249388957" duration="1433000" />
+      <workItem from="1696254413102" duration="11000" />
+      <workItem from="1696437411011" duration="1874000" />
+      <workItem from="1696441485220" duration="587000" />
+      <workItem from="1696442198999" duration="137000" />
+      <workItem from="1696443015379" duration="188000" />
+      <workItem from="1696491535651" duration="12653000" />
+      <workItem from="1696509872429" duration="455000" />
+      <workItem from="1696510398346" duration="68000" />
+      <workItem from="1696511070509" duration="2715000" />
+      <workItem from="1696516907006" duration="592000" />
+      <workItem from="1696517856514" duration="314000" />
     </task>
     <task id="LOCAL-00009" summary="Improve minecart move logic">
       <created>1692034561604</created>
@@ -770,7 +1227,28 @@
       <option name="project" value="LOCAL" />
       <updated>1695139758023</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Update mod sdk">
+      <created>1695194021246</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1695194021247</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Update mod sdk">
+      <created>1695194034506</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1695194034506</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Partial fix for reflection issues">
+      <created>1695363156144</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1695363156145</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
@@ -789,7 +1267,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Add accelerator rails" />
     <MESSAGE value="Replace hacks with a custom RPC" />
     <MESSAGE value="Update to next version of mod SDK" />
     <MESSAGE value="Refactor mod tilesets and add an editor" />
@@ -811,10 +1288,11 @@
     <MESSAGE value="Fix issues" />
     <MESSAGE value="Update Interaction Handler logic" />
     <MESSAGE value="Reimplement Dump Command" />
-    <MESSAGE value="Update mod sdk" />
     <MESSAGE value="Fix issues adding items using JSON" />
     <MESSAGE value="Refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor" />
+    <MESSAGE value="Update mod sdk" />
+    <MESSAGE value="Partial fix for reflection issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="Partial fix for reflection issues" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -825,5 +1303,9 @@
         <watch expression="generatedTree.DescendantNodes().OfType&lt;ClassDeclarationSyntax&gt;()" language="C#" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

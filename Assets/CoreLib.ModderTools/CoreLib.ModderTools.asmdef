@@ -1,5 +1,6 @@
 ﻿{
   "name": "CoreLib.ModderTools",
+  "rootNamespace": "CoreLib.ModderTools",
   "references": [
     "Unity.Burst",
     "Unity.Collections",
@@ -15,7 +16,9 @@
     "Unity.Properties",
     "Unity.Transforms",
     "PugMod.SDK",
-    "CoreLib"
+    "CoreLib",
+    "CoreLib.Commands",
+    "CoreLib.JsonLoader"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
@@ -62,20 +65,7 @@
     "Rewired_Core.dll",
     "Rewired_Windows.dll",
     "Rewired_Windows_Functions.dll",
-    "Sentry.dll",
-    "Sentry.Microsoft.Bcl.AsyncInterfaces.dll",
-    "Sentry.System.Buffers.dll",
-    "Sentry.System.Collections.Immutable.dll",
-    "Sentry.System.Memory.dll",
-    "Sentry.System.Numerics.Vectors.dll",
-    "Sentry.System.Reflection.Metadata.dll",
-    "Sentry.System.Runtime.CompilerServices.Unsafe.dll",
-    "Sentry.System.Text.Encodings.Web.dll",
-    "Sentry.System.Text.Json.dll",
-    "Sentry.System.Threading.Tasks.Extensions.dll",
-    "Sentry.Unity.dll",
-    "Sentry.Unity.iOS.dll",
-    "Sentry.Unity.Native.dll",
+    "System.Text.Json.dll",
     "ZipSaveFolder.dll"
   ],
   "autoReferenced": false,

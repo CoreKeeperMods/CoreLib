@@ -1,0 +1,155 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc43e4983a160e543856e5ba0421c9e1, type: 3}
+  m_Name: CoreLib
+  m_EditorClassIdentifier: 
+  metadata:
+    guid: c4f0016ab9b64c70b386c439b6eac3ab
+    name: CoreLib
+    skipSafetyChecks: 0
+    accessesExtraAssemblies: 1
+    disableHarmonyPatching: 0
+    requiredOn: 0
+    files:
+    - path: Scripts/Scripts/Util/ToggleSwitch.cs
+    - path: Scripts/Scripts/Util/TextureUtil.cs
+    - path: Scripts/Scripts/Util/Submodules/SubmoduleHandler.cs
+    - path: Scripts/Scripts/Util/Submodules/GameVersion.cs
+    - path: Scripts/Scripts/Util/Submodules/BaseSubmodule.cs
+    - path: Scripts/Scripts/Util/State.cs
+    - path: Scripts/Scripts/Util/Players.cs
+    - path: Scripts/Scripts/Util/MonoBehaviourUtils.cs
+    - path: Scripts/Scripts/Util/Logger.cs
+    - path: Scripts/Scripts/Util/GameManagers.cs
+    - path: Scripts/Scripts/Util/Extensions/TopologicalSortExtension.cs
+    - path: Scripts/Scripts/Util/Extensions/RewiredExtensions.cs
+    - path: Scripts/Scripts/Util/Extensions/ReflectionUtil.cs
+    - path: Scripts/Scripts/Util/Extensions/ObjectDataExtensions.cs
+    - path: Scripts/Scripts/Util/Extensions/ModPath.cs
+    - path: Scripts/Scripts/Util/Extensions/MathExtensions.cs
+    - path: Scripts/Scripts/Util/Extensions/JsonExtensions.cs
+    - path: Scripts/Scripts/Util/Extensions/HarmonyUtil.cs
+    - path: Scripts/Scripts/Util/Extensions/GeneralExtensions.cs
+    - path: Scripts/Scripts/Util/Extensions/ECSExtensions.cs
+    - path: Scripts/Scripts/Util/Extensions/CollectionUtils.cs
+    - path: Scripts/Scripts/Util/Debug.cs
+    - path: Scripts/Scripts/Util/Data/TypeConverter.cs
+    - path: Scripts/Scripts/Util/Data/JsonConfigFile.cs
+    - path: Scripts/Scripts/Util/Data/IdBindConfigFile.cs
+    - path: Scripts/Scripts/Util/Data/IdBind.cs
+    - path: Scripts/Scripts/Util/Data/ConfigEntry.cs
+    - path: Scripts/Scripts/Util/Attribute/ModTilesetAttribute.cs
+    - path: Scripts/Scripts/Submodules/TileSet/TileSetModule.cs
+    - path: Scripts/Scripts/Submodules/TileSet/Patches/TilesetTypeUtility_Patch.cs
+    - path: Scripts/Scripts/Submodules/TileSet/ModTileset.cs
+    - path: Scripts/Scripts/Submodules/TileSet/Authoring/ModTileCDAuthoring.cs
+    - path: Scripts/Scripts/Submodules/TileSet/Authoring/ModPseudoTileCDAuthoring.cs
+    - path: Scripts/Scripts/Submodules/RewiredExtension/RewiredExtensionModule.cs
+    - path: Scripts/Scripts/Submodules/RewiredExtension/Patches/Rewired_Patch.cs
+    - path: Scripts/Scripts/Submodules/RewiredExtension/Patches/Rewired_Init_Patch.cs
+    - path: Scripts/Scripts/Submodules/RewiredExtension/KeyBindData.cs
+    - path: Scripts/Scripts/Submodules/ModResources/ResourcesModule.cs
+    - path: Scripts/Scripts/Submodules/ModResources/ResourcesExtension.cs
+    - path: Scripts/Scripts/Submodules/Localization/Patches/TextManager_Patch.cs
+    - path: Scripts/Scripts/Submodules/Localization/LocalizationModule.cs
+    - path: Scripts/Scripts/Submodules/Localization/LocalizationExtension.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/RegisterReaderAttribute.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Readers/ModWorkbenchJsonReader.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Readers/ModificationJsonReader.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Readers/ItemJsonReader.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Readers/IJsonReader.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Readers/DropJsonReader.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Readers/BundleJsonLoader.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Readers/BlockJsonReader.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Patch/MemoryManager_Patch_2.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/IInteractionHandler.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/IFileAccess.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/FileReference.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/Texture2DConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/Stubs/TransformConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/Stubs/IntPtrConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/Stubs/GameObjectConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/Stubs/EntityMonoBehaviorDataConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/Stubs/EntityMonoBehaviorConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/SpriteConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/RectConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/ObjectTypeConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/ObjectIDConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/LootTableIDConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/CraftingObjectConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/CraftableObjectConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/ConverterUtil.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Converters/ColorConverter.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/ContextHandle.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Components/TemplateBlockCDAuthoring.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Components/TemplateBlock.cs
+    - path: Scripts/Scripts/Submodules/JsonLoader/Components/IHasDefaultValue.cs
+    - path: Scripts/Scripts/Submodules/Equipment/Patches/PlayerController_Patch_2.cs
+    - path: Scripts/Scripts/Submodules/Equipment/Patches/Emote_Patch.cs
+    - path: Scripts/Scripts/Submodules/Equipment/IModEquipmentSlot.cs
+    - path: Scripts/Scripts/Submodules/Equipment/EquipmentModule.cs
+    - path: Scripts/Scripts/Submodules/Equipment/Component/ModObjectTypeAuthoring.cs
+    - path: Scripts/Scripts/Submodules/Entity/WorkbenchDefinition.cs
+    - path: Scripts/Scripts/Submodules/Entity/PrefabCrawler.cs
+    - path: Scripts/Scripts/Submodules/Entity/Patches/SimpleCraftingBuilding_Patch.cs
+    - path: Scripts/Scripts/Submodules/Entity/Patches/PlayerController_Patch.cs
+    - path: Scripts/Scripts/Submodules/Entity/Patches/MemoryManager_Patch.cs
+    - path: Scripts/Scripts/Submodules/Entity/Patches/ColorReplacer_Patch.cs
+    - path: Scripts/Scripts/Submodules/Entity/Interfaces/IDynamicItemHandler.cs
+    - path: Scripts/Scripts/Submodules/Entity/EntityModule.cs
+    - path: Scripts/Scripts/Submodules/Entity/CraftingData.cs
+    - path: Scripts/Scripts/Submodules/Entity/Components/RuntimeMaterial.cs
+    - path: Scripts/Scripts/Submodules/Entity/Components/ModWorkbenchSkins.cs
+    - path: Scripts/Scripts/Submodules/Entity/Components/ModCraftingAuthoring.cs
+    - path: Scripts/Scripts/Submodules/Entity/Components/ModCDAuthoringBase.cs
+    - path: Scripts/Scripts/Submodules/Entity/Components/EntityPrefabOverride.cs
+    - path: Scripts/Scripts/Submodules/Entity/Atributes/PrefabModificationAttribute.cs
+    - path: Scripts/Scripts/Submodules/Entity/Atributes/EntityModificationAttribute.cs
+    - path: Scripts/Scripts/Submodules/DropTables/Patches/LootTableBank_Patch.cs
+    - path: Scripts/Scripts/Submodules/DropTables/DropTablesModule.cs
+    - path: Scripts/Scripts/Submodules/DropTables/DropTableModificationData.cs
+    - path: Scripts/Scripts/Submodules/DropTables/CustomLootTableData.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/Util/CommandUtil.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/Patches/TitleScreenAnimator_Patch.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/Patches/ChatWindow_Patch.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/Communication/CommandMessageRPC.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/Communication/CommandCommSystem.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/CommandsModule.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/Commands/IChatCommandHandler.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/Commands/HelpCommandHandler.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/Commands/DirectMessageCommandHandler.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/CommandPair.cs
+    - path: Scripts/Scripts/Submodules/ChatCommands/CommandOutput.cs
+    - path: Scripts/Scripts/Submodules/Audio/Patches/MusicManager_Patch.cs
+    - path: Scripts/Scripts/Submodules/Audio/Patches/AudioManager_Patch.cs
+    - path: Scripts/Scripts/Submodules/Audio/MusicInfo.cs
+    - path: Scripts/Scripts/Submodules/Audio/AudioModule.cs
+    - path: Scripts/Scripts/CoreLibMod.cs
+    - path: Scripts/Generated/CommandCommSystem__System_1307719570.g.cs
+    - path: Scripts/Generated/ConverterUtil__VectorConverters_2062008614.g.cs
+    - path: Scripts/Generated/float2JsonConverter__VectorConverters_165881568.g.cs
+    - path: Scripts/Generated/float3JsonConverter__VectorConverters_1623305339.g.cs
+    - path: Scripts/Generated/int2JsonConverter__VectorConverters_433881381.g.cs
+    - path: Scripts/Generated/int3JsonConverter__VectorConverters_1672650890.g.cs
+    - path: Scripts/Generated/Vector2IntJsonConverter__VectorConverters_110422352.g.cs
+    - path: Scripts/Generated/Vector2JsonConverter__VectorConverters_409814783.g.cs
+    - path: Scripts/Generated/Vector3IntJsonConverter__VectorConverters_1577595153.g.cs
+    - path: Scripts/Generated/Vector3JsonConverter__VectorConverters_1551715072.g.cs
+    - path: Scripts/Generated/CoreLib.Submodules.ChatCommands.Communication_CommandDataMessageRPCCommandSerializer.cs
+    - path: Scripts/Generated/CoreLib.Submodules.ChatCommands.Communication_CommandMessageRPCCommandSerializer.cs
+    - path: Bundles/CoreLib_Windows.assetbundle
+    dependencies: []
+  modPath: Assets/CoreLib
+  forceReimport: 0
+  buildLinux: 0
+  buildBurst: 0

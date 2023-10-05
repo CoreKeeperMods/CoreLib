@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f4bd248e-c53b-48fd-bf88-fca388d11bac" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/Scripts.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/Scripts/CoreLibModderToolsMod.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/Scripts/CoreLibModderToolsMod.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/IFileAccess.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/IFileAccess.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/HarmonyUtil.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/HarmonyUtil.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ModPath.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ModPath.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CKModSDK/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/CoreLib.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/CoreLibMod.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/AudioModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Audio/AudioModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ChatCommands/CommandsModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/DropTablesModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/DropTables/DropTablesModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModWorkbenchSkins.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Components/ModWorkbenchSkins.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/EntityModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/EntityUtility_Patch.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Entity/Patches/EntityUtility_Patch.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Equipment/EquipmentModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/ContextHandle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/ContextHandle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/SpriteConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/SpriteConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Texture2DConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Converters/Texture2DConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/DumpCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/Scripts/DumpCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/DumpCommandHandler.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib.ModderTools/Scripts/DumpCommandHandler.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/FileContext.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/FileContext.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/JsonLoaderModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/ModifyFile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/FileReference.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/ModifyFile.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/FileReference.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BlockJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BlockJsonReader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BundleJsonLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/BundleJsonLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/DropJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/DropJsonReader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/IJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/IJsonReader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ItemJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ItemJsonReader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModWorkbenchJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModWorkbenchJsonReader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModificationJsonReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/JsonLoader/Readers/ModificationJsonReader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/Localization/LocalizationModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/ModResources/ResourcesModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/Patches/Rewired_Init_Patch.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/Patches/Rewired_Init_Patch.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/RewiredExtensionModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/RewiredExtension/RewiredExtensionModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Submodules/TileSet/TileSetModule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/TypeConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Data/TypeConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/GeneralExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ReflectionUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Extensions/ReflectionUtil.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/BaseSubmodule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/BaseSubmodule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/GameVersion.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/GameVersion.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/SubmoduleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/Submodules/SubmoduleHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/TextureUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CoreLib/Scripts/Util/TextureUtil.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Graphics/Presets/TextureImporter.preset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Graphics/Presets/TextureImporter.preset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ModSDK/SDK/Editor/ModBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RailLogistics/RailLogistics.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RailLogistics/RailLogistics.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/SpriteAssetManifest.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/SpriteAssetManifest.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2VeyBD64mPC7Bds0700lArsdc4j" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f4bd248e-c53b-48fd-bf88-fca388d11bac" name="Default Changelist" comment="" />
+      <created>1695210706434</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1695210706434</updated>
+      <workItem from="1695210708949" duration="1206000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

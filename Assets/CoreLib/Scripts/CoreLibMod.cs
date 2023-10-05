@@ -1,5 +1,6 @@
 ﻿using System;
-using CoreLib.Submodules.TileSet;
+using System.Runtime.CompilerServices;
+using CoreLib.ModResources;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using PugMod;
@@ -8,6 +9,18 @@ using Unity.Entities;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
 using Object = UnityEngine.Object;
+
+[assembly:InternalsVisibleTo("CoreLib.Audio")]
+[assembly:InternalsVisibleTo("CoreLib.Commands")]
+[assembly:InternalsVisibleTo("CoreLib.Drops")]
+[assembly:InternalsVisibleTo("CoreLib.Editor")]
+[assembly:InternalsVisibleTo("CoreLib.Entity")]
+[assembly:InternalsVisibleTo("CoreLib.Equipment")]
+[assembly:InternalsVisibleTo("CoreLib.JsonLoader")]
+[assembly:InternalsVisibleTo("CoreLib.Localization")]
+[assembly:InternalsVisibleTo("CoreLib.ModderTools")]
+[assembly:InternalsVisibleTo("CoreLib.RewiredExtension")]
+[assembly:InternalsVisibleTo("CoreLib.Tilesets")]
 
 namespace CoreLib
 {
@@ -32,16 +45,17 @@ namespace CoreLib
                 Log.LogError("Failed to load CoreLib: mod metadata not found!");
                 return;
             }
-
-            string directory = API.ModLoader.GetDirectory(modInfo.ModId);
             
-            BurstRuntime.LoadAdditionalLibrary(ModPath.Combine(directory, "CoreLib_burst_generated.dll"));
             API.Server.OnWorldCreated += WorldInitialize;
 
             CheckIfUsedOnRightGameVersion();
             
             submoduleHandler = new SubmoduleHandler(buildFor, Log);
-            LoadModule(typeof(TileSetModule));
+        }
+
+        internal static void Patch(Type type)
+        {
+            API.ModLoader.ApplyHarmonyPatch(modInfo.ModId, type);
         }
 
         public void Init()

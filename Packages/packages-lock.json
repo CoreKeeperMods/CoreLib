@@ -20,13 +20,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.assetbundlebrowser": {
-      "version": "1.7.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
     "com.unity.burst": {
       "version": "1.7.3",
       "depth": 1,
@@ -35,13 +28,6 @@
         "com.unity.mathematics": "1.2.1"
       },
       "url": "https://packages.unity.com"
-    },
-    "com.unity.code-analysis": {
-      "version": "https://github.com/needle-mirror/com.unity.code-analysis.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "d79d036a24852f45cebb4e1f7ace3e805c95fede"
     },
     "com.unity.collections": {
       "version": "1.4.0",
