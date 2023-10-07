@@ -33,7 +33,7 @@ namespace CoreLib
         public static AssetBundle AssetBundle => modInfo.AssetBundles[0];
         
         public static Logger Log = new Logger(NAME);
-        public static readonly GameVersion buildFor = new GameVersion(0, 6, 0, 3, "3a54");
+        public static readonly GameVersion buildFor = new GameVersion(0, 7, 0, 3, "25d3");
 
         internal static SubmoduleHandler submoduleHandler;
 

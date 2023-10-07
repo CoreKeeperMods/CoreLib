@@ -7,8 +7,12 @@ using CoreLib.Commands.Patches;
 using CoreLib.RewiredExtension;
 using Newtonsoft.Json;
 using PugMod;
+using QFSW.QC;
+using QFSW.QC.Utilities;
 using Rewired;
 using Unity.Burst;
+using UnityEngine;
+using UnityEngine.Scripting;
 
 // ReSharper disable SuspiciousTypeConversion.Global
 
@@ -126,7 +130,7 @@ namespace CoreLib.Commands
 
         #region Private Implementation
 
-        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal override GameVersion Build => new GameVersion(0, 7, 0, 3, "25d3");
         internal override Type[] Dependencies => new[] { typeof(RewiredExtensionModule) };
         internal static CommandsModule Instance => CoreLibMod.GetModuleInstance<CommandsModule>();
 
@@ -145,12 +149,15 @@ namespace CoreLib.Commands
         
         private static CommandCommSystem clientCommSystem;
         private static CommandCommSystem serverCommSystem;
+        
+        internal static QuantumConsole quantumConsole;
 
         internal override void SetHooks()
         {
             CoreLibMod.Patch(typeof(ChatWindow_Patch));
             CoreLibMod.Patch(typeof(TitleScreenAnimator_Patch));
             CoreLibMod.Patch(typeof(ECSManager_Patch));
+            CoreLibMod.Patch(typeof(MenuManager_Patch));
         }
 
         internal override void Load()
@@ -211,6 +218,52 @@ namespace CoreLib.Commands
             API.Server.AddMainThreadSystem(serverCommSystem);
         }
 
+        public static void ToggleQC()
+        {
+            if (quantumConsole != null)
+                quantumConsole.Toggle();
+        }
+
+        public static void SendQCMessage(string text, CommandStatus status)
+        {
+            if (quantumConsole != null)
+            {
+                quantumConsole.LogToConsole(text.ColorText(status.GetColor()));
+            }
+        }
+
+        internal static void InitQuantumConsole(QuantumConsole console)
+        {
+            quantumConsole = console;
+            quantumConsole.OnInvoke += HandleQuantumeConsoleCommand;
+        }
+
+        private static void HandleQuantumeConsoleCommand(string command)
+        {
+            if (command.StartsWith("chat "))
+            {
+                var args = command.Replace("chat", "").TrimStart();
+                SendCommand($"{CommandPrefix}{args}", true);
+            }
+        }
+
+        internal static bool SendCommand(string input, bool isQuantumConsole = false)
+        {
+            string[] args = input.Split(' ');
+            if (args.Length < 1 || !args[0].StartsWith(CommandPrefix)) return true;
+            if (ClientCommSystem == null) return true;
+
+            CommandFlags flags = CommandFlags.None;
+            
+            if (settings.displayAdditionalHints)
+                flags |= CommandFlags.UserWantsHints;
+            if (isQuantumConsole)
+                flags |= CommandFlags.SentFromQuantumConsole;
+
+            ClientCommSystem.SendCommand(input, flags);
+            return false;
+        }
+
         internal static void ServerHandleCommand(CommandMessage message)
         {
             string[] args = message.message.Split(' ');
@@ -230,13 +283,13 @@ namespace CoreLib.Commands
                     serverCommSystem.SendRelayCommand(message.message);
                     return;
                 }
-                serverCommSystem.SendResponse($"Command {cmdName} does not exist!", CommandStatus.Error);
+                serverCommSystem.SendResponse($"Command {cmdName} does not exist!", CommandStatus.Error, message.commandFlags);
                 return;
             }
 
             if (!CheckCommandPermission(message, commandPair))
             {
-                serverCommSystem.SendResponse($"Not enough permissions to execute {cmdName}! Please contact server owner for more info.", CommandStatus.Error);
+                serverCommSystem.SendResponse($"Not enough permissions to execute {cmdName}! Please contact server owner for more info.", CommandStatus.Error, message.commandFlags);
                 return;
             }
 
@@ -251,7 +304,7 @@ namespace CoreLib.Commands
             var result = ExecuteCommand(commandPair, message, parameters);
             foreach (CommandOutput output in result)
             {
-                serverCommSystem.SendResponse(output.feedback, output.status);
+                serverCommSystem.SendResponse(output.feedback, output.status, message.commandFlags);
             }
         }
 
@@ -287,23 +340,24 @@ namespace CoreLib.Commands
 
             if (!GetCommandHandler(cmdName, out CommandPair commandPair))
             {
-                clientCommSystem.AppendMessage(new CommandMessage($"Command {cmdName} does not exist!", CommandStatus.Error));
+                clientCommSystem.AppendMessage(new CommandMessage($"Command {cmdName} does not exist!", CommandStatus.Error, message.commandFlags));
                 return;
             }
 
             if (commandPair.isServer)
             {
-                clientCommSystem.AppendMessage(new CommandMessage($"Cannot execute {cmdName} locally. It's a server command!", CommandStatus.Error));
+                clientCommSystem.AppendMessage(new CommandMessage($"Cannot execute {cmdName} locally. It's a server command!", CommandStatus.Error, message.commandFlags));
                 return;
             }
 
             string[] parameters = args.Skip(1).ToArray();
-            message.userWantsHints = settings.displayAdditionalHints;
+            if (settings.displayAdditionalHints)
+                message.commandFlags |= CommandFlags.UserWantsHints;
             
             var result = ExecuteCommand(commandPair, message, parameters);
             foreach (CommandOutput output in result)
             {
-                clientCommSystem.AppendMessage(new CommandMessage(output));
+                clientCommSystem.AppendMessage(new CommandMessage(output, message.commandFlags));
             }
         }
         
@@ -316,7 +370,7 @@ namespace CoreLib.Commands
                 CommandOutput output = command.Execute(message, parameters);
                 result.Add(output);
                 
-                if (output.status == CommandStatus.Error && message.userWantsHints)
+                if (output.status == CommandStatus.Error && message.commandFlags.HasFlag(CommandFlags.UserWantsHints))
                 {
                     if (brackets.Any(c => message.message.Contains(c)))
                     {

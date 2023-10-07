@@ -11,7 +11,7 @@ namespace CoreLib.Drops
     {
         #region Public Interface
 
-        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal override GameVersion Build => new GameVersion(0, 7, 0, 3, "25d3");
         internal static DropTablesModule Instance => CoreLibMod.GetModuleInstance<DropTablesModule>();
 
         public static bool HasLootTableID(string lootTableId)

@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using System;
+using Unity.Entities;
 using Unity.NetCode;
 
 namespace CoreLib.Commands.Communication
@@ -20,13 +21,21 @@ namespace CoreLib.Commands.Communication
         Error
     }
 
+    [Flags]
+    public enum CommandFlags : byte
+    {
+        None = 0,
+        UserWantsHints = 1,
+        SentFromQuantumConsole = 2
+    }
+
     public struct CommandMessageRPC : IRpcCommand
     {
         public int messageNumber;
         public int totalSize;
         public CommandMessageType messageType;
         public CommandStatus status;
-        public bool userWantsHints;
+        public CommandFlags commandFlags;
     }
 
     public struct CommandDataMessageRPC : IRpcCommand
@@ -42,24 +51,24 @@ namespace CoreLib.Commands.Communication
         public Entity sender;
         public CommandMessageType messageType;
         public CommandStatus status;
-        public bool userWantsHints; 
-
-        public CommandMessage(CommandOutput output)
+        public CommandFlags commandFlags; 
+        
+        public CommandMessage(CommandOutput output, CommandFlags flags = CommandFlags.None)
         {
             message = output.feedback;
             status = output.status;
             messageType = CommandMessageType.ChatMessage;
             sender = Entity.Null;
-            userWantsHints = false;
+            commandFlags = flags;
         }
         
-        public CommandMessage(string feedback, CommandStatus status)
+        public CommandMessage(string feedback, CommandStatus status, CommandFlags flags = CommandFlags.None)
         {
             message = feedback;
             this.status = status;
             messageType = CommandMessageType.ChatMessage;
             sender = Entity.Null;
-            userWantsHints = false;
+            commandFlags = flags;
         }
     }
 }

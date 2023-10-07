@@ -12,10 +12,6 @@ namespace CoreLib.Audio
     {
         #region Public Interface
 
-        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
-
-        internal static AudioModule Instance => CoreLibMod.GetModuleInstance<AudioModule>();
-
         public static bool IsVanilla(MusicRosterType rosterType)
         {
             return (int)rosterType <= maxVanillaRosterId;
@@ -72,6 +68,10 @@ namespace CoreLib.Audio
 
         #region Private Implementation
 
+        internal override GameVersion Build => new GameVersion(0, 7, 0, 3, "25d3");
+
+        internal static AudioModule Instance => CoreLibMod.GetModuleInstance<AudioModule>();
+        
         public static Dictionary<int, MusicManager.MusicRoster> customRosterMusic;
         public static Dictionary<int, MusicManager.MusicRoster> vanillaRosterAddTracksInfos;
         public static List<AudioField> customSoundEffects;

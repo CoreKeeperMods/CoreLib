@@ -38,7 +38,7 @@ namespace CoreLib.Commands.Communication
             }
         }
 
-        public void SendCommand(string message, bool hintsRequested)
+        public void SendCommand(string message, CommandFlags commandFlags)
         {
             if (isServer)
             {
@@ -46,7 +46,7 @@ namespace CoreLib.Commands.Communication
                 return;
             }
 
-            SendMessage(message, CommandMessageType.Command, CommandStatus.None, hintsRequested);
+            SendMessage(message, CommandMessageType.Command, CommandStatus.None, commandFlags);
         }
         
         public void SendRelayCommand(string message)
@@ -68,10 +68,10 @@ namespace CoreLib.Commands.Communication
                 return;
             }
 
-            SendMessage(message, CommandMessageType.ChatMessage, CommandStatus.None, false, targetConnection);
+            SendMessage(message, CommandMessageType.ChatMessage, CommandStatus.None, CommandFlags.None, targetConnection);
         }
 
-        public void SendResponse(string message, CommandStatus status, Entity targetConnection = default)
+        public void SendResponse(string message, CommandStatus status, CommandFlags commandFlags = CommandFlags.None, Entity targetConnection = default)
         {
             if (!isServer)
             {
@@ -79,14 +79,14 @@ namespace CoreLib.Commands.Communication
                 return;
             }
 
-            SendMessage(message, CommandMessageType.Response, status, false, targetConnection);
+            SendMessage(message, CommandMessageType.Response, status, commandFlags, targetConnection);
         }
 
         private void SendMessage(
             string message, 
             CommandMessageType messageType, 
             CommandStatus status, 
-            bool hintsRequested = false,
+            CommandFlags commandFlags = CommandFlags.None,
             Entity targetConnection = default)
         {
             messageCount++;
@@ -107,7 +107,7 @@ namespace CoreLib.Commands.Communication
                 messageType = messageType,
                 status = status,
                 totalSize = bytesLength,
-                userWantsHints = hintsRequested
+                commandFlags = commandFlags
             };
 
             CommandDataMessageRPC messagePart = new CommandDataMessageRPC
@@ -158,7 +158,7 @@ namespace CoreLib.Commands.Communication
                         sender = req.SourceConnection,
                         messageType = rpc.messageType,
                         status = rpc.status,
-                        userWantsHints = rpc.userWantsHints
+                        commandFlags = rpc.commandFlags
                     });
                     partialMessagesData.Add(rpc.messageNumber, new byte[rpc.totalSize]);
                     ecb.DestroyEntity(entity);

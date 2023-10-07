@@ -17,24 +17,24 @@ namespace CoreLib.Util.Extensions
 
         public static void InvokeVoid(this object obj, string methodName, object[] args)
         {
-            var field = obj.GetType()
+            var method = obj.GetType()
                 .GetMembersChecked()
                 .FirstOrDefault(info => info.GetNameChecked().Equals(methodName));
-            if (field == null)
+            if (method == null)
                 throw new MissingFieldException(obj.GetType().GetNameChecked(), methodName);
 
-            API.Reflection.GetValue(field, obj);;
+            API.Reflection.Invoke(method, obj, args);;
         }
 
         public static T Invoke<T>(this object obj, string methodName, object[] args)
         {
-            var field = obj.GetType()
+            var method = obj.GetType()
                 .GetMembersChecked()
                 .FirstOrDefault(info => info.GetNameChecked().Equals(methodName));
-            if (field == null)
+            if (method == null)
                 throw new MissingFieldException(obj.GetType().GetNameChecked(), methodName);
 
-            return (T)API.Reflection.Invoke(field, obj, args);
+            return (T)API.Reflection.Invoke(method, obj, args);
         }
 
         public static T GetValue<T>(this object obj, string fieldName)

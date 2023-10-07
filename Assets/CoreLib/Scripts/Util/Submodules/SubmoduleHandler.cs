@@ -17,6 +17,7 @@ namespace CoreLib
 
         private readonly HashSet<string> loadedModules;
         private readonly Dictionary<Type, BaseSubmodule> allModules;
+        private int lastSubmoduleCount;
 
         internal SubmoduleHandler(GameVersion build, Logger logger)
         {
@@ -24,11 +25,12 @@ namespace CoreLib
             this.logger = logger;
             loadedModules = new HashSet<string>();
 
-            allModules = GetSubmodules();
+            allModules = new Dictionary<Type, BaseSubmodule>();
+            UpdateSubmoduleList();
         }
-        
+
         internal T GetModuleInstance<T>()
-        where T : BaseSubmodule
+            where T : BaseSubmodule
         {
             if (allModules.TryGetValue(typeof(T), out BaseSubmodule submodule))
             {
@@ -53,16 +55,19 @@ namespace CoreLib
         {
             return RequestModuleLoad(moduleType, false);
         }
+
         private bool RequestModuleLoad(Type moduleType, bool ignoreDependencies)
         {
             if (moduleType == null)
                 throw new ArgumentNullException(nameof(moduleType));
-            
+
+            UpdateSubmoduleList();
+
             if (!allModules.ContainsKey(moduleType))
                 throw new InvalidOperationException($"Tried to load unknown submodule: '{moduleType.FullName}'!");
 
             var name = moduleType.GetNameChecked();
-            
+
             if (IsLoaded(name)) return true;
 
             CoreLibMod.Log.LogInfo($"Enabling CoreLib Submodule: {name}");
@@ -95,7 +100,7 @@ namespace CoreLib
 
                 submodule.Loaded = true;
                 loadedModules.Add(name);
-                
+
                 submodule.PostLoad();
                 return true;
             }
@@ -122,17 +127,29 @@ namespace CoreLib
             return modulesToAdd;
         }
 
-        public Dictionary<Type, BaseSubmodule> GetSubmodules()
+        private void UpdateSubmoduleList()
         {
-            var moduleTypes = API.Reflection.GetTypes(CoreLibMod.modInfo.ModId).Where(IsSubmodule).ToList();
-            
-            var moduleDict = new Dictionary<Type, BaseSubmodule>();
-            foreach (Type moduleType in moduleTypes)
+            var coreLibModules = API.ModLoader.LoadedMods.Where(IsCoreLibModuleMod);
+            var moduleTypes = coreLibModules
+                .SelectMany(mod => API.Reflection.GetTypes(mod.ModId).Where(IsSubmodule))
+                .ToList();
+
+            if (moduleTypes.Count > lastSubmoduleCount)
             {
-                moduleDict.Add(moduleType, (BaseSubmodule)Activator.CreateInstance(moduleType));
+                foreach (Type moduleType in moduleTypes)
+                {
+                    if (allModules.ContainsKey(moduleType)) continue;
+
+                    allModules.Add(moduleType, (BaseSubmodule)Activator.CreateInstance(moduleType));
+                }
+
+                lastSubmoduleCount = moduleTypes.Count;
             }
-            
-            return moduleDict;
+        }
+
+        private bool IsCoreLibModuleMod(LoadedMod mod)
+        {
+            return mod.Metadata.name.Contains("CoreLib");
         }
 
         private static bool IsSubmodule(Type type)

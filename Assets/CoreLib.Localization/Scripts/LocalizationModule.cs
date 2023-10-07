@@ -75,7 +75,7 @@ namespace CoreLib.Localization
 
         #region Private Implementation
 
-        internal override GameVersion Build => new GameVersion(0, 0, 0, 0, "");
+        internal override GameVersion Build => new GameVersion(0, 7, 0, 3, "25d3");
         internal static LocalizationModule Instance => CoreLibMod.GetModuleInstance<LocalizationModule>();
 
         internal override void SetHooks()
