@@ -517,6 +517,12 @@ namespace CoreLib.Submodules.ModEntity
             newPrefab.hideFlags = HideFlags.HideAndDontSave;
 
             var objectAuthoring = newPrefab.GetComponent<ObjectAuthoring>();
+            var templateObject = newPrefab.GetComponent<TemplateObject>();
+            if (templateObject != null)
+            {
+                objectAuthoring = templateObject.Convert();
+            }
+
             if (objectAuthoring == null)
             {
                 throw new InvalidOperationException(

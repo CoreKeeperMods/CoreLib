@@ -136,7 +136,7 @@ namespace CoreLib.RewiredExtension
 
         internal override void Load()
         {
-           keybindIdCache = new ConfigFile("CoreLib/CoreLib.KeybindID.cfg", true, CoreLibMod.modInfo);
+           keybindIdCache = new ConfigFile($"{CoreLibMod.CONFIG_FOLDER}CoreLib.KeybindID.cfg", true, CoreLibMod.modInfo);
         }
 
         internal static Dictionary<string, KeyBindData> keyBinds = new Dictionary<string, KeyBindData>();

@@ -88,7 +88,7 @@ namespace CoreLib.TileSets
         
         internal override void Load()
         {
-            tilesetIDs = new IdBindConfigFile(CoreLibMod.modInfo, "CoreLib/CoreLib.TilesetID.cfg", modTilesetIdRangeStart, modTilesetIdRangeEnd);
+            tilesetIDs = new IdBindConfigFile(CoreLibMod.modInfo, $"{CoreLibMod.CONFIG_FOLDER}CoreLib.TilesetID.cfg", modTilesetIdRangeStart, modTilesetIdRangeEnd);
             InitTilesets();
             EntityModule.MaterialSwapReady += SwapMaterials;
         }

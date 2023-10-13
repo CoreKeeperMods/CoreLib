@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4246525439771981}
-  - component: {fileID: 7122531607901913587}
+  - component: {fileID: 3528598664536061042}
   - component: {fileID: 8965365665492073857}
   - component: {fileID: 4308706192904822958}
   - component: {fileID: 114396391988895895}
@@ -49,7 +49,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
---- !u!114 &7122531607901913587
+--- !u!114 &3528598664536061042
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,10 +58,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1779668189522198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 318086258, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: 11500000, guid: a28c73fc13a64c319ee1e8dd4960973d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: 
   initialAmount: 1
   variation: 0
   variationIsDynamic: 0
@@ -70,7 +69,6 @@ MonoBehaviour:
   tags: 
   rarity: 0
   graphicalPrefab: {fileID: 0}
-  isCustomScenePrefab: 0
   additionalSprites: []
 --- !u!114 &8965365665492073857
 MonoBehaviour:
@@ -329,6 +327,7 @@ MonoBehaviour:
   canBePlacedOnPit: 0
   canBePlacedOnBlockingObjects: 0
   dontDestroyObjectIfInvalidPlacement: 0
+  canBePlacedOnImmuneTiles: 0
   canBePlacedOnObjects: 
   canNotBePlacedOnObjects: 
   hasVariationsThatCanBePlacedOnWalls: 0
@@ -405,6 +404,7 @@ MonoBehaviour:
   healInCombatAsWell: 0
   healDirectlyWhenLeavingCombat: 0
   healthPercentagePerFifthSecond: 100
+  startHealDelay: 5
 --- !u!114 &6266910433821575672
 MonoBehaviour:
   m_ObjectHideFlags: 0

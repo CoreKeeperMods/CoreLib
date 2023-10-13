@@ -12,6 +12,19 @@ namespace CoreLib.Commands.Patches
         [HarmonyPostfix]
         public static void AfterInit()
         {
+            CheckModItemsSafe();
+        }
+        
+        [HarmonyPatch(typeof(ECSManager), nameof(ECSManager.LoadSubScenes))]
+        [HarmonyPostfix]
+        public static void OnLoadSubScenes()
+        {
+            CheckModItemsSafe();
+        }
+
+
+        private static void CheckModItemsSafe()
+        {
             try
             {
                 CheckModItemNames();
@@ -24,11 +37,16 @@ namespace CoreLib.Commands.Patches
 
         private static void CheckModItemNames()
         {
-            foreach (var pair in Manager.mod.Authoring.ObjectIDLookup)
+            var objectIDLookup = Manager.mod.Authoring.ObjectIDLookup;
+            CoreLibMod.Log.LogInfo($"Checking mod item ids! There are {objectIDLookup.Count} items!");
+            
+            foreach (var pair in objectIDLookup)
             {
                 if (Enum.IsDefined(typeof(ObjectID), pair.Value)) continue;
+                if (CommandsModule.friendlyNameDict.ContainsKey(pair.Key)) continue;
                 
-                CommandUtil.friendlyNameDict.Add(pair.Key, pair.Value);
+                CoreLibMod.Log.LogInfo($"adding mapping: {pair.Key} -> {pair.Value}");
+                CommandsModule.friendlyNameDict.Add(pair.Key, pair.Value);
             }
         }
     }

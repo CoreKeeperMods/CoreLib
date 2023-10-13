@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using CoreLib.Data.Configuration;
 using CoreLib.ModResources;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
@@ -28,13 +29,15 @@ namespace CoreLib
     {
         public const string ID = "CoreLib";
         public const string NAME = "Core Lib";
+        public const string CONFIG_FOLDER = "CoreLib/Config/";
 
         internal static LoadedMod modInfo;
-        public static AssetBundle AssetBundle => modInfo.AssetBundles[0];
+        internal static AssetBundle AssetBundle => modInfo.AssetBundles[0];
         
-        public static Logger Log = new Logger(NAME);
+        internal static Logger Log = new Logger(NAME);
+        internal static ConfigFile Config;
         public static readonly GameVersion buildFor = new GameVersion(0, 7, 0, 3, "25d3");
-
+        
         internal static SubmoduleHandler submoduleHandler;
 
         public void EarlyInit()
@@ -45,7 +48,8 @@ namespace CoreLib
                 Log.LogError("Failed to load CoreLib: mod metadata not found!");
                 return;
             }
-            
+
+            Config = new ConfigFile($"{CONFIG_FOLDER}CoreLib.cfg", true, modInfo);
             API.Server.OnWorldCreated += WorldInitialize;
 
             CheckIfUsedOnRightGameVersion();

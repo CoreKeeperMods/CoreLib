@@ -13,8 +13,6 @@ namespace CoreLib.Commands
 {
     public static class CommandUtil
     {
-        internal static Dictionary<string, ObjectID> friendlyNameDict = new Dictionary<string, ObjectID>();
-
         public static CommandOutput ParseItemName(string fullName, out ObjectID objectID)
         {
             if (Enum.TryParse(fullName, true, out ObjectID objId))
@@ -23,7 +21,7 @@ namespace CoreLib.Commands
                 return "";
             }
 
-            string[] keys = friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
+            string[] keys = CommandsModule.friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
             if (keys.Length == 0)
             {
                 objectID = ObjectID.None;
@@ -35,7 +33,7 @@ namespace CoreLib.Commands
                 try
                 {
                     string key = keys.First(s => s.Equals(fullName));
-                    objectID = friendlyNameDict[key];
+                    objectID = CommandsModule.friendlyNameDict[key];
                     return "";
                 }
                 catch (Exception)
@@ -47,7 +45,7 @@ namespace CoreLib.Commands
                 }
             }
 
-            objectID = friendlyNameDict[keys[0]];
+            objectID = CommandsModule.friendlyNameDict[keys[0]];
             return "";
         }
 

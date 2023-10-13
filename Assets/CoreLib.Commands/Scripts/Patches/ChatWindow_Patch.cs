@@ -24,8 +24,15 @@ namespace CoreLib.Commands.Patches
             while (CommandsModule.ClientCommSystem.TryGetNextMessage(out CommandMessage message))
             {
                 if (message.messageType == CommandMessageType.RelayCommand) continue;
-                
-                SendMessage(__instance, message.message, message.status.GetColor());
+
+                if (message.commandFlags.HasFlag(CommandFlags.SentFromQuantumConsole))
+                {
+                    CommandsModule.SendQCMessage(message.message, message.status);
+                }
+                else
+                {
+                    SendMessage(__instance, message.message, message.status.GetColor());
+                }
             }
 
             if (history.Count <= 0) return;
@@ -94,12 +101,9 @@ namespace CoreLib.Commands.Patches
                 PugText text = __instance.inputField;
                 string input = text.textString;
 
-                string[] args = input.Split(' ');
-                if (args.Length < 1 || !args[0].StartsWith(CommandsModule.CommandPrefix)) return;
-                if (CommandsModule.ClientCommSystem == null) return;
+                if (CommandsModule.SendCommand(input)) return;
 
                 SendMessage(__instance, input, Color.white);
-                CommandsModule.ClientCommSystem.SendCommand(input, CommandsModule.settings.displayAdditionalHints);
                 UpdateHistory(input);
                 commit = false;
             }

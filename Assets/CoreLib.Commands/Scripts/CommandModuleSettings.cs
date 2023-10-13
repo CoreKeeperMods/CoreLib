@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using CoreLib.Data.Configuration;
 
 namespace CoreLib.Commands
 {
     [Serializable]
     public class CommandModuleSettings
     {
-        public bool displayAdditionalHints = true;
-        public bool allowUnknownClientCommands = false;
-        public bool enableCommandSecurity = false;
-        public bool logAllExecutedCommands = true;
+        public ConfigEntry<bool> displayAdditionalHints;
+        public ConfigEntry<bool> allowUnknownClientCommands;
+        public ConfigEntry<bool> enableCommandSecurity;
+        public ConfigEntry<bool> logAllExecutedCommands;
+
+        public Dictionary<string, ConfigEntry<bool>> userAllowedCommands = new Dictionary<string, ConfigEntry<bool>>();
     }
 }

@@ -5,6 +5,7 @@ using CoreLib.Commands.Communication;
 using CoreLib.Commands.Handlers;
 using CoreLib.Commands.Patches;
 using CoreLib.RewiredExtension;
+using CoreLib.Util.Extensions;
 using Newtonsoft.Json;
 using PugMod;
 using QFSW.QC;
@@ -65,7 +66,7 @@ namespace CoreLib.Commands
                         return;
                     }
                     
-                    commandHandlers.Add(new CommandPair(handler, modName));
+                    RegisterCommand(modName, handler);
                 }else if (typeof(IClientCommandHandler).IsAssignableFrom(handlerType))
                 {
                     IClientCommandHandler handler = (IClientCommandHandler)Activator.CreateInstance(handlerType);
@@ -75,7 +76,7 @@ namespace CoreLib.Commands
                         return;
                     }
                     
-                    commandHandlers.Add(new CommandPair(handler, modName));
+                    RegisterCommand(modName, handler);
                 }
             }
             catch (Exception e)
@@ -146,7 +147,8 @@ namespace CoreLib.Commands
         internal static string COMPLETE_KEY = "CoreLib_CompleteKey";
 
         internal static List<CommandPair> commandHandlers = new List<CommandPair>();
-        
+        internal static Dictionary<string, ObjectID> friendlyNameDict = new Dictionary<string, ObjectID>();
+
         private static CommandCommSystem clientCommSystem;
         private static CommandCommSystem serverCommSystem;
         
@@ -169,23 +171,14 @@ namespace CoreLib.Commands
                 throw new Exception("Burst Load Failed!");
             }
             
-            string directory = API.ModLoader.GetDirectory(mod.ModId);
-            BurstRuntime.LoadAdditionalLibrary($"{directory}/CoreLib.Commands_burst_generated.dll");
+            mod.TryLoadBurstAssembly();
         }
 
         internal override void PostLoad()
         {
             CoreLibMod.Log.LogInfo("Commands Module Post Load");
-            if (API.Config.TryGet(CoreLibMod.ID, "CommandModule", "Settings", out string jsonData))
-            {
-                if (!string.IsNullOrEmpty(jsonData))
-                {
-                    settings = JsonConvert.DeserializeObject<CommandModuleSettings>(jsonData);
-                }
-            }
 
-            string jsonString = JsonConvert.SerializeObject(settings, Formatting.Indented);
-            API.Config.Set(CoreLibMod.ID, "CommandModule", "Settings", jsonString);
+            LoadConfigData();
 
             RegisterCommandHandler(typeof(HelpCommandHandler), "Core Lib");
             RegisterCommandHandler(typeof(DirectMessageCommandHandler), "Core Lib");
@@ -194,14 +187,51 @@ namespace CoreLib.Commands
             RewiredExtensionModule.AddKeybind(UP_KEY, "Next command", KeyboardKeyCode.UpArrow);
             RewiredExtensionModule.AddKeybind(DOWN_KEY, "Previous command", KeyboardKeyCode.DownArrow);
             RewiredExtensionModule.AddKeybind(COMPLETE_KEY, "Autocomplete command", KeyboardKeyCode.Tab);
-            /*remindAboutHelpCommand = CoreLibMod.Instance.Config.Bind(
-                "ChatModule",
-                "remindAboutHelp",
-                true,
-                "Should user be reminded about existance of /help command any time a command returns error code output?");*/
 
             API.Client.OnWorldCreated += ClientWorldReady;
             API.Server.OnWorldCreated += ServerWorldReady;
+        }
+
+        private static void LoadConfigData()
+        {
+            settings.displayAdditionalHints = CoreLibMod.Config.Bind(
+                "Commands",
+                "DisplayAdditionalHints",
+                true,
+                "Should user be given hints when errors are found?");
+
+            settings.logAllExecutedCommands = CoreLibMod.Config.Bind(
+                "Commands",
+                "LogAllExecutedCommands",
+                true,
+                "Should all commands executed be logged to console/log file");
+
+            settings.enableCommandSecurity = CoreLibMod.Config.Bind(
+                "Commands",
+                "EnableCommandSecurity",
+                false,
+                "Should command security system be enabled? This system can check user permissions, and deny execution of any/specific commands");
+
+            settings.allowUnknownClientCommands = CoreLibMod.Config.Bind(
+                "Commands",
+                "AllowUnknownClientCommands",
+                false,
+                "Should client commands unknown to the server be allowed to be executed?");
+        }
+        
+        private static void RegisterCommand(string modName, ICommandInfo handler)
+        {
+            commandHandlers.Add(new CommandPair(handler, modName));
+
+            string triggerName = handler.GetTriggerNames()[0];
+            if (settings.userAllowedCommands.ContainsKey(triggerName)) return;
+            
+            var value = CoreLibMod.Config.Bind(
+                "CommandPermissions",
+                $"{modName}_{triggerName}",
+                true,
+                $"Are users (IE not admins) allowed to execute {triggerName}?");
+            settings.userAllowedCommands[triggerName] = value;
         }
 
         private static void ClientWorldReady()
@@ -255,7 +285,7 @@ namespace CoreLib.Commands
 
             CommandFlags flags = CommandFlags.None;
             
-            if (settings.displayAdditionalHints)
+            if (settings.displayAdditionalHints.Value)
                 flags |= CommandFlags.UserWantsHints;
             if (isQuantumConsole)
                 flags |= CommandFlags.SentFromQuantumConsole;
@@ -273,12 +303,18 @@ namespace CoreLib.Commands
 
             if (!GetCommandHandler(cmdName, out CommandPair commandPair))
             {
-                if (settings.allowUnknownClientCommands)
+                if (settings.allowUnknownClientCommands.Value)
                 {
-                    if (settings.logAllExecutedCommands)
+                    if (settings.logAllExecutedCommands.Value)
                     {
                         string playerName = message.sender.GetPlayerEntity().GetPlayerName();
                         CoreLibMod.Log.LogInfo($"[{playerName} unknown command relayed]: {message.message}");
+                    }
+                    
+                    if (!CheckCommandPermission(message, commandPair))
+                    {
+                        serverCommSystem.SendResponse($"Not enough permissions to execute {cmdName}! Please contact server owner for more info.", CommandStatus.Error, message.commandFlags);
+                        return;
                     }
                     serverCommSystem.SendRelayCommand(message.message);
                     return;
@@ -293,7 +329,7 @@ namespace CoreLib.Commands
                 return;
             }
 
-            if (settings.logAllExecutedCommands)
+            if (settings.logAllExecutedCommands.Value)
             {
                 string playerName = message.sender.GetPlayerEntity().GetPlayerName();
                 CoreLibMod.Log.LogInfo($"[{playerName} executed]: {message.message}");
@@ -310,11 +346,12 @@ namespace CoreLib.Commands
 
         internal static bool CheckCommandPermission(CommandMessage message, CommandPair command)
         {
-            if (!settings.enableCommandSecurity) return true;
+            if (!settings.enableCommandSecurity.Value) return true;
             var entityManager = API.Server.World.EntityManager;
             if (!entityManager.Exists(message.sender)) return false;
             
             bool guestMode = entityManager.World.GetExistingSystem<WorldInfoSystem>().WorldInfo.guestMode;
+            if (guestMode) return false;
             int adminLevel = 0;
             
             if (entityManager.HasComponent<ConnectionAdminLevelCD>(message.sender))
@@ -322,12 +359,17 @@ namespace CoreLib.Commands
                 adminLevel = entityManager.GetComponentData<ConnectionAdminLevelCD>(message.sender).Value;
             }
 
-            if (!guestMode || adminLevel > 0)
+            if (adminLevel > 0)
             {
                 return true;
             }
+            
+            string triggerName = command.handler.GetTriggerNames()[0];
 
-            //TODO implement additional security
+            if (settings.userAllowedCommands.ContainsKey(triggerName))
+            {
+                return settings.userAllowedCommands[triggerName].Value;
+            }
             return false;
         }
         
@@ -351,7 +393,7 @@ namespace CoreLib.Commands
             }
 
             string[] parameters = args.Skip(1).ToArray();
-            if (settings.displayAdditionalHints)
+            if (settings.displayAdditionalHints.Value)
                 message.commandFlags |= CommandFlags.UserWantsHints;
             
             var result = ExecuteCommand(commandPair, message, parameters);

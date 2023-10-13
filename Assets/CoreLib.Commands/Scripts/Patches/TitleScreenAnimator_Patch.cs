@@ -38,7 +38,7 @@ namespace CoreLib.Commands.Patches
 
                         string objIdName = term.Term[6..];
                         ObjectID objectID = (ObjectID)Enum.Parse(typeof(ObjectID), objIdName);
-                        CommandUtil.friendlyNameDict.Add(term.Languages[0].ToLower(), objectID);
+                        CommandsModule.friendlyNameDict.Add(term.Languages[0].ToLower(), objectID);
                         count++;
                     }
                     catch (Exception)

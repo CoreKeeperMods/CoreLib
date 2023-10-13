@@ -14,20 +14,29 @@ namespace CoreLib.Commands.Patches
             if (__instance.quantumConsolePrefab == null) return;
             
             var prefab = __instance.quantumConsolePrefab.gameObject;
-            Transform parent = null;
-            
-            var universeLibCanvasGo = GameObject.Find("UniverseLibCanvas");
-            if (universeLibCanvasGo != null)
-                parent = universeLibCanvasGo.transform;
-            
-            var console = Object.Instantiate(prefab, parent, true);
+            var console = Object.Instantiate(prefab, null, true);
             
             var quantumConsole = console.GetComponent<QuantumConsole>();
             Object.DontDestroyOnLoad(console);
             
             CommandsModule.InitQuantumConsole(quantumConsole);
         }
-        
+
+        [HarmonyPatch(typeof(SceneHandler), "Awake")]
+        [HarmonyPostfix]
+        public static void OnAwake(SceneHandler __instance)
+        {
+            if (CommandsModule.quantumConsole == null) return;
+            
+            CoreLibMod.Log.LogInfo("Looking for Unity Explorer canvas!");
+            var universeLibCanvasGo = GameObject.Find("UniverseLibCanvas");
+            if (universeLibCanvasGo != null)
+            {
+                CoreLibMod.Log.LogInfo("Success!");
+                CommandsModule.quantumConsole.gameObject.transform.parent = universeLibCanvasGo.transform;
+            }
+        }
+
         [HarmonyPatch(typeof(MenuManager), nameof(MenuManager.Update))]
         [HarmonyPostfix]
         public static void OnUpdate(MenuManager __instance)
