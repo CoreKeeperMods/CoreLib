@@ -15,7 +15,12 @@ namespace CoreLib.Editor
     public class BurstModBuilder : PugMod.IPugModBuilderProcessor
     {
         private const string GAME_INSTALL_PATH_KEY = "PugMod/SDKWindow/GamePath";
-        
+        private static readonly string[] platforms =
+        {
+            "Windows", 
+            "Linux"
+        };
+
         public void Execute(ModBuilderSettings settings, string installDirectory, List<string> assetPaths)
         {
             if (!settings.buildBurst) return;
@@ -57,12 +62,28 @@ namespace CoreLib.Editor
             var burstAssemblyPath = Path.Combine(installDirectory, $"{settings.metadata.name}_burst_generated");
             var rootAssembly = Path.Combine(assemblyStaging, $"{settings.metadata.name}.dll");
 
+            foreach (string platform in platforms)
+            {
+                if (platform == "Linux" && !settings.buildLinux) continue;
+                CompileBurst(burstCompiler, assemblyStaging, burstAssemblyPath, rootAssembly, platform);
+            }
+
+            Debug.Log("Burst assembly compiled successfully!");
+        }
+
+        private static void CompileBurst(
+            string burstCompiler, 
+            string assemblyStaging, 
+            string burstAssemblyPath, 
+            string rootAssembly,
+            string platform)
+        {
             Debug.Log("Starting compiling Burst assembly!");
 
             Process compiler = new Process();
             compiler.StartInfo.FileName = burstCompiler;
-            compiler.StartInfo.Arguments = "--platform=Windows --target=X64_SSE2 --include-root-assembly-references=False " +
-                                           $"--assembly-folder=\"{assemblyStaging}\" --output=\"{burstAssemblyPath}\" --root-assembly=\"{rootAssembly}\"";
+            compiler.StartInfo.Arguments = $"--platform={platform} --target=X64_SSE2 --include-root-assembly-references=False " +
+                                           $"--assembly-folder=\"{assemblyStaging}\" --output=\"{burstAssemblyPath}_{platform}\" --root-assembly=\"{rootAssembly}\"";
             compiler.StartInfo.UseShellExecute = false;
             compiler.StartInfo.CreateNoWindow = true;
             compiler.StartInfo.RedirectStandardOutput = true;
@@ -71,10 +92,8 @@ namespace CoreLib.Editor
 
             compiler.WaitForExit();
             Debug.Log($"Burst compiler output:\n {compiler.StandardOutput.ReadToEnd()}");
-
-            Debug.Log("Burst assembly compiled successfully!");
         }
-        
+
         private static void CopyAll(string fromFolder, string toFolder)
         {
             foreach (string newPath in Directory.GetFiles(fromFolder, "*.*", SearchOption.AllDirectories))

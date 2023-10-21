@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using PugMod;
+using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +15,6 @@ namespace CoreLib.Editor
 
         [HideInInspector] public int buildIndex;
         [HideInInspector] public bool isBuilding;
-        [HideInInspector] public int skipTicks;
     }
 
     [CustomEditor(typeof(ChainBuilder))]
@@ -48,56 +49,68 @@ namespace CoreLib.Editor
                 return;
             }
 
-            int currentIndex = builder.buildIndex + 1;
-            if (currentIndex >= builder.settings.Length)
-            {
-                StopBuilding(builder);
-                return;
-            }
+            int currentIndex = builder.buildIndex;
 
-            float progress = (currentIndex + 1) / (float)builder.settings.Length;
+            float progress = (currentIndex) / (float)builder.settings.Length;
             var mod = builder.settings[currentIndex];
             
             var rect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight);
             EditorGUI.ProgressBar(rect, progress, $"Building mod \"{mod.metadata.name}\"");
-
-            builder.skipTicks--;
-            if (builder.skipTicks > 0) return;
-
-            
-            builder.buildIndex = currentIndex;
-            EditorUtility.SetDirty(builder);
-
-            try
-            {
-                Build(builder, mod);
-                builder.skipTicks = 3;
-                EditorUtility.SetDirty(builder);
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-                StopBuilding(builder);
-            }
         }
 
-        private static void StartBuilding(ChainBuilder builder)
+        private void StartBuilding(ChainBuilder builder)
         {
             builder.isBuilding = true;
             builder.buildIndex = -1;
-            builder.skipTicks = 3;
             EditorUtility.SetDirty(builder);
+            
+            _buildCoroutine ??= EditorCoroutineUtility.StartCoroutine(BuildMods(builder), this);
         }
         
         private static void StopBuilding(ChainBuilder builder)
         {
             builder.isBuilding = false;
             builder.buildIndex = -1;
-            builder.skipTicks = 3;
             EditorUtility.SetDirty(builder);
+            EditorCoroutineUtility.StopCoroutine(_buildCoroutine);
+            _buildCoroutine = null;
         }
 
         private const string GAME_INSTALL_PATH_KEY = "PugMod/SDKWindow/GamePath";
+        
+        private static EditorCoroutine _buildCoroutine;
+
+        private IEnumerator BuildMods(ChainBuilder builder)
+        {
+            while (builder.isBuilding)
+            {
+                int currentIndex = builder.buildIndex + 1;
+                if (currentIndex >= builder.settings.Length)
+                {
+                    StopBuilding(builder);
+                    yield return null;
+                }
+
+                var mod = builder.settings[currentIndex];
+
+                builder.buildIndex = currentIndex;
+                EditorUtility.SetDirty(builder);
+
+                try
+                {
+                    Build(builder, mod);
+                    EditorUtility.SetDirty(builder);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                    StopBuilding(builder);
+                }
+
+                yield return new WaitForSeconds(1);
+            }
+        }
+
 
         private void Build(ChainBuilder builder, ModBuilderSettings settings)
         {
