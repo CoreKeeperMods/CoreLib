@@ -26,5 +26,5 @@ MonoBehaviour:
   modPath: Assets\CoreLib.Audio
   forceReimport: 0
   buildBundles: 0
-  buildLinux: 0
+  buildLinux: 1
   buildBurst: 0

@@ -15,7 +15,7 @@ MonoBehaviour:
   metadata:
     guid: 4939d7bb7ae340e49c1ac768ae41f7d0
     name: CoreLib.ModderTools
-    skipSafetyChecks: 0
+    skipSafetyChecks: 1
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
@@ -30,5 +30,5 @@ MonoBehaviour:
   modPath: Assets\CoreLib.ModderTools
   forceReimport: 0
   buildBundles: 0
-  buildLinux: 0
+  buildLinux: 1
   buildBurst: 1

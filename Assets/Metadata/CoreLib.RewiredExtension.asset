@@ -28,5 +28,5 @@ MonoBehaviour:
   modPath: Assets\CoreLib.RewiredExtension
   forceReimport: 0
   buildBundles: 0
-  buildLinux: 0
+  buildLinux: 1
   buildBurst: 0

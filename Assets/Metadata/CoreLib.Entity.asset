@@ -27,5 +27,6 @@ MonoBehaviour:
       required: 1
   modPath: Assets\CoreLib.Entity
   forceReimport: 0
-  buildLinux: 0
+  buildBundles: 1
+  buildLinux: 1
   buildBurst: 0

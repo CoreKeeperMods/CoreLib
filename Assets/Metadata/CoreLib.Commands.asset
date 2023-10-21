@@ -19,7 +19,30 @@ MonoBehaviour:
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: -1
-    files: []
+    files:
+    - path: Scripts/Scripts/Util/CommandUtil.cs
+    - path: Scripts/Scripts/Patches/TitleScreenAnimator_Patch.cs
+    - path: Scripts/Scripts/Patches/MenuManager_Patch.cs
+    - path: Scripts/Scripts/Patches/ECSManager_Patch.cs
+    - path: Scripts/Scripts/Patches/ChatWindow_Patch.cs
+    - path: Scripts/Scripts/Parsers/SkillIDParser.cs
+    - path: Scripts/Scripts/Parsers/ObjectIDParser.cs
+    - path: Scripts/Scripts/Parsers/ConditionIDParser.cs
+    - path: Scripts/Scripts/Communication/CommandMessageRPC.cs
+    - path: Scripts/Scripts/Communication/CommandCommSystem.cs
+    - path: Scripts/Scripts/CommandsModule.cs
+    - path: Scripts/Scripts/Commands/QuantumConsoleDummies.cs
+    - path: Scripts/Scripts/Commands/IServerCommandHandler.cs
+    - path: Scripts/Scripts/Commands/ICommandInfo.cs
+    - path: Scripts/Scripts/Commands/IClientCommandHandler.cs
+    - path: Scripts/Scripts/Commands/HelpCommandHandler.cs
+    - path: Scripts/Scripts/Commands/DirectMessageCommandHandler.cs
+    - path: Scripts/Scripts/CommandPair.cs
+    - path: Scripts/Scripts/CommandOutput.cs
+    - path: Scripts/Scripts/CommandModuleSettings.cs
+    - path: Scripts/Generated/CommandCommSystem__System_966372089.g.cs
+    - path: Scripts/Generated/CoreLib.Commands.Communication_CommandDataMessageRPCCommandSerializer.cs
+    - path: Scripts/Generated/CoreLib.Commands.Communication_CommandMessageRPCCommandSerializer.cs
     dependencies:
     - modName: CoreLib
       required: 1
@@ -28,5 +51,5 @@ MonoBehaviour:
   modPath: Assets\CoreLib.Commands
   forceReimport: 0
   buildBundles: 0
-  buildLinux: 0
+  buildLinux: 1
   buildBurst: 1

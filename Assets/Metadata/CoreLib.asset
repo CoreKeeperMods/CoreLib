@@ -151,5 +151,6 @@ MonoBehaviour:
     dependencies: []
   modPath: Assets/CoreLib
   forceReimport: 0
-  buildLinux: 0
+  buildBundles: 1
+  buildLinux: 1
   buildBurst: 0
