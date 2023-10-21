@@ -29,7 +29,7 @@ MonoBehaviour:
       required: 1
     - modName: CoreLib.Localization
       required: 1
-  modPath: Assets\CoreLib.JsonLoader
+  modPath: CoreLibPackage/Assets/CoreLib.JsonLoader
   forceReimport: 0
   buildBundles: 1
   buildLinux: 1

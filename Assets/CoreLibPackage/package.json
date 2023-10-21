@@ -1,0 +1,12 @@
+{
+  "name": "ck.modding.corelib",
+  "displayName":"Core Lib",
+  "version": "3.0.0",
+  "unity": "2021.3",
+  "keywords": [],
+  "category": "Modding",
+  "description": "A modding library for Core Keeper. Provides features that makes modding Core Keeper easier.",
+  "dependencies": {
+    "com.unity.editorcoroutines": "1.0.0"
+  }
+}

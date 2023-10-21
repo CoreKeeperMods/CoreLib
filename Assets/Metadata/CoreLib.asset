@@ -149,7 +149,7 @@ MonoBehaviour:
     - path: Scripts/Generated/CoreLib.Submodules.ChatCommands.Communication_CommandMessageRPCCommandSerializer.cs
     - path: Bundles/CoreLib_Windows.assetbundle
     dependencies: []
-  modPath: Assets/CoreLib
+  modPath: CoreLibPackage/Assets/CoreLib
   forceReimport: 0
   buildBundles: 1
   buildLinux: 1

@@ -48,7 +48,7 @@ MonoBehaviour:
       required: 1
     - modName: CoreLib.RewiredExtension
       required: 1
-  modPath: Assets\CoreLib.Commands
+  modPath: CoreLibPackage/Assets/CoreLib.Commands
   forceReimport: 0
   buildBundles: 0
   buildLinux: 1

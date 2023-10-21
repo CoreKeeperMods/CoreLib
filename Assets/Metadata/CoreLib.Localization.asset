@@ -23,7 +23,7 @@ MonoBehaviour:
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: Assets\CoreLib.Localization
+  modPath: CoreLibPackage/Assets/CoreLib.Localization
   forceReimport: 0
   buildBundles: 0
   buildLinux: 1

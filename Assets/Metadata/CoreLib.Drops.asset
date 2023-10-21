@@ -23,7 +23,7 @@ MonoBehaviour:
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: Assets\CoreLib.Drops
+  modPath: CoreLibPackage/Assets/CoreLib.Drops
   forceReimport: 0
   buildBundles: 0
   buildLinux: 1
