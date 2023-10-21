@@ -11,9 +11,14 @@ namespace CoreLib.ModResources
     {
         #region Public Interface
 
+        public static void RegisterBundles(LoadedMod mod)
+        {
+            modAssetBundles.AddRange(mod.AssetBundles);
+        }
+        
         public static Object[] LoadSprites(string assetPath)
         {
-            foreach (AssetBundle bundle in modAssetBundles)
+            foreach (AssetBundle bundle in GetBundles())
             {
                 foreach (string extension in spriteFileExtensions)
                 {
@@ -35,21 +40,10 @@ namespace CoreLib.ModResources
         /// Load asset from mod asset bundles
         /// </summary>
         /// <param name="assetPath">path to the asset</param>
-        [Obsolete("To ensure correct results use the generic or typed version")]
-        public static Object LoadAsset(string assetPath)
-        {
-            return LoadAsset(assetPath, typeof(Object));
-        }
-
-        /// <summary>
-        /// Load asset from mod asset bundles
-        /// </summary>
-        /// <param name="assetPath">path to the asset</param>
         /// <param name="typeHint">Expected type of the asset</param>
         public static Object LoadAsset(string assetPath, Type typeHint)
         {
-            RefreshResources();
-            foreach (AssetBundle bundle in modAssetBundles)
+            foreach (AssetBundle bundle in GetBundles())
             {
                 //if (!assetPath.ToLower().Contains(resource.keyWord.ToLower()) || !resource.HasAssetBundle()) continue;
                 
@@ -126,21 +120,31 @@ namespace CoreLib.ModResources
 
         #region PrivateImplementation
 
-        internal static List<AssetBundle> modAssetBundles = new List<AssetBundle>();
-        internal static int lastModCount = 0;
-        
-        internal static string[] spriteFileExtensions = { ".jpg", ".png", ".tif" };
-        internal static string[] audioClipFileExtensions = { ".mp3", ".ogg", ".wav", ".aif", ".flac" };
-
-        internal static void RefreshResources()
+        internal static IEnumerable<AssetBundle> GetBundles()
         {
-            int currentModCount = API.ModLoader.LoadedMods.Count();
-            if (currentModCount != lastModCount)
+            foreach (AssetBundle bundle in modulesAssetBundles)
             {
-                modAssetBundles = API.ModLoader.LoadedMods.SelectMany(mod => mod.AssetBundles).ToList();
-                lastModCount = currentModCount;
+                yield return bundle;
+            }
+            
+            foreach (AssetBundle bundle in modAssetBundles)
+            {
+                yield return bundle;
             }
         }
+
+        internal static List<AssetBundle> modAssetBundles = new List<AssetBundle>();
+        internal static List<AssetBundle> modulesAssetBundles = new List<AssetBundle>();
+
+        internal static void RefreshModuleBundles()
+        {
+            modulesAssetBundles = API.ModLoader.LoadedMods
+                .Where(mod => mod.Metadata.name.Contains("CoreLib"))
+                .SelectMany(mod => mod.AssetBundles).ToList();
+        }
+
+        internal static string[] spriteFileExtensions = { ".jpg", ".png", ".tif" };
+        internal static string[] audioClipFileExtensions = { ".mp3", ".ogg", ".wav", ".aif", ".flac" };
 
         #endregion
     }

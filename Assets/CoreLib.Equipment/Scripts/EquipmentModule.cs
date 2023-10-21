@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoreLib.Data;
 using CoreLib.Equipment.Patches;
+using CoreLib.ModResources;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Util.Extensions;
 using UnityEngine;
@@ -85,6 +86,11 @@ namespace CoreLib.Equipment
         {
             CoreLibMod.Patch(typeof(Emote_Patch));
             CoreLibMod.Patch(typeof(PlayerController_Patch_2));
+        }
+        
+        internal override void Load()
+        {
+            ResourcesModule.RefreshModuleBundles();
         }
     }
 }

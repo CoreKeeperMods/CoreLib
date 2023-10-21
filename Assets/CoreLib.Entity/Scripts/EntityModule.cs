@@ -279,6 +279,11 @@ namespace CoreLib.Submodules.ModEntity
             CoreLibMod.Patch(typeof(SimpleCraftingBuilding_Patch));
         }
 
+        internal override void Load()
+        {
+            ResourcesModule.RefreshModuleBundles();
+        }
+
         internal override void PostLoad()
         {
             objectTypeIDs = new IdBind(modObjectTypeIdRangeStart, modObjectTypeIdRangeEnd);

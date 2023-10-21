@@ -32,7 +32,6 @@ namespace CoreLib
         public const string CONFIG_FOLDER = "CoreLib/Config/";
 
         internal static LoadedMod modInfo;
-        internal static AssetBundle AssetBundle => modInfo.AssetBundles[0];
         
         internal static Logger Log = new Logger(NAME);
         internal static ConfigFile Config;
@@ -51,6 +50,7 @@ namespace CoreLib
 
             Config = new ConfigFile($"{CONFIG_FOLDER}CoreLib.cfg", true, modInfo);
             API.Server.OnWorldCreated += WorldInitialize;
+            ResourcesModule.RefreshModuleBundles();
 
             CheckIfUsedOnRightGameVersion();
             

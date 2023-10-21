@@ -53,6 +53,7 @@ namespace CoreLib
         /// <returns>Is loading successful?</returns>
         public bool RequestModuleLoad(Type moduleType)
         {
+            UpdateSubmoduleList();
             return RequestModuleLoad(moduleType, false);
         }
 
@@ -60,8 +61,6 @@ namespace CoreLib
         {
             if (moduleType == null)
                 throw new ArgumentNullException(nameof(moduleType));
-
-            UpdateSubmoduleList();
 
             if (!allModules.ContainsKey(moduleType))
                 throw new InvalidOperationException($"Tried to load unknown submodule: '{moduleType.FullName}'!");

@@ -12,6 +12,7 @@ using CoreLib.JsonLoader.Converters;
 using CoreLib.JsonLoader.Patch;
 using CoreLib.JsonLoader.Readers;
 using CoreLib.Localization;
+using CoreLib.ModResources;
 using JetBrains.Annotations;
 using PugMod;
 using Unity.Entities;
@@ -249,6 +250,7 @@ namespace CoreLib.JsonLoader
 
         internal override void Load()
         {
+            ResourcesModule.RefreshModuleBundles();
             RegisterJsonReaders(CoreLibMod.modInfo.ModId);
 
             options = new JsonSerializerOptions

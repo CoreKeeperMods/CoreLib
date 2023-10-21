@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreLib.Data;
+using CoreLib.ModResources;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.TileSets.Patches;
 using CoreLib.Util.Extensions;
@@ -88,6 +89,8 @@ namespace CoreLib.TileSets
         
         internal override void Load()
         {
+            ResourcesModule.RefreshModuleBundles();
+
             tilesetIDs = new IdBindConfigFile(CoreLibMod.modInfo, $"{CoreLibMod.CONFIG_FOLDER}CoreLib.TilesetID.cfg", modTilesetIdRangeStart, modTilesetIdRangeEnd);
             InitTilesets();
             EntityModule.MaterialSwapReady += SwapMaterials;
@@ -142,7 +145,7 @@ namespace CoreLib.TileSets
                 CoreLibMod.Log.LogError("Failed to get default tileset layers!");
             }
 
-            missingTileset = CoreLibMod.AssetBundle.LoadAsset<ModTileset>("Assets/CoreLib.Tilesets/Resources/MissingTileset.asset");
+            missingTileset = ResourcesModule.LoadAsset<ModTileset>("Assets/CoreLib.Tilesets/Resources/MissingTileset");
 
             if (tilesetLayers.ContainsKey(missingTileset.layers.name))
             {
