@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace CoreLib.Editor
 {
-    [CreateAssetMenu(fileName = "ChainBuilder", menuName = "New ChainBuilder", order = 2)]
+    [CreateAssetMenu(fileName = "ChainBuilder", menuName = "CoreLib/New ChainBuilder", order = 2)]
     public class ChainBuilder : ScriptableObject
     {
         public ModBuilderSettings[] settings;
