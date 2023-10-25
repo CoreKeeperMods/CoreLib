@@ -18,12 +18,7 @@ namespace CoreLib.JsonLoader.Readers
             {
                 if (!DropTablesModule.HasLootTableID(lootTableId))
                 {
-                    string areaLevelStr = jObject.GetProperty("areaLevel").GetString();
-                    bool result = Enum.TryParse(areaLevelStr, true, out AreaLevel areaLevel);
-                    if (!result)
-                        throw new ArgumentException($"'{areaLevelStr}' is not a valid AreaLevel!");
-
-                    return DropTablesModule.AddLootTable(lootTableId, areaLevel);
+                    return DropTablesModule.AddLootTable(lootTableId);
                 }
 
                 return DropTablesModule.GetLootTableID(lootTableId);

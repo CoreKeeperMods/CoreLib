@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using PugMod;
 
 namespace CoreLib.Drops
 {
     public class DropTableInfo
     {
-        public ObjectID item;
+        public string itemName;
         public bool isGuaranteed;
         public int minAmount;
         public int maxAmount;
@@ -22,18 +23,36 @@ namespace CoreLib.Drops
 
         public DropTableInfo() { }
 
+        public DropTableInfo(string itemName, int amount, float weight, bool isGuaranteed = false)
+        {
+            this.itemName = itemName;
+            this.isGuaranteed = isGuaranteed;
+            minAmount = amount;
+            maxAmount = amount;
+            this.weight = weight;
+        }
+    
+        public DropTableInfo(string itemName, int minAmount, int maxAmount, float weight, bool isGuaranteed = false)
+        {
+            this.itemName = itemName;
+            this.isGuaranteed = isGuaranteed;
+            this.minAmount = minAmount;
+            this.maxAmount = maxAmount;
+            this.weight = weight;
+        }
+        
         public DropTableInfo(ObjectID item, int amount, float weight, bool isGuaranteed = false)
         {
-            this.item = item;
+            itemName = item.ToString();
             this.isGuaranteed = isGuaranteed;
-            this.minAmount = amount;
-            this.maxAmount = amount;
+            minAmount = amount;
+            maxAmount = amount;
             this.weight = weight;
         }
     
         public DropTableInfo(ObjectID item, int minAmount, int maxAmount, float weight, bool isGuaranteed = false)
         {
-            this.item = item;
+            itemName = item.ToString();
             this.isGuaranteed = isGuaranteed;
             this.minAmount = minAmount;
             this.maxAmount = maxAmount;
@@ -48,9 +67,11 @@ namespace CoreLib.Drops
                 min = minAmount
             };
 
+            ObjectID objectID = API.Authoring.GetObjectID(itemName);
+            CoreLibMod.Log.LogInfo($"{itemName} is {objectID}");
             LootInfo info = new LootInfo
             {
-                objectID = item,
+                objectID = objectID,
                 amount = dropAmount,
                 isPartOfGuaranteedDrop = isGuaranteed,
                 weight = weight

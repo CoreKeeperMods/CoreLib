@@ -2,6 +2,7 @@
 using System.Linq;
 using CoreLib.Drops.Patches;
 using CoreLib.Util.Extensions;
+using PugMod;
 using LootList = System.Collections.Generic.List<LootInfo>;
 
 namespace CoreLib.Drops
@@ -31,12 +32,12 @@ namespace CoreLib.Drops
             return LootTableID.Empty;
         }
 
-        public static LootTableID AddLootTable(string lootTableId, AreaLevel biome)
+        public static LootTableID AddLootTable(string lootTableId)
         {
-            return AddLootTable(lootTableId, biome, 1, 1);
+            return AddLootTable(lootTableId, 1, 1);
         }
     
-        public static LootTableID AddLootTable(string lootTableId, AreaLevel biome, int minUnqiueDrops, int maxUniqueDrops)
+        public static LootTableID AddLootTable(string lootTableId, int minUnqiueDrops, int maxUniqueDrops)
         {
             if (customLootTableIdMap.ContainsKey(lootTableId))
             {
@@ -47,7 +48,7 @@ namespace CoreLib.Drops
             int lootTableIndex = lastCustomLootTableId;
             LootTableID lootTable = (LootTableID)lootTableIndex;
             lastCustomLootTableId++;
-            customLootTables.Add(new CustomLootTableData(biome, lootTable, minUnqiueDrops, maxUniqueDrops));
+            customLootTables.Add(new CustomLootTableData(lootTable, minUnqiueDrops, maxUniqueDrops));
             customLootTableIdMap.Add(lootTableId, lootTable);
             return lootTable;
         }
@@ -58,13 +59,13 @@ namespace CoreLib.Drops
             DropTableModificationData data = GetModificationData(tableID);
 
             List<DropTableInfo> addInfos = data.addDrops;
-            if (addInfos.All(tableInfo => tableInfo.item != info.item))
+            if (addInfos.All(tableInfo => tableInfo.itemName != info.itemName))
             {
                 addInfos.Add(info);
                 return;
             }
 
-            CoreLibMod.Log.LogWarning($"Trying to add new item {info.item} to drop table {tableID}, which is already added!");
+            CoreLibMod.Log.LogWarning($"Trying to add new item {info.itemName} to drop table {tableID}, which is already added!");
         }
 
         public static void EditDrop(LootTableID tableID, DropTableInfo info)
@@ -73,13 +74,13 @@ namespace CoreLib.Drops
             DropTableModificationData data = GetModificationData(tableID);
 
             List<DropTableInfo> editInfos = data.editDrops;
-            if (editInfos.All(tableInfo => tableInfo.item != info.item))
+            if (editInfos.All(tableInfo => tableInfo.itemName != info.itemName))
             {
                 editInfos.Add(info);
                 return;
             }
 
-            CoreLibMod.Log.LogWarning($"Trying to edit item {info.item} in drop table {tableID}, but another mod is already editing it!");
+            CoreLibMod.Log.LogWarning($"Trying to edit item {info.itemName} in drop table {tableID}, but another mod is already editing it!");
         }
 
         public static void RemoveDrop(LootTableID tableID, ObjectID item)
@@ -134,9 +135,10 @@ namespace CoreLib.Drops
             foreach (DropTableInfo dropTableInfo in modificationData.editDrops)
             {
                 bool editedAnything = false;
+                var itemID = API.Authoring.GetObjectID(dropTableInfo.itemName);
                 foreach (LootInfo lootInfo in lootInfos)
                 {
-                    if (lootInfo.objectID == dropTableInfo.item)
+                    if (lootInfo.objectID == itemID)
                     {
                         dropTableInfo.SetLootInfo(lootInfo);
                         editedAnything = true;
@@ -146,7 +148,7 @@ namespace CoreLib.Drops
 
                 foreach (LootInfo lootInfo in guaranteedLootInfos)
                 {
-                    if (lootInfo.objectID == dropTableInfo.item)
+                    if (lootInfo.objectID == itemID)
                     {
                         dropTableInfo.SetLootInfo(lootInfo);
                         editedAnything = true;
@@ -156,7 +158,7 @@ namespace CoreLib.Drops
 
                 if (!editedAnything)
                 {
-                    CoreLibMod.Log.LogWarning($"Failed to edit droptable {lootTable.id}, item {dropTableInfo.item}, because such item was not found!");
+                    CoreLibMod.Log.LogWarning($"Failed to edit droptable {lootTable.id}, item {dropTableInfo.itemName}, because such item was not found!");
                 }
             }
         }
@@ -165,17 +167,18 @@ namespace CoreLib.Drops
         {
             foreach (DropTableInfo dropTableInfo in modificationData.addDrops)
             {
-                bool hasDrop = lootInfos.Exists(info => info.objectID == dropTableInfo.item);
+                var itemID = API.Authoring.GetObjectID(dropTableInfo.itemName);
+                bool hasDrop = lootInfos.Exists(info => info.objectID == itemID);
                 if (!hasDrop)
                 {
                     lootInfos.Add(dropTableInfo.GetLootInfo());
                 }
                 else
                 {
-                    CoreLibMod.Log.LogWarning($"Failed to add item {dropTableInfo.item} to droptable {lootTable.id}, because it already exists!");
+                    CoreLibMod.Log.LogWarning($"Failed to add item {dropTableInfo.itemName} to droptable {lootTable.id}, because it already exists!");
                 }
 
-                hasDrop = guaranteedLootInfos.Exists(info => info.objectID == dropTableInfo.item);
+                hasDrop = guaranteedLootInfos.Exists(info => info.objectID == itemID);
                 if (!hasDrop)
                 {
                     guaranteedLootInfos.Add(dropTableInfo.GetLootInfo());
@@ -183,7 +186,7 @@ namespace CoreLib.Drops
                 else
                 {
                     CoreLibMod.Log.LogWarning(
-                        $"Failed to add item {dropTableInfo.item} to droptable (guaranteed) {lootTable.id}, because it already exists!");
+                        $"Failed to add item {dropTableInfo.itemName} to droptable (guaranteed) {lootTable.id}, because it already exists!");
                 }
             }
         }
