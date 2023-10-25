@@ -1,5 +1,6 @@
 ﻿using PugTilemap;
 using PugTilemap.Quads;
+using PugTilemap.Workshop;
 using UnityEngine;
 
 namespace CoreLib.TileSets
@@ -13,9 +14,11 @@ namespace CoreLib.TileSets
         public SerializableDictionary<LayerName, Material> overrideMaterials;
         
         public SerializableDictionary<LayerName, ParticleSystem> overrideParticles;
+
+        public MapWorkshopTilesetBank.TilesetTextures tilesetTextures;
         
         public Texture2D tilesetTexture;
         public Texture2D tilesetEmissiveTexture;
-        public SerializableDictionary<LayerName, Texture2D> adaptiveTilesetTextures;
+        public SerializableDictionary<LayerName, MapWorkshopTilesetBank.TilesetTextures> adaptiveTilesetTextures;
     }
 }

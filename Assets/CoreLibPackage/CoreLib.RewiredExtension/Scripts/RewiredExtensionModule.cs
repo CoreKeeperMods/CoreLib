@@ -99,7 +99,6 @@ namespace CoreLib.RewiredExtension
             //UniversalRewiredPatch();
         }
 /*
- TODO commented, because it won't work
         private static void UniversalRewiredPatch()
         {
             var method = (MemberInfo)typeof(UserData)

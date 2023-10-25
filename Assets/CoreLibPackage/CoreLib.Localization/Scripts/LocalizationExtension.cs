@@ -9,8 +9,6 @@ namespace CoreLib.Localization
         {
             if (source.mDictionary.ContainsKey(term))
             {
-                //TODO it seems terms added in previous runs are persisted to the next one
-                CoreLibMod.Log.LogWarning($"Tried to add term with key {term}, which already exists!");
                 return;
             }
             

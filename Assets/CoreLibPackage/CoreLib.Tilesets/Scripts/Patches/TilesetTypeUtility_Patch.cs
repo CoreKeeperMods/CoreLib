@@ -46,11 +46,7 @@ namespace CoreLib.TileSets.Patches
 			ModTileset tileset = GetTileset(tilesetIndex);
 			if (tileset != null)
 			{
-				__result = null;
-				if (textureType == TextureType.REGULAR)
-					__result = tileset.tilesetTexture;
-				else if (textureType == TextureType.EMISSIVE)
-					__result = tileset.tilesetEmissiveTexture;
+				__result = tileset.tilesetTextures.GetTexture(textureType);
 				return false;
 			}
 
@@ -59,16 +55,15 @@ namespace CoreLib.TileSets.Patches
 
 		[HarmonyPatch(typeof(TilesetTypeUtility), nameof(GetAdaptiveTexture))]
 		[HarmonyPrefix]
-		public static bool GetAdaptiveTexture(int tilesetIndex, LayerName layerName, ref Texture2D __result)
+		public static bool GetAdaptiveTexture(int tilesetIndex, LayerName layerName, TextureType textureType, ref Texture2D __result)
 		{
-	    
 			ModTileset tileset = GetTileset(tilesetIndex);
 			if (tileset != null)
 			{
 				__result = null;
 				if (tileset.adaptiveTilesetTextures.ContainsKey(layerName))
 				{
-					__result = tileset.adaptiveTilesetTextures[layerName];
+					__result = tileset.adaptiveTilesetTextures[layerName].GetTexture(textureType);
 				}
 				return false;
 			}

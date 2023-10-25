@@ -33,7 +33,6 @@ using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.ModEntity
 {
-    //TODO test the EntityModule
     [CommandPrefix("mod.")]
     public class EntityModule : BaseSubmodule
     {
@@ -188,7 +187,7 @@ namespace CoreLib.Submodules.ModEntity
         /// </summary>
         /// <param name="skin">Class with texture sheet information</param>
         /// <returns>New skin index. '0' if failed.</returns>
-        /*public static byte AddPlayerCustomization<T>(T skin)
+        public static byte AddPlayerCustomization<T>(T skin)
             where T : SkinBase
         {
             Instance.ThrowIfNotLoaded();
@@ -196,13 +195,8 @@ namespace CoreLib.Submodules.ModEntity
 
             try
             {
-                var properties = typeof(PlayerCustomizationTable).GetFieldsOfType<List<T>>();
-                var listProperty = properties.First(info => !info.Name.Contains("Sorted"));
-                var sorttedListProperty = properties.First(info => info.Name.Contains("Sorted"));
-
-                
-                var list = (List<T>)API.Reflection.GetValue(listProperty, customizationTable);
-                var sortedList = (List<T>)API.Reflection.GetValue(sorttedListProperty, customizationTable);
+                var list = (List<T>)GetSkinList<T>();
+                var sortedList = (List<T>)GetSortedSkinList<T>();
 
                 if (list.Count < 255)
                 {
@@ -219,7 +213,7 @@ namespace CoreLib.Submodules.ModEntity
             }
 
             return 0;
-        }*/
+        }
 
         public static void RegisterDynamicItemHandler<T>()
             where T : IDynamicItemHandler, new()
@@ -674,6 +668,58 @@ namespace CoreLib.Submodules.ModEntity
 
         #endregion
 
+         private static object GetSkinList<T>()
+            where T : SkinBase
+        {
+            switch (typeof(T).GetNameChecked())
+            {
+                case "BodySkin":
+                    return customizationTable.bodySkins;
+                case "HairSkin":
+                    return customizationTable.hairSkins;
+                case "EyesSkin":
+                    return customizationTable.eyeSkins;
+                case "ShirtSkin":
+                    return customizationTable.shirtSkins;
+                case "PantsSkin":
+                    return customizationTable.pantsSkins;
+                case "HelmSkin":
+                    return customizationTable.helmSkins;
+                case "BreastArmorSkin":
+                    return customizationTable.breastArmorSkins;
+                case "PantsArmorSkin":
+                    return customizationTable.pantsArmorSkins;
+            }
+            
+            throw new ArgumentException($"Unknows skin type: {typeof(T).GetNameChecked()}");
+        }
+        
+        private static object GetSortedSkinList<T>()
+            where T : SkinBase
+        {
+            switch (typeof(T).GetNameChecked())
+            {
+                case "BodySkin":
+                    return customizationTable.bodySkinsSorted;
+                case "HairSkin":
+                    return customizationTable.hairSkinsSorted;
+                case "EyesSkin":
+                    return customizationTable.eyeSkinsSorted;
+                case "ShirtSkin":
+                    return customizationTable.shirtSkinsSorted;
+                case "PantsSkin":
+                    return customizationTable.pantsSkinsSorted;
+                case "HelmSkin":
+                    return customizationTable.helmSkinsSorted;
+                case "BreastArmorSkin":
+                    return customizationTable.breastArmorSkinsSorted;
+                case "PantsArmorSkin":
+                    return customizationTable.pantsArmorSkinsSorted;
+            }
+            
+            throw new ArgumentException($"Unknows skin type: {typeof(T).GetNameChecked()}");
+        }
+        
         #endregion
     }
 }
