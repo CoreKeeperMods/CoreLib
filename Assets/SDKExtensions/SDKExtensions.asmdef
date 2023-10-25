@@ -1,5 +1,5 @@
 {
-    "name": "BuildExtensions",
+    "name": "SDKExtensions",
     "rootNamespace": "",
     "references": [
         "Unity.Mathematics",

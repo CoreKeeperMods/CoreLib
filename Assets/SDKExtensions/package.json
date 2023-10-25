@@ -1,11 +1,12 @@
 {
-  "name": "ck.modding.build-extensions",
-  "displayName":"Build Extensions",
+  "name": "ck.modding.sdk-extensions",
+  "displayName":"SDK Extensions",
   "version": "1.0.0",
   "unity": "2021.3",
   "keywords": [],
   "category": "Modding",
   "description": "Build extensions for Core Keeper's mod SDK build pipeline",
   "dependencies": {
+    "com.unity.editorcoroutines": "1.0.0"
   }
 }
