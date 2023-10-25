@@ -7,7 +7,6 @@ using MusicList = System.Collections.Generic.List<MusicManager.MusicTrack>;
 
 namespace CoreLib.Audio
 {
-    //TODO test the AudioModule
     public class AudioModule : BaseSubmodule
     {
         #region Public Interface
@@ -72,9 +71,9 @@ namespace CoreLib.Audio
 
         internal static AudioModule Instance => CoreLibMod.GetModuleInstance<AudioModule>();
         
-        public static Dictionary<int, MusicManager.MusicRoster> customRosterMusic;
-        public static Dictionary<int, MusicManager.MusicRoster> vanillaRosterAddTracksInfos;
-        public static List<AudioField> customSoundEffects;
+        public static Dictionary<int, MusicManager.MusicRoster> customRosterMusic = new Dictionary<int, MusicManager.MusicRoster>();
+        public static Dictionary<int, MusicManager.MusicRoster> vanillaRosterAddTracksInfos = new Dictionary<int, MusicManager.MusicRoster>();
+        public static List<AudioField> customSoundEffects = new List<AudioField>();
 
         internal override void SetHooks()
         {
@@ -102,7 +101,10 @@ namespace CoreLib.Audio
                     return vanillaRosterAddTracksInfos[rosterId];
                 }
 
-                MusicManager.MusicRoster roster = new MusicManager.MusicRoster();
+                MusicManager.MusicRoster roster = new MusicManager.MusicRoster
+                {
+                    tracks = new MusicList()
+                };
                 vanillaRosterAddTracksInfos.Add(rosterId, roster);
                 return roster;
             }
@@ -113,7 +115,10 @@ namespace CoreLib.Audio
                     return customRosterMusic[rosterId];
                 }
 
-                MusicManager.MusicRoster roster = new MusicManager.MusicRoster();
+                MusicManager.MusicRoster roster = new MusicManager.MusicRoster
+                {
+                    tracks = new MusicList()
+                };
                 customRosterMusic.Add(rosterId, roster);
                 return roster;
             }

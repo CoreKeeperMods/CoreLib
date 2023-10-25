@@ -19,7 +19,11 @@ MonoBehaviour:
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
-    files: []
+    files:
+    - path: Scripts/Scripts/Patches/MusicManager_Patch.cs
+    - path: Scripts/Scripts/Patches/AudioManager_Patch.cs
+    - path: Scripts/Scripts/MusicInfo.cs
+    - path: Scripts/Scripts/AudioModule.cs
     dependencies:
     - modName: CoreLib
       required: 1
