@@ -27,7 +27,7 @@ MonoBehaviour:
       required: 1
     - modName: CoreLib.JsonLoader
       required: 1
-  modPath: CoreLibPackage/Assets/CoreLib.ModderTools
+  modPath: Assets\CoreLibPackage\CoreLib.ModderTools
   forceReimport: 0
   buildBundles: 0
   buildLinux: 1

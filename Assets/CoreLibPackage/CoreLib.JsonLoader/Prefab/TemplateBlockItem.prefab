@@ -76,7 +76,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 244469479, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: 244469479, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   onlyExistsInSeason: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 793611198, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: 793611198, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canBeHitAtSameTimeAsEnemy: 0
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1594252633, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: 1594252633, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dontCalculateHealthFromLevel: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 775935493, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: 775935493, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   orientationSupport: 0
@@ -314,7 +314,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1798704345, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: 1798704345, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6449035080616749296
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1089278989, guid: f82af41547c04984b9d9f524e1859828, type: 3}
+  m_Script: {fileID: -1089278989, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 0
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1739311503, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: 1739311503, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefabTileSize: {x: 1, y: 1}
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 282287656, guid: f82af41547c04984b9d9f524e1859828, type: 3}
+  m_Script: {fileID: 282287656, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeBeforeLootDrop: 0
@@ -385,7 +385,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1029918251, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: -1029918251, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healInCombatAsWell: 0
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -818048808, guid: 37c0d6b3ce7108a4bb28c3056c82e097, type: 3}
+  m_Script: {fileID: -818048808, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   calculateReductionFromLevel: 0
@@ -419,6 +419,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1782795303696667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 178800199, guid: f82af41547c04984b9d9f524e1859828, type: 3}
+  m_Script: {fileID: 178800199, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

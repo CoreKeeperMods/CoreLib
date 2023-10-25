@@ -25,7 +25,7 @@ MonoBehaviour:
       required: 1
     - modName: CoreLib.Localization
       required: 1
-  modPath: CoreLibPackage/Assets/CoreLib.RewiredExtension
+  modPath: Assets\CoreLibPackage\CoreLib.RewiredExtension
   forceReimport: 0
   buildBundles: 0
   buildLinux: 1

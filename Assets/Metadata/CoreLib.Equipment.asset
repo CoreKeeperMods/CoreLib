@@ -25,7 +25,7 @@ MonoBehaviour:
       required: 1
     - modName: CoreLib.Entity
       required: 1
-  modPath: CoreLibPackage/Assets/CoreLib.Equipment
+  modPath: Assets\CoreLibPackage\CoreLib.Equipment
   forceReimport: 0
   buildBundles: 1
   buildLinux: 1

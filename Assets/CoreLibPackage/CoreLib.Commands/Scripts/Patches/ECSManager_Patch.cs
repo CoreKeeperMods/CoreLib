@@ -43,10 +43,10 @@ namespace CoreLib.Commands.Patches
             foreach (var pair in objectIDLookup)
             {
                 if (Enum.IsDefined(typeof(ObjectID), pair.Value)) continue;
-                if (CommandsModule.friendlyNameDict.ContainsKey(pair.Key)) continue;
+                if (CommandsModule.friendlyNameDict.ContainsKey(pair.Key.ToLower())) continue;
                 
-                CoreLibMod.Log.LogInfo($"adding mapping: {pair.Key} -> {pair.Value}");
-                CommandsModule.friendlyNameDict.Add(pair.Key, pair.Value);
+                CoreLibMod.Log.LogInfo($"adding mapping: {pair.Key.ToLower()} -> {pair.Value}");
+                CommandsModule.friendlyNameDict.Add(pair.Key.ToLower(), pair.Value);
             }
         }
     }

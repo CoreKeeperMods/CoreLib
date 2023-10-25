@@ -145,7 +145,7 @@ namespace CoreLib.TileSets
                 CoreLibMod.Log.LogError("Failed to get default tileset layers!");
             }
 
-            missingTileset = ResourcesModule.LoadAsset<ModTileset>("Assets/CoreLib.Tilesets/Resources/MissingTileset");
+            missingTileset = ResourcesModule.LoadAsset<ModTileset>("Assets/CoreLibPackage/CoreLib.Tilesets/Resources/MissingTileset");
 
             if (tilesetLayers.ContainsKey(missingTileset.layers.name))
             {

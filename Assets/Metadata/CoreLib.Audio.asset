@@ -23,7 +23,7 @@ MonoBehaviour:
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: CoreLibPackage/Assets/CoreLib.Audio
+  modPath: Assets\CoreLibPackage\CoreLib.Audio
   forceReimport: 0
   buildBundles: 0
   buildLinux: 1

@@ -207,7 +207,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1417043818048606}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1536336809, guid: 0ad3b74e6ca9d51438e5bbc30e3b4b1c, type: 3}
+  m_Script: {fileID: 1536336809, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   extraIndirectRenderer: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1417043818048606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -591214121, guid: f82af41547c04984b9d9f524e1859828, type: 3}
+  m_Script: {fileID: -591214121, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   showOutline: 0
@@ -374,6 +374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   XScaler: {fileID: 4540395584169737}
   shadow: {fileID: 1383139778061070}
+  indirectLightEmitters: []
   animator: {fileID: 95543038065131682}
   interactable: {fileID: 4607091486338282939}
   spriteObjects: []
@@ -400,6 +401,7 @@ MonoBehaviour:
   conditionEffectsHandler: {fileID: 0}
   conditionsEffectsSettings:
     stunEffectOffset: {x: 0, y: 0, z: 0}
+  outlineControllers: []
   previousHealth: 0
   verticalRenderer: {fileID: 212750922786408807}
   horizontalRenderer: {fileID: 2127064368665344937}
@@ -533,7 +535,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1853364737154301}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 2085959902, guid: 0ad3b74e6ca9d51438e5bbc30e3b4b1c, type: 3}
+  m_Script: {fileID: 2085959902, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shadowUpdateMode: 0
@@ -606,7 +608,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1928658720061950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -968291295, guid: f82af41547c04984b9d9f524e1859828, type: 3}
+  m_Script: {fileID: -968291295, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   neverOptimize: 0
@@ -721,7 +723,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1964057064367648}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1536336809, guid: 0ad3b74e6ca9d51438e5bbc30e3b4b1c, type: 3}
+  m_Script: {fileID: 1536336809, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   extraIndirectRenderer: 0
@@ -835,7 +837,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1968466417942882}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1536336809, guid: 0ad3b74e6ca9d51438e5bbc30e3b4b1c, type: 3}
+  m_Script: {fileID: 1536336809, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   extraIndirectRenderer: 0
@@ -980,7 +982,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4373799913199853221}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1536336809, guid: 0ad3b74e6ca9d51438e5bbc30e3b4b1c, type: 3}
+  m_Script: {fileID: 1536336809, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   extraIndirectRenderer: 0
@@ -1028,12 +1030,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8210119211015448268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1216031652, guid: f82af41547c04984b9d9f524e1859828, type: 3}
+  m_Script: {fileID: -1216031652, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weightMultiplier: 1
   useDiscreteOutlineColor: 0
   entityMono: {fileID: 2372841073806115479}
+  interactCooldown: 0
   requiredFactionToInteract: 0
   optionalIcon: {fileID: 0}
   optionalOutlineController: {fileID: 5661962488617377243}
@@ -1174,7 +1177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8756275594167127179}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1536336809, guid: 0ad3b74e6ca9d51438e5bbc30e3b4b1c, type: 3}
+  m_Script: {fileID: 1536336809, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   extraIndirectRenderer: 0
@@ -1189,7 +1192,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8756275594167127179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -591214121, guid: f82af41547c04984b9d9f524e1859828, type: 3}
+  m_Script: {fileID: -591214121, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   showOutline: 0

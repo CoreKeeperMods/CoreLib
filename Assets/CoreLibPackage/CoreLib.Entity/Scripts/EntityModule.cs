@@ -287,7 +287,7 @@ namespace CoreLib.Submodules.ModEntity
         internal override void PostLoad()
         {
             objectTypeIDs = new IdBind(modObjectTypeIdRangeStart, modObjectTypeIdRangeEnd);
-            rootWorkbenchDefinition = ResourcesModule.LoadAsset<WorkbenchDefinition>("Assets/CoreLib.Entity/RootWorkbench");
+            rootWorkbenchDefinition = ResourcesModule.LoadAsset<WorkbenchDefinition>("Assets/CoreLibPackage/CoreLib.Entity/RootWorkbench");
 
             RegisterEntityModifications(typeof(EntityModule));
             RegisterPrefabModifications(typeof(EntityModule));
@@ -424,7 +424,7 @@ namespace CoreLib.Submodules.ModEntity
 
         private static void AddWorkbench(WorkbenchDefinition workbenchDefinition)
         {
-            AddEntity(workbenchDefinition.itemId, "Assets/CoreLib.Entity/Prefab/TemplateWorkbench");
+            AddEntity(workbenchDefinition.itemId, "Assets/CoreLibPackage/CoreLib.Entity/Prefab/TemplateWorkbench");
             if (GetMainEntity(workbenchDefinition.itemId, out ObjectAuthoring entity))
             {
                 var itemAuthoring = entity.GetComponent<InventoryItemAuthoring>();

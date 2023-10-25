@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace CoreLib.Submodules.ModEntity
 {
-    [CreateAssetMenu(fileName = "WorkbenchDefinition", menuName = "New WorkbenchDefinition", order = 2)]
+    [CreateAssetMenu(fileName = "WorkbenchDefinition", menuName = "CoreLib/New WorkbenchDefinition", order = 2)]
     public class WorkbenchDefinition : ScriptableObject
     {
         public string itemId;

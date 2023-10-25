@@ -25,7 +25,7 @@ MonoBehaviour:
       required: 1
     - modName: CoreLib.Localization
       required: 1
-  modPath: CoreLibPackage/Assets/CoreLib.Entity
+  modPath: Assets\CoreLibPackage\CoreLib.Entity
   forceReimport: 0
   buildBundles: 1
   buildLinux: 1

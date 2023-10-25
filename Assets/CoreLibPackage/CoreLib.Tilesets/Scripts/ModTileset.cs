@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CoreLib.TileSets
 {
-    [CreateAssetMenu(fileName = "ModTileset", menuName = "New ModTileset", order = 2)]
+    [CreateAssetMenu(fileName = "ModTileset", menuName = "CoreLib/New ModTileset", order = 2)]
     public class ModTileset : ScriptableObject
     {
         public string tilesetId;
