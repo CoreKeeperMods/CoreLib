@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
   m_Name: CoreLib.Resources_modio
   m_EditorClassIdentifier: 
-  modId: 0
+  modId: 3456858
   modSettings: {fileID: 11400000, guid: d4b46de5ca3befa4d92b5654b323ad10, type: 2}
   logo: {fileID: 0}
-  summary: 
+  summary: Mod Resources Module is a CoreLib submodule that organises mod resources
+    and facilitates loading of assets

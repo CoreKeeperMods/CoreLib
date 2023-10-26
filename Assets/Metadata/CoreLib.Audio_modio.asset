@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
   m_Name: CoreLib.Audio_modio
   m_EditorClassIdentifier: 
-  modId: 0
+  modId: 3456849
   modSettings: {fileID: 11400000, guid: b62847869a800ae4ba209f06b776fa24, type: 2}
   logo: {fileID: 0}
-  summary: 
+  summary: Audio Module is a CoreLib submodule that allows to add custom music and
+    sound effects

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
   m_Name: CoreLib.Drops_modio
   m_EditorClassIdentifier: 
-  modId: 0
+  modId: 3456851
   modSettings: {fileID: 11400000, guid: 561050a879676bd408baf14217b54840, type: 2}
   logo: {fileID: 0}
-  summary: 
+  summary: Loot Drop Tables Module is a CoreLib submodule that allows to add, modify
+    and remove loot drops.

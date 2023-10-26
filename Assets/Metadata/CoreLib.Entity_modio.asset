@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
   m_Name: CoreLib.Entity_modio
   m_EditorClassIdentifier: 
-  modId: 0
+  modId: 3456852
   modSettings: {fileID: 11400000, guid: a9997ecff79c2304d89b8a0880e38e6c, type: 2}
   logo: {fileID: 0}
-  summary: 
+  summary: Entity Module is a CoreLib submodule that helps adding specific entities.
+    With mod SDK it's already possible to add custom entities, so this submodule
+    is mostly a helper module.

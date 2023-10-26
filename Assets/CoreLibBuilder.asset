@@ -25,5 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d4b46de5ca3befa4d92b5654b323ad10, type: 2}
   - {fileID: 11400000, guid: 580b9ef8a7a6fef4ea01d272fed8f1a2, type: 2}
   - {fileID: 11400000, guid: 8430d0d2b6231d8499e6ca92f1a80ccc, type: 2}
-  buildIndex: 11
-  isBuilding: 1
+  buildIndex: -1
+  isBuilding: 0

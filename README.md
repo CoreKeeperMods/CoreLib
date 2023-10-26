@@ -1,17 +1,25 @@
-![Core Keeper Mod SDK](banner.png)
+# CoreLib
+A modding library for Core Keeper. Provides features that makes modding Core Keeper easier.
 
-This is the official Mod SDK for Core Keeper! Use it to create and publish amazing mods.<br>
-<sub>If you are looking for existing mods, check [the official mod.io page](https://mod.io/).</sub>
+**WARNING!** Version 3.0.0 contains breaking changes.
 
-## Requirements
-[Unity Editor 2021.3.14f1](https://unity.com/releases/editor/whats-new/2021.3.14)
+# List of features
+- Custom items, blocks, enemies, NPC, etc.
+- Easier access to Rewired input system, localization
+- Custom chat commands
 
-## How to run
+And much more!
 
-1. Download the project to your PC, either using Git or by clicking _Code > Download ZIP_ and extracting the archive anywhere.
-2. Run OpenProject.bat or open the project through the Unity Hub.
+# Documentation
+Each submodule contains a markdown file with documentation.
 
-## Getting started
-For a more detailed guide on how to get started, check [this page on mod.io](https://mod.io/).
-
-If you have questions, check [the mod-help channel on the Core Keeper Discord server](https://discord.com/).
+Contents:
+- [Audio Submodule](./Assets/CoreLibPackage/CoreLib.Audio/README.md)
+- [Commands Submodule](./Assets/CoreLibPackage/CoreLib.Commands/README.md)
+- [Drops Submodule](./Assets/CoreLibPackage/CoreLib.Drops/README.md)
+- [Entity Submodule](./Assets/CoreLibPackage/CoreLib.Entity/README.md)
+- [Equipment Submodule](./Assets/CoreLibPackage/CoreLib.Equipment/README.md)
+- [Localization Submodule](./Assets/CoreLibPackage/CoreLib.Localization/README.md)
+- [Resources Submodule](./Assets/CoreLibPackage/CoreLib.Resources/README.md)
+- [RewiredExtension Submodule](./Assets/CoreLibPackage/CoreLib.RewiredExtension/README.md)
+- [Tilesets Submodule](./Assets/CoreLibPackage/CoreLib.Tilesets/README.md)

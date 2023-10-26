@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
   m_Name: CoreLib.RewiredExtension_modio
   m_EditorClassIdentifier: 
-  modId: 0
+  modId: 3456859
   modSettings: {fileID: 11400000, guid: 580b9ef8a7a6fef4ea01d272fed8f1a2, type: 2}
   logo: {fileID: 0}
-  summary: 
+  summary: Rewired Extension Module is a CoreLib submodule that allows to register
+    new Rewired key binds. Users will be able to rebind them to what they want.

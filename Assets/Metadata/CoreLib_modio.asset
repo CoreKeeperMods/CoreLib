@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
   m_Name: CoreLib_modio
   m_EditorClassIdentifier: 
-  modId: 0
+  modId: 3177992
   modSettings: {fileID: 11400000, guid: a1001a542c2fe9d40b9c837789660571, type: 2}
-  logo: {fileID: 0}
-  summary: 
+  logo: {fileID: 2800000, guid: cf8e3b639e236c7498562316600b4926, type: 3}
+  summary: A modding library for Core Keeper. Provides features that makes modding
+    Core Keeper easier.

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
   m_Name: CoreLib.Equipment_modio
   m_EditorClassIdentifier: 
-  modId: 0
+  modId: 3456855
   modSettings: {fileID: 11400000, guid: 435b302c28395214fa85ab44a8493f89, type: 2}
   logo: {fileID: 0}
-  summary: 
+  summary: Equipment Slot Module is a CoreLib submodule that allows to create custom
+    equipment slots, which define how user should be using the item. Equipment slots
+    drive every tool in Core Keeper.

@@ -1,5 +1,5 @@
 # Entity Module
-Custom Entity Module is a CoreLib submodule that helps adding specific entities. With mod SDK it's already possible to add custom entities, so this submodule is mostly a helper module.
+Entity Module is a CoreLib submodule that helps adding specific entities. With mod SDK it's already possible to add custom entities, so this submodule is mostly a helper module.
 
 ## Usage example:
 Make sure to call `CoreLibMod.LoadModules(typeof(EntityModule));` to in your mod `EarlyInit()` function, before using the module. This will load the submodule.

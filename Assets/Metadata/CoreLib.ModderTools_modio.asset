@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modId: 0
   modSettings: {fileID: 11400000, guid: ab42f595438d09c4f98933539d644a57, type: 2}
-  logo: {fileID: 0}
+  logo: {fileID: 2800000, guid: cf8e3b639e236c7498562316600b4926, type: 3}
   summary: 
