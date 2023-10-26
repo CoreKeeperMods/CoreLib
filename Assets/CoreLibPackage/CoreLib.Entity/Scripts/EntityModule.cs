@@ -13,11 +13,9 @@ using CoreLib.Util;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using PugMod;
-using QFSW.QC;
 using Unity.Entities;
 using Unity.NetCode;
 using UnityEngine;
-using UnityEngine.Scripting;
 using Object = UnityEngine.Object;
 
 [assembly:InternalsVisibleTo("CoreLib.Audio")]
@@ -33,7 +31,6 @@ using Object = UnityEngine.Object;
 
 namespace CoreLib.Submodules.ModEntity
 {
-    [CommandPrefix("mod.")]
     public class EntityModule : BaseSubmodule
     {
         #region PublicInterface

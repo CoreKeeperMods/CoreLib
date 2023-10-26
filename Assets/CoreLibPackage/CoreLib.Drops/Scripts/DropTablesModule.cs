@@ -7,7 +7,6 @@ using LootList = System.Collections.Generic.List<LootInfo>;
 
 namespace CoreLib.Drops
 {
-    //TODO test the DropTablesModule
     public class DropTablesModule : BaseSubmodule
     {
         #region Public Interface

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using CoreLib.Data.Configuration;
-using CoreLib.ModResources;
 using CoreLib.Util.Extensions;
-using HarmonyLib;
 using PugMod;
-using Unity.Burst;
 using Unity.Entities;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
@@ -20,6 +17,7 @@ using Object = UnityEngine.Object;
 [assembly:InternalsVisibleTo("CoreLib.JsonLoader")]
 [assembly:InternalsVisibleTo("CoreLib.Localization")]
 [assembly:InternalsVisibleTo("CoreLib.ModderTools")]
+[assembly:InternalsVisibleTo("CoreLib.Resources")]
 [assembly:InternalsVisibleTo("CoreLib.RewiredExtension")]
 [assembly:InternalsVisibleTo("CoreLib.Tilesets")]
 
@@ -50,7 +48,6 @@ namespace CoreLib
 
             Config = new ConfigFile($"{CONFIG_FOLDER}CoreLib.cfg", true, modInfo);
             API.Server.OnWorldCreated += WorldInitialize;
-            ResourcesModule.RefreshModuleBundles();
 
             CheckIfUsedOnRightGameVersion();
             

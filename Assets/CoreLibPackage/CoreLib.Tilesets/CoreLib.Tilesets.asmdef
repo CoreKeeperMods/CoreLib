@@ -1,4 +1,4 @@
-﻿{
+{
     "name": "CoreLib.Tilesets",
     "rootNamespace": "CoreLib.Tilesets",
     "references": [
@@ -17,7 +17,8 @@
         "Unity.Transforms",
         "PugMod.SDK",
         "CoreLib",
-        "CoreLib.Entity"
+        "CoreLib.Entity",
+        "CoreLib.Resources"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

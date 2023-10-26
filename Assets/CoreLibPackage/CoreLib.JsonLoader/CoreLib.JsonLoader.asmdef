@@ -1,4 +1,4 @@
-﻿{
+{
     "name": "CoreLib.JsonLoader",
     "rootNamespace": "CoreLib.JsonLoader",
     "references": [
@@ -19,7 +19,8 @@
         "CoreLib",
         "CoreLib.Entity",
         "CoreLib.Drops",
-        "CoreLib.Localization"
+        "CoreLib.Localization",
+        "CoreLib.Resources"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

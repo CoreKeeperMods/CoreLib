@@ -1,4 +1,4 @@
-﻿{
+{
     "name": "CoreLib.Equipment",
     "rootNamespace": "CoreLib.Equipment",
     "references": [
@@ -17,6 +17,7 @@
         "Unity.Transforms",
         "PugMod.SDK",
         "CoreLib",
+        "CoreLib.Resources",
         "CoreLib.Entity"
     ],
     "includePlatforms": [],
