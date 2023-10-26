@@ -25,6 +25,8 @@ MonoBehaviour:
       required: 1
     - modName: CoreLib.Entity
       required: 1
+    - modName: CoreLib.Resources
+      required: 1
   modPath: Assets\CoreLibPackage\CoreLib.Tilesets
   forceReimport: 0
   buildBundles: 1

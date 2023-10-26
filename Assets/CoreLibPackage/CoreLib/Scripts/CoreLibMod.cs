@@ -33,7 +33,7 @@ namespace CoreLib
         
         internal static Logger Log = new Logger(NAME);
         internal static ConfigFile Config;
-        public static readonly GameVersion buildFor = new GameVersion(0, 7, 0, 3, "25d3");
+        public static readonly GameVersion buildFor = new GameVersion(0, 7, 1, 0, "4ab5");
         
         internal static SubmoduleHandler submoduleHandler;
 
