@@ -32,8 +32,11 @@ namespace CoreLib.Commands.Patches
             var universeLibCanvasGo = GameObject.Find("UniverseLibCanvas");
             if (universeLibCanvasGo != null)
             {
-                CoreLibMod.Log.LogInfo("Success!");
-                CommandsModule.quantumConsole.gameObject.transform.parent = universeLibCanvasGo.transform;
+                Transform consoleTransform = CommandsModule.quantumConsole.gameObject.transform;
+                if (consoleTransform.parent != null &&
+                    consoleTransform.parent.name.Contains("UniverseLibCanvas")) return;
+                
+                consoleTransform.parent = universeLibCanvasGo.transform;
             }
         }
 

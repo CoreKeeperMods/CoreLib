@@ -49,20 +49,28 @@ namespace CoreLib.Commands
             return "";
         }
 
-        public static int2 ParsePos(string[] parameters, int startIndex, PlayerController player, out CommandOutput? commandOutput)
+        /// <summary>
+        /// Parse position data from player input
+        /// </summary>
+        /// <param name="parameters">List of all arguments</param>
+        /// <param name="startIndex">Index from which to look</param>
+        /// <param name="playerPos">Player's world position</param>
+        /// <param name="commandOutput">If not not null, error message to the player</param>
+        /// <returns>Parsed position in world space</returns>
+        public static int2 ParsePos(string[] parameters, int startIndex, float3 playerPos, out CommandOutput? commandOutput)
         {
             string xPosStr = parameters[startIndex - 1];
             string zPosStr = parameters[startIndex];
-
+            
             int xPos;
             int zPos;
 
-            int2 playerPos = player.WorldPosition.RoundToInt2();
+            int2 intPlayerPos = playerPos.RoundToInt2();
 
             try
             {
-                xPos = ParsePosAxis(xPosStr, -playerPos.x);
-                zPos = ParsePosAxis(zPosStr, -playerPos.y);
+                xPos = ParsePosAxis(xPosStr, intPlayerPos.x);
+                zPos = ParsePosAxis(zPosStr, intPlayerPos.y);
             }
             catch (Exception)
             {
@@ -78,10 +86,10 @@ namespace CoreLib.Commands
         {
             if (posText[0] == '~')
             {
-                return int.Parse(posText[1..]);
+                return playerPos + int.Parse(posText[1..]);
             }
 
-            return playerPos + int.Parse(posText);
+            return int.Parse(posText);
         }
 
         public static Color GetColor(this CommandStatus status)

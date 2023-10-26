@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CoreLib.Commands.Communication;
 using Unity.Entities;
@@ -46,7 +47,7 @@ namespace CoreLib.Commands.Handlers
         {
             ICommandInfo validCommandHandler = CommandsModule.commandHandlers
                 .Select(pair => pair.handler)
-                .FirstOrDefault(element => element.GetTriggerNames().Contains(search));
+                .FirstOrDefault(element => element.GetTriggerNames().Any(name => name.Equals(search, StringComparison.InvariantCultureIgnoreCase)));
             if (validCommandHandler == null)
             {
                 return new CommandOutput("This command does not exist. Use /help to view all commands.", CommandStatus.Error);
