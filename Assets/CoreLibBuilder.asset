@@ -12,18 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ba067f3b28424ab1f656f569e063bd, type: 3}
   m_Name: CoreLibBuilder
   m_EditorClassIdentifier: 
-  settings:
-  - {fileID: 11400000, guid: a1001a542c2fe9d40b9c837789660571, type: 2}
-  - {fileID: 11400000, guid: b62847869a800ae4ba209f06b776fa24, type: 2}
-  - {fileID: 11400000, guid: 5c0bca128a22c634e95ff754d7de14e0, type: 2}
-  - {fileID: 11400000, guid: 561050a879676bd408baf14217b54840, type: 2}
-  - {fileID: 11400000, guid: a9997ecff79c2304d89b8a0880e38e6c, type: 2}
-  - {fileID: 11400000, guid: 435b302c28395214fa85ab44a8493f89, type: 2}
-  - {fileID: 11400000, guid: d0d9739b3d42cea408bef2095ee749da, type: 2}
-  - {fileID: 11400000, guid: 295c665019ab3a44fb3b4141370a238a, type: 2}
-  - {fileID: 11400000, guid: ab42f595438d09c4f98933539d644a57, type: 2}
-  - {fileID: 11400000, guid: d4b46de5ca3befa4d92b5654b323ad10, type: 2}
-  - {fileID: 11400000, guid: 580b9ef8a7a6fef4ea01d272fed8f1a2, type: 2}
-  - {fileID: 11400000, guid: 8430d0d2b6231d8499e6ca92f1a80ccc, type: 2}
+  mods:
+  - name: CoreLib
+    mod: {fileID: 11400000, guid: 78d003231b7c2d54b8a9edfa8406d6c0, type: 2}
+    shouldBuild: 1
+  - name: CoreLib.Audio
+    mod: {fileID: 11400000, guid: b5376f3d387ba6b42bc0cc7b6f9ced6d, type: 2}
+    shouldBuild: 1
+  - name: CoreLib.Commands
+    mod: {fileID: 11400000, guid: e78ea059f4589d34580bfe8084b17a8d, type: 2}
+    shouldBuild: 1
+  - name: CoreLib.Drops
+    mod: {fileID: 11400000, guid: c4e1966dac04b214bb29d4044a4aecb7, type: 2}
+    shouldBuild: 1
+  - name: CoreLib.Entity
+    mod: {fileID: 11400000, guid: ea1f3c0024d31064c99431d01a3264c9, type: 2}
+    shouldBuild: 1
+  - name: CoreLib.Equipment
+    mod: {fileID: 11400000, guid: 788562e8a8b45944da58aa6b6f7cab18, type: 2}
+    shouldBuild: 1
+  - name: CoreLib.Localization
+    mod: {fileID: 11400000, guid: de78cf6daf71b4a43b2224fa737de239, type: 2}
+    shouldBuild: 1
+  - name: CoreLib.Resources
+    mod: {fileID: 11400000, guid: dc9bd3edffd96f84bb0cd50a81eb482c, type: 2}
+    shouldBuild: 1
+  - name: CoreLib.RewiredExtension
+    mod: {fileID: 11400000, guid: c8c28b9b83f1c524faaf321d94c18490, type: 2}
+    shouldBuild: 1
+  - name: CoreLib.Tilesets
+    mod: {fileID: 11400000, guid: 32b57f3461b0dbb4e8f89a63efa63bcc, type: 2}
+    shouldBuild: 1
+  uploadToModIO: 1
+  updateDescription: 1
+  uploadVersion: 3.0.1
+  changeLog: 'A test '
   buildIndex: -1
   isBuilding: 0
