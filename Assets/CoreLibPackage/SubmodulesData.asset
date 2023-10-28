@@ -22,5 +22,6 @@ MonoBehaviour:
   - CoreLib.JsonLoader
   - CoreLib.Localization
   - CoreLib.ModderTools
+  - CoreLib.Resources
   - CoreLib.RewiredExtension
   - CoreLib.Tilesets
