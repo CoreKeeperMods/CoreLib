@@ -15,27 +15,27 @@ namespace CoreLib.Editor
     [Serializable]
     public class ModState
     {
-        [HideInInspector]
-        public string name;
-        
+        [HideInInspector] public string name;
+
         public ModSettings mod;
         public bool shouldBuild = true;
     }
-    
+
     [CreateAssetMenu(fileName = "ChainBuilder", menuName = "CoreLib/New ChainBuilder", order = 2)]
     public class ChainBuilder : ScriptableObject
     {
-        
         public ModState[] mods;
-        
-        public bool uploadToModIO;
+
+        public bool buildAll;
+
+        [Header("Mod IO")] public bool uploadToModIO;
         public bool updateDescription;
         public string uploadVersion;
-        [TextArea]
-        public string changeLog;
+        [TextArea] public string changeLog;
 
         [HideInInspector] public int buildIndex;
         [HideInInspector] public bool isBuilding;
+        [HideInInspector] public bool oldBuildAll;
 
         private void OnValidate()
         {
@@ -54,11 +54,30 @@ namespace CoreLib.Editor
                 }
             }
 
-            if (mods.Length > 0)
+            if (buildAll != oldBuildAll)
             {
                 foreach (ModState state in mods)
                 {
+                    state.shouldBuild = buildAll;
+                }
+
+                oldBuildAll = buildAll;
+            }
+
+            if (mods.Length > 0)
+            {
+                bool all = true;
+                foreach (ModState state in mods)
+                {
                     state.name = $"{state.mod.modSettings.metadata.name}{(state.shouldBuild ? "" : " (Disabled)")}";
+                    
+                    all &= state.shouldBuild;
+                }
+
+                if (all != buildAll)
+                {
+                    buildAll = all;
+                    oldBuildAll = all;
                 }
             }
         }
@@ -85,7 +104,7 @@ namespace CoreLib.Editor
                 {
                     StartBuilding(builder);
                 }
-                
+
                 return;
             }
 
@@ -100,7 +119,7 @@ namespace CoreLib.Editor
 
             float progress = (currentIndex) / (float)builder.mods.Length;
             var state = builder.mods[currentIndex];
-            
+
             var rect = EditorGUILayout.GetControlRect(false, EditorGUIUtility.singleLineHeight);
             EditorGUI.ProgressBar(rect, progress, $"Building mod \"{state.mod.modSettings.metadata.name}\"");
         }
@@ -110,10 +129,10 @@ namespace CoreLib.Editor
             builder.isBuilding = true;
             builder.buildIndex = -1;
             EditorUtility.SetDirty(builder);
-            
+
             _buildCoroutine ??= EditorCoroutineUtility.StartCoroutine(BuildMods(builder), this);
         }
-        
+
         private static void StopBuilding(ChainBuilder builder)
         {
             builder.isBuilding = false;
@@ -124,7 +143,7 @@ namespace CoreLib.Editor
         }
 
         private const string GAME_INSTALL_PATH_KEY = "PugMod/SDKWindow/GamePath";
-        
+
         private static EditorCoroutine _buildCoroutine;
 
         private IEnumerator BuildMods(ChainBuilder builder)
@@ -146,28 +165,29 @@ namespace CoreLib.Editor
                 if (!state.shouldBuild)
                 {
                     Debug.Log($"Skipping {state.mod.modSettings.metadata.name}!");
-                    yield return new WaitForSeconds(1);
                 }
+                else
+                {
+                    try
+                    {
+                        if (builder.uploadToModIO)
+                            BuildToModIO(builder, state.mod);
+                        else
+                            BuildLocal(builder, state.mod);
 
-                try
-                {
-                    if (builder.uploadToModIO)
-                        BuildToModIO(builder, state.mod);
-                    else
-                        BuildLocal(builder, state.mod);
-                    
-                    EditorUtility.SetDirty(builder);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogException(e);
-                    StopBuilding(builder);
+                        EditorUtility.SetDirty(builder);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogException(e);
+                        StopBuilding(builder);
+                    }
                 }
 
                 yield return new WaitForSeconds(1);
             }
         }
-        
+
         private static void BuildLocal(ChainBuilder builder, ModSettings settings)
         {
             var path = EditorPrefs.GetString(GAME_INSTALL_PATH_KEY);
@@ -189,7 +209,7 @@ namespace CoreLib.Editor
 
             BuildAt(builder, settings, path);
         }
-        
+
         private static string BuildTemp(ChainBuilder builder, ModSettings settings)
         {
             var tempDirectory = Path.Combine(Application.temporaryCachePath, Guid.NewGuid().ToString());
@@ -246,7 +266,7 @@ namespace CoreLib.Editor
                     Debug.LogError($"Couldn't find mod {mod.modSettings.metadata.name} at mod.io");
                     return;
                 }
-						
+
                 Debug.Assert(mod.modId == result.value.id);
 
                 var modProfileDetails = new ModProfileDetails
@@ -277,13 +297,13 @@ namespace CoreLib.Editor
                 });
             });
         }
-        
+
         private static bool InitializeModIO()
         {
             if (!ModIOUnity.IsInitialized())
             {
                 Result result = ModIOUnity.InitializeForUser("PugModSDKUser");
-                
+
                 if (!result.Succeeded())
                 {
                     Debug.Log("Failed to initialize mod.io SDK");
@@ -293,7 +313,7 @@ namespace CoreLib.Editor
 
             return true;
         }
-        
+
         private void Upload(ChainBuilder builder, ModSettings mod, string path)
         {
             var fileDetails = new ModfileDetails
@@ -338,10 +358,7 @@ namespace CoreLib.Editor
                     description = readmeHtml
                 };
 
-                ModIOUnity.EditModProfile(profileEdit, result =>
-                {
-                    Debug.Log($"Updated description for {mod.modSettings.metadata.name}!");
-                });
+                ModIOUnity.EditModProfile(profileEdit, result => { Debug.Log($"Updated description for {mod.modSettings.metadata.name}!"); });
             }
         }
     }
