@@ -23,7 +23,7 @@ namespace CoreLib.Editor
 
         public void Execute(ModBuilderSettings settings, string installDirectory, List<string> assetPaths)
         {
-            if (!settings.buildBurst) return;
+            if (!settings.GetShouldBuildBurst()) return;
             
             var libraryFolder = Path.Combine(Application.dataPath, "..", "Library");
             var packageCache = Path.Combine(libraryFolder, "PackageCache");
@@ -64,7 +64,7 @@ namespace CoreLib.Editor
 
             foreach (string platform in platforms)
             {
-                if (platform == "Linux" && !settings.buildLinux) continue;
+                if (platform == "Linux" && !settings.GetShouldBuildForLinux()) continue;
                 CompileBurst(burstCompiler, assemblyStaging, burstAssemblyPath, rootAssembly, platform);
             }
 
