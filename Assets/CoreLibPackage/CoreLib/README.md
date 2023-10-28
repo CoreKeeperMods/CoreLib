@@ -50,12 +50,12 @@ With Core Lib also comes a package called `SDK Extensions`. This package adds a 
 Each submodule contains a markdown file with documentation.
 
 Contents:
-- [Audio Submodule](../CoreLib.Audio/README.md)
-- [Commands Submodule](../CoreLib.Commands/README.md)
-- [Drops Submodule](../CoreLib.Drops/README.md)
-- [Entity Submodule](../CoreLib.Entity/README.md)
-- [Equipment Submodule](../CoreLib.Equipment/README.md)
-- [Localization Submodule](../CoreLib.Localization/README.md)
-- [Resources Submodule](../CoreLib.Resources/README.md)
-- [RewiredExtension Submodule](../CoreLib.RewiredExtension/README.md)
-- [Tilesets Submodule](../CoreLib.Tilesets/README.md)
+- [Audio Submodule](https://mod.io/g/corekeeper/m/corelibaudio)
+- [Commands Submodule](https://mod.io/g/corekeeper/m/corelibcommands)
+- [Drops Submodule](https://mod.io/g/corekeeper/m/corelibdrops)
+- [Entity Submodule](https://mod.io/g/corekeeper/m/corelibentity)
+- [Equipment Submodule](https://mod.io/g/corekeeper/m/corelibequipment)
+- [Localization Submodule](https://mod.io/g/corekeeper/m/coreliblocalization)
+- [Resources Submodule](https://mod.io/g/corekeeper/m/corelibresources)
+- [RewiredExtension Submodule](https://mod.io/g/corekeeper/m/corelibrewiredextension)
+- [Tilesets Submodule](https://mod.io/g/corekeeper/m/corelibtilesets)

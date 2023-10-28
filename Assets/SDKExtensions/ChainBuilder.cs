@@ -86,6 +86,24 @@ namespace CoreLib.Editor
     [CustomEditor(typeof(ChainBuilder))]
     public class ChainBuilderEditor : UnityEditor.Editor
     {
+        private const string GAME_INSTALL_PATH_KEY = "PugMod/SDKWindow/GamePath";
+
+        private static EditorCoroutine _buildCoroutine;
+        private static MarkdownPipeline _pipeline;
+        
+        public static MarkdownPipeline pipeline
+        {
+            get
+            {
+                _pipeline ??= new MarkdownPipelineBuilder()
+                    .UseAdvancedExtensions()
+                    .UseHeadingUpper()
+                    .Build();
+
+                return _pipeline;
+            }
+        }
+
         public override bool RequiresConstantRepaint()
         {
             ChainBuilder builder = (ChainBuilder)target;
@@ -141,10 +159,6 @@ namespace CoreLib.Editor
             EditorCoroutineUtility.StopCoroutine(_buildCoroutine);
             _buildCoroutine = null;
         }
-
-        private const string GAME_INSTALL_PATH_KEY = "PugMod/SDKWindow/GamePath";
-
-        private static EditorCoroutine _buildCoroutine;
 
         private IEnumerator BuildMods(ChainBuilder builder)
         {
@@ -351,14 +365,17 @@ namespace CoreLib.Editor
             if (File.Exists(readme))
             {
                 var readmeText = File.ReadAllText(readme);
-                var readmeHtml = Markdown.ToHtml(readmeText);
+                var readmeHtml = Markdown.ToHtml(readmeText, pipeline);
                 var profileEdit = new ModProfileDetails()
                 {
                     modId = new ModId(mod.modId),
                     description = readmeHtml
                 };
 
-                ModIOUnity.EditModProfile(profileEdit, result => { Debug.Log($"Updated description for {mod.modSettings.metadata.name}!"); });
+                ModIOUnity.EditModProfile(profileEdit, result =>
+                {
+                    Debug.Log($"Updated description for {mod.modSettings.metadata.name}!");
+                });
             }
         }
     }
