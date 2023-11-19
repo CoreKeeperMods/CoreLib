@@ -10,6 +10,8 @@ namespace CoreLib.Submodules.ModEntity.Patches
         [HarmonyPrefix]
         public static void InjectPoolablePrefabs(MemoryManager __instance)
         {
+            if (__instance.poolablePrefabBank == null) return;
+            
             PrefabCrawler.FindMaterials(__instance.poolablePrefabBank.poolInitializers);
             PrefabCrawler.SetupPrefabIDMap(Manager.ecs.pugDatabase.prefabList);
             EntityModule.ApplyAllModAuthorings();
@@ -20,7 +22,7 @@ namespace CoreLib.Submodules.ModEntity.Patches
             {
                 MonoBehaviourUtils.ApplyPrefabModAuthorings(null, prefab);
                 
-                __instance.poolablePrefabBank.poolInitializers.Add(new PoolablePrefabBank.PoolablePrefab()
+                __instance.poolablePrefabBank.poolInitializers.Add(new PoolablePrefabBank.PoolablePrefab
                 {
                     prefab = prefab,
                     initialSize = 16,
