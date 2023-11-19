@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CoreLib.UserInterface
+namespace CoreLib.UserInterface.Util
 {
     /// <summary>
     /// Snap UI elements to a pixel grid
