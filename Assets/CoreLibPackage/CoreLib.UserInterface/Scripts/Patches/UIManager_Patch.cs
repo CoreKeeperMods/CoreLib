@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace CoreLib.UserInterface.Patches
 {
-    [HarmonyPatch]
     public class UIManager_Patch
     {
         [HarmonyPatch(typeof(UIManager), nameof(UIManager.Init))]

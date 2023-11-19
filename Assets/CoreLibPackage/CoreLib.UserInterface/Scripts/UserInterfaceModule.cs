@@ -130,6 +130,7 @@ namespace CoreLib.UserInterface
             }
 
             interfacePrefabs.Add(modInterfaceAuthoring);
+            CoreLibMod.Log.LogInfo($"Registering {modInterfaceAuthoring.modInterfaceID} Modded UI!");
         }
 
         #endregion
