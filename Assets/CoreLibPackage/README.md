@@ -59,3 +59,4 @@ Contents:
 - [Resources Submodule](./CoreLib.Resources/README.md)
 - [RewiredExtension Submodule](./CoreLib.RewiredExtension/README.md)
 - [Tilesets Submodule](./CoreLib.Tilesets/README.md)
+- [User Interface Submodule](./CoreLib.UserInterface/README.md)

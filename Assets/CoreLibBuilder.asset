@@ -51,6 +51,6 @@ MonoBehaviour:
   updateDescription: 0
   uploadVersion: 3.0.1
   changeLog: 'A test '
-  buildIndex: 9
-  isBuilding: 1
+  buildIndex: -1
+  isBuilding: 0
   oldBuildAll: 1

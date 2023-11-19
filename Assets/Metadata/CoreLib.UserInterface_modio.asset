@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
   m_Name: CoreLib.UserInterface_modio
   m_EditorClassIdentifier: 
-  modId: 0
+  modId: 3510171
   modSettings: {fileID: 11400000, guid: 11a6aaac12a8cfb429b48a9e3f9a27ba, type: 2}
-  logo: {fileID: 2800000, guid: cf8e3b639e236c7498562316600b4926, type: 3}
-  summary: 'Describe your mod here.
-
-'
+  logo: {fileID: 0}
+  summary: User Interface Module is a CoreLib submodule that allows to create modded
+    user interfaces.

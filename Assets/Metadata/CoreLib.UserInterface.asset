@@ -19,7 +19,12 @@ MonoBehaviour:
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
-    files: []
+    files:
+    - path: Scripts/Scripts/UserInterfaceModule.cs
+    - path: Scripts/Scripts/PixelSnap.cs
+    - path: Scripts/Scripts/Patches/UIManager_Patch.cs
+    - path: Scripts/Scripts/ModUIAuthoring.cs
+    - path: Scripts/Scripts/IModUI.cs
     dependencies:
     - modName: CoreLib
       required: 1

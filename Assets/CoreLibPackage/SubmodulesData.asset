@@ -25,3 +25,4 @@ MonoBehaviour:
   - CoreLib.Resources
   - CoreLib.RewiredExtension
   - CoreLib.Tilesets
+  - CoreLib.UserInterface

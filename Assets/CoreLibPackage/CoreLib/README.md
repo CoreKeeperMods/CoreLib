@@ -32,6 +32,10 @@ Add following lines at the beginning:
 
 If you want to install latest version of CoreLib use `#main` at the end of every line. However it is highly recommended that you lock your version, and update it manually. To do that replace `#main` with `#tag`. For example `#3.0.1`.
 
+Please note that the CoreLibPackage version is separate from CoreLib submodules version on Mod IO. This is mainly because the package combines all submodules, and other tools. 
+
+To find out the correct version to target read the release notes for Core Lib Package
+
 ## Done
 Now you can open your project and you will have Core Lib ready to be used. 
 
@@ -59,3 +63,4 @@ Contents:
 - [Resources Submodule](https://mod.io/g/corekeeper/m/corelibresources)
 - [RewiredExtension Submodule](https://mod.io/g/corekeeper/m/corelibrewiredextension)
 - [Tilesets Submodule](https://mod.io/g/corekeeper/m/corelibtilesets)
+- [User Interface Submodule](https://mod.io/g/corekeeper/m/corelib-userinterface)
