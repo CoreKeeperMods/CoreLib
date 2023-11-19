@@ -43,11 +43,14 @@ MonoBehaviour:
   - name: CoreLib.Tilesets
     mod: {fileID: 11400000, guid: 32b57f3461b0dbb4e8f89a63efa63bcc, type: 2}
     shouldBuild: 1
+  - name: CoreLib.UserInterface
+    mod: {fileID: 11400000, guid: 8802fd081c0fc544b91bb88a94dde143, type: 2}
+    shouldBuild: 1
   buildAll: 1
   uploadToModIO: 0
-  updateDescription: 1
+  updateDescription: 0
   uploadVersion: 3.0.1
   changeLog: 'A test '
-  buildIndex: -1
-  isBuilding: 0
+  buildIndex: 9
+  isBuilding: 1
   oldBuildAll: 1

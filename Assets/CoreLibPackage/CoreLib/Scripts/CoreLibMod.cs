@@ -20,6 +20,7 @@ using Object = UnityEngine.Object;
 [assembly:InternalsVisibleTo("CoreLib.Resources")]
 [assembly:InternalsVisibleTo("CoreLib.RewiredExtension")]
 [assembly:InternalsVisibleTo("CoreLib.Tilesets")]
+[assembly:InternalsVisibleTo("CoreLib.UserInterface")]
 
 namespace CoreLib
 {
