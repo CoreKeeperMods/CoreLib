@@ -145,7 +145,7 @@ namespace CoreLib.Commands
         public static Entity GetPlayerEntity(this Entity sender)
         {
             EntityManager entityManager = API.Server.World.EntityManager;
-            Entity playerEntity = entityManager.GetComponentData<CommandTargetComponent>(sender).targetEntity;
+            Entity playerEntity = entityManager.GetComponentData<CommandTarget>(sender).targetEntity;
             return playerEntity;
         }
 

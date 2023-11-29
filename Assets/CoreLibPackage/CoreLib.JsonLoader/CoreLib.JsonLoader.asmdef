@@ -15,6 +15,7 @@
         "Unity.Physics.Hybrid",
         "Unity.Properties",
         "Unity.Transforms",
+        "Unity.Physics.Custom",
         "PugMod.SDK",
         "CoreLib",
         "CoreLib.Entity",

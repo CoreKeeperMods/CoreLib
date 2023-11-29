@@ -533,8 +533,8 @@ namespace CoreLib.Submodules.ModEntity
             GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
             if (ghost != null)
             {
-                ghost.Name = itemId;
-                ghost.prefabId = fullItemId.GetGUID();
+                //TODO set prefabID
+                //ghost.prefabId = fullItemId.GetGUID();
             }
 
             return objectAuthoring;
@@ -554,6 +554,8 @@ namespace CoreLib.Submodules.ModEntity
             }
         }
 
+        
+        
         private static void RegisterEntityModificationsInType_Internal(Type type)
         {
             int result = API.Experimental.RegisterAttributeFunction<EntityModificationAttribute, ModifyAction>(type, (action, attribute) =>
@@ -570,6 +572,7 @@ namespace CoreLib.Submodules.ModEntity
                         return false;
                     }
 
+                    //TODO add delegate wrapping
                     entityModifyFunctions.AddDelegate(attribute.target, action);
                 }
 
@@ -633,7 +636,15 @@ namespace CoreLib.Submodules.ModEntity
 
             if (entityModifyFunctions.ContainsKey(objectID))
             {
-                entityModifyFunctions[objectID]?.Invoke(entity, authoring, entityManager);
+                try
+                {
+                    entityModifyFunctions[objectID]?.Invoke(entity, authoring, entityManager);
+                }
+                catch (Exception e)
+                {
+                    CoreLibMod.Log.LogError($"Exception while executing mod modify function for {objectID}:\n{e}");
+                }
+                
             }
         }
 

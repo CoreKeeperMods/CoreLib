@@ -237,14 +237,14 @@ namespace CoreLib.Commands
         private static void ClientWorldReady()
         {
             var world = API.Client.World;
-            clientCommSystem = world.GetOrCreateSystem<CommandCommSystem>();
+            clientCommSystem = world.GetOrCreateSystemManaged<CommandCommSystem>();
             API.Client.AddMainThreadSystem(clientCommSystem);
         }
 
         private static void ServerWorldReady()
         {
             var world = API.Server.World;
-            serverCommSystem = world.GetOrCreateSystem<CommandCommSystem>();
+            serverCommSystem = world.GetOrCreateSystemManaged<CommandCommSystem>();
             API.Server.AddMainThreadSystem(serverCommSystem);
         }
 
@@ -350,7 +350,7 @@ namespace CoreLib.Commands
             var entityManager = API.Server.World.EntityManager;
             if (!entityManager.Exists(message.sender)) return false;
             
-            bool guestMode = entityManager.World.GetExistingSystem<WorldInfoSystem>().WorldInfo.guestMode;
+            bool guestMode = entityManager.World.GetExistingSystemManaged<WorldInfoSystem>().WorldInfo.guestMode;
             if (guestMode) return false;
             int adminLevel = 0;
             

@@ -4,7 +4,7 @@ namespace CoreLib.Util.Extensions
 {
     public static class ECSExtensions
     {
-        public static T GetOrAddComponentData<T>(this EntityManager entityManager, Entity entity) where T : struct, IComponentData
+        public static T GetOrAddComponentData<T>(this EntityManager entityManager, Entity entity) where T : unmanaged, IComponentData
         {
             if (entityManager.HasComponent<T>(entity))
             {
@@ -15,7 +15,7 @@ namespace CoreLib.Util.Extensions
             return default;
         }
         
-        public static DynamicBuffer<T> GetOrAddBuffer<T>(this EntityManager entityManager, Entity entity) where T : struct, IBufferElementData
+        public static DynamicBuffer<T> GetOrAddBuffer<T>(this EntityManager entityManager, Entity entity) where T : unmanaged, IBufferElementData
         {
             if (entityManager.HasComponent<T>(entity))
             {
@@ -26,7 +26,7 @@ namespace CoreLib.Util.Extensions
         }
         
         public static void Remove<T>(this DynamicBuffer<T> buffer, T bufferElementData)
-            where T : struct, IBufferElementData
+            where T : unmanaged, IBufferElementData
         {
             for (int i = 0; i < buffer.Length; i++)
             {

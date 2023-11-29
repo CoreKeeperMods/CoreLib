@@ -78,7 +78,7 @@ namespace CoreLib.JsonLoader.Readers
         }
 
         private static void ReadComponent<T>(JsonElement jObject, Entity entity, EntityManager entityManager)
-        where T : struct, IComponentData
+        where T : unmanaged, IComponentData
         {
             T component = entityManager.GetOrAddComponentData<T>(entity);
 
@@ -90,7 +90,7 @@ namespace CoreLib.JsonLoader.Readers
         }
 
         private static void ReadBuffer<T>(JsonElement jObject, Entity entity, EntityManager entityManager)
-            where T : struct, IBufferElementData
+            where T : unmanaged, IBufferElementData
         {
             var buffer = entityManager.GetOrAddBuffer<T>(entity);
 
