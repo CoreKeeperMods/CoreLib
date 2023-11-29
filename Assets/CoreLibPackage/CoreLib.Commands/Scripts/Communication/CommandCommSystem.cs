@@ -9,7 +9,7 @@ using Unity.Entities;
 
 namespace CoreLib.Commands.Communication
 {
-    [UpdateInWorld(TargetWorld.ClientAndServer)]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation | WorldSystemFilterFlags.ClientSimulation)]
     public partial class CommandCommSystem : PugSimulationSystemBase
     {
         private const int maxReceivedMessages = 10;
@@ -96,7 +96,7 @@ namespace CoreLib.Commands.Communication
 
             int entityCount = (bytesLength - 1) / 64 + 1;
 
-            SendRpcCommandRequestComponent rpcComponent = new SendRpcCommandRequestComponent
+            SendRpcCommandRequest rpcComponent = new SendRpcCommandRequest
             {
                 TargetConnection = targetConnection
             };
@@ -134,8 +134,8 @@ namespace CoreLib.Commands.Communication
         protected override void OnCreate()
         {
             AllowToRunBeforeInit();
-            messageRpcArchetype = EntityManager.CreateArchetype(typeof(CommandMessageRPC), typeof(SendRpcCommandRequestComponent));
-            messageDataRpcArchetype = EntityManager.CreateArchetype(typeof(CommandDataMessageRPC), typeof(SendRpcCommandRequestComponent));
+            messageRpcArchetype = EntityManager.CreateArchetype(typeof(CommandMessageRPC), typeof(SendRpcCommandRequest));
+            messageDataRpcArchetype = EntityManager.CreateArchetype(typeof(CommandDataMessageRPC), typeof(SendRpcCommandRequest));
             base.OnCreate();
         }
 
@@ -144,7 +144,7 @@ namespace CoreLib.Commands.Communication
         {
             EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.Temp);
 
-            Entities.ForEach((Entity entity, in CommandMessageRPC rpc, in ReceiveRpcCommandRequestComponent req) =>
+            Entities.ForEach((Entity entity, in CommandMessageRPC rpc, in ReceiveRpcCommandRequest req) =>
                 {
                     if (partialMessages.ContainsKey(rpc.messageNumber))
                     {
@@ -194,7 +194,7 @@ namespace CoreLib.Commands.Communication
                     partialMessagesData.Remove(rpc.messageNumber);
                     partialMessages.Remove(rpc.messageNumber);
                     ecb.DestroyEntity(entity);
-                }).WithAll<ReceiveRpcCommandRequestComponent>()
+                }).WithAll<ReceiveRpcCommandRequest>()
                 .WithoutBurst()
                 .Run();
 

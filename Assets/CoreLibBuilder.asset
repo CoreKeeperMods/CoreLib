@@ -49,8 +49,8 @@ MonoBehaviour:
   buildAll: 1
   uploadToModIO: 0
   updateDescription: 0
-  uploadVersion: 3.0.1
-  changeLog: 'A test '
+  uploadVersion: 0.0.1
+  changeLog: Inital Release
   buildIndex: -1
   isBuilding: 0
   oldBuildAll: 1
