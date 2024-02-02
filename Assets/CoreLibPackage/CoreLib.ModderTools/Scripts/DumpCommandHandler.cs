@@ -213,8 +213,7 @@ namespace CoreLib.ModderTools
                     type = typeof(InventoryItemAuthoring).FullName,
                     data = itemAuthoring
                 });
-
-                itemAuthoring.onlyExistsInSeason = (int)entityData.ObjectInfo.onlyExistsInSeason;
+                
                 itemAuthoring.sellValue = entityData.ObjectInfo.sellValue;
                 itemAuthoring.buyValueMultiplier = entityData.ObjectInfo.buyValueMultiplier;
                 itemAuthoring.icon = entityData.ObjectInfo.icon;

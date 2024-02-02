@@ -1,4 +1,5 @@
-﻿using CoreLib.Util;
+﻿using System.Linq;
+using CoreLib.Util;
 using HarmonyLib;
 using UnityEngine;
 
@@ -10,9 +11,13 @@ namespace CoreLib.Submodules.ModEntity.Patches
         [HarmonyPrefix]
         public static void InjectPoolablePrefabs(MemoryManager __instance)
         {
-            if (__instance.poolablePrefabBank == null) return;
+            if (__instance.poolablePrefabBanks == null) return;
+
+            var bank = __instance.poolablePrefabBanks
+                .FirstOrDefault(bank => bank is PooledGraphicalObjectBank) as PooledGraphicalObjectBank;
+            if (bank == null) return;
             
-            PrefabCrawler.FindMaterials(__instance.poolablePrefabBank.poolInitializers);
+            PrefabCrawler.FindMaterials(bank.poolInitializers);
             PrefabCrawler.SetupPrefabIDMap(Manager.ecs.pugDatabase.prefabList);
             EntityModule.ApplyAllModAuthorings();
             
@@ -22,7 +27,7 @@ namespace CoreLib.Submodules.ModEntity.Patches
             {
                 MonoBehaviourUtils.ApplyPrefabModAuthorings(null, prefab);
                 
-                __instance.poolablePrefabBank.poolInitializers.Add(new PoolablePrefabBank.PoolablePrefab
+                bank.poolInitializers.Add(new PoolablePrefabBank.PoolablePrefab
                 {
                     prefab = prefab,
                     initialSize = 16,

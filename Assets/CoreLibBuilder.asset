@@ -13,44 +13,60 @@ MonoBehaviour:
   m_Name: CoreLibBuilder
   m_EditorClassIdentifier: 
   mods:
-  - name: CoreLib
+  - name: CoreLib (Disabled)
     mod: {fileID: 11400000, guid: 78d003231b7c2d54b8a9edfa8406d6c0, type: 2}
-    shouldBuild: 1
-  - name: CoreLib.Audio
+    shouldBuild: 0
+    version: 3.1.0
+  - name: CoreLib.Audio (Disabled)
     mod: {fileID: 11400000, guid: b5376f3d387ba6b42bc0cc7b6f9ced6d, type: 2}
-    shouldBuild: 1
-  - name: CoreLib.Commands
+    shouldBuild: 0
+    version: 3.1.0
+  - name: CoreLib.Commands (Disabled)
     mod: {fileID: 11400000, guid: e78ea059f4589d34580bfe8084b17a8d, type: 2}
-    shouldBuild: 1
-  - name: CoreLib.Drops
+    shouldBuild: 0
+    version: 3.1.0
+  - name: CoreLib.Drops (Disabled)
     mod: {fileID: 11400000, guid: c4e1966dac04b214bb29d4044a4aecb7, type: 2}
-    shouldBuild: 1
-  - name: CoreLib.Entity
+    shouldBuild: 0
+    version: 3.1.0
+  - name: CoreLib.Entity (Disabled)
     mod: {fileID: 11400000, guid: ea1f3c0024d31064c99431d01a3264c9, type: 2}
-    shouldBuild: 1
-  - name: CoreLib.Equipment
+    shouldBuild: 0
+    version: 3.1.0
+  - name: CoreLib.Equipment (Disabled)
     mod: {fileID: 11400000, guid: 788562e8a8b45944da58aa6b6f7cab18, type: 2}
-    shouldBuild: 1
-  - name: CoreLib.Localization
+    shouldBuild: 0
+    version: 3.1.0
+  - name: CoreLib.Localization (Disabled)
     mod: {fileID: 11400000, guid: de78cf6daf71b4a43b2224fa737de239, type: 2}
-    shouldBuild: 1
-  - name: CoreLib.Resources
+    shouldBuild: 0
+    version: 3.1.0
+  - name: CoreLib.Resources (Disabled)
     mod: {fileID: 11400000, guid: dc9bd3edffd96f84bb0cd50a81eb482c, type: 2}
-    shouldBuild: 1
-  - name: CoreLib.RewiredExtension
+    shouldBuild: 0
+    version: 3.1.0
+  - name: CoreLib.RewiredExtension (Disabled)
     mod: {fileID: 11400000, guid: c8c28b9b83f1c524faaf321d94c18490, type: 2}
-    shouldBuild: 1
-  - name: CoreLib.Tilesets
+    shouldBuild: 0
+    version: 3.1.0
+  - name: CoreLib.Tilesets (Disabled)
     mod: {fileID: 11400000, guid: 32b57f3461b0dbb4e8f89a63efa63bcc, type: 2}
-    shouldBuild: 1
+    shouldBuild: 0
+    version: 3.1.0
   - name: CoreLib.UserInterface
     mod: {fileID: 11400000, guid: 8802fd081c0fc544b91bb88a94dde143, type: 2}
     shouldBuild: 1
-  buildAll: 1
-  uploadToModIO: 0
+    version: 0.1.0
+  buildAll: 0
+  uploadToModIO: 1
   updateDescription: 0
-  uploadVersion: 0.0.1
-  changeLog: Inital Release
+  uploadVersion: 3.1.0
+  changeLog: 'Updated for game version 0.7.3
+
+    UI Submodule: minor bugfix, and
+    stability bump
+
+    Internal: added submodule versioning'
   buildIndex: -1
   isBuilding: 0
-  oldBuildAll: 1
+  oldBuildAll: 0

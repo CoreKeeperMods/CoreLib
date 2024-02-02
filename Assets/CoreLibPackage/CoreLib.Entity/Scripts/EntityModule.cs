@@ -231,7 +231,8 @@ namespace CoreLib.Submodules.ModEntity
 
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
-        internal override GameVersion Build => new GameVersion(0, 7, 1, 0, "4ab5");
+        internal override GameVersion Build => new GameVersion(0, 7, 3, "4ab5");
+        internal override string Version => "3.1.0";
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
 
         internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
@@ -652,21 +653,26 @@ namespace CoreLib.Submodules.ModEntity
         {
             if (prefabModifyFunctions.Count == 0) return;
 
-            foreach (var prefab in memoryManager.poolablePrefabBank.poolInitializers)
+            foreach (var prefabBank in memoryManager.poolablePrefabBanks)
             {
-                EntityMonoBehaviour prefabMono = prefab.prefab.GetComponent<EntityMonoBehaviour>();
-                if (prefabMono == null) continue;
-
-                Type type = prefabMono.GetType();
-                if (prefabModifyFunctions.ContainsKey(type))
+                if (prefabBank is not PooledGraphicalObjectBank) continue;
+                
+                foreach (var prefab in prefabBank)
                 {
-                    try
+                    EntityMonoBehaviour prefabMono = prefab.prefab.GetComponent<EntityMonoBehaviour>();
+                    if (prefabMono == null) continue;
+
+                    Type type = prefabMono.GetType();
+                    if (prefabModifyFunctions.ContainsKey(type))
                     {
-                        prefabModifyFunctions[type]?.Invoke(prefabMono);
-                    }
-                    catch (Exception e)
-                    {
-                        CoreLibMod.Log.LogError($"Error while executing prefab modification for type {type.FullName}!\n{e}");
+                        try
+                        {
+                            prefabModifyFunctions[type]?.Invoke(prefabMono);
+                        }
+                        catch (Exception e)
+                        {
+                            CoreLibMod.Log.LogError($"Error while executing prefab modification for type {type.FullName}!\n{e}");
+                        }
                     }
                 }
             }

@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: 70d8f9ee3eb348baac98e031640acaa8
     name: CoreLib.UserInterface
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
@@ -30,7 +31,7 @@ MonoBehaviour:
     - modName: CoreLib
       required: 1
   modPath: Assets\CoreLibPackage\CoreLib.UserInterface
-  forceReimport: 1
+  forceReimport: 0
   buildBundles: 0
   buildLinux: 0
   buildBurst: 0

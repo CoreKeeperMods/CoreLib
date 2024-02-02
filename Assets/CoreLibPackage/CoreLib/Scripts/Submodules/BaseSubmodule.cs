@@ -11,6 +11,9 @@ namespace CoreLib
         public bool Loaded { get; internal set; }
 
         internal virtual GameVersion Build => GameVersion.zero;
+
+        internal abstract String Version { get; }
+
         internal virtual Type[] Dependencies => Type.EmptyTypes;
 
         internal void ThrowIfNotLoaded()
@@ -23,11 +26,11 @@ namespace CoreLib
             }
         }
 
-        internal virtual void SetHooks() {}
-        internal virtual void Load() {}
-        internal virtual void PostLoad() {}
-        internal virtual void Unload() {}
-        internal virtual void UnsetHooks() {}
+        internal virtual void SetHooks() { }
+        internal virtual void Load() { }
+        internal virtual void PostLoad() { }
+        internal virtual void Unload() { }
+        internal virtual void UnsetHooks() { }
 
         internal virtual bool LoadCheck()
         {

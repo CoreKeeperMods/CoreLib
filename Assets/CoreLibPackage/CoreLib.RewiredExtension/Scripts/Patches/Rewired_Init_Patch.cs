@@ -45,7 +45,7 @@ namespace CoreLib.RewiredExtension.Patches
             return words.All(word => !name.Contains(word));
         }
         
-        [HarmonyPatch(typeof(UserData), "XOwBkQJVpYlgpbGQGFboTZRShRLKb")]
+        [HarmonyPatch(typeof(UserData), "wLpCiqgeHDZMiGZKbMZMEEzhQahoA")]
         [HarmonyPrefix]
         public static void OnRewiredDataInit(UserData __instance)
         {

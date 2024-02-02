@@ -31,5 +31,14 @@ namespace CoreLib.UserInterface.Patches
 
             UserInterfaceModule.ClearModUIData();
         }
+        
+        [HarmonyPatch(typeof(UIManager), nameof(UIManager.isAnyInventoryShowing), MethodType.Getter)]
+        [HarmonyPostfix]
+        public static void OnIsAnyMenuActive(ref bool __result)
+        {
+            if (__result) return;
+
+            __result |= UserInterfaceModule.currentInterface != null;
+        }
     }
 }

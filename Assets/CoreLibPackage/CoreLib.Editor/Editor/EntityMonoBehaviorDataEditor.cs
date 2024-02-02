@@ -46,8 +46,7 @@ namespace CoreLib.Editor
             }
 
             objectAuthoring.additionalSprites = entityData.objectInfo.additionalSprites.ToList();
-
-            itemAuthoring.onlyExistsInSeason = (int)entityData.objectInfo.onlyExistsInSeason;
+            
             itemAuthoring.sellValue = entityData.objectInfo.sellValue;
             itemAuthoring.buyValueMultiplier = entityData.objectInfo.buyValueMultiplier;
             itemAuthoring.icon = entityData.objectInfo.icon;

@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: cae326ff2a884601b014949105b021cc
     name: CoreLib.Entity
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: -1

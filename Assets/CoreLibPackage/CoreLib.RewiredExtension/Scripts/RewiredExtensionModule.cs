@@ -86,7 +86,8 @@ namespace CoreLib.RewiredExtension
 
         #region Private Implementation
 
-        internal override GameVersion Build => new GameVersion(0, 7, 1, 0, "4ab5");
+        internal override GameVersion Build => new GameVersion(0, 7, 3, "a28f");
+        internal override string Version => "3.1.1";
 
         internal override Type[] Dependencies => new[] { typeof(LocalizationModule) };
         internal static RewiredExtensionModule Instance => CoreLibMod.GetModuleInstance<RewiredExtensionModule>();

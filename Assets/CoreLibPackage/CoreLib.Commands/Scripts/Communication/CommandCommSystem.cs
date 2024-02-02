@@ -223,7 +223,7 @@ namespace CoreLib.Commands.Communication
         
         private void ClientHandleMessages()
         {
-            var relayCommands = receivedMessageQueue.Where(message => message.messageType == CommandMessageType.RelayCommand);
+            var relayCommands = receivedMessageQueue.Where(message => message.messageType == CommandMessageType.RelayCommand).ToArray();
             foreach (CommandMessage message in relayCommands)
             {
                 CommandsModule.ClientHandleCommand(message);

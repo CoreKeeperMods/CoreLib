@@ -30,7 +30,8 @@ namespace CoreLib.JsonLoader
         
         public static IFileAccess fileAccess = new NoFileAccess();
 
-        internal override GameVersion Build => new GameVersion(0, 7, 1, 0, "4ab5");
+        internal override GameVersion Build => new GameVersion(0, 7, 3, "a28f");
+        internal override string Version => "3.0.0";
         internal override Type[] Dependencies => new[] { typeof(EntityModule), typeof(DropTablesModule), typeof(LocalizationModule) };
         internal static JsonLoaderModule Instance => CoreLibMod.GetModuleInstance<JsonLoaderModule>();
         public static void UseConverter(params JsonConverter[] converters)

@@ -7,10 +7,9 @@ namespace CoreLib
         public readonly int release;
         public readonly int major;
         public readonly int minor;
-        public readonly int patch;
         public readonly string buildHash;
 
-        public static GameVersion zero = new GameVersion(0, 0, 0, 0, "");
+        public static GameVersion zero = new GameVersion(0, 0, 0, "");
 
         public GameVersion(string versionString)
         {
@@ -23,7 +22,6 @@ namespace CoreLib
                 release = int.Parse(versionNumbers[0]);
                 major = int.Parse(versionNumbers[1]);
                 minor = int.Parse(versionNumbers[2]);
-                patch = int.Parse(versionNumbers[3]);
             }
             catch (Exception)
             {
@@ -32,16 +30,23 @@ namespace CoreLib
                release = 0;
                major = 0;
                minor = 0;
-               patch = 0;
             }
         }
 
+        public GameVersion(int release, int major, int minor, string buildHash)
+        {
+            this.release = release;
+            this.major = major;
+            this.minor = minor;
+            this.buildHash = buildHash;
+        }
+        
+        [Obsolete("Patch was removed")]
         public GameVersion(int release, int major, int minor, int patch, string buildHash)
         {
             this.release = release;
             this.major = major;
             this.minor = minor;
-            this.patch = patch;
             this.buildHash = buildHash;
         }
 
@@ -54,10 +59,9 @@ namespace CoreLib
 
         public bool Equals(GameVersion other)
         {
-            return release == other.release && 
-                   major == other.major && 
-                   minor == other.minor && 
-                   patch == other.patch;
+            return release == other.release &&
+                   major == other.major &&
+                   minor == other.minor;
         }
 
         public override bool Equals(object obj)
@@ -67,7 +71,7 @@ namespace CoreLib
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(release, major, minor, patch);
+            return HashCode.Combine(release, major, minor);
         }
 
         public static bool operator ==(GameVersion left, GameVersion right)
@@ -82,7 +86,7 @@ namespace CoreLib
 
         public override string ToString()
         {
-            return $"{release}.{major}.{minor}.{patch}-{buildHash}";
+            return $"{release}.{major}.{minor}-{buildHash}";
         }
     }
 }

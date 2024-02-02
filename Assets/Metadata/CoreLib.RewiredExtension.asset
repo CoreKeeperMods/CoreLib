@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: fae0277d7a6a451fbefddc846e76c956
     name: CoreLib.RewiredExtension
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0

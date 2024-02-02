@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: 1ff79c27d4494d419bb466cf5ce010aa
     name: CoreLib.Commands
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: -1

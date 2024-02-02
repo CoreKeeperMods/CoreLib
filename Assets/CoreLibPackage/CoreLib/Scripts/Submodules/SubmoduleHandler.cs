@@ -68,8 +68,9 @@ namespace CoreLib
             var name = moduleType.GetNameChecked();
 
             if (IsLoaded(name)) return true;
+            var version = allModules[moduleType].Version;
 
-            CoreLibMod.Log.LogInfo($"Enabling CoreLib Submodule: {name}");
+            CoreLibMod.Log.LogInfo($"Enabling CoreLib Submodule: {name}, version {version}");
 
             try
             {

@@ -131,7 +131,8 @@ namespace CoreLib.Commands
 
         #region Private Implementation
 
-        internal override GameVersion Build => new GameVersion(0, 7, 1, 0, "4ab5");
+        internal override GameVersion Build => new GameVersion(0, 7, 3, "a28f");
+        internal override string Version => "3.1.0";
         internal override Type[] Dependencies => new[] { typeof(RewiredExtensionModule) };
         internal static CommandsModule Instance => CoreLibMod.GetModuleInstance<CommandsModule>();
 
@@ -333,6 +334,12 @@ namespace CoreLib.Commands
             {
                 string playerName = message.sender.GetPlayerEntity().GetPlayerName();
                 CoreLibMod.Log.LogInfo($"[{playerName} executed]: {message.message}");
+            }
+
+            if (!commandPair.isServer)
+            {
+                serverCommSystem.SendRelayCommand(message.message);
+                return;
             }
 
             string[] parameters = args.Skip(1).ToArray();

@@ -19,6 +19,7 @@ namespace CoreLib.Editor
 
         public ModSettings mod;
         public bool shouldBuild = true;
+        public string version;
     }
 
     [CreateAssetMenu(fileName = "ChainBuilder", menuName = "CoreLib/New ChainBuilder", order = 2)]
@@ -185,7 +186,7 @@ namespace CoreLib.Editor
                     try
                     {
                         if (builder.uploadToModIO)
-                            BuildToModIO(builder, state.mod);
+                            BuildToModIO(builder, state);
                         else
                             BuildLocal(builder, state.mod);
 
@@ -230,7 +231,7 @@ namespace CoreLib.Editor
 
             Directory.CreateDirectory(tempDirectory);
 
-            if (BuildAt(builder, settings, tempDirectory))
+            if (BuildAt(builder, settings, tempDirectory, false))
             {
                 return tempDirectory;
             }
@@ -238,7 +239,7 @@ namespace CoreLib.Editor
             return null;
         }
 
-        private static bool BuildAt(ChainBuilder builder, ModSettings settings, string path)
+        private static bool BuildAt(ChainBuilder builder, ModSettings settings, string path, bool installInSubDirectory = true)
         {
             bool buildSuccessful = false;
             ModBuilder.BuildMod(settings.modSettings, path, success =>
@@ -252,15 +253,15 @@ namespace CoreLib.Editor
 
                 Debug.Log($"Mod {settings.modSettings.metadata.name} successfully exported to {path}");
                 buildSuccessful = true;
-            });
+            }, installInSubDirectory);
             return buildSuccessful;
         }
 
-        private void BuildToModIO(ChainBuilder builder, ModSettings mod)
+        private void BuildToModIO(ChainBuilder builder, ModState mod)
         {
-            var metadata = mod.modSettings.metadata;
+            var metadata = mod.mod.modSettings.metadata;
 
-            if (mod.modId == 0)
+            if (mod.mod.modId == 0)
             {
                 Debug.LogError($"ModId not set for mod {metadata.name}");
                 StopBuilding(builder);
@@ -273,22 +274,28 @@ namespace CoreLib.Editor
                 return;
             }
 
-            ModIOUnity.GetMod(new ModId(mod.modId), result =>
+            ModIOUnity.GetMod(new ModId(mod.mod.modId), result =>
             {
+                if (result.result.errorCode == 20303)
+                {
+                    Debug.LogError($"couldn't find mod with id {mod.mod.modId}");
+                    return;
+                }
+					
                 if (!result.result.Succeeded())
                 {
-                    Debug.LogError($"Couldn't find mod {mod.modSettings.metadata.name} at mod.io");
+                    Debug.LogError($"failed to fetch mod info for mod with ID {mod.mod.modId}: {result.result.message} (code: {result.result.errorCode}");
                     return;
                 }
 
-                Debug.Assert(mod.modId == result.value.id);
+                Debug.Assert(mod.mod.modId == result.value.id);
 
                 var modProfileDetails = new ModProfileDetails
                 {
-                    modId = new ModId(mod.modId),
-                    name = mod.modSettings.metadata.name,
-                    logo = mod.logo,
-                    summary = mod.summary,
+                    modId = new ModId(mod.mod.modId),
+                    name = mod.mod.modSettings.metadata.name,
+                    logo = mod.mod.logo,
+                    summary = mod.mod.summary,
                     visible = result.value.visible
                 };
 
@@ -296,12 +303,12 @@ namespace CoreLib.Editor
                 {
                     if (!result.Succeeded())
                     {
-                        Debug.LogError("Failed to update mod details");
+                        Debug.LogError($"Failed to update mod details: {result.message} (code: {result.errorCode}");
                         StopBuilding(builder);
                         return;
                     }
 
-                    var modPath = BuildTemp(builder, mod);
+                    var modPath = BuildTemp(builder, mod.mod);
                     if (string.IsNullOrEmpty(modPath))
                     {
                         return;
@@ -328,13 +335,15 @@ namespace CoreLib.Editor
             return true;
         }
 
-        private void Upload(ChainBuilder builder, ModSettings mod, string path)
+        private void Upload(ChainBuilder builder, ModState mod, string path)
         {
+            var version = string.IsNullOrWhiteSpace(mod.version) ? builder.uploadVersion : mod.version;
+            
             var fileDetails = new ModfileDetails
             {
-                modId = new ModId(mod.modId),
+                modId = new ModId(mod.mod.modId),
                 directory = path,
-                version = builder.uploadVersion,
+                version = version,
                 changelog = builder.changeLog
             };
 
@@ -347,12 +356,12 @@ namespace CoreLib.Editor
                     return;
                 }
 
-                Debug.Log($"Successfully uploaded {mod.modSettings.metadata.name}!");
+                Debug.Log($"Successfully uploaded {mod.mod.modSettings.metadata.name}!");
             });
 
             if (builder.updateDescription)
             {
-                UpdateDescription(mod);
+                UpdateDescription(mod.mod);
             }
         }
 

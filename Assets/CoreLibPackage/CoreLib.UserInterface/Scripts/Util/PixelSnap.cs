@@ -10,7 +10,7 @@ namespace CoreLib.UserInterface.Util
     {
         public int pixelSize = 16;
         public bool snapSpriteSize;
-        
+
         private Vector2 grid;
 
 #if UNITY_EDITOR
@@ -43,6 +43,13 @@ namespace CoreLib.UserInterface.Util
                 Vector2 newSize = new Vector2(
                     Mathf.Round(size.x / grid.x) * grid.x,
                     Mathf.Round(size.y / grid.y) * grid.y);
+
+                var srCollider = GetComponent<BoxCollider>();
+                if (srCollider != null)
+                {
+                    srCollider.center = Vector3.zero;
+                    srCollider.size = new Vector3(newSize.x, newSize.y, 0.1f);
+                }
 
                 sr.size = newSize;
             }
