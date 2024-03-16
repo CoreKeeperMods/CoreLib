@@ -144,8 +144,8 @@ namespace CoreLib.UserInterface
         internal static List<ModUIAuthoring> interfacePrefabs = new List<ModUIAuthoring>();
         internal static Dictionary<string, IModUI> modInterfaces = new Dictionary<string, IModUI>();
 
-        internal override GameVersion Build => new GameVersion(0, 7, 3, "a28f");
-        internal override string Version => "0.1.0";
+        internal override GameVersion Build => new GameVersion(0, 7, 4, "a28f");
+        internal override string Version => "0.1.1";
         internal static UserInterfaceModule Instance => CoreLibMod.GetModuleInstance<UserInterfaceModule>();
 
         internal override void SetHooks()
@@ -191,7 +191,6 @@ namespace CoreLib.UserInterface
             }
 
             PlayerController player = Manager.main.player;
-            player.activeInventoryHandler?.Update();
 
             uiManager.creativeModeUI.HideContainerUI();
             uiManager.creativeModeOptionsUI.Hide();

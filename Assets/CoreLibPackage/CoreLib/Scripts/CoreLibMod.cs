@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using CoreLib.Data.Configuration;
 using CoreLib.Util.Extensions;
 using PugMod;
+using QFSW.QC;
 using Unity.Entities;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
@@ -29,12 +30,13 @@ namespace CoreLib
         public const string ID = "CoreLib";
         public const string NAME = "Core Lib";
         public const string CONFIG_FOLDER = "CoreLib/Config/";
+        public const string VERSION = "3.1.1";
 
         internal static LoadedMod modInfo;
         
         internal static Logger Log = new Logger(NAME);
         internal static ConfigFile Config;
-        public static readonly GameVersion buildFor = new GameVersion(0, 7, 3, "a28f");
+        public static readonly GameVersion buildFor = new GameVersion(0, 7, 4, "a28f");
         
         internal static SubmoduleHandler submoduleHandler;
 
@@ -51,6 +53,8 @@ namespace CoreLib
             API.Server.OnWorldCreated += WorldInitialize;
 
             CheckIfUsedOnRightGameVersion();
+            
+            Log.LogInfo($"Loading CoreLib version {VERSION}!");
             
             submoduleHandler = new SubmoduleHandler(buildFor, Log);
         }

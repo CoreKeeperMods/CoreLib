@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Text;
+using HarmonyLib;
 using PugMod;
 using Unity.Burst;
 using UnityEngine;
@@ -51,15 +54,30 @@ namespace CoreLib.Util.Extensions
         public static void TryLoadBurstAssembly(this LoadedMod modInfo)
         {
             var platform = GetPlatformString();
-            if (platform != null)
+            if (platform == null) return;
+            
+            string directory = API.ModLoader.GetDirectory(modInfo.ModId);
+            string fileExtension = GetPlatformExtension(platform);
+            string ID = modInfo.Metadata.name;
+                
+            // need elevated access
+            var tempDirectory = Path.Combine(Application.temporaryCachePath, "ModLoader", ID);
+            var assemblyName = $"{ID}_burst_generated_{platform}.{fileExtension}";
+                
+            string newAssemblyPath = Path.Combine(tempDirectory, assemblyName);
+            try
             {
-                string directory = API.ModLoader.GetDirectory(modInfo.ModId);
-                string fileExtension = GetPlatformExtension(platform);
-                string ID = modInfo.Metadata.name;
-                bool success = BurstRuntime.LoadAdditionalLibrary($"{directory}/{ID}_burst_generated_{platform}.{fileExtension}");
-                if (!success)
-                    CoreLibMod.Log.LogWarning($"Failed to load burst assembly for mod {ID}");
+                Directory.CreateDirectory(Path.GetDirectoryName(newAssemblyPath));
+                File.WriteAllBytes(newAssemblyPath, File.ReadAllBytes(Path.Combine(directory, assemblyName)));
             }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.LogException(ex);
+            }
+                
+            bool success = BurstRuntime.LoadAdditionalLibrary(newAssemblyPath);
+            if (!success)
+                CoreLibMod.Log.LogWarning($"Failed to load burst assembly for mod {ID}");
         }
     }
 }

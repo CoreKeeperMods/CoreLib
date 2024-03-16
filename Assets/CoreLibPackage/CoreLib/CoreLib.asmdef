@@ -44,7 +44,8 @@
         "QFSW.QC.dll",
         "PugMod.SDK.Runtime.dll",
         "PugProperties.dll",
-        "System.Text.Json.dll"
+        "System.Text.Json.dll",
+        "PugMod.Integration.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

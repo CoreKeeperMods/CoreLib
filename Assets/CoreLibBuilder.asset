@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: CoreLibBuilder
   m_EditorClassIdentifier: 
   mods:
-  - name: CoreLib (Disabled)
+  - name: CoreLib
     mod: {fileID: 11400000, guid: 78d003231b7c2d54b8a9edfa8406d6c0, type: 2}
-    shouldBuild: 0
-    version: 3.1.0
+    shouldBuild: 1
+    version: 3.1.1
   - name: CoreLib.Audio (Disabled)
     mod: {fileID: 11400000, guid: b5376f3d387ba6b42bc0cc7b6f9ced6d, type: 2}
     shouldBuild: 0
@@ -56,17 +56,15 @@ MonoBehaviour:
   - name: CoreLib.UserInterface
     mod: {fileID: 11400000, guid: 8802fd081c0fc544b91bb88a94dde143, type: 2}
     shouldBuild: 1
-    version: 0.1.0
+    version: 0.1.1
   buildAll: 0
   uploadToModIO: 1
   updateDescription: 0
   uploadVersion: 3.1.0
-  changeLog: 'Updated for game version 0.7.3
+  changeLog: 'Updated for game version 0.7.4
 
-    UI Submodule: minor bugfix, and
-    stability bump
-
-    Internal: added submodule versioning'
+    TryLoadBurstAssembly now copies
+    the assembly into temp folder'
   buildIndex: -1
   isBuilding: 0
   oldBuildAll: 0
