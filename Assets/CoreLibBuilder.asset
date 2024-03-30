@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: CoreLibBuilder
   m_EditorClassIdentifier: 
   mods:
-  - name: CoreLib
+  - name: CoreLib (Disabled)
     mod: {fileID: 11400000, guid: 78d003231b7c2d54b8a9edfa8406d6c0, type: 2}
-    shouldBuild: 1
+    shouldBuild: 0
     version: 3.1.1
   - name: CoreLib.Audio (Disabled)
     mod: {fileID: 11400000, guid: b5376f3d387ba6b42bc0cc7b6f9ced6d, type: 2}
@@ -24,15 +24,15 @@ MonoBehaviour:
   - name: CoreLib.Commands (Disabled)
     mod: {fileID: 11400000, guid: e78ea059f4589d34580bfe8084b17a8d, type: 2}
     shouldBuild: 0
-    version: 3.1.0
+    version: 3.1.1
   - name: CoreLib.Drops (Disabled)
     mod: {fileID: 11400000, guid: c4e1966dac04b214bb29d4044a4aecb7, type: 2}
     shouldBuild: 0
     version: 3.1.0
-  - name: CoreLib.Entity (Disabled)
+  - name: CoreLib.Entity
     mod: {fileID: 11400000, guid: ea1f3c0024d31064c99431d01a3264c9, type: 2}
-    shouldBuild: 0
-    version: 3.1.0
+    shouldBuild: 1
+    version: 3.1.1
   - name: CoreLib.Equipment (Disabled)
     mod: {fileID: 11400000, guid: 788562e8a8b45944da58aa6b6f7cab18, type: 2}
     shouldBuild: 0
@@ -53,18 +53,21 @@ MonoBehaviour:
     mod: {fileID: 11400000, guid: 32b57f3461b0dbb4e8f89a63efa63bcc, type: 2}
     shouldBuild: 0
     version: 3.1.0
-  - name: CoreLib.UserInterface
+  - name: CoreLib.UserInterface (Disabled)
     mod: {fileID: 11400000, guid: 8802fd081c0fc544b91bb88a94dde143, type: 2}
-    shouldBuild: 1
+    shouldBuild: 0
     version: 0.1.1
   buildAll: 0
   uploadToModIO: 1
   updateDescription: 0
-  uploadVersion: 3.1.0
-  changeLog: 'Updated for game version 0.7.4
+  uploadVersion: 3.1.1
+  changeLog: 'Entity: Allow to override graphical prefab to use pooling
 
-    TryLoadBurstAssembly now copies
-    the assembly into temp folder'
+    Entity:
+    Enabled Elevated Access to use a transpiler.
+
+    Commands: Changed method of
+    aquiring frendly names to ensure mod added items have them'
   buildIndex: -1
   isBuilding: 0
   oldBuildAll: 0

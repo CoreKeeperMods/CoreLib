@@ -41,7 +41,7 @@ MonoBehaviour:
     - path: Scripts/Scripts/CommandPair.cs
     - path: Scripts/Scripts/CommandOutput.cs
     - path: Scripts/Scripts/CommandModuleSettings.cs
-    - path: Scripts/Generated/CommandCommSystem__System_617288830.g.cs
+    - path: Scripts/Generated/CommandCommSystem__System_6172888300.g.cs
     - path: Scripts/Generated/CoreLib.Commands.Communication_CommandDataMessageRPCCommandSerializer.cs
     - path: Scripts/Generated/CoreLib.Commands.Communication_CommandMessageRPCCommandSerializer.cs
     dependencies:

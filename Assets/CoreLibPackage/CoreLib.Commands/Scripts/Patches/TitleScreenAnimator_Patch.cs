@@ -2,6 +2,7 @@
 using System.Linq;
 using HarmonyLib;
 using I2.Loc;
+using PugMod;
 
 namespace CoreLib.Commands.Patches
 {
@@ -17,38 +18,30 @@ namespace CoreLib.Commands.Patches
             {
                 if (LocalizationManager.Sources.Count > 0)
                 {
-                    CheckLocalizationSources();
+                    AddItemFrendlyNames();
                 }
 
                 initialized = true;
             }
         }
 
-        private static void CheckLocalizationSources()
+        private static void AddItemFrendlyNames()
         {
-            foreach (LanguageSourceData source in LocalizationManager.Sources)
+            int count = 0;
+            var modAuthorings = (API.Authoring as ModAPIAuthoring).ObjectIDLookup;
+            foreach (var pair in modAuthorings)
             {
-                int count = 0;
-                TermData[] filteredTerms = source.mTerms.Where(data => data != null && data.Term != null && data.Term.StartsWith("Items/")).ToArray();
-                foreach (TermData term in filteredTerms)
+                if (LocalizationManager.TryGetTranslation($"Items/{pair.Key}", out var translation, overrideLanguage: "english"))
                 {
-                    try
+                    if (!CommandsModule.friendlyNameDict.ContainsKey(translation.ToLower()))
                     {
-                        if (term.Term.Contains("Desc")) continue;
-
-                        string objIdName = term.Term[6..];
-                        ObjectID objectID = (ObjectID)Enum.Parse(typeof(ObjectID), objIdName);
-                        CommandsModule.friendlyNameDict.Add(term.Languages[0].ToLower(), objectID);
+                        CommandsModule.friendlyNameDict.Add(translation.ToLower(), pair.Value); 
                         count++;
                     }
-                    catch (Exception)
-                    {
-                        // ignored
-                    }
                 }
-
-                CoreLibMod.Log.LogInfo($"Got {count} friendly name entries!");
             }
+            
+            CoreLibMod.Log.LogInfo($"Got {count} friendly name entries!");
         }
     }
 }
