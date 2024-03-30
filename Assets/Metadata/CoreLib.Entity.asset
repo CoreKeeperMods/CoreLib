@@ -15,7 +15,7 @@ MonoBehaviour:
   metadata:
     guid: cae326ff2a884601b014949105b021cc
     name: CoreLib.Entity
-    skipSafetyChecks: 0
+    skipSafetyChecks: 1
     disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0

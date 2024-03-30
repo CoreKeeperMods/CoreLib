@@ -231,8 +231,8 @@ namespace CoreLib.Submodules.ModEntity
 
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
-        internal override GameVersion Build => new GameVersion(0, 7, 3, "4ab5");
-        internal override string Version => "3.1.0";
+        internal override GameVersion Build => new GameVersion(0, 7, 4, "a28f");
+        internal override string Version => "3.1.1";
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
 
         internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
@@ -269,6 +269,7 @@ namespace CoreLib.Submodules.ModEntity
             CoreLibMod.Patch(typeof(PlayerController_Patch));
             CoreLibMod.Patch(typeof(ColorReplacer_Patch));
             CoreLibMod.Patch(typeof(SimpleCraftingBuilding_Patch));
+            CoreLibMod.Patch(typeof(GraphicalObjectConversion_Patch));
         }
 
         internal override void Load()
