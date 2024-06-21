@@ -11,8 +11,8 @@ namespace CoreLib.Equipment
 {
     public class EquipmentModule : BaseSubmodule
     {
-        internal override GameVersion Build => new GameVersion(0, 7, 3, "a28f");
-        internal override string Version => "3.1.0";
+        internal override GameVersion Build => new GameVersion(0, 7, 5, "5317");
+        internal override string Version => "3.1.1";
         internal static EquipmentModule Instance => CoreLibMod.GetModuleInstance<EquipmentModule>();
 
         public static readonly string EMPTY_PREFAB = "Assets/CoreLibPackage/CoreLib.Equipment/Prefab/EmptySlot";
@@ -65,6 +65,25 @@ namespace CoreLib.Equipment
             textEmotes.Add(emoteType, emoteTerm);
             
             return emoteType;
+        }
+        
+        public static void SpawnModEmoteText(
+            Vector3 position, 
+            Emote.EmoteType emoteType,
+            bool randomizePosition = true,
+            bool replace = true)
+        {
+            if (replace && Emote_Patch.lastEmotes.Count > 0)
+            {
+                foreach (Emote lastEmote in Emote_Patch.lastEmotes)
+                {
+                    Emote_Patch.FadeQuickly(lastEmote);
+                }
+                Emote_Patch.lastEmotes.Clear();
+            }
+            
+            var emote = Emote.SpawnEmoteText(position, emoteType, randomizePosition, false, false);
+            Emote_Patch.lastEmotes.Add(emote);
         }
 
         public const int ModSlotTypeIdStart = 128;
