@@ -26,12 +26,22 @@ namespace CoreLib.Submodules.ModEntity.Patches
             foreach (GameObject prefab in EntityModule.poolablePrefabs)
             {
                 MonoBehaviourUtils.ApplyPrefabModAuthorings(null, prefab);
+
+                var initialSize = 16;
+                var maxSize = 64;
+
+                var settings = prefab.GetComponent<PoolSettings>();
+                if (settings != null)
+                {
+                    initialSize = settings.initialSize;
+                    maxSize = settings.maxSize;
+                }
                 
                 bank.poolInitializers.Add(new PoolablePrefabBank.PoolablePrefab
                 {
                     prefab = prefab,
-                    initialSize = 16,
-                    maxSize = 16
+                    initialSize = initialSize,
+                    maxSize = maxSize
                 });
 
                 CoreLibMod.Log.LogInfo($"Added Poolable Prefab {prefab.name}");

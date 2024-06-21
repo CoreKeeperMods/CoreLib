@@ -231,8 +231,8 @@ namespace CoreLib.Submodules.ModEntity
 
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
-        internal override GameVersion Build => new GameVersion(0, 7, 4, "a28f");
-        internal override string Version => "3.1.1";
+        internal override GameVersion Build => new GameVersion(0, 7, 5, "5317");
+        internal override string Version => "4.0.0";
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
 
         internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
@@ -268,7 +268,6 @@ namespace CoreLib.Submodules.ModEntity
             CoreLibMod.Patch(typeof(MemoryManager_Patch));
             CoreLibMod.Patch(typeof(PlayerController_Patch));
             CoreLibMod.Patch(typeof(ColorReplacer_Patch));
-            CoreLibMod.Patch(typeof(SimpleCraftingBuilding_Patch));
             CoreLibMod.Patch(typeof(GraphicalObjectConversion_Patch));
         }
 
@@ -340,35 +339,6 @@ namespace CoreLib.Submodules.ModEntity
             }
         }
 
-        [PrefabModification(typeof(SimpleCraftingBuilding))]
-        private static void EditSimpleCraftingBuilding(MonoBehaviour entityMono)
-        {
-            var modSkins = entityMono.gameObject.AddComponent<ModWorkbenchSkins>();
-
-            foreach (var definition in modWorkbenches)
-            {
-                var skinsTexture = definition.texture;
-                if (skinsTexture == null)
-                {
-                    CoreLibMod.Log.LogWarning($"Failed to add {definition.itemId} workbench skinsTexture because it's null!");
-                    continue;
-                }
-
-                var emissiveTextures = new List<Texture2D>();
-                if (definition.emissiveTexture != null)
-                    emissiveTextures.Add(definition.emissiveTexture);
-
-                var reskinInfo = new EntityMonoBehaviour.ReskinInfo
-                {
-                    worksForAnyVariation = true,
-                    textures = new List<Texture2D>() { skinsTexture },
-                    emissiveTextures = emissiveTextures
-                };
-
-                modSkins.modReskinInfos.Add(definition.itemId, reskinInfo);
-            }
-        }
-
         private static void AddRootWorkbench()
         {
             rootWorkbenchDefinition.itemId = IncrementID(rootWorkbenchDefinition.itemId);
@@ -380,7 +350,7 @@ namespace CoreLib.Submodules.ModEntity
                 {
                     var oldWorkbench = rootWorkbenchesChain.Last();
                     ModCraftingAuthoring crafting = oldWorkbench.gameObject.GetComponent<ModCraftingAuthoring>();
-                    crafting.includeCraftedObjectsFromBuildings.Add(entity.gameObject);
+                    crafting.includeCraftedObjectsFromBuildings.Add(rootWorkbenchDefinition.itemId);
                 }
 
                 rootWorkbenchesChain.Add(entity);
@@ -429,9 +399,12 @@ namespace CoreLib.Submodules.ModEntity
                 ModCraftingAuthoring comp = entity.gameObject.AddComponent<ModCraftingAuthoring>();
                 comp.craftingType = CraftingType.Simple;
                 comp.canCraftObjects = workbenchDefinition.canCraft;
-                comp.includeCraftedObjectsFromBuildings = new List<GameObject>();
+                comp.includeCraftedObjectsFromBuildings = workbenchDefinition.relatedWorkbenches;
 
                 modWorkbenches.Add(workbenchDefinition);
+                
+                if (!poolablePrefabs.Contains(entity.graphicalPrefab))
+                    EnablePooling(entity.graphicalPrefab);
             }
         }
 
@@ -535,8 +508,7 @@ namespace CoreLib.Submodules.ModEntity
             GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
             if (ghost != null)
             {
-                //TODO set prefabID
-                //ghost.prefabId = fullItemId.GetGUID();
+                ghost.SetValue("prefabId", itemId.GetGUID());
             }
 
             return objectAuthoring;

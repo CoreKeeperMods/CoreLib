@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using SpriteInstancing;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.TextCore.Text;
 
 namespace CoreLib.Submodules.ModEntity
 {
@@ -14,8 +16,9 @@ namespace CoreLib.Submodules.ModEntity
         public Sprite smallIcon;
         [FormerlySerializedAs("variations")] 
         public Texture2D texture;
-        public Texture2D emissiveTexture;
-        
+
+        public SpriteAssetSkin assetSkin;
+
         public bool bindToRootWorkbench;
         
         [FormerlySerializedAs("requiredObjectsToCraft")] 
@@ -23,5 +26,10 @@ namespace CoreLib.Submodules.ModEntity
         
         public List<InventoryItemAuthoring.CraftingObject> canCraft;
         public List<string> relatedWorkbenches;
+
+        public string title;
+        public string leftTitle;
+        public string rightTitle;
+        public UIManager.CraftingUIThemeType skin;
     }
 }

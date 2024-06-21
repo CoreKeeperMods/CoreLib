@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CoreLib.Util.Extensions;
 using PugConversion;
 using PugMod;
@@ -16,8 +17,8 @@ namespace CoreLib.Submodules.ModEntity.Components
         [ArrayElementTitle("objectID, amount")]
         public List<InventoryItemAuthoring.CraftingObject> canCraftObjects;
 
-        public List<GameObject> includeCraftedObjectsFromBuildings;
-
+        public List<string> includeCraftedObjectsFromBuildings;
+        
         private void OnValidate()
         {
             for (int index = 0; index < canCraftObjects.Count; ++index)
@@ -80,11 +81,18 @@ namespace CoreLib.Submodules.ModEntity.Components
                 };
                 AddToBuffer(elementData);
             }
+            
+            
 
             if (authoring.includeCraftedObjectsFromBuildings != null)
             {
-                foreach (GameObject otherObject in authoring.includeCraftedObjectsFromBuildings)
+                foreach (string otherId in authoring.includeCraftedObjectsFromBuildings)
                 {
+                    EntityModule.moddedEntities.TryGetValue(otherId, out var otherObjects);
+                    if (otherObjects == null || otherObjects.Count == 0) continue;
+
+                    var otherObject = otherObjects.First();
+
                     var craftingAuthoring2 = otherObject.GetComponent<CraftingAuthoring>();
                     var modCraftingAuthoring = otherObject.GetComponent<ModCraftingAuthoring>();
 
@@ -124,12 +132,14 @@ namespace CoreLib.Submodules.ModEntity.Components
                         objectID = (ObjectID)ObjectIndex,
                         amountOfCraftingOptions = authoring.canCraftObjects.Count
                     });
-                    foreach (GameObject craftingAuthoring3 in authoring.includeCraftedObjectsFromBuildings)
+                    foreach (string otherId in authoring.includeCraftedObjectsFromBuildings)
                     {
-                        var objectID = craftingAuthoring3.GetEntityObjectID();
+                        EntityModule.moddedEntities.TryGetValue(otherId, out var otherObjects);
+                        if (otherObjects == null || otherObjects.Count == 0) continue;
+
                         AddToBuffer(new IncludedCraftingBuildingsBuffer
                         {
-                            objectID = objectID,
+                            objectID = API.Authoring.GetObjectID(otherId),
                             amountOfCraftingOptions = authoring.canCraftObjects.Count
                         });
                     }

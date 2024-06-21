@@ -4,11 +4,14 @@ using System.Reflection.Emit;
 using CoreLib.Submodules.ModEntity.Components;
 using HarmonyLib;
 using Pug.ECS.Hybrid;
+using UnityEngine;
 
 namespace CoreLib.Submodules.ModEntity.Patches
 {
     public class GraphicalObjectConversion_Patch
     {
+        
+        public delegate void RefAction<in T1, T2, T3>(T1 arg1, ref T2 arg2, ref T3 arg3);
         
         [HarmonyPatch(typeof(GraphicalObjectConversion), nameof(GraphicalObjectConversion.Convert))]
         [HarmonyTranspiler]
@@ -16,23 +19,28 @@ namespace CoreLib.Submodules.ModEntity.Patches
         {
             CodeMatcher matcher = new CodeMatcher(instructions)
                 .MatchForward(false,
-                    new CodeMatch(OpCodes.Ldloc_0),
-                    new CodeMatch(OpCodes.Ldloc_3),
+                    new CodeMatch(OpCodes.Ldloc_S),
                     new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(ObjectAuthoring), nameof(ObjectAuthoring.graphicalPrefab))),
-                    new CodeMatch(OpCodes.Stfld, AccessTools.Field(typeof(GraphicalObjectPrefabCD), nameof(GraphicalObjectPrefabCD.Prefab))));
+                    new CodeMatch(i => i.IsStloc()));
 
             matcher
-                .Advance(2)
-                .SetInstructionAndAdvance(Transpilers.EmitDelegate<Action<GraphicalObjectPrefabCD, ObjectAuthoring>>((graphicalObject, authoring) =>
+                .Advance(1)
+                .InsertAndAdvance(
+                    new CodeInstruction(OpCodes.Ldloca_S, 1),
+                    new CodeInstruction(OpCodes.Ldloca_S, 2)
+                    )
+                
+                .SetInstructionAndAdvance(Transpilers.EmitDelegate<RefAction<ObjectAuthoring, Component, GameObject>>(
+                    (ObjectAuthoring authoring, ref Component component, ref GameObject gameObject) =>
                 {
                     var supportsPooling = authoring.GetComponent<SupportsPooling>();
                     if (supportsPooling != null)
                     {
-                        graphicalObject.PrefabComponent = authoring.graphicalPrefab.GetComponent<EntityMonoBehaviour>();
+                        component = authoring.graphicalPrefab.GetComponent<EntityMonoBehaviour>();
                     }
                     else
                     {
-                        graphicalObject.Prefab = authoring.graphicalPrefab;
+                        gameObject = authoring.graphicalPrefab;
                     }
                 }))
                 .Set(OpCodes.Nop, null);
