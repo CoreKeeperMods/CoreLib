@@ -30,13 +30,13 @@ namespace CoreLib
         public const string ID = "CoreLib";
         public const string NAME = "Core Lib";
         public const string CONFIG_FOLDER = "CoreLib/Config/";
-        public const string VERSION = "3.1.1";
+        public const string VERSION = "3.1.2";
 
         internal static LoadedMod modInfo;
         
         internal static Logger Log = new Logger(NAME);
         internal static ConfigFile Config;
-        public static readonly GameVersion buildFor = new GameVersion(0, 7, 4, "a28f");
+        public static readonly GameVersion buildFor = new GameVersion(0, 7, 5, "5317");
         
         internal static SubmoduleHandler submoduleHandler;
 
@@ -52,11 +52,13 @@ namespace CoreLib
             Config = new ConfigFile($"{CONFIG_FOLDER}CoreLib.cfg", true, modInfo);
             API.Server.OnWorldCreated += WorldInitialize;
 
-            CheckIfUsedOnRightGameVersion();
+            var gameBuild = new GameVersion(Application.version);
+            
+            CheckIfUsedOnRightGameVersion(gameBuild);
             
             Log.LogInfo($"Loading CoreLib version {VERSION}!");
             
-            submoduleHandler = new SubmoduleHandler(buildFor, Log);
+            submoduleHandler = new SubmoduleHandler(gameBuild, Log);
         }
 
         internal static void Patch(Type type)
@@ -100,9 +102,8 @@ namespace CoreLib
             }
         }
         
-        internal static void CheckIfUsedOnRightGameVersion()
+        internal static void CheckIfUsedOnRightGameVersion(GameVersion buildId)
         {
-            var buildId = new GameVersion(Application.version);
             Log.LogInfo($"Running under game version \"{buildId}\".");
             if (buildId == GameVersion.zero) return;
             
