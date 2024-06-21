@@ -20,7 +20,30 @@ MonoBehaviour:
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: -1
-    files: []
+    files:
+    - path: Localization/Localization.csv
+    - path: Scripts/Scripts/WorkbenchDefinition.cs
+    - path: Scripts/Scripts/PrefabCrawler.cs
+    - path: Scripts/Scripts/Patches/PlayerController_Patch.cs
+    - path: Scripts/Scripts/Patches/MemoryManager_Patch.cs
+    - path: Scripts/Scripts/Patches/GraphicalObjectConversion_Patch.cs
+    - path: Scripts/Scripts/Patches/ColorReplacer_Patch.cs
+    - path: Scripts/Scripts/MonoBehaviourUtils.cs
+    - path: Scripts/Scripts/Interfaces/IDynamicItemHandler.cs
+    - path: Scripts/Scripts/EntityModule.cs
+    - path: Scripts/Scripts/CraftingData.cs
+    - path: Scripts/Scripts/Components/TemplateObject.cs
+    - path: Scripts/Scripts/Components/SupportsPooling.cs
+    - path: Scripts/Scripts/Components/RuntimeMaterial.cs
+    - path: Scripts/Scripts/Components/PoolSettings.cs
+    - path: Scripts/Scripts/Components/ModWorkbenchBuilding.cs
+    - path: Scripts/Scripts/Components/ModCraftingAuthoring.cs
+    - path: Scripts/Scripts/Components/ModCDAuthoringBase.cs
+    - path: Scripts/Scripts/Components/EntityPrefabOverride.cs
+    - path: Scripts/Scripts/Atributes/PrefabModificationAttribute.cs
+    - path: Scripts/Scripts/Atributes/EntityModificationAttribute.cs
+    - path: Bundles/CoreLib.Entity_Windows.assetbundle
+    - path: Bundles/CoreLib.Entity_Linux.assetbundle
     dependencies:
     - modName: CoreLib
       required: 1

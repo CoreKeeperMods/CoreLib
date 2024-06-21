@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: d7b9e43dd003478d8eefe742315dfddb
     name: CoreLib.Equipment
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0

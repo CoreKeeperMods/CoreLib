@@ -22,6 +22,7 @@ MonoBehaviour:
     requiredOn: -1
     files:
     - path: Scripts/Scripts/Util/CommandUtil.cs
+    - path: Scripts/Scripts/System/LoadItemDictSystem.cs
     - path: Scripts/Scripts/Patches/TitleScreenAnimator_Patch.cs
     - path: Scripts/Scripts/Patches/MenuManager_Patch.cs
     - path: Scripts/Scripts/Patches/ECSManager_Patch.cs
