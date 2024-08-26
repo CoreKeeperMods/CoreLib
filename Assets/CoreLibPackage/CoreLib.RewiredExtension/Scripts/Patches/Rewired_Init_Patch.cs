@@ -53,54 +53,7 @@ namespace CoreLib.RewiredExtension.Patches
 
             foreach (var pair in RewiredExtensionModule.keyBinds)
             {
-                int index = __instance.IndexOfAction(pair.Key);
-                if (index != -1)
-                {
-                    CoreLibMod.Log.LogWarning($"Error trying to add keybind action with name {pair.Key}! This keybind name is already taken!");
-                    invalidKeybinds.Add(pair.Key);
-                    continue;
-                }
-
-                int actionIdCounter = __instance.GetValue<int>("actionIdCounter");
-                ConfigEntry<int> keyBindId = RewiredExtensionModule.keybindIdCache.Bind("KeyBinds", pair.Key, actionIdCounter + 50);
-
-                if (ActionExists(__instance, keyBindId.Value))
-                {
-                    CoreLibMod.Log.LogWarning($"Found keybind cache id conflict, force rebinding {pair.Key} keybind id!");
-                    keyBindId.Value = actionIdCounter + 50;
-                }
-
-                InputAction newAction = new InputAction();
-                newAction.SetValue("_id", keyBindId.Value);
-                newAction.SetValue("_categoryId", 0);
-                newAction.SetValue("_name", pair.Key);
-                newAction.SetValue("_type", InputActionType.Button);
-                newAction.SetValue("_descriptiveName", pair.Key);
-                newAction.SetValue("_userAssignable", true);
-
-                __instance.GetValue<List<InputAction>>("actions").Add(newAction);
-                __instance.GetValue<ActionCategoryMap>("actionCategoryMap").AddAction(newAction.categoryId, newAction.id);
-                pair.Value.actionId = newAction.id;
-
-                __instance.SetValue("actionIdCounter", actionIdCounter + 1);
-
-
-                var keyboardMaps = __instance.GetValue<List<ControllerMap_Editor>>("keyboardMaps");
-
-                foreach (ControllerMap_Editor map in keyboardMaps)
-                {
-                    if (map.categoryId == newAction.categoryId)
-                    {
-                        ActionElementMap newElementMap = new ActionElementMap();
-                        newElementMap.SetValue("_actionId", keyBindId.Value);
-                        newElementMap.SetValue("_elementType", ControllerElementType.Button);
-                        newElementMap.SetValue("_actionCategoryId", 0);
-                        newElementMap.SetValue("_keyboardKeyCode", pair.Value.defaultKeyCode);
-                        newElementMap.SetValue("_modifierKey1", pair.Value.modifierKey);
-
-                        map.actionElementMaps.Add(newElementMap);
-                    }
-                }
+                TryAddKeybind(__instance, pair, invalidKeybinds);
             }
 
             foreach (string keybindName in invalidKeybinds)
@@ -109,6 +62,77 @@ namespace CoreLib.RewiredExtension.Patches
             }
 
             CoreLibMod.Log.LogInfo("Done adding mod keybinds!");
+        }
+
+        private static void TryAddKeybind(UserData userData, KeyValuePair<string, KeyBindData> pair, List<string> invalidKeybinds)
+        {
+            int index = userData.IndexOfAction(pair.Key);
+            if (index != -1)
+            {
+                CoreLibMod.Log.LogWarning($"Error trying to add keybind action with name {pair.Key}! This keybind name is already taken!");
+                invalidKeybinds.Add(pair.Key);
+                return;
+            }
+
+            int actionIdCounter = userData.GetValue<int>("actionIdCounter");
+            ConfigEntry<int> keyBindId = RewiredExtensionModule.keybindIdCache.Bind("KeyBinds", pair.Key, actionIdCounter + 50);
+
+            if (ActionExists(userData, keyBindId.Value))
+            {
+                CoreLibMod.Log.LogWarning($"Found keybind cache id conflict, force rebinding {pair.Key} keybind id!");
+                keyBindId.Value = actionIdCounter + 50;
+            }
+
+            InputAction newAction = new InputAction();
+            newAction.SetValue("_id", keyBindId.Value);
+            newAction.SetValue("_categoryId", 0);
+            newAction.SetValue("_name", pair.Key);
+            newAction.SetValue("_type", InputActionType.Button);
+            newAction.SetValue("_descriptiveName", pair.Key);
+            newAction.SetValue("_userAssignable", true);
+
+            userData.GetValue<List<InputAction>>("actions").Add(newAction);
+            userData.GetValue<ActionCategoryMap>("actionCategoryMap").AddAction(newAction.categoryId, newAction.id);
+            pair.Value.actionId = newAction.id;
+
+            userData.SetValue("actionIdCounter", actionIdCounter + 1);
+
+
+            var keyboardMaps = userData.GetValue<List<ControllerMap_Editor>>("keyboardMaps");
+
+            foreach (ControllerMap_Editor map in keyboardMaps)
+            {
+                if (map.categoryId == newAction.categoryId)
+                {
+                    ActionElementMap newElementMap = new ActionElementMap();
+                    newElementMap.SetValue("_actionId", keyBindId.Value);
+                    newElementMap.SetValue("_elementType", ControllerElementType.Button);
+                    newElementMap.SetValue("_actionCategoryId", 0);
+                    newElementMap.SetValue("_keyboardKeyCode", pair.Value.defaultKeyCode);
+                    newElementMap.SetValue("_modifierKey1", pair.Value.modifierKey);
+
+                    map.actionElementMaps.Add(newElementMap);
+                }
+            }
+            
+            if (pair.Value.gamepadElementId == 0) return;
+
+            var joystickMaps = userData.GetValue<List<ControllerMap_Editor>>("joystickMaps");
+            foreach (ControllerMap_Editor map in joystickMaps)
+            {
+                if (map.categoryId == newAction.categoryId)
+                {
+                    ActionElementMap newElementMap = new ActionElementMap();
+                    newElementMap.SetValue("_actionId", keyBindId.Value);
+                    newElementMap.SetValue("_elementType", pair.Value.gamepadElementType);
+                    newElementMap.SetValue("_axisRange", pair.Value.gamepadAxisRange);
+                    newElementMap.SetValue("_invert", pair.Value.gamepadInvert);
+                    newElementMap.SetValue("_actionCategoryId", 0);
+                    newElementMap.SetValue("_elementIdentifierId", pair.Value.gamepadElementId);
+
+                    map.actionElementMaps.Add(newElementMap);
+                }
+            }
         }
 
         private static bool ActionExists(UserData userData, int keyBindId)

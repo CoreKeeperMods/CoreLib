@@ -59,6 +59,33 @@ namespace CoreLib.RewiredExtension
         }
 
         /// <summary>
+        /// Add default controller binding for existing custom keybind. Ensure the keybind has been created with <see cref="AddKeybind"/>
+        /// </summary>
+        /// <param name="keyBindName">Existing key bind name</param>
+        /// <param name="elementId">Element Id. Reference <see cref="GamepadTemplate"/></param>
+        /// <param name="elementType">Element type (Button or Axis)</param>
+        /// <param name="axisRange">Axis Range</param>
+        public static void SetDefaultControllerBinding(
+            string keyBindName, 
+            int elementId, 
+            ControllerElementType elementType = ControllerElementType.Button, 
+            AxisRange axisRange = AxisRange.Full)
+        {
+            Instance.ThrowIfNotLoaded();
+            
+            if (!keyBinds.ContainsKey(keyBindName))
+            {
+                CoreLibMod.Log.LogWarning($"Error trying to set default controller binding for keybind {keyBindName}! No such keybind found!");
+                return;
+            }
+
+            var keybind = keyBinds[keyBindName];
+            keybind.gamepadElementType = elementType;
+            keybind.gamepadAxisRange = axisRange;
+            keybind.gamepadElementId = elementId;
+        }
+
+        /// <summary>
         /// Get key bind numeric ID.
         /// </summary>
         /// <param name="keyBindName">UNIQUE key bind name</param>
@@ -86,8 +113,8 @@ namespace CoreLib.RewiredExtension
 
         #region Private Implementation
 
-        internal override GameVersion Build => new GameVersion(0, 7, 3, "a28f");
-        internal override string Version => "3.1.1";
+        internal override GameVersion Build => new GameVersion(0, 7, 5, "3339");
+        internal override string Version => "3.1.2";
 
         internal override Type[] Dependencies => new[] { typeof(LocalizationModule) };
         internal static RewiredExtensionModule Instance => CoreLibMod.GetModuleInstance<RewiredExtensionModule>();
