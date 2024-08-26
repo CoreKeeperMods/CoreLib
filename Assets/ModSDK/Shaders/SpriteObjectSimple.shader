@@ -17,10 +17,13 @@ Shader "SpriteObject/Simple"
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_instancing
+			#pragma multi_compile _ SPRITE_INSTANCING_USE_COMPRESSED_ATLASES
 			#pragma multi_compile _ INSTANCING_ENABLED
 
 			#define PPU 16
+#if INSTANCING_ENABLED
 			#define INSTANCING_ON
+#endif
 
 			#include "UnityCG.cginc"
 			#include "SpriteObject.hlsl"
