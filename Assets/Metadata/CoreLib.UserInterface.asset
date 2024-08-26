@@ -26,6 +26,7 @@ MonoBehaviour:
     - path: Scripts/Scripts/UserInterfaceModule.cs
     - path: Scripts/Scripts/Patches/UIManager_Patch.cs
     - path: Scripts/Scripts/ModUIAuthoring.cs
+    - path: Scripts/Scripts/LinkToPlayerInventory.cs
     - path: Scripts/Scripts/IModUI.cs
     dependencies:
     - modName: CoreLib
