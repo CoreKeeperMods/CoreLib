@@ -71,6 +71,16 @@ namespace CoreLib.Util
         private static Queue<MarkerData> freePointMarkers = new Queue<MarkerData>();
         private static Queue<MarkerData> freeLineMarkers = new Queue<MarkerData>();
 
+        private static Transform myAnchor;
+
+        private static Transform GetMyAnchor()
+        {
+            if (myAnchor != null) return myAnchor;
+
+            myAnchor = Manager.camera.GetRenderAnchor();
+            return myAnchor;
+        }
+
         /// <summary>
         /// Place a colored dot at specified position
         /// </summary>
@@ -198,7 +208,7 @@ namespace CoreLib.Util
             MeshRenderer meshRenderer = sphere.GetComponent<MeshRenderer>();
             Object.Destroy(sphere.GetComponent<SphereCollider>());
             meshRenderer.material.shader = Shader.Find("Radical/SpritesDefault");
-            sphere.transform.parent = Manager.camera.OrigoTransform;
+            sphere.transform.parent = GetMyAnchor();
             sphere.transform.localScale *= 0.2f;
 
             MarkerData data = new MarkerData(sphere, meshRenderer, null);
@@ -225,7 +235,7 @@ namespace CoreLib.Util
             Object.Destroy(line.GetComponent<MeshCollider>());
             meshRenderer.material.shader = Shader.Find("Radical/SpritesDefault");
 
-            line.transform.parent = Manager.camera.OrigoTransform;
+            line.transform.parent = GetMyAnchor();
             //line.transform.localScale *= 0.2f;
 
             MarkerData data = new MarkerData(line, null, meshRenderer);

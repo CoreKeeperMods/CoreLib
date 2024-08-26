@@ -131,8 +131,8 @@ namespace CoreLib.Commands
 
         #region Private Implementation
 
-        internal override GameVersion Build => new GameVersion(0, 7, 4, "a28f");
-        internal override string Version => "3.1.1";
+        internal override GameVersion Build => new GameVersion(0, 7, 5, "3339");
+        internal override string Version => "3.1.2";
         internal override Type[] Dependencies => new[] { typeof(RewiredExtensionModule) };
         internal static CommandsModule Instance => CoreLibMod.GetModuleInstance<CommandsModule>();
 
@@ -146,6 +146,7 @@ namespace CoreLib.Commands
         internal static string UP_KEY = "CoreLib_UpKey";
         internal static string DOWN_KEY = "CoreLib_DownKey";
         internal static string COMPLETE_KEY = "CoreLib_CompleteKey";
+        internal static string TOGGLE_QC = "CoreLib_ToggleQC";
 
         internal static List<CommandPair> commandHandlers = new List<CommandPair>();
         internal static Dictionary<string, ObjectID> friendlyNameDict = new Dictionary<string, ObjectID>();
@@ -158,7 +159,7 @@ namespace CoreLib.Commands
         internal override void SetHooks()
         {
             CoreLibMod.Patch(typeof(ChatWindow_Patch));
-            CoreLibMod.Patch(typeof(TitleScreenAnimator_Patch));
+            //CoreLibMod.Patch(typeof(TitleScreenAnimator_Patch));
             CoreLibMod.Patch(typeof(ECSManager_Patch));
             CoreLibMod.Patch(typeof(MenuManager_Patch));
         }
@@ -188,6 +189,8 @@ namespace CoreLib.Commands
             RewiredExtensionModule.AddKeybind(UP_KEY, "Next command", KeyboardKeyCode.UpArrow);
             RewiredExtensionModule.AddKeybind(DOWN_KEY, "Previous command", KeyboardKeyCode.DownArrow);
             RewiredExtensionModule.AddKeybind(COMPLETE_KEY, "Autocomplete command", KeyboardKeyCode.Tab);
+            
+            RewiredExtensionModule.AddKeybind(TOGGLE_QC, "Toggle Quantum console", KeyboardKeyCode.Delete);
 
             API.Client.OnWorldCreated += ClientWorldReady;
             API.Server.OnWorldCreated += ServerWorldReady;

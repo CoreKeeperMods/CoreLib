@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: 5b8fa4658f2c4485bf8456cc8b789182
     name: CoreLib.Audio
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0

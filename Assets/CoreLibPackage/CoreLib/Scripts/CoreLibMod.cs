@@ -30,13 +30,13 @@ namespace CoreLib
         public const string ID = "CoreLib";
         public const string NAME = "Core Lib";
         public const string CONFIG_FOLDER = "CoreLib/Config/";
-        public const string VERSION = "3.1.2";
+        public const string VERSION = "3.1.3";
 
         internal static LoadedMod modInfo;
         
         internal static Logger Log = new Logger(NAME);
         internal static ConfigFile Config;
-        public static readonly GameVersion buildFor = new GameVersion(0, 7, 5, "5317");
+        public static readonly GameVersion buildFor = new GameVersion(0, 7, 5, "3339");
         
         internal static SubmoduleHandler submoduleHandler;
 
@@ -55,7 +55,7 @@ namespace CoreLib
             var gameBuild = new GameVersion(Application.version);
             
             CheckIfUsedOnRightGameVersion(gameBuild);
-            
+
             Log.LogInfo($"Loading CoreLib version {VERSION}!");
             
             submoduleHandler = new SubmoduleHandler(gameBuild, Log);

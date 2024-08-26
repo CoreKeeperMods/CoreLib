@@ -24,7 +24,8 @@ namespace CoreLib.Commands
             string[] keys = CommandsModule.friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
             if (keys.Length == 0)
             {
-                objectID = ObjectID.None;
+                CoreLibMod.Log.LogDebug($"friendlyNameDict state: {CommandsModule.friendlyNameDict.Count} entries, first entries: {CommandsModule.friendlyNameDict.Keys.Take(10).Join()}");
+                objectID = ObjectID.None; 
                 return new CommandOutput($"No item named '{fullName}' found!", CommandStatus.Error);
             }
 

@@ -3,7 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using I2.Loc;
 using PugMod;
-
+/*
 namespace CoreLib.Commands.Patches
 {
     public class TitleScreenAnimator_Patch
@@ -44,4 +44,4 @@ namespace CoreLib.Commands.Patches
             CoreLibMod.Log.LogInfo($"Got {count} friendly name entries!");
         }
     }
-}
+}*/

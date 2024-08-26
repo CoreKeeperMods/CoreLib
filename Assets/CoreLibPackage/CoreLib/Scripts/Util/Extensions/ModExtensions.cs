@@ -11,6 +11,8 @@ namespace CoreLib.Util.Extensions
 {
     public static class ModExtensions
     {
+        public static string randomPath = Guid.NewGuid().ToString();
+        
         public static LoadedMod GetModInfo(this IMod mod)
         {
             return API.ModLoader.LoadedMods.FirstOrDefault(modInfo => modInfo.Handlers.Contains(mod));
@@ -59,9 +61,17 @@ namespace CoreLib.Util.Extensions
             string directory = API.ModLoader.GetDirectory(modInfo.ModId);
             string fileExtension = GetPlatformExtension(platform);
             string ID = modInfo.Metadata.name;
-                
+
+            var productName = Application.dataPath;
+            var modLoaderDir = Path.Combine(Application.temporaryCachePath, "ModLoader");
+
+            if (productName.ToLower().Contains("dedicated"))
+            {
+                modLoaderDir = Path.Combine(modLoaderDir, "DedicatedServer", randomPath);
+            }
+            
             // need elevated access
-            var tempDirectory = Path.Combine(Application.temporaryCachePath, "ModLoader", ID);
+            var tempDirectory = Path.Combine(modLoaderDir, ID);
             var assemblyName = $"{ID}_burst_generated_{platform}.{fileExtension}";
                 
             string newAssemblyPath = Path.Combine(tempDirectory, assemblyName);

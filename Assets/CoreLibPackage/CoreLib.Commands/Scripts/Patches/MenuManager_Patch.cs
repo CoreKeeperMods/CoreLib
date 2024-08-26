@@ -12,8 +12,10 @@ namespace CoreLib.Commands.Patches
         public static void OnInit(MenuManager __instance)
         {
             if (__instance.quantumConsolePrefab == null) return;
+
+            var result = __instance.quantumConsolePrefab.LoadAssetAsync<GameObject>();
+            var prefab = result.WaitForCompletion();
             
-            var prefab = __instance.quantumConsolePrefab.gameObject;
             var console = Object.Instantiate(prefab, null, true);
             
             var quantumConsole = console.GetComponent<QuantumConsole>();
@@ -44,7 +46,7 @@ namespace CoreLib.Commands.Patches
         [HarmonyPostfix]
         public static void OnUpdate(MenuManager __instance)
         {
-            if (Input.GetKeyDown(KeyCode.Delete))
+            if (CommandsModule.rewiredPlayer.GetButtonDown(CommandsModule.TOGGLE_QC))
             {
                 CommandsModule.ToggleQC();
             }

@@ -15,12 +15,13 @@ namespace CoreLib.Commands.Patches
             CheckModItemsSafe();
         }
         
-        [HarmonyPatch(typeof(ECSManager), nameof(ECSManager.LoadSubScenes))]
+        //TODO
+        /*[HarmonyPatch(typeof(ECSManager), nameof(ECSManager.LoadSubScenes))]
         [HarmonyPostfix]
         public static void OnLoadSubScenes()
         {
             CheckModItemsSafe();
-        }
+        }*/
 
 
         private static void CheckModItemsSafe()

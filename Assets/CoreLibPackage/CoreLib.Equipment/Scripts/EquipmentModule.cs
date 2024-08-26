@@ -5,6 +5,7 @@ using CoreLib.Equipment.Patches;
 using CoreLib.ModResources;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Util.Extensions;
+using PlayerEquipment;
 using UnityEngine;
 
 namespace CoreLib.Equipment
@@ -26,13 +27,13 @@ namespace CoreLib.Equipment
             return (ObjectType)index;
         }
 
-        public static EquipmentSlot.EquipmentSlotType GetEquipmentSlotType<T>()
+        public static EquipmentSlotType GetEquipmentSlotType<T>()
             where T : EquipmentSlot, IModEquipmentSlot
         {
             string typeName = typeof(T).FullName;
 
             int index = equipmentSlotTypeBind.HasIndex(typeName) ? equipmentSlotTypeBind.GetIndex(typeName) : equipmentSlotTypeBind.GetNextId(typeName);
-            return (EquipmentSlot.EquipmentSlotType)index;
+            return (EquipmentSlotType)index;
         }
 
         public static void RegisterEquipmentSlot<T>(GameObject prefab)

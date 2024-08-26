@@ -40,8 +40,9 @@ namespace CoreLib.Audio
             MusicManager.MusicRoster roster = GetRosterTracks(rosterType);
             MusicManager.MusicTrack track = new MusicManager.MusicTrack();
 
-            track.track = music;
-            track.optionalIntro = intro;
+            //TODO fix this
+            //track.track = music;
+            //track.optionalIntro = intro;
 
             roster.tracks.Add(track);
         }
