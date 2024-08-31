@@ -70,13 +70,28 @@ namespace CoreLib.Localization
             AddTerm($"Items/{obj}", enName, cnName);
             AddTerm($"Items/{obj}Desc", enDesc, cnDesc);
         }
+        
+        /// <summary>
+        /// Add I2 terms for entity name and description
+        /// </summary>
+        /// <param name="enName">Object name in English</param>
+        /// <param name="enDesc">Object description in English</param>
+        /// <param name="cnName">Object name in Chinese</param>
+        /// <param name="cnDesc">Object description in Chinese</param>
+        public static void AddEntityLocalization(string objectName, string enName, string enDesc, string cnName = "", string cnDesc = "")
+        {
+            if (string.IsNullOrEmpty(objectName)) return;
+        
+            AddTerm($"Items/{objectName}", enName, cnName);
+            AddTerm($"Items/{objectName}Desc", enDesc, cnDesc);
+        }
     
         #endregion
 
         #region Private Implementation
 
-        internal override GameVersion Build => new GameVersion(0, 7, 3, "a28f");
-        internal override string Version => "3.1.0";
+        internal override GameVersion Build => new GameVersion(1, 0, 0, "4407");
+        internal override string Version => "3.1.1";
         internal static LocalizationModule Instance => CoreLibMod.GetModuleInstance<LocalizationModule>();
 
         internal override void SetHooks()
