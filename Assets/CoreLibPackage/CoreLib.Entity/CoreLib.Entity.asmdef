@@ -72,7 +72,10 @@
         "System.Text.Json.dll",
         "ZipSaveFolder.dll",
         "0Harmony.dll",
-        "SpriteInstancing.dll"
+        "SpriteInstancing.dll",
+        "Interaction.Authoring.dll",
+        "Interaction.Components.dll",
+        "Interaction.Converters.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],

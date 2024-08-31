@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 7005205680907690483}
   - component: {fileID: 4711301488112690401}
   - component: {fileID: 3411045715384914425}
+  - component: {fileID: -9207139071942136613}
   m_Layer: 0
   m_Name: TemplateWorkbench
   m_TagString: Untagged
@@ -314,8 +315,10 @@ MonoBehaviour:
   canBePlacedOnLava: 0
   canBePlacedOnPit: 0
   canBePlacedOnBlockingObjects: 0
+  canBePlacedOnLowColliders: 0
   dontDestroyObjectIfInvalidPlacement: 0
   canBePlacedOnImmuneTiles: 0
+  dontBlockRoots: 0
   canBePlacedOnObjects: 
   canNotBePlacedOnObjects: 
   hasVariationsThatCanBePlacedOnWalls: 0
@@ -333,10 +336,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1779668189522198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 775935493, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
+  m_Script: {fileID: 775935493, guid: c894fdb8291d9384e891a64f82183274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   orientationSupport: 0
+  largeAnimationHistorySupport: 0
 --- !u!114 &114577291948304388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: -1029918251, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disabled: 0
   healInCombatAsWell: 0
   healDirectlyWhenLeavingCombat: 0
   healthPercentagePerFifthSecond: 100
@@ -412,6 +417,8 @@ MonoBehaviour:
   m_Script: {fileID: 282287656, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overrideTimeBeforeDestroy: 0
+  timeBeforeDestroy: 0
   timeBeforeLootDrop: 0
   skipDeathAnimation: 0
 --- !u!114 &8571973730515583902
@@ -498,3 +505,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b4b9264304dc2b5f1e3feb621bc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-9207139071942136613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779668189522198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -107720273, guid: efd2fc418596e4143865f11581dda3e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasLocalCooldown: 0
+  localCooldownSeconds: 0

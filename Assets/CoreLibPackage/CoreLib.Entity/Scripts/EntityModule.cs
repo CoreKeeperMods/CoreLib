@@ -231,8 +231,8 @@ namespace CoreLib.Submodules.ModEntity
 
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
-        internal override GameVersion Build => new GameVersion(0, 7, 5, "5317");
-        internal override string Version => "4.0.0";
+        internal override GameVersion Build => new GameVersion(1, 0, 0, "4407");
+        internal override string Version => "4.0.2";
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
 
         internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
@@ -356,7 +356,7 @@ namespace CoreLib.Submodules.ModEntity
                 rootWorkbenchesChain.Add(entity);
             }
 
-            LocalizationModule.AddEntityLocalization(0, $"Root Workbench {rootWorkbenchesChain.Count}",
+            LocalizationModule.AddEntityLocalization(rootWorkbenchDefinition.itemId, $"Root Workbench {rootWorkbenchesChain.Count}",
                 "This workbench contains all modded workbenches!");
         }
 

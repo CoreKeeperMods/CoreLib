@@ -16,10 +16,14 @@ MonoBehaviour:
     guid: 8339fb904eb04ed48cfbd2a08bbb731f
     name: CoreLib.Localization
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
-    files: []
+    files:
+    - path: Scripts/Scripts/Patches/TextManager_Patch.cs
+    - path: Scripts/Scripts/LocalizationModule.cs
+    - path: Scripts/Scripts/LocalizationExtension.cs
     dependencies:
     - modName: CoreLib
       required: 1
