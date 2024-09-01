@@ -33,17 +33,14 @@ namespace CoreLib.Editor
             var gamePath = EditorPrefs.GetString(GAME_INSTALL_PATH_KEY);
             var gameAssemblies = Path.Combine(gamePath, "CoreKeeper_Data\\Managed");
 
-            var modBurstPath = Path.Combine(Application.dataPath, "..", "Temp\\ModBurst");
-            var assemblyStaging = Path.Combine(modBurstPath, "Assemblies");
-            var buildPath = Path.Combine(modBurstPath, "Build");
+            var assemblyStaging = Path.Combine(Application.dataPath, "..", "Temp\\ModBurst\\Assemblies");
 
-            if (Directory.Exists(modBurstPath))
+            if (Directory.Exists(assemblyStaging))
             {
-                Directory.Delete(modBurstPath, true);
+                Directory.Delete(assemblyStaging, true);
             }
 
             Directory.CreateDirectory(assemblyStaging);
-            Directory.CreateDirectory(buildPath);
 
             ScriptCompilationSettings compilationSettings = new ScriptCompilationSettings()
             {
@@ -51,7 +48,7 @@ namespace CoreLib.Editor
                 target = BuildTarget.StandaloneWindows,
             };
 
-            var compilationResult = PlayerBuildInterface.CompilePlayerScripts(compilationSettings, buildPath);
+            var compilationResult = PlayerBuildInterface.CompilePlayerScripts(compilationSettings, assemblyStaging);
 
             if ((compilationResult.assemblies == null ||
                  compilationResult.assemblies.Count == 0) &&
@@ -59,9 +56,8 @@ namespace CoreLib.Editor
             {
                 throw new Exception("Mod scripts build failed!");
             }
-            
+
             CopyAll(gameAssemblies, assemblyStaging);
-            CopyAll(buildPath, assemblyStaging);
 
             var dlls = assetPaths.Where(path => path.EndsWith(".dll"));
 
@@ -74,7 +70,7 @@ namespace CoreLib.Editor
                 
                 File.Copy(globalDllPath, destFolder, true);
             }
-            
+
             var burstAssemblyPath = Path.Combine(installDirectory, $"{settings.metadata.name}_burst_generated");
             var rootAssembly = Path.Combine(assemblyStaging, $"{settings.metadata.name}.dll");
 
@@ -107,7 +103,7 @@ namespace CoreLib.Editor
             compiler.Start();
 
             compiler.WaitForExit();
-            Debug.Log($"Burst compiler output:\n {compiler.StandardOutput.ReadToEnd()}\n{compiler.StandardError.ReadToEnd()}");
+            Debug.Log($"Burst compiler output:\n {compiler.StandardOutput.ReadToEnd()}");
         }
 
         private static void CopyAll(string fromFolder, string toFolder)
