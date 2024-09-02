@@ -19,7 +19,7 @@ namespace CoreLib.Drops
         {
             return customLootTableIdMap.ContainsKey(lootTableId);
         }
-    
+
         public static LootTableID GetLootTableID(string lootTableId)
         {
             Instance.ThrowIfNotLoaded();
@@ -27,17 +27,17 @@ namespace CoreLib.Drops
             {
                 return customLootTableIdMap[lootTableId];
             }
-        
+
             CoreLibMod.Log.LogWarning($"Requesting ID for loot table {lootTableId}, which is not registered!");
             return LootTableID.Empty;
         }
 
         public static LootTableID AddLootTable(string lootTableId)
         {
-            return AddLootTable(lootTableId, 1, 1);
+            return AddLootTable(lootTableId, 1, 1, false);
         }
-    
-        public static LootTableID AddLootTable(string lootTableId, int minUnqiueDrops, int maxUniqueDrops)
+
+        public static LootTableID AddLootTable(string lootTableId, int minUnqiueDrops, int maxUniqueDrops, bool dontAllowDuplicates)
         {
             if (customLootTableIdMap.ContainsKey(lootTableId))
             {
@@ -48,7 +48,7 @@ namespace CoreLib.Drops
             int lootTableIndex = lastCustomLootTableId;
             LootTableID lootTable = (LootTableID)lootTableIndex;
             lastCustomLootTableId++;
-            customLootTables.Add(new CustomLootTableData(lootTable, minUnqiueDrops, maxUniqueDrops));
+            customLootTables.Add(new CustomLootTableData(lootTable, minUnqiueDrops, maxUniqueDrops, dontAllowDuplicates));
             customLootTableIdMap.Add(lootTableId, lootTable);
             return lootTable;
         }
@@ -108,7 +108,7 @@ namespace CoreLib.Drops
         internal static List<CustomLootTableData> customLootTables = new List<CustomLootTableData>();
 
         internal static int lastCustomLootTableId = 2000;
-    
+
         private static DropTableModificationData GetModificationData(LootTableID tableID)
         {
             if (dropTableModification.ContainsKey(tableID))
