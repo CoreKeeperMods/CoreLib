@@ -16,10 +16,16 @@ MonoBehaviour:
     guid: 9a0a0b3f56794a8dae6ce29d419caf9d
     name: CoreLib.Drops
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: -1
-    files: []
+    files:
+    - path: Scripts/Scripts/Patches/LootTableBank_Patch.cs
+    - path: Scripts/Scripts/DropTablesModule.cs
+    - path: Scripts/Scripts/DropTableModificationData.cs
+    - path: Scripts/Scripts/CustomLootTableData.cs
+    - path: Scripts/Scripts/Components/ModDropsFromLootTableAuthoring.cs
     dependencies:
     - modName: CoreLib
       required: 1
