@@ -7,12 +7,14 @@ namespace CoreLib.Drops
         public LootTableID tableId;
         public int minUniqueDrops;
         public int maxUniqueDrops;
+        public bool dontAllowDuplicates;
 
-        public CustomLootTableData(LootTableID tableId, int minUniqueDrops, int maxUniqueDrops)
+        public CustomLootTableData(LootTableID tableId, int minUniqueDrops, int maxUniqueDrops, bool dontAllowDuplicates)
         {
             this.tableId = tableId;
             this.minUniqueDrops = minUniqueDrops;
             this.maxUniqueDrops = maxUniqueDrops;
+            this.dontAllowDuplicates = dontAllowDuplicates;
         }
 
         public LootTable GetTable()
@@ -22,6 +24,7 @@ namespace CoreLib.Drops
                 id = tableId,
                 minUniqueDrops = minUniqueDrops,
                 maxUniqueDrops = maxUniqueDrops,
+                dontAllowDuplicates = dontAllowDuplicates,
                 lootInfos = new LootList(),
                 guaranteedLootInfos = new LootList()
             };
