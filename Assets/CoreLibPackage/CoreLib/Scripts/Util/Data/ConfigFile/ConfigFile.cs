@@ -15,6 +15,48 @@ namespace CoreLib.Data.Configuration
     /// </summary>
     public class ConfigFile : IDictionary<ConfigDefinition, ConfigEntryBase>
     {
+        /// <summary>
+        ///     A private static list that contains all <see cref="ConfigFile"/> instances created throughout the application's lifetime.
+        ///     This list should only be modified internally by the <see cref="ConfigFile"/> class.
+        /// </summary>
+        private static readonly List<ConfigFile> AllConfigFiles = new List<ConfigFile>();
+
+        /// <summary>
+        ///     An object used for locking access to the <see cref="AllConfigFiles"/> collection to ensure thread safety.
+        /// </summary>
+        private static readonly object LockObject = new object();
+
+        /// <summary>
+        ///     A read-only view of the static list containing all <see cref="ConfigFile"/> instances created throughout the application's lifetime.
+        ///     <para>
+        ///     This property provides read-only access to the list of configuration files. External callers can access this list to query
+        ///     existing configuration files but cannot modify the list, ensuring data integrity.
+        ///     </para>
+        ///     <example>
+        ///     The following example demonstrates how to access all cached <see cref="ConfigFile"/> instances:
+        ///     <code>
+        ///     foreach (var config in ConfigFile.AllConfigFiles)
+        ///     {
+        ///         Console.WriteLine($"Config file path: {config.ConfigFilePath}");
+        ///     }
+        ///     </code>
+        ///     </example>
+        /// </summary>
+        /// <remarks>
+        ///     This property is thread-safe for read access. Any modifications to the internal collection should be done through the <see cref="AllConfigFiles"/> field.
+        /// </remarks>
+        public static IReadOnlyList<ConfigFile> AllConfigFilesReadOnly
+        {
+            get
+            {
+                lock (LockObject)
+                {
+                    // Return a copy of the list to ensure thread safety.
+                    return AllConfigFiles.AsReadOnly();
+                }
+            }
+        }
+
         private readonly LoadedMod _ownerMetadata;
         private static Encoding UTF8NoBom { get; } = new UTF8Encoding(false);
 
@@ -32,6 +74,11 @@ namespace CoreLib.Data.Configuration
             _ownerMetadata = ownerMetadata;
 
             ConfigFilePath = configPath ?? throw new ArgumentNullException(nameof(configPath));
+
+            lock (LockObject)
+            {
+                AllConfigFiles.Add(this);
+            }
 
             if (API.ConfigFilesystem.FileExists(ConfigFilePath))
                 Reload();
