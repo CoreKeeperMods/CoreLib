@@ -5,7 +5,6 @@
 .vsconfig
 Player/
 /[Aa]ssets/Plugins/CoreKeeper*
-/[Aa]ssets/Plugins/CoreKeeperModSDK*
 /[Aa]ssets/CK*
 
 /[Ll]ibrary/
