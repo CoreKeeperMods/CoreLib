@@ -18,8 +18,9 @@ namespace CoreLib.Data.Configuration
         internal ConfigEntry(ConfigFile configFile,
             ConfigDefinition definition,
             T defaultValue,
-            ConfigDescription configDescription) : base(configFile, definition, typeof(T),
-            defaultValue, configDescription)
+            ConfigDescription configDescription,
+            bool isServerAuthoritative = false) : base(configFile, definition, typeof(T),
+            defaultValue, configDescription, isServerAuthoritative)
         {
             configFile.SettingChanged += (sender, args) =>
             {
@@ -70,7 +71,8 @@ namespace CoreLib.Data.Configuration
             ConfigDefinition definition,
             Type settingType,
             object defaultValue,
-            ConfigDescription configDescription)
+            ConfigDescription configDescription,
+            bool isServerAuthoritative = false)
         {
             ConfigFile = configFile ?? throw new ArgumentNullException(nameof(configFile));
             Definition = definition ?? throw new ArgumentNullException(nameof(definition));
@@ -86,6 +88,8 @@ namespace CoreLib.Data.Configuration
 
             // Free type check and automatically calls ClampValue in case AcceptableValues were provided
             BoxedValue = defaultValue;
+            
+            IsServerAuthoritative = isServerAuthoritative;
         }
 
         /// <summary>
@@ -108,6 +112,14 @@ namespace CoreLib.Data.Configuration
         ///     Type of the <see cref="BoxedValue" /> that this setting holds.
         /// </summary>
         public Type SettingType { get; }
+        
+        /// <summary>
+        /// Defines if a setting is controlled by the server rather than the client.
+        /// </summary>
+        /// <remarks>
+        /// Can be used by mods to change their behaviour, depending on which side they are running.
+        /// </remarks>
+        public bool IsServerAuthoritative { get; }
 
         /// <summary>
         ///     Default value of this setting (set only if the setting was not changed before).
@@ -164,6 +176,8 @@ namespace CoreLib.Data.Configuration
                 stringBuilder.AppendLine($"## {Description.Description.Replace("\n", "\n## ")}");
 
             stringBuilder.AppendLine($"# Setting type: {SettingType.GetNameChecked()}");
+            
+            stringBuilder.AppendLine($"# Is Server Authoritative : {IsServerAuthoritative}");
 
             stringBuilder.AppendLine($"# Default value: {TomlTypeConverter.ConvertToString(DefaultValue, SettingType)}");
 
