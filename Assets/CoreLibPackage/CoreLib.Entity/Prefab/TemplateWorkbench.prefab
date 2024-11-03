@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 7005205680907690483}
   - component: {fileID: 4711301488112690401}
   - component: {fileID: 3411045715384914425}
-  - component: {fileID: -9207139071942136613}
+  - component: {fileID: 4295607975407311263}
   m_Layer: 0
   m_Name: TemplateWorkbench
   m_TagString: Untagged
@@ -257,6 +257,7 @@ MonoBehaviour:
   canOnlyContainOneItemPerSlot: 0
   objectsGetLockedInPlace: 0
   cantAddObjectsToInventory: 0
+  canBeUsedInNearbyCrafting: 0
   slotRequirements: []
   itemsInInventory: []
   addLootFromTable: 0
@@ -272,7 +273,6 @@ MonoBehaviour:
   m_Script: {fileID: 793611198, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeHitAtSameTimeAsEnemy: 0
 --- !u!114 &114978018213277848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,7 +291,11 @@ MonoBehaviour:
   startHealth: 2
   maxHealth: 2
   maxHealthMultiplier: 1
-  isBoss: 0
+  hasHealthRegeneration: 0
+  healInCombatAsWell: 0
+  healDirectlyWhenLeavingCombat: 0
+  healthPercentagePerFifthSecond: 100
+  startHealDelay: 5
   level: {fileID: 0}
 --- !u!114 &114034721442785089
 MonoBehaviour:
@@ -384,14 +388,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1779668189522198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1029918251, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
+  m_Script: {fileID: 1594252633, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disabled: 0
+  dontCalculateHealthFromLevel: 0
+  overrideStartHealth: 0
+  normalizedOverrideStartHealth: 1
+  startHealth: 0
+  maxHealth: 0
+  maxHealthMultiplier: 1
+  hasHealthRegeneration: 0
   healInCombatAsWell: 0
   healDirectlyWhenLeavingCombat: 0
   healthPercentagePerFifthSecond: 100
   startHealDelay: 5
+  level: {fileID: 0}
 --- !u!114 &6266910433821575672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,7 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b4b9264304dc2b5f1e3feb621bc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-9207139071942136613
+--- !u!114 &4295607975407311263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -514,8 +525,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1779668189522198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -107720273, guid: efd2fc418596e4143865f11581dda3e1, type: 3}
+  m_Script: {fileID: -2043779946, guid: efd2fc418596e4143865f11581dda3e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasLocalCooldown: 0
-  localCooldownSeconds: 0

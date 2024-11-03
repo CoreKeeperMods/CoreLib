@@ -26,6 +26,7 @@ MonoBehaviour:
     - path: Scripts/Scripts/PrefabCrawler.cs
     - path: Scripts/Scripts/Patches/PlayerController_Patch.cs
     - path: Scripts/Scripts/Patches/MemoryManager_Patch.cs
+    - path: Scripts/Scripts/Patches/InteractableConverter_Patch.cs
     - path: Scripts/Scripts/Patches/GraphicalObjectConversion_Patch.cs
     - path: Scripts/Scripts/Patches/ColorReplacer_Patch.cs
     - path: Scripts/Scripts/MonoBehaviourUtils.cs
@@ -35,6 +36,7 @@ MonoBehaviour:
     - path: Scripts/Scripts/Components/TemplateObject.cs
     - path: Scripts/Scripts/Components/SupportsPooling.cs
     - path: Scripts/Scripts/Components/RuntimeMaterial.cs
+    - path: Scripts/Scripts/Components/PugTextStyle.cs
     - path: Scripts/Scripts/Components/PoolSettings.cs
     - path: Scripts/Scripts/Components/ModWorkbenchBuilding.cs
     - path: Scripts/Scripts/Components/ModCraftingAuthoring.cs

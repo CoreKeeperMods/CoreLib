@@ -231,8 +231,8 @@ namespace CoreLib.Submodules.ModEntity
 
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
-        internal override GameVersion Build => new GameVersion(1, 0, 0, "4407");
-        internal override string Version => "4.0.2";
+        internal override GameVersion Build => new GameVersion(1, 0, 1, "e380");
+        internal override string Version => "4.0.3";
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
 
         internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
