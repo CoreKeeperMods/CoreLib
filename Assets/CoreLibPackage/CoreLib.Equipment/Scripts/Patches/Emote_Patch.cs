@@ -31,12 +31,12 @@ namespace CoreLib.Equipment.Patches
         private static void ApplyEmote(Emote __instance)
         {
             __instance.text.localize = true;
-            __instance.textOutline.localize = true;
+           // __instance.textOutline.localize = true;
 
             string textToPrint = __instance.GetValue<string>("textToPrint");
             __instance.text.Render(textToPrint, true);
-            __instance.textOutline.Render(textToPrint, true);
-            __instance.textOutline.SetTempColor(Color.black);
+           // __instance.textOutline.Render(textToPrint, true);
+           // __instance.textOutline.SetTempColor(Color.black);
         }
     }
 }
