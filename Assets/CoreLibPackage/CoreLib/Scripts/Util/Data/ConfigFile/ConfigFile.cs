@@ -583,7 +583,7 @@ namespace CoreLib.Data.Configuration
         /// <param name="accessLevel">Specifies the level of access required for modifying the configuration.</param>
         /// <param name="requireReload">Indicates whether restarting the game is required for the changes to take effect.</param>
         public ConfigEntry<T> Bind<T>(string section, string key, T defaultValue, string description,
-            ConfigAccessLevel accessLevel, bool requireReload = false) =>
+            ConfigAccessLevel accessLevel = ConfigAccessLevel.Client, bool requireReload = false) =>
             Bind(new ConfigDefinition(section, key), defaultValue,
                 new ConfigDescription(description), new ConfigScope(accessLevel, requireReload));
         /// <summary>

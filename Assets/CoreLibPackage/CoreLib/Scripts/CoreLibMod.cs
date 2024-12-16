@@ -30,13 +30,13 @@ namespace CoreLib
         public const string ID = "CoreLib";
         public const string NAME = "Core Lib";
         public const string CONFIG_FOLDER = "CoreLib/Config/";
-        public const string VERSION = "3.2.1";
+        public const string VERSION = "3.3.0";
 
         internal static LoadedMod modInfo;
         
         internal static Logger Log = new Logger(NAME);
         internal static ConfigFile Config;
-        public static readonly GameVersion buildFor = new GameVersion(1, 0, 0, "6489");
+        public static readonly GameVersion buildFor = new GameVersion(1, 0, 1, "b55b");
         
         internal static SubmoduleHandler submoduleHandler;
 
