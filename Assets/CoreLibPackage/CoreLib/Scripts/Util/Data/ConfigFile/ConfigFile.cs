@@ -1,11 +1,11 @@
-﻿using System;
+﻿using PugMod;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using PugMod;
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
 namespace CoreLib.Data.Configuration
@@ -82,7 +82,8 @@ namespace CoreLib.Data.Configuration
 
             if (API.ConfigFilesystem.FileExists(ConfigFilePath))
                 Reload();
-            else if (saveOnInit) Save();
+            else if (saveOnInit)
+                Save();
         }
 
         /// <summary>
@@ -359,7 +360,8 @@ namespace CoreLib.Data.Configuration
             lock (_ioLock)
             {
                 var directoryName = GetDirectoryName(ConfigFilePath);
-                if (directoryName != null) API.ConfigFilesystem.CreateDirectory(directoryName);
+                if (directoryName != null)
+                    API.ConfigFilesystem.CreateDirectory(directoryName);
 
                 StringBuilder stringBuilder = new StringBuilder();
 
@@ -372,11 +374,15 @@ namespace CoreLib.Data.Configuration
                 var allConfigEntries = Entries
                     .Select(x => new
                     {
-                        x.Key, entry = x.Value, value = x.Value.GetSerializedValue()
+                        x.Key,
+                        entry = x.Value,
+                        value = x.Value.GetSerializedValue()
                     })
                     .Concat(OrphanedEntries.Select(x => new
                     {
-                        x.Key, entry = (ConfigEntryBase)null, value = x.Value
+                        x.Key,
+                        entry = (ConfigEntryBase)null,
+                        value = x.Value
                     }));
 
                 foreach (var sectionKv in allConfigEntries.GroupBy(x => x.Key.Section).OrderBy(x => x.Key))
@@ -402,13 +408,13 @@ namespace CoreLib.Data.Configuration
                 API.ConfigFilesystem.Write(ConfigFilePath, fileData);
             }
         }
-        
+
         internal static readonly char[] PathSeparatorChars = new char[]
         {
             '/',
             '\\'
         };
-        
+
         public static string GetDirectoryName(string path)
         {
             if (path == string.Empty)
@@ -513,9 +519,11 @@ namespace CoreLib.Data.Configuration
         /// <param name="configDefinition">Section and Key of the setting.</param>
         /// <param name="defaultValue">Value of the setting if the setting was not created yet.</param>
         /// <param name="configDescription">Description of the setting shown to the user and other metadata.</param>
+        /// <param name="scope">Represents the scope of the setting, including access level and reload require.</param>
         public ConfigEntry<T> Bind<T>(ConfigDefinition configDefinition,
             T defaultValue,
-            ConfigDescription configDescription = null)
+            ConfigDescription configDescription = null,
+            ConfigScope scope = null)
         {
             if (!TomlTypeConverter.CanConvert(typeof(T)))
                 throw new
@@ -527,7 +535,7 @@ namespace CoreLib.Data.Configuration
                 if (Entries.TryGetValue(configDefinition, out var rawEntry))
                     return (ConfigEntry<T>)rawEntry;
 
-                var entry = new ConfigEntry<T>(this, configDefinition, defaultValue, configDescription);
+                var entry = new ConfigEntry<T>(this, configDefinition, defaultValue, configDescription, scope);
 
                 Entries[configDefinition] = entry;
 
@@ -554,11 +562,13 @@ namespace CoreLib.Data.Configuration
         /// <param name="key">Name of the setting.</param>
         /// <param name="defaultValue">Value of the setting if the setting was not created yet.</param>
         /// <param name="configDescription">Description of the setting shown to the user and other metadata.</param>
+        /// <param name="scope">Represents the scope of the setting, including access level and reload require.</param>
         public ConfigEntry<T> Bind<T>(string section,
             string key,
             T defaultValue,
-            ConfigDescription configDescription = null) =>
-            Bind(new ConfigDefinition(section, key), defaultValue, configDescription);
+            ConfigDescription configDescription = null,
+            ConfigScope scope = null) =>
+            Bind(new ConfigDefinition(section, key), defaultValue, configDescription, scope);
 
         /// <summary>
         ///     Create a new setting. The setting is saved to drive and loaded automatically.
@@ -570,9 +580,12 @@ namespace CoreLib.Data.Configuration
         /// <param name="key">Name of the setting.</param>
         /// <param name="defaultValue">Value of the setting if the setting was not created yet.</param>
         /// <param name="description">Simple description of the setting shown to the user.</param>
-        public ConfigEntry<T> Bind<T>(string section, string key, T defaultValue, string description) =>
-            Bind(new ConfigDefinition(section, key), defaultValue, new ConfigDescription(description));
-
+        /// <param name="accessLevel">Specifies the level of access required for modifying the configuration.</param>
+        /// <param name="requireReload">Indicates whether restarting the game is required for the changes to take effect.</param>
+        public ConfigEntry<T> Bind<T>(string section, string key, T defaultValue, string description,
+            ConfigAccessLevel accessLevel, bool requireReload = false) =>
+            Bind(new ConfigDefinition(section, key), defaultValue,
+                new ConfigDescription(description), new ConfigScope(accessLevel, requireReload));
         /// <summary>
         ///     Create a new setting. The setting is saved to drive and loaded automatically.
         ///     Each definition can be used to add only one setting, trying to add a second setting will throw an exception.
@@ -656,13 +669,15 @@ namespace CoreLib.Data.Configuration
 
         internal void OnSettingChanged(object sender, ConfigEntryBase changedEntryBase)
         {
-            if (changedEntryBase == null) throw new ArgumentNullException(nameof(changedEntryBase));
+            if (changedEntryBase == null)
+                throw new ArgumentNullException(nameof(changedEntryBase));
 
             if (SaveOnConfigSet)
                 Save();
 
             var settingChanged = SettingChanged;
-            if (settingChanged == null) return;
+            if (settingChanged == null)
+                return;
 
             var args = new SettingChangedEventArgs(changedEntryBase);
             foreach (EventHandler<SettingChangedEventArgs> callback in settingChanged.GetInvocationList())
@@ -679,7 +694,8 @@ namespace CoreLib.Data.Configuration
         private void OnConfigReloaded()
         {
             var configReloaded = ConfigReloaded;
-            if (configReloaded == null) return;
+            if (configReloaded == null)
+                return;
 
             foreach (EventHandler callback in configReloaded.GetInvocationList())
                 try

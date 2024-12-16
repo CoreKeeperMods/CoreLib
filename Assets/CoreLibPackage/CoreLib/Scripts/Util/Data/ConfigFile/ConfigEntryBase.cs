@@ -1,7 +1,7 @@
-﻿using System;
+﻿using PugMod;
+using System;
 using System.Linq;
 using System.Text;
-using PugMod;
 
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
@@ -18,12 +18,14 @@ namespace CoreLib.Data.Configuration
         internal ConfigEntry(ConfigFile configFile,
             ConfigDefinition definition,
             T defaultValue,
-            ConfigDescription configDescription) : base(configFile, definition, typeof(T),
-            defaultValue, configDescription)
+            ConfigDescription configDescription,
+            ConfigScope scope) : base(configFile, definition, typeof(T),
+            defaultValue, configDescription, scope)
         {
             configFile.SettingChanged += (sender, args) =>
             {
-                if (args.ChangedSetting == this) SettingChanged?.Invoke(sender, args);
+                if (args.ChangedSetting == this)
+                    SettingChanged?.Invoke(sender, args);
             };
         }
 
@@ -48,7 +50,7 @@ namespace CoreLib.Data.Configuration
         public override object BoxedValue
         {
             get => Value;
-            set => Value = (T) value;
+            set => Value = (T)value;
         }
 
         /// <summary>
@@ -70,7 +72,8 @@ namespace CoreLib.Data.Configuration
             ConfigDefinition definition,
             Type settingType,
             object defaultValue,
-            ConfigDescription configDescription)
+            ConfigDescription configDescription,
+            ConfigScope scope)
         {
             ConfigFile = configFile ?? throw new ArgumentNullException(nameof(configFile));
             Definition = definition ?? throw new ArgumentNullException(nameof(definition));
@@ -81,7 +84,7 @@ namespace CoreLib.Data.Configuration
                 !SettingType.IsAssignableFrom(Description.AcceptableValues.ValueType))
                 throw new
                     ArgumentException("configDescription.AcceptableValues is for a different type than the type of this setting");
-
+            Scope = scope ?? ConfigScope.Empty;
             DefaultValue = defaultValue;
 
             // Free type check and automatically calls ClampValue in case AcceptableValues were provided
@@ -103,6 +106,11 @@ namespace CoreLib.Data.Configuration
         ///     Description / metadata of this setting.
         /// </summary>
         public ConfigDescription Description { get; }
+
+        /// <summary>
+        ///     Used by GeneralConfigMenu.
+        /// </summary>
+        public ConfigScope Scope { get; }
 
         /// <summary>
         ///     Type of the <see cref="BoxedValue" /> that this setting holds.
@@ -146,7 +154,7 @@ namespace CoreLib.Data.Configuration
         protected T ClampValue<T>(T value)
         {
             if (Description.AcceptableValues != null)
-                return (T) Description.AcceptableValues.Clamp(value);
+                return (T)Description.AcceptableValues.Clamp(value);
             return value;
         }
 
