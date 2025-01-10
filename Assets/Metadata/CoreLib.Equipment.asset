@@ -20,7 +20,20 @@ MonoBehaviour:
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
-    files: []
+    files:
+    - path: Scripts/Scripts/System/ModEquipmentSystem.cs
+    - path: Scripts/Scripts/System/ModEquipmentChangeSystem.cs
+    - path: Scripts/Scripts/SlotInfo.cs
+    - path: Scripts/Scripts/Patches/PlayerController_Patch_2.cs
+    - path: Scripts/Scripts/Patches/Emote_Patch.cs
+    - path: Scripts/Scripts/interface/IModEquipmentSlot.cs
+    - path: Scripts/Scripts/interface/IEquipmentLogic.cs
+    - path: Scripts/Scripts/EquipmentModule.cs
+    - path: Scripts/Scripts/Component/ModObjectTypeAuthoring.cs
+    - path: Scripts/Generated/ModEquipmentChangeSystem__System_15109436180.g.cs
+    - path: Scripts/Generated/ModEquipmentSystem__System_9680811220.g.cs
+    - path: Bundles/CoreLib.Equipment_Windows.assetbundle
+    - path: Bundles/CoreLib.Equipment_Linux.assetbundle
     dependencies:
     - modName: CoreLib
       required: 1

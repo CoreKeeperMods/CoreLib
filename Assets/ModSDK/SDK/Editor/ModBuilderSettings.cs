@@ -17,10 +17,21 @@ public class ModBuilderSettings : ScriptableObject
 
 	public bool forceReimport = true;
 	public bool buildBundles = true;
-	public bool buildLinux = false;
+	public bool cacheBundles = false;
+	public bool buildLinux = true;
 	
-	public bool buildBurst = true;
-
+	[HideInInspector]
+	public List<ModAsset> assets;
+	[HideInInspector]
+	public bool lastBuildLinux = false;
+	
+	[Serializable]
+	public struct ModAsset
+	{
+		public string path;
+		public string hash;
+	}
+	
 	private void OnValidate()
 	{
 		if (string.IsNullOrEmpty(modPath))
