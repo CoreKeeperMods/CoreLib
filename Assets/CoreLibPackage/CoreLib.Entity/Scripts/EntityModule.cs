@@ -231,9 +231,11 @@ namespace CoreLib.Submodules.ModEntity
 
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
-        internal override GameVersion Build => new GameVersion(1, 0, 1, "e380");
-        internal override string Version => "4.0.3";
+        internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
+        internal override string Version => "4.0.7";
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
+        
+        internal override Type[] Dependencies => new[] { typeof(LocalizationModule), typeof(ResourcesModule) };
 
         internal static List<GameObject> modAuthoringTargets = new List<GameObject>();
         internal static List<GameObject> poolablePrefabs = new List<GameObject>();

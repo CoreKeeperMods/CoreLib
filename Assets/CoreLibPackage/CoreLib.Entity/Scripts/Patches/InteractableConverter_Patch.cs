@@ -8,61 +8,12 @@ using UnityEngine;
 
 namespace CoreLib.Submodules.ModEntity.Patches
 {
+
     [HarmonyPatch]
     public static class InteractableConverter_Patch
     {
         public delegate void RefAction<in T1, T2>(T1 arg1, ref T2 arg2);
         private static ObjectInfo lastInfo;
-
-        [HarmonyPatch(typeof(LocalInteractableConverter), "Convert")]
-        [HarmonyTranspiler]
-        static IEnumerable<CodeInstruction> ChangeConversion(IEnumerable<CodeInstruction> instructions)
-        {
-            CodeMatcher matcher = new CodeMatcher(instructions)
-                .MatchForward(false,
-                    new CodeMatch(
-                        OpCodes.Ldfld,
-                        AccessTools.Field(typeof(ObjectInfo), nameof(ObjectInfo.prefabInfos))
-                    ));
-
-            matcher
-                .Advance(2)
-                .InsertAndAdvance(
-                    new CodeInstruction(OpCodes.Pop),
-                    new CodeInstruction(OpCodes.Ldarg_1)
-                )
-                .InsertAndAdvance(Transpilers.EmitDelegate<Func<List<PrefabInfo>, LocalInteractableAuthoring, List<PrefabInfo>>>(
-                    (list, authoring) =>
-                    {
-                        var objectAuthoring = authoring.GetComponent<ObjectAuthoring>();
-                        if (objectAuthoring == null) return list;
-                        
-                        MonoBehaviour ourComponent = objectAuthoring.graphicalPrefab.GetComponent<EntityMonoBehaviour>();
-
-                        if (ourComponent == null)
-                            ourComponent = objectAuthoring.graphicalPrefab.GetComponent<MonoBehaviour>();
-
-                        if (ourComponent == null)
-                        {
-                            CoreLibMod.Log.LogError($"Prefab {authoring.gameObject.name} seems to have absolutely no MonoBehaviour's attached!");
-                            return list;
-                        }
-
-                        list = new List<PrefabInfo>(1)
-                        {
-                            new PrefabInfo()
-                            {
-                                ecsPrefab = authoring.gameObject,
-                                prefab = ourComponent
-                            }
-                        };
-
-                        return list;
-                    }))
-                .InsertAndAdvance(new CodeInstruction(OpCodes.Ldc_I4_0));
-
-           return matcher.InstructionEnumeration();
-        }
 
         [HarmonyPatch(typeof(InteractablePostConverter), "PostConvert")]
         [HarmonyTranspiler]

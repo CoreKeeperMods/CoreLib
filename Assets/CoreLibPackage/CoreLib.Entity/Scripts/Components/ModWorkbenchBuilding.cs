@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using Pug.Sprite;
 using PugMod;
-using SpriteInstancing;
 using UnityEngine;
 
 namespace CoreLib.Submodules.ModEntity.Components

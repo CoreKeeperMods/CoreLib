@@ -56,5 +56,78 @@ MonoBehaviour:
   modPath: Assets\CoreLibPackage\CoreLib.Entity
   forceReimport: 0
   buildBundles: 1
+  cacheBundles: 0
   buildLinux: 1
-  buildBurst: 0
+  buildBurst: 1
+  assets:
+  - path: Assets/CoreLibPackage/CoreLib.Entity/documentation/DurabilityComponent.png
+    hash: D2A45B59BFAC4E38E79C56FC45B1940E3BD56358C8983B5B1FCCD91067DD8527
+  - path: Assets/CoreLibPackage/CoreLib.Entity/documentation/folderStructure.png
+    hash: F80DB15CE8992BC31FFDCAD3EE77BF65E1FF72AF6D05FFDEA919EB9979ED5CD2
+  - path: Assets/CoreLibPackage/CoreLib.Entity/documentation/prefab-interactible.png
+    hash: 7726F83824FEFDEE7E7AF3FE931533DEF811F9912DF414D5D7A7E5B088ECA825
+  - path: Assets/CoreLibPackage/CoreLib.Entity/documentation/SwordExample.png
+    hash: 92D881CC3F21A07E237CF02F9904B78D5D356114713792051EB3A06313EA12A4
+  - path: Assets/CoreLibPackage/CoreLib.Entity/documentation/tileset-adaptive-texture.png
+    hash: 470EBE40C2803A72DF8E1DBB95DA14547051BE5BB0FD01E6A54E7551B9080433
+  - path: Assets/CoreLibPackage/CoreLib.Entity/documentation/tileset-bank.png
+    hash: FA10723DD782A8F4E1F0B9EAED212A7F23DE2CB8ADB9AF3D5BAFB74059DCF1BD
+  - path: Assets/CoreLibPackage/CoreLib.Entity/documentation/visual-prefab-hooked.png
+    hash: 5A49F4E37CC1A99826DA3DB962C111214CADF66ABC756B146C271FA60F907968
+  - path: Assets/CoreLibPackage/CoreLib.Entity/documentation/visual-prefab.png
+    hash: BD587FA79A9FC1CF8B9DA75A7A0A2B8F516F516E42D904F91CA2F2983777438A
+  - path: Assets/CoreLibPackage/CoreLib.Entity/documentation/workbench-definition.png
+    hash: 8C0CF950816BA2E137513101EF9E58442B52C04F2ADD89D4E71E216CF8B38CFA
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Guides/Blocks.md
+    hash: 494A0CCF1FF211C0B04F8E0D82E745806F382443A10F7393F902938189EAD798
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Guides/Items.md
+    hash: 98CF057427218B4BF9F813403569A47EF8C4E2336D73682E583C54C0541805CD
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Guides/Specifics.md
+    hash: 16A6B8D3F64DA2E798E4D6E98752528F9BC857BE527DB39CC183D07807EA7606
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Localization/Localization.csv
+    hash: F1F1D7CD415B134466C6646772A1378593FD9F4359CE8CD37BD1BC2D49ACE035
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/DestroyableObject.controller
+    hash: 2A10E70AA94BE20A85895222187E9190E133834BE423EBB0B14735FE7BE06C9A
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectDestroyed.anim
+    hash: 9B7C6BA54CEB3C97E0E23FFC94A98C6620FDAE554446D4AA201938E402A73C5A
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectShake.anim
+    hash: 216F8EB11C04A9E1F96F13612B2C05C9F938A2025DEF17E80515CED1308FF415
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectShrinkExpand.anim
+    hash: 54E13C5B3757E0509E88FA1B9CAF8F145C08A424F77399A79850F81A48462341
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectTakeDamage.anim
+    hash: 69AEDA2283CB27765F8634B0EFD78E78547FED35B92253790A6ADC0D09308A83
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectVisable.anim
+    hash: A5966927BE9E1F2D5B336F4DB0C796D1DAD53E1BF74110AC64DE1B6015402344
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectWobbleLoop.anim
+    hash: 688B3B361AD69987D9FC6D4E3616C01A04AB436E2CD8F2D60B0CC1C89A906E0C
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/ModWorkbenchBuilding.prefab
+    hash: C36854986843E91552504C2246607371404339C800E0EC6E08E954C596801068
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/ModWorkbenchBuildingNew.prefab
+    hash: CD8B0AAC9F077A4AF8F6ED5C9B573B84FAD2E26450968DE9831604A9BE817E2C
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/TemplateWorkbench.prefab
+    hash: 2DF022AD411E42A5688C8966DA345261EE60B72F3DE0A916F381C27BC4F09869
+  - path: Assets/CoreLibPackage/CoreLib.Entity/README.md
+    hash: 6A9E85FBA2AFE1E7E83F6DBC5758E6AC68A9105D4D9B7CBD38B0CEBBADC0E463
+  - path: Assets/CoreLibPackage/CoreLib.Entity/RootWorkbench.asset
+    hash: 87AA691E9CE3DD2A09E32A1C8791A1C051F37CEA6914DF1ADCF1CCFA6F73B68D
+  - path: Assets/CoreLibPackage/CoreLib.Entity/SpriteAssetManifest.asset
+    hash: 69E875A548E3980FC2EFCE736C70F0E23494409A214ABA5A0A2147D919C8E469
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Sprites/RootWorkbenchSkin.asset
+    hash: 82BC2CB4DC16B31D1863679461D8E1ACD4D01BCB66E45E23352CF85850463EA3
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Sprites/Workbench.asset
+    hash: 37AAC328993D336F13F72AB8BCF0C65E7A494DC1C7422FF3ED046A527583855F
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Sprites/Workbench.png
+    hash: 6DC99ABFCA1C9C592F92E150A1C020D99AEDAE0B19F03D17FAE187061DE87BF6
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Sprites/Workbench_0.png
+    hash: 4970BC031D01C40AA41930F7E5CE1A062A270B19607188CCD54735CEAB635C0E
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Sprites/Workbench_1.png
+    hash: D72CA7FC5A988E41F97F6AC1446FFC1E5F5E8D97D2C97EC4F9409E6C5E2FB39C
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Sprites/Workbench_2.png
+    hash: 9D2D9B753B454A3C2AE6670ACEAF8230A1080BDE8EF9BDC913B11FA3C826A667
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Textures/modWorkbench.png
+    hash: 689651BD601D7E5D25B388808BB6D846EA8455ADED50311BCDB0429F0F97B6AA
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Textures/modWorkbenchVariants.png
+    hash: B82208849A89FF0025010688A1A7CEDA44A6D1F75BC8584877A7F9CDBC754642
+  - path: Assets/CoreLibPackage/CoreLib.Entity/Textures/workbench_shadow.png
+    hash: 7BDC6EDAE0DBDA1C43159452126632A211DA2AC33A724EDB3CB77F723110A324
+  lastBuildLinux: 1

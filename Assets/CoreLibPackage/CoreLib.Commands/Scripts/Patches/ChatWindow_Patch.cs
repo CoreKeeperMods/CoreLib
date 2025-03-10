@@ -65,7 +65,7 @@ namespace CoreLib.Commands.Patches
 
             if (CommandsModule.rewiredPlayer.GetButtonDown(CommandsModule.COMPLETE_KEY))
             {
-                string input = __instance.inputField.textString;
+                string input = __instance.inputField.displayedTextString;
                 string[] args = input.Split(' ');
                 if (args[0].StartsWith(CommandsModule.CommandPrefix))
                 {
@@ -99,7 +99,7 @@ namespace CoreLib.Commands.Patches
             if (commit)
             {
                 PugText text = __instance.inputField;
-                string input = text.textString;
+                string input = text.displayedTextString;
 
                 if (CommandsModule.SendCommand(input)) return;
 
@@ -129,7 +129,7 @@ namespace CoreLib.Commands.Patches
 
         internal static void SendMessage(ChatWindow window, string message, Color color)
         {
-            object[] args = { ChatWindow.MessageTextType.Sent, null };
+            object[] args = { ChatWindow.MessageTextType.Sent, null, null };
             PugText pugText = window.Invoke<PugText>("AllocPugText", args);
             PugTextEffectMaxFade fadeEffect = (PugTextEffectMaxFade)args[1];
 

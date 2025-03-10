@@ -144,7 +144,7 @@ namespace CoreLib.UserInterface
         internal static List<ModUIAuthoring> interfacePrefabs = new List<ModUIAuthoring>();
         internal static Dictionary<string, IModUI> modInterfaces = new Dictionary<string, IModUI>();
 
-        internal override GameVersion Build => new GameVersion(0, 7, 5, "3339");
+        internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
         internal override string Version => "0.1.2";
         internal static UserInterfaceModule Instance => CoreLibMod.GetModuleInstance<UserInterfaceModule>();
 

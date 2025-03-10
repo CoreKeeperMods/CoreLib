@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using SpriteInstancing;
+using Pug.Sprite;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.TextCore.Text;

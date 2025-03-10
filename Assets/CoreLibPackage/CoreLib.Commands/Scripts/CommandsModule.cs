@@ -131,8 +131,8 @@ namespace CoreLib.Commands
 
         #region Private Implementation
 
-        internal override GameVersion Build => new GameVersion(1, 0, 0, "4407");
-        internal override string Version => "3.1.3";
+        internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
+        internal override string Version => "3.2.2";
         internal override Type[] Dependencies => new[] { typeof(RewiredExtensionModule) };
         internal static CommandsModule Instance => CoreLibMod.GetModuleInstance<CommandsModule>();
 

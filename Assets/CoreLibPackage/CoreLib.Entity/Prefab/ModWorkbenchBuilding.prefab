@@ -47,13 +47,11 @@ MonoBehaviour:
   weightMultiplier: 1
   useDiscreteOutlineColor: 0
   entityMono: {fileID: 8027077187489102656}
-  interactCooldown: 0
   requiredFactionToInteract: 0
   optionalIcon: {fileID: 0}
   optionalOutlineController: {fileID: 4823659141933555137}
   additionalOutlineControllers: []
   spriteObjects: []
-  onlyTriggerActionsOnce: 0
   onUseActions:
   - m_PersistentCalls:
       m_Calls:
@@ -69,8 +67,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onReleaseActions: []
-  onTriggerEnterActions: []
   onTriggerExitActions:
   - m_PersistentCalls:
       m_Calls:
@@ -88,8 +84,8 @@ MonoBehaviour:
         m_CallState: 2
   radius: 1.3
   interactingPoints: []
-  allowToUseDuringCutscene: 0
   allowToUseOnlyWhenClaimed: 0
+  ignorePlayerDirection: 0
 --- !u!1 &1284432609753473
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,12 +155,14 @@ MonoBehaviour:
   particleOptions:
     particlesToSpawn:
     - spawnOccasion: 0
+      spawnManually: 0
       objectID: 4049
       particles:
       - puff: 79
         positionTransform: {fileID: 4723762556048704}
         particleCount: 15
     - spawnOccasion: 0
+      spawnManually: 0
       objectID: 4047
       particles:
       - puff: 79
@@ -184,6 +182,7 @@ MonoBehaviour:
   outlineControllers: []
   hasDisableableParticles: 0
   previousHealth: 0
+  m_spriteObjectOrientationHash: 0
   craftingUITitle:
     mTerm: crafting
     mRTL_IgnoreArabicFix: 0
@@ -206,13 +205,8 @@ MonoBehaviour:
   hideRecipes: 0
   craftingUIOverrideSettings: []
   craftingCategoryWindowInfos: []
-  mainRenderer: {fileID: 2967082505936103632}
-  mainSkin: {fileID: 2190583743731650988}
-  variations:
-  - {fileID: -197509980, guid: 006c3608fefce844e9b7ef38e6517f22, type: 3}
-  - {fileID: 1788229040, guid: 006c3608fefce844e9b7ef38e6517f22, type: 3}
-  - {fileID: -233243307, guid: 006c3608fefce844e9b7ef38e6517f22, type: 3}
-  - {fileID: 1977454113, guid: 006c3608fefce844e9b7ef38e6517f22, type: 3}
+  mainObject: {fileID: 0}
+  shadowObject: {fileID: 0}
   particleSpawnLocation: {fileID: 4723762556048704}
 --- !u!95 &2758006297334819856
 Animator:
@@ -373,7 +367,7 @@ GameObject:
   - component: {fileID: 1162189779661422236}
   - component: {fileID: 1758184511800959113}
   - component: {fileID: 2026980375923716335}
-  - component: {fileID: 3695684018743866048}
+  - component: {fileID: 8887192019678376809}
   m_Layer: 22
   m_Name: Shadow
   m_TagString: ExcludeFromSpriteAutoSort
@@ -461,21 +455,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialName: FloorShadowAmplify
---- !u!114 &3695684018743866048
+--- !u!114 &8887192019678376809
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3425191251724118082}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1536336809, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
+  m_Script: {fileID: -1627408644, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  extraIndirectRenderer: 0
-  indirectRendererPivot: {x: 0, y: 0, z: 0}
-  indirectRendererOffset: 0
 --- !u!1 &4781863185656598850
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,9 +542,9 @@ GameObject:
   - component: {fileID: 1320990062596414910}
   - component: {fileID: 2967082505936103632}
   - component: {fileID: 1998695795774351704}
-  - component: {fileID: 6436030991166987652}
   - component: {fileID: 4823659141933555137}
   - component: {fileID: 2190583743731650988}
+  - component: {fileID: 5041890674658996436}
   m_Layer: 7
   m_Name: SR Vertical
   m_TagString: Untagged
@@ -596,7 +587,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6a0595a097935c440bfbeaf89aa59bfc, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -641,21 +632,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialName: CustomLitAmplify
---- !u!114 &6436030991166987652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8478739760078641493}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1536336809, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  extraIndirectRenderer: 0
-  indirectRendererPivot: {x: 0, y: -0.5, z: 0}
-  indirectRendererOffset: 0.1
 --- !u!114 &4823659141933555137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,6 +646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showOutline: 0
   useOuterOutline: 0
+  isAnimatedForceOutline: 0
 --- !u!114 &2190583743731650988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -683,3 +660,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skin: {fileID: 2800000, guid: 006c3608fefce844e9b7ef38e6517f22, type: 3}
+--- !u!114 &5041890674658996436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8478739760078641493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1627408644, guid: 3b024c3700b14424aaa1008f2cb49541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -25,7 +25,10 @@ MonoBehaviour:
     - path: Scripts/Scripts/System/ModEquipmentChangeSystem.cs
     - path: Scripts/Scripts/SlotInfo.cs
     - path: Scripts/Scripts/Patches/PlayerController_Patch_2.cs
+    - path: Scripts/Scripts/Patches/PlacementHandler_Patch.cs
+    - path: Scripts/Scripts/Patches/ObjectAuthoringConverter_Patch.cs
     - path: Scripts/Scripts/Patches/Emote_Patch.cs
+    - path: Scripts/Scripts/interface/IPlacementLogic.cs
     - path: Scripts/Scripts/interface/IModEquipmentSlot.cs
     - path: Scripts/Scripts/interface/IEquipmentLogic.cs
     - path: Scripts/Scripts/EquipmentModule.cs
@@ -44,5 +47,19 @@ MonoBehaviour:
   modPath: Assets\CoreLibPackage\CoreLib.Equipment
   forceReimport: 0
   buildBundles: 1
+  cacheBundles: 0
   buildLinux: 1
-  buildBurst: 0
+  assets:
+  - path: Assets/CoreLibPackage/CoreLib.Equipment/Prefab/DefaultPlaceSlot.prefab
+    hash: 24CC07D701EA8A2C1B0919E3F6D9D7E813C7A0845AFA32A934D69BE76F267F36
+  - path: Assets/CoreLibPackage/CoreLib.Equipment/Prefab/EmptySlot.prefab
+    hash: 358DA7036EEBB8748198C5EEEE43A33F0A372069BACDF641FE2B09EF577B9243
+  - path: Assets/CoreLibPackage/CoreLib.Equipment/README.md
+    hash: F04581B4D82CB8F5ED57162C4BE84BF99555BA04F853D305E4C10BFCA1CDC58E
+  - path: Assets/CoreLibPackage/CoreLib.Equipment/Textures/cursor_inv.asset
+    hash: 46AFE336AEC2F4EBE5A05A84685728A78746732C196C2B3885A2DAC4002DB4D6
+  - path: Assets/CoreLibPackage/CoreLib.Equipment/Textures/cursor_placement.png
+    hash: 25192E936CE78C41607D1D31F1A7C4E92E70C31E9D1B56805DEA56506EA5D25E
+  - path: Assets/CoreLibPackage/CoreLib.Equipment/Textures/cursor_placement_padding.png
+    hash: 25192E936CE78C41607D1D31F1A7C4E92E70C31E9D1B56805DEA56506EA5D25E
+  lastBuildLinux: 1
