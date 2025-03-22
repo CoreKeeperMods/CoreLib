@@ -70,7 +70,8 @@
         "System.Runtime.CompilerServices.Unsafe.dll",
         "System.Text.Json.dll",
         "ZipSaveFolder.dll",
-        "0Harmony.dll"
+        "0Harmony.dll",
+        "Pug.ECS.Extensions.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],

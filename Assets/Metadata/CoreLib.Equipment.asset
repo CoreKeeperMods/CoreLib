@@ -49,9 +49,10 @@ MonoBehaviour:
   buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
+  buildBurst: 1
   assets:
   - path: Assets/CoreLibPackage/CoreLib.Equipment/Prefab/DefaultPlaceSlot.prefab
-    hash: 24CC07D701EA8A2C1B0919E3F6D9D7E813C7A0845AFA32A934D69BE76F267F36
+    hash: DA3D5E8477BBE49E8D5A0D7E0BDAC659D76EDE8632205EB2D5B3A2A0EB86B1E6
   - path: Assets/CoreLibPackage/CoreLib.Equipment/Prefab/EmptySlot.prefab
     hash: 358DA7036EEBB8748198C5EEEE43A33F0A372069BACDF641FE2B09EF577B9243
   - path: Assets/CoreLibPackage/CoreLib.Equipment/README.md

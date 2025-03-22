@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using CoreLib.Data;
 using CoreLib.Equipment.Patches;
+using CoreLib.Equipment.System;
 using CoreLib.ModResources;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Util.Extensions;
+using JetBrains.Annotations;
 using PlayerEquipment;
+using PugMod;
+using Unity.Entities;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CoreLib.Equipment
 {
     public class EquipmentModule : BaseSubmodule
     {
-        internal override GameVersion Build => new GameVersion(0, 7, 5, "5317");
-        internal override string Version => "3.1.1";
+        internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
+        internal override string Version => "4.0.0";
         internal static EquipmentModule Instance => CoreLibMod.GetModuleInstance<EquipmentModule>();
 
-        public static readonly string EMPTY_PREFAB = "Assets/CoreLibPackage/CoreLib.Equipment/Prefab/EmptySlot";
-        public static readonly string PLACEMENT_PREFAB = "Assets/CoreLibPackage/CoreLib.Equipment/Prefab/DefaultPlaceSlot";
+        [UsedImplicitly] public static readonly string EMPTY_PREFAB = "Assets/CoreLibPackage/CoreLib.Equipment/Prefab/EmptySlot";
+        [UsedImplicitly] public static readonly string PLACEMENT_PREFAB = "Assets/CoreLibPackage/CoreLib.Equipment/Prefab/DefaultPlaceSlot";
 
         public static ObjectType GetObjectType(string typeName)
         {
@@ -30,13 +35,32 @@ namespace CoreLib.Equipment
         public static EquipmentSlotType GetEquipmentSlotType<T>()
             where T : EquipmentSlot, IModEquipmentSlot
         {
-            string typeName = typeof(T).FullName;
+            return GetEquipmentSlotType(typeof(T));
+        }
+
+        public static EquipmentSlotType GetEquipmentSlotType(Type type)
+        {
+            string typeName = type.FullName;
 
             int index = equipmentSlotTypeBind.HasIndex(typeName) ? equipmentSlotTypeBind.GetIndex(typeName) : equipmentSlotTypeBind.GetNextId(typeName);
             return (EquipmentSlotType)index;
         }
 
-        public static void RegisterEquipmentSlot<T>(GameObject prefab)
+        public static void RegisterEquipmentSlot<T>(string objectType, string prefabPath, IEquipmentLogic logic)
+            where T : EquipmentSlot, IModEquipmentSlot
+        {
+            var prefab = LoadPrefab(prefabPath, typeof(T));
+            var component = prefab.AddComponent<T>();
+
+            if (component is PlaceObjectSlot placeObjectSlot)
+            {
+                placeObjectSlot.placementHandler = prefab.GetComponentInChildren<PlacementHandler>(true);
+            }
+            
+            RegisterEquipmentSlot<T>(objectType, prefab, logic);
+        }
+
+        public static void RegisterEquipmentSlot<T>(string objectType, GameObject prefab, IEquipmentLogic logic)
             where T : EquipmentSlot, IModEquipmentSlot
         {
             EquipmentSlot slot = prefab.GetComponent<T>();
@@ -46,14 +70,24 @@ namespace CoreLib.Equipment
                 throw new ArgumentException($"Failed to get Equipment slot main class! Please check your prefab.");
             }
 
-            Type slotType = typeof(T);
-
-            if (slotPrefabs.ContainsKey(slotType))
+            ObjectType objectTypeID = GetObjectType(objectType);
+            var slotType = GetEquipmentSlotType(typeof(T));
+            
+            if (slots.ContainsKey(slotType))
             {
-                throw new ArgumentException($"Equipment Slot with type {slotType.FullName} was already registered!");
+                throw new ArgumentException($"Equipment Slot with type {objectType} was already registered!");
             }
-
-            slotPrefabs.Add(slotType, prefab);
+            
+            
+            slots.Add(slotType, new SlotInfo()
+            {
+                objectType = objectTypeID,
+                slotType = typeof(T),
+                slot = prefab,
+                logic = logic
+            });
+            
+            EntityModule.AddToAuthoringList(prefab);
             EntityModule.EnablePooling(prefab);
         }
 
@@ -96,7 +130,7 @@ namespace CoreLib.Equipment
         public const int modObjectTypeIdRangeStart = 33000;
         public const int modObjectTypeIdRangeEnd = ushort.MaxValue;
 
-        internal static Dictionary<Type, GameObject> slotPrefabs = new Dictionary<Type, GameObject>();
+        internal static Dictionary<EquipmentSlotType, SlotInfo> slots = new Dictionary<EquipmentSlotType, SlotInfo>();
         internal static Dictionary<Emote.EmoteType, string> textEmotes = new Dictionary<Emote.EmoteType, string>();
 
         internal static IdBind equipmentSlotTypeBind = new IdBind(ModSlotTypeIdStart, ModSlotTypeIdEnd);
@@ -107,11 +141,48 @@ namespace CoreLib.Equipment
         {
             CoreLibMod.Patch(typeof(Emote_Patch));
             CoreLibMod.Patch(typeof(PlayerController_Patch_2));
+            CoreLibMod.Patch(typeof(ObjectAuthoringConverter_Patch));
+            CoreLibMod.Patch(typeof(PlacementHandler_Patch));
         }
         
         internal override void Load()
         {
             ResourcesModule.RefreshModuleBundles();
+            
+            API.Client.OnWorldCreated += ClientWorldReady;
+            API.Server.OnWorldCreated += ServerWorldReady;
+        }
+        
+        internal static GameObject LoadPrefab(string prefabPath, Type slotType)
+        {
+            GameObject prefab = ResourcesModule.LoadAsset<GameObject>(prefabPath);
+
+            GameObject newPrefab = Object.Instantiate(prefab);
+            newPrefab.hideFlags = HideFlags.HideAndDontSave;
+            newPrefab.name = $"{slotType.GetNameChecked()}_Prefab";
+
+            return newPrefab;
+        }
+        
+        private static void ClientWorldReady()
+        {
+            CreateEquipmentUpdateSystems(API.Client.World);
+        }
+        
+        private static void ServerWorldReady()
+        {
+            CreateEquipmentUpdateSystems(API.Server.World);
+        }
+
+        private static void CreateEquipmentUpdateSystems(World world)
+        {
+            var updateSystem = world.GetOrCreateSystemManaged<ModEquipmentSystem>();
+            var equipmentGroup = world.GetExistingSystemManaged<EquipmentUpdateSystemGroup>();
+            equipmentGroup.AddSystemToUpdateList(updateSystem);
+            
+            var changeSystem = world.GetOrCreateSystemManaged<ModEquipmentChangeSystem>();
+            var equipmentBeforeGroup = world.GetExistingSystemManaged<EquipmentBeforeUpdateSystemGroup>();
+            equipmentBeforeGroup.AddSystemToUpdateList(changeSystem);
         }
     }
 }

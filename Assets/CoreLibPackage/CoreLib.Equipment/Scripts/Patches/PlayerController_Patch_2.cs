@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using HarmonyLib;
+// ReSharper disable InconsistentNaming
 
 namespace CoreLib.Equipment.Patches
 {
@@ -12,22 +13,13 @@ namespace CoreLib.Equipment.Patches
         {
             int objectId = (int)objectType;
             if (objectId < short.MaxValue) return;
-            
-            try
+
+            foreach (var slotInfo in EquipmentModule.slots.Values)
             {
-                var slotPair = EquipmentModule.slotPrefabs.First(pair =>
+                if (slotInfo.objectType == objectType)
                 {
-                    EquipmentSlot equipmentSlot = pair.Value.GetComponent<EquipmentSlot>();
-                    if (equipmentSlot is IModEquipmentSlot modEquipmentSlot)
-                    {
-                        return modEquipmentSlot.GetSlotObjectType() == objectType;
-                    }
-                    return false;
-                });
-                __result = slotPair.Key;
-            }
-            catch (InvalidOperationException)
-            {
+                    __result = slotInfo.slotType;
+                }
             }
         }
 
@@ -37,7 +29,7 @@ namespace CoreLib.Equipment.Patches
         {
             EquipmentSlot slot = __instance.GetEquippedSlot();
             if (slot == null) return;
-            
+
             if ((int)slot.GetSlotType() >= EquipmentModule.ModSlotTypeIdStart &&
                 slot is IModEquipmentSlot modEquipmentSlot)
             {
