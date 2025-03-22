@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: 31c3e09f82154f97bdfe7683e9749412
     name: CoreLib.Tilesets
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: -1
@@ -30,5 +31,8 @@ MonoBehaviour:
   modPath: Assets\CoreLibPackage\CoreLib.Tilesets
   forceReimport: 0
   buildBundles: 1
+  cacheBundles: 0
   buildLinux: 1
   buildBurst: 0
+  assets: []
+  lastBuildLinux: 0

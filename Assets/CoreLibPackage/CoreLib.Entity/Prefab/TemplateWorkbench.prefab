@@ -29,6 +29,7 @@ GameObject:
   - component: {fileID: 4711301488112690401}
   - component: {fileID: 3411045715384914425}
   - component: {fileID: 6092666976630209305}
+  - component: {fileID: 4721568563355611419}
   m_Layer: 0
   m_Name: TemplateWorkbench
   m_TagString: Untagged
@@ -530,3 +531,36 @@ MonoBehaviour:
   m_Script: {fileID: -2043779946, guid: a25fd8c6d4fbb824e9d4fe4466f12a15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4721568563355611419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779668189522198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e52149d4484410bafde5312e0b1ab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+  - CoreLib.Submodules.ModEntity.Components.TemplateObject
+  - InventoryItemAuthoring
+  - Unity.Physics.Authoring.PhysicsShapeAuthoring
+  - InventoryAuthoring
+  - MineableAuthoring
+  - HealthAuthoring
+  - PlaceableObjectAuthoring
+  - AnimationAuthoring
+  - Unity.NetCode.GhostAuthoringComponent
+  - StateAuthoring
+  - HealthAuthoring
+  - TookDamageStateAuthoring
+  - DeathStateAuthoring
+  - DamageReductionAuthoring
+  - RotationAuthoring
+  - IdleStateAuthoring
+  - IgnoreVertexOffsetsAuthoring
+  - Unity.Entities.Hybrid.Baking.LinkedEntityGroupAuthoring
+  - CoreLib.Submodules.ModEntity.Components.SupportsPooling
+  - Interaction.LocalInteractableAuthoring

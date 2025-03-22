@@ -231,8 +231,8 @@ namespace CoreLib.Submodules.ModEntity
 
         internal delegate void ModifyAction(Entity arg1, GameObject arg2, EntityManager arg3);
 
-        internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
-        internal override string Version => "4.0.7";
+        internal override GameVersion Build => new GameVersion(1, 1, 0, "ab78");
+        internal override string Version => "4.0.8";    
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
         
         internal override Type[] Dependencies => new[] { typeof(LocalizationModule), typeof(ResourcesModule) };

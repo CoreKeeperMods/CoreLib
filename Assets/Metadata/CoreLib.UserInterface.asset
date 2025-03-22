@@ -34,5 +34,8 @@ MonoBehaviour:
   modPath: Assets\CoreLibPackage\CoreLib.UserInterface
   forceReimport: 0
   buildBundles: 0
+  cacheBundles: 0
   buildLinux: 0
   buildBurst: 0
+  assets: []
+  lastBuildLinux: 0

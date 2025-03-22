@@ -153,5 +153,8 @@ MonoBehaviour:
   modPath: Assets\CoreLibPackage\CoreLib
   forceReimport: 0
   buildBundles: 1
+  cacheBundles: 0
   buildLinux: 1
   buildBurst: 0
+  assets: []
+  lastBuildLinux: 0
