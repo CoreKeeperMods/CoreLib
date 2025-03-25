@@ -13,9 +13,7 @@ namespace CoreLib.Audio.Patches
         {
             __result = id >= 0 && (int)id < AudioModule.lastFreeSfxId;
         }
-    
-        [HarmonyPatch(typeof(AudioManager), "AutoLoadAudioFiles")]
-        [HarmonyPostfix]
+        
         public static void AutoLoadAudioFiles(AudioManager __instance)
         {
             List<AudioField> customSoundEffect = AudioModule.customSoundEffects;
@@ -34,16 +32,16 @@ namespace CoreLib.Audio.Patches
             }
             
             __instance.SetValue("audioFieldMap", fieldMap);
+            __instance.reuseMap = new PoolableAudioSource[fieldMap.Length];
 
             CoreLibMod.Log.LogInfo($"Loaded {customSoundEffect.Count} custom sound effects!");
         }
 
-        [HarmonyPatch(typeof(AudioManager), nameof(AudioManager.Init))]
+        [HarmonyPatch(typeof(AudioManager), "Initialized", MethodType.Setter)]
         [HarmonyPostfix]
-        public static void Init(AudioManager __instance)
+        public static void OnSetInitialized(AudioManager __instance)
         {
-            var fieldMap = __instance.GetValue<AudioField[]>("audioFieldMap");
-            __instance.reuseMap = new PoolableAudioSource[fieldMap.Length];
+            AutoLoadAudioFiles(__instance);
         }
     }
 }

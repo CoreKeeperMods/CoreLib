@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoreLib.Audio.Patches;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using MusicList = System.Collections.Generic.List<MusicManager.MusicTrack>;
 
 
@@ -32,17 +34,32 @@ namespace CoreLib.Audio
         /// Add new music track to music roster
         /// </summary>
         /// <param name="rosterType">Target roster ID</param>
-        /// <param name="musicPath">path to music clip in asset bundle</param>
-        /// <param name="introPath">path to intro clip in asset bundle</param>
-        public static void AddMusicToRoster(MusicRosterType rosterType, AudioClip music, AudioClip intro = null)
+        /// <param name="music">reference to music clip in asset bundle</param>
+        /// <param name="intro">reference to intro clip in asset bundle</param>
+        public static void AddMusicToRoster(
+            MusicRosterType rosterType, 
+            AssetReferenceT<AudioClip> music, 
+            AssetReferenceT<AudioClip> intro = null)
         {
             Instance.ThrowIfNotLoaded();
             MusicManager.MusicRoster roster = GetRosterTracks(rosterType);
             MusicManager.MusicTrack track = new MusicManager.MusicTrack();
+            
+            /*TODO
+            ResourceLocationMap map = new ResourceLocationMap("myId");
+   
+            ResourceLocationBase bundleLocation = new ResourceLocationBase("bundleName", "usualyUrlToBundle",
+                typeof(AssetBundleProvider).FullName, typeof(AssetBundleResource));
+            map.Add("loadingKey", bundleLocation);
 
-            //TODO fix this
-            //track.track = music;
-            //track.optionalIntro = intro;
+            ResourceLocationBase assetLocation = new ResourceLocationBase("assetName", "internalIdForLoadingAssetFromBundle",
+                typeof(BundledAssetProvider).FullName, typeof(GameObject), new IResourceLocation[] {bundleLocation});
+            map.Add("assetLoadKey", assetLocation);
+   
+            Addressables.AddResourceLocator(map);*/
+            
+            track.trackAssetReference = music;
+            track.introAssetReference = intro;
 
             roster.tracks.Add(track);
         }
@@ -63,13 +80,27 @@ namespace CoreLib.Audio
 
             return AddSoundEffect(effect);
         }
+        
+        public static EffectID AddEffect(IEffect effect)
+        {
+            Instance.ThrowIfNotLoaded();
+            if (effect == null) return EffectID.None;
+            
+            int effectIndex = lastFreeEffectId;
+            EffectID effectID = (EffectID)effectIndex;
+            
+            customEffects.Add(effectID, effect);
+            lastFreeEffectId++;
+
+            return effectID;
+        }
 
         #endregion
 
         #region Private Implementation
 
         internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
-        internal override string Version => "3.1.0";
+        internal override string Version => "4.0.0";
 
         internal static AudioModule Instance => CoreLibMod.GetModuleInstance<AudioModule>();
         
@@ -77,10 +108,13 @@ namespace CoreLib.Audio
         public static Dictionary<int, MusicManager.MusicRoster> vanillaRosterAddTracksInfos = new Dictionary<int, MusicManager.MusicRoster>();
         public static List<AudioField> customSoundEffects = new List<AudioField>();
 
+        public static Dictionary<EffectID, IEffect> customEffects = new Dictionary<EffectID, IEffect>();
+
         internal override void SetHooks()
         {
             CoreLibMod.Patch(typeof(MusicManager_Patch));
             CoreLibMod.Patch(typeof(AudioManager_Patch));
+            CoreLibMod.Patch(typeof(EffectEventExtensions_Patch));
         }
         
         internal override void Load()
@@ -92,7 +126,9 @@ namespace CoreLib.Audio
         private const int maxVanillaRosterId = 49;
         private static int lastFreeMusicRosterId = maxVanillaRosterId + 1;
         internal static int lastFreeSfxId;
-
+        
+        internal static int lastFreeEffectId = (int)Enum.GetValues(typeof(EffectID)).Cast<EffectID>().Last() + 1;
+        
         internal static MusicManager.MusicRoster GetRosterTracks(MusicRosterType rosterType)
         {
             int rosterId = (int)rosterType;

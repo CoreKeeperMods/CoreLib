@@ -22,8 +22,10 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Scripts/Scripts/Patches/MusicManager_Patch.cs
+    - path: Scripts/Scripts/Patches/EffectEventExtensions_Patch.cs
     - path: Scripts/Scripts/Patches/AudioManager_Patch.cs
     - path: Scripts/Scripts/MusicInfo.cs
+    - path: Scripts/Scripts/IEffect.cs
     - path: Scripts/Scripts/AudioModule.cs
     dependencies:
     - modName: CoreLib
@@ -31,5 +33,10 @@ MonoBehaviour:
   modPath: Assets\CoreLibPackage\CoreLib.Audio
   forceReimport: 0
   buildBundles: 0
+  cacheBundles: 0
   buildLinux: 1
   buildBurst: 0
+  assets:
+  - path: Assets/CoreLibPackage/CoreLib.Audio/README.md
+    hash: 7276727D8C785D731BCA2BB197806445028F09CEA1ACBB019652861D6FCC3A39
+  lastBuildLinux: 1
