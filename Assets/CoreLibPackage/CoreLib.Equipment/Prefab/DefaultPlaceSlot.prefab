@@ -391,8 +391,16 @@ MonoBehaviour:
     type: 3}
   badSprite: {fileID: 5115045653283644700, guid: 6a2cb55c6a4224946b910e6391506e8e,
     type: 3}
-  goodDirSprites: []
-  badDirSprites: []
+  goodDirSprites:
+  - {fileID: -7579369, guid: 4b9afb4d6caf7cc47b819b606bb0945f, type: 3}
+  - {fileID: 1860196192, guid: 4b9afb4d6caf7cc47b819b606bb0945f, type: 3}
+  - {fileID: -1470212908, guid: 4b9afb4d6caf7cc47b819b606bb0945f, type: 3}
+  - {fileID: -1532657666, guid: 4b9afb4d6caf7cc47b819b606bb0945f, type: 3}
+  badDirSprites:
+  - {fileID: -1130706603, guid: 4b9afb4d6caf7cc47b819b606bb0945f, type: 3}
+  - {fileID: 122057470, guid: 4b9afb4d6caf7cc47b819b606bb0945f, type: 3}
+  - {fileID: -1859126276, guid: 4b9afb4d6caf7cc47b819b606bb0945f, type: 3}
+  - {fileID: 613252950, guid: 4b9afb4d6caf7cc47b819b606bb0945f, type: 3}
   paddingSR: {fileID: 212098942790238066}
   goodSpritePadding: {fileID: -5611265099074541428, guid: 8bc4ed5498b089148af89bfe8a06c2c9,
     type: 3}

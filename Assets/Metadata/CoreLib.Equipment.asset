@@ -51,16 +51,20 @@ MonoBehaviour:
   buildLinux: 1
   buildBurst: 1
   assets:
+  - path: Assets/CoreLibPackage/CoreLib.Equipment/documentation/example item.png
+    hash: 433B32A1F07B78E9637B50BC6CD109D49172208142C99E32A458F272A0FC7598
   - path: Assets/CoreLibPackage/CoreLib.Equipment/Prefab/DefaultPlaceSlot.prefab
-    hash: DA3D5E8477BBE49E8D5A0D7E0BDAC659D76EDE8632205EB2D5B3A2A0EB86B1E6
+    hash: 756DF82D632F1B9AD69563A6B4608E681F72ADDAE0D6F408FC2BE35772B8981E
   - path: Assets/CoreLibPackage/CoreLib.Equipment/Prefab/EmptySlot.prefab
     hash: 358DA7036EEBB8748198C5EEEE43A33F0A372069BACDF641FE2B09EF577B9243
   - path: Assets/CoreLibPackage/CoreLib.Equipment/README.md
-    hash: F04581B4D82CB8F5ED57162C4BE84BF99555BA04F853D305E4C10BFCA1CDC58E
+    hash: 77B392D2B1E7D671FD4602A0EEF60BCA75B0A16CBA7D8AF88D303B48013E9422
   - path: Assets/CoreLibPackage/CoreLib.Equipment/Textures/cursor_inv.asset
     hash: 46AFE336AEC2F4EBE5A05A84685728A78746732C196C2B3885A2DAC4002DB4D6
   - path: Assets/CoreLibPackage/CoreLib.Equipment/Textures/cursor_placement.png
     hash: 25192E936CE78C41607D1D31F1A7C4E92E70C31E9D1B56805DEA56506EA5D25E
+  - path: Assets/CoreLibPackage/CoreLib.Equipment/Textures/cursor_placement_directions.png
+    hash: 66AB1D9AC8695C47E93E9740ECDEFE77FC578128B7297AD7C304BE0612B6B3DB
   - path: Assets/CoreLibPackage/CoreLib.Equipment/Textures/cursor_placement_padding.png
     hash: 25192E936CE78C41607D1D31F1A7C4E92E70C31E9D1B56805DEA56506EA5D25E
   lastBuildLinux: 1
