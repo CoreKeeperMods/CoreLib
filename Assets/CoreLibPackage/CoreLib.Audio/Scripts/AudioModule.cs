@@ -44,19 +44,8 @@ namespace CoreLib.Audio
             Instance.ThrowIfNotLoaded();
             MusicManager.MusicRoster roster = GetRosterTracks(rosterType);
             MusicManager.MusicTrack track = new MusicManager.MusicTrack();
-            
-            /*TODO
-            ResourceLocationMap map = new ResourceLocationMap("myId");
-   
-            ResourceLocationBase bundleLocation = new ResourceLocationBase("bundleName", "usualyUrlToBundle",
-                typeof(AssetBundleProvider).FullName, typeof(AssetBundleResource));
-            map.Add("loadingKey", bundleLocation);
 
-            ResourceLocationBase assetLocation = new ResourceLocationBase("assetName", "internalIdForLoadingAssetFromBundle",
-                typeof(BundledAssetProvider).FullName, typeof(GameObject), new IResourceLocation[] {bundleLocation});
-            map.Add("assetLoadKey", assetLocation);
-   
-            Addressables.AddResourceLocator(map);*/
+            intro ??= new AssetReferenceT<AudioClip>("");
             
             track.trackAssetReference = music;
             track.introAssetReference = intro;
@@ -100,7 +89,7 @@ namespace CoreLib.Audio
         #region Private Implementation
 
         internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
-        internal override string Version => "4.0.0";
+        internal override string Version => "4.0.1";
 
         internal static AudioModule Instance => CoreLibMod.GetModuleInstance<AudioModule>();
         
