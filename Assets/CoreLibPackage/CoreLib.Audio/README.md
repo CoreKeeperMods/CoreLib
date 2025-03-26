@@ -14,8 +14,8 @@ In your mod `EarlyInit()` method write:
 MusicManager.MusicRosterType roster = AudioModule.AddCustomRoster();
 
 //Now add music clip to a roster
-var clip = ResourcesModule.LoadAsset<AudioClip>("Assets/myamazingmod/Music/myEpicMusic");
-AudioModule.AddMusicToRoster(roster, clip);
+var clipRef = "Assets/myamazingmod/Music/myEpicMusic".AsAddress<AudioClip>();
+AudioModule.AddMusicToRoster(roster, clipRef);
 ```
 To play the music you can use `AudioManager` class methods as usual.
 ```cs

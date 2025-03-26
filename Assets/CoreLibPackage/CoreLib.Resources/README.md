@@ -18,3 +18,9 @@ At this point you can use to load any assets in your mod. For example:
 ```cs
 var clip = ResourcesModule.LoadAsset<AudioClip>("Assets/myamazingmod/Music/myEpicMusic");
 ```
+
+If you need an `AssetReference` to pass to some game method, you can do this:
+
+```csharp
+var clipRef = "Assets/myamazingmod/Music/myEpicMusic".AsAddress<AudioClip>();
+```
