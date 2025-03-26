@@ -16,15 +16,27 @@ MonoBehaviour:
     guid: edf0ba070f3542a187e6a87e12d9f02d
     name: CoreLib.Resources
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
-    files: []
+    files:
+    - path: Scripts/Scripts/TextureUtil.cs
+    - path: Scripts/Scripts/ResourcesModule.cs
+    - path: Scripts/Scripts/ResourcesExtension.cs
+    - path: Scripts/Scripts/Patch/AssetReference_Patch.cs
+    - path: Scripts/Scripts/Addressables/ModResourceProvider.cs
+    - path: Scripts/Scripts/Addressables/ModResourceLocator.cs
     dependencies:
     - modName: CoreLib
       required: 1
   modPath: Assets\CoreLibPackage\CoreLib.Resources
   forceReimport: 0
   buildBundles: 0
+  cacheBundles: 0
   buildLinux: 0
   buildBurst: 0
+  assets:
+  - path: Assets/CoreLibPackage/CoreLib.Resources/README.md
+    hash: F3F5F8624E9960D64DC4912E3E192B820350F8662B1B66B7473065793682DC3D
+  lastBuildLinux: 0

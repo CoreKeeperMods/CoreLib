@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CoreLib.ModResources
 {
-    internal static class ResourcesExtension
+    public static class ResourcesExtension
     {
         internal static string WithExtension(this string path, string extension)
         {
@@ -30,6 +31,16 @@ namespace CoreLib.ModResources
 
                 return 0;
             }).ToArray();
+        }
+
+        public static AssetReferenceT<T> AsAddress<T>(this string path) where T : Object
+        {
+            return new AssetReferenceT<T>(ModResourceLocator.PROTOCOL + path);
+        }
+        
+        public static AssetReferenceGameObject AsAddressGameObject(this string path)
+        {
+            return new AssetReferenceGameObject(ModResourceLocator.PROTOCOL + path);
         }
     }
 }

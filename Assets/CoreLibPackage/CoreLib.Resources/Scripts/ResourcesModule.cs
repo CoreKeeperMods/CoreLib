@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using PugMod;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.AddressableAssets.ResourceLocators;
 using Object = UnityEngine.Object;
 
 [assembly:InternalsVisibleTo("CoreLib.Audio")]
@@ -135,8 +137,16 @@ namespace CoreLib.ModResources
         #region PrivateImplementation
 
         internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
-        internal override string Version => "3.1.0";
-        
+        internal override string Version => "3.2.0";
+
+        internal override void Load()
+        {
+            CoreLibMod.Patch(typeof(AssetReference_Patch));
+            
+            Addressables.AddResourceLocator(new ModResourceLocator());
+            Addressables.ResourceManager.ResourceProviders.Add(new ModResourceProvider());
+        }
+
         internal static IEnumerable<AssetBundle> GetBundles()
         {
             foreach (AssetBundle bundle in modulesAssetBundles)

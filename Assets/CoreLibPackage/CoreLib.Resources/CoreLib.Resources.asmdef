@@ -15,6 +15,8 @@
         "Unity.Physics.Hybrid",
         "Unity.Properties",
         "Unity.Transforms",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
         "PugMod.SDK",
         "CoreLib"
     ],
@@ -85,7 +87,8 @@
         "System.Numerics.Vectors.dll",
         "System.Runtime.CompilerServices.Unsafe.dll",
         "System.Text.Json.dll",
-        "ZipSaveFolder.dll"
+        "ZipSaveFolder.dll",
+        "0Harmony.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],
