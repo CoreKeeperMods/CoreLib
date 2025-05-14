@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: 55052aadbff34d47b5304af3487a85b2
     name: CoreLib.JsonLoader
     skipSafetyChecks: 1
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: -1
@@ -34,5 +35,8 @@ MonoBehaviour:
   modPath: Assets\CoreLibPackage\CoreLib.JsonLoader
   forceReimport: 0
   buildBundles: 1
+  cacheBundles: 0
   buildLinux: 1
   buildBurst: 0
+  assets: []
+  lastBuildLinux: 0

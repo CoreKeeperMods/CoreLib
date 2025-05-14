@@ -29,7 +29,8 @@
         "Pug.UnityExtensions.dll",
         "Pug.ECS.Authoring.dll",
         "PugText.Editor.dll",
-        "I2.dll"
+        "I2.dll",
+        "SpriteInstancing.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

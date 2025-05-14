@@ -20,7 +20,13 @@ MonoBehaviour:
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
-    files: []
+    files:
+    - path: Scripts/Scripts/RewiredExtensionModule.cs
+    - path: Scripts/Scripts/Patches/Rewired_Patch.cs
+    - path: Scripts/Scripts/Patches/Rewired_Init_Patch.cs
+    - path: Scripts/Scripts/Patches/ControlMappingMenu_Patch.cs
+    - path: Scripts/Scripts/KeyBindData.cs
+    - path: Scripts/RewiredExtensions.cs
     dependencies:
     - modName: CoreLib
       required: 1
@@ -29,5 +35,10 @@ MonoBehaviour:
   modPath: Assets\CoreLibPackage\CoreLib.RewiredExtension
   forceReimport: 0
   buildBundles: 0
+  cacheBundles: 0
   buildLinux: 1
   buildBurst: 0
+  assets:
+  - path: Assets/CoreLibPackage/CoreLib.RewiredExtension/README.md
+    hash: 5936261848948518D4AA2E2F43114FFC8B297BBC71826E28E689E6EF26A45F26
+  lastBuildLinux: 1

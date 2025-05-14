@@ -56,5 +56,7 @@ MonoBehaviour:
   cacheBundles: 0
   buildLinux: 1
   buildBurst: 1
-  assets: []
-  lastBuildLinux: 0
+  assets:
+  - path: Assets/CoreLibPackage/CoreLib.Commands/README.md
+    hash: 641685DF318A70B68DA32A320DD033D5D93CCD2DECA90FFDDABE99C4116616B7
+  lastBuildLinux: 1

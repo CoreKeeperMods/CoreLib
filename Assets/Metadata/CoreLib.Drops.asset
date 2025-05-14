@@ -32,5 +32,8 @@ MonoBehaviour:
   modPath: Assets\CoreLibPackage\CoreLib.Drops
   forceReimport: 0
   buildBundles: 0
+  cacheBundles: 0
   buildLinux: 1
   buildBurst: 0
+  assets: []
+  lastBuildLinux: 0
