@@ -65,7 +65,7 @@ namespace CoreLib.TileSets
         #region PrivateImplementation
 
         internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
-        internal override string Version => "3.1.0";
+        internal override string Version => "3.1.1";
 
         internal override Type[] Dependencies => new[] { typeof(EntityModule) };
 

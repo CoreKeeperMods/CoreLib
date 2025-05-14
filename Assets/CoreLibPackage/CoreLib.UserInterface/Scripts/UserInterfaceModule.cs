@@ -145,7 +145,7 @@ namespace CoreLib.UserInterface
         internal static Dictionary<string, IModUI> modInterfaces = new Dictionary<string, IModUI>();
 
         internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
-        internal override string Version => "0.1.2";
+        internal override string Version => "0.1.3";
         internal static UserInterfaceModule Instance => CoreLibMod.GetModuleInstance<UserInterfaceModule>();
 
         internal override void SetHooks()
@@ -185,7 +185,7 @@ namespace CoreLib.UserInterface
             uiManager.inventoryButton.HideLightUpHint();
             uiManager.playerInventoryUI.ShowContainerUI();
             uiManager.trashCanUI.ShowContainerUI();
-            if (uiManager.mapUI.isShowingBigMap)
+            if (uiManager.mapUI.IsShowingBigMap)
             {
                 uiManager.OnMapToggle();
             }
