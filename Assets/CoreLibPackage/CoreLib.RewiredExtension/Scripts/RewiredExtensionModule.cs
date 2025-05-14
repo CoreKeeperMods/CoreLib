@@ -114,7 +114,7 @@ namespace CoreLib.RewiredExtension
         #region Private Implementation
 
         internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
-        internal override string Version => "3.1.2";
+        internal override string Version => "3.1.3";
 
         internal override Type[] Dependencies => new[] { typeof(LocalizationModule) };
         internal static RewiredExtensionModule Instance => CoreLibMod.GetModuleInstance<RewiredExtensionModule>();
@@ -123,6 +123,7 @@ namespace CoreLib.RewiredExtension
         {
             CoreLibMod.Patch(typeof(Rewired_Patch));
             CoreLibMod.Patch(typeof(Rewired_Init_Patch));
+            CoreLibMod.Patch(typeof(ControlMappingMenu_Patch));
 
             //UniversalRewiredPatch();
         }

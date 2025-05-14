@@ -69,6 +69,7 @@
         "System.Runtime.CompilerServices.Unsafe.dll",
         "System.Text.Json.dll",
         "ZipSaveFolder.dll",
+        "Pug.ControlMapping.dll",
         "0Harmony.dll"
     ],
     "autoReferenced": false,

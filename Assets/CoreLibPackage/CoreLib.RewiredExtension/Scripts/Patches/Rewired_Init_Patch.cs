@@ -8,6 +8,7 @@ using HarmonyLib;
 using Rewired;
 using Rewired.Data;
 using Rewired.Data.Mapping;
+using RewiredConsts;
 
 namespace CoreLib.RewiredExtension.Patches
 {
@@ -44,16 +45,37 @@ namespace CoreLib.RewiredExtension.Patches
         {
             return words.All(word => !name.Contains(word));
         }
-        
-        [HarmonyPatch(typeof(UserData), "wLpCiqgeHDZMiGZKbMZMEEzhQahoA")]
+
+        private static int lastFreeCategoryId = 100;
+        internal static List<InputActionCategory> customCategories = new List<InputActionCategory>();
+
+        private static InputActionCategory CreateCategory(UserData userData, string name)
+        {
+            var category = new InputActionCategory();
+            category.SetValue("_id", lastFreeCategoryId++);
+            category.SetValue("_name", name);
+            category.SetValue("_descriptiveName", name);
+            category.SetValue("_tag", name);
+
+            userData.GetValue<List<InputActionCategory>>("actionCategories").Add(category);
+            userData.GetValue<ActionCategoryMap>("actionCategoryMap").AddCategory(category.id);
+
+            customCategories.Add(category);
+            
+            return category;
+        }
+
+        [HarmonyPatch(typeof(UserData), "yDABbxiARLBWAQcRokAdOcDrDbkT")]
         [HarmonyPrefix]
         public static void OnRewiredDataInit(UserData __instance)
         {
             List<string> invalidKeybinds = new List<string>();
+            
+            var defaultCategory = CreateCategory(__instance, "ModDefault");
 
             foreach (var pair in RewiredExtensionModule.keyBinds)
             {
-                TryAddKeybind(__instance, pair, invalidKeybinds);
+                TryAddKeybind(__instance, pair, invalidKeybinds, defaultCategory);
             }
 
             foreach (string keybindName in invalidKeybinds)
@@ -64,7 +86,12 @@ namespace CoreLib.RewiredExtension.Patches
             CoreLibMod.Log.LogInfo("Done adding mod keybinds!");
         }
 
-        private static void TryAddKeybind(UserData userData, KeyValuePair<string, KeyBindData> pair, List<string> invalidKeybinds)
+        private static void TryAddKeybind(
+            UserData userData, 
+            KeyValuePair<string, KeyBindData> pair, 
+            List<string> invalidKeybinds,
+            InputActionCategory category
+            )
         {
             int index = userData.IndexOfAction(pair.Key);
             if (index != -1)
@@ -85,7 +112,7 @@ namespace CoreLib.RewiredExtension.Patches
 
             InputAction newAction = new InputAction();
             newAction.SetValue("_id", keyBindId.Value);
-            newAction.SetValue("_categoryId", 0);
+            newAction.SetValue("_categoryId", category.id);
             newAction.SetValue("_name", pair.Key);
             newAction.SetValue("_type", InputActionType.Button);
             newAction.SetValue("_descriptiveName", pair.Key);
@@ -107,7 +134,7 @@ namespace CoreLib.RewiredExtension.Patches
                     ActionElementMap newElementMap = new ActionElementMap();
                     newElementMap.SetValue("_actionId", keyBindId.Value);
                     newElementMap.SetValue("_elementType", ControllerElementType.Button);
-                    newElementMap.SetValue("_actionCategoryId", 0);
+                    newElementMap.SetValue("_actionCategoryId", category.id);
                     newElementMap.SetValue("_keyboardKeyCode", pair.Value.defaultKeyCode);
                     newElementMap.SetValue("_modifierKey1", pair.Value.modifierKey);
 
@@ -127,7 +154,7 @@ namespace CoreLib.RewiredExtension.Patches
                     newElementMap.SetValue("_elementType", pair.Value.gamepadElementType);
                     newElementMap.SetValue("_axisRange", pair.Value.gamepadAxisRange);
                     newElementMap.SetValue("_invert", pair.Value.gamepadInvert);
-                    newElementMap.SetValue("_actionCategoryId", 0);
+                    newElementMap.SetValue("_actionCategoryId", category.id);
                     newElementMap.SetValue("_elementIdentifierId", pair.Value.gamepadElementId);
 
                     map.actionElementMaps.Add(newElementMap);
