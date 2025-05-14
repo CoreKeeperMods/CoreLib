@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Pug.UnityExtensions;
 using PugMod;
 
 namespace CoreLib.Drops
