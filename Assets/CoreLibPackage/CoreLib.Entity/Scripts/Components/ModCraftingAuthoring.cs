@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CoreLib.Util.Extensions;
+using Pug.UnityExtensions;
 using PugConversion;
 using PugMod;
 using Unity.Mathematics;
