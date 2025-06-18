@@ -26,7 +26,6 @@ namespace CoreLib.Submodules.ModEntity
         
         public List<InventoryItemAuthoring.CraftingObject> canCraft;
         public List<string> relatedWorkbenches;
-        public bool refreshRelatedWorkbenchTitles;
 
         public string title;
         public string leftTitle;
