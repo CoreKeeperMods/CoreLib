@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using CoreLib.Util.Extensions;
 using Pug.UnityExtensions;
 using PugConversion;
 using PugMod;
@@ -72,78 +70,73 @@ namespace CoreLib.Submodules.ModEntity.Components
 
             CraftingCD.IsProcessAutoCrafter(authoring.craftingType);
             EnsureHasBuffer<CanCraftObjectsBuffer>();
-            foreach (InventoryItemAuthoring.CraftingObject craftableObject in authoring.canCraftObjects)
+            foreach (var craftableObject in authoring.canCraftObjects)
             {
-                CanCraftObjectsBuffer elementData = new CanCraftObjectsBuffer
+                AddToBuffer(new CanCraftObjectsBuffer
                 {
                     objectID = API.Authoring.GetObjectID(craftableObject.objectName),
                     amount = math.max(1, craftableObject.amount),
                     entityAmountToConsume = 0
-                };
-                AddToBuffer(elementData);
+                });
             }
-            
-            
 
-            if (authoring.includeCraftedObjectsFromBuildings != null)
+            if (authoring.includeCraftedObjectsFromBuildings == null || authoring.includeCraftedObjectsFromBuildings.Count == 0) return;
+            EnsureHasBuffer<IncludedCraftingBuildingsBuffer>();
+            AddToBuffer(new IncludedCraftingBuildingsBuffer
             {
-                foreach (string otherId in authoring.includeCraftedObjectsFromBuildings)
+                objectID = (ObjectID)ObjectIndex,
+                amountOfCraftingOptions = authoring.canCraftObjects.Count
+            });
+            
+            foreach (var otherId in authoring.includeCraftedObjectsFromBuildings)
+            {
+                EntityModule.GetMainEntity(otherId, out var otherObject);
+                var otherObject2 = !otherObject ? (EntityMonoBehaviourData) PugDatabase.entityMonobehaviours.Find(mono => 
+                    mono.ObjectInfo.objectID == API.Authoring.GetObjectID(otherId)) : null;
+                if(otherObject is null && otherObject2 is null) continue;
+                var craftingAuthoring2 = otherObject2 ? otherObject2.GetComponent<CraftingAuthoring>() : otherObject?.GetComponent<CraftingAuthoring>();
+                var modCraftingAuthoring = otherObject?.GetComponent<ModCraftingAuthoring>();
+
+                if (craftingAuthoring2?.canCraftObjects != null)
                 {
-                    EntityModule.moddedEntities.TryGetValue(otherId, out var otherObjects);
-                    if (otherObjects == null || otherObjects.Count == 0) continue;
-
-                    var otherObject = otherObjects.First();
-
-                    var craftingAuthoring2 = otherObject.GetComponent<CraftingAuthoring>();
-                    var modCraftingAuthoring = otherObject.GetComponent<ModCraftingAuthoring>();
-
-                    if (craftingAuthoring2 != null && craftingAuthoring2.canCraftObjects != null)
+                    foreach (var craftableObject2 in craftingAuthoring2.canCraftObjects)
                     {
-                        foreach (CraftingAuthoring.CraftableObject craftableObject2 in craftingAuthoring2.canCraftObjects)
+                        AddToBuffer(new CanCraftObjectsBuffer
                         {
-                            CanCraftObjectsBuffer elementData = new CanCraftObjectsBuffer
-                            {
-                                objectID = craftableObject2.objectID,
-                                amount = math.max(1, craftableObject2.amount),
-                                entityAmountToConsume = (craftableObject2.craftingConsumesEntityAmount ? craftableObject2.entityAmountToConsume : 0)
-                            };
-                            AddToBuffer(elementData);
-                        }
-                    }
-                    if (modCraftingAuthoring != null && modCraftingAuthoring.canCraftObjects != null)
-                    {
-                        foreach (InventoryItemAuthoring.CraftingObject craftableObject2 in modCraftingAuthoring.canCraftObjects)
-                        {
-                            CanCraftObjectsBuffer elementData = new CanCraftObjectsBuffer
-                            {
-                                objectID = API.Authoring.GetObjectID(craftableObject2.objectName),
-                                amount = math.max(1, craftableObject2.amount),
-                                entityAmountToConsume = 0
-                            };
-                            AddToBuffer(elementData);
-                        }
-                    }
-                }
-
-                if (authoring.includeCraftedObjectsFromBuildings.Count > 0)
-                {
-                    EnsureHasBuffer<IncludedCraftingBuildingsBuffer>();
-                    AddToBuffer(new IncludedCraftingBuildingsBuffer
-                    {
-                        objectID = (ObjectID)ObjectIndex,
-                        amountOfCraftingOptions = authoring.canCraftObjects.Count
-                    });
-                    foreach (string otherId in authoring.includeCraftedObjectsFromBuildings)
-                    {
-                        EntityModule.moddedEntities.TryGetValue(otherId, out var otherObjects);
-                        if (otherObjects == null || otherObjects.Count == 0) continue;
-
-                        AddToBuffer(new IncludedCraftingBuildingsBuffer
-                        {
-                            objectID = API.Authoring.GetObjectID(otherId),
-                            amountOfCraftingOptions = authoring.canCraftObjects.Count
+                            objectID = craftableObject2.objectID,
+                            amount = math.max(1, craftableObject2.amount),
+                            entityAmountToConsume = (craftableObject2.craftingConsumesEntityAmount ? craftableObject2.entityAmountToConsume : 0)
                         });
                     }
+                    AddToBuffer(new IncludedCraftingBuildingsBuffer
+                    {
+                        objectID = API.Authoring.GetObjectID(otherId),
+                        amountOfCraftingOptions = craftingAuthoring2.canCraftObjects.Count
+                    });
+                }
+                else if (modCraftingAuthoring?.canCraftObjects != null)
+                {
+                    foreach (var craftableObject2 in modCraftingAuthoring.canCraftObjects)
+                    {
+                        AddToBuffer(new CanCraftObjectsBuffer
+                        {
+                            objectID = API.Authoring.GetObjectID(craftableObject2.objectName),
+                            amount = math.max(1, craftableObject2.amount),
+                            entityAmountToConsume = 0
+                        });
+                    }
+                    AddToBuffer(new IncludedCraftingBuildingsBuffer
+                    {
+                        objectID = API.Authoring.GetObjectID(otherId),
+                        amountOfCraftingOptions = modCraftingAuthoring.canCraftObjects.Count
+                    });
+                } else
+                {
+                    AddToBuffer(new IncludedCraftingBuildingsBuffer
+                    {
+                        objectID = API.Authoring.GetObjectID(otherId),
+                        amountOfCraftingOptions = 0
+                    });
                 }
             }
         }
