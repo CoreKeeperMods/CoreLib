@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Pug.UnityExtensions;
 using PugConversion;
 using PugMod;
@@ -16,18 +17,19 @@ namespace CoreLib.Submodules.ModEntity.Components
         [ArrayElementTitle("objectID, amount")]
         public List<InventoryItemAuthoring.CraftingObject> canCraftObjects;
 
+        [PickStringFromEnum(typeof (ObjectID))]
         public List<string> includeCraftedObjectsFromBuildings;
         
         private void OnValidate()
         {
-            for (int index = 0; index < canCraftObjects.Count; ++index)
+            for (var index = 0; index < canCraftObjects.Count; ++index)
             {
-                if (canCraftObjects[index].amount <= 0)
-                    canCraftObjects[index] = new InventoryItemAuthoring.CraftingObject
-                    {
-                        objectName = canCraftObjects[index].objectName,
-                        amount = 1
-                    };
+                if (canCraftObjects[index].amount > 0) continue;
+                canCraftObjects[index] = new InventoryItemAuthoring.CraftingObject
+                {
+                    objectName = canCraftObjects[index].objectName,
+                    amount = 1
+                };
             }
         }
     }
@@ -41,33 +43,23 @@ namespace CoreLib.Submodules.ModEntity.Components
                 triggerType = typeof(CraftingTimerTriggerCD)
             });
             EnsureHasComponent<PugTimerRefCD>();
+            var outputSlotIndex = -1;
             if (authoring.craftingType != CraftingType.Cattle)
             {
-                if (!TryGetActiveComponent(authoring, out InventoryAuthoring _))
+                if(!TryGetActiveComponent(authoring, out InventoryAuthoring _))
                 {
                     Debug.LogError($"{authoring.gameObject} has non-cattle crafting but no inventory.");
                     return;
                 }
-
-                int outputSlotIndex = AddToBuffer(default(ContainedObjectsBuffer));
-                AddComponentData(new CraftingCD
-                {
-                    currentlyCraftingIndex = -1,
-                    craftingType = authoring.craftingType,
-                    outputSlotIndex = outputSlotIndex,
-                    showLoopEffectOnOutputSlot = authoring.showLoopEffectOnOutputSlot
-                });
+                outputSlotIndex = AddToBuffer(new ContainedObjectsBuffer());
             }
-            else
+            AddComponentData(new CraftingCD()
             {
-                AddComponentData(new CraftingCD
-                {
-                    currentlyCraftingIndex = -1,
-                    craftingType = authoring.craftingType,
-                    showLoopEffectOnOutputSlot = authoring.showLoopEffectOnOutputSlot
-                });
-            }
-
+                currentlyCraftingIndex = -1,
+                craftingType = authoring.craftingType,
+                outputSlotIndex = outputSlotIndex,
+                showLoopEffectOnOutputSlot = authoring.showLoopEffectOnOutputSlot
+            });
             CraftingCD.IsProcessAutoCrafter(authoring.craftingType);
             EnsureHasBuffer<CanCraftObjectsBuffer>();
             foreach (var craftableObject in authoring.canCraftObjects)
@@ -88,54 +80,61 @@ namespace CoreLib.Submodules.ModEntity.Components
                 amountOfCraftingOptions = authoring.canCraftObjects.Count
             });
             
-            foreach (var otherId in authoring.includeCraftedObjectsFromBuildings)
+            foreach (var building in authoring.includeCraftedObjectsFromBuildings)
             {
-                EntityModule.GetMainEntity(otherId, out var otherObject);
-                var modCraftingAuthoring = otherObject?.GetComponent<ModCraftingAuthoring>();
-                
-                if (modCraftingAuthoring?.canCraftObjects != null  && modCraftingAuthoring.craftingType == authoring.craftingType)
+                var monoObject = PugDatabase.entityMonobehaviours.Find(mono => 
+                    mono.ObjectInfo.objectID == API.Authoring.GetObjectID(building));
+                CraftingAuthoring craftingAuthoring = null;
+                ModCraftingAuthoring modCraftingAuthoring = null;
+                switch (monoObject)
                 {
-                    foreach (var craftableObject2 in modCraftingAuthoring.canCraftObjects)
+                    case EntityMonoBehaviourData monoAuthoring:
+                        craftingAuthoring = monoAuthoring.GetComponent<CraftingAuthoring>();
+                        break;
+                    case ObjectAuthoring objectAuthoring:
+                        modCraftingAuthoring = objectAuthoring.GetComponent<ModCraftingAuthoring>();
+                        craftingAuthoring = !modCraftingAuthoring ? objectAuthoring.GetComponent<CraftingAuthoring>() : null;
+                        break;
+                    case null:
+                        continue;
+                }
+
+                if (modCraftingAuthoring?.canCraftObjects != null)
+                {
+                    foreach (var craftableObject in modCraftingAuthoring.canCraftObjects)
                     {
                         AddToBuffer(new CanCraftObjectsBuffer
                         {
-                            objectID = API.Authoring.GetObjectID(craftableObject2.objectName),
-                            amount = math.max(1, craftableObject2.amount),
+                            objectID = API.Authoring.GetObjectID(craftableObject.objectName),
+                            amount = math.max(1, craftableObject.amount),
                             entityAmountToConsume = 0
                         });
                     }
                     AddToBuffer(new IncludedCraftingBuildingsBuffer
                     {
-                        objectID = API.Authoring.GetObjectID(otherId),
+                        objectID = API.Authoring.GetObjectID(building),
                         amountOfCraftingOptions = modCraftingAuthoring.canCraftObjects.Count
                     });
                     continue;
                 }
-                
-                var otherObject2 = !otherObject ? (EntityMonoBehaviourData) PugDatabase.entityMonobehaviours.Find(mono => 
-                    mono.ObjectInfo.objectID == API.Authoring.GetObjectID(otherId)) : null;
-                if(otherObject is null && otherObject2 is null) continue;
-                
-                var craftingAuthoring2 = otherObject2 ? otherObject2.GetComponent<CraftingAuthoring>() : otherObject?.GetComponent<CraftingAuthoring>();
-                var properObject = !otherObject2 || otherObject2.ObjectInfo.prefabInfos[0].prefab is SimpleCraftingBuilding or SimpleWideCraftingBuilding;
-                if (craftingAuthoring2?.canCraftObjects == null || craftingAuthoring2.craftingType != authoring.craftingType || properObject != true) continue;
-                
-                foreach (var craftableObject2 in craftingAuthoring2.canCraftObjects)
-                {
-                    AddToBuffer(new CanCraftObjectsBuffer
-                    {
-                        objectID = craftableObject2.objectID,
-                        amount = math.max(1, craftableObject2.amount),
-                        entityAmountToConsume = (craftableObject2.craftingConsumesEntityAmount ? craftableObject2.entityAmountToConsume : 0)
-                    });
-                }
-                AddToBuffer(new IncludedCraftingBuildingsBuffer
-                {
-                    objectID = API.Authoring.GetObjectID(otherId),
-                    amountOfCraftingOptions = craftingAuthoring2.canCraftObjects.Count
-                });
-                
 
+                if (craftingAuthoring?.canCraftObjects != null)
+                {
+                    foreach (var craftableObject in craftingAuthoring.canCraftObjects)
+                    {
+                        AddToBuffer(new CanCraftObjectsBuffer
+                        {
+                            objectID = craftableObject.objectID,
+                            amount = math.max(1, craftableObject.amount),
+                            entityAmountToConsume = (craftableObject.craftingConsumesEntityAmount ? craftableObject.entityAmountToConsume : 0)
+                        });
+                    }
+                    AddToBuffer(new IncludedCraftingBuildingsBuffer
+                    {
+                        objectID = API.Authoring.GetObjectID(building),
+                        amountOfCraftingOptions = craftingAuthoring.canCraftObjects.Count
+                    }); 
+                }
             }
         }
     }

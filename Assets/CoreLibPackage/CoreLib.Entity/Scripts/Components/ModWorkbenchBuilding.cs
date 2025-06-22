@@ -8,7 +8,7 @@ namespace CoreLib.Submodules.ModEntity.Components
 {
     public class ModWorkbenchBuilding : CraftingBuilding
     {
-
+        
         public SpriteObject mainObject;
         public SpriteObject shadowObject;
 
@@ -52,34 +52,38 @@ namespace CoreLib.Submodules.ModEntity.Components
                     continue;
                 }
                 
-                var otherObject = PugDatabase.entityMonobehaviours.Find(mono =>
+                var monoObject = PugDatabase.entityMonobehaviours.Find(mono =>
                     mono.ObjectInfo.objectID == API.Authoring.GetObjectID(workbench));
 
-                var objectPrefab = otherObject?.ObjectInfo?.prefabInfos[0]?.prefab;
-                if(objectPrefab is null) continue;
-                switch (objectPrefab)
+                CraftingBuilding craftingBuilding;
+                CraftingUISettings craftingSetting;
+                switch (monoObject)
                 {
-                    case SimpleWideCraftingBuilding simpleWideCraftingBuilding:
-                        var wideSetting = simpleWideCraftingBuilding.craftingUIOverrideSettings.Find(x => 
-                            x.usedForBuilding == otherObject.ObjectInfo.objectID) ?? new CraftingUISettings(
-                            otherObject.ObjectInfo.objectID,
-                            simpleWideCraftingBuilding.craftingUITitle,
-                            simpleWideCraftingBuilding.craftingUITitleLeftBox,
-                            simpleWideCraftingBuilding.craftingUITitleRightBox,
-                            simpleWideCraftingBuilding.craftingUIBackgroundVariation);
-                        if(!craftingUIOverrideSettings.Contains(wideSetting))
-                            craftingUIOverrideSettings.Add(wideSetting);
+                    case EntityMonoBehaviourData entityAuthoring:
+                        craftingBuilding = (CraftingBuilding) entityAuthoring.ObjectInfo.prefabInfos[0].prefab;
+                        if (craftingBuilding is null) continue;
+                        craftingSetting = craftingBuilding.craftingUIOverrideSettings.Find(x => 
+                            x.usedForBuilding == entityAuthoring.ObjectInfo.objectID) ?? new CraftingUISettings(
+                            entityAuthoring.ObjectInfo.objectID,
+                            craftingBuilding.craftingUITitle,
+                            craftingBuilding.craftingUITitleLeftBox,
+                            craftingBuilding.craftingUITitleRightBox,
+                            craftingBuilding.craftingUIBackgroundVariation);
+                        if(!craftingUIOverrideSettings.Contains(craftingSetting))
+                            craftingUIOverrideSettings.Add(craftingSetting);
                         break;
-                    case SimpleCraftingBuilding simpleCraftingBuilding:
-                        var simpleSetting = simpleCraftingBuilding.craftingUIOverrideSettings.Find(x => 
-                            x.usedForBuilding == otherObject.ObjectInfo.objectID) ?? new CraftingUISettings(
-                            otherObject.ObjectInfo.objectID,
-                            simpleCraftingBuilding.craftingUITitle,
-                            simpleCraftingBuilding.craftingUITitleLeftBox,
-                            simpleCraftingBuilding.craftingUITitleRightBox,
-                            simpleCraftingBuilding.craftingUIBackgroundVariation);
-                        if(!craftingUIOverrideSettings.Contains(simpleSetting))
-                            craftingUIOverrideSettings.Add(simpleSetting);
+                    case ObjectAuthoring objectAuthoring:
+                        craftingBuilding = (CraftingBuilding) objectAuthoring.graphicalPrefab.GetComponentAtIndex(0);
+                        if (craftingBuilding is null) continue;
+                        craftingSetting = craftingBuilding.craftingUIOverrideSettings.Find(x => 
+                            x.usedForBuilding == API.Authoring.GetObjectID(objectAuthoring.objectName)) ?? new CraftingUISettings(
+                            API.Authoring.GetObjectID(objectAuthoring.objectName),
+                            craftingBuilding.craftingUITitle,
+                            craftingBuilding.craftingUITitleLeftBox,
+                            craftingBuilding.craftingUITitleRightBox,
+                            craftingBuilding.craftingUIBackgroundVariation);
+                        if(!craftingUIOverrideSettings.Contains(craftingSetting))
+                            craftingUIOverrideSettings.Add(craftingSetting);
                         break;
                 }
             }

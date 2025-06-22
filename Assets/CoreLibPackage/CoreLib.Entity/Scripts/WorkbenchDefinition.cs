@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CoreLib.Util.Extensions;
 using Pug.Sprite;
+using Pug.UnityExtensions;
+using PugMod;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.TextCore.Text;
 
 namespace CoreLib.Submodules.ModEntity
 {
@@ -25,6 +30,8 @@ namespace CoreLib.Submodules.ModEntity
         public List<InventoryItemAuthoring.CraftingObject> recipe;
         
         public List<InventoryItemAuthoring.CraftingObject> canCraft;
+        
+        [PickStringFromEnum(typeof(ObjectID))]
         public List<string> relatedWorkbenches;
         public bool refreshRelatedWorkbenchTitles;
 
