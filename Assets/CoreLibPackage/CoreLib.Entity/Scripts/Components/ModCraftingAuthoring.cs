@@ -11,13 +11,20 @@ namespace CoreLib.Submodules.ModEntity.Components
     [DisallowMultipleComponent]
     public class ModCraftingAuthoring : MonoBehaviour
     {
+        [Tooltip("The type of crafting that this item/object does:" +
+                 "\nSimple: Make items (up to 18)" +
+                 "\nProcess Resources: Make an item turn into another item" +
+                 "\nBoss Statue: Activate using an item. Make Items (up to 3)" +
+                 "\nCooking: Use 2 items to create a new item" +
+                 "\nCattle: Object creates the item on it's own automatically")]
         public CraftingType craftingType;
+        [Tooltip("When processing an item, shows an effect on the output slot")]
         public bool showLoopEffectOnOutputSlot;
 
-        [ArrayElementTitle("objectID, amount")]
+        [ArrayElementTitle("objectID, amount")] [Tooltip("Objects/Items this Building can craft")]
         public List<InventoryItemAuthoring.CraftingObject> canCraftObjects;
 
-        [PickStringFromEnum(typeof (ObjectID))]
+        [PickStringFromEnum(typeof (ObjectID))] [Tooltip("Buildings listed below will have their items added to the crafted objects in this Building")]
         public List<string> includeCraftedObjectsFromBuildings;
         
         private void OnValidate()
