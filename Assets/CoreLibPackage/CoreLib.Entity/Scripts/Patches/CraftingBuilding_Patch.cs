@@ -1,7 +1,6 @@
 using System.Linq;
 using HarmonyLib;
 using PugMod;
-using UnityEngine;
 
 namespace CoreLib.Submodules.ModEntity.Patches
 {

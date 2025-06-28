@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection.Emit;
 using CoreLib.Submodules.ModEntity.Components;
 using HarmonyLib;

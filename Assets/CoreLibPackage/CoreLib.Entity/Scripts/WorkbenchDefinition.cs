@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoreLib.Util.Extensions;
+﻿using System.Collections.Generic;
 using Pug.Sprite;
 using Pug.UnityExtensions;
-using PugMod;
-using Unity.Entities;
 using UnityEngine;
 using UnityEngine.Serialization;
 
