@@ -25,6 +25,7 @@ namespace CoreLib.UserInterface.Patches
                 var links = interfaceGameObject.GetComponentsInChildren<LinkToPlayerInventory>(true);
                 foreach (var link in links)
                 {
+                    if (link == myLink) continue;
                     MakeLink(link, inventoryUI);
                 }
             }
