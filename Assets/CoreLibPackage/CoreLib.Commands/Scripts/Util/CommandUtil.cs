@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using CoreLib.Commands.Communication;
 using HarmonyLib;
 using Pug.UnityExtensions;
 using PugMod;
+using PugTilemap;
+using QFSW.QC.Utilities;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
@@ -14,6 +17,8 @@ namespace CoreLib.Commands
 {
     public static class CommandUtil
     {
+        public static int maxMatchDistance = 20;
+        
         public static CommandOutput ParseItemName(string fullName, out ObjectID objectID)
         {
             if (Enum.TryParse(fullName, true, out ObjectID objId))
@@ -22,33 +27,114 @@ namespace CoreLib.Commands
                 return "";
             }
 
+            fullName = fullName.Replace("_", " ");
+
             string[] keys = CommandsModule.friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
             if (keys.Length == 0)
             {
-                CoreLibMod.Log.LogDebug($"friendlyNameDict state: {CommandsModule.friendlyNameDict.Count} entries, first entries: {CommandsModule.friendlyNameDict.Keys.Take(10).Join()}");
                 objectID = ObjectID.None; 
                 return new CommandOutput($"No item named '{fullName}' found!", CommandStatus.Error);
             }
 
-            if (keys.Length > 1)
+            var pairs = new Dictionary<ObjectID, string>();
+            foreach (var key in keys)
+            {
+                objectID = CommandsModule.friendlyNameDict[key];
+                if (pairs.TryAdd(objectID, key)) continue;
+                
+                var otherKey = pairs[objectID];
+                if (key.Count(c => c == ' ') > otherKey.Count(c => c == ' ') &&
+                    key.Count(c => c == ':') < otherKey.Count(c => c == ':'))
+                {
+                    pairs[objectID] = otherKey;
+                }
+            }
+            
+            if (pairs.Count > 1)
             {
                 try
                 {
-                    string key = keys.First(s => s.Equals(fullName));
-                    objectID = CommandsModule.friendlyNameDict[key];
+                    var key = pairs.First(s => s.Value.Equals(fullName));
+                    objectID = key.Key;
                     return "";
                 }
                 catch (Exception)
                 {
                     objectID = ObjectID.None;
                     return new CommandOutput(
-                        $"Ambigous match ({keys.Length} results):\n{keys.Take(10).Join(null, "\n")}{(keys.Length > 10 ? "\n..." : "")}",
+                        $"Ambiguous match ({pairs.Count} results):\n{pairs.Values.Take(10).Join(null, "\n")}{(pairs.Count > 10 ? "\n..." : "")}",
                         CommandStatus.Error);
                 }
             }
 
-            objectID = CommandsModule.friendlyNameDict[keys[0]];
+            objectID = pairs.First().Key;
             return "";
+        }
+
+        public static Tuple<string, int>[] FindMatchesForObjectName(CommandToken token)
+        {
+            var fullName = token.text.Replace("_", " ");
+            return CommandsModule.friendlyNameDict.Keys
+                .Select(name => new Tuple<string, int>(name, name.ComputeLevenshteinDistance(fullName)))
+                .OrderBy(pair => pair.Item2)
+                .Take(10)
+                .Where(pair => pair.Item2 <= maxMatchDistance)
+                .ToArray();
+        }
+
+        public static Tuple<string, int>[] FindMatchesForEnum<T>(CommandToken token) where T : struct, Enum
+        {
+            var names = Enum.GetNames(typeof(T));
+                        
+            return names.Select(name => new Tuple<string, int>(name, name.ComputeLevenshteinDistance(token.text)))
+                .OrderBy(pair => pair.Item2)
+                .Take(10)
+                .Where(pair => pair.Item2 <= maxMatchDistance)
+                .ToArray();
+        }
+        
+        /// <summary>
+        /// Splits the string passed in by the delimiters passed in.
+        /// Quoted sections are not split, and all tokens have whitespace
+        /// trimmed from the start and end.
+        public static string[] SmartSplit(this string input, params char[] delimiters)
+        {
+            List<string> results = new List<string>();
+
+            bool inQuote = false;
+            StringBuilder currentToken = new StringBuilder();
+            for (int index = 0; index < input.Length; ++index)
+            {
+                char currentCharacter = input[index];
+                if (currentCharacter == '"')
+                {
+                    // When we see a ", we need to decide whether we are
+                    // at the start or send of a quoted section...
+                    inQuote = !inQuote;
+                }
+                else if (delimiters.Contains(currentCharacter) && inQuote == false)
+                {
+                    // We've come to the end of a token, so we find the token,
+                    // trim it and add it to the collection of results...
+                    string result = currentToken.ToString().Trim();
+                    if (result != "") results.Add(result);
+
+                    // We start a new token...
+                    currentToken = new StringBuilder();
+                }
+                else
+                {
+                    // We've got a 'normal' character, so we add it to
+                    // the curent token...
+                    currentToken.Append(currentCharacter);
+                }
+            }
+
+            // We've come to the end of the string, so we add the last token...
+            string lastResult = currentToken.ToString().Trim();
+            if (lastResult != "") results.Add(lastResult);
+
+            return results.ToArray();
         }
 
         /// <summary>
@@ -167,6 +253,24 @@ namespace CoreLib.Commands
             var database = entityManager.CreateEntityQuery(typeof(PugDatabase.DatabaseBankCD))
                 .GetSingleton<PugDatabase.DatabaseBankCD>().databaseBankBlob;
             return database;
+        }
+        
+        public static int AsInt(this string parsedValue) => int.Parse(parsedValue);
+        public static bool AsBool(this string parsedValue) => bool.Parse(parsedValue);
+        
+        public static ObjectID AsObjectID(this string parsedValue) => AsEnum<ObjectID>(parsedValue);
+        public static Tileset AsTileset(this string parsedValue) => AsEnum<Tileset>(parsedValue);
+        public static TileType AsTileType(this string parsedValue) => AsEnum<TileType>(parsedValue);
+        
+        
+        public static T AsEnum<T>(this string parsedValue) where T : struct, Enum
+        {
+            if (Enum.TryParse(parsedValue, out T value))
+            {
+                return value;
+            }
+
+            return default;
         }
     }
 }

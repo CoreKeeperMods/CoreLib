@@ -1,11 +1,12 @@
 ﻿using CoreLib.Commands.Communication;
+using CoreLib.Commands.CoreLibPackage.CoreLib.Commands.Scripts.Commands;
 
 namespace CoreLib.Commands
 {
-    public struct CommandPair
+    public readonly struct CommandPair
     {
-        public ICommandInfo handler;
-        public string modName;
+        public readonly ICommandInfo handler;
+        public readonly string modName;
 
         public bool isServer => handler is IServerCommandHandler;
         
@@ -25,6 +26,17 @@ namespace CoreLib.Commands
             {
                 if (handler is IClientCommandHandler clientCommandHandler)
                     return clientCommandHandler;
+                return null;
+            }
+        }
+
+        public ICommandParser parser
+        {
+            get
+            {
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                if (handler is ICommandParser commandParser)
+                    return commandParser;
                 return null;
             }
         }

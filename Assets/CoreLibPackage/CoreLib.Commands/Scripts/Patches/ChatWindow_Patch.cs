@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using CoreLib.Commands.Communication;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
@@ -35,61 +36,94 @@ namespace CoreLib.Commands.Patches
                 }
             }
 
+            if (CommandsModule.rewiredPlayer.GetButtonDown(CommandsModule.COMPLETE_KEY))
+            {
+                if (!TryAutocomplete(__instance, out var result)) return;
+
+                __instance.inputField.Render(result);
+                return;
+            }
+
             if (history.Count <= 0) return;
 
             bool pressedUpOrDown = false;
-            bool pressedTab = false;
-            string newText = "";
 
             if (CommandsModule.rewiredPlayer.GetButtonDown(CommandsModule.UP_KEY))
             {
-                currentHistoryIndex--;
-                if (currentHistoryIndex < 0)
-                {
-                    currentHistoryIndex = history.Count;
-                }
-
-                pressedUpOrDown = true;
+                ScrollUp(out pressedUpOrDown);
             }
 
             if (CommandsModule.rewiredPlayer.GetButtonDown(CommandsModule.DOWN_KEY))
             {
-                currentHistoryIndex++;
-                if (currentHistoryIndex > history.Count)
-                {
-                    currentHistoryIndex = 0;
-                }
-
-                pressedUpOrDown = true;
+                ScrollDown(out pressedUpOrDown);
             }
 
-            if (CommandsModule.rewiredPlayer.GetButtonDown(CommandsModule.COMPLETE_KEY))
-            {
-                string input = __instance.inputField.displayedTextString;
-                string[] args = input.Split(' ');
-                if (args[0].StartsWith(CommandsModule.CommandPrefix))
-                {
-                    string cmdName = args[0].Substring(1);
-                    ICommandInfo[] commandHandlers = CommandsModule.commandHandlers
-                        .Select(pair => pair.handler)
-                        .Where(handler => { return handler.GetTriggerNames().Any(name => name.StartsWith(cmdName)); }).ToArray();
-                    if (commandHandlers.Length == 1)
-                    {
-                        string fullName = commandHandlers[0].GetTriggerNames().First(name => name.StartsWith(cmdName));
-                        newText = $"{CommandsModule.CommandPrefix}{fullName}";
-                        pressedTab = true;
-                    }
-                }
-            }
+            if (!pressedUpOrDown) return;
+            if (currentHistoryIndex < 0 || currentHistoryIndex >= history.Count) return;
 
-            if (!pressedUpOrDown && !pressedTab) return;
-
-            if (currentHistoryIndex >= 0 && currentHistoryIndex < history.Count && pressedUpOrDown)
-            {
-                newText = history[currentHistoryIndex];
-            }
-
+            var newText = history[currentHistoryIndex];
             __instance.inputField.Render(newText);
+        }
+
+        private static void ScrollDown(out bool pressedUpOrDown)
+        {
+            currentHistoryIndex++;
+            if (currentHistoryIndex > history.Count)
+            {
+                currentHistoryIndex = 0;
+            }
+
+            pressedUpOrDown = true;
+        }
+
+        private static void ScrollUp(out bool pressedUpOrDown)
+        {
+            currentHistoryIndex--;
+            if (currentHistoryIndex < 0)
+            {
+                currentHistoryIndex = history.Count;
+            }
+
+            pressedUpOrDown = true;
+        }
+
+        private static bool TryAutocomplete(ChatWindow chatWindow, out string newText)
+        {
+            newText = "";
+            
+            var input = chatWindow.inputField.displayedTextString;
+            var args = input.SmartSplit(' ');
+            if (args.Length == 0) return false;
+
+            if (!args[0].StartsWith(CommandsModule.CommandPrefix)) return false;
+
+            var cmdName = args[0].Substring(1);
+
+            if (args.Length == 1)
+            {
+                ICommandInfo[] commandHandlers = CommandsModule.commandHandlers
+                    .Select(pair => pair.handler)
+                    .Where(handler => { return handler.GetTriggerNames().Any(name => name.StartsWith(cmdName)); }).ToArray();
+                if (commandHandlers.Length != 1) return false;
+
+                string fullName = commandHandlers[0].GetTriggerNames().First(name => name.StartsWith(cmdName));
+                newText = $"{CommandsModule.CommandPrefix}{fullName}";
+                return true;
+            }
+
+            if (!CommandsModule.GetCommandHandler(cmdName, out CommandPair commandPair)) return false;
+            var parser = commandPair.parser;
+            if (parser == null) return false;
+
+            var parameters = args.Skip(1).ToArray();
+            var tokens = parser.Parse(parameters);
+            if (tokens == null || tokens.Length == 0) return false;
+
+            var lastToken = tokens.Last();
+            if (!lastToken.TryAutocomplete(parser, out var value)) return false;
+
+            newText = input.Replace(lastToken.text, value);
+            return true;
         }
 
         [HarmonyPatch(typeof(ChatWindow), nameof(ChatWindow.Deactivate))]

@@ -10,6 +10,7 @@ using Unity.Entities;
 namespace CoreLib.Commands.Communication
 {
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation | WorldSystemFilterFlags.ClientSimulation)]
+    [DisableAutoCreation]
     public partial class CommandCommSystem : PugSimulationSystemBase
     {
         private const int maxReceivedMessages = 10;

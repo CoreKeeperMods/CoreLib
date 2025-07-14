@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using CoreLib.Commands.Communication;
 using CoreLib.Commands.Handlers;
 using CoreLib.Commands.Patches;
@@ -283,9 +284,28 @@ namespace CoreLib.Commands
 
         internal static bool SendCommand(string input, bool isQuantumConsole = false)
         {
-            string[] args = input.Split(' ');
+            string[] args = input.SmartSplit(' ');
             if (args.Length < 1 || !args[0].StartsWith(CommandPrefix)) return true;
             if (ClientCommSystem == null) return true;
+
+            string cmdName = args[0].Substring(1);
+            if (GetCommandHandler(cmdName, out CommandPair commandPair) &&
+                commandPair.parser != null)
+            {
+                string[] parameters = args.Skip(1).ToArray();
+                var tokens = commandPair.parser.Parse(parameters);
+                
+                var stringBuilder = new StringBuilder();
+                stringBuilder.Append(args[0]);
+                foreach (var token in tokens)
+                {
+                    stringBuilder.Append(' ');
+                    stringBuilder.Append(token.parsedValue);
+                }
+                
+                input = stringBuilder.ToString();
+                CoreLibMod.Log.LogInfo($"Executed parser. Result: {input}");
+            }
 
             CommandFlags flags = CommandFlags.None;
             
@@ -300,7 +320,7 @@ namespace CoreLib.Commands
 
         internal static void ServerHandleCommand(CommandMessage message)
         {
-            string[] args = message.message.Split(' ');
+            string[] args = message.message.SmartSplit(' ');
             if (args.Length < 1 || !args[0].StartsWith(CommandPrefix)) return;
 
             string cmdName = args[0].Substring(1);
@@ -385,7 +405,7 @@ namespace CoreLib.Commands
         
         internal static void ClientHandleCommand(CommandMessage message)
         {
-            string[] args = message.message.Split(' ');
+            string[] args = message.message.SmartSplit(' ');
             if (args.Length < 1 || !args[0].StartsWith(CommandPrefix)) return;
 
             string cmdName = args[0].Substring(1);
