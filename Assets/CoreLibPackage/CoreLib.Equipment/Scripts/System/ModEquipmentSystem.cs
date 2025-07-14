@@ -39,7 +39,6 @@ namespace CoreLib.Equipment.System
 
             var databaseBank = SystemAPI.GetSingleton<PugDatabase.DatabaseBankCD>();
 
-            var cooldownLookup = GetComponentLookup<CooldownCD>(true);
             var ecb = CreateCommandBuffer();
             var tileAccessor = CreateTileAccessor();
 
@@ -146,6 +145,10 @@ namespace CoreLib.Equipment.System
                     
                     bool interactHeldRaw = clientInput.IsButtonStateSet(CommandInputButtonStateNames.Interact_HeldDown);
                     bool secondInteractHeldRaw = clientInput.IsButtonStateSet(CommandInputButtonStateNames.SecondInteract_HeldDown);
+                    
+                    secondInteractHeldRaw &= !equipmentAspect.equipmentSlotCD.ValueRW.secondInteractBlockedUntilRelease;
+                    equipmentAspect.equipmentSlotCD.ValueRW.secondInteractBlockedUntilRelease &= !clientInput.IsButtonStateSet(CommandInputButtonStateNames.SecondInteract_Released);
+                    
                     if (!CurrentStateAllowInteractions(
                             worldInfo, equipmentAspect.playerGhost.ValueRO,
                             equipmentAspect.playerStateCD.ValueRO,
@@ -160,9 +163,10 @@ namespace CoreLib.Equipment.System
                     bool onCooldown = EquipmentSlot.IsItemOnCooldown(
                         equipmentAspect.equippedObjectCD.ValueRO,
                         databaseBank,
-                        cooldownLookup,
+                        lookupData.cooldownLookup,
                         equipmentAspect.syncedSharedCooldownTimers,
-                        equipmentAspect.localPlayerSharedCooldownTimers, currentTick);
+                        equipmentAspect.localPlayerSharedCooldownTimers, 
+                        equipmentShared.currentTick);
                     if (onCooldown)
                     {
                         return;
@@ -176,10 +180,15 @@ namespace CoreLib.Equipment.System
                         secondInteractHeld
                     );
 
-                    if (!success) return;
 
-                    equipmentAspect.equipmentSlotCD.ValueRW.secondInteractIsPendingToBeUsed = false;
+                    if (!success) return;
+                    
+                    if (interactHeld)
+                        equipmentAspect.equipmentSlotCD.ValueRW.interactIsPendingToBeUsed = false;
+                    if (secondInteractHeld)
+                        equipmentAspect.equipmentSlotCD.ValueRW.secondInteractIsPendingToBeUsed = false;
                 })
+                .WithAll<Simulate>()
                 .WithoutBurst()
                 .Schedule();
 
