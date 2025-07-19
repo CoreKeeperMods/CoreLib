@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using HarmonyLib;
 using Interaction;
-using Pug.ECS.Hybrid;
 using UnityEngine;
 
 namespace CoreLib.Submodules.ModEntity.Patches
