@@ -271,7 +271,6 @@ namespace CoreLib.Submodules.ModEntity
             CoreLibMod.Patch(typeof(PlayerController_Patch));
             CoreLibMod.Patch(typeof(ColorReplacer_Patch));
             CoreLibMod.Patch(typeof(GraphicalObjectConversion_Patch));
-            CoreLibMod.Patch(typeof(CraftingBuilding_Patch));
         }
 
         internal override void Load()
