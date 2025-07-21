@@ -28,7 +28,6 @@ MonoBehaviour:
     - path: Scripts/Scripts/Patches/MemoryManager_Patch.cs
     - path: Scripts/Scripts/Patches/InteractableConverter_Patch.cs
     - path: Scripts/Scripts/Patches/GraphicalObjectConversion_Patch.cs
-    - path: Scripts/Scripts/Patches/CraftingBuilding_Patch.cs
     - path: Scripts/Scripts/Patches/ColorReplacer_Patch.cs
     - path: Scripts/Scripts/MonoBehaviourUtils.cs
     - path: Scripts/Scripts/Interfaces/IDynamicItemHandler.cs
@@ -88,29 +87,29 @@ MonoBehaviour:
   - path: Assets/CoreLibPackage/CoreLib.Entity/Localization/Localization.csv
     hash: F1F1D7CD415B134466C6646772A1378593FD9F4359CE8CD37BD1BC2D49ACE035
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/DestroyableObject.controller
-    hash: 3A686BD6302B91D96E7F354156ED97CCE0A661575E6C19CE42BE712B2A98E274
+    hash: 2A10E70AA94BE20A85895222187E9190E133834BE423EBB0B14735FE7BE06C9A
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectDestroyed.anim
-    hash: D1015F03503C356E19CD5B85644E4C0660A6B8EA2727C4A92252DAEB870FC9C4
+    hash: 9B7C6BA54CEB3C97E0E23FFC94A98C6620FDAE554446D4AA201938E402A73C5A
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectShake.anim
-    hash: D96BFD80DFCF2FE53D9C0499CFD6C4E3D67A33A4B4F82890D329DF404B4DD53B
+    hash: 216F8EB11C04A9E1F96F13612B2C05C9F938A2025DEF17E80515CED1308FF415
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectShrinkExpand.anim
-    hash: AB512CA90D14CED43E26AA273E0394455D8F7B6A0C8067553BC0F1490B62CB14
+    hash: 54E13C5B3757E0509E88FA1B9CAF8F145C08A424F77399A79850F81A48462341
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectTakeDamage.anim
-    hash: EDC930A5C18313B9B52965FF279E1EC1CEEC7AA48BC59543A56BEC0E5A62767D
+    hash: 69AEDA2283CB27765F8634B0EFD78E78547FED35B92253790A6ADC0D09308A83
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectVisable.anim
-    hash: 2D043EA702AA8D1BFFC75727904CF4EDC548183FE6733693C47228D888915F2F
+    hash: A5966927BE9E1F2D5B336F4DB0C796D1DAD53E1BF74110AC64DE1B6015402344
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/Animation/objectWobbleLoop.anim
-    hash: EFFAC23E5621DF646A73B3B80512A4430F5B2453BA67535B7D6CAC6228165B7C
+    hash: 688B3B361AD69987D9FC6D4E3616C01A04AB436E2CD8F2D60B0CC1C89A906E0C
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/ModWorkbenchBuilding.prefab
-    hash: E70B4142FE6061643670789DAFFCE11CB5078C88FD6939CB17F0AD0E6AA631ED
+    hash: C36854986843E91552504C2246607371404339C800E0EC6E08E954C596801068
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/ModWorkbenchBuildingNew.prefab
     hash: CD8B0AAC9F077A4AF8F6ED5C9B573B84FAD2E26450968DE9831604A9BE817E2C
   - path: Assets/CoreLibPackage/CoreLib.Entity/Prefab/TemplateWorkbench.prefab
-    hash: 97120E7FF5DD5B2B692FBFDB6249684296B4C4BD2E1C4D31F6E40D9A76CFB193
+    hash: 2DF022AD411E42A5688C8966DA345261EE60B72F3DE0A916F381C27BC4F09869
   - path: Assets/CoreLibPackage/CoreLib.Entity/README.md
     hash: 6A9E85FBA2AFE1E7E83F6DBC5758E6AC68A9105D4D9B7CBD38B0CEBBADC0E463
   - path: Assets/CoreLibPackage/CoreLib.Entity/RootWorkbench.asset
-    hash: E86C2B6BF6257C0EC2228F5C8A7CB14B428165B5640A20E6F9EDC1B51965F280
+    hash: 87AA691E9CE3DD2A09E32A1C8791A1C051F37CEA6914DF1ADCF1CCFA6F73B68D
   - path: Assets/CoreLibPackage/CoreLib.Entity/SpriteAssetManifest.asset
     hash: D3D4D6B64B7DE1D35599D99A0F0435D359DC695B619E4E210374073790613C84
   - path: Assets/CoreLibPackage/CoreLib.Entity/Sprites/RootWorkbenchSkin.asset
