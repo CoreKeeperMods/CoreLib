@@ -12,6 +12,7 @@ using CoreLib.ModResources;
 using CoreLib.Util;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
+using Pug.Sprite;
 using PugMod;
 using Unity.Entities;
 using Unity.NetCode;
@@ -29,6 +30,7 @@ using Object = UnityEngine.Object;
 [assembly:InternalsVisibleTo("CoreLib.RewiredExtension")]
 [assembly:InternalsVisibleTo("CoreLib.Tilesets")]
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity
 {
     public class EntityModule : BaseSubmodule
@@ -402,7 +404,13 @@ namespace CoreLib.Submodules.ModEntity
                 comp.craftingType = CraftingType.Simple;
                 comp.canCraftObjects = workbenchDefinition.canCraft;
                 comp.includeCraftedObjectsFromBuildings = workbenchDefinition.relatedWorkbenches;
-
+                
+                SpriteAsset targetSkin = rootWorkbenchDefinition.assetSkin.targetAsset;
+                if (workbenchDefinition.assetSkin.targetAsset != targetSkin)
+                {
+                    workbenchDefinition.assetSkin.SetValue("m_targetAsset", targetSkin);
+                    CoreLibMod.Log.LogInfo($"Changed {workbenchDefinition.itemId} target asset to root workbench asset");
+                }
                 modWorkbenches.Add(workbenchDefinition);
                 
                 if (!poolablePrefabs.Contains(entity.graphicalPrefab))

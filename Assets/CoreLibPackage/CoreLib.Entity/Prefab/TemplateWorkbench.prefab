@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 793611198, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playFailedEffectOnZeroDamage: 0
 --- !u!114 &114978018213277848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,9 +295,8 @@ MonoBehaviour:
   maxHealthMultiplier: 1
   hasHealthRegeneration: 0
   healInCombatAsWell: 0
-  healDirectlyWhenLeavingCombat: 0
-  healthPercentagePerFifthSecond: 100
-  startHealDelay: 5
+  healthIncreasePercentPerFiveSeconds: 100
+  healDelayAfterLeavingCombat: 5
   level: {fileID: 0}
 --- !u!114 &114034721442785089
 MonoBehaviour:
@@ -369,6 +369,7 @@ MonoBehaviour:
   TrackInterpolationDelay: 0
   GhostGroup: 0
   UsePreSerialization: 0
+  DontUsePredictionBackup: 0
 --- !u!114 &114744703120429938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,9 +402,8 @@ MonoBehaviour:
   maxHealthMultiplier: 1
   hasHealthRegeneration: 0
   healInCombatAsWell: 0
-  healDirectlyWhenLeavingCombat: 0
-  healthPercentagePerFifthSecond: 100
-  startHealDelay: 5
+  healthIncreasePercentPerFiveSeconds: 100
+  healDelayAfterLeavingCombat: 5
   level: {fileID: 0}
 --- !u!114 &6266910433821575672
 MonoBehaviour:

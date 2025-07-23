@@ -1,5 +1,4 @@
-﻿using ModIO;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace PugMod.ModIO
 {

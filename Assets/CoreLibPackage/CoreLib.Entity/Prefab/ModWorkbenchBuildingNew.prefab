@@ -47,14 +47,12 @@ MonoBehaviour:
   weightMultiplier: 1
   useDiscreteOutlineColor: 0
   entityMono: {fileID: 8027077187489102656}
-  interactCooldown: 0
   requiredFactionToInteract: 0
   optionalIcon: {fileID: 0}
   optionalOutlineController: {fileID: 0}
   additionalOutlineControllers: []
   spriteObjects:
   - {fileID: 7568766159106706509}
-  onlyTriggerActionsOnce: 0
   onUseActions:
   - m_PersistentCalls:
       m_Calls:
@@ -70,8 +68,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onReleaseActions: []
-  onTriggerEnterActions: []
   onTriggerExitActions:
   - m_PersistentCalls:
       m_Calls:
@@ -89,8 +85,8 @@ MonoBehaviour:
         m_CallState: 2
   radius: 1.3
   interactingPoints: []
-  allowToUseDuringCutscene: 0
   allowToUseOnlyWhenClaimed: 0
+  ignorePlayerDirection: 0
 --- !u!1 &1284432609753473
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,6 +97,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4362259424348712}
   - component: {fileID: 8027077187489102656}
+  - component: {fileID: 4492184524036806985}
+  - component: {fileID: 2208645390410469985}
   m_Layer: 0
   m_Name: ModWorkbenchBuildingNew
   m_TagString: Untagged
@@ -159,12 +157,14 @@ MonoBehaviour:
   particleOptions:
     particlesToSpawn:
     - spawnOccasion: 0
+      spawnManually: 0
       objectID: 4049
       particles:
       - puff: 79
         positionTransform: {fileID: 4723762556048704}
         particleCount: 15
     - spawnOccasion: 0
+      spawnManually: 0
       objectID: 4047
       particles:
       - puff: 79
@@ -184,6 +184,7 @@ MonoBehaviour:
   outlineControllers: []
   hasDisableableParticles: 0
   previousHealth: 0
+  m_spriteObjectOrientationHash: 0
   craftingUITitle:
     mTerm: crafting
     mRTL_IgnoreArabicFix: 0
@@ -209,6 +210,38 @@ MonoBehaviour:
   mainObject: {fileID: 7568766159106706509}
   shadowObject: {fileID: 3005554013292434928}
   particleSpawnLocation: {fileID: 4723762556048704}
+--- !u!114 &4492184524036806985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284432609753473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -122692614, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritesToRotate:
+  - {fileID: 7568766159106706509}
+  - {fileID: 3005554013292434928}
+  reflectSides: 0
+--- !u!114 &2208645390410469985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284432609753473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1232698746, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritesToReskin:
+  - {fileID: 7568766159106706509}
+  - {fileID: 3005554013292434928}
+  reskinConditions: []
 --- !u!1 &1957309050721297
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,6 +333,11 @@ MonoBehaviour:
   m_randomStartTime: 0
   processAnimationEvents: 0
   syncSource: {fileID: 0}
+  syncAnimation: 1
+  syncVariant: 1
+  syncSprite: 0
+  maskChannel: 0
+  maskInteraction: 0
 --- !u!1 &5726994751271911011
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,3 +432,8 @@ MonoBehaviour:
   m_randomStartTime: 0
   processAnimationEvents: 0
   syncSource: {fileID: 0}
+  syncAnimation: 1
+  syncVariant: 1
+  syncSprite: 0
+  maskChannel: 0
+  maskInteraction: 0

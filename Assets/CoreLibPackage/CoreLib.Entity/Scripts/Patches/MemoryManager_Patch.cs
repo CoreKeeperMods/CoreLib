@@ -3,8 +3,10 @@ using CoreLib.Util;
 using HarmonyLib;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity.Patches
 {
+    // ReSharper disable once InconsistentNaming
     public static class MemoryManager_Patch
     {
         [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init))]

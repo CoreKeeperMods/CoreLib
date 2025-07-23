@@ -16,7 +16,6 @@ MonoBehaviour:
   bigIcon: {fileID: 6052145283139932220, guid: ab77b76a069f0694daa74862dbbf932f, type: 3}
   smallIcon: {fileID: 4889364612262949874, guid: ab77b76a069f0694daa74862dbbf932f,
     type: 3}
-  texture: {fileID: 2800000, guid: 006c3608fefce844e9b7ef38e6517f22, type: 3}
   assetSkin: {fileID: 11400000, guid: d6d36324533a3a14092a17ce22ea322a, type: 2}
   bindToRootWorkbench: 0
   recipe:

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using HarmonyLib;
 using Interaction;
-using Pug.ECS.Hybrid;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity.Patches
 {
 
     [HarmonyPatch]
+    // ReSharper disable once InconsistentNaming
     public static class InteractableConverter_Patch
     {
         public delegate void RefAction<in T1, T2>(T1 arg1, ref T2 arg2);

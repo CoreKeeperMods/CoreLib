@@ -1,6 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity.Atributes
 {
     /// <summary>

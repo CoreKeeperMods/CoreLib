@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection.Emit;
 using CoreLib.Submodules.ModEntity.Components;
 using HarmonyLib;
 using Pug.ECS.Hybrid;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity.Patches
 {
+    // ReSharper disable once InconsistentNaming
     public class GraphicalObjectConversion_Patch
     {
         

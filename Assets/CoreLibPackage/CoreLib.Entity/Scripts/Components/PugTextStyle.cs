@@ -1,6 +1,7 @@
 ﻿using Pug.UnityExtensions;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity
 {
     public class PugTextStyle : MonoBehaviour

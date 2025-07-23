@@ -3,9 +3,11 @@ using System.Linq;
 using CoreLib.Submodules.ModEntity.Interfaces;
 using HarmonyLib;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity.Patches
 {
     [SuppressMessage("Method Declaration", "Harmony003:Harmony non-ref patch parameters modified")]
+    // ReSharper disable once InconsistentNaming
     public class ColorReplacer_Patch
     {
         [HarmonyPatch(typeof(ColorReplacer), nameof(ColorReplacer.UpdateColorReplacerFromObjectData))]

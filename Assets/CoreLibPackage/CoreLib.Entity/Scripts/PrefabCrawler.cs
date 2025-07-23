@@ -2,6 +2,7 @@
 using PugTilemap.Quads;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity
 {
     public static class PrefabCrawler
@@ -22,7 +23,7 @@ namespace CoreLib.Submodules.ModEntity
 
             foreach (MonoBehaviour entity in prefabList)
             {
-                var entityMonoBehaviorData = entity.GetComponent<EntityMonoBehaviourData>();
+                EntityMonoBehaviourData entityMonoBehaviorData = entity.GetComponent<EntityMonoBehaviourData>();
                 
                 if (entityMonoBehaviorData != null)
                 {
@@ -65,7 +66,7 @@ namespace CoreLib.Submodules.ModEntity
 
         private static void CheckPrefab(GameObject prefab)
         {
-            var renderers = prefab.GetComponentsInChildren<Renderer>();
+            Renderer[] renderers = prefab.GetComponentsInChildren<Renderer>();
 
             foreach (Renderer renderer in renderers)
             {
