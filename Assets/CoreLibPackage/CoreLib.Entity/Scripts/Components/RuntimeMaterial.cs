@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -6,6 +5,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity.Components
 {
     [ExecuteAlways]

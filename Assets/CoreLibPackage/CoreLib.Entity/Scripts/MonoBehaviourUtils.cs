@@ -2,6 +2,7 @@
 using CoreLib.Submodules.ModEntity.Components;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Util
 {
     public static class MonoBehaviourUtils

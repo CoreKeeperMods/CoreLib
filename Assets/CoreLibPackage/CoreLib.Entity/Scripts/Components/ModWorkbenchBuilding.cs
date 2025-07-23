@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Pug.Sprite;
-using Pug.UnityExtensions;
 using PugMod;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity.Components
 {
     public class ModWorkbenchBuilding : CraftingBuilding
@@ -16,23 +17,31 @@ namespace CoreLib.Submodules.ModEntity.Components
 
         public override void OnOccupied()
         {
-            int variation = DirectionBasedOnVariationCD.GetVariationFromDirection(direction.RoundToInt2());
-
-            var info = objectInfo;
-
-            var skin = EntityModule.modWorkbenches.FirstOrDefault(definition => API.Authoring.GetObjectID(definition.itemId) == info.objectID);
-
-            mainObject.skin = skin.assetSkin;
-            mainObject.ApplyVisualChange();
-            mainObject.SetVariantByIndex((variation + 2) % 4);
-
-            shadowObject.skin = skin.assetSkin;
-            shadowObject.ApplyVisualChange();
-
-            craftingUITitle = skin.title;
-            craftingUITitleLeftBox = skin.leftTitle;
-            craftingUITitleRightBox = skin.rightTitle;
-            craftingUIBackgroundVariation = skin.skin;
+            WorkbenchDefinition skin = EntityModule.modWorkbenches.FirstOrDefault(definition => API.Authoring.GetObjectID(definition.itemId) == objectInfo.objectID);
+            if (skin is not null)
+            {
+                bool hasReskin = TryGetComponent(out SpriteSkinFromEntityAndSeason reskin);
+                if (hasReskin)
+                {
+                    SpriteSkinFromEntityAndSeason.ReskinCondition newSkin = new()
+                    {
+                        objectID = API.Authoring.GetObjectID(skin.itemId),
+                        dependsOnVariation = false,
+                        variation = 0,
+                        season = Season.None,
+                        reskin = new List<SpriteSkinFromEntityAndSeason.SkinAndGradientMap>
+                        { new() { skin = skin.assetSkin }, new() { skin = skin.assetSkin } }
+                    };
+                    if(reskin.reskinConditions.FindIndex(x => x.objectID == API.Authoring.GetObjectID(skin.itemId)) == -1)
+                        reskin.reskinConditions.Add(newSkin);
+                    reskin.UpdateGraphicsFromObjectInfo(objectInfo);
+                }
+                
+                craftingUITitle = skin.title;
+                craftingUITitleLeftBox = skin.leftTitle;
+                craftingUITitleRightBox = skin.rightTitle;
+                craftingUIBackgroundVariation = skin.skin;
+            }
             base.OnOccupied();
         }
 

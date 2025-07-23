@@ -1,4 +1,5 @@
-﻿namespace CoreLib.Submodules.ModEntity.Interfaces
+﻿// ReSharper disable once CheckNamespace
+namespace CoreLib.Submodules.ModEntity.Interfaces
 {
     /// <summary>
     /// Define Dynamic Item Handler by implementing this interface

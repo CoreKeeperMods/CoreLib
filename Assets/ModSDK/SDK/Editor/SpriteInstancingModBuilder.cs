@@ -24,7 +24,7 @@ public class SpriteInstancingModBuilder : PugMod.IPugModBuilderProcessor
 				continue;
 			}
 
-			if (asset is Texture2D texture2D && path.StartsWith("gm_"))
+			if (asset is Texture2D texture2D && texture2D.name.StartsWith("gm_"))
 			{
 				gradientMaps.Add(texture2D);
 				continue;
