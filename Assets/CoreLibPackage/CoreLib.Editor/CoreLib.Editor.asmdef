@@ -1,0 +1,41 @@
+{
+    "name": "CoreLib.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Unity.Collections",
+        "Unity.Core.Editor",
+        "Unity.EditorCoroutines.Editor",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Mathematics",
+        "Unity.NetCode",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "PugMod.SDK",
+        "ModSDK.Editor",
+        "CoreLib",
+        "CoreLib.Tilesets",
+        "CoreLib.Entity"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "I2.dll",
+        "Markdig.dll",
+        "modio.UnityPlugin.dll",
+        "Pug.Base.dll",
+        "Pug.Other.dll",
+        "Pug.Objects.dll",
+        "Pug.UnityExtensions.dll",
+        "Pug.ECS.Authoring.dll",
+        "PugText.Editor.dll",
+        "SpriteInstancing.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

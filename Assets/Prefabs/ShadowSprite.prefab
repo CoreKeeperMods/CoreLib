@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5205884174537138699}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.06249999, z: 0.0625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &7087136664179069884
 MonoBehaviour:
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 1908045241, guid: 8755fc0f8990e9f418149df4a482da57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_asset: {fileID: 11400000, guid: 63bf57541a42b7b49b844dc32eed3359, type: 2}
+  m_asset: {fileID: 11400000, guid: 9e5aa8becaff59e40b5758e408e72387, type: 2}
   skin: {fileID: 0}
   color: {r: 1, g: 1, b: 1, a: 0.7019608}
   emissiveColor: {r: 1, g: 1, b: 1, a: 1}
@@ -53,9 +53,15 @@ MonoBehaviour:
   primaryGradientMap: {fileID: 0}
   secondaryGradientMap: {fileID: 0}
   tertiaryGradientMap: {fileID: 0}
-  material: {fileID: 2100000, guid: 3b94d220c92609e4eae32a02f5668f31, type: 2}
+  material: {fileID: 2100000, guid: e9579b7574bbaa146a669beeabfcbb75, type: 2}
   m_startAnimationHash: 0
   m_startVariantHash: 0
   animationTimescale: 1
   m_randomStartTime: 0
   processAnimationEvents: 0
+  syncSource: {fileID: 0}
+  syncAnimation: 1
+  syncVariant: 1
+  syncSprite: 0
+  maskChannel: 0
+  maskInteraction: 0

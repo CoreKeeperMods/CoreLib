@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using CoreLib.Data.Configuration;
 using CoreLib.Util.Extensions;
 using PugMod;
-using QFSW.QC;
 using Unity.Entities;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;

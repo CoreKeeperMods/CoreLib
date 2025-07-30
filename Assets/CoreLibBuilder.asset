@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3ba067f3b28424ab1f656f569e063bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a93366468a9c9340bc270ac96f7a05d, type: 3}
   m_Name: CoreLibBuilder
   m_EditorClassIdentifier: 
   mods:
@@ -23,9 +23,9 @@ MonoBehaviour:
     - Script (Elevated Access)
     otherTags: Library;Script (Elevated Access)
     gameVersionTags: 1.1.1
-  - name: CoreLib.Audio (Disabled)
+  - name: CoreLib.Audio
     mod: {fileID: 11400000, guid: b5376f3d387ba6b42bc0cc7b6f9ced6d, type: 2}
-    shouldBuild: 0
+    shouldBuild: 1
     version: 4.0.1
     originalTags:
     - 1.1.1
@@ -45,9 +45,9 @@ MonoBehaviour:
     - Script
     otherTags: Library;Client;Server;Script
     gameVersionTags: 1.1.1
-  - name: CoreLib.Drops (Disabled)
+  - name: CoreLib.Drops
     mod: {fileID: 11400000, guid: c4e1966dac04b214bb29d4044a4aecb7, type: 2}
-    shouldBuild: 0
+    shouldBuild: 1
     version: 3.1.1
     originalTags:
     - 1.1.1
@@ -100,9 +100,9 @@ MonoBehaviour:
     - Script
     otherTags: Library;Script
     gameVersionTags: 1.1.1
-  - name: CoreLib.Tilesets (Disabled)
+  - name: CoreLib.Tilesets
     mod: {fileID: 11400000, guid: 32b57f3461b0dbb4e8f89a63efa63bcc, type: 2}
-    shouldBuild: 0
+    shouldBuild: 1
     version: 3.1.0
     originalTags:
     - Library
@@ -111,15 +111,15 @@ MonoBehaviour:
     - Script
     otherTags: Library;Client;Server;Script
     gameVersionTags: 1.1.1
-  - name: CoreLib.UserInterface (Disabled)
+  - name: CoreLib.UserInterface
     mod: {fileID: 11400000, guid: 8802fd081c0fc544b91bb88a94dde143, type: 2}
-    shouldBuild: 0
+    shouldBuild: 1
     version: 0.1.2
     originalTags:
     - Library
     otherTags: Library;Script
     gameVersionTags: 1.1.1
-  buildAll: 0
+  buildAll: 1
   uploadToModIO: 0
   updateDescription: 0
   uploadVersion: 3.1.1
@@ -134,4 +134,4 @@ MonoBehaviour:
   actionPrefix: Updating
   buildIndex: -1
   isBuilding: 0
-  oldBuildAll: 0
+  oldBuildAll: 1
