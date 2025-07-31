@@ -15,7 +15,7 @@ MonoBehaviour:
   metadata:
     guid: c4f0016ab9b64c70b386c439b6eac3ab
     name: CoreLib
-    skipSafetyChecks: 1
+    skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
@@ -54,16 +54,14 @@ MonoBehaviour:
     - path: Scripts/Scripts/Submodules/GameVersion.cs
     - path: Scripts/Scripts/Submodules/BaseSubmodule.cs
     - path: Scripts/Scripts/CoreLibMod.cs
-    - path: Bundles/CoreLib_Windows.assetbundle
-    - path: Bundles/CoreLib_Linux.assetbundle
     dependencies: []
   modPath: Assets\CoreLibPackage\CoreLib
-  forceReimport: 1
-  buildBundles: 1
+  forceReimport: 0
+  buildBundles: 0
   cacheBundles: 0
-  buildLinux: 1
+  buildLinux: 0
   buildBurst: 0
   assets:
   - path: Assets/CoreLibPackage/CoreLib/Scripts/Util/Data/ConfigFile/LICENSE.txt
     hash: AB7D4706AAB69049A270AFF7665DB085EF367CE347EFD5BB0E3B7E7AD92CEE80
-  lastBuildLinux: 1
+  lastBuildLinux: 0

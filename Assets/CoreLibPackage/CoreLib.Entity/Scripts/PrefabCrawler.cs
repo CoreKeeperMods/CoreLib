@@ -23,19 +23,12 @@ namespace CoreLib.Submodules.ModEntity
 
             foreach (MonoBehaviour entity in prefabList)
             {
-                EntityMonoBehaviourData entityMonoBehaviorData = entity.GetComponent<EntityMonoBehaviourData>();
-                
-                if (entityMonoBehaviorData != null)
-                {
-                    if (!entityPrefabs.ContainsKey(entityMonoBehaviorData.objectInfo.objectID))
-                    {
-                        PrefabInfo info = entityMonoBehaviorData.ObjectInfo.prefabInfos[0];
-                        if (info == null ||
-                            info.prefab == null) continue;
-                        
-                        entityPrefabs.Add(entityMonoBehaviorData.ObjectInfo.objectID, info.prefab.gameObject);
-                    }
-                }
+                var entityMonoBehaviorData = entity.GetComponent<EntityMonoBehaviourData>();
+                if (entityMonoBehaviorData == null) continue;
+                if (entityPrefabs.ContainsKey(entityMonoBehaviorData.objectInfo.objectID)) continue;
+                PrefabInfo info = entityMonoBehaviorData.ObjectInfo.prefabInfos[0];
+                if (info == null || info.prefab == null) continue;
+                entityPrefabs.Add(entityMonoBehaviorData.ObjectInfo.objectID, info.prefab.gameObject);
             }
 
             entityPrefabsReady = true;

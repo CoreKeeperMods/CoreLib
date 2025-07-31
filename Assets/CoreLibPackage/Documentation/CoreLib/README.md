@@ -53,23 +53,36 @@ You can access CoreLib documentation from within your editor, by navigating to C
 
 <img alt="Unity Package Directory" height="500" src="./pics/corelib-readme.png"/>
 
-### Utilities
-With Core Lib also comes a package called `SDK Extensions`. This package adds a few useful editors:
+## Utilities
+The package `CoreLib.Editor` adds a few useful additions to the ModSDK:
 
 - Select dependencies from a dropdown (Including CoreLib)
 - Updating asmdef file accordingly to your dependency declaration (Button labeled `sync asmdef file`)
-- Building Burst assembly with your mod (Requires updating ModSDK files for now)
+- Building Burst assembly with your mod (Requires updating ModSDK files [How To Build Burst Files](./HowToBuildBurst.md))
 
 ![CoreLib Meta Data](./pics/corelib-metadata.png)
 ![CoreLib Dependencies](./pics/corelib-dependencies.png)
 
-**NOTE:** some of these features require manual changes to mod SDK project. Reference [my fork](https://github.com/kremnev8/CoreKeeperModSDK) of mod SDK project to see what changes you need.<br>
-**SECOND NOTE:** The ModSDK has been updated a lot since the fork of the project was made, ***proceed with CAUTION***.
+###### **NOTE:** Any additional features require manual changes to mod SDK project. Reference [Limoka's Fork](https://github.com/limoka/CoreKeeperModSDK) of mod SDK project to see what changes you may need.
+***CAUTION: Fork is out-of-date and may no longer be necessary***.
 
 ## Documentation
 Each submodule contains a markdown file with documentation.
 
 Contents:
+- [Audio Submodule](./CoreLib.Audio/README.md)
+- [Commands Submodule](./CoreLib.Commands/README.md)
+- [Drops Submodule](./CoreLib.Drops/README.md)
+- [Entity Submodule](./CoreLib.Entity/README.md)
+- [Equipment Submodule](./CoreLib.Equipment/README.md)
+- [Localization Submodule](./CoreLib.Localization/README.md)
+- [Resources Submodule](./CoreLib.Resources/README.md)
+- [RewiredExtension Submodule](./CoreLib.RewiredExtension/README.md)
+- [Tilesets Submodule](./CoreLib.Tilesets/README.md)
+- [User Interface Submodule](./CoreLib.UserInterface/README.md)
+
+# Mod.io Links
+- [CoreLib](https://mod.io/g/corekeeper/m/corelib)
 - [Audio Submodule](https://mod.io/g/corekeeper/m/corelibaudio)
 - [Commands Submodule](https://mod.io/g/corekeeper/m/corelibcommands)
 - [Drops Submodule](https://mod.io/g/corekeeper/m/corelibdrops)

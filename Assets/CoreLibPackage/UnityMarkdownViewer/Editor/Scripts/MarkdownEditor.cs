@@ -58,6 +58,7 @@ namespace MG.MDV
         protected override void OnHeaderGUI()
         {
 #if UNITY_2019_2_OR_NEWER && !UNITY_2020_1_OR_NEWER
+            // TODO: workaround for bug in 2019.2
             // https://forum.unity.com/threads/oninspectorgui-not-being-called-on-defaultasset-in-2019-2-0f1.724328/
             DrawEditor();
 #endif

@@ -14,30 +14,15 @@ namespace CoreLib.Submodules.ModEntity.Components
         public string materialName;
         public override bool Apply(MonoBehaviour data)
         {
-            if (PrefabCrawler.materials.ContainsKey(materialName))
-            {
-                bool anyWorked = false;
-                SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-                if (spriteRenderer != null)
-                {
+            if (PrefabCrawler.materials.ContainsKey(materialName)) {
+                if (gameObject.TryGetComponent(out SpriteRenderer spriteRenderer)) {
                     spriteRenderer.sharedMaterial = PrefabCrawler.materials[materialName];
-                    anyWorked = true;
-                }
-
-                ParticleSystemRenderer particleSystem = gameObject.GetComponent<ParticleSystemRenderer>();
-                if (particleSystem != null)
-                {
-                    particleSystem.sharedMaterial = PrefabCrawler.materials[materialName];
-                    anyWorked = true;
-                }
-
-                if (!anyWorked)
-                {
+                } else if (gameObject.TryGetComponent(out ParticleSystemRenderer particleSystemRenderer)) {
+                    particleSystemRenderer.sharedMaterial = PrefabCrawler.materials[materialName];
+                } else {
                     CoreLibMod.Log.LogInfo($"Error applying material {materialName}, found no valid target!");
                 }
-            }
-            else
-            {
+            } else {
                 CoreLibMod.Log.LogInfo($"Error applying material {materialName}, such material is not found!");
             }
 

@@ -38,7 +38,7 @@ namespace MG.MDV
             mHandlerNavigate.CurrentPath = mCurrentPath;
             mHandlerNavigate.History     = mHistory;
             mHandlerNavigate.FindBlock   = ( id ) => mLayout.Find( id );
-            mHandlerNavigate.ScrollTo    = ( pos ) => {};
+            mHandlerNavigate.ScrollTo    = ( pos ) => {}; // TODO: mScrollPos.y = pos;
         }
 
         public MarkdownViewer( GUISkin skin, string path, string content, Func<float> viewWidthProvider ) : this( skin, path, content )
