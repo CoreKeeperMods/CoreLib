@@ -1,6 +1,5 @@
 ﻿using CoreLib.Equipment.Component;
 using HarmonyLib;
-using UnityEngine;
 
 namespace CoreLib.Equipment.Patches
 {

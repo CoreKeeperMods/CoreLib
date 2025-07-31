@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using CoreLib.Data;
 using CoreLib.Data.Configuration;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using Rewired;
 using Rewired.Data;
 using Rewired.Data.Mapping;
-using RewiredConsts;
 
 namespace CoreLib.RewiredExtension.Patches
 {

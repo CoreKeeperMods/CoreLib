@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Text.Json;
+﻿using System.Text.Json;
 using CoreLib.Submodules.ModEntity;
-using CoreLib.Submodules.ModEntity.Components;
-using CoreLib.Util.Extensions;
 using UnityEngine;
 
 namespace CoreLib.JsonLoader.Readers

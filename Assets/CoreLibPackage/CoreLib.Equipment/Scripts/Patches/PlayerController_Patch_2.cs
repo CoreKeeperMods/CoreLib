@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using HarmonyLib;
-// ReSharper disable InconsistentNaming
 
 namespace CoreLib.Equipment.Patches
 {

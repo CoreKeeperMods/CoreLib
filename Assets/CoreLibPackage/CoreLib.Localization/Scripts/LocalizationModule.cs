@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreLib.Localization.Patches;
-using CoreLib.Util.Extensions;
 using I2.Loc;
 
 namespace CoreLib.Localization

@@ -3,8 +3,6 @@ using PlayerEquipment;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
-// ReSharper disable InconsistentNaming
-// ReSharper disable SuspiciousTypeConversion.Global
 
 namespace CoreLib.Equipment.Patches
 {

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using PlayerEquipment;
-using PugMod;
+﻿using PlayerEquipment;
 using Unity.Entities;
 
 // ReSharper disable SuspiciousTypeConversion.Global

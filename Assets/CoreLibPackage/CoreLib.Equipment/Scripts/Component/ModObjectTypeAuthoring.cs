@@ -1,4 +1,3 @@
-using CoreLib.Submodules.ModEntity.Components;
 using UnityEngine;
 
 namespace CoreLib.Equipment.Component

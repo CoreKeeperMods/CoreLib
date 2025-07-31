@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreLib.Submodules.ModEntity;
 using PugMod;
 using UnityEngine;
 

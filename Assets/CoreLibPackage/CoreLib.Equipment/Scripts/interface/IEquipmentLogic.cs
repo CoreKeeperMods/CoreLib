@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using PlayerEquipment;
+﻿using PlayerEquipment;
 using Unity.Entities;
 
 namespace CoreLib.Equipment

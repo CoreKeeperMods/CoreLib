@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
-using UnityEngine;
 
 namespace CoreLib.Equipment.Patches
 {

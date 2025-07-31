@@ -70,19 +70,19 @@ The package `CoreLib.Editor` adds a few useful additions to the ModSDK:
 Each submodule contains a markdown file with documentation.
 
 Contents:
-- [Audio Submodule](./CoreLib.Audio/README.md)
-- [Commands Submodule](./CoreLib.Commands/README.md)
-- [Drops Submodule](./CoreLib.Drops/README.md)
-- [Entity Submodule](./CoreLib.Entity/README.md)
-- [Equipment Submodule](./CoreLib.Equipment/README.md)
-- [Localization Submodule](./CoreLib.Localization/README.md)
-- [Resources Submodule](./CoreLib.Resources/README.md)
-- [RewiredExtension Submodule](./CoreLib.RewiredExtension/README.md)
-- [Tilesets Submodule](./CoreLib.Tilesets/README.md)
-- [User Interface Submodule](./CoreLib.UserInterface/README.md)
+- [Audio Submodule](../CoreLib.Audio/README.md)
+- [Commands Submodule](../CoreLib.Commands/README.md)
+- [Drops Submodule](../CoreLib.Drops/README.md)
+- [Entity Submodule](../CoreLib.Entity/README.md)
+- [Equipment Submodule](../CoreLib.Equipment/README.md)
+- [Localization Submodule](../CoreLib.Localization/README.md)
+- [Resources Submodule](../CoreLib.Resources/README.md)
+- [RewiredExtension Submodule](../CoreLib.RewiredExtension/README.md)
+- [Tilesets Submodule](../CoreLib.Tilesets/README.md)
+- [User Interface Submodule](../CoreLib.UserInterface/README.md)
 
 # Mod.io Links
-- [CoreLib](https://mod.io/g/corekeeper/m/corelib)
+- [CoreLib](https://mod.io/g/corekeeper/m/core-lib)
 - [Audio Submodule](https://mod.io/g/corekeeper/m/corelibaudio)
 - [Commands Submodule](https://mod.io/g/corekeeper/m/corelibcommands)
 - [Drops Submodule](https://mod.io/g/corekeeper/m/corelibdrops)

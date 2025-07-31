@@ -2,7 +2,6 @@
 using System.Text.Json;
 using CoreLib.JsonLoader.Components;
 using CoreLib.Submodules.ModEntity;
-using CoreLib.Util.Extensions;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Authoring;

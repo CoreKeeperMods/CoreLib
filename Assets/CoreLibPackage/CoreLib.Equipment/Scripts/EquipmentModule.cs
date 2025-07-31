@@ -5,7 +5,6 @@ using CoreLib.Equipment.Patches;
 using CoreLib.Equipment.System;
 using CoreLib.ModResources;
 using CoreLib.Submodules.ModEntity;
-using CoreLib.Util.Extensions;
 using JetBrains.Annotations;
 using PlayerEquipment;
 using PugMod;

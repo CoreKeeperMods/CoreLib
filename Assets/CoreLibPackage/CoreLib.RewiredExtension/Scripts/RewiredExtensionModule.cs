@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreLib.Data;
 using CoreLib.Data.Configuration;
 using CoreLib.RewiredExtension.Patches;
 using CoreLib.Localization;

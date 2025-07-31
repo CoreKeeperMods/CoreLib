@@ -2,7 +2,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CoreLib.Util;
-using CoreLib.Util.Extensions;
 using UnityEngine;
 
 namespace CoreLib.JsonLoader.Converters

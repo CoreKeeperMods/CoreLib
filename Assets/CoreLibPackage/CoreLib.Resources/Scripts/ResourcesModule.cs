@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using PugMod;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.AddressableAssets.ResourceLocators;
 using Object = UnityEngine.Object;
 
 [assembly:InternalsVisibleTo("CoreLib.Audio")]

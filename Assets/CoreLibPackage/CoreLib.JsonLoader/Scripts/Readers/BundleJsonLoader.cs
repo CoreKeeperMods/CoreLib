@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
 using CoreLib.Submodules.ModEntity;
-using CoreLib.Util.Extensions;
 
 namespace CoreLib.JsonLoader.Readers
 {

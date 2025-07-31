@@ -5,7 +5,6 @@ using System.Text.Json;
 using CoreLib.JsonLoader.Components;
 using CoreLib.Submodules.ModEntity;
 using CoreLib.Localization;
-using CoreLib.Util.Extensions;
 using UnityEngine;
 
 namespace CoreLib.JsonLoader.Readers

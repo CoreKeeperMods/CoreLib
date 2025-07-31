@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CoreLib.Submodules.ModEntity.Components;
 using PugConversion;
 using Unity.Entities;
