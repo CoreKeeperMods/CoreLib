@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4140225007849032}
   - component: {fileID: 114871376639400881}
+  - component: {fileID: 6808061306656130734}
   m_Layer: 0
   m_Name: Interactable
   m_TagString: Untagged
@@ -87,6 +88,74 @@ MonoBehaviour:
   interactingPoints: []
   allowToUseOnlyWhenClaimed: 0
   ignorePlayerDirection: 0
+--- !u!114 &6808061306656130734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005258581253549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 477158581, guid: 5e4c644ded589d44fb6c01982fdbf432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XScaler: {fileID: 0}
+  shadow: {fileID: 0}
+  indirectLightEmitters: []
+  animator: {fileID: 0}
+  interactable: {fileID: 0}
+  spriteObjects: []
+  useSharedTransformAnimations: 1
+  reskinOptions: []
+  paintableOptions:
+    spriteRenderers: []
+    spriteColorTints: []
+    spriteSheetSkins: []
+  soundOptions:
+    takeDamageSfx:
+      value: 0
+    deathSfx:
+      value: 0
+  particleOptions:
+    particlesToSpawn: []
+    particleSpawnLocations: []
+    particlesToDisableOnLowQuality: []
+  objectVariants: []
+  spritesToRandomlyFlip: []
+  gameObjectsToRandomlyFlip: []
+  optionalHealthBar: {fileID: 0}
+  optionalLightOptimizer: {fileID: 0}
+  conditionEffectsHandler: {fileID: 0}
+  conditionsEffectsSettings:
+    stunEffectOffset: {x: 0, y: 0, z: 0}
+  outlineControllers: []
+  hasDisableableParticles: 0
+  previousHealth: 0
+  m_spriteObjectOrientationHash: 0
+  craftingUITitle:
+    mTerm: crafting
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
+  craftingUITitleLeftBox:
+    mTerm: tools
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
+  craftingUITitleRightBox:
+    mTerm: base
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
+  craftingUIBackgroundVariation: 0
+  hideRecipes: 0
+  craftingUIOverrideSettings: []
+  craftingCategoryWindowInfos: []
+  speechSounds: 362fd285
 --- !u!1 &1284432609753473
 GameObject:
   m_ObjectHideFlags: 0

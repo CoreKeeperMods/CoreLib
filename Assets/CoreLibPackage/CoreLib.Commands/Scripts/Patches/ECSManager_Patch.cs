@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using HarmonyLib;
-using PugMod;
-using PugTilemap;
 
 namespace CoreLib.Commands.Patches
 {

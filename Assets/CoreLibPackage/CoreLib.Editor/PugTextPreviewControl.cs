@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using I2.Loc;
 using UnityEditor;
-using UnityEngine;
 
 namespace CoreLib.Editor
 {

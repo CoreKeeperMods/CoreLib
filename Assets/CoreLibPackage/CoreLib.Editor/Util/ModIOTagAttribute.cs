@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace CoreLib.Editor
 {
+    /// <summary>
+    ///   <para>Attribute to make a multi-selectable dropdown with all Core Keeper Game Versions from Mod.io.</para>
+    /// </summary>
     public class ModIOTagAttribute : PropertyAttribute
     {
         public enum TagKind

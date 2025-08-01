@@ -1,11 +1,12 @@
 {
     "name": "CoreLib.Audio",
-    "rootNamespace": "CoreLib.Audio",
+    "rootNamespace": "",
     "references": [
         "Unity.Addressables",
         "Unity.Collections",
         "Unity.Entities",
         "PugMod.SDK",
+        "ModSDK.Editor",
         "CoreLib"
     ],
     "includePlatforms": [],

@@ -53,15 +53,15 @@ MonoBehaviour:
     - path: Scripts/Scripts/Submodules/SubmoduleHandler.cs
     - path: Scripts/Scripts/Submodules/GameVersion.cs
     - path: Scripts/Scripts/Submodules/BaseSubmodule.cs
-    - path: Scripts/Scripts/CoreLibMod.cs
+    - path: Scripts/CoreLibMod.cs
+    - path: Bundles/CoreLib_Windows.assetbundle
+    - path: Bundles/CoreLib_Linux.assetbundle
     dependencies: []
   modPath: Assets\CoreLibPackage\CoreLib
   forceReimport: 0
-  buildBundles: 0
+  buildBundles: 1
   cacheBundles: 0
-  buildLinux: 0
+  buildLinux: 1
   buildBurst: 0
-  assets:
-  - path: Assets/CoreLibPackage/CoreLib/Scripts/Util/Data/ConfigFile/LICENSE.txt
-    hash: AB7D4706AAB69049A270AFF7665DB085EF367CE347EFD5BB0E3B7E7AD92CEE80
-  lastBuildLinux: 0
+  assets: []
+  lastBuildLinux: 1

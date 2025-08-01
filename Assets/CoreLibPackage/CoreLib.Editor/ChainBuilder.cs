@@ -43,8 +43,7 @@ namespace CoreLib.Editor
         public bool updateDescription;
         public string uploadVersion;
         
-        [ModIOTag]
-        public string allGameVersions;
+        [ModIOTag] public string allGameVersions;
         
         [TextArea] public string changeLog;
 

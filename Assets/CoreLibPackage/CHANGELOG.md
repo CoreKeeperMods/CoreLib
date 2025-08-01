@@ -1,3 +1,11 @@
+# Changelog
+All notable changes to the CoreLib Package.
+
+### 4.0.0
+- Complete CoreLib Overhaul
+
+### 3.6.4
+- Fixed `Skin target asset mismatch` error in CoreLib.Entity
 
 ### v2.1.3
 - Fixed issues using ModProjectile
@@ -5,9 +13,6 @@
 ### v2.1.2
 - Allow to manually request any module to be loaded from config options
 - Added MigrationModule. Module is intended to be opt in functionality to fix issues with missing items. Enable in the config file.
-
-<details>
-<summary>Changelog</summary>
 
 ### v2.1.1
 - Fixed error on launch due to reflection error
@@ -99,4 +104,3 @@
 
 ### v0.0.1
 - Initial Release
-</details>

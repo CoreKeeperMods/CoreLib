@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
-#if UNITY_EDITOR
 using UnityEditor;
 
 namespace CoreLib.Editor
 {
-    [CustomPropertyDrawer(typeof(ObjectID))]
+    /*[CustomPropertyDrawer(typeof(ObjectID))]
     public class ObjectId1Drawer : PropertyDrawer
     {
         private Dictionary<string, string> currentSearch = new Dictionary<string, string>();
@@ -106,6 +104,5 @@ namespace CoreLib.Editor
         {
             return 40;
         }
-    }
+    }*/
 }
-#endif

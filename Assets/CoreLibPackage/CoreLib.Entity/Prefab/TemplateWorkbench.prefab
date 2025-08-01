@@ -95,7 +95,7 @@ MonoBehaviour:
   isStackable: 1
   requiredObjectsToCraft:
   - objectName: None
-    amount: 8
+    amount: 0
   craftingTime: 1
 --- !u!114 &114396391988895895
 MonoBehaviour:

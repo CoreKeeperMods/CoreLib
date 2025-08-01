@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using CoreLib.Submodules.ModEntity.Components;
+﻿using CoreLib.Submodules.ModEntity.Components;
 using UnityEditor;
 using UnityEngine;
 

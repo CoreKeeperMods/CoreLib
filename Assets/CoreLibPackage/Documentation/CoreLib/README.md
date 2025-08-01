@@ -3,6 +3,8 @@ A modding library for Core Keeper. Provides features that makes modding Core Kee
 
 **WARNING!** Version 3.0.0 contains breaking changes.
 
+**WARNING!** Version 4.0.0 may contain breaking changes.
+
 ## List of features
 - Custom items, blocks, enemies, NPC, etc.
 - Easier access to Rewired input system, localization
@@ -28,7 +30,7 @@ Add following line at the beginning to your dependencies:
 "ck.modding.corelib": "https://github.com/CoreKeeperMods/CoreLib.git?path=/Assets/CoreLibPackage#main",
 ```
 It will look like this after adding it:
-```json
+```json lines
 {
   "dependencies": {
     "ck.modding.corelib": "https://github.com/CoreKeeperMods/CoreLib.git?path=/Assets/CoreLibPackage#main",
@@ -51,7 +53,7 @@ Now you can open your project, and you will have Core Lib ready to be used.
 
 You can access CoreLib documentation from within your editor, by navigating to CoreLib package folder and viewing `README.md`
 
-<img alt="Unity Package Directory" height="500" src="./pics/corelib-readme.png"/>
+![Unity Package Directory](./pics/corelib-readme.png)
 
 ## Utilities
 The package `CoreLib.Editor` adds a few useful additions to the ModSDK:

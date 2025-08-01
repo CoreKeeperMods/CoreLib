@@ -3,7 +3,6 @@ using System.Linq;
 using CoreLib.Commands.Communication;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
-using PugMod;
 using UnityEngine;
 
 namespace CoreLib.Commands.Patches

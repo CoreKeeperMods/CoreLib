@@ -22,8 +22,8 @@ Alternatively import the `.unitypackage` file from the [releases page](https://g
 
 ### Dark Skin
 
-![Screenshot](https://raw.githubusercontent.com/gwaredd/UnityMarkdownViewer/main/Documentation/images/screenshot_dark.png)
+![Screenshot](./Documentation/images/screenshot_dark.png)
 
 ### Light Skin
 
-![Screenshot](https://raw.githubusercontent.com/gwaredd/UnityMarkdownViewer/main/Documentation/images/screenshot_light.png)
+![Screenshot](./Documentation/images/screenshot_light.png)

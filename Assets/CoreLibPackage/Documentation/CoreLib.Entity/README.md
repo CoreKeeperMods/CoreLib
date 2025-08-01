@@ -15,7 +15,7 @@ To define a workbench, open create dialog and pick `CoreLib/New WorkbenchDefinit
 - `Big Icon` and `Small Icon` are the same as usual item icons.
 - `Texture` and `Emissive Texture` (Optional) need to be 16x80 px in size and contain the workbench sprites in all orientations:
 
-![Workbench texture](./Textures/modWorkbenchVariants.png)<br>
+![Workbench texture](./documentation/modWorkbenchVariants.png)<br>
 
 Once you are done configuring this asset, in your mod `ModObjectLoaded(Object obj)` method add following code:
 

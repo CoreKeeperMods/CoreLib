@@ -1,6 +1,5 @@
 ﻿using System;
 using HarmonyLib;
-using LootList = System.Collections.Generic.List<LootInfo>;
 
 namespace CoreLib.Drops.Patches
 {

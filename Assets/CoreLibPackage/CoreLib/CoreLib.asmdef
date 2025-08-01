@@ -16,9 +16,11 @@
     "precompiledReferences": [
         "0Harmony.dll",
         "Pug.Base.dll",
+        "Pug.Base.Editor.dll",
         "Pug.ECS.Authoring.dll",
         "Pug.Other.dll",
         "Pug.UnityExtensions.dll",
+        "Pug.UnityExtensions.Editor.dll",
         "PugMod.SDK.Runtime.dll"
     ],
     "autoReferenced": true,

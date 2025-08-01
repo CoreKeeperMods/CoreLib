@@ -6,14 +6,10 @@ using CoreLib.Commands.Handlers;
 using CoreLib.Commands.Patches;
 using CoreLib.RewiredExtension;
 using CoreLib.Util.Extensions;
-using Newtonsoft.Json;
 using PugMod;
 using QFSW.QC;
 using QFSW.QC.Utilities;
 using Rewired;
-using Unity.Burst;
-using UnityEngine;
-using UnityEngine.Scripting;
 
 // ReSharper disable SuspiciousTypeConversion.Global
 

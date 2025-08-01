@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CoreLib.Drops.Patches;
-using CoreLib.Util.Extensions;
 using PugMod;
 using LootList = System.Collections.Generic.List<LootInfo>;
 
