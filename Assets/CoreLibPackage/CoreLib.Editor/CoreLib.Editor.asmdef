@@ -13,8 +13,8 @@
         "PugMod.SDK",
         "ModSDK.Editor",
         "CoreLib",
-        "CoreLib.Tilesets",
-        "CoreLib.Entity"
+        "CoreLib.Entity",
+        "CoreLib.Tilesets"
     ],
     "includePlatforms": [
         "Editor"
