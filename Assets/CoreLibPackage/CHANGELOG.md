@@ -1,7 +1,7 @@
 # Changelog
 # CoreLib v3
 
-## [v3.6.4](https://github.com/CoreKeeperMods/CoreLib/releases/tag/3.6.4) (2025-07-22)
+## [v3.6.4](https://github.com/CoreKeeperMods/CoreLib/releases/tag/3.6.4)
 
 [3.6.3...3.6.4](https://github.com/CoreKeeperMods/CoreLib/compare/3.6.3...3.6.4)
 
