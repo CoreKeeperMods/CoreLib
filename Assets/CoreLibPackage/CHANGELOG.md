@@ -2,15 +2,19 @@
 # CoreLib v3
 
 ## [v3.6.4](https://github.com/CoreKeeperMods/CoreLib/releases/tag/3.6.4) (2025-07-22)
+
 [3.6.3...3.6.4](https://github.com/CoreKeeperMods/CoreLib/compare/3.6.3...3.6.4)
+
 ### Changes
 - Fixed `Skin target asset mismatch` error in CoreLib.Entity
 
 ## v3.6.3
+
 ### Changes
 - Updated to work with 1.1.2 and higher
 
 ## v3.6.2
+
 ### Changes
 - Improved Chain Builder tool to batch update mod tags.
 - No changes to submodules
