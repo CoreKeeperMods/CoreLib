@@ -18,6 +18,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CoreKeeperMods/CoreLib.git",
-    "directory": "Assets/CoreLibPackage#4.0.0-update"
+    "directory": "Assets/CoreLibPackage"
   }
 }
