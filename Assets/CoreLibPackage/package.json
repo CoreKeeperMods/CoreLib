@@ -14,5 +14,9 @@
   "licensesUrl": "https://github.com/CoreKeeperMods/CoreLib/blob/4.0.0-update/Assets/CoreLibPackage/LICENSE.md",
   "_upm": {
     "changelog": "### Fixes\n- Fixed `Skin target asset mismatch` error in CoreLib.Entity"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CoreKeeperMods/CoreLib.git"
   }
 }
