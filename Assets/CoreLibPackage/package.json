@@ -1,6 +1,6 @@
 {
   "name": "ck.modding.corelib",
-  "version": "3.6.4",
+  "version": "3.6.5",
   "displayName":"Core Library",
   "unity": "2022.3",
   "category": "Modding",
@@ -13,7 +13,7 @@
   "keywords": ["core keeper", "modding", "library"],
   "licensesUrl": "https://github.com/CoreKeeperMods/CoreLib/blob/4.0.0-update/Assets/CoreLibPackage/LICENSE.md",
   "_upm": {
-    "changelog": "### Fixes"
+    "changelog": "### Fixes 2"
   },
   "repository": {
     "type": "git",
