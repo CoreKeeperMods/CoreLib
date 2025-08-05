@@ -1,15 +1,15 @@
 {
   "name": "ck.modding.corelib",
-  "displayName":"Core Lib",
   "version": "3.6.4",
+  "displayName":"Core Library",
   "unity": "2022.3",
   "category": "Modding",
+  "changelogUrl": "https://github.com/CoreKeeperMods/CoreLib/blob/main/Assets/CoreLibPackage/CHANGELOG.md",
   "dependencies": {
     "com.unity.editorcoroutines": "1.0.0"
   },
+  "documentationUrl": "https://corekeepermods.github.io/#/",
   "description": "A modding library for Core Keeper. Provides features that makes modding Core Keeper easier.",
-  "keywords": [],
-  "documentationUrl": "https://github.com/CoreKeeperMods/CoreLib/wiki"
-  
-  
+  "keywords": ["core keeper", "modding", "library"],
+  "licensesUrl": "https://github.com/CoreKeeperMods/CoreLib/blob/main/Assets/CoreLibPackage/LICENSE.md"
 }
