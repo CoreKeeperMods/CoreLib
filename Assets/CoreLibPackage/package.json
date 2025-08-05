@@ -4,7 +4,7 @@
   "displayName":"Core Library",
   "unity": "2022.3",
   "category": "Modding",
-  "changelogUrl": "https://github.com/CoreKeeperMods/CoreLib/blob/4.0.0-update/Assets/CoreLibPackage/CHANGELOG.md",
+  "changelogUrl": "https://raw.githubusercontent.com/CoreKeeperMods/CoreLib/refs/heads/4.0.0-update/Assets/CoreLibPackage/CHANGELOG.md",
   "dependencies": {
     "com.unity.editorcoroutines": "1.0.0"
   },
