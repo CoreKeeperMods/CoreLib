@@ -17,6 +17,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CoreKeeperMods/CoreLib.git"
+    "url": "git+https://github.com/CoreKeeperMods/CoreLib.git?path=/Assets/CoreLibPackage#4.0.0-update"
   }
 }
