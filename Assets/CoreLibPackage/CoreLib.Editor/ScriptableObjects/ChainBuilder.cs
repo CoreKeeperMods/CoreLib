@@ -10,6 +10,7 @@ using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
 using ModIO;
+using NaughtyAttributes;
 
 namespace CoreLib.Editor
 {
@@ -19,7 +20,11 @@ namespace CoreLib.Editor
         [HideInInspector] public string name;
 
         public ModSettings mod;
-        public bool shouldBuild = true;
+        
+        [OnValueChanged("SelectShouldBuild_OnChange"), AllowNesting]
+        public bool shouldBuild;
+        
+        [OnValueChanged("UploadVersion_OnChange"), AllowNesting]
         public string version;
 
         [HideInInspector]
@@ -30,71 +35,61 @@ namespace CoreLib.Editor
         
         [ModIOTag]
         public string gameVersionTags;
+        
+        public void SelectShouldBuild_OnChange()
+        {
+            name = $"{mod.modSettings.metadata.name}{(shouldBuild ? "" : " (Disabled)")}";
+        }
+        
+        public void UploadVersion_OnChange()
+        {
+            if(string.IsNullOrEmpty(version)) version = "0.0.0";
+            var parts = version.Split('.');
+            if (parts.Length == 3) return;
+            Array.Resize(ref parts, 3);
+            for (var i = 0; i < parts.Length; i++) parts[i] ??= "0";
+            version = string.Join('.', parts);
+        }
     }
-
-    [CreateAssetMenu(fileName = "ChainBuilder", menuName = "CoreLib/New ChainBuilder", order = 2)]
+    
+    [CreateAssetMenu(fileName = "ChainBuilder", menuName = "CoreLib/Scriptable Objects/New ChainBuilder", order = 1)]
     public class ChainBuilder : ScriptableObject
     {
         public ModState[] mods;
 
+        [OnValueChanged("SelectBuildAll_OnChange"), AllowNesting]
         public bool buildAll;
 
         public bool uploadToModIO;
         public bool updateDescription;
+        [OnValueChanged("UploadVersion_OnChange"), AllowNesting]
         public string uploadVersion;
         
         [ModIOTag] public string allGameVersions;
         
-        [TextArea] public string changeLog;
+        [TextArea(5, 8)] public string changeLog;
 
         [HideInInspector] public string actionPrefix = "Building";
         [HideInInspector] public int buildIndex;
         [HideInInspector] public bool isBuilding;
-        [HideInInspector] public bool oldBuildAll;
-
-        private void OnValidate()
+        
+        public void SelectBuildAll_OnChange()
         {
-            if (!string.IsNullOrEmpty(uploadVersion))
+            foreach (var mod in mods)
             {
-                var parts = uploadVersion.Split('.');
-                if (parts.Length != 3)
-                {
-                    Array.Resize(ref parts, 3);
-                    for (int i = 0; i < parts.Length; i++)
-                    {
-                        parts[i] ??= "0";
-                    }
-
-                    uploadVersion = string.Join('.', parts);
-                }
+                mod.shouldBuild = buildAll;
+                mod.SelectShouldBuild_OnChange();
             }
-
-            if (buildAll != oldBuildAll)
-            {
-                foreach (ModState state in mods)
-                {
-                    state.shouldBuild = buildAll;
-                }
-
-                oldBuildAll = buildAll;
-            }
-
-            if (mods.Length > 0)
-            {
-                bool all = true;
-                foreach (ModState state in mods)
-                {
-                    state.name = $"{state.mod.modSettings.metadata.name}{(state.shouldBuild ? "" : " (Disabled)")}";
-                    
-                    all &= state.shouldBuild;
-                }
-
-                if (all != buildAll)
-                {
-                    buildAll = all;
-                    oldBuildAll = all;
-                }
-            }
+        }
+        
+        public void UploadVersion_OnChange()
+        {
+            if(string.IsNullOrEmpty(uploadVersion)) uploadVersion = "0.0.0";
+            var parts = uploadVersion.Split('.');
+            if (parts.Length == 3) return;
+            Array.Resize(ref parts, 3);
+            for (var i = 0; i < parts.Length; i++) parts[i] ??= "0";
+            uploadVersion = string.Join('.', parts);
         }
     }
 

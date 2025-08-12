@@ -23,7 +23,6 @@ MonoBehaviour:
     files:
     - path: Scripts/Scripts/Util/CommandUtil.cs
     - path: Scripts/Scripts/System/LoadItemDictSystem.cs
-    - path: Scripts/Scripts/Patches/TitleScreenAnimator_Patch.cs
     - path: Scripts/Scripts/Patches/MenuManager_Patch.cs
     - path: Scripts/Scripts/Patches/ECSManager_Patch.cs
     - path: Scripts/Scripts/Patches/ChatWindow_Patch.cs
@@ -42,9 +41,11 @@ MonoBehaviour:
     - path: Scripts/Scripts/CommandPair.cs
     - path: Scripts/Scripts/CommandOutput.cs
     - path: Scripts/Scripts/CommandModuleSettings.cs
-    - path: Scripts/Generated/CommandCommSystem__System_6172888300.g.cs
+    - path: Scripts/Generated/CommandCommSystem__System_16963205610.g.cs
     - path: Scripts/Generated/CoreLib.Commands.Communication_CommandDataMessageRPCCommandSerializer.cs
     - path: Scripts/Generated/CoreLib.Commands.Communication_CommandMessageRPCCommandSerializer.cs
+    - path: Bundles/CoreLib.Commands_Windows.assetbundle
+    - path: Bundles/CoreLib.Commands_Linux.assetbundle
     dependencies:
     - modName: CoreLib
       required: 1
@@ -52,11 +53,9 @@ MonoBehaviour:
       required: 1
   modPath: Assets\CoreLibPackage\CoreLib.Commands
   forceReimport: 0
-  buildBundles: 0
+  buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
   buildBurst: 1
-  assets:
-  - path: Assets/CoreLibPackage/CoreLib.Commands/README.md
-    hash: 641685DF318A70B68DA32A320DD033D5D93CCD2DECA90FFDDABE99C4116616B7
+  assets: []
   lastBuildLinux: 1

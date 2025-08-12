@@ -5,15 +5,28 @@ using HarmonyLib;
 
 namespace CoreLib.Audio.Patches
 {
+    /// <summary>
+    /// A utility class that provides Harmony patches for modifying the behavior of the AudioManager class.
+    /// </summary>
     public static class AudioManager_Patch
     {
+        /// Determines whether the provided sound effect ID (SfxID) is valid based on its range and system rules.
+        /// The method verifies that the provided ID is non-negative and falls within the valid range of IDs defined by the system.
+        /// <param name="id">The sound effect ID to validate.</param>
+        /// <param name="__result">The result of the validation. True if the ID is valid, false otherwise.</param>
         [HarmonyPatch(typeof(AudioManager), nameof(AudioManager.IsLegalSfxID))]
         [HarmonyPostfix]
         public static void IsSfxValid(SfxID id, ref bool __result)
         {
             __result = id >= 0 && (int)id < AudioModule.lastFreeSfxId;
         }
-        
+
+        /// Automatically loads custom audio files into the AudioManager's audio field map.
+        /// This method retrieves the list of custom sound effects defined in AudioModule,
+        /// resizes the internal audio field map of the AudioManager to accommodate them,
+        /// and updates the reuse map for audio playback instances.
+        /// Additionally, it logs the number of custom sound effects loaded.
+        /// <param name="__instance">The instance of the AudioManager class to modify with custom audio files.</param>
         public static void AutoLoadAudioFiles(AudioManager __instance)
         {
             List<AudioField> customSoundEffect = AudioModule.customSoundEffects;
@@ -37,6 +50,11 @@ namespace CoreLib.Audio.Patches
             CoreLibMod.Log.LogInfo($"Loaded {customSoundEffect.Count} custom sound effects!");
         }
 
+        /// <summary>
+        /// Handles operations that should occur when the "Initialized" property of the AudioManager is set.
+        /// Automatically loads custom audio files and updates the internal audio field map and reuse map accordingly.
+        /// </summary>
+        /// <param name="__instance">The instance of the AudioManager that triggered the setter call.</param>
         [HarmonyPatch(typeof(AudioManager), "Initialized", MethodType.Setter)]
         [HarmonyPostfix]
         public static void OnSetInitialized(AudioManager __instance)

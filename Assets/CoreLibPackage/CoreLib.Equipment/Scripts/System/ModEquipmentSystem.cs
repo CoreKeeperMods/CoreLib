@@ -9,15 +9,51 @@ using Unity.Transforms;
 
 namespace CoreLib.Equipment.System
 {
+    /// <summary>
+    /// ModEquipmentSystem is a system responsible for handling the simulation and management
+    /// of modifiable equipment mechanics within the game.
+    /// </summary>
+    /// <remarks>
+    /// - It operates within the EquipmentUpdateSystemGroup and executes prior to the EquipmentUpdateSystem.
+    /// - This system is manually instantiated and not automatically created due to the DisableAutoCreation attribute.
+    /// - Uses WorldSystemFilter to specify execution environments as both client-side and server-side simulation contexts.
+    /// </remarks>
+    /// <example>
+    /// This system requires specific components such as PhysicsWorldSingleton, WorldInfoCD, and TileWithTilesetToObjectDataMapCD to update successfully.
+    /// </example>
+    /// <seealso cref="PugSimulationSystemBase"/>
+    /// <seealso cref="EquipmentUpdateSystemGroup"/>
+    /// <seealso cref="EquipmentUpdateSystem"/>
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation | WorldSystemFilterFlags.ServerSimulation)]
     [UpdateInGroup(typeof(EquipmentUpdateSystemGroup))]
     [UpdateBefore(typeof(EquipmentUpdateSystem))]
     [DisableAutoCreation]
     public partial class ModEquipmentSystem : PugSimulationSystemBase
     {
+        /// <summary>
+        /// Represents the tick rate for the ModEquipmentSystem, determining the frequency
+        /// of system updates. This value is initialized based on the simulation tick rate
+        /// provided by the networking platform.
+        /// </summary>
         private uint _tickRate;
+
+        /// <summary>
+        /// Holds the archetype for achievement-related entities within the ModEquipmentSystem.
+        /// This archetype is used to define the structural layout for entities involved in handling achievements.
+        /// </summary>
         private EntityArchetype _achievementArchetype;
 
+        /// <summary>
+        /// Initializes the ModEquipmentSystem during its creation phase.
+        /// This method sets up essential parameters and archetypes required for the functioning of the system.
+        /// </summary>
+        /// <remarks>
+        /// - Retrieves the simulation tick rate for the current platform and assigns it to the system.
+        /// - Generates the achievement RPC archetype using the AchievementSystem.
+        /// - Specifies the required components that must exist in the world for this system to update.
+        /// - Ensures the database is initialized properly.
+        /// - Calls the base implementation of the OnCreate method for additional setup.
+        /// </remarks>
         protected override void OnCreate()
         {
             _tickRate = (uint)NetworkingManager.GetSimulationTickRateForPlatform();
@@ -31,6 +67,13 @@ namespace CoreLib.Equipment.System
             base.OnCreate();
         }
 
+        /// Executes the system's update logic in the simulation loop at each frame or fixed interval,
+        /// according to the system group's scheduling. This method is typically overridden to define
+        /// the specific behavior or processing logic for this system.
+        /// Note: This system has a WorldSystemFilter applied for both ClientSimulation and ServerSimulation,
+        /// and is scheduled to update before the `EquipmentUpdateSystem` within the `EquipmentUpdateSystemGroup`.
+        /// It is also marked with `DisableAutoCreation`, meaning it won't be automatically created
+        /// unless explicitly added to a world.
         protected override void OnUpdate()
         {
             var worldInfo = SystemAPI.GetSingleton<WorldInfoCD>();
@@ -186,11 +229,35 @@ namespace CoreLib.Equipment.System
             base.OnUpdate();
         }
 
+        /// <summary>
+        /// Determines whether the system is operating in guest mode based on the provided world and player information.
+        /// </summary>
+        /// <param name="worldInfo">The current world information containing guest mode configuration.</param>
+        /// <param name="playerGhost">The player ghost data, including privilege level and metadata.</param>
+        /// <returns>
+        /// Returns true if the system is in guest mode and the player does not have sufficient administrative privileges.
+        /// Returns false otherwise.
+        /// </returns>
         private static bool IsGuestMode(in WorldInfoCD worldInfo, in PlayerGhost playerGhost)
         {
             return worldInfo.guestMode && playerGhost.adminPrivileges < 1;
         }
 
+        /// <summary>
+        /// Determines whether the player is allowed to interact based on the current state and context.
+        /// This method evaluates various constraints, including player state, equipment logic, and interaction type,
+        /// to decide whether an interaction is permissible.
+        /// </summary>
+        /// <param name="worldInfo">Information about the current game world, such as mode or default settings.</param>
+        /// <param name="playerGhost">Details about the player's ghost representation in the game.</param>
+        /// <param name="playerState">The current state of the player, including active or passive states.</param>
+        /// <param name="equippedSlot">Information about the equipment currently held or used by the player.</param>
+        /// <param name="logic">The logic interface responsible for determining equipment-related behavior or restrictions.</param>
+        /// <param name="isTryingToUseSecondInteract">Specifies whether the interaction is a secondary interaction.</param>
+        /// <param name="isTryingToInteractWithObject">Optional parameter indicating if the interaction involves an object.</param>
+        /// <returns>
+        /// A boolean value indicating whether the interaction is allowed. Returns true if the interaction satisfies all conditions; otherwise, false.
+        /// </returns>
         private static bool CurrentStateAllowInteractions(
             in WorldInfoCD worldInfo,
             in PlayerGhost playerGhost,

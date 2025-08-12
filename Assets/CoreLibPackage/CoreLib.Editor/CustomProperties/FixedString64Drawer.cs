@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CoreLib.Editor
 {
-    /*[CustomPropertyDrawer(typeof(FixedString64Bytes))]
+    [CustomPropertyDrawer(typeof(FixedString64Bytes))]
     public class FixedString64Drawer : PropertyDrawer
     {
 
@@ -44,5 +44,5 @@ namespace CoreLib.Editor
             return 20;
         }
 
-    }*/
+    }
 }

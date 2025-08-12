@@ -122,16 +122,9 @@ MonoBehaviour:
   buildAll: 1
   uploadToModIO: 0
   updateDescription: 0
-  uploadVersion: 3.1.1
+  uploadVersion: 4.0.0
   allGameVersions: 1.1.2
-  changeLog: 'Entity: Allow to override graphical prefab to use pooling
-
-    Entity:
-    Enabled Elevated Access to use a transpiler.
-
-    Commands: Changed method of
-    aquiring frendly names to ensure mod added items have them'
-  actionPrefix: Updating
+  changeLog: 
+  actionPrefix: Building
   buildIndex: -1
   isBuilding: 0
-  oldBuildAll: 1

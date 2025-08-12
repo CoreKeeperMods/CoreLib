@@ -1,19 +1,20 @@
 ﻿namespace CoreLib.Equipment
 {
     /// <summary>
-    /// Define custom Equipment Slot by implementing this interface
-    /// Equipment slots define item interaction and usage logic
+    /// Represents a customizable equipment slot interface for defining unique behavior and interaction logic.
+    /// Implement this interface to create specialized functionality for custom equipment slots.
     /// </summary>
     public interface IModEquipmentSlot
     {
         /// <summary>
-        /// Return ObjectType this Equipment Slot is for
+        /// Returns the ObjectType associated with this Equipment Slot.
         /// </summary>
         ObjectType GetSlotObjectType();
 
         /// <summary>
-        /// Handle custom hand visuals here
+        /// Updates the visual representation of the equipment slot.
         /// </summary>
+        /// <param name="controller">The player controller used to manage the slot visuals.</param>
         void UpdateSlotVisuals(PlayerController controller);
     }
 }

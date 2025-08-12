@@ -7,6 +7,10 @@ namespace CoreLib.Commands.Patches
 {
     public class MenuManager_Patch
     {
+        /// Called after the MenuManager's Init method is executed. Responsible for initializing
+        /// the Quantum Console linked to the MenuManager if a Quantum Console prefab exists.
+        /// This ensures the console is properly instantiated and persistent across scenes.
+        /// <param name="__instance">The instance of the MenuManager being patched.</param>
         [HarmonyPatch(typeof(MenuManager), nameof(MenuManager.Init))]
         [HarmonyPostfix]
         public static void OnInit(MenuManager __instance)
@@ -24,6 +28,10 @@ namespace CoreLib.Commands.Patches
             CommandsModule.InitQuantumConsole(quantumConsole);
         }
 
+        /// Ensures that the Quantum Console, if available, is properly parented to the
+        /// UniverseLibCanvas to maintain consistency in the scene hierarchy. This method
+        /// processes automatically after the SceneHandler's Awake method is executed.
+        /// <param name="__instance">The instance of the SceneHandler being patched.</param>
         [HarmonyPatch(typeof(SceneHandler), "Awake")]
         [HarmonyPostfix]
         public static void OnAwake(SceneHandler __instance)
@@ -42,6 +50,9 @@ namespace CoreLib.Commands.Patches
             }
         }
 
+        /// Called during the Update lifecycle method of the MenuManager. Handles toggling the Quantum Console
+        /// and updates the console's active state status within the MenuManager.
+        /// <param name="__instance">The instance of the MenuManager being updated.</param>
         [HarmonyPatch(typeof(MenuManager), nameof(MenuManager.Update))]
         [HarmonyPostfix]
         public static void OnUpdate(MenuManager __instance)

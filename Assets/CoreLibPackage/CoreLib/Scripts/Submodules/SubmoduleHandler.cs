@@ -6,19 +6,84 @@ using CoreLib.Util.Extensions;
 using HarmonyLib;
 using PugMod;
 
-#pragma warning disable 649
-
 namespace CoreLib
 {
+    /// <summary>
+    /// The SubmoduleHandler class is responsible for managing the lifecycle of submodules within the application.
+    /// </summary>
+    /// <remarks>
+    /// This class supports operations such as initialization, retrieval, and management of submodule instances.
+    /// It leverages the provided game version and logging instance to handle submodule operations.
+    /// </remarks>
     public class SubmoduleHandler
     {
+        /// <summary>
+        /// Represents the current game version being used by the SubmoduleHandler.
+        /// </summary>
+        /// <remarks>
+        /// This variable is of type <see cref="GameVersion"/> and is used to ensure compatibility
+        /// of submodules with the current application build. During module loading,
+        /// the version stored in this variable is compared to the version requirements
+        /// of the submodules.
+        /// </remarks>
         private readonly GameVersion currentBuild;
+
+        /// <summary>
+        /// Instance of the <see cref="Logger"/> class used for logging messages, warnings,
+        /// debug information, and errors related to submodule handling and loading processes.
+        /// </summary>
+        /// <remarks>
+        /// This logger is specifically utilized within the <see cref="SubmoduleHandler"/> class
+        /// for tracking both successful operations and issues encountered during submodule
+        /// management, such as dependency resolution and version compatibility warnings.
+        /// </remarks>
         private readonly Logger logger;
 
+        /// <summary>
+        /// Represents a collection of the names of all currently loaded submodules within the system.
+        /// </summary>
+        /// <remarks>
+        /// The <c>loadedModules</c> variable is utilized internally to track which submodules have been successfully loaded.
+        /// Submodule names are stored as unique strings, and this collection is maintained to ensure that
+        /// submodules cannot be loaded multiple times unnecessarily. The variable is a <c>HashSet</c>,
+        /// providing quick lookup and preventing duplicate entries.
+        /// </remarks>
+        /// <threadsafety>
+        /// This member is not inherently thread-safe. Synchronization might be required in multi-threaded scenarios
+        /// where simultaneous access to <c>loadedModules</c> may occur.
+        /// </threadsafety>
         private readonly HashSet<string> loadedModules;
+
+        /// <summary>
+        /// A private dictionary that holds instances of all loaded submodules,
+        /// mapped by their respective types.
+        /// </summary>
+        /// <remarks>
+        /// This dictionary is utilized within the <see cref="SubmoduleHandler"/> class
+        /// to manage and access submodules dynamically at runtime. It associates a specific
+        /// <see cref="Type"/> with its corresponding <see cref="BaseSubmodule"/> instance,
+        /// which allows for efficient retrieval and interaction with submodules.
+        /// The key represents the submodule type, and the value represents the initialized
+        /// instance of that submodule.
+        /// </remarks>
         private readonly Dictionary<Type, BaseSubmodule> allModules;
+
+        /// <summary>
+        /// Stores the count of the last known submodules loaded into the system.
+        /// </summary>
+        /// <remarks>
+        /// Used to keep track of the number of submodules detected during the latest update.
+        /// This variable is primarily utilized in the submodule management logic to determine
+        /// if new submodules have been identified since the last check.
+        /// </remarks>
         private int lastSubmoduleCount;
 
+        /// <summary>
+        /// Handles the initialization, registration, and management of submodules within the application.
+        /// </summary>
+        /// <remarks>
+        /// Utilizes the specified game version and logger instance to manage and maintain loaded submodules.
+        /// </remarks>
         internal SubmoduleHandler(GameVersion build, Logger logger)
         {
             currentBuild = build;
@@ -29,6 +94,13 @@ namespace CoreLib
             UpdateSubmoduleList();
         }
 
+        /// <summary>
+        /// Retrieves an instance of the specified submodule type if it exists.
+        /// </summary>
+        /// <typeparam name="T">The type of the submodule to retrieve.</typeparam>
+        /// <returns>
+        /// The instance of the specified submodule type, or null if the submodule is not found.
+        /// </returns>
         internal T GetModuleInstance<T>()
             where T : BaseSubmodule
         {
@@ -41,22 +113,34 @@ namespace CoreLib
         }
 
         /// <summary>
-        /// Return true if the specified submodule is loaded.
+        /// Determines whether the specified submodule is currently loaded.
         /// </summary>
-        /// <param name="submodule">nameof the submodule</param>
+        /// <param name="submodule">The name of the submodule to check.</param>
+        /// <returns>
+        /// True if the submodule is loaded; otherwise, false.
+        /// </returns>
         public bool IsLoaded(string submodule) => loadedModules.Contains(submodule);
 
         /// <summary>
-        /// Load submodule
+        /// Requests the loading of a specified submodule by type.
         /// </summary>
-        /// <param name="moduleType">Module type</param>
-        /// <returns>Is loading successful?</returns>
+        /// <param name="moduleType">The type of the submodule to be loaded.</param>
+        /// <returns>True if the submodule is successfully loaded; otherwise, false.</returns>
         public bool RequestModuleLoad(Type moduleType)
         {
             UpdateSubmoduleList();
             return RequestModuleLoad(moduleType, false);
         }
 
+        /// <summary>
+        /// Requests the loading of a submodule of the specified type.
+        /// </summary>
+        /// <param name="moduleType">The type of the submodule to be loaded.</param>
+        /// <returns>True if the submodule was successfully loaded, otherwise false.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the provided <paramref name="moduleType"/> is null.</exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when the specified submodule type is not recognized or is not defined in the <see cref="allModules"/> dictionary.
+        /// </exception>
         private bool RequestModuleLoad(Type moduleType, bool ignoreDependencies)
         {
             if (moduleType == null)
@@ -112,6 +196,16 @@ namespace CoreLib
             return false;
         }
 
+        /// <summary>
+        /// Retrieves the list of dependencies for a given module type.
+        /// </summary>
+        /// <param name="moduleType">The type of the module for which dependencies are to be retrieved.</param>
+        /// <returns>A collection of types representing the dependencies of the specified module.</returns>
+        /// <remarks>
+        /// This method identifies both required and optional dependencies for the specified module type.
+        /// It utilizes topological sorting to resolve dependencies and detects circular dependencies,
+        /// logging a warning if any are found.
+        /// </remarks>
         private IEnumerable<Type> GetModuleDependencies(Type moduleType)
         {
             IEnumerable<Type> modulesToAdd = moduleType.GetDependants(type =>
@@ -127,6 +221,14 @@ namespace CoreLib
             return modulesToAdd;
         }
 
+        /// <summary>
+        /// Updates the internal submodule list by identifying and registering new submodules available within the loaded core library modules.
+        /// </summary>
+        /// <remarks>
+        /// This method scans through loaded mods to identify submodule types that are part of the core library framework.
+        /// New submodules discovered during this process are instantiated and added to the internal module dictionary.
+        /// Keeps track of the count of discovered submodules to avoid re-processing already known modules.
+        /// </remarks>
         private void UpdateSubmoduleList()
         {
             var coreLibModules = API.ModLoader.LoadedMods.Where(IsCoreLibModuleMod);
@@ -147,11 +249,23 @@ namespace CoreLib
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified mod belongs to the CoreLib module.
+        /// </summary>
+        /// <param name="mod">The mod to check for CoreLib module association.</param>
+        /// <returns>
+        /// True if the specified mod is part of the CoreLib module; otherwise, false.
+        /// </returns>
         private bool IsCoreLibModuleMod(LoadedMod mod)
         {
             return mod.Metadata.name.Contains("CoreLib");
         }
 
+        /// <summary>
+        /// Determines whether a given type is a submodule in the system.
+        /// </summary>
+        /// <param name="type">The type to evaluate as a potential submodule.</param>
+        /// <returns>True if the type is a submodule, otherwise false.</returns>
         private static bool IsSubmodule(Type type)
         {
             return type.IsAssignableTo(typeof(BaseSubmodule)) &&

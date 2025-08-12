@@ -4,31 +4,35 @@ using UnityEngine.Scripting;
 namespace CoreLib.UserInterface
 {
     /// <summary>
-    /// Common interface for modded user interfaces
+    /// Defines an interface for modded user interfaces within the application,
+    /// providing methods and properties for displaying, hiding, and managing their visibility.
     /// </summary>
     public interface IModUI
     {
         /// <summary>
-        /// The root of the UI. Ensure this is backed by a serialized field
+        /// Gets the root GameObject of the mod user interface.
+        /// This object serves as the primary container for the UI elements.
         /// </summary>
         public GameObject Root { get; }
-        
+
         /// <summary>
-        /// Should player inventory be shown together with this UI?
+        /// Indicates whether the modded user interface should be displayed concurrently with
+        /// the player's inventory UI. Used to determine if both interfaces should be shown together.
         /// </summary>
         public bool showWithPlayerInventory { get; }
-        
+
         /// <summary>
-        /// Should player crafting UI show?
-        /// This option has effect only if your UI does not have inventory.
+        /// Determines whether the player's crafting UI should be displayed
+        /// alongside the modded user interface when the player's inventory is open.
         /// </summary>
         public bool shouldPlayerCraftingShow { get; }
-        
+
         /// <summary>
-        /// Show mod UI <br/>
-        /// The default implementation should enable Root object
+        /// Displays the mod user interface.
+        /// The method is expected to enable the Root object associated with the mod UI.
         /// </summary>
         public void ShowUI();
+
         /// <summary>
         /// Hide mod UI <br/>
         /// The default implementation should disable Root object
@@ -36,9 +40,9 @@ namespace CoreLib.UserInterface
         public void HideUI();
 
         /// <summary>
-        /// Is mod UI visible.
+        /// Determines if the mod UI is currently visible.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if the mod UI is visible, otherwise false.</returns>
         [Preserve]
         public bool IsVisible()
         {

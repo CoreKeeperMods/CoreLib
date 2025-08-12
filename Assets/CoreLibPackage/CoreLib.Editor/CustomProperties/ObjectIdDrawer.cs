@@ -6,23 +6,23 @@ using UnityEditor;
 
 namespace CoreLib.Editor
 {
-    /*[CustomPropertyDrawer(typeof(ObjectID))]
-    public class ObjectId1Drawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(ObjectID))]
+    public class ObjectIDDrawer : PropertyDrawer
     {
-        private Dictionary<string, string> currentSearch = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _currentSearch = new();
 
-        private string clickName;
-        private int lastClick;
-        private bool didClick;
+        private string _clickName;
+        private int _lastClick;
+        private bool _didClick;
 
         public string GetCurrentSearch(string path)
         {
-            if (currentSearch.ContainsKey(path))
+            if (_currentSearch.ContainsKey(path))
             {
-                return currentSearch[path];
+                return _currentSearch[path];
             }
 
-            currentSearch.Add(path, "");
+            _currentSearch.Add(path, "");
             return "";
         }
 
@@ -46,6 +46,7 @@ namespace CoreLib.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            Debug.Log($"{typeof(ObjectID)}");
             EditorGUI.BeginProperty(position, label, property);
 
             var intRect = new Rect(position.x, position.y, position.width / 2, 18);
@@ -61,7 +62,7 @@ namespace CoreLib.Editor
             EditorGUI.indentLevel = 0;
 
             string lastSearch = EditorGUI.TextField(enumRect, GetCurrentSearch(property.propertyPath));
-            currentSearch[property.propertyPath] = lastSearch;
+            _currentSearch[property.propertyPath] = lastSearch;
 
             if (EditorGUI.DropdownButton(dropDownRect, new GUIContent(current.ToString()), FocusType.Passive))
             {
@@ -74,9 +75,9 @@ namespace CoreLib.Editor
                     {
                         if (Enum.TryParse((string)data, out ObjectID objectID1))
                         {
-                            lastClick = (int)objectID1;
-                            clickName = property.propertyPath;
-                            didClick = true;
+                            _lastClick = (int)objectID1;
+                            _clickName = property.propertyPath;
+                            _didClick = true;
                         }
                     }, item);
                 }
@@ -84,10 +85,10 @@ namespace CoreLib.Editor
                 menu.ShowAsContext();
             }
 
-            if (didClick && property.propertyPath.Equals(clickName))
+            if (_didClick && property.propertyPath.Equals(_clickName))
             {
-                property.intValue = lastClick;
-                didClick = false;
+                property.intValue = _lastClick;
+                _didClick = false;
 
             }
             else
@@ -104,5 +105,5 @@ namespace CoreLib.Editor
         {
             return 40;
         }
-    }*/
+    }
 }

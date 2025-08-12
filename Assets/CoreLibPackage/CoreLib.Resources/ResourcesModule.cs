@@ -22,15 +22,27 @@ using Object = UnityEngine.Object;
 
 namespace CoreLib.ModResources
 {
+    /// <summary>
+    /// Represents a module that manages and interacts with mod-related resource asset bundles.
+    /// </summary>
     public class ResourcesModule : BaseSubmodule
     {
         #region Public Interface
 
+        /// <summary>
+        /// Registers asset bundles from a loaded mod into the module's list of asset bundles.
+        /// </summary>
+        /// <param name="mod">The loaded mod containing asset bundles to register.</param>
         public static void RegisterBundles(LoadedMod mod)
         {
             modAssetBundles.AddRange(mod.AssetBundles);
         }
-        
+
+        /// <summary>
+        /// Loads all sprite assets from the specified asset path within the registered asset bundles.
+        /// </summary>
+        /// <param name="assetPath">The path to the asset to load sprites from.</param>
+        /// <returns>An array of loaded sprite objects, or an empty array if no sprites are found.</returns>
         public static Object[] LoadSprites(string assetPath)
         {
             foreach (AssetBundle bundle in GetBundles())
@@ -52,10 +64,11 @@ namespace CoreLib.ModResources
         }
 
         /// <summary>
-        /// Load asset from mod asset bundles
+        /// Loads an asset from the mod's asset bundles or from Unity's Resources as a fallback.
         /// </summary>
-        /// <param name="assetPath">path to the asset</param>
-        /// <param name="typeHint">Expected type of the asset</param>
+        /// <param name="assetPath">The path to the asset within the asset bundle or Resources directory.</param>
+        /// <param name="typeHint">The expected type of the asset to be loaded.</param>
+        /// <returns>The loaded asset as an Object, or null if the asset could not be found.</returns>
         public static Object LoadAsset(string assetPath, Type typeHint)
         {
             foreach (AssetBundle bundle in GetBundles())
@@ -109,10 +122,12 @@ namespace CoreLib.ModResources
         }
 
         /// <summary>
-        /// Load asset from mod asset bundles and cast it
+        /// Loads an asset from the specified path and casts it to the specified generic type.
         /// </summary>
-        /// <param name="path">path to the asset</param>
-        /// <exception cref="ArgumentException">Thrown if asset is not found or can't be cast to T</exception>
+        /// <typeparam name="T">The type to which the asset should be cast.</typeparam>
+        /// <param name="path">The path to the asset to load.</param>
+        /// <returns>The loaded and cast asset of type T.</returns>
+        /// <exception cref="ArgumentException">Thrown if the asset is not found or cannot be cast to the specified type T.</exception>
         public static T LoadAsset<T>(string path)
             where T : Object
         {
@@ -138,6 +153,14 @@ namespace CoreLib.ModResources
         internal override GameVersion Build => new GameVersion(1, 1, 0, "90bc");
         internal override string Version => "3.2.0";
 
+        /// <summary>
+        /// Initializes and configures the necessary resource-management components for the module.
+        /// </summary>
+        /// <remarks>
+        /// This method applies a patch to extend the functionality of asset references, adds a custom resource locator
+        /// for handling mod-specific resources, and registers a custom resource provider to the Addressables ResourceManager.
+        /// It is an essential step to ensure proper integration of mod resources within the module.
+        /// </remarks>
         internal override void Load()
         {
             CoreLibMod.Patch(typeof(AssetReference_Patch));
@@ -146,6 +169,10 @@ namespace CoreLib.ModResources
             Addressables.ResourceManager.ResourceProviders.Add(new ModResourceProvider());
         }
 
+        /// <summary>
+        /// Retrieves all asset bundles managed by the module, including both modules' and mods' asset bundles.
+        /// </summary>
+        /// <returns>An enumerable collection of asset bundles.</returns>
         internal static IEnumerable<AssetBundle> GetBundles()
         {
             foreach (AssetBundle bundle in modulesAssetBundles)
@@ -159,9 +186,24 @@ namespace CoreLib.ModResources
             }
         }
 
+        /// <summary>
+        /// A static list that holds AssetBundle instances loaded from mod resources.
+        /// This collection is used by the ResourcesModule to manage and access asset bundles
+        /// provided by registered mods in the game.
+        /// </summary>
         internal static List<AssetBundle> modAssetBundles = new List<AssetBundle>();
+
+        /// <summary>
+        /// A static list that holds AssetBundle instances associated with specific modules.
+        /// This collection is used by the ResourcesModule to store and manage asset bundles
+        /// originating from core library modules in the game.
+        /// </summary>
         internal static List<AssetBundle> modulesAssetBundles = new List<AssetBundle>();
 
+        /// <summary>
+        /// Updates the list of module asset bundles by reloading them from all loaded mods
+        /// whose metadata name contains "CoreLib".
+        /// </summary>
         internal static void RefreshModuleBundles()
         {
             modulesAssetBundles = API.ModLoader.LoadedMods
@@ -169,7 +211,18 @@ namespace CoreLib.ModResources
                 .SelectMany(mod => mod.AssetBundles).ToList();
         }
 
+        /// <summary>
+        /// An internal static array defining supported file extensions for sprite assets.
+        /// This array is used by the ResourcesModule to identify and load sprite files
+        /// from asset bundles when the asset path matches one of the specified extensions.
+        /// </summary>
         internal static string[] spriteFileExtensions = { ".jpg", ".png", ".tif" };
+
+        /// <summary>
+        /// A static array containing supported file extensions for audio clip assets.
+        /// This array is utilized by the ResourcesModule to identify and load audio assets
+        /// from mod-related resource bundles based on their file type extensions.
+        /// </summary>
         internal static string[] audioClipFileExtensions = { ".mp3", ".ogg", ".wav", ".aif", ".flac" };
 
         #endregion

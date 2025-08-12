@@ -8,14 +8,40 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodules.ModEntity.Patches
 {
-
+    /// <summary>
+    /// Provides patching methods for managing and applying transformations related to interactable entities.
+    /// Used in conjunction with Harmony to modify or augment the behavior of existing methods within the ModEntity submodule.
+    /// </summary>
     [HarmonyPatch]
     // ReSharper disable once InconsistentNaming
     public static class InteractableConverter_Patch
     {
+        /// <summary>
+        /// Represents a delegate that processes a provided input and modifies the state of a second provided argument.
+        /// Primarily designed for scenarios where ref-based modifications need to be performed on the second argument
+        /// while maintaining read-only access to the first argument.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first input parameter, provided as a readonly reference.</typeparam>
+        /// <typeparam name="T2">The type of the second input parameter, provided as a reference for modification.</typeparam>
+        /// <param name="arg1">The input parameter passed by readonly reference, used as contextual data for processing.</param>
+        /// <param name="arg2">The input parameter passed by reference, allowing modifications to its state.</param>
         public delegate void RefAction<in T1, T2>(T1 arg1, ref T2 arg2);
+
+        /// <summary>
+        /// Stores the last known object information processed during conversion.
+        /// This variable is used within conversion logic to temporarily hold
+        /// details about the object being handled, such as its prefab tile size
+        /// and corner offset.
+        /// </summary>
         private static ObjectInfo lastInfo;
 
+        /// <summary>
+        /// Modifies the sequence of code instructions in the transpiler to alter the behavior of the PostConvert method in the
+        /// InteractablePostConverter class. These alterations are designed to adjust object authoring and prefab handling logic.
+        /// </summary>
+        /// <param name="instructions">An enumerable of <see cref="CodeInstruction"/> representing the original instructions
+        /// of the PostConvert method prior to being transpiled.</param>
+        /// <returns>An enumerable of <see cref="CodeInstruction"/> representing the modified instruction sequence.</returns>
         [HarmonyPatch(typeof(InteractablePostConverter), "PostConvert")]
         [HarmonyTranspiler]
         static IEnumerable<CodeInstruction> ChangeConversion2(IEnumerable<CodeInstruction> instructions)

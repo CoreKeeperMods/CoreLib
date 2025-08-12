@@ -2,8 +2,17 @@
 using HarmonyLib;
 namespace CoreLib.Audio.Patches
 {
+    /// <summary>
+    /// A static class responsible for patching the <c>MusicManager</c> class to extend or modify its functionality
+    /// within the game. This class uses the Harmony library for applying patches to methods.
+    /// </summary>
     public static class MusicManager_Patch
     {
+        /// Initializes the MusicManager and adds additional tracks to the vanilla music rosters based on predefined configurations.
+        /// <param name="__instance">
+        /// The instance of the MusicManager being initialized. This is the target object where additional tracks
+        /// are added to the appropriate music rosters.
+        /// </param>
         [HarmonyPatch(typeof(MusicManager), nameof(MusicManager.Init))]
         [HarmonyPostfix]
         public static void Init(MusicManager __instance)
@@ -24,6 +33,16 @@ namespace CoreLib.Audio.Patches
             }
         }
 
+        /// Attempts to set a new music roster for the MusicManager instance.
+        /// If the provided music roster type is not vanilla and corresponds to a valid custom music roster,
+        /// it pauses the current music, clears the current playlist, and sets the provided roster as the current one.
+        /// Logs a warning if the roster cannot be applied.
+        /// <param name="__instance">The instance of the MusicManager to modify.</param>
+        /// <param name="m">The new music roster type to set.</param>
+        /// <returns>
+        /// True if the music roster is vanilla and no custom roster is to be applied, otherwise false.
+        /// Returns false after logging a warning in case of failure to set the roster.
+        /// </returns>
         [HarmonyPatch(typeof(MusicManager), nameof(MusicManager.SetNewMusicPlaylist), typeof(MusicRosterType))]
         [HarmonyPrefix]
         public static bool SetRoster(MusicManager __instance, MusicRosterType m)

@@ -1,17 +1,19 @@
 ﻿namespace CoreLib.Commands
 {
     /// <summary>
-    /// Define a client sided command by implementing this interface.
-    /// This command is always executed on the client, but server might still refuse to execute it.
-    /// Don't forget to register your commands by calling <code>CommandsModule.AddCommands(modId);</code> in your `Load` method.
+    /// Represents a handler for client-side commands.
+    /// Developers can implement this interface to define custom commands executed on the client.
+    /// The server may still reject the command execution based on its own logic.
+    /// To ensure proper functionality, register commands using
+    /// <code>CommandsModule.AddCommands(modId);</code> during the `Load` method.
     /// </summary>
     public interface IClientCommandHandler : ICommandInfo
     {
         /// <summary>
-        /// Execute command & return feedback
+        /// Execute command and return feedback.
         /// </summary>
-        /// <param name="parameters">List of arguments entered by user</param>
-        /// <returns>Command message feedback</returns>
+        /// <param name="parameters">List of arguments entered by the user.</param>
+        /// <returns>Feedback as a result of the command execution.</returns>
         CommandOutput Execute(string[] parameters);
     }
 }

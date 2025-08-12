@@ -9,8 +9,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changes
 * Testing Changes to stuff
-
-## [3.6.4] - 2025-07-21
-
-### Fixes
-* Fixed `Skin target asset mismatch` error in CoreLib.Entity

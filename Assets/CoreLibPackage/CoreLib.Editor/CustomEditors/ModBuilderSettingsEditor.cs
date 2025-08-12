@@ -2,9 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using CoreLib.Util.Extensions;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace CoreLib.Editor
@@ -85,8 +83,7 @@ namespace CoreLib.Editor
         }
     }
     
-    /*
-    [CustomPropertyDrawer(typeof(ModBuilderSettings))]
+    /*[CustomPropertyDrawer(typeof(ModBuilderSettings))]
     public class OnChangedCallAttributePropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

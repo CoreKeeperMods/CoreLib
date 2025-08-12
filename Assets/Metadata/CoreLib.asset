@@ -15,7 +15,7 @@ MonoBehaviour:
   metadata:
     guid: c4f0016ab9b64c70b386c439b6eac3ab
     name: CoreLib
-    skipSafetyChecks: 0
+    skipSafetyChecks: 1
     disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
@@ -63,5 +63,7 @@ MonoBehaviour:
   cacheBundles: 0
   buildLinux: 1
   buildBurst: 0
-  assets: []
+  assets:
+  - path: Assets/CoreLibPackage/CoreLib/Scripts/Util/Data/ConfigFile/LICENSE.txt
+    hash: AB7D4706AAB69049A270AFF7665DB085EF367CE347EFD5BB0E3B7E7AD92CEE80
   lastBuildLinux: 1

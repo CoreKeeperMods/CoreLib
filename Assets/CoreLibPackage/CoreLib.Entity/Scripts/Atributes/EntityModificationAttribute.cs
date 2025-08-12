@@ -11,11 +11,27 @@ namespace CoreLib.Submodules.ModEntity.Atributes
     [MeansImplicitUse]
     public class EntityModificationAttribute : Attribute
     {
-        public ObjectID target = ObjectID.None;
-        public string modTarget = "";
+        /// <summary>
+        /// Represents the target entity identifier for modifications.
+        /// </summary>
+        /// <remarks>
+        /// Utilized within the <see cref="EntityModificationAttribute"/> to determine which specific entity
+        /// should be affected by the modification logic. Acts as an identifier to link modifications to their
+        /// respective entities in a structured manner.
+        /// </remarks>
+        public ObjectID Target = ObjectID.None;
 
         /// <summary>
-        /// Use this version to target ALL entities. You will need to performs checks yourself if this entity is a target.
+        /// Specifies the target modification key for the entity being modified.
+        /// </summary>
+        /// <remarks>
+        /// Used within the <see cref="EntityModificationAttribute"/> to identify specific entities in a modded context.
+        /// When this value is assigned, it is used as a unique identifier for modifications to be applied.
+        /// </remarks>
+        public string ModTarget = "";
+
+        /// <summary>
+        /// Use this version to target ALL entities. You will need to perform checks yourself if this entity is a target.
         /// </summary>
         public EntityModificationAttribute() { }
     
@@ -25,8 +41,8 @@ namespace CoreLib.Submodules.ModEntity.Atributes
         /// <param name="target">Vanilla entity ID</param>
         public EntityModificationAttribute(ObjectID target)
         {
-            this.target = target;
-            modTarget = "";
+            Target = target;
+            ModTarget = "";
         }
 
         /// <summary>
@@ -35,7 +51,7 @@ namespace CoreLib.Submodules.ModEntity.Atributes
         /// <param name="modTarget">Modded entity ID</param>
         public EntityModificationAttribute(string modTarget)
         {
-            this.modTarget = modTarget;
+            ModTarget = modTarget;
         }
     }
 }
