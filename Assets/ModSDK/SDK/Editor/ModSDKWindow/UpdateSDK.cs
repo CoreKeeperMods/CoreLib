@@ -4,14 +4,13 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-// ReSharper disable once CheckNamespace
 namespace PugMod
 {
 	public partial class ModSDKWindow
 	{
 		private class UpdateSDK
 		{
-			private readonly List<string> _pathsToCheck = new()
+			private readonly List<string> _pathsToCheck = new List<string>
 			{
 				@"A:\Steam\steamapps\common\Core Keeper",
 				@"B:\Steam\steamapps\common\Core Keeper",
@@ -30,14 +29,20 @@ namespace PugMod
 				_browseButton = root.Q<Button>("UpdateSDKChooseGamePathManually");
 				_updateButton = root.Q<Button>("UpdateSDKUpdateButton");
 
-				_gamePathDropDown.choices = new List<string>();
+				_gamePathDropDown.choices = new();
 
 				foreach (var path in _pathsToCheck)
 				{
-					if ((_gamePathDropDown.choices != null && _gamePathDropDown.choices.Contains(path)) || !VerifyPath(path, true)) continue;
-					_gamePathDropDown.choices ??= new List<string>();
+					if ((_gamePathDropDown.choices == null || !_gamePathDropDown.choices.Contains(path))
+						&& VerifyPath(path, true))
+					{
+						if (_gamePathDropDown.choices == null)
+						{
+							_gamePathDropDown.choices = new List<string>();
+						}
 
-					_gamePathDropDown.choices.Add(path);
+						_gamePathDropDown.choices.Add(path);
+					}
 				}
 
 				if (EditorPrefs.HasKey(GAME_INSTALL_PATH_KEY))
@@ -68,11 +73,11 @@ namespace PugMod
 					EditorPrefs.SetString(GAME_INSTALL_PATH_KEY, evt.newValue);
 				});
 
-				_browseButton.clicked += OpenFolderPanel;
+				_browseButton.clicked += () => OpenFolderPanel();
 				_updateButton.clicked += () =>
 				{
 #if PUG_MOD_SDK
-					ImporterWindow.UpdateFromGamePath(ImporterSettings.Instance, _gamePathDropDown.text, out _);
+					PugMod.ImporterWindow.UpdateFromGamePath(ImporterSettings.Instance, _gamePathDropDown.text, out _);
 #else
 					Debug.Log($"Should have updated SDK files from {_gamePathDropDown.text}, skipping since not SDK project");
 #endif
@@ -81,35 +86,43 @@ namespace PugMod
 
 			private void OpenFolderPanel()
 			{
-				var selectedPath = EditorUtility.OpenFolderPanel("Select Core Keeper install folder", "", "");
-				if (string.IsNullOrEmpty(selectedPath) || !VerifyPath(selectedPath)) return;
-				var dirInfo = new DirectoryInfo(selectedPath);
-
-				_gamePathDropDown.choices ??= new List<string>();
-
-				if (!_gamePathDropDown.choices.Contains(dirInfo.FullName))
+				string selectedPath = EditorUtility.OpenFolderPanel("Select Core Keeper install folder", "", "");
+				if (!string.IsNullOrEmpty(selectedPath) && VerifyPath(selectedPath))
 				{
-					_gamePathDropDown.choices.Add(dirInfo.FullName);
-					_gamePathDropDown.choices.Sort();
-				}
+					DirectoryInfo dirInfo = new DirectoryInfo(selectedPath);
 
-				_gamePathDropDown.index = _gamePathDropDown.choices.IndexOf(dirInfo.FullName);
+					if (_gamePathDropDown.choices == null)
+					{
+						_gamePathDropDown.choices = new List<string>();
+					}
+
+					if (!_gamePathDropDown.choices.Contains(dirInfo.FullName))
+					{
+						_gamePathDropDown.choices.Add(dirInfo.FullName);
+						_gamePathDropDown.choices.Sort();
+					}
+
+					_gamePathDropDown.index = _gamePathDropDown.choices.IndexOf(dirInfo.FullName);
+				}
 			}
 
 			private bool VerifyPath(string path, bool silent = false)
 			{
 				if (!Directory.Exists(path))
 				{
-					if (!silent) Debug.Log($"{path} doesn't exist");
+					if (!silent)
+						Debug.Log($"{path} doesn't exist");
 					return false;
 				}
 
-				if (File.Exists(Path.Combine(path, "CoreKeeper")) || File.Exists(Path.Combine(path, "CoreKeeper.exe")))
+				if (File.Exists(Path.Combine(path, "CoreKeeper")) ||
+				    File.Exists(Path.Combine(path, "CoreKeeper.exe")))
 				{
 					return true;
 				}
 
-				if (File.Exists(Path.Combine(path, "CoreKeeperServer")) || File.Exists(Path.Combine(path, "CoreKeeperServer.exe")))
+				if (File.Exists(Path.Combine(path, "CoreKeeperServer")) ||
+				    File.Exists(Path.Combine(path, "CoreKeeperServer.exe")))
 				{
 					return true;
 				}

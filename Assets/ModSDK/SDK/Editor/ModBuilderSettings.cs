@@ -19,7 +19,7 @@ public class ModBuilderSettings : ScriptableObject
 	public bool buildBundles = true;
 	public bool cacheBundles = false;
 	public bool buildLinux = true;
-	public bool buildBurst = false; //add here
+    public bool buildBurst = false;
 	
 	[HideInInspector]
 	public List<ModAsset> assets;

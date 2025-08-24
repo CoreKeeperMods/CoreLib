@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1228650512253136550}
-  - component: {fileID: -6539615329506879940}
+  - component: {fileID: 6547138621955905588}
+  - component: {fileID: 4270743116460970127}
   m_Layer: 0
   m_Name: ObjectID
   m_TagString: Untagged
@@ -32,7 +33,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6539615329506879940
+--- !u!114 &6547138621955905588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812580661827302140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1859208958, guid: 5e4c644ded589d44fb6c01982fdbf432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  XScaler: {fileID: 0}
+  shadow: {fileID: 0}
+  indirectLightEmitters: []
+  animator: {fileID: 0}
+  interactable: {fileID: 0}
+  spriteObjects: []
+  useSharedTransformAnimations: 1
+  reskinOptions: []
+  paintableOptions:
+    spriteRenderers: []
+    spriteColorTints: []
+    spriteSheetSkins: []
+  soundOptions:
+    takeDamageSfx:
+      value: 0
+    deathSfx:
+      value: 0
+  particleOptions:
+    particlesToSpawn: []
+    particleSpawnLocations: []
+    particlesToDisableOnLowQuality: []
+  objectVariants: []
+  spritesToRandomlyFlip: []
+  gameObjectsToRandomlyFlip: []
+  optionalHealthBar: {fileID: 0}
+  optionalLightOptimizer: {fileID: 0}
+  conditionEffectsHandler: {fileID: 0}
+  conditionsEffectsSettings:
+    stunEffectOffset: {x: 0, y: 0, z: 0}
+  outlineControllers: []
+  hasDisableableParticles: 0
+  previousHealth: 0
+  m_spriteObjectOrientationHash: 0
+  showSortAndQuickStackButtons: 0
+  effects: {fileID: 0}
+--- !u!114 &4270743116460970127
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,17 +93,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectInfo:
-    objectID: 0
+    objectID: 345
     initialAmount: 1
-    variation: 0
+    variation: 1
     variationIsDynamic: 0
-    variationToToggleTo: 0
-    objectType: 0
-    tags: 
-    rarity: 0
-    level: 0
-    sellValue: -1
-    buyValueMultiplier: 1
+    variationToToggleTo: 1
+    objectType: 600
+    tags: 14000000
+    rarity: 1
+    level: 2
+    sellValue: 4
+    buyValueMultiplier: 2
     icon: {fileID: 0}
     iconOffset: {x: 0, y: 0}
     iconSkinAsset: {fileID: 0}
@@ -71,7 +119,9 @@ MonoBehaviour:
     craftingSettings:
       canOnlyUseAnyMaterialsWithTag: 0
       iconType: 0
-    requiredObjectsToCraft: []
+    requiredObjectsToCraft:
+    - objectID: 820
+      amount: 0
     craftingTime: 0
     appearInMapUI: 0
     mapColor: {r: 0, g: 0, b: 0, a: 0}

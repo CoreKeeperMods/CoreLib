@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564074955092428486}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6605143585728649206}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7827075471350483044
 MonoBehaviour:
@@ -44,19 +44,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 0
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 0
-  textString: 
+  textString: asdf
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -70,14 +76,19 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: -2147483648
     orderInLayer: 9999
     maskInteraction: 0
   styleOverrides: []
-  addPostDisableSentinel: 0
+  usePooledResources: 1
+  freeResourcesOnDisable: 0
 --- !u!1 &7924708562454095587
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,6 +113,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7924708562454095587}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -109,7 +121,6 @@ Transform:
   m_Children:
   - {fileID: 5391617427377265185}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6363486171797651985
 MonoBehaviour:

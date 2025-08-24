@@ -6,6 +6,7 @@ using PugMod;
 using Unity.Burst;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extensions
 {
     /// <summary>
@@ -20,7 +21,7 @@ namespace CoreLib.Util.Extensions
         /// This variable is commonly used to generate non-conflicting paths or temporary identifiers
         /// in scenarios where a unique value is required, especially for temporary directory or file operations.
         /// </summary>
-        public static string randomPath = Guid.NewGuid().ToString();
+        public static string RandomPath = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Retrieves the loaded mod information associated with the specified mod instance.
@@ -35,7 +36,7 @@ namespace CoreLib.Util.Extensions
         /// <summary>
         /// Retrieves information about a loaded mod associated with the given mod instance.
         /// </summary>
-        /// <param name="mod">The mod instance to find information about.</param>
+        /// <param name="modId">The mod name to be loaded</param>
         /// <returns>The loaded mod information if found, or null if no match is found.</returns>
         public static LoadedMod GetModInfo(string modId)
         {
@@ -50,7 +51,7 @@ namespace CoreLib.Util.Extensions
         /// <returns>The content of the file as a UTF-8 decoded string.</returns>
         public static string GetAllText(this LoadedMod mod, string file)
         {
-            var fileData = mod.GetFile(file);
+            byte[] fileData = mod.GetFile(file);
             return Encoding.UTF8.GetString(fileData);
         }
 
@@ -63,17 +64,12 @@ namespace CoreLib.Util.Extensions
         /// </returns>
         public static string GetPlatformString()
         {
-            switch (Application.platform)
+            return Application.platform switch
             {
-                case RuntimePlatform.WindowsPlayer:
-                case RuntimePlatform.WindowsServer:
-                    return "Windows";
-                case RuntimePlatform.LinuxPlayer:
-                case RuntimePlatform.LinuxServer:
-                    return "Linux";
-            }
-
-            return null;
+                RuntimePlatform.WindowsPlayer or RuntimePlatform.WindowsServer => "Windows",
+                RuntimePlatform.LinuxPlayer or RuntimePlatform.LinuxServer => "Linux",
+                _ => null
+            };
         }
 
         /// <summary>
@@ -84,11 +80,12 @@ namespace CoreLib.Util.Extensions
         /// <returns>The file extension associated with the platform, or an empty string if the platform is not recognized.</returns>
         public static string GetPlatformExtension(string platform)
         {
-            if (platform == "Windows")
-                return "dll";
-            if (platform == "Linux")
-                return "so";
-            return "";
+            return platform switch
+            {
+                "Windows" => "dll",
+                "Linux" => "so",
+                _ => ""
+            };
         }
 
         /// <summary>
@@ -99,39 +96,39 @@ namespace CoreLib.Util.Extensions
         /// <param name="modInfo">The mod information containing metadata and identifiers for the mod.</param>
         public static void TryLoadBurstAssembly(this LoadedMod modInfo)
         {
-            var platform = GetPlatformString();
+            string platform = GetPlatformString();
             if (platform == null) return;
             
             string directory = API.ModLoader.GetDirectory(modInfo.ModId);
             string fileExtension = GetPlatformExtension(platform);
-            string ID = modInfo.Metadata.name;
+            string id = modInfo.Metadata.name;
 
-            var productName = Application.dataPath;
-            var modLoaderDir = Path.Combine(Application.temporaryCachePath, "ModLoader");
+            string productName = Application.dataPath;
+            string modLoaderDir = Path.Combine(Application.temporaryCachePath, "ModLoader");
 
             if (productName.ToLower().Contains("dedicated"))
             {
-                modLoaderDir = Path.Combine(modLoaderDir, "DedicatedServer", randomPath);
+                modLoaderDir = Path.Combine(modLoaderDir, "DedicatedServer", RandomPath);
             }
             
             // need elevated access
-            var tempDirectory = Path.Combine(modLoaderDir, ID);
-            var assemblyName = $"{ID}_burst_generated_{platform}.{fileExtension}";
+            string tempDirectory = Path.Combine(modLoaderDir, id);
+            string assemblyName = $"{id}_burst_generated_{platform}.{fileExtension}";
                 
             string newAssemblyPath = Path.Combine(tempDirectory, assemblyName);
             try
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(newAssemblyPath));
+                Directory.CreateDirectory(Path.GetDirectoryName(newAssemblyPath)!);
                 File.WriteAllBytes(newAssemblyPath, File.ReadAllBytes(Path.Combine(directory, assemblyName)));
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogException(ex);
+                Debug.LogException(ex);
             }
                 
             bool success = BurstRuntime.LoadAdditionalLibrary(newAssemblyPath);
             if (!success)
-                CoreLibMod.Log.LogWarning($"Failed to load burst assembly for mod {ID}");
+                CoreLibMod.Log.LogWarning($"Failed to load burst assembly for mod {id}");
         }
     }
 }

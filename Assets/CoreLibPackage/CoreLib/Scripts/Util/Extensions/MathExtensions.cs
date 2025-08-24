@@ -1,6 +1,7 @@
 ﻿using Unity.Mathematics;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extensions
 {
     /// <summary>

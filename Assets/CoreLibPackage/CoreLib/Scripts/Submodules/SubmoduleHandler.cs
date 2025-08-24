@@ -6,6 +6,7 @@ using CoreLib.Util.Extensions;
 using HarmonyLib;
 using PugMod;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib
 {
     /// <summary>
@@ -26,7 +27,7 @@ namespace CoreLib
         /// the version stored in this variable is compared to the version requirements
         /// of the submodules.
         /// </remarks>
-        private readonly GameVersion currentBuild;
+        private readonly GameVersion _currentBuild;
 
         /// <summary>
         /// Instance of the <see cref="Logger"/> class used for logging messages, warnings,
@@ -37,7 +38,7 @@ namespace CoreLib
         /// for tracking both successful operations and issues encountered during submodule
         /// management, such as dependency resolution and version compatibility warnings.
         /// </remarks>
-        private readonly Logger logger;
+        private readonly Logger _logger;
 
         /// <summary>
         /// Represents a collection of the names of all currently loaded submodules within the system.
@@ -52,7 +53,7 @@ namespace CoreLib
         /// This member is not inherently thread-safe. Synchronization might be required in multi-threaded scenarios
         /// where simultaneous access to <c>loadedModules</c> may occur.
         /// </threadsafety>
-        private readonly HashSet<string> loadedModules;
+        private readonly HashSet<string> _loadedModules;
 
         /// <summary>
         /// A private dictionary that holds instances of all loaded submodules,
@@ -66,7 +67,7 @@ namespace CoreLib
         /// The key represents the submodule type, and the value represents the initialized
         /// instance of that submodule.
         /// </remarks>
-        private readonly Dictionary<Type, BaseSubmodule> allModules;
+        private readonly Dictionary<Type, BaseSubmodule> _allModules;
 
         /// <summary>
         /// Stores the count of the last known submodules loaded into the system.
@@ -76,7 +77,7 @@ namespace CoreLib
         /// This variable is primarily utilized in the submodule management logic to determine
         /// if new submodules have been identified since the last check.
         /// </remarks>
-        private int lastSubmoduleCount;
+        private int _lastSubmoduleCount;
 
         /// <summary>
         /// Handles the initialization, registration, and management of submodules within the application.
@@ -86,11 +87,11 @@ namespace CoreLib
         /// </remarks>
         internal SubmoduleHandler(GameVersion build, Logger logger)
         {
-            currentBuild = build;
-            this.logger = logger;
-            loadedModules = new HashSet<string>();
+            _currentBuild = build;
+            this._logger = logger;
+            _loadedModules = new HashSet<string>();
 
-            allModules = new Dictionary<Type, BaseSubmodule>();
+            _allModules = new Dictionary<Type, BaseSubmodule>();
             UpdateSubmoduleList();
         }
 
@@ -104,7 +105,7 @@ namespace CoreLib
         internal T GetModuleInstance<T>()
             where T : BaseSubmodule
         {
-            if (allModules.TryGetValue(typeof(T), out BaseSubmodule submodule))
+            if (_allModules.TryGetValue(typeof(T), out BaseSubmodule submodule))
             {
                 return (T)submodule;
             }
@@ -119,7 +120,7 @@ namespace CoreLib
         /// <returns>
         /// True if the submodule is loaded; otherwise, false.
         /// </returns>
-        public bool IsLoaded(string submodule) => loadedModules.Contains(submodule);
+        public bool IsLoaded(string submodule) => _loadedModules.Contains(submodule);
 
         /// <summary>
         /// Requests the loading of a specified submodule by type.
@@ -136,23 +137,24 @@ namespace CoreLib
         /// Requests the loading of a submodule of the specified type.
         /// </summary>
         /// <param name="moduleType">The type of the submodule to be loaded.</param>
+        /// <param name="ignoreDependencies"></param>
         /// <returns>True if the submodule was successfully loaded, otherwise false.</returns>
         /// <exception cref="ArgumentNullException">Thrown when the provided <paramref name="moduleType"/> is null.</exception>
         /// <exception cref="InvalidOperationException">
-        /// Thrown when the specified submodule type is not recognized or is not defined in the <see cref="allModules"/> dictionary.
+        /// Thrown when the specified submodule type is not recognized or is not defined in the <see cref="_allModules"/> dictionary.
         /// </exception>
         private bool RequestModuleLoad(Type moduleType, bool ignoreDependencies)
         {
             if (moduleType == null)
                 throw new ArgumentNullException(nameof(moduleType));
 
-            if (!allModules.ContainsKey(moduleType))
+            if (!_allModules.ContainsKey(moduleType))
                 throw new InvalidOperationException($"Tried to load unknown submodule: '{moduleType.FullName}'!");
 
             var name = moduleType.GetNameChecked();
 
             if (IsLoaded(name)) return true;
-            var version = allModules[moduleType].Version;
+            var version = _allModules[moduleType].Version;
 
             CoreLibMod.Log.LogInfo($"Enabling CoreLib Submodule: {name}, version {version}");
 
@@ -166,31 +168,31 @@ namespace CoreLib
                         if (dependency == moduleType) continue;
                         if (!RequestModuleLoad(dependency, true))
                         {
-                            logger.LogError($"{name} could not be initialized because one of it's dependencies failed to load.");
+                            _logger.LogError($"{name} could not be initialized because one of it's dependencies failed to load.");
                         }
                     }
                 }
 
-                BaseSubmodule submodule = allModules[moduleType];
+                BaseSubmodule submodule = _allModules[moduleType];
 
-                if (!submodule.Build.Equals(GameVersion.zero) &&
-                    !submodule.Build.CompatibleWith(currentBuild))
+                if (!submodule.Build.Equals(GameVersion.Zero) &&
+                    !submodule.Build.CompatibleWith(_currentBuild))
                 {
-                    logger.LogWarning($"Submodule {name} was built for {submodule.Build}, but current build is {currentBuild}.");
+                    _logger.LogWarning($"Submodule {name} was built for {submodule.Build}, but current build is {_currentBuild}.");
                 }
 
                 submodule.SetHooks();
                 submodule.Load();
 
                 submodule.Loaded = true;
-                loadedModules.Add(name);
+                _loadedModules.Add(name);
 
                 submodule.PostLoad();
                 return true;
             }
             catch (Exception e)
             {
-                logger.LogError($"{name} could not be initialized and has been disabled:\n{e}");
+                _logger.LogError($"{name} could not be initialized and has been disabled:\n{e}");
             }
 
             return false;
@@ -210,7 +212,7 @@ namespace CoreLib
         {
             IEnumerable<Type> modulesToAdd = moduleType.GetDependants(type =>
                 {
-                    BaseSubmodule submodule = allModules[type];
+                    BaseSubmodule submodule = _allModules[type];
                     return submodule.Dependencies.AddRangeToArray(submodule.GetOptionalDependencies());
                 },
                 (start, end) =>
@@ -236,16 +238,16 @@ namespace CoreLib
                 .SelectMany(mod => API.Reflection.GetTypes(mod.ModId).Where(IsSubmodule))
                 .ToList();
 
-            if (moduleTypes.Count > lastSubmoduleCount)
+            if (moduleTypes.Count > _lastSubmoduleCount)
             {
                 foreach (Type moduleType in moduleTypes)
                 {
-                    if (allModules.ContainsKey(moduleType)) continue;
+                    if (_allModules.ContainsKey(moduleType)) continue;
 
-                    allModules.Add(moduleType, (BaseSubmodule)Activator.CreateInstance(moduleType));
+                    _allModules.Add(moduleType, (BaseSubmodule)Activator.CreateInstance(moduleType));
                 }
 
-                lastSubmoduleCount = moduleTypes.Count;
+                _lastSubmoduleCount = moduleTypes.Count;
             }
         }
 

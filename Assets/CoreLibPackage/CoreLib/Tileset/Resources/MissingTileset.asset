@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9764c4de0f2adee47abeb62e97e29ee7, type: 3}
+  m_Name: MissingTileset
+  m_EditorClassIdentifier: 
+  tilesetId: CoreLib:Missing
+  layers: {fileID: 11400000, guid: c923dfcf585b3f94d9c8b9a75617b187, type: 2}
+  overrideMaterials:
+    keys: 
+    values: []
+  overrideParticles:
+    keys: 
+    values: []
+  tilesetTextures:
+    texture: {fileID: 0}
+    emissiveTexture: {fileID: 0}
+    effectMaskTexture: {fileID: 0}
+    normalsTexture: {fileID: 0}
+    seasonalTextures: []
+  tilesetTexture: {fileID: 2800000, guid: 0abcaa7b772ab6b45aefb01117b6a8f3, type: 3}
+  tilesetEmissiveTexture: {fileID: 0}
+  adaptiveTilesetTextures:
+    keys: 
+    values: []

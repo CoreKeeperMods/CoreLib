@@ -1,100 +1,64 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib
 {
     /// <summary>
     /// Represents a specific version of the game, including details such as release, major, minor version components,
     /// and a unique build hash for identifying the build.
     /// </summary>
-    /// <remarks>
-    /// This struct implements <see cref="System.IEquatable{T}"/> for easy comparison between game version instances.
-    /// It is immutable, ensuring the integrity of version data across the application.
-    /// The versioning system generally follows the format: Release.Major.Minor.
-    /// An additional build hash is included to uniquely identify a specific build of the version.
-    /// </remarks>
     public readonly struct GameVersion : IEquatable<GameVersion>
     {
-        /// <summary>
-        /// Represents the release version number of the game.
-        /// This value indicates the major lifecycle or stage of the game version,
-        /// and is the first part of the version format.
-        /// </summary>
-        public readonly int release;
-
-        /// <summary>
-        /// Represents the major version component of the game version.
-        /// This value indicates significant revisions or updates
-        /// that may include substantial new features or changes.
-        /// </summary>
-        public readonly int major;
-
-        /// <summary>
-        /// Represents the minor version component of the game version identifier.
-        /// </summary>
-        /// <remarks>
-        /// The minor version typically indicates smaller updates, feature additions, or non-breaking changes
-        /// that are released after the major version has been incremented.
-        /// </remarks>
-        public readonly int minor;
-
-        /// <summary>
-        /// Represents a unique identifier or hash of the build version in the <see cref="GameVersion"/> structure.
-        /// This string differentiates specific builds of the game even when the release, major, and minor versions remain the same.
-        /// </summary>
-        public readonly string buildHash;
+        public readonly int Release;
+        public readonly int Major;
+        public readonly int Minor;
+        public readonly int Patch;
+        public readonly string BuildHash;
 
         /// <summary>
         /// Represents a default or uninitialized instance of the <see cref="GameVersion"/> struct.
         /// This value signifies a state where no specific game version is assigned.
         /// </summary>
-        public static GameVersion zero = new GameVersion(0, 0, 0, "");
+        /// <returns>{0, 0, 0, ""}</returns>>
+        public static GameVersion Zero = new(0, 0, 0);
 
         /// Encapsulates game version details, including release, major, minor, and build hash components.
         /// This structure facilitates version management, validation, and compatibility handling within
         /// the application.
         public GameVersion(string versionString)
         {
-            try
+            const string pattern = @"^(\d+)\.(\d+)\.(\d+)(?:\.(\d+))-([a-zA-Z0-9]+)$";
+            var match = Regex.Match(versionString, pattern);
+            if (match.Success)
             {
-                string[] parts = versionString.Split('-');
-                string[] versionNumbers = parts[0].Split('.');
-
-                buildHash = parts[1];
-                release = int.Parse(versionNumbers[0]);
-                major = int.Parse(versionNumbers[1]);
-                minor = int.Parse(versionNumbers[2]);
+                Release = int.Parse(match.Groups[1].Value);
+                Major = int.Parse(match.Groups[2].Value);
+                Minor = int.Parse(match.Groups[3].Value);
+                Patch = int.Parse(match.Groups[4].Value);
+                BuildHash = match.Groups[5].Value;
             }
-            catch (Exception)
+            else
             {
-               CoreLibMod.Log.LogWarning($"Version string '{versionString}' is not valid!");
-               buildHash = "";
-               release = 0;
-               major = 0;
-               minor = 0;
+                CoreLibMod.Log.LogWarning($"Version string '{versionString}' is not valid!");
+                Release = 0;
+                Major = 0;
+                Minor = 0;
+                Patch = 0;
+                BuildHash = "";
             }
         }
 
         /// Defines and manages the versioning metadata of the game, including release, major, minor,
         /// and build hash details. This structure supports operations such as equality checks and
         /// compatibility validation across different components of the application.
-        public GameVersion(int release, int major, int minor, string buildHash)
+        public GameVersion(int release, int major, int minor, int patch = 0, string buildHash = "")
         {
-            this.release = release;
-            this.major = major;
-            this.minor = minor;
-            this.buildHash = buildHash;
-        }
-
-        /// Represents a specific game version, including release, major, minor, and build hash components.
-        /// Provides methods to handle version equality, compatibility checking, and version string parsing.
-        /// Designed to support version management and validation within the application.
-        [Obsolete("Patch was removed")]
-        public GameVersion(int release, int major, int minor, int patch, string buildHash)
-        {
-            this.release = release;
-            this.major = major;
-            this.minor = minor;
-            this.buildHash = buildHash;
+            Release = release;
+            Major = major;
+            Minor = minor;
+            Patch = patch;
+            BuildHash = buildHash;
         }
 
         /// Determines whether the current game version is compatible with a specified game version.
@@ -103,9 +67,9 @@ namespace CoreLib
         /// <returns>true if the game versions are compatible; otherwise, false.</returns>
         public bool CompatibleWith(GameVersion other)
         {
-            return release == other.release && 
-                   major == other.major && 
-                   minor == other.minor;
+            return Release == other.Release && 
+                   Major == other.Major && 
+                   Minor == other.Minor;
         }
 
         /// Determines whether the current GameVersion instance is equal to another specified GameVersion instance.
@@ -113,9 +77,10 @@ namespace CoreLib
         /// <returns>True if the current instance is equal to the specified GameVersion instance; otherwise, false.</returns>
         public bool Equals(GameVersion other)
         {
-            return release == other.release &&
-                   major == other.major &&
-                   minor == other.minor;
+            return Release == other.Release &&
+                   Major == other.Major &&
+                   Minor == other.Minor &&
+                   BuildHash == other.BuildHash;
         }
 
         /// Determines whether the specified object is equal to the current GameVersion instance.
@@ -136,7 +101,7 @@ namespace CoreLib
         /// </returns>
         public override int GetHashCode()
         {
-            return HashCode.Combine(release, major, minor);
+            return HashCode.Combine(Release, Major, Minor);
         }
 
         /// Defines a custom operator for the type, enabling specialized behavior for operations such as comparison, arithmetic, or logical evaluation specific to the implementing type.
@@ -147,21 +112,18 @@ namespace CoreLib
         }
 
         /// Defines a custom operator for a type, enabling specific operations
-        /// to be performed on instances of the type in a concise or specialized manner.
+        /// <returns><see cref="Boolean"/></returns>
+        /// <example>0.0.0-7ab != 0.0.0-7ac</example>
         public static bool operator !=(GameVersion left, GameVersion right)
         {
             return !left.Equals(right);
         }
 
         /// Returns a string representation of the game version, including release, major, minor,
-        /// and build hash components in a formatted layout.
-        /// <return>
-        /// A string that represents the current GameVersion instance, formatted as
-        /// "release.major.minor-buildHash".
-        /// </return>
+        /// and build hash components in the following formatted layout: "<see cref="Release"/>.<see cref="Major"/>.<see cref="Minor"/>-<see cref="BuildHash"/>".
         public override string ToString()
         {
-            return $"{release}.{major}.{minor}-{buildHash}";
+            return $"{Release}.{Major}.{Minor}-{BuildHash}";
         }
     }
 }

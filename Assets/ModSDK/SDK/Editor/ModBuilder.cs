@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 
-// ReSharper disable once CheckNamespace
 namespace PugMod
 {
 	public static class ModBuilder
@@ -54,7 +53,7 @@ namespace PugMod
 				var assetGuids = AssetDatabase.FindAssets("t:Object", new[] { modDirectory });
 				assetPaths = assetGuids.Select(AssetDatabase.GUIDToAssetPath).Where(x => !Directory.Exists(x)).ToList();
 
-				var useCachedBundles = settings.cacheBundles && !CheckAssetsForChanges(settings, assetPaths, installDirectoryInfo);
+				bool useCachedBundles = settings.cacheBundles && !CheckAssetsForChanges(settings, assetPaths, installDirectoryInfo);
 
 				// Remove old files
 				if (installInSubDirectory && Directory.Exists(installDirectory))
@@ -106,7 +105,7 @@ namespace PugMod
 
 				foreach (var outputFile in manifest)
 				{
-					var fileInfo = new FileInfo(outputFile);
+					FileInfo fileInfo = new FileInfo(outputFile);
 					// Use relative path to mod folder in manifest
 					var path = fileInfo.FullName.Substring(installDirectoryInfo.FullName.Length + 1).Replace('\\', '/');
 
@@ -117,7 +116,7 @@ namespace PugMod
 				settings.lastBuildLinux = settings.buildLinux;
 
 				// Write mod manifest to disk
-				var json = JsonUtility.ToJson(modManifest, true);
+				string json = JsonUtility.ToJson(modManifest, true);
 				File.WriteAllText(Path.Combine(installDirectory, Constants.MOD_MANIFEST_FILE), json);
 
 				Debug.Log($"Successfully built mod at {installDirectory}");
@@ -149,17 +148,17 @@ namespace PugMod
 			var assetPaths = assetGuids.Select(AssetDatabase.GUIDToAssetPath).Where(x => !Directory.Exists(x)).ToList();
             
 			settings.assets.Clear();
-			foreach (var assetPath in assetPaths)
+			foreach (string assetPath in assetPaths)
 			{
 				if (assetPath.EndsWith(".cs")) continue;
 				if (assetPath.EndsWith(".dll")) continue;
 				if (assetPath.EndsWith(".asmdef")) continue;
                 
-				using var stream = File.OpenRead(assetPath);
+				using FileStream stream = File.OpenRead(assetPath);
 
-				var sha = new SHA256Managed();
-				var hash = sha.ComputeHash(stream);
-				var hashStr = BitConverter.ToString(hash).Replace("-", String.Empty);
+				SHA256Managed sha = new SHA256Managed();
+				byte[] hash = sha.ComputeHash(stream);
+				string hashStr = BitConverter.ToString(hash).Replace("-", String.Empty);
 
 				settings.assets.Add(new ModBuilderSettings.ModAsset()
 				{
@@ -173,7 +172,7 @@ namespace PugMod
 		{
 			if (settings.buildLinux != settings.lastBuildLinux) return true;
 
-			foreach (var assetPath in assetPaths)
+			foreach (string assetPath in assetPaths)
 			{
 				if (assetPath.EndsWith(".cs")) continue;
 				if (assetPath.EndsWith(".dll")) continue;

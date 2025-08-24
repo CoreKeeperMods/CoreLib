@@ -1,4 +1,5 @@
-﻿namespace CoreLib.Util.Extensions
+﻿// ReSharper disable once CheckNamespace
+namespace CoreLib.Util.Extensions
 {
     /// Provides utility methods for working with collections.
     public static class CollectionUtils
@@ -12,13 +13,9 @@
         public static void AddDelegate<TKey, TDel>(this System.Collections.Generic.Dictionary<TKey, TDel> entityModifyFunctions, TKey key, TDel modifyDelegate )
             where TDel : System.Delegate
         {
-            if (entityModifyFunctions.ContainsKey(key))
+            if (!entityModifyFunctions.TryAdd(key, modifyDelegate))
             {
                 entityModifyFunctions[key] = (TDel)System.Delegate.Combine(entityModifyFunctions[key], modifyDelegate);
-            }
-            else
-            {
-                entityModifyFunctions.Add(key, modifyDelegate);
             }
         }
 

@@ -14,16 +14,16 @@ namespace  CoreLib.Data
     {
         /// <summary>
         /// Represents a configuration file associated with an ID binding.
-        /// <see cref="ConfigFile"/> is utilized for managing persistent configuration data,
+        /// <see cref="Configuration.ConfigFile"/> is utilized for managing persistent configuration data,
         /// such as ID bindings, loaded from or saved to a file.
         /// </summary>
-        public ConfigFile configFile;
+        public ConfigFile ConfigFile;
 
         /// Represents a configuration-bound implementation of the IdBind system, which associates and tracks identifiers using a configuration file.
         /// Provides functionality for managing ID bindings within a specified range while persisting them to an external configuration.
         public IdBindConfigFile(LoadedMod mod, string configPath, int idRangeStart, int idRangeEnd) : base(idRangeStart, idRangeEnd)
         {
-            configFile = new ConfigFile(configPath, true, mod);
+            ConfigFile = new ConfigFile(configPath, true, mod);
         }
 
         /// Determines whether a given ID is free to use within the configured range and not already assigned in the configuration file.
@@ -31,7 +31,7 @@ namespace  CoreLib.Data
         /// <returns>A boolean value indicating whether the specified ID is free to use (true) or not (false).</returns>
         protected override bool IsIdFree(int id)
         {
-            if (configFile.OrphanedEntries.Any(pair =>
+            if (ConfigFile.OrphanedEntries.Any(pair =>
                 {
                     if (int.TryParse(pair.Value, out int value))
                     {
@@ -44,7 +44,7 @@ namespace  CoreLib.Data
                 return false;
             }
 
-            if (configFile.Entries.Any(pair => { return (int)pair.Value.BoxedValue == id; }))
+            if (ConfigFile.Entries.Any(pair => { return (int)pair.Value.BoxedValue == id; }))
             {
                 return false;
             }
@@ -58,7 +58,7 @@ namespace  CoreLib.Data
         /// <returns>The new ID assigned to the item after binding.</>
         protected override int BindId(string itemId, int freeId)
         {
-            int newId = configFile.Bind("ID Binds", itemId, freeId).Value;
+            int newId = ConfigFile.Bind("ID Binds", itemId, freeId).Value;
             return base.BindId(itemId, newId);
         }
     }

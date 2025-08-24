@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
 
-// ReSharper disable once CheckNamespace
 namespace PugMod
 {
-    public class AcceptTermsWindow : EditorWindow
-    {
-        private const string ACCEPTED_TERMS_KEY = "PugMod/AcceptTerms/AcceptedTerms";
+	public partial class AcceptTermsWindow : EditorWindow
+	{
+		private const string ACCEPTED_TERMS_KEY = "PugMod/AcceptTerms/AcceptedTerms";
 
-        private const string TERMS_URL = "https://raw.githubusercontent.com/Pugstorm/CoreKeeperModSDK/main/EULA.txt";
+		private const string TERMS_URL = "https://raw.githubusercontent.com/Pugstorm/CoreKeeperModSDK/main/EULA.txt";
 
-        private static Action<bool> AcceptDenyCallback { get; set; }
-        private static string TermsToAccept { get; set; }
-
+		private static Action<bool> AcceptDenyCallback { get; set; }
+		private static string TermsToAccept { get; set; }
+		
 #if !PUG_MOD_SDK
 		[MenuItem("PugMod/Clear accepted terms")]
 		public static void ClearAcceptedTerms()
@@ -24,73 +23,72 @@ namespace PugMod
 		}
 #endif
 
-        public static void CheckIfTermsAccepted(Action<bool> callback)
-        {
-            var www = UnityWebRequest.Get(TERMS_URL);
-            www.SendWebRequest().completed += _ =>
-            {
-                string terms;
-                if (www.result == UnityWebRequest.Result.Success)
-                {
-                    terms = www.downloadHandler.text;
+		public static void CheckIfTermsAccepted(Action<bool> callback)
+		{
+			UnityWebRequest www = UnityWebRequest.Get(TERMS_URL);
+			www.SendWebRequest().completed += operation =>
+			{
+				string terms;
+				if (www.result == UnityWebRequest.Result.Success)
+				{
+					terms = www.downloadHandler.text;
+					
+					if (EditorPrefs.HasKey(ACCEPTED_TERMS_KEY) && string.Equals(terms, EditorPrefs.GetString(ACCEPTED_TERMS_KEY)))
+					{
+						// We have accepted these terms
+						callback?.Invoke(true);
+						return;
+					}
+				}
+				else if (EditorPrefs.HasKey(ACCEPTED_TERMS_KEY))
+				{
+					// Assume that any terms accepted are as good or better as default
+					callback?.Invoke(true);
+					return;
+				}
+				else
+				{
+					terms = DEFAULT_TERMS;
+				}
 
-                    if (EditorPrefs.HasKey(ACCEPTED_TERMS_KEY) &&
-                        string.Equals(terms, EditorPrefs.GetString(ACCEPTED_TERMS_KEY)))
-                    {
-                        // We have accepted these terms
-                        callback?.Invoke(true);
-                        return;
-                    }
-                }
-                else if (EditorPrefs.HasKey(ACCEPTED_TERMS_KEY))
-                {
-                    // Assume that any terms accepted are as good or better as default
-                    callback?.Invoke(true);
-                    return;
-                }
-                else
-                {
-                    terms = DEFAULT_TERMS;
-                }
+				AcceptDenyCallback = callback;
+				TermsToAccept = terms;
 
-                AcceptDenyCallback = callback;
-                TermsToAccept = terms;
+				AcceptTermsWindow wnd = GetWindow<AcceptTermsWindow>("EULA");
 
-                var wnd = GetWindow<AcceptTermsWindow>("EULA");
+				wnd.minSize = new Vector2(600, 400);
+				// Want to set size without messing with position so doing it in a somewhat hacky way
+				var oldMaxSize = wnd.maxSize;
+				wnd.maxSize = new Vector2(600, 400);
+				wnd.maxSize = oldMaxSize;
+				
+				www.Dispose();
+			};
+		}
 
-                wnd.minSize = new Vector2(600, 400);
-                // Want to set size without messing with position so doing it in a somewhat hacky way
-                var oldMaxSize = wnd.maxSize;
-                wnd.maxSize = new Vector2(600, 400);
-                wnd.maxSize = oldMaxSize;
+		private void OnDestroy()
+		{
+			AcceptDenyCallback?.Invoke(false);
+		}
 
-                www.Dispose();
-            };
-        }
+		public void CreateGUI()
+		{
+			if (string.IsNullOrEmpty(TermsToAccept))
+			{
+				// Null ref if Close is called directly from here
+				EditorApplication.delayCall += Close;
+			}
+			
+			// Each editor window contains a root VisualElement object
+			VisualElement root = rootVisualElement;
 
-        private void OnDestroy()
-        {
-            AcceptDenyCallback?.Invoke(false);
-        }
+			// Import UXML
+			var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/ModSDK/UI/AcceptTermsPopUp.uxml");
 
-        public void CreateGUI()
-        {
-            if (string.IsNullOrEmpty(TermsToAccept))
-            {
-                // Null ref if Close is called directly from here
-                EditorApplication.delayCall += Close;
-            }
+			root.Add(uxml.CloneTree());
 
-            // Each editor window contains a root VisualElement object
-            var root = rootVisualElement;
-
-            // Import UXML
-            var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/ModSDK/UI/AcceptTermsPopUp.uxml");
-
-            root.Add(uxml.CloneTree());
-
-            root.Q<Button>("AcceptButton").clicked += () =>
-            {
+			root.Q<Button>("AcceptButton").clicked += () =>
+			{
 #if UNITY_EDITOR_LINUX
 				/*
 				 * The Editor might not create ~/.local/share/unity3d for us. As a
@@ -99,18 +97,25 @@ namespace PugMod
 				 */
 				MakePrefsDir();
 #endif
-                EditorPrefs.SetString(ACCEPTED_TERMS_KEY, TermsToAccept);
-                AcceptDenyCallback?.Invoke(true);
-                AcceptDenyCallback = null;
-                Close();
-            };
+				EditorPrefs.SetString(ACCEPTED_TERMS_KEY, TermsToAccept);
+				AcceptDenyCallback?.Invoke(true);
+				AcceptDenyCallback = null;
+				Close();
+			};
 
-            root.Q<Button>("DenyButton").clicked += Close;
+			root.Q<Button>("DenyButton").clicked += () =>
+			{
+				Close();
+			};
 
-            var contentLabel = root.Q<Label>("TermsText");
-            if (contentLabel == null) EditorApplication.delayCall += Close;
-            if (contentLabel != null) contentLabel.text = TermsToAccept;
-        }
+			var contentLabel = root.Q<Label>("TermsText");
+			if (contentLabel == null)
+			{
+				EditorApplication.delayCall += Close;
+			}
+
+			contentLabel.text = TermsToAccept;
+		}
 
 #if UNITY_EDITOR_LINUX
 		private void MakePrefsDir()
@@ -121,7 +126,7 @@ namespace PugMod
 		}
 #endif
 
-        private const string DEFAULT_TERMS = @"END USER LICENSE AGREEMENT (“EULA”)
+		private const string DEFAULT_TERMS = @"END USER LICENSE AGREEMENT (“EULA”)
 
 <b>IMPORTANT</b> - READ CAREFULLY BEFORE INSTALLING, ACCESSING OR USING THE MOD TOOL
 
@@ -217,5 +222,5 @@ This EULA shall be governed by and construed in accordance with the laws of Swed
 
 From time to time this EULA may be updated by Pugstorm. Any changes will be communicated to you by posting a notice or by other reasonable means.
 ";
-    }
+	}
 }

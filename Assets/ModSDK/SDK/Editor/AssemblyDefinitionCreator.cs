@@ -17,13 +17,13 @@ public static class AssemblyDefinitionCreator
             return false;
         }
     }
-
+    
     public static AssemblyDefinition GetAssemblyDefinition(string assetPath)
     {
         try
         {
             var json = File.ReadAllText(assetPath);
-            var asmdef = new AssemblyDefinition();
+            AssemblyDefinition asmdef = new AssemblyDefinition();
             JsonUtility.FromJsonOverwrite(json, asmdef);
             return asmdef;
         }
@@ -32,23 +32,33 @@ public static class AssemblyDefinitionCreator
             return null;
         }
     }
-
+    
     public class AssemblyDefinition
     {
         public string name;
-        public string[] references = Array.Empty<string>();
-        public string[] includePlatforms = Array.Empty<string>();
-        public string[] excludePlatforms = Array.Empty<string>();
+        public string[] references;
+        public string[] includePlatforms;
+        public string[] excludePlatforms;
         public bool allowUnsafeCode;
         public bool overrideReferences;
-        public string[] precompiledReferences = Array.Empty<string>();
+        public string[] precompiledReferences;
         public bool autoReferenced;
-        public string[] defineConstraints = Array.Empty<string>();
-        public VersionDefine[] versionDefines = Array.Empty<VersionDefine>();
+        public string[] defineConstraints;
+        public VersionDefine[] versionDefines;
         public bool useGUIDs;
+
+        public AssemblyDefinition()
+        {
+            references = Array.Empty<string>();
+            includePlatforms = Array.Empty<string>();
+            excludePlatforms = Array.Empty<string>();
+            precompiledReferences = Array.Empty<string>();
+            defineConstraints = Array.Empty<string>();
+            versionDefines = Array.Empty<VersionDefine>();
+        }
     }
 
-    [Serializable]
+    [System.Serializable]
     public class VersionDefine
     {
         public string name;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using CoreLib.Data.Configuration;
 using CoreLib.Util.Extensions;
 using PugMod;
@@ -8,53 +7,27 @@ using UnityEngine;
 using Logger = CoreLib.Util.Logger;
 using Object = UnityEngine.Object;
 
-[assembly: InternalsVisibleTo("CoreLib.Audio")]
-[assembly: InternalsVisibleTo("CoreLib.Commands")]
-[assembly: InternalsVisibleTo("CoreLib.Drops")]
-[assembly: InternalsVisibleTo("CoreLib.Editor")]
-[assembly: InternalsVisibleTo("CoreLib.Entity")]
-[assembly: InternalsVisibleTo("CoreLib.Equipment")]
-[assembly: InternalsVisibleTo("CoreLib.JsonLoader")]
-[assembly: InternalsVisibleTo("CoreLib.Localization")]
-[assembly: InternalsVisibleTo("CoreLib.ModderTools")]
-[assembly: InternalsVisibleTo("CoreLib.Resources")]
-[assembly: InternalsVisibleTo("CoreLib.RewiredExtension")]
-[assembly: InternalsVisibleTo("CoreLib.Tilesets")]
-[assembly: InternalsVisibleTo("CoreLib.UserInterface")]
-
+// ReSharper disable once CheckNamespace
 namespace CoreLib
 {
     /// <summary>
-    /// Represents the core library mod for the application. This class implements the IMod interface
+    /// Represents the Core Library Mod. This class implements the IMod interface
     /// to facilitate mod initialization, configuration handling, version management, and submodule support.
     /// </summary>
     public class CoreLibMod : IMod
     {
         public const string ID = "CoreLib";
-        public const string NAME = "Core Lib";
-        public const string CONFIG_FOLDER = "CoreLib/Config/";
-        public const string VERSION = "3.4.1";
-
-        /// <summary>
-        /// Represents metadata and information about the currently loaded mod.
-        /// This variable provides access to details such as mod ID, name, version, and is essential for configuration and initialization processes involving mod support.
-        /// </summary>
-        internal static LoadedMod modInfo;
-
-        /// <summary>
-        /// Represents the internal static logger instance used for logging various messages, warnings, and errors
-        /// related to the CoreLib mod. This logger provides support for debugging and informing during mod execution.
-        /// </summary>
-        internal static Logger Log = new Logger(NAME);
+        public const string Name = "Core Lib";
+        public const string ConfigFolder = "CoreLib/Config/";
+        public const string Version = "4.0.0";
+        
+        internal static LoadedMod ModInfo;
+        
+        internal static Logger Log = new(Name);
         internal static ConfigFile Config;
-        public static readonly GameVersion buildFor = new GameVersion(1, 1, 0, "ab78");
-
-        /// <summary>
-        /// Responsible for managing and interacting with submodules within the framework.
-        /// Provides essential functionality such as verifying submodule load status,
-        /// handling submodule load requests, and retrieving instances of initialized submodules.
-        /// </summary>
-        internal static SubmoduleHandler submoduleHandler;
+        public static readonly GameVersion BuildFor = new(1, 1, 2, 0, "7da5");
+        
+        internal static SubmoduleHandler SubmoduleHandler;
 
 
         /// <summary>
@@ -64,23 +37,27 @@ namespace CoreLib
         /// </summary>
         public void EarlyInit()
         {
-            modInfo = this.GetModInfo();
-            if (modInfo == null)
+            ModInfo = this.GetModInfo();
+            if (ModInfo == null)
             {
                 Log.LogError("Failed to load CoreLib: mod metadata not found!");
                 return;
             }
 
-            Config = new ConfigFile($"{CONFIG_FOLDER}CoreLib.cfg", true, modInfo);
+            
+            //API.ConfigFilesystem.CreateDirectory(ConfigFolder);
+            //API.ConfigFilesystem.
+            //API.Config.Register("CoreLib", "General Test", "Testing Description and such", "Test", "blah");
+            //Config = new ConfigFile($"{ConfigFolder}CoreLib.cfg", true, ModInfo);
             API.Server.OnWorldCreated += WorldInitialize;
 
             var gameBuild = new GameVersion(Application.version);
 
             CheckIfUsedOnRightGameVersion(gameBuild);
 
-            Log.LogInfo($"Loading CoreLib version {VERSION}!");
+            Log.LogInfo($"Loading CoreLib version {Version}!");
 
-            submoduleHandler = new SubmoduleHandler(gameBuild, Log);
+            SubmoduleHandler = new SubmoduleHandler(gameBuild, Log);
         }
 
         /// <summary>
@@ -89,7 +66,7 @@ namespace CoreLib
         /// <param name="type">The type representing the target class or method to be patched.</param>
         internal static void Patch(Type type)
         {
-            API.ModLoader.ApplyHarmonyPatch(modInfo.ModId, type);
+            API.ModLoader.ApplyHarmonyPatch(ModInfo.ModId, type);
         }
 
         /// <summary>
@@ -108,7 +85,7 @@ namespace CoreLib
         /// <returns>True if the specified submodule is loaded; otherwise, false.</returns>
         public static bool IsSubmoduleLoaded(string submodule)
         {
-            return submoduleHandler.IsLoaded(submodule);
+            return SubmoduleHandler.IsLoaded(submodule);
         }
 
         /// <summary>
@@ -118,7 +95,7 @@ namespace CoreLib
         /// <returns>True if the module was successfully loaded; otherwise, false.</returns>
         public static bool LoadModule(Type moduleType)
         {
-            return submoduleHandler.RequestModuleLoad(moduleType);
+            return SubmoduleHandler.RequestModuleLoad(moduleType);
         }
 
         /// <summary>
@@ -144,27 +121,27 @@ namespace CoreLib
         internal static void CheckIfUsedOnRightGameVersion(GameVersion buildId)
         {
             Log.LogInfo($"Running under game version \"{buildId}\".");
-            if (buildId == GameVersion.zero) return;
+            if (buildId == GameVersion.Zero) return;
 
-            if (buildFor.CompatibleWith(buildId))
+            if (BuildFor.CompatibleWith(buildId))
                 return;
 
             // ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable
             Log.LogWarning(
-                $"This version of CoreLib was built for game version \"{buildFor}\", but you are running \"{buildId}\".");
+                $"This version of CoreLib was built for game version \"{BuildFor}\", but you are running \"{buildId}\".");
             Log.LogWarning("Should any problems arise, please check for a new version before reporting issues.");
         }
 
         /// <summary>
         /// Retrieves an instance of the specified submodule type. The submodule must inherit from <see cref="BaseSubmodule"/>.
-        /// This method relies on the internal <see cref="SubmoduleHandler"/> to provide the appropriate module instance.
+        /// This method relies on the internal <see cref="CoreLib.SubmoduleHandler"/> to provide the appropriate module instance.
         /// </summary>
         /// <typeparam name="T">The type of the submodule to retrieve, which must extend <see cref="BaseSubmodule"/>.</typeparam>
         /// <returns>The instance of the requested submodule type.</returns>
         internal static T GetModuleInstance<T>()
             where T : BaseSubmodule
         {
-            return submoduleHandler.GetModuleInstance<T>();
+            return SubmoduleHandler.GetModuleInstance<T>();
         }
 
         /// <summary>
@@ -221,7 +198,7 @@ namespace CoreLib
         /// <param name="entity">The Entity that was spawned within the ECS.</param>
         /// <param name="entitymanager">The EntityManager responsible for managing the spawned entity.</param>
         /// <param name="graphicalobject">The GameObject that represents the visual aspect of the spawned entity.</param>
-        private void OnObjectSpawned(Entity entity, EntityManager entitymanager, GameObject graphicalobject)
+        private void OnObjectSpawned(Unity.Entities.Entity entity, EntityManager entitymanager, GameObject graphicalobject)
         {
         }
     }

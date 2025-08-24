@@ -5,43 +5,28 @@ using Unity.Mathematics;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Util
 {
     /// <summary>
     /// Provides debugging utilities for displaying visual markers and lines in a 3D world space.
     /// </summary>
-    public static class Debug
+    public static class DebugMarker
     {
         /// <summary>
         /// Represents visual marker data used for debugging purposes in a 3D world space.
         /// </summary>
-        /// <remarks>
-        /// This struct is designed to encapsulate the functionality of visual markers,
-        /// which can represent either points or lines. It includes properties to manage
-        /// associated game objects, renderers, and methods to configure or clear the marker state.
-        /// </remarks>
         [Serializable]
         public struct MarkerData
         {
             /// <summary>
             /// Indicates whether the marker data represents a line.
             /// </summary>
-            /// <remarks>
-            /// This boolean value is used to differentiate between markers that represent points
-            /// and those that represent lines in the 3D world space. A value of <c>true</c> means
-            /// the marker represents a line, while <c>false</c> means it represents a point.
-            /// Typically set based on the presence of a quad renderer.
-            /// </remarks>
             public bool isLine;
 
             /// <summary>
             /// Represents a GameObject used as part of the marker data for debugging visualization.
             /// </summary>
-            /// <remarks>
-            /// This GameObject is utilized to represent markers or lines in a 3D space for debugging purposes.
-            /// It can be manipulated to display at specific positions, set active or inactive, and scaled or rotated
-            /// depending on the type of visualization being rendered (e.g., points or lines).
-            /// </remarks>
             public GameObject gameObject;
 
             /// <summary>
@@ -54,13 +39,7 @@ namespace CoreLib.Util
             /// <summary>
             /// Represents the renderer component of a quad used for visualizing lines or markers in the debug system.
             /// </summary>
-            /// <remarks>
-            /// The <c>quadRenderer</c> is responsible for rendering a rectangular mesh that can be used to simulate lines
-            /// or visual aids in the debugging system. It is typically used when visualizing line-like structures
-            /// (e.g., connecting two points in 3D space) and is manipulated to match the line's position, scale, and orientation.
-            /// </remarks>
             public MeshRenderer quadRenderer;
-            //public LineRenderer lineRenderer;
 
             /// <summary>
             /// Represents a structure to hold data for a debug marker, which includes a GameObject and its associated renderers.
@@ -127,45 +106,21 @@ namespace CoreLib.Util
         /// <summary>
         /// Maintains a list of active markers currently displayed in the 3D world space.
         /// </summary>
-        /// <remarks>
-        /// This list stores marker data representing either points or lines being rendered for debug purposes.
-        /// It is used internally to manage, update, and clear visual markers during runtime. Each marker
-        /// contains metadata such as whether it represents a line or a point and references to its
-        /// associated game objects and renderers.
-        /// </remarks>
         private static List<MarkerData> activeMarkers = new List<MarkerData>();
 
         /// <summary>
         /// A queue that holds reusable point marker data for optimization purposes.
         /// </summary>
-        /// <remarks>
-        /// This collection is used to store instances of <see cref="MarkerData"/> that represent point markers,
-        /// allowing them to be recycled instead of frequently creating and destroying new instances.
-        /// It helps improve performance by reducing allocations and garbage collection in scenarios
-        /// where a large number of point markers are displayed and cleared dynamically.
-        /// </remarks>
         private static Queue<MarkerData> freePointMarkers = new Queue<MarkerData>();
 
         /// <summary>
         /// A queue that stores reusable line marker data for efficient rendering and management.
         /// </summary>
-        /// <remarks>
-        /// This collection holds instances of <c>MarkerData</c> that represent line markers
-        /// in the 3D world space. It is designed to recycle unused markers, reducing the overhead
-        /// of creating and destroying marker instances. Markers can be enqueued when no longer needed
-        /// and dequeued when a new marker is required, promoting efficient resource management.
-        /// </remarks>
         private static Queue<MarkerData> freeLineMarkers = new Queue<MarkerData>();
 
         /// <summary>
         /// A reference to a specific Unity transform used as an anchor for rendering and positioning debug visuals.
         /// </summary>
-        /// <remarks>
-        /// This transform is primarily used for debugging purposes to anchor visual elements
-        /// such as markers and lines in the 3D world space. It is dynamically initialized
-        /// to correspond to the render anchor of the current camera via the <c>Manager.camera.GetRenderAnchor()</c> method.
-        /// Subsequent access to this property returns the cached transform reference.
-        /// </remarks>
         private static Transform myAnchor;
 
         /// <summary>
@@ -209,7 +164,7 @@ namespace CoreLib.Util
         /// <param name="color">The color of the marker to be displayed.</param>
         public static void DisplayPos(Vector3 pos, Color color)
         {
-            Vector3 localPos = pos - Manager.camera.RenderOrigo;
+            var localPos = pos - Manager.camera.RenderOrigo;
             DisplayLocalPos(localPos, color);
         }
 
@@ -241,7 +196,7 @@ namespace CoreLib.Util
         /// <param name="color">The color of the marker to be displayed.</param>
         public static void DisplayLocalPos(Vector3 pos, Color color)
         {
-            MarkerData marker = CreateMarker(false);
+            var marker = CreateMarker(false);
             pos.y += 1f;
             pos.z -= 1f;
             marker.Set(pos, color);
@@ -279,7 +234,7 @@ namespace CoreLib.Util
         /// <param name="color">The color of the line to be displayed.</param>
         public static void DisplayLine(Vector3 pos1, Vector3 pos2, Color color)
         {
-            MarkerData marker = CreateMarker(true);
+            var marker = CreateMarker(true);
 
             pos1.y += 1f;
             pos1.z -= 1f;
@@ -297,7 +252,7 @@ namespace CoreLib.Util
         /// </summary>
         public static void ClearDisplay()
         {
-            foreach (MarkerData marker in activeMarkers)
+            foreach (var marker in activeMarkers)
             {
                 marker.Clear();
 
@@ -321,20 +276,8 @@ namespace CoreLib.Util
         /// <returns>A <see cref="MarkerData"/> instance representing the created or reused debug marker.</returns>
         private static MarkerData CreateMarker(bool line)
         {
-            if (!line)
-            {
-                if (freePointMarkers.Count > 0)
-                    return freePointMarkers.Dequeue();
-                
-                return CreatePointMarker();
-            }
-            else
-            {
-                if (freeLineMarkers.Count > 0)
-                    return freeLineMarkers.Dequeue();
-                
-                return CreateLineMarker();
-            }
+            if (line) return freeLineMarkers.Count > 0 ? freeLineMarkers.Dequeue() : CreateLineMarker();
+            return freePointMarkers.Count > 0 ? freePointMarkers.Dequeue() : CreatePointMarker();
         }
 
         /// <summary>
@@ -344,16 +287,16 @@ namespace CoreLib.Util
         /// <returns>A MarkerData object containing the created sphere GameObject and its associated renderer.</returns>
         private static MarkerData CreatePointMarker()
         {
-            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             sphere.name = "DebugPoint";
 
-            MeshRenderer meshRenderer = sphere.GetComponent<MeshRenderer>();
+            var meshRenderer = sphere.GetComponent<MeshRenderer>();
             Object.Destroy(sphere.GetComponent<SphereCollider>());
             meshRenderer.material.shader = Shader.Find("Radical/SpritesDefault");
             sphere.transform.parent = GetMyAnchor();
             sphere.transform.localScale *= 0.2f;
 
-            MarkerData data = new MarkerData(sphere, meshRenderer, null);
+            var data = new MarkerData(sphere, meshRenderer, null);
             return data;
         }
 
@@ -365,28 +308,16 @@ namespace CoreLib.Util
         /// </returns>
         private static MarkerData CreateLineMarker()
         {
-            //GameObject line = new GameObject("DebugLine");
-            
-            GameObject line = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            var line = GameObject.CreatePrimitive(PrimitiveType.Quad);
             line.name = "DebugLine";
             
-            /*LineRenderer lineRenderer = line.AddComponent<LineRenderer>();
-            
-            var material = new Material(Shader.Find("Radical/SpritesDefault"));
-            lineRenderer.material = material;
-            lineRenderer.startWidth = 0.1f;
-            lineRenderer.endWidth = 0.1f;
-            lineRenderer.positionCount = 2;
-            lineRenderer.useWorldSpace = false;*/
-            
-            MeshRenderer meshRenderer = line.GetComponent<MeshRenderer>();
+            var meshRenderer = line.GetComponent<MeshRenderer>();
             Object.Destroy(line.GetComponent<MeshCollider>());
-            meshRenderer.material.shader = Shader.Find("Radical/SpritesDefault");
+            meshRenderer.material.shader = Shader.Find($"Radical/SpritesDefault");
 
             line.transform.parent = GetMyAnchor();
-            //line.transform.localScale *= 0.2f;
 
-            MarkerData data = new MarkerData(line, null, meshRenderer);
+            var data = new MarkerData(line, null, meshRenderer);
             return data;
         }
         
