@@ -77,6 +77,7 @@ namespace Unity.Physics.Systems
             int numStaticBodies = staticEntityQuery.CalculateEntityCount();
 #if !UNITY_PHYSICS_DISABLE_JOINTS
             int numJoints = jointEntityGroup.CalculateEntityCount();
+            int newBodyCount = newStaticBodyCount + numDynamicBodies;
 #else
             int numJoints = 0;
 #endif
@@ -88,7 +89,6 @@ namespace Unity.Physics.Systems
 #endif
 
             var newStaticBodyCount = numStaticBodies + defaultStaticBodyCount;
-            int newBodyCount = newStaticBodyCount + numDynamicBodies;
             bool staticBodyCountChanged = newStaticBodyCount != previousStaticBodyCount;
             previousStaticBodyCount = newStaticBodyCount;
 
@@ -756,7 +756,7 @@ namespace Unity.Physics.Systems
                         Entity = Entity.Null,
                         CustomTags = 0
                     };
-                    EntityBodyIndexMap.TryAdd(Entity.Null, 0);
+                    EntityBodyIndexMap.TryAdd(Entity.Null, BodyIndex);
                 }
             }
 #endif

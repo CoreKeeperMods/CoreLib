@@ -10,7 +10,9 @@ namespace CoreLib.ModResources
     {
         internal const string PROTOCOL = "mod:";
         internal const string NAMESPACE = "CoreLib.ModResources.";
-      
+
+        public IEnumerable<IResourceLocation> AllLocations { get; }
+
         public bool Locate(object key, Type type, out IList<IResourceLocation> locations)
         {
             if (key is string stringKey && stringKey.StartsWith(PROTOCOL))
