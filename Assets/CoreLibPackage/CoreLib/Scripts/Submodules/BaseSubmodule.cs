@@ -1,15 +1,13 @@
-﻿using System;
-using CoreLib.Util;
+﻿using CoreLib.Util;
 using PugMod;
+using System;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib
 {
-    /// <summary>
     /// Represents an abstract base class for all submodules in the CoreLib framework.
     /// Provides fundamental properties and methods required for submodule management,
     /// such as loading, unloading, dependency handling, and versioning.
-    /// </summary>
     public abstract class BaseSubmodule
     {
         public bool Loaded { get; internal set; }
@@ -39,17 +37,13 @@ namespace CoreLib
             string message = $"{submoduleName} is not loaded. Please use CoreLibMod.LoadModules(typeof({submoduleName})) to load the module!";
             throw new InvalidOperationException(message);
         }
-
-        /// <summary>
+        
         /// Configures and applies the necessary hooks for the current submodule.
         /// This method establishes any event bindings, listeners, or connections required for the submodule's operation within its context.
-        /// </summary>
         internal virtual void SetHooks() { }
-
-        /// <summary>
+        
         /// Initiates the loading process for the submodule, performing any required logic to prepare the submodule for use.
         /// This method is invoked during the submodule initialization process and is intended to be overridden by derived classes.
-        /// </summary>
         internal virtual void Load() { }
 
         /// <summary>

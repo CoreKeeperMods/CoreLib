@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HydraTongue
+  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _EMISSION
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - UniversalForward
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _EmissiveProfile:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InnerSprite:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadingDetailMap:
+        m_Texture: {fileID: 2800000, guid: a125173e60210cd45aaa7a42cbb97c8a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadingProfile:
+        m_Texture: {fileID: 2800000, guid: ba938d33f2d9de34a99e3dd6682739b9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AliasX: 0
+    - _AliasY: 0
+    - _Alpha: 1
+    - _ApplyPixelSnap: 0
+    - _BlueChannelAO: 1
+    - _BumpScale: 1
+    - _Bumpiness: 0
+    - _Curvature: 0
+    - _CurvatureCenter: 0.75
+    - _CurvatureExponent: 1.85
+    - _Cutoff: 0.5
+    - _DataScale: 2
+    - _DataShading: 0.171
+    - _DebugCurvature: 0
+    - _DebugOcclusion: 0
+    - _DetailNormalMapScale: 1
+    - _Dither: 0
+    - _DrawMode: 0
+    - _DstBlend: 0
+    - _EdgeDistance: 3
+    - _EmissiveDetail: 0.2
+    - _EmissiveExponent: 0.47
+    - _EmissiveUseShadingKey: 1
+    - _Exponent: 2
+    - _GhostGroundFade: 3
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _HighlightCurvature: 0.5
+    - _HighlightDither: 0
+    - _HighlightSize: 0.005
+    - _HighlightY: 30
+    - _Inflate: 0
+    - _InnerSpriteBrightness: 1
+    - _InnerSpriteDistortion: 0
+    - _InnerSpriteSize: 1
+    - _IsGhost: 0
+    - _IsOutline: 0
+    - _IsSlimeBlob: 0
+    - _LightShading: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _Occlusion: 0.5
+    - _OcclusionExponent: 0.43
+    - _OcclusionStrength: 1
+    - _OutlineColor: -0.4
+    - _OutlineIntensity: 1
+    - _OutlineSize: 1
+    - _Parallax: 0.02
+    - _ShadingDetail: 0.281
+    - _ShadingExponent: 1.65
+    - _ShadingOffset: 0.36
+    - _SlimeGroundFalloff: 1
+    - _SlimeGroundNormal: 0.5
+    - _SlimeGroundProtrusion: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Test1: 0
+    - _Test2: 20
+    - _TranslucencyCurvature: 0
+    - _TranslucencyOcclusion: 0
+    - _TranslucencyRim: 0
+    - _TranslucencyRimAngle: 0
+    - _UVSec: 0
+    - _VertexColorEmissive: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.07913669, g: 0.17266187, b: 0.3669065, a: 1}
+    - _EdgeColor: {r: 0.15695123, g: 0.16817409, b: 0.39, a: 0.8156863}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlashColor: {r: 0, g: 0, b: 0, a: 0}
+    - _HighlightColor: {r: 1, g: 1, b: 1, a: 0}
+    - _TintColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TranslucencyColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

@@ -2,7 +2,8 @@
 using CoreLib.Data.Configuration;
 using PugMod;
 
-namespace  CoreLib.Data
+// ReSharper disable once CheckNamespace
+namespace CoreLib.Data
 {
     /// <summary>
     /// Represents a configuration-bound implementation of the IdBind system, providing
@@ -44,18 +45,13 @@ namespace  CoreLib.Data
                 return false;
             }
 
-            if (ConfigFile.Entries.Any(pair => { return (int)pair.Value.BoxedValue == id; }))
-            {
-                return false;
-            }
-
-            return base.IsIdFree(id);
+            return ConfigFile.Entries.All(pair => (int)pair.Value.BoxedValue != id) && base.IsIdFree(id);
         }
 
         /// Binds an item ID to a new or existing ID within a specified range and updates the configuration file.
         /// <param name="itemId">The unique identifier of the item to be bound.</param>
         /// <param name="freeId">The proposed free ID to be used for binding.</param>
-        /// <returns>The new ID assigned to the item after binding.</>
+        /// <returns>The new ID assigned to the item after binding.</returns>
         protected override int BindId(string itemId, int freeId)
         {
             int newId = ConfigFile.Bind("ID Binds", itemId, freeId).Value;

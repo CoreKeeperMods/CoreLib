@@ -1,4 +1,5 @@
-﻿namespace CoreLib.Data.Configuration
+﻿// ReSharper disable once CheckNamespace
+namespace CoreLib.Data.Configuration
 {
     public enum ConfigAccessLevel
     {
@@ -28,7 +29,7 @@
     /// </summary>
     public class ConfigScope
     {
-        public readonly static ConfigScope Empty = new(ConfigAccessLevel.Server, false);
+        public static readonly ConfigScope Empty = new();
         public bool RequireReload;
 
         /// <summary>

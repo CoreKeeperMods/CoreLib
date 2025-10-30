@@ -2,6 +2,7 @@
 using System.Linq;
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
     /// <summary>
@@ -12,27 +13,19 @@ namespace CoreLib.Data.Configuration
     /// <inheritdoc />
     public class ConfigDefinition : IEquatable<ConfigDefinition>
     {
-        private static readonly char[] _invalidConfigChars = { '=', '\n', '\t', '\\', '"', '\'', '[', ']' };
+        private static readonly char[] InvalidConfigChars = { '=', '\n', '\t', '\\', '"', '\'', '[', ']' };
 
         /// <summary>
         ///     Create a new definition. Definitions with same section and key are equal.
         /// </summary>
-        /// <param name="section">Group of the setting, case sensitive.</param>
-        /// <param name="key">Name of the setting, case sensitive.</param>
+        /// <param name="section">Group of the setting, case-sensitive.</param>
+        /// <param name="key">Name of the setting, case-sensitive.</param>
         public ConfigDefinition(string section, string key)
         {
             CheckInvalidConfigChars(section, nameof(section));
             CheckInvalidConfigChars(key, nameof(key));
             Key = key;
             Section = section;
-        }
-
-        /// <inheritdoc />
-        [Obsolete("description argument is no longer used, put it in a ConfigDescription instead")]
-        public ConfigDefinition(string section, string key, string description)
-        {
-            Key = key ?? "";
-            Section = section ?? "";
         }
 
         /// <summary>
@@ -62,7 +55,7 @@ namespace CoreLib.Data.Configuration
             if (val != val.Trim())
                 throw new ArgumentException("Cannot use whitespace characters at start or end of section and key names",
                     name);
-            if (val.Any(c => _invalidConfigChars.Contains(c)))
+            if (val.Any(c => InvalidConfigChars.Contains(c)))
                 throw new
                     ArgumentException(@"Cannot use any of the following characters in section and key names: = \n \t \ "" ' [ ]",
                         name);

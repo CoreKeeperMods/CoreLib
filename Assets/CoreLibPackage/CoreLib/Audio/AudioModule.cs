@@ -21,15 +21,9 @@ namespace CoreLib.Submodule.Audio
         public const string ID = "CoreLibAudio";
         public new const string Name = "Core Lib Audio";
         
-        /// <summary>
         /// Determines whether the specified music roster type is a vanilla roster type.
-        /// </summary>
         /// <param name="rosterType">The music roster type to check.</param>
-        /// <returns>True if the roster is a vanilla type; otherwise, false.</returns>
-        public static bool IsVanilla(MusicRosterType rosterType)
-        {
-            return (int)rosterType <= MaxVanillaRosterId;
-        }
+        public static bool IsVanilla(MusicRosterType rosterType) => (int)rosterType <= MaxVanillaRosterId;
 
         /// <summary>
         /// Adds a new custom music roster to the system.
@@ -38,8 +32,8 @@ namespace CoreLib.Submodule.Audio
         public static MusicRosterType AddCustomRoster()
         {
             Instance.ThrowIfNotLoaded();
-            int id = _lastFreeMusicRosterId;
-            _lastFreeMusicRosterId++;
+            int id = LastFreeMusicRosterId;
+            LastFreeMusicRosterId++;
             return (MusicRosterType)id;
         }
 
@@ -118,23 +112,23 @@ namespace CoreLib.Submodule.Audio
         /// where each entry represents a unique roster that contains associated tracks and configurations.
         /// The custom rosters extend the functionality of the vanilla music management system by supporting
         /// additional, user-specified music collections.
-        public static Dictionary<int, MusicManager.MusicRoster> CustomRosterMusic = new();
+        internal static Dictionary<int, MusicManager.MusicRoster> CustomRosterMusic = new();
 
         /// Stores information about vanilla music rosters with additional tracks added dynamically.
         /// Acts as a mapping between unique roster identifiers (keys) and their associated `MusicManager.MusicRoster` instances.
         /// This field is primarily used to integrate and extend vanilla music systems by adding new tracks without modifying core functionality.
-        public static Dictionary<int, MusicManager.MusicRoster> VanillaRosterAddTracksInfos = new();
+        internal static Dictionary<int, MusicManager.MusicRoster> VanillaRosterAddTracksInfos = new();
 
         /// Represents a collection of custom audio fields that define custom sound effects
         /// added to the audio system. Each entry in the list corresponds to a unique
         /// sound effect and is utilized by the system to dynamically load and manage
         /// custom audio assets at runtime.
-        public static List<AudioField> CustomSoundEffects = new();
+        internal static List<AudioField> CustomSoundEffects = new();
 
         /// Stores a mapping of custom effect identifiers to their respective effect implementations.
         /// This dictionary is used to register and manage custom effects added to the audio system,
         /// enabling extended functionality beyond the base system's capabilities.
-        public static Dictionary<EffectID, IEffect> CustomEffects = new();
+        internal static Dictionary<EffectID, IEffect> CustomEffects = new();
 
         /// <summary>
         /// Configures and applies the necessary hooks or patches for this module.
@@ -151,28 +145,24 @@ namespace CoreLib.Submodule.Audio
             CoreLibMod.Patch(typeof(EffectEventExtensionsPatch));
         }
         
-        internal override void Load()
-        {
-            LastFreeSfxId = (int)(SfxID)Enum.Parse(typeof(SfxID), nameof(SfxID.__max__));
-            Log.LogInfo($"Max Sfx ID: {LastFreeSfxId}");
-        }
+        internal override void Load() {}
 
         /// Represents the maximum identifier value that corresponds to vanilla music roster types.
         /// Music roster types with an identifier less than or equal to this value are considered
         /// part of the game's vanilla content. This constant is used to differentiate between
         /// vanilla and custom music rosters.
-        private const int MaxVanillaRosterId = 49;
+        internal static int MaxVanillaRosterId = (int)Enum.GetValues(typeof(MusicRosterType)).Cast<MusicRosterType>().Last();
 
         /// Represents the last assigned identifier for a custom music roster.
         /// This variable is incremented whenever a new custom music roster is added,
         /// ensuring unique identifiers for each newly created roster type.
-        private static int _lastFreeMusicRosterId = MaxVanillaRosterId + 1;
+        internal static int LastFreeMusicRosterId = MaxVanillaRosterId + 1;
 
         /// Represents the last unused sound effect ID in the system.
         /// This variable is used to assign unique identifiers to custom sound effects, ensuring no collisions with pre-existing IDs.
         /// It is incremented each time a new sound effect is added to guarantee uniqueness.
         /// Initially, it is set to the maximum predefined sound effect ID (`SfxID.__max__`).
-        internal static int LastFreeSfxId;
+        internal static int LastFreeSfxId = (int)Enum.GetValues(typeof(SfxID)).Cast<SfxID>().Last() + 1;
         
         internal static int LastFreeEffectId = (int)Enum.GetValues(typeof(EffectID)).Cast<EffectID>().Last() + 1;
 
@@ -228,25 +218,6 @@ namespace CoreLib.Submodule.Audio
             effect.audioFieldName = $"sfx_{sfxId}";
             LastFreeSfxId++;
             return (SfxID)sfxId;
-        }
-
-        /// <summary>
-        /// Retrieves the vanilla music roster of a specified type from the given music manager.
-        /// </summary>
-        /// <param name="manager">The music manager containing the music rosters.</param>
-        /// <param name="rosterType">The type of the vanilla music roster to retrieve.</param>
-        /// <returns>The music roster of the specified type if found; otherwise, null.</returns>
-        internal static MusicManager.MusicRoster GetVanillaRoster(MusicManager manager, MusicRosterType rosterType)
-        {
-            foreach (var roster in manager.musicRosters)
-            {
-                if (roster.rosterType == rosterType)
-                {
-                    return roster;
-                }
-            }
-
-            return null;
         }
 
         #endregion

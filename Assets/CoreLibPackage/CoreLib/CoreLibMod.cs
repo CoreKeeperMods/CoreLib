@@ -1,11 +1,12 @@
 ﻿using System;
-using CoreLib.Data.Configuration;
 using CoreLib.Util.Extensions;
 using PugMod;
 using Unity.Entities;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
 using Object = UnityEngine.Object;
+
+// ReSharper disable UnusedParameter.Local
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib
@@ -24,7 +25,6 @@ namespace CoreLib
         internal static LoadedMod ModInfo;
         
         internal static Logger Log = new(Name);
-        internal static ConfigFile Config;
         public static readonly GameVersion BuildFor = new(1, 1, 2, 0, "7da5");
         
         internal static SubmoduleHandler SubmoduleHandler;
@@ -43,12 +43,7 @@ namespace CoreLib
                 Log.LogError("Failed to load CoreLib: mod metadata not found!");
                 return;
             }
-
             
-            //API.ConfigFilesystem.CreateDirectory(ConfigFolder);
-            //API.ConfigFilesystem.
-            //API.Config.Register("CoreLib", "General Test", "Testing Description and such", "Test", "blah");
-            //Config = new ConfigFile($"{ConfigFolder}CoreLib.cfg", true, ModInfo);
             API.Server.OnWorldCreated += WorldInitialize;
 
             var gameBuild = new GameVersion(Application.version);
@@ -106,7 +101,7 @@ namespace CoreLib
         /// <param name="moduleTypes">An array of <see cref="Type"/> objects representing the modules to be loaded.</param>
         public static void LoadModules(params Type[] moduleTypes)
         {
-            foreach (Type module in moduleTypes)
+            foreach (var module in moduleTypes)
             {
                 if (module == null) continue;
                 LoadModule(module);
@@ -121,15 +116,12 @@ namespace CoreLib
         internal static void CheckIfUsedOnRightGameVersion(GameVersion buildId)
         {
             Log.LogInfo($"Running under game version \"{buildId}\".");
+            
             if (buildId == GameVersion.Zero) return;
-
-            if (BuildFor.CompatibleWith(buildId))
-                return;
-
-            // ReSharper disable once PossiblyImpureMethodCallOnReadonlyVariable
-            Log.LogWarning(
-                $"This version of CoreLib was built for game version \"{BuildFor}\", but you are running \"{buildId}\".");
-            Log.LogWarning("Should any problems arise, please check for a new version before reporting issues.");
+            if (BuildFor.CompatibleWith(buildId)) return;
+            
+            Log.LogWarning($"This version of CoreLib was built for game version \"{BuildFor}\", but you are running \"{buildId}\"." +
+                $"Should any problems arise, please check for a new version before reporting issues.");
         }
 
         /// <summary>
@@ -196,9 +188,10 @@ namespace CoreLib
         /// corresponding graphical representation in the scene.
         /// </summary>
         /// <param name="entity">The Entity that was spawned within the ECS.</param>
-        /// <param name="entitymanager">The EntityManager responsible for managing the spawned entity.</param>
-        /// <param name="graphicalobject">The GameObject that represents the visual aspect of the spawned entity.</param>
-        private void OnObjectSpawned(Unity.Entities.Entity entity, EntityManager entitymanager, GameObject graphicalobject)
+        /// <param name="entityManager">The EntityManager responsible for managing the spawned entity.</param>
+        /// <param name="graphicalObject">The GameObject that represents the visual aspect of the spawned entity.</param>
+        // ReSharper disable once UnusedMember.Local
+        private void OnObjectSpawned(Entity entity, EntityManager entityManager, GameObject graphicalObject)
         {
         }
     }

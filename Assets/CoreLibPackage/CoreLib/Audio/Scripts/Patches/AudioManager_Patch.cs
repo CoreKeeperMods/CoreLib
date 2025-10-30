@@ -22,17 +22,18 @@ namespace CoreLib.Submodule.Audio.Patches
         {
             __result = id >= 0 && (int)id < AudioModule.LastFreeSfxId;
         }
-
-        /// Automatically loads custom audio files into the AudioManager's audio field map.
-        /// This method retrieves the list of custom sound effects defined in AudioModule,
-        /// resizes the internal audio field map of the AudioManager to accommodate them,
-        /// and updates the reuse map for audio playback instances.
-        /// Additionally, it logs the number of custom sound effects loaded.
-        /// <param name="__instance">The instance of the AudioManager class to modify with custom audio files.</param>
+        
+        /// <summary>
+        /// Handles operations that should occur when the "Initialized" property of the AudioManager is set.
+        /// Automatically loads custom audio files and updates the internal audio field map and reuse map accordingly.
+        /// </summary>
+        /// <param name="__instance">The instance of the AudioManager that triggered the setter call.</param>
+        [HarmonyPatch(typeof(AudioManager), "Initialized", MethodType.Setter)]
+        [HarmonyPostfix]
         // ReSharper disable once InconsistentNaming
-        public static void AutoLoadAudioFiles(AudioManager __instance)
+        public static void OnSetInitialized(AudioManager __instance)
         {
-            List<AudioField> customSoundEffect = AudioModule.CustomSoundEffects;
+            var customSoundEffect = AudioModule.CustomSoundEffects;
 
             if (customSoundEffect.Count == 0) return;
 
@@ -51,19 +52,6 @@ namespace CoreLib.Submodule.Audio.Patches
             __instance.reuseMap = new PoolableAudioSource[fieldMap.Length];
 
             BaseSubmodule.Log.LogInfo($"Loaded {customSoundEffect.Count} custom sound effects!");
-        }
-
-        /// <summary>
-        /// Handles operations that should occur when the "Initialized" property of the AudioManager is set.
-        /// Automatically loads custom audio files and updates the internal audio field map and reuse map accordingly.
-        /// </summary>
-        /// <param name="__instance">The instance of the AudioManager that triggered the setter call.</param>
-        [HarmonyPatch(typeof(AudioManager), "Initialized", MethodType.Setter)]
-        [HarmonyPostfix]
-        // ReSharper disable once InconsistentNaming
-        public static void OnSetInitialized(AudioManager __instance)
-        {
-            AutoLoadAudioFiles(__instance);
         }
     }
 }

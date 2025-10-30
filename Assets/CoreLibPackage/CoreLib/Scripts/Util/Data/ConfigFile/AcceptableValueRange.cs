@@ -1,6 +1,7 @@
 ﻿using System;
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
     /// <summary>
@@ -39,10 +40,7 @@ namespace CoreLib.Data.Configuration
             if (MinValue.CompareTo(value) > 0)
                 return MinValue;
 
-            if (MaxValue.CompareTo(value) < 0)
-                return MaxValue;
-
-            return value;
+            return MaxValue.CompareTo(value) < 0 ? MaxValue : value;
         }
 
         /// <inheritdoc />

@@ -2,12 +2,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
     /// <summary>
@@ -94,21 +94,6 @@ namespace CoreLib.Data.Configuration
         public Dictionary<ConfigDefinition, string> OrphanedEntries { get; } = new();
 
         /// <summary>
-        ///     Create a list with all config entries inside of this config file.
-        /// </summary>
-        [Obsolete("Use Keys instead")]
-        public ReadOnlyCollection<ConfigDefinition> ConfigDefinitions
-        {
-            get
-            {
-                lock (_ioLock)
-                {
-                    return Entries.Keys.ToList().AsReadOnly();
-                }
-            }
-        }
-
-        /// <summary>
         ///     Full path to the config file. The file might not exist until a setting is added and changed, or <see cref="Save" />
         ///     is called.
         /// </summary>
@@ -120,7 +105,7 @@ namespace CoreLib.Data.Configuration
         /// </summary>
         public bool SaveOnConfigSet { get; set; } = true;
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ConfigDefinition" />
         public ConfigEntryBase this[ConfigDefinition key]
         {
             get
@@ -279,21 +264,6 @@ namespace CoreLib.Data.Configuration
             }
         }
 
-        /// <summary>
-        ///     Create an array with all config entries inside of this config file. Should be only used for metadata purposes.
-        ///     If you want to access and modify an existing setting then use
-        ///     <see cref="AddSetting{T}(ConfigDefinition,T,ConfigDescription)" />
-        ///     instead with no description.
-        /// </summary>
-        [Obsolete("Use Values instead")]
-        public ConfigEntryBase[] GetConfigEntries()
-        {
-            lock (_ioLock)
-            {
-                return Entries.Values.ToArray();
-            }
-        }
-
         #region Save/Load
 
         private readonly object _ioLock = new();
@@ -448,37 +418,9 @@ namespace CoreLib.Data.Configuration
         #region Wraps
 
         /// <summary>
-        ///     Access one of the existing settings. If the setting has not been added yet, null is returned.
-        ///     If the setting exists but has a different type than T, an exception is thrown.
-        ///     New settings should be added with <see cref="AddSetting{T}(ConfigDefinition,T,ConfigDescription)" />.
-        /// </summary>
-        /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
-        /// <param name="configDefinition">Section and Key of the setting.</param>
-        [Obsolete("Use ConfigFile[key] or TryGetEntry instead")]
-        public ConfigEntry<T> GetSetting<T>(ConfigDefinition configDefinition) =>
-            TryGetEntry<T>(configDefinition, out var entry)
-                ? entry
-                : null;
-
-        /// <summary>
-        ///     Access one of the existing settings. If the setting has not been added yet, null is returned.
-        ///     If the setting exists but has a different type than T, an exception is thrown.
-        ///     New settings should be added with <see cref="AddSetting{T}(ConfigDefinition,T,ConfigDescription)" />.
-        /// </summary>
-        /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
-        /// <param name="section">Section/category/group of the setting. Settings are grouped by this.</param>
-        /// <param name="key">Name of the setting.</param>
-        [Obsolete("Use ConfigFile[key] or TryGetEntry instead")]
-        public ConfigEntry<T> GetSetting<T>(string section, string key) =>
-            TryGetEntry<T>(section, key, out var entry)
-                ? entry
-                : null;
-
-        /// <summary>
         ///     Access one of the existing settings. If the setting has not been added yet, false is returned. Otherwise, true.
         ///     If the setting exists but has a different type than T, an exception is thrown.
-        ///     New settings should be added with
-        ///     <see cref="Bind{T}(ConfigDefinition,T,ConfigDescription)" />.
+        ///     New settings should be added with <see cref="Bind{T}(ConfigDefinition,T,ConfigDescription,ConfigScope)" />.
         /// </summary>
         /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
         /// <param name="configDefinition">Section and Key of the setting.</param>
@@ -502,7 +444,8 @@ namespace CoreLib.Data.Configuration
         ///     Access one of the existing settings. If the setting has not been added yet, null is returned.
         ///     If the setting exists but has a different type than T, an exception is thrown.
         ///     New settings should be added with
-        ///     <see cref="Bind{T}(ConfigDefinition,T,ConfigDescription)" />.
+        ///     <see cref="Bind{T}(ConfigDefinition,T,ConfigDescription,ConfigScope)"></see>
+        ///     .
         /// </summary>
         /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
         /// <param name="section">Section/category/group of the setting. Settings are grouped by this.</param>
@@ -586,73 +529,6 @@ namespace CoreLib.Data.Configuration
             ConfigAccessLevel accessLevel = ConfigAccessLevel.Client, bool requireReload = false) =>
             Bind(new ConfigDefinition(section, key), defaultValue,
                 new ConfigDescription(description), new ConfigScope(accessLevel, requireReload));
-        /// <summary>
-        ///     Create a new setting. The setting is saved to drive and loaded automatically.
-        ///     Each definition can be used to add only one setting, trying to add a second setting will throw an exception.
-        /// </summary>
-        /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
-        /// <param name="configDefinition">Section and Key of the setting.</param>
-        /// <param name="defaultValue">Value of the setting if the setting was not created yet.</param>
-        /// <param name="configDescription">Description of the setting shown to the user and other metadata.</param>
-        [Obsolete("Use Bind instead")]
-        public ConfigEntry<T> AddSetting<T>(ConfigDefinition configDefinition,
-            T defaultValue,
-            ConfigDescription configDescription = null) =>
-            Bind(configDefinition, defaultValue, configDescription);
-
-        /// <summary>
-        ///     Create a new setting. The setting is saved to drive and loaded automatically.
-        ///     Each section and key pair can be used to add only one setting, trying to add a second setting will throw an
-        ///     exception.
-        /// </summary>
-        /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
-        /// <param name="section">Section/category/group of the setting. Settings are grouped by this.</param>
-        /// <param name="key">Name of the setting.</param>
-        /// <param name="defaultValue">Value of the setting if the setting was not created yet.</param>
-        /// <param name="configDescription">Description of the setting shown to the user and other metadata.</param>
-        [Obsolete("Use Bind instead")]
-        public ConfigEntry<T> AddSetting<T>(string section,
-            string key,
-            T defaultValue,
-            ConfigDescription configDescription = null) =>
-            Bind(new ConfigDefinition(section, key), defaultValue, configDescription);
-
-        /// <summary>
-        ///     Create a new setting. The setting is saved to drive and loaded automatically.
-        ///     Each section and key pair can be used to add only one setting, trying to add a second setting will throw an
-        ///     exception.
-        /// </summary>
-        /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
-        /// <param name="section">Section/category/group of the setting. Settings are grouped by this.</param>
-        /// <param name="key">Name of the setting.</param>
-        /// <param name="defaultValue">Value of the setting if the setting was not created yet.</param>
-        /// <param name="description">Simple description of the setting shown to the user.</param>
-        [Obsolete("Use Bind instead")]
-        public ConfigEntry<T> AddSetting<T>(string section, string key, T defaultValue, string description) =>
-            Bind(new ConfigDefinition(section, key), defaultValue, new ConfigDescription(description));
-
-        /// <summary>
-        ///     Access a setting. Use Bind instead.
-        /// </summary>
-        [Obsolete("Use Bind instead")]
-        public ConfigWrapper<T> Wrap<T>(string section, string key, string description = null, T defaultValue = default)
-        {
-            lock (_ioLock)
-            {
-                var definition = new ConfigDefinition(section, key, description);
-                var setting = Bind(definition, defaultValue,
-                    string.IsNullOrEmpty(description) ? null : new ConfigDescription(description));
-                return new ConfigWrapper<T>(setting);
-            }
-        }
-
-        /// <summary>
-        ///     Access a setting. Use Bind instead.
-        /// </summary>
-        [Obsolete("Use Bind instead")]
-        public ConfigWrapper<T> Wrap<T>(ConfigDefinition configDefinition, T defaultValue = default) =>
-            Wrap(configDefinition.Section, configDefinition.Key, null, defaultValue);
-
         #endregion
 
         #region Events
@@ -680,7 +556,9 @@ namespace CoreLib.Data.Configuration
                 return;
 
             var args = new SettingChangedEventArgs(changedEntryBase);
-            foreach (EventHandler<SettingChangedEventArgs> callback in settingChanged.GetInvocationList())
+            foreach (var @delegate in settingChanged.GetInvocationList())
+            {
+                var callback = (EventHandler<SettingChangedEventArgs>)@delegate;
                 try
                 {
                     callback(sender, args);
@@ -689,6 +567,7 @@ namespace CoreLib.Data.Configuration
                 {
                     CoreLibMod.Log.LogError(e.ToString());
                 }
+            }
         }
 
         private void OnConfigReloaded()
@@ -697,7 +576,9 @@ namespace CoreLib.Data.Configuration
             if (configReloaded == null)
                 return;
 
-            foreach (EventHandler callback in configReloaded.GetInvocationList())
+            foreach (var @delegate in configReloaded.GetInvocationList())
+            {
+                var callback = (EventHandler)@delegate;
                 try
                 {
                     callback(this, EventArgs.Empty);
@@ -706,6 +587,7 @@ namespace CoreLib.Data.Configuration
                 {
                     CoreLibMod.Log.LogError(e.ToString());
                 }
+            }
         }
 
         #endregion

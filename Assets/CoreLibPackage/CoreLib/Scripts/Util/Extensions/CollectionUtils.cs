@@ -1,4 +1,7 @@
-﻿// ReSharper disable once CheckNamespace
+﻿using System;
+using System.Collections.Generic;
+
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extensions
 {
     /// Provides utility methods for working with collections.
@@ -10,12 +13,12 @@ namespace CoreLib.Util.Extensions
         /// <param name="entityModifyFunctions">The dictionary to which the delegate will be added or updated.</param>
         /// <param name="key">The key associated with the delegate to be added or updated.</param>
         /// <param name="modifyDelegate">The delegate to be added or combined with an existing delegate at the specified key.</param>
-        public static void AddDelegate<TKey, TDel>(this System.Collections.Generic.Dictionary<TKey, TDel> entityModifyFunctions, TKey key, TDel modifyDelegate )
-            where TDel : System.Delegate
+        public static void AddDelegate<TKey, TDel>(this Dictionary<TKey, TDel> entityModifyFunctions, TKey key, TDel modifyDelegate )
+            where TDel : Delegate
         {
             if (!entityModifyFunctions.TryAdd(key, modifyDelegate))
             {
-                entityModifyFunctions[key] = (TDel)System.Delegate.Combine(entityModifyFunctions[key], modifyDelegate);
+                entityModifyFunctions[key] = (TDel)Delegate.Combine(entityModifyFunctions[key], modifyDelegate);
             }
         }
 

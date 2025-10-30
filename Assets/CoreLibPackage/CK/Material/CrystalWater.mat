@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CrystalWater
+  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: aedefa6f68206524c8e9e9e9afe10cd4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaCutoff: 0.5
+    - _BumpScale: 1
+    - _CubemapMip: 0.1
+    - _CubemapRotation: 0
+    - _CubemapSteps: 4
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _EnableIridescence: 0
+    - _FoamDistortion: 3
+    - _FoamDistortion2: 3
+    - _FoamOffsetAmount: 0.2
+    - _FoamOffsetAmountTileset: 1
+    - _FoamOffsetAmountWaves: 0.2
+    - _FoamOffsetScrollSpeed: 0.2
+    - _FoamOffsetSize: 0.65
+    - _FoamThreshold1: 0.75
+    - _FoamThreshold2: 0.5
+    - _FoamThreshold3: 0.25
+    - _FresnelCurve: 2
+    - _GlitterAmount: 0.15
+    - _GlitterON: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _IndirectEmissiveMultiplier: 1
+    - _IndirectMultiplier: 1
+    - _IridescenceB: 0.4
+    - _IridescenceCausticFactor: 1
+    - _IridescenceFoamFactor: 1
+    - _IridescenceG: 0.55
+    - _IridescenceR: 0.7
+    - _IridescenceThickness: 0.25
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _PhysicalAttenuation: 0
+    - _ReflWarpAmount: 20
+    - _ReflWarpScale: 1
+    - _ReflWarpScrollSpeed: 0.2
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _UnderwaterFog: 0.3
+    - _UseTilesheetFoamColor: 0
+    - _WaveSize: 16
+    - _WaveSpeed: 5
+    - _WaveStrength: 0.2
+    - _ZWrite: 1
+    - _edgeStrength: 1
+    m_Colors:
+    - _BackgroundTint: {r: 0.525, g: 1, b: 0.73918515, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _CausticsColor: {r: 0.19889992, g: 0.53187793, b: 0.78, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CubemapColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissiveColor: {r: 0.106000006, g: 0.69627434, b: 1, a: 1}
+    - _EnissiveColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FoamColor: {r: 0.851, g: 0.9523199, b: 1, a: 0.5019608}
+    - _FoamColor1: {r: 0.81960785, g: 0.9098896, b: 1, a: 1}
+    - _FoamColor2: {r: 0.75699997, g: 0.8863065, b: 1, a: 0.5019608}
+    - _FoamColor3: {r: 0.46666664, g: 0.7375073, b: 1, a: 0.2509804}
+    - _FoamEmissiveColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GlitterColor: {r: 5.0211387, g: 11.201002, b: 14.754423, a: 0}
+    - _IridescenceColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ReflectionTint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
+    - _WaterColor: {r: 0.624, g: 0.88041407, b: 1, a: 1}
+    - _WaterColorPeaks: {r: 0.19999996, g: 0.43999997, b: 0.6, a: 1}
+    - _WaterColorValleys: {r: 0.19999996, g: 0.43999997, b: 0.6, a: 1}
+  m_BuildTextureStacks: []

@@ -6,6 +6,7 @@ using PugMod;
 using Unity.Mathematics;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extensions
 {
     /// <summary>
@@ -20,7 +21,7 @@ namespace CoreLib.Util.Extensions
         /// This array is used to identify directory or file path separators in strings,
         /// such as '/' for UNIX-style paths or '\\' for Windows-style paths.
         /// </remarks>
-        private static readonly char[] separators =
+        private static readonly char[] Separators =
         {
             '/',
             '\\'
@@ -33,11 +34,11 @@ namespace CoreLib.Util.Extensions
         /// <returns>
         /// A string representing the generated GUID in a 32-character, lowercase, hexadecimal format (without dashes).
         /// </returns>
-        public static string GetGUID(this string objectId)
+        public static string GetGuid(this string objectId)
         {
-            using MD5 md5 = MD5.Create();
+            using var md5 = MD5.Create();
             byte[] hash = md5.ComputeHash(Encoding.UTF8.GetBytes(objectId));
-            Guid result = new Guid(hash);
+            var result = new Guid(hash);
             return result.ToString("N");
         }
 
@@ -49,9 +50,9 @@ namespace CoreLib.Util.Extensions
         /// <returns>A list of all child Transforms of the given parent Transform, including descendants.</returns>
         public static List<Transform> GetAllChildren(this Transform parent, List<Transform> transformList = null)
         {
-            if (transformList == null) transformList = new List<Transform>();
+            transformList ??= new List<Transform>();
 
-            foreach (var o in parent)
+            foreach (object o in parent)
             {
                 var child = (Transform)o;
                 transformList.Add(child);
@@ -69,7 +70,7 @@ namespace CoreLib.Util.Extensions
         /// <param name="startIndex">The zero-based index in the byte array at which to begin copying data.</param>
         public static void CopyFrom(this ref FixedArray64 fixedArray, byte[] bytes, int startIndex)
         {
-            var size = math.min(fixedArray.Size, bytes.Length - startIndex);
+            int size = math.min(fixedArray.Size, bytes.Length - startIndex);
             byte[] dataBytes = new byte[size];
             Array.Copy(bytes, startIndex, dataBytes, 0, size);
             fixedArray.Set(dataBytes);
@@ -83,8 +84,8 @@ namespace CoreLib.Util.Extensions
         /// <param name="startIndex">The starting index in the target byte array where the data will be copied.</param>
         public static void CopyTo(this ref FixedArray64 fixedArray, byte[] bytes, int startIndex)
         {
-            var size = math.min(fixedArray.Size, bytes.Length - startIndex);
-            var dataBytes = fixedArray.ToArray<byte>(size);
+            int size = math.min(fixedArray.Size, bytes.Length - startIndex);
+            byte[] dataBytes = fixedArray.ToArray<byte>(size);
             Array.Copy(dataBytes, 0, bytes, startIndex, size);
         }
 
@@ -99,12 +100,7 @@ namespace CoreLib.Util.Extensions
         /// </returns>
         public static ObjectID GetObjectID(this string value)
         {
-            if (Enum.TryParse(value, true, out ObjectID objectID))
-            {
-                return objectID;
-            }
-
-            return API.Authoring.GetObjectID(value);
+            return Enum.TryParse(value, true, out ObjectID objectID) ? objectID : API.Authoring.GetObjectID(value);
         }
 
         /// Extracts the file name from a given file path, including the file extension, if present.
@@ -116,7 +112,7 @@ namespace CoreLib.Util.Extensions
         /// </returns>
         public static string GetFileName(this string path)
         {
-            return path.Substring(path.LastIndexOfAny(separators) + 1);
+            return path[(path.LastIndexOfAny(Separators) + 1)..];
         }
     }
 }

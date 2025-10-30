@@ -4,10 +4,8 @@ using HarmonyLib;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Audio.Patches
 {
-    /// <summary>
     /// A static class responsible for patching the <c>MusicManager</c> class to extend or modify its functionality
     /// within the game. This class uses the Harmony library for applying patches to methods.
-    /// </summary>
     public static class MusicManagerPatch
     {
         /// Initializes the MusicManager and adds additional tracks to the vanilla music rosters based on predefined configurations.
@@ -22,30 +20,26 @@ namespace CoreLib.Submodule.Audio.Patches
         {
             foreach (var pair in AudioModule.VanillaRosterAddTracksInfos)
             {
-                MusicManager.MusicRoster roster = AudioModule.GetVanillaRoster(__instance, (MusicRosterType)pair.Key);
+                var roster = __instance.musicRosters.Find(r => r.rosterType == (MusicRosterType)pair.Key);
                 if (roster == null)
                 {
                     BaseSubmodule.Log.LogWarning($"Failed to get roster list for type {((MusicRosterType)pair.Key).ToString()}");
                     continue;
                 }
 
-                foreach (MusicManager.MusicTrack track in pair.Value.tracks)
+                foreach (var track in pair.Value.tracks)
                 {
                     roster.tracks.Add(track);
                 }
             }
         }
-
+        
         /// Attempts to set a new music roster for the MusicManager instance.
         /// If the provided music roster type is not vanilla and corresponds to a valid custom music roster,
         /// it pauses the current music, clears the current playlist, and sets the provided roster as the current one.
         /// Logs a warning if the roster cannot be applied.
         /// <param name="__instance">The instance of the MusicManager to modify.</param>
         /// <param name="m">The new music roster type to set.</param>
-        /// <returns>
-        /// True if the music roster is vanilla and no custom roster is to be applied, otherwise false.
-        /// Returns false after logging a warning in case of failure to set the roster.
-        /// </returns>
         [HarmonyPatch(typeof(MusicManager), nameof(MusicManager.SetNewMusicPlaylist), typeof(MusicRosterType))]
         [HarmonyPrefix]
         // ReSharper disable once InconsistentNaming
@@ -69,16 +63,13 @@ namespace CoreLib.Submodule.Audio.Patches
 
             if (customRosterMusic.ContainsKey((int)m))
             {
-                MusicManager.MusicRoster list = customRosterMusic[(int)m];
+                var list = customRosterMusic[(int)m];
                 if (list != null && list.tracks.Count > 0)
                 {
                     __instance.ResumeMusic();
-                    if (__instance.GetValue<MusicManager.MusicRoster>("currentMusicRoster") != list)
-                    {
-                        __instance.SetValue("currentlyPlayingMusicIndex", -1);
-                        __instance.SetValue("currentMusicRoster", list);
-                    }
-
+                    if (__instance.GetValue<MusicManager.MusicRoster>("currentMusicRoster") == list) return false;
+                    __instance.SetValue("currentlyPlayingMusicIndex", -1);
+                    __instance.SetValue("currentMusicRoster", list);
                     return false;
                 }
             }

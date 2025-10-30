@@ -391,29 +391,29 @@ namespace CoreLib.Submodule.Command
         /// </summary>
         private static void LoadConfigData()
         {
-            Settings.DisplayAdditionalHints = CoreLibMod.Config.Bind(
+            Settings.DisplayAdditionalHints = API.Config.Register(CoreLibMod.ID,
                 "Commands",
+                "Should user be given hints when errors are found?",
                 "DisplayAdditionalHints",
-                true,
-                "Should user be given hints when errors are found?");
+                true);
 
-            Settings.LOGAllExecutedCommands = CoreLibMod.Config.Bind(
+            Settings.LOGAllExecutedCommands = API.Config.Register(CoreLibMod.ID,
                 "Commands",
+                "Should all commands executed be logged to console/log file",
                 "LogAllExecutedCommands",
-                true,
-                "Should all commands executed be logged to console/log file");
+                true);
 
-            Settings.EnableCommandSecurity = CoreLibMod.Config.Bind(
+            Settings.EnableCommandSecurity = API.Config.Register(CoreLibMod.ID,
                 "Commands",
+                "Should command security system be enabled? This system can check user permissions, and deny execution of any/specific commands",
                 "EnableCommandSecurity",
-                false,
-                "Should command security system be enabled? This system can check user permissions, and deny execution of any/specific commands");
+                false);
 
-            Settings.AllowUnknownClientCommands = CoreLibMod.Config.Bind(
+            Settings.AllowUnknownClientCommands = API.Config.Register(CoreLibMod.ID,
                 "Commands",
+                "Should client commands unknown to the server be allowed to be executed?",
                 "AllowUnknownClientCommands",
-                false,
-                "Should client commands unknown to the server be allowed to be executed?");
+                false);
         }
 
         /// <summary>
@@ -428,11 +428,11 @@ namespace CoreLib.Submodule.Command
             string triggerName = handler.GetTriggerNames()[0];
             if (Settings.UserAllowedCommands.ContainsKey(triggerName)) return;
             
-            var value = CoreLibMod.Config.Bind(
+            var value = API.Config.Register(CoreLibMod.ID,
                 "CommandPermissions",
+                $"Are users (IE not admins) allowed to execute {triggerName}?",
                 $"{modName}_{triggerName}",
-                true,
-                $"Are users (IE not admins) allowed to execute {triggerName}?");
+                true);
             Settings.UserAllowedCommands[triggerName] = value;
         }
 
@@ -495,11 +495,9 @@ namespace CoreLib.Submodule.Command
         /// <param name="command">The command string entered the Quantum Console.</param>
         private static void HandleQuantumConsoleCommand(string command)
         {
-            if (command.StartsWith("chat "))
-            {
-                var args = command.Replace("chat", "").TrimStart();
-                SendCommand($"{CommandPrefix}{args}", true);
-            }
+            if (!command.StartsWith("chat ")) return;
+            string args = command.Replace("chat", "").TrimStart();
+            SendCommand($"{CommandPrefix}{args}", true);
         }
 
         /// <summary>
@@ -517,7 +515,7 @@ namespace CoreLib.Submodule.Command
             if (args.Length < 1 || !args[0].StartsWith(CommandPrefix)) return true;
             if (ClientCommSystem == null) return true;
 
-            CommandFlags flags = CommandFlags.None;
+            var flags = CommandFlags.None;
             
             if (Settings.DisplayAdditionalHints.Value)
                 flags |= CommandFlags.UserWantsHints;

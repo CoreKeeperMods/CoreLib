@@ -1,87 +1,38 @@
 ﻿using PugMod;
 using UnityEngine;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extensions
 {
-    /// <summary>
     /// Provides extension methods for retrieving data associated with Unity objects.
-    /// </summary>
     public static class ObjectDataExtensions
     {
-        /// Retrieves the variation associated with the specified MonoBehaviour.
-        /// <param name="monoBehaviour">
-        /// The MonoBehaviour for which the variation is to be retrieved. This parameter must not be null.
-        /// </param>
-        /// <returns>
-        /// The variation associated with the specified MonoBehaviour.
-        /// Returns 0 if no variation is found.
-        /// </returns>
+        /// <returns>The variation associated with the specified MonoBehaviour. Returns 0 if no variation is found.</returns>
         public static int GetEntityVariation(this MonoBehaviour monoBehaviour)
         {
             return GetEntityVariation(monoBehaviour.gameObject);
         }
-
-        /// Retrieves the variation associated with the specified MonoBehaviour.
-        /// <param name="monoBehaviour">
-        /// The MonoBehaviour for which the variation is to be retrieved. This parameter must not be null.
-        /// </param>
-        /// <returns>
-        /// The variation associated with the specified MonoBehaviour.
-        /// Returns 0 if no variation is found.
-        /// </returns>
+        
+        /// <returns>The variation associated with the specified GameObject. Returns 0 if no variation is found.</returns>
         public static int GetEntityVariation(this GameObject gameObject)
         {
-            var entityMonoBehaviorData = gameObject.GetComponent<EntityMonoBehaviourData>();
-            var objectAuthoring = gameObject.GetComponent<ObjectAuthoring>();
-                
-            if (entityMonoBehaviorData != null)
-            {
-                return entityMonoBehaviorData.objectInfo.variation;
-            }
-            if (objectAuthoring != null)
-            {
-                return objectAuthoring.variation;
-            }
-
-            return 0;
+            if(gameObject.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviorData)) return entityMonoBehaviorData.objectInfo.variation;
+            
+            return gameObject.TryGetComponent(out ObjectAuthoring objectAuthoring) ? objectAuthoring.variation : 0;
         }
-
-        /// Retrieves the ObjectID associated with the specified MonoBehaviour.
-        /// <param name="monoBehaviour">
-        /// The MonoBehaviour for which the ObjectID is to be retrieved. This parameter must not be null.
-        /// </param>
-        /// <returns>
-        /// The ObjectID associated with the specified MonoBehaviour.
-        /// If no ObjectID is found, a default or invalid ObjectID is returned.
-        /// </returns>
+        
+        /// <returns>The ObjectID associated with the specified MonoBehaviour. If no ObjectID is found, <see cref="ObjectID.None"/> is returned.</returns>
         public static ObjectID GetEntityObjectID(this MonoBehaviour monoBehaviour)
         {
             return GetEntityObjectID(monoBehaviour.gameObject);
         }
 
-        /// Retrieves the ObjectID associated with the specified MonoBehaviour.
-        /// <param name="monoBehaviour">
-        /// The MonoBehaviour for which the ObjectID is to be retrieved. This parameter must not be null.
-        /// </param>
-        /// <returns>
-        /// The ObjectID associated with the specified MonoBehaviour.
-        /// If no ObjectID is found, a default or invalid ObjectID is returned.
-        /// </returns>
+        /// <returns>The ObjectID associated with the specified GameObject. If no ObjectID is found, <see cref="ObjectID.None"/> is returned.</returns>
         public static ObjectID GetEntityObjectID(this GameObject gameObject)
         {
-            var entityMonoBehaviorData = gameObject.GetComponent<EntityMonoBehaviourData>();
-            var objectAuthoring = gameObject.GetComponent<ObjectAuthoring>();
-                
-            if (entityMonoBehaviorData != null)
-            {
-                return entityMonoBehaviorData.objectInfo.objectID;
-            }
-            if (objectAuthoring != null)
-            {
-                return API.Authoring.GetObjectID(objectAuthoring.objectName);
-            }
+            if(gameObject.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviorData)) return entityMonoBehaviorData.objectInfo.objectID;
 
-            return 0;
+            return gameObject.TryGetComponent(out ObjectAuthoring objectAuthoring) ? API.Authoring.GetObjectID(objectAuthoring.objectName) : ObjectID.None;
         }
         
         

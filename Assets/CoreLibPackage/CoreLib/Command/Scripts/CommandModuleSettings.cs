@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreLib.Data.Configuration;
+using PugMod;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Command
@@ -24,7 +24,7 @@ namespace CoreLib.Submodule.Command
         /// in resolving errors. This setting is primarily designed for enhancing user experience
         /// by offering more context during command execution.
         /// </remarks>
-        public ConfigEntry<bool> DisplayAdditionalHints;
+        public IConfigEntry<bool> DisplayAdditionalHints;
 
         /// <summary>
         /// Determines whether client commands not recognized by the server are allowed to execute.
@@ -35,14 +35,14 @@ namespace CoreLib.Submodule.Command
         /// or for cases where the server does not maintain a strict command validation mechanism.
         /// When set to false, unrecognized client commands will be denied execution, enforcing stricter control and validation.
         /// </remarks>
-        public ConfigEntry<bool> AllowUnknownClientCommands;
+        public IConfigEntry<bool> AllowUnknownClientCommands;
 
         /// <summary>
         /// Specifies whether the command security system should be enabled.
         /// When enabled, the system checks user permissions and can deny
         /// execution of certain commands based on permissions or predefined restrictions.
         /// </summary>
-        public ConfigEntry<bool> EnableCommandSecurity;
+        public IConfigEntry<bool> EnableCommandSecurity;
 
         /// <summary>
         /// Represents a configuration entry which determines whether all executed commands
@@ -53,19 +53,12 @@ namespace CoreLib.Submodule.Command
         /// This can assist in debugging or tracking user activity, but it may also result in
         /// higher log verbosity and larger log files.
         /// </remarks>
-        public ConfigEntry<bool> LOGAllExecutedCommands;
+        public IConfigEntry<bool> LOGAllExecutedCommands;
 
         /// <summary>
         /// Represents a dictionary that maps command names (as strings) to their corresponding configuration entries,
         /// determining whether each command is allowed to be executed by users (non-admins).
         /// </summary>
-        /// <remarks>
-        /// Each key in the dictionary is the name of a command (string), and the value is a <see cref="CoreLib.Data.Configuration.ConfigEntry{bool}"/>
-        /// which specifies if the respective command is permitted for execution by users. The boolean value in the configuration entry indicates
-        /// whether the command is allowed (true) or not allowed (false).
-        /// This variable is utilized by the command registration and permission checking mechanisms to enforce
-        /// command execution policies based on user roles and dynamic configuration settings.
-        /// </remarks>
-        public Dictionary<string, ConfigEntry<bool>> UserAllowedCommands = new Dictionary<string, ConfigEntry<bool>>();
+        public Dictionary<string, IConfigEntry<bool>> UserAllowedCommands = new();
     }
 }

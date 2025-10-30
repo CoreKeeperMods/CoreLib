@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extensions
 {
     /// <summary>
@@ -70,10 +71,8 @@ namespace CoreLib.Util.Extensions
         /// <param name="circularDepHandler">An action that handles circular dependencies, given the pair of elements causing the circular reference.</param>
         private static void Visit<T>(T item, HashSet<T> visited, List<T> sorted, Func<T, IEnumerable<T>> dependencies , Action<T, T> circularDepHandler)
         {
-            if( !visited.Contains( item ) )
+            if( visited.Add( item ) )
             {
-                visited.Add( item );
-
                 T lastDep = default;
                 
                 try

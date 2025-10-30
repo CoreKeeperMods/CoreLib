@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HydraGhostEye
+  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - UniversalForward
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _EmissiveProfile:
+        m_Texture: {fileID: 2800000, guid: c86b3fe9a391fdf479d81c9e905aa41f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InnerSprite:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadingDetailMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadingProfile:
+        m_Texture: {fileID: 2800000, guid: c86b3fe9a391fdf479d81c9e905aa41f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AliasX: 0
+    - _AliasY: 0
+    - _Alpha: 1
+    - _AlphaCutoff: 0.5
+    - _ApplyPixelSnap: 0
+    - _BlueChannelAO: 1
+    - _BumpScale: 1
+    - _Curvature: 4
+    - _CurvatureCenter: 0.5
+    - _Cutoff: 0.5
+    - _DebugCurvature: 0
+    - _DebugOcclusion: 0
+    - _DetailNormalMapScale: 1
+    - _Dither: 0
+    - _DrawMode: 0
+    - _DstBlend: 0
+    - _EdgeDistance: 4
+    - _EmissiveDetail: 0
+    - _EmissiveExponent: 2
+    - _EmissiveUseShadingKey: 0
+    - _GhostGroundFade: 3
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _HighlightCurvature: 0.5
+    - _HighlightDither: 0
+    - _HighlightSize: 0.005
+    - _HighlightY: 30
+    - _Inflate: 0
+    - _InnerSpriteBrightness: 1
+    - _InnerSpriteDistortion: 0
+    - _InnerSpriteSize: 1
+    - _IsGhost: 0
+    - _IsOutline: 0
+    - _IsSlimeBlob: 0
+    - _Metallic: 0
+    - _Mode: 0
+    - _Occlusion: 1
+    - _OcclusionStrength: 1
+    - _OutlineColor: -0.5
+    - _Parallax: 0.02
+    - _ShadingDetail: 0
+    - _ShadingExponent: 2
+    - _ShowOutline: 0
+    - _SlimeGroundFalloff: 1
+    - _SlimeGroundNormal: 0.5
+    - _SlimeGroundProtrusion: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Test1: -15
+    - _Test2: 15
+    - _TranslucencyCurvature: 0
+    - _TranslucencyOcclusion: 0
+    - _TranslucencyRim: 0
+    - _TranslucencyRimAngle: 0
+    - _UVSec: 0
+    - _UseOuter: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissiveColor: {r: 8.474191, g: 8.474191, b: 8.474191, a: 1}
+    - _FlashColor: {r: 0, g: 0, b: 0, a: 0}
+    - _HighlightColor: {r: 1, g: 1, b: 1, a: 0}
+    - _MaxUV: {r: 0, g: 0, b: 0, a: 0}
+    - _MinUV: {r: 0, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 0.51886785, g: 0.51886785, b: 0.51886785, a: 1}
+    - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
+    - _TintColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TranslucencyColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

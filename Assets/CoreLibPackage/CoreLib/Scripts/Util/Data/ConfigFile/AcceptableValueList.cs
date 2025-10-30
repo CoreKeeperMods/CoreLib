@@ -2,6 +2,7 @@
 using System.Linq;
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
     /// <summary>
@@ -30,10 +31,7 @@ namespace CoreLib.Data.Configuration
         /// <inheritdoc />
         public override object Clamp(object value)
         {
-            if (IsValid(value))
-                return value;
-
-            return AcceptableValues[0];
+            return IsValid(value) ? value : AcceptableValues[0];
         }
 
         /// <inheritdoc />

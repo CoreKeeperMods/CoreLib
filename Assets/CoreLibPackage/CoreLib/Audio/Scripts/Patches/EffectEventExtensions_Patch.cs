@@ -4,10 +4,8 @@ using Unity.Entities;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Audio.Patches
 {
-    /// <summary>
     /// Represents a Harmony patch for the EffectEventExtensions class, providing additional behavior
     /// when the PlayEffect method is executed.
-    /// </summary>
     public class EffectEventExtensionsPatch
     {
         /// Executes custom play effect logic if the effect ID exists in the custom effect dictionary.

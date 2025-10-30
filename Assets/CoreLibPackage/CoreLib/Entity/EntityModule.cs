@@ -733,7 +733,7 @@ namespace CoreLib.Submodule.Entity
             GhostAuthoringComponent ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
             if (ghost != null)
             {
-                ghost.SetValue("prefabId", itemId.GetGUID());
+                ghost.SetValue("prefabId", itemId.GetGuid());
             }
 
             return objectAuthoring;

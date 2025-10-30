@@ -23,7 +23,7 @@ namespace CoreLib
         /// <returns>{0, 0, 0, ""}</returns>>
         public static GameVersion Zero = new(0, 0, 0);
 
-        /// Encapsulates game version details, including release, major, minor, and build hash components.
+        /// Encapsulates game version details, including release, major, minor, patch, and build hash components.
         /// This structure facilitates version management, validation, and compatibility handling within
         /// the application.
         public GameVersion(string versionString)
@@ -49,7 +49,7 @@ namespace CoreLib
             }
         }
 
-        /// Defines and manages the versioning metadata of the game, including release, major, minor,
+        /// Defines and manages the versioning metadata of the game, including release, major, minor, patch,
         /// and build hash details. This structure supports operations such as equality checks and
         /// compatibility validation across different components of the application.
         public GameVersion(int release, int major, int minor, int patch = 0, string buildHash = "")

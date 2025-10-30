@@ -16,7 +16,7 @@ namespace CoreLib.Editor
             var spriteShader = Resources.Load<Shader>($"SpriteLit");
 
             Debug.Log("Setting RP asset to EditorKit RP!");
-            GraphicsSettings.renderPipelineAsset = rp;
+            GraphicsSettings.defaultRenderPipeline = rp;
 
             string[] materialGuids = AssetDatabase.FindAssets("t:material");
             string[] materialPaths = materialGuids.Select(AssetDatabase.GUIDToAssetPath).ToArray();

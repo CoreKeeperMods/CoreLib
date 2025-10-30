@@ -35,6 +35,8 @@ namespace CoreLib.Submodule.Resource
         /// </remarks>
         internal const string NAMESPACE = "CoreLib.ModResources.";
 
+        public IEnumerable<IResourceLocation> AllLocations { get; }
+
         /// <summary>
         /// Attempts to locate the requested resource using the provided key and type,
         /// returning corresponding resource locations if found.

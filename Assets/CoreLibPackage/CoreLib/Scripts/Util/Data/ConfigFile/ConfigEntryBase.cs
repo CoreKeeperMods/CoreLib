@@ -5,10 +5,11 @@ using System.Text;
 
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
     /// <summary>
-    ///     Provides access to a single setting inside of a <see cref="Configuration.ConfigFile" />.
+    ///     Provides access to a single setting inside a <see cref="Configuration.ConfigFile" />.
     /// </summary>
     /// <typeparam name="T">Type of the setting.</typeparam>
     public sealed class ConfigEntry<T> : ConfigEntryBase
@@ -68,7 +69,7 @@ namespace CoreLib.Data.Configuration
         /// <summary>
         ///     Types of defaultValue and definition.AcceptableValues have to be the same as settingType.
         /// </summary>
-        internal protected ConfigEntryBase(ConfigFile configFile,
+        protected internal ConfigEntryBase(ConfigFile configFile,
             ConfigDefinition definition,
             Type settingType,
             object defaultValue,
@@ -88,6 +89,7 @@ namespace CoreLib.Data.Configuration
             DefaultValue = defaultValue;
 
             // Free type check and automatically calls ClampValue in case AcceptableValues were provided
+            // ReSharper disable once VirtualMemberCallInConstructor
             BoxedValue = defaultValue;
         }
 

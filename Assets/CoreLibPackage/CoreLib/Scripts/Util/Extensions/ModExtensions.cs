@@ -130,5 +130,10 @@ namespace CoreLib.Util.Extensions
             if (!success)
                 CoreLibMod.Log.LogWarning($"Failed to load burst assembly for mod {id}");
         }
+        
+        public static MemberInfo FindMember(this Type type, string memberName)
+        {
+            return type.GetMembersChecked().FirstOrDefault(info => info.GetNameChecked().Equals(memberName));
+        }
     }
 }

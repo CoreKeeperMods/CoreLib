@@ -251,16 +251,14 @@ namespace CoreLib.Submodule.TileSets
                 {
                     string layersName = tileset.layers.name;
                     PrefabCrawler.FindMaterialsInTilesetLayers(tileset.layers);
-                    if (!tilesetLayers.ContainsKey(layersName))
-                    {
-                        tilesetLayers.Add(layersName, tileset.layers);
+                    if (tilesetLayers.ContainsKey(layersName)) continue;
+                    tilesetLayers.Add(layersName, tileset.layers);
 
-                        if (!layersName.Equals("tileset_extras")) continue;
+                    if (!layersName.Equals("tileset_extras")) continue;
                         
-                        int railLayer = tileset.layers.layers.FindIndex(generator => generator.targetTile == TileType.rail);
-                        if (railLayer > 0)
-                            tileset.layers.layers[railLayer].onlyAdaptToOwnTileset = false;
-                    }
+                    int railLayer = tileset.layers.layers.FindIndex(generator => generator.targetTile == TileType.rail);
+                    if (railLayer > 0)
+                        tileset.layers.layers[railLayer].onlyAdaptToOwnTileset = false;
                 }
             }
             else
@@ -270,9 +268,9 @@ namespace CoreLib.Submodule.TileSets
 
             missingTileset = ResourcesModule.LoadAsset<ModTileset>("Assets/CoreLibPackage/CoreLib.Tilesets/Resources/MissingTileset");
 
-            if (tilesetLayers.ContainsKey(missingTileset.layers.name))
+            if (tilesetLayers.TryGetValue(missingTileset.layers.name, out var layer))
             {
-                missingTileset.layers = tilesetLayers[missingTileset.layers.name];
+                missingTileset.layers = layer;
             }
         }
 

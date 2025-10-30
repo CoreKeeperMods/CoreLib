@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using PugTilemap.Quads;
 using UnityEngine;
+using PugMod;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Entity
@@ -66,7 +67,7 @@ namespace CoreLib.Submodule.Entity
         public static void FindMaterialsInTilesetLayers(PugMapTileset tileset)
         {
             TryAddMaterial(tileset.tilesetMaterial);
-            foreach (QuadGenerator layer in tileset.layers)
+            foreach (var layer in tileset.layers)
             {
                 TryAddMaterial(layer.customMaterial);
                 TryAddMaterial(layer.overrideMaterial);
@@ -80,9 +81,9 @@ namespace CoreLib.Submodule.Entity
         {
             if (materialsReady) return;
 
-            foreach (PoolablePrefabBank.PoolablePrefab prefab in prefabs)
+            foreach (var prefab in prefabs)
             {
-                GameObject prefabRoot = prefab.prefab;
+                var prefabRoot = prefab.prefab;
                 CheckPrefab(prefabRoot);
             }
 
@@ -93,12 +94,11 @@ namespace CoreLib.Submodule.Entity
         /// <param name="prefab">The prefab to be checked for renderers. If the prefab is null or does not have any renderers with associated materials, no materials will be added.</param>
         private static void CheckPrefab(GameObject prefab)
         {
-            Renderer[] renderers = prefab.GetComponentsInChildren<Renderer>();
+            var renderers = prefab.GetComponentsInChildren<Renderer>();
 
-            foreach (Renderer renderer in renderers)
+            foreach (var renderer in renderers)
             {
-                if (renderer == null) continue;
-
+                if (renderer == null || renderer.sharedMaterial == null) continue;
                 TryAddMaterial(renderer.sharedMaterial);
             }
 
@@ -108,10 +108,7 @@ namespace CoreLib.Submodule.Entity
         /// <param name="material">The material to be added to the materials collection. If the material is null or already exists in the collection, it will not be added.</param>
         private static void TryAddMaterial(Material material)
         {
-            if (material != null && !materials.ContainsKey(material.name))
-            {
-                materials.Add(material.name, material);
-            }
+            materials.TryAdd(material.name, material);
         }
     }
 }
