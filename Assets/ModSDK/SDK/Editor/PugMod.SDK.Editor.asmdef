@@ -5,7 +5,9 @@
         "Unity.ScriptableBuildPipeline",
         "Unity.ScriptableBuildPipeline.Editor",
         "PugMod.SDK",
-        "PugMod.Importer"
+        "PugMod.Importer",
+        "modio.UnityPlugin",
+        "SpriteInstancing"
     ],
     "includePlatforms": [
         "Editor"

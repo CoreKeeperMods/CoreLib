@@ -5,6 +5,7 @@
         "Unity.Entities",
         "Unity.Mathematics",
         "Unity.NetCode",
+        "PugRP",
         "Unity.Collections"
     ],
     "includePlatforms": [],

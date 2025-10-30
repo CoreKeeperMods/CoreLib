@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEditor.PackageManager;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace PugMod
