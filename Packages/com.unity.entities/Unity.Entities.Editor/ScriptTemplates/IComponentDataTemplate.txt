@@ -1,8 +1,0 @@
-using Unity.Entities;
-
-    #ROOTNAMESPACEBEGIN#
-public struct #SCRIPTNAME# : IComponentData
-{
-    #NOTRIM#
-}
-#ROOTNAMESPACEEND#
