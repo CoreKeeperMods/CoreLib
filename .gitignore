@@ -94,3 +94,5 @@ crashlytics-build.properties
 /[Pp]ackages*
 /[Pp]rojectSettings*
 /[Aa]ssets/Examples*
+/[Aa]ssets/DefaultVolumeProfile.asset*
+/[Aa]ssets/UniversalRenderPipelineGlobalSettings.asset*
