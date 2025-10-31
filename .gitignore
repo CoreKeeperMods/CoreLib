@@ -2,11 +2,6 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-.vsconfig
-Player/
-/[Aa]ssets/Plugins/CoreKeeper*
-/[Aa]ssets/CK*
-
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -76,8 +71,25 @@ sysinfo.txt
 crashlytics-build.properties
 
 # Packed Addressables
-/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata*
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 
 # Temporary auto-generated Android Assets
-/[Aa]ssets/[Ss]treamingAssets/aa*
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Vim
+*.swp
+
+# Jetbrains
+.idea/
+
+# Custom
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata*
 /[Aa]ssets/Graphics*
+/[Aa]ssets/ModSDK*
+/[Aa]ssets/Plugins*
+/[Aa]ssets/Unity*
+/[Aa]ssets/Resources*
+/[Pp]ackages*
+/[Pp]rojectSettings*
+/[Aa]ssets/Examples*
