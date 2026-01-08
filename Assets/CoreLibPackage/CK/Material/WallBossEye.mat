@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WallBossEye
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -26,7 +26,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _EmissiveProfile:
-        m_Texture: {fileID: 2800000, guid: c6ee1c2128cf29a4681757c10e7fc9af, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6d614bb06ebb3c148b2d2c84f66a1731, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _InnerSprite:
@@ -38,11 +38,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadingDetailMap:
-        m_Texture: {fileID: 2800000, guid: 7cf4b7b61dbf3ed4b9912de0a3eb6f50, type: 3}
+        m_Texture: {fileID: 2800000, guid: e15577f1790edc64a825cfd2c47283d9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadingProfile:
-        m_Texture: {fileID: 2800000, guid: 5177441b04a650145ae7c1d6b87df36b, type: 3}
+        m_Texture: {fileID: 2800000, guid: c22086c3be773eb449ee1c8a6b5d30bb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -143,3 +143,4 @@ Material:
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
     - _TranslucencyColor: {r: 1, g: 0.6745283, b: 0.8326146, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 0

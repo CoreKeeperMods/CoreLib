@@ -62,7 +62,7 @@ namespace CoreLib.Editor
         }
     }
 
-    [CreateAssetMenu(fileName = "Chain Builder", menuName = "CoreLib/Chain Builder")]
+    [CreateAssetMenu(menuName = "CoreLib/Editor/Chain Builder", fileName = "Chain Builder")]
     public class ChainBuilder : ScriptableObject
     {
         private ModState[] _previousMods;

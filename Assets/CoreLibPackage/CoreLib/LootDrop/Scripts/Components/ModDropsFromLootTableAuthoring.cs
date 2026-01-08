@@ -2,7 +2,7 @@
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
-namespace CoreLib.Submodule.LootDrop.Components
+namespace CoreLib.Submodule.LootDrop.Component
 {
     /// <summary>
     /// The <c>ModDropsFromLootTableAuthoring</c> class is a MonoBehaviour representing
@@ -41,7 +41,7 @@ namespace CoreLib.Submodule.LootDrop.Components
         {
             AddComponentData(new DropsLootFromLootTableCD
             {
-                lootTableID = DropTablesModule.GetLootTableID(authoring.lootTableId)
+                lootTableID = LootDropModule.GetLootTableID(authoring.lootTableId)
             });
         }
     }

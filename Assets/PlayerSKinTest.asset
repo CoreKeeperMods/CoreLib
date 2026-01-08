@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc43e4983a160e543856e5ba0421c9e1, type: 3}
+  m_Name: PlayerSKinTest
+  m_EditorClassIdentifier: 
+  metadata:
+    guid: 2a661b4ba3f142b6b38e80e549f908be
+    name: PlayerSKinTest
+    skipSafetyChecks: 1
+    disableScripts: 0
+    accessesExtraAssemblies: 1
+    disableHarmonyPatching: 0
+    requiredOn: 0
+    files:
+    - path: Scripts/PlayerSkinTest.cs
+    - path: Bundles/PlayerSKinTest_Windows.assetbundle
+    - path: Bundles/PlayerSKinTest_Linux.assetbundle
+    dependencies:
+    - modName: CoreLib
+      required: 1
+  modPath: Assets\PlayerSKinTest
+  forceReimport: 1
+  buildBundles: 1
+  cacheBundles: 0
+  buildLinux: 1
+  buildBurst: 0
+  assets:
+  - path: Assets/PlayerSKinTest/Localization Table.asset
+    hash: 716EE000B5F444071714B8E3C8B5838FECC15BBDCC8FAB99306D56989B4CA907
+  - path: Assets/PlayerSKinTest/New_eyes.png
+    hash: B6DDFB9FC5CA8417D210719C5FA89EBA1921E57F246F10045451450F0F441DBD
+  - path: Assets/PlayerSKinTest/New_skin.png
+    hash: E4121CD139715532D97226141615A83C521A392902C42DB7B870C9405330C379
+  - path: Assets/PlayerSKinTest/Player Skin Customization Table.asset
+    hash: FB927CF0F8F6D9F2B7304E880F6E3C44BA0B5F87D30796C6EBB35713F47390C4
+  - path: Assets/PlayerSKinTest/SpriteAssetManifest.asset
+    hash: 45F8C132772187DFA9340101BE9528964EB00BCBE90E5C1382CC5A42C6455B10
+  - path: Assets/PlayerSKinTest/TestBench 1.asset
+    hash: CC8DDA0C2CBF899A9BECD3B2A14047826718554C4D76AA0C4DF58672125DC7E5
+  - path: Assets/PlayerSKinTest/TestBench.asset
+    hash: DA8BC98250BC5C6ACADF5ECBE091629D662F2011DC08CA146ACE22059F9047A1
+  lastBuildLinux: 1

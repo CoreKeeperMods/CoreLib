@@ -79,7 +79,7 @@ namespace CoreLib.Data.Configuration
         {
             unchecked
             {
-                var hashCode = Key != null ? Key.GetHashCode() : 0;
+                int hashCode = Key != null ? Key.GetHashCode() : 0;
                 hashCode = (hashCode * 397) ^ (Section != null ? Section.GetHashCode() : 0);
                 return hashCode;
             }

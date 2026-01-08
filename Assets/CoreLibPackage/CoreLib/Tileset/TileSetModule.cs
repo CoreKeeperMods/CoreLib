@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoreLib.Data;
 using CoreLib.Submodule.Entity;
-using CoreLib.Submodule.Resource;
-using CoreLib.Submodule.TileSets.Patches;
-using CoreLib.Util.Extensions;
+using CoreLib.Submodule.TileSet.Patch;
+using CoreLib.Util;
+using CoreLib.Util.Extension;
 using PugTilemap;
 using PugTilemap.Quads;
 using PugTilemap.Workshop;
 
 // ReSharper disable once CheckNamespace
-namespace CoreLib.Submodule.TileSets
+namespace CoreLib.Submodule.TileSet
 {
     /// <summary>
     /// Represents a module related to tile sets within the CoreLib framework.
@@ -24,7 +25,10 @@ namespace CoreLib.Submodule.TileSets
     {
         #region PublicInterface
         
-        public new const string Name = "Core Lib Tileset";
+        public new const string Name = "Core Library - Tileset";
+        
+        internal new static Logger Log = new(Name);
+        
         /// <summary>
         /// Retrieves a tileset using a unique tileset identifier.
         /// </summary>
@@ -34,7 +38,7 @@ namespace CoreLib.Submodule.TileSets
         {
             Instance.ThrowIfNotLoaded();
 
-            return (Tileset)tilesetIDs.GetIndex(itemID);
+            return (Tileset)TilesetIDs.GetIndex(itemID);
         }
 
         /// <summary>
@@ -49,20 +53,20 @@ namespace CoreLib.Submodule.TileSets
 
             try
             {
-                int itemIndex = tilesetIDs.GetNextId(tileset.tilesetId);
+                int itemIndex = TilesetIDs.GetNextId(tileset.tilesetId);
                 Tileset tilesetID = (Tileset)itemIndex;
 
-                if (tilesetLayers.ContainsKey(tileset.layers.name))
+                if (TilesetLayers.TryGetValue(tileset.layers.name, out var layer))
                 {
-                    tileset.layers = tilesetLayers[tileset.layers.name];
+                    tileset.layers = layer;
                     Log.LogInfo($"Replacing tileset {tileset.tilesetId} layers config with default layers {tileset.layers.name}");
                 }
                 else
                 {
-                    customLayers.Add(tileset.layers);
+                    CustomLayers.Add(tileset.layers);
                 }
 
-                customTilesets.Add(tilesetID, tileset);
+                CustomTilesets.Add(tilesetID, tileset);
                 Log.LogInfo($"Added tileset {tileset.tilesetId} as TilesetID: {tilesetID}!");
             }
             catch (Exception e)
@@ -95,7 +99,7 @@ namespace CoreLib.Submodule.TileSets
         /// within the module. Attempting to access features of the <c>TileSetModule</c>
         /// without utilizing this property may result in unintended behavior or errors.
         /// The property lazily retrieves or ensures the appropriate module instance
-        /// through <c>CoreLibMod.GetModuleInstance&lt;TileSetModule&gt;()</c>.
+        /// through <c>CoreLibMod.GetModuleInstance&lt;TileSetModule&gt;</c>.
         /// </remarks>
         internal static TileSetModule Instance => CoreLibMod.GetModuleInstance<TileSetModule>();
 
@@ -109,8 +113,7 @@ namespace CoreLib.Submodule.TileSets
         /// This variable functions as a central registry for custom-modified tilesets, enabling efficient
         /// retrieval and integration within the tile management system.
         /// </remarks>
-        internal static Dictionary<Tileset, ModTileset> customTilesets =
-            new Dictionary<Tileset, ModTileset>();
+        internal static Dictionary<Tileset, ModTileset> CustomTilesets = new();
 
         /// <summary>
         /// Stores a mapping of tileset layer names to their corresponding PugMapTileset instances.
@@ -122,7 +125,7 @@ namespace CoreLib.Submodule.TileSets
         /// the association of layer data with their respective tilesets, ensuring consistency and reuse across the system.
         /// This variable is populated during the initialization process and updated dynamically as needed.
         /// </remarks>
-        internal static Dictionary<string, PugMapTileset> tilesetLayers = new Dictionary<string, PugMapTileset>();
+        internal static Dictionary<string, PugMapTileset> TilesetLayers = new();
 
         /// <summary>
         /// Represents a collection of custom PugMapTileset layers added dynamically at runtime.
@@ -133,17 +136,17 @@ namespace CoreLib.Submodule.TileSets
         /// The customLayers list plays a significant role in handling and rendering these dynamically defined layers.
         /// Its contents are utilized and iterated over in various internal processing tasks, including swapping materials and managing tileset data.
         /// </remarks>
-        internal static List<PugMapTileset> customLayers = new List<PugMapTileset>();
+        internal static List<PugMapTileset> CustomLayers = new();
 
         /// <summary>
         /// Represents a default fallback ModTileset resource used as a placeholder for missing or undefined tilesets.
         /// </summary>
         /// <remarks>
-        /// This variable is initialized during the TileSetModule's setup process and is loaded from the specified assets folder.
+        /// This variable is initialized during the TileSetModule's setup process and is loaded from the specified asset's folder.
         /// It serves as a critical resource to prevent errors or inconsistencies when a tileset cannot be found or is unavailable.
         /// The missingTileset is used within various contexts, including patching and layer management, as a reliable default reference.
         /// </remarks>
-        internal static ModTileset missingTileset;
+        internal static ModTileset MissingTileset;
 
         /// <summary>
         /// Manages the mapping and retrieval of tileset IDs associated with item identifiers.
@@ -155,7 +158,7 @@ namespace CoreLib.Submodule.TileSets
         /// remain within the defined modifiable range. This helps to maintain consistency and
         /// prevent conflicts in tileset management.
         /// </remarks>
-        internal static IdBindConfigFile tilesetIDs;
+        internal static IdBindConfigFile TilesetIDs;
 
         /// <summary>
         /// Specifies the inclusive lower bound of the ID range allocated for custom mod tilesets.
@@ -166,7 +169,7 @@ namespace CoreLib.Submodule.TileSets
         /// <c>modTilesetIdRangeStart</c> and <c>modTilesetIdRangeEnd</c> (exclusive).
         /// This ensures that mod tileset IDs do not conflict with other system-defined IDs.
         /// </remarks>
-        public const int modTilesetIdRangeStart = 100;
+        public const int ModTilesetIdRangeStart = 100;
 
         /// <summary>
         /// Defines the exclusive upper bound of the ID range allocated for custom mod tilesets.
@@ -177,7 +180,7 @@ namespace CoreLib.Submodule.TileSets
         /// Tileset IDs generated for mods must be in the range between <c>modTilesetIdRangeStart</c>
         /// and <c>modTilesetIdRangeEnd</c> (exclusive).
         /// </remarks>
-        public const int modTilesetIdRangeEnd = 200;
+        public const int ModTilesetIdRangeEnd = 200;
 
         /// <summary>
         /// Overrides the base submodule's hook setup to apply specific patches required
@@ -189,10 +192,7 @@ namespace CoreLib.Submodule.TileSets
         /// the initialization process to ensure any necessary adjustments or extensions
         /// to Tileset behavior are properly configured.
         /// </remarks>
-        internal override void SetHooks()
-        {
-            CoreLibMod.Patch(typeof(TilesetTypeUtility_Patch));
-        }
+        internal override void SetHooks() => CoreLibMod.Patch(typeof(TilesetTypeUtilityPatch));
 
         /// <summary>
         /// Loads and initializes the TileSet module.
@@ -204,11 +204,10 @@ namespace CoreLib.Submodule.TileSets
         /// </remarks>
         internal override void Load()
         {
-            ResourcesModule.RefreshModuleBundles();
-
-            tilesetIDs = new IdBindConfigFile(CoreLibMod.ModInfo, $"{CoreLibMod.ConfigFolder}CoreLib.TilesetID.cfg", modTilesetIdRangeStart, modTilesetIdRangeEnd);
+            base.Load();
+            TilesetIDs = new IdBindConfigFile(CoreLibMod.ModInfo, $"{CoreLibMod.ConfigFolder}CoreLib.TilesetID.cfg", ModTilesetIdRangeStart, ModTilesetIdRangeEnd);
             InitTilesets();
-            EntityModule.MaterialSwapReady += SwapMaterials;
+            MaterialCrawler.MaterialSwapReady += SwapMaterials;
         }
 
         /// <summary>
@@ -217,22 +216,22 @@ namespace CoreLib.Submodule.TileSets
         /// </summary>
         private static void SwapMaterials()
         {
-            foreach (PugMapTileset layers in customLayers)
+            foreach (var layers in CustomLayers)
             {
                 string materialName = layers.tilesetMaterial.name;
-                if (PrefabCrawler.materials.ContainsKey(materialName))
+                if (MaterialCrawler.Materials.TryGetValue(materialName, out var material))
                 {
-                    layers.tilesetMaterial = PrefabCrawler.materials[materialName];
+                    layers.tilesetMaterial = material;
                 }
                 
-                foreach (QuadGenerator layer in layers.layers)
+                foreach (var layer in layers.layers)
                 {
                     if (layer.overrideMaterial == null) continue;
                     
                     materialName = layer.overrideMaterial.name;
-                    if (PrefabCrawler.materials.ContainsKey(materialName))
+                    if (MaterialCrawler.Materials.TryGetValue(materialName, out var material1))
                     {
-                        layer.overrideMaterial = PrefabCrawler.materials[materialName];
+                        layer.overrideMaterial = material1;
                     }
                 }
             }
@@ -250,9 +249,8 @@ namespace CoreLib.Submodule.TileSets
                 foreach (MapWorkshopTilesetBank.Tileset tileset in vanillaBank.tilesets)
                 {
                     string layersName = tileset.layers.name;
-                    PrefabCrawler.FindMaterialsInTilesetLayers(tileset.layers);
-                    if (tilesetLayers.ContainsKey(layersName)) continue;
-                    tilesetLayers.Add(layersName, tileset.layers);
+                    if (TilesetLayers.ContainsKey(layersName)) continue;
+                    TilesetLayers.Add(layersName, tileset.layers);
 
                     if (!layersName.Equals("tileset_extras")) continue;
                         
@@ -266,11 +264,11 @@ namespace CoreLib.Submodule.TileSets
                 Log.LogError("Failed to get default tileset layers!");
             }
 
-            missingTileset = ResourcesModule.LoadAsset<ModTileset>("Assets/CoreLibPackage/CoreLib.Tilesets/Resources/MissingTileset");
+            MissingTileset = Mod.Assets.OfType<ModTileset>().ToList().Find(x => x.name == "MissingTileset");
 
-            if (tilesetLayers.TryGetValue(missingTileset.layers.name, out var layer))
+            if (TilesetLayers.TryGetValue(MissingTileset.layers.name, out var layer))
             {
-                missingTileset.layers = layer;
+                MissingTileset.layers = layer;
             }
         }
 

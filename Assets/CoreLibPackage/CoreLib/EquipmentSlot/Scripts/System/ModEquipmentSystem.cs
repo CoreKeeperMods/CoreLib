@@ -1,4 +1,5 @@
-﻿using Inventory;
+﻿using CoreLib.Submodule.EquipmentSlot.Interface;
+using Inventory;
 using PlayerEquipment;
 using PlayerState;
 using PugProperties;
@@ -171,7 +172,7 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                 hasExplodedLookup = SystemAPI.GetComponentLookup<HasExplodedCD>()
             };
 
-            foreach (var slotInfo in EquipmentModule.Slots.Values)
+            foreach (var slotInfo in EquipmentSlotModule.Slots.Values)
             {
                 slotInfo.logic.CreateLookups(ref CheckedStateRef);    
             }
@@ -184,8 +185,8 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                     var slotType = equipmentAspect.equipmentSlotCD.ValueRO.slotType;
                     var slotTypeNum = (int)slotType;
                     
-                    if (slotTypeNum < EquipmentModule.ModSlotTypeIdStart) return;
-                    if (!EquipmentModule.Slots.TryGetValue(slotType, out var slotInfo)) return;
+                    if (slotTypeNum < EquipmentSlotModule.ModSlotTypeIdStart) return;
+                    if (!EquipmentSlotModule.Slots.TryGetValue(slotType, out var slotInfo)) return;
                     var logic = slotInfo.logic;
                     
                     bool interactHeldRaw = clientInput.IsButtonStateSet(CommandInputButtonStateNames.Interact_HeldDown);

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GiantCicada_Virus
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -27,7 +27,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _EmissiveProfile:
-        m_Texture: {fileID: 2800000, guid: 57aa3d17066f5144c937f79de1b097f0, type: 3}
+        m_Texture: {fileID: 2800000, guid: bcc8fd6cd3920a84c9bfcd6956db5ffc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _InnerSprite:
@@ -43,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadingProfile:
-        m_Texture: {fileID: 2800000, guid: 7b9939923439b0244bd8978be05f6c0c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 385615eecf2b0a246843ddc4895c0543, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -144,4 +144,4 @@ Material:
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
     - _TranslucencyColor: {r: 0, g: 0.112511136, b: 1, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_AllowLocking: 0

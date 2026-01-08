@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SeaWater
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: ba1688fe920cb7847862ed19c310d5b6, type: 3}
+        m_Texture: {fileID: 2800000, guid: bca111b744bc62e4d92e23963557f454, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -105,4 +105,4 @@ Material:
     - _WaterColorPeaks: {r: 0.19999996, g: 0.43999997, b: 0.6, a: 1}
     - _WaterColorValleys: {r: 0.19999996, g: 0.43999997, b: 0.6, a: 1}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_AllowLocking: 0

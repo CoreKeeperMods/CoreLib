@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using CoreLib.Submodule.Command.Communication;
+using CoreLib.Submodule.Command.Data;
 using HarmonyLib;
 using Pug.UnityExtensions;
 using PugMod;
@@ -10,7 +10,7 @@ using Unity.NetCode;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
-namespace CoreLib.Submodule.Command
+namespace CoreLib.Submodule.Command.Util
 {
     /// <summary>
     /// Provides utility methods for command parsing, execution, and management, such as processing input arguments, retrieving player-related information, and enhancing command outputs.
@@ -31,10 +31,10 @@ namespace CoreLib.Submodule.Command
                 return "";
             }
 
-            string[] keys = CommandsModule.FriendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
+            string[] keys = CommandModule.FriendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
             if (keys.Length == 0)
             {
-                BaseSubmodule.Log.LogInfo($"friendlyNameDict state: {CommandsModule.FriendlyNameDict.Count} entries, first entries: {CommandsModule.FriendlyNameDict.Keys.Take(10).Join()}");
+                CommandModule.Log.LogInfo($"friendlyNameDict state: {CommandModule.FriendlyNameDict.Count} entries, first entries: {CommandModule.FriendlyNameDict.Keys.Take(10).Join()}");
                 objectID = ObjectID.None; 
                 return new CommandOutput($"No item named '{fullName}' found!", CommandStatus.Error);
             }
@@ -44,7 +44,7 @@ namespace CoreLib.Submodule.Command
                 try
                 {
                     string key = keys.First(s => s.Equals(fullName));
-                    objectID = CommandsModule.FriendlyNameDict[key];
+                    objectID = CommandModule.FriendlyNameDict[key];
                     return "";
                 }
                 catch (Exception)
@@ -56,7 +56,7 @@ namespace CoreLib.Submodule.Command
                 }
             }
 
-            objectID = CommandsModule.FriendlyNameDict[keys[0]];
+            objectID = CommandModule.FriendlyNameDict[keys[0]];
             return "";
         }
 

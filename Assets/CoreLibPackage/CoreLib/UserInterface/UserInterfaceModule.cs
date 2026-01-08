@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CoreLib.Submodule.UserInterface.Patches;
+using CoreLib.Submodule.UserInterface.Component;
+using CoreLib.Submodule.UserInterface.Interface;
+using CoreLib.Submodule.UserInterface.Patch;
 using UnityEngine;
 using UnityEngine.Scripting;
+using Logger = CoreLib.Util.Logger;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.UserInterface
@@ -14,6 +17,14 @@ namespace CoreLib.Submodule.UserInterface
     /// </summary>
     public class UserInterfaceModule : BaseSubmodule
     {
+        #region Fields
+
+        public new const string Name = "Core Library - UserInterface";
+        
+        public new static Logger Log = new(Name);
+
+        #endregion
+        
         #region Public Interface
 
         /// <summary>
@@ -66,7 +77,7 @@ namespace CoreLib.Submodule.UserInterface
             Instance.ThrowIfNotLoaded();
             if (!modInterfaces.ContainsKey(interfaceID))
             {
-                CoreLibMod.Log.LogError($"Trying to get UI '{interfaceID}', which is not registered!");
+                Log.LogError($"Trying to get UI '{interfaceID}', which is not registered!");
                 return null;
             }
 
@@ -122,12 +133,12 @@ namespace CoreLib.Submodule.UserInterface
                     authoring.modInterfaceID.Equals(modInterfaceAuthoring.modInterfaceID,
                         StringComparison.InvariantCultureIgnoreCase)))
             {
-                CoreLibMod.Log.LogWarning($"Tried to register mod UI with id '{modInterfaceAuthoring.modInterfaceID}', which already was registered!");
+                Log.LogWarning($"Tried to register mod UI with id '{modInterfaceAuthoring.modInterfaceID}', which already was registered!");
                 return;
             }
 
             interfacePrefabs.Add(modInterfaceAuthoring);
-            CoreLibMod.Log.LogInfo($"Registering {modInterfaceAuthoring.modInterfaceID} Modded UI!");
+            Log.LogInfo($"Registering {modInterfaceAuthoring.modInterfaceID} Modded UI!");
         }
 
         #endregion
@@ -158,7 +169,7 @@ namespace CoreLib.Submodule.UserInterface
         /// These prefabs are used for registering and initializing custom modded UIs
         /// within the <see cref="UserInterfaceModule"/>.
         /// </summary>
-        internal static List<ModUIAuthoring> interfacePrefabs = new List<ModUIAuthoring>();
+        internal static List<ModUIAuthoring> interfacePrefabs = new();
 
         /// <summary>
         /// Represents a collection of registered mod interfaces, providing a mapping between
@@ -166,7 +177,7 @@ namespace CoreLib.Submodule.UserInterface
         /// This dictionary enables efficient retrieval and management of modded user interface components
         /// within the <see cref="UserInterfaceModule"/>.
         /// </summary>
-        internal static Dictionary<string, IModUI> modInterfaces = new Dictionary<string, IModUI>();
+        internal static Dictionary<string, IModUI> modInterfaces = new();
 
         /// <summary>
         /// Provides access to the singleton instance of the <see cref="UserInterfaceModule"/>.
@@ -184,7 +195,7 @@ namespace CoreLib.Submodule.UserInterface
         /// </remarks>
         internal override void SetHooks()
         {
-            CoreLibMod.Patch(typeof(UIManager_Patch));
+            CoreLibMod.Patch(typeof(UIManagerPatch));
         }
 
         /// <summary>

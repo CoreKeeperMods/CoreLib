@@ -12,17 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d6fd8f5d58c934f9a6003020b0f9b0, type: 3}
   m_Name: RootWorkbench
   m_EditorClassIdentifier: 
-  itemId: CoreLib:RootModWorkbench
+  workbenchType: 0
+  modID: CoreLib
+  itemID: CoreLib:RootModWorkbench
   bigIcon: {fileID: 6052145283139932220, guid: 75c9105165a4c884ab9cd8a222202c1d, type: 3}
   smallIcon: {fileID: 4889364612262949874, guid: 75c9105165a4c884ab9cd8a222202c1d,
     type: 3}
-  assetSkin: {fileID: 11400000, guid: d2d851b3bca5877449d5cc12bf90e81d, type: 2}
+  asset: {fileID: 11400000, guid: d2d851b3bca5877449d5cc12bf90e81d, type: 2}
   bindToRootWorkbench: 0
   recipe:
   - objectName: Wood
     amount: 2
   canCraft: []
   relatedWorkbenches: []
+  refreshRelatedWorkbenchTitles: 1
   title: CoreLib/Workbenches
   leftTitle: CoreLib/Workbenches
   rightTitle: CoreLib/Workbenches

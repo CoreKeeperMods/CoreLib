@@ -5,7 +5,7 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Editor
 {
-    [CreateAssetMenu(fileName = "Submodules Builder", menuName = "CoreLib/Submodules Builder")]
+    [CreateAssetMenu(menuName = "CoreLib/Editor/Submodules Builder", fileName = "Submodules Builder")]
     public class SubmodulesBuilder : ScriptableObject
     {
         public string[] submoduleNames;

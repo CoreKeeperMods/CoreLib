@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: HydraRift
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -30,15 +30,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DistortionTexture:
-        m_Texture: {fileID: 2800000, guid: 18a9de19690c5654a8a76f08c0522f89, type: 3}
+        m_Texture: {fileID: 2800000, guid: 209fa559e2017784e8056d71892ebd5a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 739fc44ebeaf9814fbb3c793b4cf0f4d, type: 3}
+        m_Texture: {fileID: 2800000, guid: de1ed4c3e119fec4aa0c866ae54d6be9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 2800000, guid: 9e188a0087940ab4abb581f74521a7c4, type: 3}
+        m_Texture: {fileID: 2800000, guid: abfbad207be710d43b2688cfbe8a35a8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -98,4 +98,4 @@ Material:
     - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_AllowLocking: 0

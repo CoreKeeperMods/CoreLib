@@ -70,7 +70,7 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                     var objectTypeNum = (int)objectType;
                     if (objectTypeNum < short.MaxValue) return;
 
-                    foreach (var slotPair in EquipmentModule.Slots)
+                    foreach (var slotPair in EquipmentSlotModule.Slots)
                     {
                         if (slotPair.Value.objectType == objectType)
                         {

@@ -1,12 +1,52 @@
-﻿// ReSharper disable once CheckNamespace
+﻿// ========================================================
+// Project: Core Library Mod (Core Keeper)
+// File: State.cs
+// Author: Minepatcher, Limoka
+// Created: 2025-11-07
+// Description: Provides utility methods for checking the current game state,
+//              including whether the game is actively running or in a specific scene.
+// ========================================================
+
+using System;
+
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Util
 {
-    /// The State class provides utility methods to determine the current state of the game.
-    public static class State {
-        /// <returns>Returns <c>true</c> if the current scene handler indicates the game is in play; otherwise, returns <c>false</c>.</returns>
-        public static bool IsInGame() {
-            var manager = GameManagers.GetMainManager();
-            return manager.currentSceneHandler.isInGame;
+    /// <summary>
+    /// Provides utility methods for determining the current state of the game.
+    /// </summary>
+    /// <remarks>
+    /// This static helper class allows CoreLib modules and other systems to easily check
+    /// whether the game is currently active, paused, or within an in-game scene.
+    /// </remarks>
+    /// <seealso cref="GameManagers"/>
+    /// <seealso cref="Manager.currentSceneHandler"/>
+    public static class State
+    {
+        #region Game State
+
+        /// <summary>
+        /// Determines whether the game is currently in an active gameplay scene.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c> if the current scene handler indicates that gameplay is in progress; otherwise, <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        /// This method retrieves the main <see cref="Manager"/> instance and checks its
+        /// <see cref="Manager.currentSceneHandler"/> to confirm whether the game is in a playable state.
+        /// </remarks>
+        /// <exception cref="NullReferenceException">
+        /// Thrown if the main manager or its scene handler is not initialized.
+        /// </exception>
+        /// <seealso cref="GameManagers.GetMainManager"/>
+        /// <seealso cref="Manager"/>
+        public static bool IsInGame()
+        {
+            var sceneHandler = GameManagers.GetMainManager().currentSceneHandler;
+            return sceneHandler != null ? sceneHandler.isInGame
+                : throw new NullReferenceException($"[{CoreLibMod.Name}] Scene Handler is not initialized.");
         }
+
+        #endregion
     }
 }

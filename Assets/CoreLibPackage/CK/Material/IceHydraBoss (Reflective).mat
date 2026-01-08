@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: IceHydraBoss (Reflective)
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -26,7 +26,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _EmissiveProfile:
-        m_Texture: {fileID: 2800000, guid: 280634da68dcd6748939ce08375a4111, type: 3}
+        m_Texture: {fileID: 2800000, guid: b6cb5907b0d9bcc4fa1e907b2cb016f2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _InnerSprite:
@@ -38,11 +38,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadingDetailMap:
-        m_Texture: {fileID: 2800000, guid: e7c1c7183762e084b9adf5f87b4ecc56, type: 3}
+        m_Texture: {fileID: 2800000, guid: 80c3281b1a8527d40bee49eab96a456d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadingProfile:
-        m_Texture: {fileID: 2800000, guid: 3149f380ecc17c848a7fda5c2b9221da, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9c30bdb1085cf6b48a77fc393ee8914f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -125,4 +125,4 @@ Material:
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
     - _TranslucencyColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_AllowLocking: 0

@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CoreBossOrb2
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _EmissiveProfile:
-        m_Texture: {fileID: 2800000, guid: 64c6fa0e865fc0846a1340f65c50f195, type: 3}
+        m_Texture: {fileID: 2800000, guid: 639558cd8d89d794bab8b488ac350518, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _InnerSprite:
@@ -37,11 +37,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadingDetailMap:
-        m_Texture: {fileID: 2800000, guid: 4aa1232d04f6a3349ae820e25d40a188, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0804dc24e88b3eb49b8c2985457a6fcc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadingProfile:
-        m_Texture: {fileID: 2800000, guid: 1b54ffd0134c98647aaa6aa2b08a6150, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4a586c97493a13e4784f5b66141e1e35, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -124,3 +124,4 @@ Material:
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
     - _TranslucencyColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 0

@@ -1,4 +1,6 @@
-﻿// ReSharper disable once CheckNamespace
+﻿using CoreLib.Submodule.UserInterface.Interface;
+
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.UserInterface.Util
 {
     /// <summary>

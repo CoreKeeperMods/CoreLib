@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Fireball_ImpactWhite01_AddScroll
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,19 +25,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _DissolveTexture:
-        m_Texture: {fileID: 2800000, guid: aff34dd063254c646b9f115928f04584, type: 3}
+        m_Texture: {fileID: 2800000, guid: 27f47f1e4c278ab46a833cbc36556b5a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DistortionTexture:
-        m_Texture: {fileID: 2800000, guid: 86632b9ec474c1449b0d8374d32d005d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 16ee3bb818f17af4ca7a71615271eb55, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: af687658a185cb94cbd5a9ae63f8ec1c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8e0e97cb616c65149ae17da3c95542a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 2800000, guid: 688e026cd1615024e9a6a65f6a3e9eb8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 89e8bcc4da8293a4d8dc5de536a8105b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -91,4 +91,4 @@ Material:
     - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_AllowLocking: 0

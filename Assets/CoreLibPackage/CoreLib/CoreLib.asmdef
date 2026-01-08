@@ -77,7 +77,6 @@
         "Unity.Toolchain.Win-x86_64-Linux-x86_64",
         "Unity.Transforms",
         "Unity.Transforms.Hybrid",
-        "UnityEditor.UI",
         "UnityEngine.UI"
     ],
     "includePlatforms": [],

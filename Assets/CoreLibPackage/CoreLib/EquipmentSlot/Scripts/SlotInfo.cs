@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreLib.Submodule.EquipmentSlot.Interface;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace

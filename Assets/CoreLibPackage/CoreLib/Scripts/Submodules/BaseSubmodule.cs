@@ -1,90 +1,176 @@
-﻿using CoreLib.Util;
-using PugMod;
+﻿// ========================================================
+// Project: Core Library Mod (Core Keeper)
+// File: BaseSubmodule.cs
+// Author: Minepatcher, Limoka
+// Created: 2025-11-07
+// Description: Defines the abstract base class for all CoreLib submodules,
+//              providing standardized lifecycle management, dependency handling,
+//              and state validation for modular extensions.
+// ========================================================
+
+using CoreLib.Util;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using PugMod;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib
 {
-    /// Represents an abstract base class for all submodules in the CoreLib framework.
-    /// Provides fundamental properties and methods required for submodule management,
-    /// such as loading, unloading, dependency handling, and versioning.
+    /// <summary>
+    /// Abstract foundation class for all CoreLib submodules.
+    /// Provides a standardized structure for lifecycle management,
+    /// dependency handling, and loading checks across all CoreLib components.
+    /// </summary>
+    /// <remarks>
+    /// Each submodule should inherit from <see cref="BaseSubmodule"/> and override
+    /// its virtual methods (<see cref="SetHooks"/>, <see cref="Load"/>, <see cref="PostLoad"/>, etc.)
+    /// to implement specific functionality. The CoreLib mod loader initializes and manages
+    /// all subclasses automatically.
+    /// </remarks>
+    /// <seealso cref="CoreLibMod"/>
+    /// <seealso cref="Logger"/>
     public abstract class BaseSubmodule
     {
-        public bool Loaded { get; internal set; }
-        
-        public const string Name = "Core Lib";
-        
-        internal static Logger Log = new(Name);
+        #region Constants
 
-        internal virtual GameVersion Build =>  new(1, 1, 2, 0, "7da5");
+        /// <summary>
+        /// Default internal module ID used when a derived submodule does not override <see cref="ID"/>.
+        /// </summary>
+        private const string DefaultID = "CoreLib";
 
-        internal string Version => "4.0.0";
-        
+        /// <summary>
+        /// Default display name used when a submodule does not override <see cref="Name"/>.
+        /// </summary>
+        private const string DefaultName = "Core Library";
+
+        /// <summary>
+        /// Default semantic version assigned to the submodule if none is provided.
+        /// </summary>
+        private const string DefaultVersion = "4.0.0";
+
+        /// <summary>
+        /// Message format string displayed when attempting to use a module before it has been loaded.
+        /// </summary>
+        private const string NotLoadedMessageFormat =
+            "{0} is not loaded. Please use `CoreLibMod.LoadSubmodule(typeof({0}))` to load the module!";
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the unique string identifier for this module.
+        /// </summary>
+        /// <seealso cref="DefaultID"/>
+        public virtual string ID => DefaultID;
+
+        /// <summary>
+        /// Gets the human-readable name of this module.
+        /// </summary>
+        /// <seealso cref="DefaultName"/>
+        public virtual string Name => DefaultName;
+
+        /// <summary>
+        /// Gets the module version string.
+        /// </summary>
+        /// <seealso cref="DefaultVersion"/>
+        public virtual string Version => DefaultVersion;
+
+        /// <summary>
+        /// Gets the list of required dependencies (types of other submodules) that must be loaded before this one.
+        /// </summary>
         internal virtual Type[] Dependencies => Type.EmptyTypes;
 
         /// <summary>
-        /// Ensures that the submodule has been properly loaded before performing any operations that depend on its loaded state.
-        /// This method throws an exception if the submodule has not been loaded, providing a detailed error message to guide the user.
+        /// Provides access to a logger instance for recording module activity.
+        /// </summary>
+        /// <seealso cref="Logger"/>
+        internal static Logger Log { get; } = new(DefaultName);
+
+        /// <summary>
+        /// Gets or sets whether this submodule has completed its loading process.
+        /// </summary>
+        internal bool Loaded { get; set; } = false;
+
+        internal static LoadedMod Mod { get; private set; } = new();
+        
+        internal static List<LoadedMod> DependentMods { get; private set; } = new();
+        
+        internal bool IsServerCompatible = false;
+
+        #endregion
+
+        #region Validation
+
+        /// <summary>
+        /// Ensures that the module is in a loaded state.
+        /// Throws an <see cref="InvalidOperationException"/> if the module has not yet been initialized.
         /// </summary>
         /// <exception cref="InvalidOperationException">
-        /// Thrown when the submodule has not been loaded. The exception message provides the name of the submodule
-        /// and suggests loading the module using the code. <code>CoreLibMod.LoadModules(typeof(submodule))</code>
+        /// Thrown when <see cref="Loaded"/> is <c>false</c>.
         /// </exception>
+        /// <remarks>
+        /// This method is used internally to prevent access to module functionality
+        /// before it has been registered and initialized by the CoreLib mod loader.
+        /// </remarks>
         internal void ThrowIfNotLoaded()
         {
-            if (Loaded) return;
-            string submoduleName = GetType().GetNameChecked();
-            string message = $"{submoduleName} is not loaded. Please use CoreLibMod.LoadModules(typeof({submoduleName})) to load the module!";
-            throw new InvalidOperationException(message);
+            if (!Loaded) throw new InvalidOperationException(string.Format(NotLoadedMessageFormat, Name));
         }
-        
-        /// Configures and applies the necessary hooks for the current submodule.
-        /// This method establishes any event bindings, listeners, or connections required for the submodule's operation within its context.
-        internal virtual void SetHooks() { }
-        
-        /// Initiates the loading process for the submodule, performing any required logic to prepare the submodule for use.
-        /// This method is invoked during the submodule initialization process and is intended to be overridden by derived classes.
-        internal virtual void Load() { }
+
+        #endregion
+
+        #region Lifecycle Methods
 
         /// <summary>
-        /// Performs additional initialization or setup tasks for the submodule after it has been loaded.
-        /// This method is intended to be overridden by derived classes to implement specific post-load logic,
-        /// such as subscribing to events, initializing configuration, binding keys, or registering handlers.
+        /// Called before the module is loaded to apply any required patches or hooks.
         /// </summary>
+        /// <remarks>
+        /// This method should be overridden to define all Harmony patches or event subscriptions
+        /// necessary for the submodule to function properly.
+        /// </remarks>
+        internal virtual void SetHooks() { }
+
+        /// <summary>
+        /// Called when the module is being loaded.
+        /// </summary>
+        /// <remarks>
+        /// Override this method to initialize runtime data, allocate resources, or perform
+        /// setup logic specific to the submodule. Called once per load.
+        /// </remarks>
+        internal virtual void Load()
+        {
+            Mod = API.ModLoader.LoadedMods.First(mod => mod.Metadata.name == ID);
+            DependentMods = API.ModLoader.LoadedMods
+                .Where(mod => mod.Metadata.dependencies.Any(dep => dep.modName == "CoreLib")).ToList();
+            if (Mod != null) return;
+            Log.LogError("Failed to find CoreLib mod info!");
+        }
+
+        /// <summary>
+        /// Called immediately after <see cref="Load"/> when all modules have completed their initialization.
+        /// </summary>
+        /// <remarks>
+        /// Use this to safely access other submodules and perform dependency-aware setup.
+        /// </remarks>
         internal virtual void PostLoad() { }
 
-        /// <summary>
-        /// Releases resources and performs necessary cleanup operations associated with the submodule.
-        /// This method is called when the submodule is being unloaded and should be used to reverse
-        /// or undo changes made by the submodule during its operation.
-        /// </summary>
-        internal virtual void Unload() { }
+        #endregion
+
+        #region Dependency Management
 
         /// <summary>
-        /// Removes all hooks associated with the submodule, effectively undoing changes made during the hook setup process.
-        /// This method is intended to clean up any modifications to external components or systems caused by the <c>SetHooks</c> method.
+        /// Returns a list of optional dependencies that may be loaded if available.
         /// </summary>
-        internal virtual void UnsetHooks() { }
+        /// <returns>
+        /// An array of <see cref="Type"/> objects representing optional module dependencies.
+        /// </returns>
+        /// <remarks>
+        /// Unlike <see cref="Dependencies"/>, these are not required for initialization but may extend functionality.
+        /// </remarks>
+        internal virtual Type[] GetOptionalDependencies() => Type.EmptyTypes;
 
-        /// <summary>
-        /// Determines whether the module meets the conditions required for loading.
-        /// This method allows for load validation and can be overridden by derived classes
-        /// to implement custom logic for assessing whether the module can be safely loaded.
-        /// </summary>
-        internal virtual bool LoadCheck()
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// Retrieves the optional dependencies of the submodule.
-        /// Optional dependencies are additional components or submodules
-        /// that can enhance functionality but are not strictly required
-        /// for the submodule to operate.
-        /// </summary>
-        internal virtual Type[] GetOptionalDependencies()
-        {
-            return Array.Empty<Type>();
-        }
+        #endregion
     }
 }

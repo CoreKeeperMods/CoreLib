@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LavaGroundSlimeAmplify
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,11 +25,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _LavaTexture:
-        m_Texture: {fileID: 2800000, guid: 7f87a40c2eca2884899efc04ac4ce082, type: 3}
+        m_Texture: {fileID: 2800000, guid: 03a395bea68c4264a80c75bd68a59788, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 8400000, guid: b2263467e0047a1459d17b41b9764f68, type: 2}
+        m_Texture: {fileID: 8400000, guid: bc1414027dc42984cb4288d0453737b7, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -54,6 +54,7 @@ Material:
     - _Cutoff: 0.5
     - _EdgeLength: 15
     - _EnvironmentReflections: 1
+    - _IndirectIntensity: 0.1
     - _LightBufferPass: 0
     - _QueueControl: 1
     - _QueueOffset: 50
@@ -73,4 +74,4 @@ Material:
     - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
     - _wobblePosition: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_AllowLocking: 0

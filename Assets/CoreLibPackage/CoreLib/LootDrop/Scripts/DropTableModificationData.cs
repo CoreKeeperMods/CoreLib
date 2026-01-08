@@ -150,7 +150,7 @@ namespace CoreLib.Submodule.LootDrop
             };
 
             ObjectID objectID = API.Authoring.GetObjectID(itemName);
-            CoreLibMod.Log.LogInfo($"{itemName} is {objectID}");
+            LootDropModule.Log.LogInfo($"{itemName} is {objectID}");
             LootInfo info = new LootInfo
             {
                 objectID = objectID,

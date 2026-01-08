@@ -1,142 +1,130 @@
-﻿using System;
+﻿// ========================================================
+// Project: Core Library Mod (Core Keeper)
+// File: AudioModule.cs
+// Author: Minepatcher, Limoka
+// Created: 2025-11-07
+// Description: Handles all audio functionality for the Core Library mod,
+//              including music rosters, sound effects, and custom effect registration.
+// ========================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using CoreLib.Submodule.Audio.Patches;
+using CoreLib.Submodule.Audio.Patch;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Logger = CoreLib.Util.Logger;
 using MusicList = System.Collections.Generic.List<MusicManager.MusicTrack>;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Audio
 {
     /// <summary>
-    /// Manages audio configurations, custom music rosters, sound effects, and custom effects within the system.
-    /// Provides functionality to add custom rosters, tracks, sound effects, and effect implementations,
-    /// while maintaining support for existing vanilla systems.
+    /// Centralized audio manager for the CoreLib mod.
+    /// Provides APIs to register and manage:
+    /// <list type="bullet">
+    /// <item> Custom music rosters and tracks</item>
+    /// <item> Custom sound effects</item>
+    /// <item> Custom effect implementations</item>
+    /// </list>
+    /// Integrates with vanilla systems through patches applied at module initialization.
     /// </summary>
+    /// <seealso cref="MusicManager"/>
+    /// <seealso cref="AudioField"/>
+    /// <seealso cref="IEffect"/>
     public class AudioModule : BaseSubmodule
     {
-        #region Public Interface
+        #region Fields
+        /// <summary>
+        /// Human-readable name of the audio module used for logging, diagnostics, and display.
+        /// </summary>
+        /// <remarks>
+        /// This constant identifies the module within the CoreLib framework and is referenced by the module
+        /// loader and the module-scoped <see cref="Logger"/> instance. Keep this stable to avoid confusion
+        /// in logs and UI elements that display module names.
+        /// </remarks>
+        /// <seealso cref="Logger"/>
+        public new const string Name = "Core Library - Audio";
         
-        public const string ID = "CoreLibAudio";
-        public new const string Name = "Core Lib Audio";
-        
-        /// Determines whether the specified music roster type is a vanilla roster type.
-        /// <param name="rosterType">The music roster type to check.</param>
-        public static bool IsVanilla(MusicRosterType rosterType) => (int)rosterType <= MaxVanillaRosterId;
+        /// <summary>
+        /// Module-scoped logger used for information, warning, and error messages produced by the audio subsystem.
+        /// </summary>
+        /// <seealso cref="Logger"/>
+        internal new static Logger Log = new(Name);
 
         /// <summary>
-        /// Adds a new custom music roster to the system.
+        /// Returns the singleton instance of <see cref="AudioModule"/> as managed by <see cref="CoreLibMod"/>.
         /// </summary>
-        /// <returns>A unique identifier representing the newly created custom music roster.</returns>
-        public static MusicRosterType AddCustomRoster()
-        {
-            Instance.ThrowIfNotLoaded();
-            int id = LastFreeMusicRosterId;
-            LastFreeMusicRosterId++;
-            return (MusicRosterType)id;
-        }
-
-        /// <summary>
-        /// Adds a new music track to the specified music roster.
-        /// </summary>
-        /// <param name="rosterType">The target music roster to which the track will be added.</param>
-        /// <param name="music">A reference to the music clip asset to be added.</param>
-        /// <param name="intro">An optional reference to the intro clip asset for the music track.</param>
-        public static void AddMusicToRoster(
-            MusicRosterType rosterType,
-            AssetReferenceT<AudioClip> music,
-            AssetReferenceT<AudioClip> intro = null)
-        {
-            Instance.ThrowIfNotLoaded();
-            var roster = GetRosterTracks(rosterType);
-            var track = new MusicManager.MusicTrack();
-
-            intro ??= new AssetReferenceT<AudioClip>("");
-            
-            track.trackAssetReference = music;
-            track.introAssetReference = intro;
-
-            roster.tracks.Add(track);
-        }
-
-        /// <summary>
-        /// Adds a custom sound effect to the audio system.
-        /// </summary>
-        /// <param name="effectClip">The AudioClip representing the sound effect to add.</param>
-        /// <returns>The ID of the added custom sound effect.</returns>
-        public static SfxID AddSoundEffect(AudioClip effectClip)
-        {
-            Instance.ThrowIfNotLoaded();
-            var effect = new AudioField();
-
-            if (effectClip != null)
-            {
-                effect.audioPlayables.Add(effectClip);
-            }
-
-            return AddSoundEffect(effect);
-        }
-
-        /// <summary>
-        /// Adds a custom effect to the system and assigns it a unique identifier.
-        /// </summary>
-        /// <param name="effect">The effect to be added, implementing the <see cref="IEffect"/> interface.</param>
-        /// <returns>An <see cref="EffectID"/> representing the unique identifier for the added effect. If the effect is null, returns <see cref="EffectID.None"/>.</returns>
-        public static EffectID AddEffect(IEffect effect)
-        {
-            Instance.ThrowIfNotLoaded();
-            if (effect == null) return EffectID.None;
-            
-            int effectIndex = LastFreeEffectId;
-            var effectID = (EffectID)effectIndex;
-            
-            CustomEffects.Add(effectID, effect);
-            LastFreeEffectId++;
-
-            return effectID;
-        }
-
-        #endregion
-
-        #region Private Implementation
-
-        /// Provides access to the singleton instance of the `AudioModule`.
-        /// This property ensures that only one instance of the `AudioModule` is created and used
-        /// throughout the application, enabling centralized management of audio features, such as
-        /// custom music rosters, sound effects, and other audio-related functionality.
+        /// <remarks>
+        /// Accessing <see cref="Instance"/> may return <c>null</c> prior to module initialization.
+        /// Many public methods call <c>Instance.ThrowIfNotLoaded()</c> to guard against early use.
+        /// </remarks>
+        /// <seealso cref="CoreLibMod"/>
         internal static AudioModule Instance => CoreLibMod.GetModuleInstance<AudioModule>();
 
-        /// Stores custom music rosters mapped by their respective roster IDs.
-        /// This dictionary allows for the registration and management of user-defined music rosters,
-        /// where each entry represents a unique roster that contains associated tracks and configurations.
-        /// The custom rosters extend the functionality of the vanilla music management system by supporting
-        /// additional, user-specified music collections.
+        /// <summary>
+        /// Maps custom roster IDs to their in-memory <see cref="MusicManager.MusicRoster"/> instances.
+        /// </summary>
+        /// <seealso cref="MusicManager.MusicRoster"/>
         internal static Dictionary<int, MusicManager.MusicRoster> CustomRosterMusic = new();
 
-        /// Stores information about vanilla music rosters with additional tracks added dynamically.
-        /// Acts as a mapping between unique roster identifiers (keys) and their associated `MusicManager.MusicRoster` instances.
-        /// This field is primarily used to integrate and extend vanilla music systems by adding new tracks without modifying core functionality.
+        /// <summary>
+        /// Maps vanilla roster IDs that have additional modded tracks.
+        /// </summary>
+        /// <seealso cref="MusicManager.MusicRoster"/>
         internal static Dictionary<int, MusicManager.MusicRoster> VanillaRosterAddTracksInfos = new();
 
-        /// Represents a collection of custom audio fields that define custom sound effects
-        /// added to the audio system. Each entry in the list corresponds to a unique
-        /// sound effect and is utilized by the system to dynamically load and manage
-        /// custom audio assets at runtime.
+        /// <summary>
+        /// Holds library-defined custom sound effects (<see cref="AudioField"/> instances).
+        /// </summary>
+        /// <seealso cref="AudioField"/>
         internal static List<AudioField> CustomSoundEffects = new();
 
-        /// Stores a mapping of custom effect identifiers to their respective effect implementations.
-        /// This dictionary is used to register and manage custom effects added to the audio system,
-        /// enabling extended functionality beyond the base system's capabilities.
+        /// <summary>
+        /// Maps custom <see cref="EffectID"/> values to their associated effect implementations.
+        /// </summary>
+        /// <seealso cref="EffectID"/>
+        /// <seealso cref="IEffect"/>
         internal static Dictionary<EffectID, IEffect> CustomEffects = new();
 
         /// <summary>
-        /// Configures and applies the necessary hooks or patches for this module.
+        /// Numeric identifier of the last built-in vanilla roster. 
+        /// Values ≤ these are considered vanilla roster values.
+        /// </summary>
+        /// <seealso cref="MusicRosterType"/>
+        internal static int MaxVanillaRosterId = (int)Enum.GetValues(typeof(MusicRosterType)).Cast<MusicRosterType>().Last();
+
+        /// <summary>
+        /// Next free ID to assign to a new custom music roster.
+        /// </summary>
+        internal static int LastFreeMusicRosterId = MaxVanillaRosterId + 1;
+
+        /// <summary>
+        /// Next free ID to assign to a new custom sound effect.
+        /// </summary>
+        /// <seealso cref="SfxID"/>
+        internal static int LastFreeSfxId = (int)Enum.Parse<SfxID>(nameof(SfxID.__max__)) + 1;
+
+        /// <summary>
+        /// Next free ID to assign to a new custom effect implementation.
+        /// </summary>
+        /// <seealso cref="EffectID"/>
+        internal static int LastFreeEffectId = (int)Enum.GetValues(typeof(EffectID)).Cast<EffectID>().Last() + 1;
+
+        #endregion
+
+        #region BaseSubmodule Implementation
+
+        /// <summary>
+        /// Apply patches required for integrating custom audio with vanilla systems.
         /// </summary>
         /// <remarks>
-        /// This method overrides the base behavior to apply specific patches related to
-        /// audio management functionalities, ensuring that required modifications are
-        /// active in the execution environment.
+        /// Registers patches for:
+        /// <list type="bullet">
+        /// <item><see cref="MusicManagerPatch"/></item>
+        /// <item><see cref="AudioManagerPatch"/></item>
+        /// <item><see cref="EffectEventExtensionsPatch"/></item>
+        /// </list>
         /// </remarks>
         internal override void SetHooks()
         {
@@ -144,79 +132,152 @@ namespace CoreLib.Submodule.Audio
             CoreLibMod.Patch(typeof(AudioManagerPatch));
             CoreLibMod.Patch(typeof(EffectEventExtensionsPatch));
         }
-        
-        internal override void Load() {}
-
-        /// Represents the maximum identifier value that corresponds to vanilla music roster types.
-        /// Music roster types with an identifier less than or equal to this value are considered
-        /// part of the game's vanilla content. This constant is used to differentiate between
-        /// vanilla and custom music rosters.
-        internal static int MaxVanillaRosterId = (int)Enum.GetValues(typeof(MusicRosterType)).Cast<MusicRosterType>().Last();
-
-        /// Represents the last assigned identifier for a custom music roster.
-        /// This variable is incremented whenever a new custom music roster is added,
-        /// ensuring unique identifiers for each newly created roster type.
-        internal static int LastFreeMusicRosterId = MaxVanillaRosterId + 1;
-
-        /// Represents the last unused sound effect ID in the system.
-        /// This variable is used to assign unique identifiers to custom sound effects, ensuring no collisions with pre-existing IDs.
-        /// It is incremented each time a new sound effect is added to guarantee uniqueness.
-        /// Initially, it is set to the maximum predefined sound effect ID (`SfxID.__max__`).
-        internal static int LastFreeSfxId = (int)Enum.GetValues(typeof(SfxID)).Cast<SfxID>().Last() + 1;
-        
-        internal static int LastFreeEffectId = (int)Enum.GetValues(typeof(EffectID)).Cast<EffectID>().Last() + 1;
 
         /// <summary>
-        /// Retrieves the music roster associated with the specified music roster type.
+        /// Called when the module is loaded.
         /// </summary>
-        /// <param name="rosterType">The type of the music roster to retrieve.</param>
-        /// <returns>A <c>MusicManager.MusicRoster</c> object containing the tracks for the specified roster type.</returns>
+        /// <remarks>
+        /// Currently does not perform initialization. Exists for future use.
+        /// </remarks>
+        internal override void Load() { }
+
+        #endregion
+
+        #region Public Interface
+
+        /// <summary>
+        /// Checks whether a roster type is part of vanilla content.
+        /// </summary>
+        /// <param name="rosterType">Roster type to check.</param>
+        /// <returns><c>true</c> if vanilla; otherwise <c>false</c>.</returns>
+        /// <seealso cref="MusicRosterType"/>
+        public static bool IsVanilla(MusicRosterType rosterType) => (int)rosterType <= MaxVanillaRosterId;
+
+        /// <summary>
+        /// Creates and registers a new custom music roster identifier.
+        /// </summary>
+        /// <returns>New <see cref="MusicRosterType"/> representing the roster.</returns>
+        /// <seealso cref="MusicManager.MusicRoster"/>
+        public static MusicRosterType AddCustomRoster()
+        {
+            Instance.ThrowIfNotLoaded();
+            int id = LastFreeMusicRosterId++;
+            return (MusicRosterType)id;
+        }
+
+        /// <summary>
+        /// Adds a new music track to the specified roster.
+        /// </summary>
+        /// <param name="rosterType">Target roster to modify.</param>
+        /// <param name="music">Reference to the main music clip.</param>
+        /// <param name="intro">Optional reference to an intro clip.</param>
+        /// <seealso cref="AssetReferenceT{TObject}"/>
+        /// <seealso cref="MusicManager.MusicTrack"/>
+        public static void AddMusicToRoster(
+            MusicRosterType rosterType,
+            AssetReferenceT<AudioClip> music,
+            AssetReferenceT<AudioClip> intro = null)
+        {
+            Instance.ThrowIfNotLoaded();
+            var roster = GetRosterTracks(rosterType);
+            var track = new MusicManager.MusicTrack
+            {
+                trackAssetReference = music,
+                introAssetReference = intro ?? new AssetReferenceT<AudioClip>("")
+            };
+            roster.tracks.Add(track);
+        }
+
+        /// <summary>
+        /// Registers a custom sound effect clip and assigns a new ID.
+        /// </summary>
+        /// <param name="effectClip">Audio clip to register.</param>
+        /// <returns>
+        /// Assigned <see cref="SfxID"/> or <see cref="SfxID.__illegal__"/> if invalid.
+        /// </returns>
+        /// <seealso cref="AudioField"/>
+        /// <seealso cref="SfxID"/>
+        public static SfxID AddSoundEffect(AudioClip effectClip)
+        {
+            Instance.ThrowIfNotLoaded();
+            if (effectClip == null) return SfxID.__illegal__;
+
+            var effect = new AudioField();
+            effect.audioPlayables.Add(effectClip);
+
+            var sfxId = (SfxID)LastFreeSfxId++;
+            effect.audioFieldName = $"sfx_{sfxId}";
+            CustomSoundEffects.Add(effect);
+            return sfxId;
+        }
+
+        /// <summary>
+        /// Registers a custom effect implementation and returns its unique ID.
+        /// </summary>
+        /// <param name="effect">Effect implementation to add.</param>
+        /// <returns>Assigned <see cref="EffectID"/> or <see cref="EffectID.None"/> if invalid.</returns>
+        /// <seealso cref="IEffect"/>
+        /// <seealso cref="EffectID"/>
+        public static EffectID AddEffect(IEffect effect)
+        {
+            Instance.ThrowIfNotLoaded();
+            if (effect == null) return EffectID.None;
+
+            int effectIndex = LastFreeEffectId++;
+            var effectID = (EffectID)effectIndex;
+            CustomEffects.Add(effectID, effect);
+            return effectID;
+        }
+
+        #endregion
+
+        #region Internal / Private Methods
+
+        /// <summary>
+        /// Retrieves the roster for a given type, creating it if necessary.
+        /// </summary>
+        /// <param name="rosterType">Roster type to query.</param>
+        /// <returns>Associated <see cref="MusicManager.MusicRoster"/> instance.</returns>
+        /// <seealso cref="MusicManager.MusicRoster"/>
         internal static MusicManager.MusicRoster GetRosterTracks(MusicRosterType rosterType)
         {
             int rosterId = (int)rosterType;
+
             if (IsVanilla(rosterType))
             {
                 if (VanillaRosterAddTracksInfos.TryGetValue(rosterId, out var tracks))
-                {
                     return tracks;
-                }
 
-                var roster = new MusicManager.MusicRoster
-                {
-                    tracks = new MusicList()
-                };
+                var roster = new MusicManager.MusicRoster { tracks = new MusicList() };
                 VanillaRosterAddTracksInfos.Add(rosterId, roster);
                 return roster;
             }
             else
             {
                 if (CustomRosterMusic.TryGetValue(rosterId, out var tracks))
-                {
                     return tracks;
-                }
 
-                var roster = new MusicManager.MusicRoster
-                {
-                    tracks = new MusicList()
-                };
+                var roster = new MusicManager.MusicRoster { tracks = new MusicList() };
                 CustomRosterMusic.Add(rosterId, roster);
                 return roster;
             }
         }
 
         /// <summary>
-        /// Adds a new sound effect to the audio system.
+        /// Registers a custom sound effect from an <see cref="AudioField"/>.
         /// </summary>
-        /// <param name="effect">The audio clip to be used for the sound effect.</param>
-        /// <returns>An identifier for the newly added sound effect.</returns>
+        /// <param name="effect">The sound effect field definition.</param>
+        /// <returns>Newly assigned <see cref="SfxID"/> or <see cref="SfxID.__illegal__"/>.</returns>
+        /// <seealso cref="AudioField"/>
+        /// <seealso cref="SfxID"/>
         private static SfxID AddSoundEffect(AudioField effect)
         {
-            if (effect == null || effect.audioPlayables.Count <= 0) return SfxID.__illegal__;
-            CustomSoundEffects.Add(effect);
+            if (effect == null || effect.audioPlayables.Count <= 0)
+                return SfxID.__illegal__;
 
-            int sfxId = LastFreeSfxId;
+            CustomSoundEffects.Add(effect);
+            int sfxId = LastFreeSfxId++;
             effect.audioFieldName = $"sfx_{sfxId}";
-            LastFreeSfxId++;
             return (SfxID)sfxId;
         }
 

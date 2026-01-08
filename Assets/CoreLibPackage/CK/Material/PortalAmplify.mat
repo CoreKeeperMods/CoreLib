@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PortalAmplify
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,11 +25,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _EmissiveTex:
-        m_Texture: {fileID: 2800000, guid: 00dc3cb1fffab4945b05da57951526db, type: 3}
+        m_Texture: {fileID: 2800000, guid: b2c6dc1f3e5552f4083597d91f7ac4ca, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GradientTex:
-        m_Texture: {fileID: 2800000, guid: a291c200b93c15f4eba6778b31499a8f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4a535a090be3d644890cb73da5201c8e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -98,4 +98,4 @@ Material:
     - _tint: {r: 1, g: 1, b: 1, a: 0}
     - groupOffsets: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_AllowLocking: 0

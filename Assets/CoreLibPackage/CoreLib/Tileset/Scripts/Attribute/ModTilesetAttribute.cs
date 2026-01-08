@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // ReSharper disable once CheckNamespace
-namespace CoreLib.Util.Atributes
+namespace CoreLib.Submodule.TileSet.Attribute
 {
     /// <summary>
     /// A custom property attribute used to annotate fields that reference tileset configurations in Unity.

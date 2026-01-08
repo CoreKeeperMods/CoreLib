@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: HiveWaterAmplify
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,19 +25,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _CausticsTex:
-        m_Texture: {fileID: 2800000, guid: a3d4f483ee677c440967bab85eeaddb2, type: 3}
+        m_Texture: {fileID: 2800000, guid: ab96490c6ed6f7048a809864c232fbae, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _FlowMap:
-        m_Texture: {fileID: 2800000, guid: ea2acfd5f9a478d429ad4d588d78076a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 8bb6671eb553e82459e16fbff6fb8fa6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2a2292b9fbf852d4f8928e622b97e8f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -45,6 +41,8 @@ Material:
     - _AlphaCutoff: 0.5
     - _EdgeLength: 15
     - _EnvironmentReflections: 1
+    - _GlitterAmount: 0.1
+    - _GlitterON: 0
     - _IndirectMultiplier: 1
     - _PhysicalAttenuation: 1
     - _QueueControl: 0
@@ -66,6 +64,7 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EnissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 0.7169812, g: 0.64734197, b: 0.58508366, a: 1}
+    - _GlitterColor: {r: 4.894118, g: 17.81961, b: 23.96863, a: 0}
     - _ReflectionColor1: {r: 0.5764706, g: 0.5294118, b: 0.12156863, a: 1}
     - _ReflectionColor2: {r: 0.3803921, g: 0.2823529, b: 0.1333333, a: 1}
     - _ReflectionTint: {r: 0.4509804, g: 0.4509804, b: 0.4509804, a: 1}
@@ -74,4 +73,4 @@ Material:
     - _WaterColor: {r: 0.41509426, g: 0.27672946, b: 0, a: 0.16078432}
     - _wobblePosition: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_AllowLocking: 0

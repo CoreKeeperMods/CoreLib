@@ -1,33 +1,73 @@
-﻿using System;
+﻿// ========================================================
+// Project: Core Library Mod (Core Keeper)
+// File: GameManagers.cs
+// Author: Minepatcher, Limoka
+// Created: 2025-11-07
+// Description: Provides static utility methods for retrieving main and sub-manager
+//              instances within the game management system, ensuring safe access
+//              and error handling.
+// ========================================================
+
+using System;
 using System.Linq;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util
 {
-    /// The GameManagers class provides static utility methods for retrieving main and sub-manager instances within the game management system.
-    public static class GameManagers {
-        /// <returns>The main manager instance.</returns>
-        /// <exception cref="NullReferenceException">Thrown if the main manager instance is null.</exception>
-        public static Manager GetMainManager() {
-            if (Manager.main != null) return Manager.main;
-            string m = $"Manager instance has not been instantiated.";
-            CoreLibMod.Log.LogError(m);
-            throw new NullReferenceException(m);
-        }
+    /// <summary>
+    /// Provides static helper methods for retrieving <see cref="Manager"/> and <see cref="ManagerBase"/>
+    /// instances used within the Core Keeper game management system.
+    /// </summary>
+    /// <remarks>
+    /// The <see cref="GameManagers"/> class offers consistent and safe access to the primary
+    /// <see cref="Manager"/> singleton and its associated submanagers, with built-in validation
+    /// and error logging through <see cref="CoreLibMod.Log"/>.
+    /// </remarks>
+    /// <seealso cref="Manager"/>
+    /// <seealso cref="ManagerBase"/>
+    public static class GameManagers
+    {
+        #region Main Manager Retrieval
 
-        /// <typeparam name="T">The specific type of manager to retrieve. Must derive from <see cref="ManagerBase"/>.</typeparam>
-        /// <returns>The manager instance of the specified type.</returns>
-        /// <exception cref="Exception">Thrown if a manager of the specified type is not found.</exception>
-        public static T GetManager<T>() where T : ManagerBase {
-            var mainManager = GetMainManager();
-            
-            foreach (var subManager in mainManager.allManagers.Where(subManager => subManager is T))
-                return (T)subManager;
+        /// <summary>
+        /// Retrieves the singleton instance of the game's main <see cref="Manager"/>.
+        /// </summary>
+        /// <returns>The active <see cref="Manager"/> instance.</returns>
+        /// <exception cref="NullReferenceException">
+        /// Thrown if the main manager instance (<see cref="Manager.main"/>) is not yet initialized.
+        /// </exception>
+        /// <remarks>
+        /// This method ensures that the main manager exists before allowing access.
+        /// If unavailable, an error is logged via <see cref="CoreLibMod.Log"/>.
+        /// </remarks>
+        /// <seealso cref="Manager"/>
+        public static Manager GetMainManager() => Manager.main != null ? Manager.main : throw new NullReferenceException($"[{CoreLibMod.Name}] Manager instance has not been instantiated.");
 
-            string m = $"Could not retrieve manager of type {typeof(T)}";
-            CoreLibMod.Log.LogError(m);
-            throw new Exception(m);
-        }
+        #endregion
 
+        #region Sub-Manager Retrieval
+
+        /// <summary>
+        /// Retrieves a submanager of the specified type from the active <see cref="Manager"/>.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The specific type of manager to retrieve. Must derive from <see cref="ManagerBase"/>.
+        /// </typeparam>
+        /// <returns>
+        /// The submanager instance matching the specified type <typeparamref name="T"/>.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// Thrown if no manager of the specified type is found among <see cref="Manager.allManagers"/>.
+        /// </exception>
+        /// <remarks>
+        /// This method lists all submanagers registered under <see cref="Manager.allManagers"/>,
+        /// returning the first match of type <typeparamref name="T"/>.
+        /// If no match is found, a descriptive error is logged and an exception is thrown.
+        /// </remarks>
+        /// <seealso cref="Manager.allManagers"/>
+        /// <seealso cref="ManagerBase"/>
+        public static T GetManager<T>() where T : ManagerBase => (T)GetMainManager().allManagers.Find(subManager => subManager is T) ?? throw new Exception($"[{CoreLibMod.Name}] Could not retrieve manager of type {typeof(T)}.");
+
+        #endregion
     }
 }

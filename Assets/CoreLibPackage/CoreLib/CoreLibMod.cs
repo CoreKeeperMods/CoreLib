@@ -1,198 +1,141 @@
-﻿using System;
-using CoreLib.Util.Extensions;
+﻿// ========================================================
+// Project: Core Library Mod (Core Keeper)
+// File: CoreLibMod.cs
+// Author: Minepatcher, Limoka
+// Created: 2023-09-16
+// Updated: 2025-11-21
+// Description: Core entry point for the Core Library mod. Handles initialization,
+//              configuration, version verification, and dynamic submodule loading.
+// ========================================================
+
+using System;
+using System.Linq;
+using CoreLib.Util.Extension;
 using PugMod;
-using Unity.Entities;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
 using Object = UnityEngine.Object;
-
-// ReSharper disable UnusedParameter.Local
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib
 {
     /// <summary>
-    /// Represents the Core Library Mod. This class implements the IMod interface
-    /// to facilitate mod initialization, configuration handling, version management, and submodule support.
+    /// Main entry point for the Core Library mod.
+    /// Implements <see cref="IMod"/> to integrate with the Core Keeper mod loader
+    /// and provide initialization, version control, and submodule management.
     /// </summary>
+    /// <seealso cref="IMod"/>
+    /// <seealso cref="BaseSubmodule"/>
+    /// <seealso cref="SubmoduleHandler"/>
     public class CoreLibMod : IMod
     {
+        #region Fields
+        
+        /// <summary>
+        /// The unique identifier string used to distinguish this mod from others.
+        /// </summary>
         public const string ID = "CoreLib";
-        public const string Name = "Core Lib";
-        public const string ConfigFolder = "CoreLib/Config/";
-        public const string Version = "4.0.0";
-        
-        internal static LoadedMod ModInfo;
-        
-        internal static Logger Log = new(Name);
-        public static readonly GameVersion BuildFor = new(1, 1, 2, 0, "7da5");
-        
-        internal static SubmoduleHandler SubmoduleHandler;
-
 
         /// <summary>
-        /// Performs early initialization of the CoreLib module by setting up the mod metadata, configuration files,
-        /// and submodule handler. Validates compatibility with the game's version and subscribes to necessary events
-        /// for further initialization during the game lifecycle.
+        /// The human-readable name of this mod, used in logs and UI.
         /// </summary>
+        public const string Name = "Core Library";
+
+        /// <summary>
+        /// The relative path used for storing and retrieving mod configuration files.
+        /// </summary>
+        public const string ConfigFolder = "CoreLib/";
+
+        /// <summary>
+        /// The current Core Library mod version.
+        /// </summary>
+        public const string Version = "4.0.0";
+
+        /// <summary>
+        /// Specifies the game version this mod was built for.
+        /// Used to verify compatibility during initialization.
+        /// </summary>
+        /// <seealso cref="GameVersion"/>
+        public static readonly GameVersion BuildFor = new(1, 1, 2, 0, "7da5");
+
+        /// <summary>
+        /// Metadata information about this mod, provided by the mod loader.
+        /// </summary>
+        internal static LoadedMod ModInfo;
+
+        /// <summary>
+        /// Centralized logging utility for CoreLib operations.
+        /// </summary>
+        /// <seealso cref="Logger"/>
+        internal static readonly Logger Log = new(Name);
+
+        /// <summary>
+        /// Manages submodules and their lifecycle during mod initialization.
+        /// </summary>
+        /// <seealso cref="SubmoduleHandler"/>
+        internal static SubmoduleHandler SubmoduleHandler { get; set; }
+
+        #endregion
+
+        #region IMod Implementation
         public void EarlyInit()
         {
-            ModInfo = this.GetModInfo();
-            if (ModInfo == null)
+            try
             {
-                Log.LogError("Failed to load CoreLib: mod metadata not found!");
-                return;
+                ModInfo = this.GetModInfo() ?? throw new InvalidOperationException($"Mod metadata for {Name} not found!");
+
+                var gameBuild = new GameVersion(Application.version);
+                Log.LogInfo($"Loading {Name} version {Version}");
+                Log.LogInfo($"Built For Game Version: {BuildFor}\nRunning Game Version: {gameBuild}");
+                SubmoduleHandler = new SubmoduleHandler(gameBuild, Log);
             }
-            
-            API.Server.OnWorldCreated += WorldInitialize;
-
-            var gameBuild = new GameVersion(Application.version);
-
-            CheckIfUsedOnRightGameVersion(gameBuild);
-
-            Log.LogInfo($"Loading CoreLib version {Version}!");
-
-            SubmoduleHandler = new SubmoduleHandler(gameBuild, Log);
-        }
-
-        /// <summary>
-        /// Applies a Harmony patch to the specified type within the mod's context to modify or extend its functionality at runtime.
-        /// </summary>
-        /// <param name="type">The type representing the target class or method to be patched.</param>
-        internal static void Patch(Type type)
-        {
-            API.ModLoader.ApplyHarmonyPatch(ModInfo.ModId, type);
-        }
-
-        /// <summary>
-        /// Performs initialization processes for the CoreLib module during the game's lifecycle. This includes setting up
-        /// the mod's internal state, establishing necessary dependencies, and preparing for further operations within the
-        /// module structure.
-        /// </summary>
-        public void Init()
-        {
-        }
-
-        /// <summary>
-        /// Determines whether a specific submodule is loaded.
-        /// </summary>
-        /// <param name="submodule">The name of the submodule to check.</param>
-        /// <returns>True if the specified submodule is loaded; otherwise, false.</returns>
-        public static bool IsSubmoduleLoaded(string submodule)
-        {
-            return SubmoduleHandler.IsLoaded(submodule);
-        }
-
-        /// <summary>
-        /// Loads the specified module.
-        /// </summary>
-        /// <param name="moduleType">The type of the module to load.</param>
-        /// <returns>True if the module was successfully loaded; otherwise, false.</returns>
-        public static bool LoadModule(Type moduleType)
-        {
-            return SubmoduleHandler.RequestModuleLoad(moduleType);
-        }
-
-        /// <summary>
-        /// Loads the specified modules by iterating through the provided types and initializing each one.
-        /// Ensures that only non-null module types are processed and delegates the actual module loading
-        /// to the <see cref="LoadModule"/> method.
-        /// </summary>
-        /// <param name="moduleTypes">An array of <see cref="Type"/> objects representing the modules to be loaded.</param>
-        public static void LoadModules(params Type[] moduleTypes)
-        {
-            foreach (var module in moduleTypes)
+            catch (Exception e)
             {
-                if (module == null) continue;
-                LoadModule(module);
+                Log.LogError($"{Name} initialization failed: {e.Message}\n{e.StackTrace}");
             }
         }
+        public void Init() { } 
+        public void Shutdown() { }
+        public void ModObjectLoaded(Object obj) { }
+        public void Update() { }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
-        /// Ensures the mod is being used with a version of the game compatible with the mod's intended version.
-        /// Logs a warning if the game version does not match the expected version.
+        /// Requests loading of one or more CoreLib submodules.
         /// </summary>
-        /// <param name="buildId">The currently running game version to be validated against the mod's compatible version.</param>
-        internal static void CheckIfUsedOnRightGameVersion(GameVersion buildId)
-        {
-            Log.LogInfo($"Running under game version \"{buildId}\".");
-            
-            if (buildId == GameVersion.Zero) return;
-            if (BuildFor.CompatibleWith(buildId)) return;
-            
-            Log.LogWarning($"This version of CoreLib was built for game version \"{BuildFor}\", but you are running \"{buildId}\"." +
-                $"Should any problems arise, please check for a new version before reporting issues.");
-        }
+        /// <param name="moduleTypes">
+        /// An array of <see cref="Type"/> objects representing submodules to load.
+        /// </param>
+        /// <remarks>
+        /// This method filters null types and delegates loading requests to <see cref="SubmoduleHandler"/>.
+        /// </remarks>
+        /// <seealso cref="SubmoduleHandler.RequestModuleLoad(Type)"/>
+        public static void LoadSubmodule(params Type[] moduleTypes) =>
+            moduleTypes?.Where(t => t != null).ToList()
+                .ForEach(type => SubmoduleHandler.RequestModuleLoad(type));
+
+        #endregion
+
+        #region Internal Methods
 
         /// <summary>
-        /// Retrieves an instance of the specified submodule type. The submodule must inherit from <see cref="BaseSubmodule"/>.
-        /// This method relies on the internal <see cref="CoreLib.SubmoduleHandler"/> to provide the appropriate module instance.
+        /// Retrieves an instance of a loaded CoreLib submodule of type <typeparamref name="T"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the submodule to retrieve, which must extend <see cref="BaseSubmodule"/>.</typeparam>
-        /// <returns>The instance of the requested submodule type.</returns>
-        internal static T GetModuleInstance<T>()
-            where T : BaseSubmodule
-        {
-            return SubmoduleHandler.GetModuleInstance<T>();
-        }
+        /// <typeparam name="T">The submodule type to retrieve.</typeparam>
+        /// <returns>An instance of the requested submodule type, or <c>null</c> if not loaded.</returns>
+        /// <seealso cref="BaseSubmodule"/>
+        internal static T GetModuleInstance<T>() where T : BaseSubmodule => SubmoduleHandler.GetModuleInstance<T>();
 
         /// <summary>
-        /// Performs tasks necessary for shutting down the CoreLib module. This typically includes releasing resources,
-        /// saving configurations, unsubscribing from events, and ensuring the mod can be cleanly unloaded without leaving
-        /// residual effects on the application. This method is crucial for maintaining stability when disabling or reloading the mod.
+        /// Applies all Harmony patches for the specified type on behalf of this mod.
         /// </summary>
-        public void Shutdown()
-        {
-        }
+        /// <param name="type">The type containing Harmony patch attributes.</param>
+        /// <seealso cref="ModAPIModLoader.ApplyHarmonyPatch(long, Type)"/>
+        internal static void Patch(Type type) => API.ModLoader.ApplyHarmonyPatch(ModInfo.ModId, type);
 
-        /// <summary>
-        /// Handles actions or processes triggered when a mod-related object is successfully loaded.
-        /// This method is invoked to facilitate any necessary setup, integration, or validation tasks
-        /// associated with the loaded object within the mod lifecycle.
-        /// </summary>
-        /// <param name="obj">The loaded object related to the mod. Typically used to perform
-        /// specific actions based on the type or state of the object.</param>
-        public void ModObjectLoaded(Object obj)
-        {
-        }
-
-        /// <summary>
-        /// Determines whether the mod can be unloaded.
-        /// </summary>
-        /// <returns>True if the mod can be unloaded; otherwise, false.</returns>
-        public bool CanBeUnloaded()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Handles the periodic update logic for the CoreLib mod. This method is invoked during
-        /// the update cycle to perform necessary tasks such as refreshing states, checking conditions,
-        /// or processing mod-related runtime operations.
-        /// </summary>
-        public void Update()
-        {
-        }
-
-        /// <summary>
-        /// Executes initialization procedures specific to the game world creation process, enabling necessary setup
-        /// for the game's runtime environment, event handling, and mod functionality integration.
-        /// </summary>
-        public void WorldInitialize()
-        {
-        }
-
-        /// <summary>
-        /// Handles the event of an object being spawned. Responsible for processing the spawned entity,
-        /// associating it with Unity's ECS (Entity Component System), and potentially linking it with a
-        /// corresponding graphical representation in the scene.
-        /// </summary>
-        /// <param name="entity">The Entity that was spawned within the ECS.</param>
-        /// <param name="entityManager">The EntityManager responsible for managing the spawned entity.</param>
-        /// <param name="graphicalObject">The GameObject that represents the visual aspect of the spawned entity.</param>
-        // ReSharper disable once UnusedMember.Local
-        private void OnObjectSpawned(Entity entity, EntityManager entityManager, GameObject graphicalObject)
-        {
-        }
+        #endregion
     }
 }

@@ -8,12 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CustomLitBrightOutlineAmplify
-  m_Shader: {fileID: 4800000, guid: 97b1c0a6929cf0b438070b8c06e461b4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - ETC1_EXTERNAL_ALPHA
+  - _USEPITFADE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -24,10 +25,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _EmissiveTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -37,6 +34,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReplacementTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -58,18 +59,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - PixelSnap: 0
     - _AddDirectionalLight: 0
     - _AlphaClipThreshold: 0.5
     - _AlphaCutoff: 0.5
+    - _CrystalFeaturesOn: 0
     - _Cull: 0
     - _Cutoff: 0.5
     - _DirLightShadowOpacity: 1
     - _EmissiveIndirectMultiplier: 1
     - _EnvironmentReflections: 1
     - _FlashAmount: 0
-    - _IsTallSprite: 0
-    - _LightBufferPass: 0
+    - _GlitterAmountSide: 0.025
+    - _GlitterAmountTop: 0.1
     - _MultiplyFlashTintWithLight: 0
     - _NoDirectionalShadow: 0
     - _QueueControl: 0
@@ -77,7 +78,6 @@ Material:
     - _ReceiveShadows: 1
     - _ReflectionOffset: 0
     - _Reflections: 0
-    - _SceneLighting: 0
     - _Shininess: 0.1
     - _ShowOutline: 0
     - _SpecularHighlights: 1
@@ -90,12 +90,15 @@ Material:
     - _Translucency: 1
     - _TransparentPass: 0
     - _UseOuter: 0
+    - _UsePitFade: 1
+    - _UseReplacementTex: 0
     - __dirty: 0
     - _useTransparentVertices: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Emissive: {r: 0, g: 0, b: 0, a: 0}
+    - _GlitterColor: {r: 4.894118, g: 17.81961, b: 23.96863, a: 0}
     - _MainColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
     - _MaxUV: {r: 0, g: 0, b: 0, a: 0}
     - _MinUV: {r: 0, g: 0, b: 0, a: 0}
@@ -108,4 +111,4 @@ Material:
     - _tint: {r: 1, g: 1, b: 1, a: 0}
     - groupOffsets: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_AllowLocking: 0

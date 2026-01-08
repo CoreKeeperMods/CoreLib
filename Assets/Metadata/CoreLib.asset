@@ -21,38 +21,39 @@ MonoBehaviour:
     disableHarmonyPatching: 0
     requiredOn: 0
     files:
+    - path: Localization/Localization.csv
     - path: Scripts/UserInterface/UserInterfaceModule.cs
-    - path: Scripts/UserInterface/Scripts/Util/PixelSnap.cs
     - path: Scripts/UserInterface/Scripts/Util/ModUIExtensions.cs
-    - path: Scripts/UserInterface/Scripts/Patches/UIManager_Patch.cs
-    - path: Scripts/UserInterface/Scripts/ModUIAuthoring.cs
-    - path: Scripts/UserInterface/Scripts/LinkToPlayerInventory.cs
-    - path: Scripts/UserInterface/Scripts/IModUI.cs
+    - path: Scripts/UserInterface/Scripts/Patch/UIManagerPatch.cs
+    - path: Scripts/UserInterface/Scripts/Interface/IModUI.cs
+    - path: Scripts/UserInterface/Scripts/Component/PixelSnap.cs
+    - path: Scripts/UserInterface/Scripts/Component/ModUIAuthoring.cs
+    - path: Scripts/UserInterface/Scripts/Component/LinkToPlayerInventory.cs
     - path: Scripts/Tileset/TileSetModule.cs
-    - path: Scripts/Tileset/Scripts/Patches/TilesetTypeUtility_Patch.cs
-    - path: Scripts/Tileset/Scripts/ModTileset.cs
-    - path: Scripts/Tileset/Scripts/Authoring/ModTileAuthoring.cs
-    - path: Scripts/Tileset/Scripts/Authoring/ModPseudoTileAuthoring.cs
+    - path: Scripts/Tileset/Scripts/ScriptableObject/ModTileset.cs
+    - path: Scripts/Tileset/Scripts/Patch/TilesetTypeUtilityPatch.cs
+    - path: Scripts/Tileset/Scripts/Component/ModTileAuthoring.cs
+    - path: Scripts/Tileset/Scripts/Component/ModPseudoTileAuthoring.cs
     - path: Scripts/Tileset/Scripts/Attribute/ModTilesetAttribute.cs
-    - path: Scripts/Scripts/Util/ToggleSwitch.cs
+    - path: Scripts/Skin/SkinModule.cs
+    - path: Scripts/Skin/Scripts/Scriptable/ModPlayerCustomizationTable.cs
     - path: Scripts/Scripts/Util/State.cs
     - path: Scripts/Scripts/Util/Players.cs
     - path: Scripts/Scripts/Util/Logger.cs
     - path: Scripts/Scripts/Util/GameManagers.cs
-    - path: Scripts/Scripts/Util/Extensions/TopologicalSortExtension.cs
-    - path: Scripts/Scripts/Util/Extensions/ReflectionUtil.cs
-    - path: Scripts/Scripts/Util/Extensions/ObjectDataExtensions.cs
-    - path: Scripts/Scripts/Util/Extensions/ModExtensions.cs
-    - path: Scripts/Scripts/Util/Extensions/MathExtensions.cs
-    - path: Scripts/Scripts/Util/Extensions/GeneralExtensions.cs
-    - path: Scripts/Scripts/Util/Extensions/CollectionUtils.cs
-    - path: Scripts/Scripts/Util/Debug.cs
+    - path: Scripts/Scripts/Util/Extension/TopologicalSortExtension.cs
+    - path: Scripts/Scripts/Util/Extension/ReflectionUtil.cs
+    - path: Scripts/Scripts/Util/Extension/ObjectDataExtensions.cs
+    - path: Scripts/Scripts/Util/Extension/ModExtensions.cs
+    - path: Scripts/Scripts/Util/Extension/GeneralExtensions.cs
+    - path: Scripts/Scripts/Util/Extension/CollectionUtils.cs
+    - path: Scripts/Scripts/Util/Extension/Attribute/ReadOnlyDrawer.cs
+    - path: Scripts/Scripts/Util/Extension/Attribute/GoogleLanguagesDropdownAttribute.cs
     - path: Scripts/Scripts/Util/Data/IdBindConfigFile.cs
     - path: Scripts/Scripts/Util/Data/IdBind.cs
     - path: Scripts/Scripts/Util/Data/ConfigFile/TypeConverter.cs
     - path: Scripts/Scripts/Util/Data/ConfigFile/TomlTypeConverter.cs
     - path: Scripts/Scripts/Util/Data/ConfigFile/SettingChangedEventArgs.cs
-    - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigWrapper.cs
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigScope.cs
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigFile.cs
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigEntryBase.cs
@@ -64,144 +65,162 @@ MonoBehaviour:
     - path: Scripts/Scripts/Submodules/SubmoduleHandler.cs
     - path: Scripts/Scripts/Submodules/GameVersion.cs
     - path: Scripts/Scripts/Submodules/BaseSubmodule.cs
-    - path: Scripts/RewiredExtension/Scripts/RewiredExtensions.cs
-    - path: Scripts/RewiredExtension/Scripts/Patches/Rewired_Patch.cs
-    - path: Scripts/RewiredExtension/Scripts/Patches/Rewired_Init_Patch.cs
-    - path: Scripts/RewiredExtension/Scripts/Patches/ControlMappingMenu_Patch.cs
-    - path: Scripts/RewiredExtension/Scripts/KeyBindData.cs
-    - path: Scripts/RewiredExtension/RewiredExtensionModule.cs
-    - path: Scripts/Resource/Scripts/TextureUtil.cs
-    - path: Scripts/Resource/Scripts/ResourcesExtension.cs
-    - path: Scripts/Resource/Scripts/Patch/AssetReference_Patch.cs
-    - path: Scripts/Resource/Scripts/Addressables/ModResourceProvider.cs
-    - path: Scripts/Resource/Scripts/Addressables/ModResourceLocator.cs
-    - path: Scripts/Resource/ResourcesModule.cs
-    - path: Scripts/Localization/Scripts/Patches/TextManager_Patch.cs
-    - path: Scripts/Localization/Scripts/LocalizationExtension.cs
+    - path: Scripts/LootDrop/Scripts/Patches/LootTableBankPatch.cs
+    - path: Scripts/LootDrop/Scripts/DropTableModificationData.cs
+    - path: Scripts/LootDrop/Scripts/CustomLootTableData.cs
+    - path: Scripts/LootDrop/Scripts/Components/ModDropsFromLootTableAuthoring.cs
+    - path: Scripts/LootDrop/LootDropModule.cs
+    - path: Scripts/Localization/Scripts/ScriptableObject/ModdedLocalizationTable.cs
     - path: Scripts/Localization/LocalizationModule.cs
-    - path: Scripts/Equipment/Scripts/System/ModEquipmentSystem.cs
-    - path: Scripts/Equipment/Scripts/System/ModEquipmentChangeSystem.cs
-    - path: Scripts/Equipment/Scripts/SlotInfo.cs
-    - path: Scripts/Equipment/Scripts/Patches/PlayerController_Patch_2.cs
-    - path: Scripts/Equipment/Scripts/Patches/PlacementHandler_Patch.cs
-    - path: Scripts/Equipment/Scripts/Patches/ObjectAuthoringConverter_Patch.cs
-    - path: Scripts/Equipment/Scripts/Patches/Emote_Patch.cs
-    - path: Scripts/Equipment/Scripts/interface/IPlacementLogic.cs
-    - path: Scripts/Equipment/Scripts/interface/IModEquipmentSlot.cs
-    - path: Scripts/Equipment/Scripts/interface/IEquipmentLogic.cs
-    - path: Scripts/Equipment/Scripts/Component/ModObjectTypeAuthoring.cs
-    - path: Scripts/Equipment/EquipmentModule.cs
-    - path: Scripts/Entity/Scripts/WorkbenchDefinition.cs
-    - path: Scripts/Entity/Scripts/PrefabCrawler.cs
-    - path: Scripts/Entity/Scripts/Patches/PlayerController_Patch.cs
-    - path: Scripts/Entity/Scripts/Patches/MemoryManager_Patch.cs
-    - path: Scripts/Entity/Scripts/Patches/InteractableConverter_Patch.cs
-    - path: Scripts/Entity/Scripts/Patches/GraphicalObjectConversion_Patch.cs
-    - path: Scripts/Entity/Scripts/Patches/ColorReplacer_Patch.cs
-    - path: Scripts/Entity/Scripts/MonoBehaviourUtils.cs
-    - path: Scripts/Entity/Scripts/Interfaces/IDynamicItemHandler.cs
-    - path: Scripts/Entity/Scripts/CraftingData.cs
-    - path: Scripts/Entity/Scripts/Components/TemplateObject.cs
-    - path: Scripts/Entity/Scripts/Components/SupportsPooling.cs
-    - path: Scripts/Entity/Scripts/Components/RuntimeMaterial.cs
-    - path: Scripts/Entity/Scripts/Components/PugTextStyle.cs
-    - path: Scripts/Entity/Scripts/Components/PoolSettings.cs
-    - path: Scripts/Entity/Scripts/Components/ModWorkbenchBuilding.cs
-    - path: Scripts/Entity/Scripts/Components/ModCraftingAuthoring.cs
-    - path: Scripts/Entity/Scripts/Components/ModCDAuthoringBase.cs
-    - path: Scripts/Entity/Scripts/Components/EntityPrefabOverride.cs
-    - path: Scripts/Entity/Scripts/Atributes/PrefabModificationAttribute.cs
-    - path: Scripts/Entity/Scripts/Atributes/EntityModificationAttribute.cs
+    - path: Scripts/EquipmentSlot/Scripts/System/ModEquipmentSystem.cs
+    - path: Scripts/EquipmentSlot/Scripts/System/ModEquipmentChangeSystem.cs
+    - path: Scripts/EquipmentSlot/Scripts/SlotInfo.cs
+    - path: Scripts/EquipmentSlot/Scripts/Patch/PlayerControllerPatch.cs
+    - path: Scripts/EquipmentSlot/Scripts/Patch/PlacementHandlerPatch.cs
+    - path: Scripts/EquipmentSlot/Scripts/Patch/ObjectAuthoringConverterPatch.cs
+    - path: Scripts/EquipmentSlot/Scripts/Patch/EmotePatch.cs
+    - path: Scripts/EquipmentSlot/Scripts/Interface/IPlacementLogic.cs
+    - path: Scripts/EquipmentSlot/Scripts/Interface/IModEquipmentSlot.cs
+    - path: Scripts/EquipmentSlot/Scripts/Interface/IEquipmentLogic.cs
+    - path: Scripts/EquipmentSlot/Scripts/Component/ModObjectTypeAuthoring.cs
+    - path: Scripts/EquipmentSlot/EquipmentSlotModule.cs
+    - path: Scripts/Entity/Scripts/ScriptableObject/WorkbenchDefinition.cs
+    - path: Scripts/Entity/Scripts/Patch/EntityModulePatches.cs
+    - path: Scripts/Entity/Scripts/MaterialCrawler.cs
+    - path: Scripts/Entity/Scripts/Interface/IDynamicItemHandler.cs
+    - path: Scripts/Entity/Scripts/Converter/PooledGraphicalObjectConverter.cs
+    - path: Scripts/Entity/Scripts/Component/TemplateObject.cs
+    - path: Scripts/Entity/Scripts/Component/SupportsPooling.cs
+    - path: Scripts/Entity/Scripts/Component/SupportsCoreLib.cs
+    - path: Scripts/Entity/Scripts/Component/RuntimeMaterial.cs
+    - path: Scripts/Entity/Scripts/Component/ModWorkbenchBuilding.cs
+    - path: Scripts/Entity/Scripts/Component/ModWideWorkbenchBuilding.cs
+    - path: Scripts/Entity/Scripts/Component/ModReskinCondition.cs
+    - path: Scripts/Entity/Scripts/Component/ModRefreshCraftingBuildingTitles.cs
+    - path: Scripts/Entity/Scripts/Component/ModCraftingUISetting.cs
+    - path: Scripts/Entity/Scripts/Component/ModCraftingAuthoring.cs
+    - path: Scripts/Entity/Scripts/Attribute/PrefabModificationAttribute.cs
+    - path: Scripts/Entity/Scripts/Attribute/EntityModificationAttribute.cs
     - path: Scripts/Entity/EntityModule.cs
-    - path: Scripts/Drop/Scripts/Patches/LootTableBank_Patch.cs
-    - path: Scripts/Drop/Scripts/DropTableModificationData.cs
-    - path: Scripts/Drop/Scripts/CustomLootTableData.cs
-    - path: Scripts/Drop/Scripts/Components/ModDropsFromLootTableAuthoring.cs
-    - path: Scripts/Drop/DropTablesModule.cs
     - path: Scripts/CoreLibMod.cs
+    - path: Scripts/ControlMapping/Scripts/Scriptable/ModRewiredInputCategory.cs
+    - path: Scripts/ControlMapping/Scripts/Patch/RewiredPatch.cs
+    - path: Scripts/ControlMapping/Scripts/Patch/RewiredInitPatch.cs
+    - path: Scripts/ControlMapping/Scripts/Patch/ControlMappingMenuPatch.cs
+    - path: Scripts/ControlMapping/Scripts/Extension/RewiredExtensions.cs
+    - path: Scripts/ControlMapping/Scripts/Data/KeyBindData.cs
+    - path: Scripts/ControlMapping/ControlMappingModule.cs
     - path: Scripts/Command/Scripts/Util/CommandUtil.cs
     - path: Scripts/Command/Scripts/System/LoadItemDictSystem.cs
-    - path: Scripts/Command/Scripts/Patches/MenuManager_Patch.cs
-    - path: Scripts/Command/Scripts/Patches/ECSManager_Patch.cs
-    - path: Scripts/Command/Scripts/Patches/ChatWindow_Patch.cs
-    - path: Scripts/Command/Scripts/Parsers/SkillIDParser.cs
-    - path: Scripts/Command/Scripts/Parsers/ObjectIDParser.cs
-    - path: Scripts/Command/Scripts/Parsers/ConditionIDParser.cs
-    - path: Scripts/Command/Scripts/Communication/CommandMessageRPC.cs
-    - path: Scripts/Command/Scripts/Communication/CommandCommSystem.cs
-    - path: Scripts/Command/Scripts/Commands/QuantumConsoleDummies.cs
-    - path: Scripts/Command/Scripts/Commands/IServerCommandHandler.cs
-    - path: Scripts/Command/Scripts/Commands/ICommandInfo.cs
-    - path: Scripts/Command/Scripts/Commands/IClientCommandHandler.cs
-    - path: Scripts/Command/Scripts/Commands/HelpCommandHandler.cs
-    - path: Scripts/Command/Scripts/Commands/DirectMessageCommandHandler.cs
-    - path: Scripts/Command/Scripts/CommandPair.cs
-    - path: Scripts/Command/Scripts/CommandOutput.cs
-    - path: Scripts/Command/Scripts/CommandModuleSettings.cs
-    - path: Scripts/Command/CommandsModule.cs
-    - path: Scripts/Audio/Scripts/Patches/MusicManager_Patch.cs
-    - path: Scripts/Audio/Scripts/Patches/EffectEventExtensions_Patch.cs
-    - path: Scripts/Audio/Scripts/Patches/AudioManager_Patch.cs
+    - path: Scripts/Command/Scripts/System/CommandCommSystem.cs
+    - path: Scripts/Command/Scripts/Patch/MenuManagerPatch.cs
+    - path: Scripts/Command/Scripts/Patch/ECSManagerPatch.cs
+    - path: Scripts/Command/Scripts/Patch/ChatWindowPatch.cs
+    - path: Scripts/Command/Scripts/Parser/SkillIDParser.cs
+    - path: Scripts/Command/Scripts/Parser/ObjectIDParser.cs
+    - path: Scripts/Command/Scripts/Parser/ConditionIDParser.cs
+    - path: Scripts/Command/Scripts/Interface/IServerCommandHandler.cs
+    - path: Scripts/Command/Scripts/Interface/ICommandInfo.cs
+    - path: Scripts/Command/Scripts/Interface/IClientCommandHandler.cs
+    - path: Scripts/Command/Scripts/Handler/HelpCommandHandler.cs
+    - path: Scripts/Command/Scripts/Handler/DirectMessageCommandHandler.cs
+    - path: Scripts/Command/Scripts/Data/CommandPair.cs
+    - path: Scripts/Command/Scripts/Data/CommandOutput.cs
+    - path: Scripts/Command/Scripts/Data/CommandModuleSettings.cs
+    - path: Scripts/Command/Scripts/Data/CommandMessageRPC.cs
+    - path: Scripts/Command/CommandModule.cs
+    - path: Scripts/Audio/Scripts/Patch/MusicManager_Patch.cs
+    - path: Scripts/Audio/Scripts/Patch/EffectEventExtensions_Patch.cs
+    - path: Scripts/Audio/Scripts/Patch/AudioManager_Patch.cs
     - path: Scripts/Audio/Scripts/MusicInfo.cs
     - path: Scripts/Audio/Scripts/IEffect.cs
     - path: Scripts/Audio/AudioModule.cs
-    - path: Scripts/Generated/CommandCommSystem__System_3343642430.g.cs
-    - path: Scripts/Generated/ModEquipmentChangeSystem__System_15217805700.g.cs
-    - path: Scripts/Generated/ModEquipmentSystem__System_1446065420.g.cs
-    - path: Scripts/Generated/CoreLib.Commands.Communication_CommandDataMessageRPCCommandSerializer.cs
-    - path: Scripts/Generated/CoreLib.Commands.Communication_CommandMessageRPCCommandSerializer.cs
+    - path: Scripts/Generated/CommandCommSystem__System_17645889260.g.cs
+    - path: Scripts/Generated/ModEquipmentChangeSystem__System_9859849580.g.cs
+    - path: Scripts/Generated/ModEquipmentSystem__System_11485430180.g.cs
+    - path: Scripts/Generated/CoreLib.Submodule.Command.Data_CommandDataMessageRPCCommandSerializer.cs
+    - path: Scripts/Generated/CoreLib.Submodule.Command.Data_CommandMessageRPCCommandSerializer.cs
+    - path: Bundles/CoreLib_Windows.assetbundle
+    - path: Bundles/CoreLib_Linux.assetbundle
     dependencies: []
   modPath: Assets\CoreLibPackage\CoreLib
-  forceReimport: 0
+  forceReimport: 1
   buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
   buildBurst: 1
   assets:
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Localization/Localization.csv
-    hash: 5D9C1B0C22BE9E39703B72AF12684D2E3006CA5303B412F47A6806ECA63401BE
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/ModWorkbenchBuildingNew.prefab
-    hash: F607A8975B6BF2A2A318E5137ABE978EF7CAD63EDEF4D353548BB792CE4B55AC
+  - path: Assets/CoreLibPackage/CoreLib/ControlMapping/ControlMapping Localization
+      Table.asset
+    hash: 346A280847857152097106E923AA9A78F110EB0FCDB090AF266812E14B96B5C1
+  - path: Assets/CoreLibPackage/CoreLib/ControlMapping/MappingLayoutData_Mods.asset
+    hash: FDC5D77CB66BED675058E6C32AE677BD0CB9EEE91D27C39BB6C5079381C131CB
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Entity Localization Table.asset
+    hash: 492B09BC2F8519769D5A13E444146B8890536D603986275F411C475CB943314E
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/ModWideWorkbenchBuilding.prefab
+    hash: 41E77C7D9C7F2AA29C95CB2BD27BFE2C8134F0D39385264B9F24ACDE8EB51DA1
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/ModWorkbenchBuilding.prefab
+    hash: F3BD8ED40A9CC6DC2CB6DAAF82E32B069DFFEDE6D28427A433B018945C645F8F
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/TemplateWideWorkbench.prefab
+    hash: 291897ECC418385C7A8A9012DAC1A63A065F15A536CEEC2F7CC8FB4E07BA36B7
   - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/TemplateWorkbench.prefab
-    hash: B6EBEA8CFEEB4F83E99F214530BD3D6A71A2D11A44B0DADC1BF610F4E7710AF6
+    hash: A20F4D5C6F620273DA71DA715A7DFAD3EFB176BF71306C4F06EED155F16D944E
   - path: Assets/CoreLibPackage/CoreLib/Entity/RootWorkbench.asset
-    hash: 2B947FB813583AF2DB374D73D75B316C5C11992A329DCD3E36FB6B934C2E636B
-  - path: Assets/CoreLibPackage/CoreLib/Entity/SpriteAssetManifest.asset
-    hash: D3D4D6B64B7DE1D35599D99A0F0435D359DC695B619E4E210374073790613C84
+    hash: 217189474167ED1711B435198F7E100EEA35BFADBA0E6CEDB5E40E34678A6461
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/RootWideWorkbenchSkin.asset
+    hash: 1A8BDB7265EAD7823568A76D0DBE0894593DBC0DF75BA92F13E7825562B1A466
   - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/RootWorkbenchSkin.asset
-    hash: 2483BCE79929A3EE49491381CAF3DEFD4A252AADCC8EA05B6FE6A639E640C395
+    hash: 114C6AE12A67B43D348C2FBA31FE0C3E8120F6F837059402FDBB58675248EF1F
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench.asset
+    hash: 30B24B30A0BF1A65A39C158D96BCE9F2E1E5B9DF0D0DE110E9727943A9BBC5C0
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench.png
+    hash: 8169E52B61747D90F28B28E15736F8E906777C8A92290713F38F2AB6FC65C1C1
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench_side.png
+    hash: FD055780604FF5BD58117B8BF86026ABEE2993A24F5CCA588EA99554FAAA1BF4
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench_side2.png
+    hash: D833A049D6AAE719754900F4841B176AB695B9DCB82434E062EF156F4A11EBE4
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench_up.png
+    hash: F0321E7C6F0FF5C3675C3C5C7B506D4A4002EA987B1F8F9B3DF08EA31DB95869
   - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench.asset
-    hash: 8679114CE8F7EA91742C4CADDBFCB685539EF28B7D63D79F5829A70D05F49295
+    hash: DD0F9149B4AAB6478C7747E9CFA5AF66EC95BC6F98C608EF89C412B81DFB7E5E
   - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench.png
-    hash: 6DC99ABFCA1C9C592F92E150A1C020D99AEDAE0B19F03D17FAE187061DE87BF6
+    hash: F28121A6D6E74F2D74E31B5F4A72925B9F6A346AB1960C97EE4F3C454CE4AC2C
   - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench_side.png
-    hash: 9D2D9B753B454A3C2AE6670ACEAF8230A1080BDE8EF9BDC913B11FA3C826A667
+    hash: D128A39C6648EC1693C902F61502B8E8B61BDA0370EF9BE10CEE6C7CAB8BA0CA
   - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench_side2.png
-    hash: 4970BC031D01C40AA41930F7E5CE1A062A270B19607188CCD54735CEAB635C0E
+    hash: A8A9CF557B8ADF453A3D80B2896DF221D10588FDB03695175FE72EA20950BB84
   - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench_up.png
-    hash: D72CA7FC5A988E41F97F6AC1446FFC1E5F5E8D97D2C97EC4F9409E6C5E2FB39C
+    hash: 1F4EED673A89B9FD3220D885AD946C28E714EB0E8A4B77CC1AF9436F8EDFAD04
   - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/modWorkbench.png
     hash: 689651BD601D7E5D25B388808BB6D846EA8455ADED50311BCDB0429F0F97B6AA
   - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/modWorkbenchVariants.png
     hash: B82208849A89FF0025010688A1A7CEDA44A6D1F75BC8584877A7F9CDBC754642
-  - path: Assets/CoreLibPackage/CoreLib/Equipment/Prefab/DefaultPlaceSlot.prefab
-    hash: 1F02B01F8853DD91147A4C155C2D0ED1915F407520C8CAA5C94A5DCD588E6BFE
-  - path: Assets/CoreLibPackage/CoreLib/Equipment/Prefab/EmptySlot.prefab
+  - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Prefab/DefaultPlaceSlot.prefab
+    hash: 2EE22F0CEBC35CB34D79E653D93B7D3D321EF05445E9E51FF317F391B968410F
+  - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Prefab/EmptySlot.prefab
     hash: D13560944B9A1FA7003C479C75122B6DA8A75B28195296ABA1E0C75575C3A50D
-  - path: Assets/CoreLibPackage/CoreLib/Equipment/Textures/cursor_inv.asset
+  - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Textures/cursor_inv.asset
     hash: 1F369BC5B4EDF5F042F992937E992EE745973C69A0BF9258E0330C146E05C93E
-  - path: Assets/CoreLibPackage/CoreLib/Equipment/Textures/cursor_placement.png
+  - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Textures/cursor_placement.png
     hash: 25192E936CE78C41607D1D31F1A7C4E92E70C31E9D1B56805DEA56506EA5D25E
-  - path: Assets/CoreLibPackage/CoreLib/Equipment/Textures/cursor_placement_directions.png
+  - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Textures/cursor_placement_directions.png
     hash: 66AB1D9AC8695C47E93E9740ECDEFE77FC578128B7297AD7C304BE0612B6B3DB
-  - path: Assets/CoreLibPackage/CoreLib/Equipment/Textures/cursor_placement_padding.png
+  - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Textures/cursor_placement_padding.png
     hash: 25192E936CE78C41607D1D31F1A7C4E92E70C31E9D1B56805DEA56506EA5D25E
+  - path: Assets/CoreLibPackage/CoreLib/Localization/Localization.csv
+    hash: 264EF9F29236D4725F1253D2F552B49064A867D4A29915DE5D580E78C7E059F6
+  - path: Assets/CoreLibPackage/CoreLib/Rendering/Editor Kit Renderer.asset
+    hash: 4D550E14C76B725C64632F9AE6D817700BF4DCB7A5EE2018D5D062B006BD7CAF
+  - path: Assets/CoreLibPackage/CoreLib/Rendering/EditorKit RP.asset
+    hash: EDA84010B3BCF252E91081D5BA49FAE773926327E81D59557B18044866D4EFF6
+  - path: Assets/CoreLibPackage/CoreLib/Rendering/SpriteLit.shader
+    hash: 2A24D5FEF7E00455E5831A8B017512EAFCA034D8C4E5A49EC8ED3CC8E3D6D486
   - path: Assets/CoreLibPackage/CoreLib/Scripts/Util/Data/ConfigFile/LICENSE.txt
-    hash: AB7D4706AAB69049A270AFF7665DB085EF367CE347EFD5BB0E3B7E7AD92CEE80
+    hash: E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855
   - path: Assets/CoreLibPackage/CoreLib/SpriteAssetManifest.asset
-    hash: AFC7B4940A42FEB917C78E0771E94DA5D255B58441F5376C97C02C60B0265DA5
+    hash: 864018B69F09C589215ACF5AC1995B28A7A998B71B44BFA2C147CBD996DB7CE1
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Resources/MissingTileset.asset
-    hash: 2C6EB5AAA4F8E7725E69B3ACCA02832B27198A2262C1DFEAF5BC1CDB0FC02C8B
+    hash: 82985DE185C2C1034B80790B10ABC57EA3401AC71CAC8D66A512F5A1B378D07D
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Resources/tileset_base_building.asset
     hash: 568690BAD21B95854FCAB6F646491981853F2A049A10100F899ABDE1AA6C5D09
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Resources/tileset_extras.asset
@@ -212,4 +231,4 @@ MonoBehaviour:
     hash: 3599D06D47C289432782B483EA64D6C424A511A79A6B6B293C70BACB76D7A0EF
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Textures/missing_tileset.png
     hash: FBD71BE99EA0E574E4C508FC4C4DABE047C2390CE7B17F49CA5421717EB7BB39
-  lastBuildLinux: 0
+  lastBuildLinux: 1

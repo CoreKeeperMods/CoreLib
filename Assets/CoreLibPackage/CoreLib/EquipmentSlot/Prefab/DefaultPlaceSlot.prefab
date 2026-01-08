@@ -96,10 +96,13 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6521e0bd64ecf824da6aa0acd2487a98, type: 2}
+  - {fileID: 2100000, guid: 65675d79ad9b9fb4ba7e26e34e37e2ba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be8cdb9e682d5a746995da7590643941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materialName: PlaceIconAmplify
+  materialName: PitObjectAmplify
 --- !u!1 &1176204186698484
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,10 +261,13 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6521e0bd64ecf824da6aa0acd2487a98, type: 2}
+  - {fileID: 2100000, guid: 65675d79ad9b9fb4ba7e26e34e37e2ba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

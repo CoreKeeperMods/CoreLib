@@ -20,30 +20,30 @@ MonoBehaviour:
     texture: {fileID: 2800000, guid: 398fcd691ddc35e44b3a74f97484e0fd, type: 3}
     emissiveTexture: {fileID: 0}
     normalTexture: {fileID: 0}
-    pivot: {x: 0.5, y: 0.1}
+    pivot: {x: 0.5, y: 0.0625}
     positionalData:
     - frames:
       - {x: 0, y: 0, z: 0}
-    inheritPivot: 1
+    inheritPivot: 0
   m_staticVariants:
   - texture: {fileID: 2800000, guid: d3d7f84e8506b2a47a8b39d69b79ec74, type: 3}
     emissiveTexture: {fileID: 0}
     normalTexture: {fileID: 0}
-    pivot: {x: 0.5, y: 0.1}
+    pivot: {x: 0.5, y: 0.05}
     positionalData: []
-    inheritPivot: 1
+    inheritPivot: 0
   - texture: {fileID: 2800000, guid: 5e86536891fa8174586aa260beaf14aa, type: 3}
     emissiveTexture: {fileID: 0}
     normalTexture: {fileID: 0}
-    pivot: {x: 0.5, y: 0.1}
+    pivot: {x: 0.5, y: 0.0625}
     positionalData: []
-    inheritPivot: 1
+    inheritPivot: 0
   - texture: {fileID: 2800000, guid: c00a29933e1c39e49873d723db9a6266, type: 3}
     emissiveTexture: {fileID: 0}
     normalTexture: {fileID: 0}
-    pivot: {x: 0.5, y: 0.1}
+    pivot: {x: 0.5, y: 0.05}
     positionalData: []
-    inheritPivot: 1
+    inheritPivot: 0
   m_animations: []
   m_events: []
   m_positionalData: []

@@ -3,7 +3,7 @@ using PugMod;
 using Unity.Entities;
 
 // ReSharper disable once CheckNamespace
-namespace CoreLib.Submodule.Command
+namespace CoreLib.Submodule.Command.System
 {
     /// <summary>
     /// The <c>LoadItemDictSystem</c> is a simulation system responsible for updating a
@@ -100,12 +100,12 @@ namespace CoreLib.Submodule.Command
             {
                 if (!LocalizationManager.TryGetTranslation($"Items/{pair.Key}", out string translation,
                         overrideLanguage: "english")) continue;
-                if (CommandsModule.FriendlyNameDict.ContainsKey(translation.ToLower())) continue;
-                CommandsModule.FriendlyNameDict.Add(translation.ToLower(), pair.Value);
+                if (CommandModule.FriendlyNameDict.ContainsKey(translation.ToLower())) continue;
+                CommandModule.FriendlyNameDict.Add(translation.ToLower(), pair.Value);
                 count++;
             }
 
-            BaseSubmodule.Log.LogInfo($"Got {count} friendly name entries!");
+            CommandModule.Log.LogInfo($"Got {count} friendly name entries!");
         }
     }
 }

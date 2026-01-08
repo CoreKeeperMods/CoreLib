@@ -1,22 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreLib.Submodule.Localization.Patches;
-using CoreLib.Util;
+using System.Linq;
 using I2.Loc;
+using PugMod;
+using UnityEngine;
+using Logger = CoreLib.Util.Logger;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Localization
 {
-    /// <summary>
     /// Provides functionality for managing localization strings and entity localization within the game.
-    /// </summary>
     public class LocalizationModule : BaseSubmodule
     {
+        #region Fields
+        
+        internal static LanguageSourceData LocalizationSourceData;
+
+        #endregion
+        
+        #region BaseSubmodule Implementation
+        
+        public new const string Name = "Core Library - Localization";
+        
+        internal new static Logger Log = new(Name);
+        
+        internal static LocalizationModule Instance => CoreLibMod.GetModuleInstance<LocalizationModule>();
+        
+        internal override void Load()
+        {
+            base.Load();
+            LocalizationSourceData = Resources.Load<LanguageSourceAsset>($"I2Languages").SourceData;
+            DependentMods.ForEach(ExtractTermsFromModdedLocalizationTables);
+        }
+
+        #endregion
+        
         #region Public Interface
 
-        public const string ID = "CoreLibLocalization";
-        public new const string Name = "Core Lib Localization";
-        
         /// <summary>
         /// Add a new localization term with specified translations.
         /// </summary>
@@ -25,26 +45,19 @@ namespace CoreLib.Submodule.Localization
         /// <exception cref="ArgumentException">Thrown if the translation dictionary does not include an English ("en") translation or if the term is already registered.</exception>
         public static void AddTerm(string term, Dictionary<string, string> translations)
         {
-            Instance.ThrowIfNotLoaded();
-
             if (!translations.ContainsKey("en"))
                 throw new ArgumentException("Translation dictionary must contain english translation!");
-
-            if (addedTranslations.ContainsKey(term))
+            foreach ((string key, string value) in translations)
             {
-                throw new ArgumentException($"Term {term} is already registered!");
+                if(string.IsNullOrEmpty(value)) continue;
+                var languageTerm = new LanguageTerm
+                {
+                    localizationCodeDropdown = GoogleLanguages.GetLanguagesForDropdown("","").First(str => str.Split('[').Last().Contains(key)),
+                    translation = value
+                };
+                AddTerm_Internal(term, languageTerm);
             }
-
-            if (!localizationSystemReady)
-            {
-                addedTranslations.Add(term, translations);
-            }
-            else
-            {
-                LanguageSourceData source = LocalizationManager.Sources[0];
-                source.AddTerm(term, translations);
-                source.UpdateDictionary();
-            }
+            
         }
 
         /// <summary>
@@ -57,8 +70,6 @@ namespace CoreLib.Submodule.Localization
         /// <exception cref="ArgumentException">Thrown if the term is already registered.</exception>
         public static void AddTerm(string term, string en, string cn = "")
         {
-            Instance.ThrowIfNotLoaded();
-
             AddTerm(term, new Dictionary<string, string> { { "en", en }, { "zh-CN", cn } });
         }
 
@@ -82,7 +93,7 @@ namespace CoreLib.Submodule.Localization
         /// <summary>
         /// Adds localization terms for the name and description of a specified entity, in multiple languages.
         /// </summary>
-        /// <param name="obj">The unique identifier of the entity.</param>
+        /// <param name="objectName">The unique identifier of the entity.</param>
         /// <param name="enName">The name of the entity in English.</param>
         /// <param name="enDesc">The description of the entity in English.</param>
         /// <param name="cnName">The name of the entity in Chinese (optional).</param>
@@ -98,52 +109,36 @@ namespace CoreLib.Submodule.Localization
 
         #endregion
 
-        #region Private Implementation
+        #region Internal Region
 
-        /// <summary>
-        /// Gets the singleton instance of the <see cref="LocalizationModule"/>.
-        /// </summary>
-        /// <remarks>
-        /// The <see cref="Instance"/> property provides access to the single, centralized
-        /// instance of the <see cref="LocalizationModule"/> class used for managing localization
-        /// functionality and operations throughout the application. It ensures efficient and
-        /// consistent access to the module's functionality while adhering to the singleton design pattern.
-        /// </remarks>
-        internal static LocalizationModule Instance => CoreLibMod.GetModuleInstance<LocalizationModule>();
-
-        /// <summary>
-        /// Implements hooks necessary for integrating the submodule's functionality into the application framework.
-        /// </summary>
-        /// <remarks>
-        /// This method is called internally to apply patches or modifications utilizing the CoreLibMod infrastructure.
-        /// It is intended to override the base implementation to provide module-specific behavior.
-        /// </remarks>
-        internal override void SetHooks()
+        internal static void ExtractTermsFromModdedLocalizationTables(LoadedMod mod)
         {
-            CoreLibMod.Patch(typeof(TextManager_Patch));
+            var tableList = mod.Assets.OfType<ModdedLocalizationTable>();
+            foreach (var table in tableList)
+            {
+                var localizationTerms = table.GetTerms();
+                foreach (var term in localizationTerms)
+                {
+                    foreach (var lang in term.languageTerms)
+                    {
+                        AddTerm_Internal(term.term, lang);
+                    }
+                }
+            }
         }
-
-        /// <summary>
-        /// A static dictionary that stores localization terms and their corresponding translations.
-        /// </summary>
-        /// <remarks>
-        /// This dictionary maps a term (as a string key) to another dictionary containing relevant translations.
-        /// The inner dictionary uses language codes (e.g., "en" for English, "fr" for French) as keys and localized strings as values.
-        /// It is primarily used to accumulate translation entries dynamically before the localization system is fully initialized.
-        /// Once the system is initialized, the entries are transferred and incorporated into the main localization framework.
-        /// </remarks>
-        internal static Dictionary<string, Dictionary<string, string>> addedTranslations =
-            new Dictionary<string, Dictionary<string, string>>();
-
-        /// <summary>
-        /// Indicates whether the localization system is fully initialized and ready to handle localization terms and translations.
-        /// </summary>
-        /// <remarks>
-        /// This variable is set to <c>true</c> when the localization system has been successfully initialized and all pre-added
-        /// translations have been processed. While it is <c>false</c>, new terms and translations may be queued or stored temporarily
-        /// until the system becomes fully operational.
-        /// </remarks>
-        internal static bool localizationSystemReady;
+        
+        internal static void AddTerm_Internal(string term, LanguageTerm translations)
+        {
+            if (string.IsNullOrEmpty(translations.translation)) return;
+            LocalizationSourceData.AddLanguage(translations.LocalizationName, translations.LocalizationCode);
+            if(!LocalizationSourceData.IsLanguageEnabled(translations.LocalizationName))
+                LocalizationSourceData.EnableLanguage(translations.LocalizationName, true);
+            int index = LocalizationSourceData.GetLanguageIndex(translations.LocalizationName);
+            if (!LocalizationSourceData.ContainsTerm(term)) LocalizationSourceData.AddTerm(term);
+            var termData = LocalizationSourceData.GetTermData(term);
+            termData.SetTranslation(index, translations.translation);
+            Log.LogInfo($"Added localization term {term} with translation {translations.LocalizationCode} - {translations.translation}");
+        }
 
         #endregion
     }
