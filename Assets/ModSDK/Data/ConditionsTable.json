@@ -1,0 +1,5069 @@
+{
+    "conditionCategories": [
+        {
+            "category": "Appearance",
+            "conditions": [
+                {
+                    "Id": 190,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113838
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 47,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113840
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 189,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113842
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 208,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113844
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Armor",
+            "conditions": [
+                {
+                    "Id": 185,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 11,
+                    "effect": 9,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 48,
+                    "effect": 37,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 68,
+                    "effect": 52,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 169,
+                    "effect": 9,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 11,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 124,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 125,
+                    "effect": 37,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 48,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 186,
+                    "effect": 37,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 48,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 246,
+                    "effect": 98,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Attack Speed",
+            "conditions": [
+                {
+                    "Id": 173,
+                    "effect": 65,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113848
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 51,
+                    "effect": 40,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113848
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 52,
+                    "effect": 41,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113850
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 191,
+                    "effect": 65,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113848
+                    },
+                    "useSameDescAsId": 173,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 172,
+                    "effect": 65,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113848
+                    },
+                    "useSameDescAsId": 173,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 209,
+                    "effect": 65,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113848
+                    },
+                    "useSameDescAsId": 173,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 86,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 198,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 171,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 141,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 87,
+                    "effect": 40,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113848
+                    },
+                    "useSameDescAsId": 51,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 142,
+                    "effect": 40,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113848
+                    },
+                    "useSameDescAsId": 51,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 275,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 276,
+                    "effect": 41,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Burn",
+            "conditions": [
+                {
+                    "Id": 30,
+                    "effect": 17,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 163,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 164,
+                    "effect": 16,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113854
+                    },
+                    "useSameDescAsId": 29,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 29,
+                    "effect": 16,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113854
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 194,
+                    "effect": 72,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 224,
+                    "effect": 88,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Charm",
+            "conditions": [
+                {
+                    "Id": 214,
+                    "effect": 80,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 215,
+                    "effect": 81,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113856
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 216,
+                    "effect": 82,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Cooking",
+            "conditions": [
+                {
+                    "Id": 79,
+                    "effect": 54,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113858
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 80,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113858
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 138,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Crafting",
+            "conditions": [
+                {
+                    "Id": 122,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 120,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 119,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 121,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 123,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Crit",
+            "conditions": [
+                {
+                    "Id": 12,
+                    "effect": 10,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113860
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 88,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 89,
+                    "effect": 10,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 12,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 157,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 158,
+                    "effect": 10,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113860
+                    },
+                    "useSameDescAsId": 12,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 153,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 154,
+                    "effect": 10,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113860
+                    },
+                    "useSameDescAsId": 12,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 65,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113860
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 66,
+                    "effect": 10,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113860
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Crit Damage",
+            "conditions": [
+                {
+                    "Id": 99,
+                    "effect": 57,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113860
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 195,
+                    "effect": 73,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 148,
+                    "effect": 57,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 99,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 149,
+                    "effect": 57,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 99,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Damage",
+            "conditions": [
+                {
+                    "Id": 150,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 162,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113864
+                    },
+                    "useSameDescAsId": 150,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 10,
+                    "effect": 8,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 289,
+                    "effect": 116,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 22,
+                    "effect": 22,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 290,
+                    "effect": 117,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 144,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 145,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 150,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 160,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 161,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113864
+                    },
+                    "useSameDescAsId": 150,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 75,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 76,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 150,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 152,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 150,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 111,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 112,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 150,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 109,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113840
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 110,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 150,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 90,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 92,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 151,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 82,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 94,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 95,
+                    "effect": 116,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 10,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 84,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 100,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 57,
+                    "effect": 46,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 93,
+                    "effect": 116,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 10,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 91,
+                    "effect": 117,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 22,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 83,
+                    "effect": 116,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 10,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 166,
+                    "effect": 8,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 10,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 55,
+                    "effect": 44,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 54,
+                    "effect": 43,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 167,
+                    "effect": 22,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 22,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 85,
+                    "effect": 117,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 22,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 101,
+                    "effect": 117,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 22,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 222,
+                    "effect": 86,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 223,
+                    "effect": 87,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 293,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 289,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 294,
+                    "effect": 116,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 289,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Damage vs Bosses",
+            "conditions": [
+                {
+                    "Id": 96,
+                    "effect": 55,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 134,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 135,
+                    "effect": 55,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113852
+                    },
+                    "useSameDescAsId": 96,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Deal Damage",
+            "conditions": [
+                {
+                    "Id": 17,
+                    "effect": 14,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113866
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 206,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 207,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113868
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 184,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 192,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 38,
+                    "effect": 3,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 248,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 249,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113842
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 288,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 288,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 298,
+                    "effect": 119,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Damage Taken",
+            "conditions": [
+                {
+                    "Id": 33,
+                    "effect": 29,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 168,
+                    "effect": 29,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 33,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 245,
+                    "effect": 97,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 244,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 244,
+                    "effect": 97,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113870
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Dodge",
+            "conditions": [
+                {
+                    "Id": 15,
+                    "effect": 13,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113872
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 70,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113872
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 71,
+                    "effect": 13,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113872
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Durability",
+            "conditions": [
+                {
+                    "Id": 118,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 117,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Faction Change",
+            "conditions": [
+                {
+                    "Id": 188,
+                    "effect": 27,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 28,
+                    "effect": 27,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Fishing",
+            "conditions": [
+                {
+                    "Id": 178,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113874
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 133,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 136,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 180,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 131,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 176,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 46,
+                    "effect": 36,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113876
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 132,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 254,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Gardening",
+            "conditions": [
+                {
+                    "Id": 126,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 128,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 23,
+                    "effect": 23,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113878
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 127,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 253,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113880
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Glow",
+            "conditions": [
+                {
+                    "Id": 1,
+                    "effect": 1,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 96738
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 45,
+                    "effect": 1,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 96738
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 217,
+                    "effect": 1,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 96738
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Heal",
+            "conditions": [
+                {
+                    "Id": 5,
+                    "effect": 4,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113882
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 211,
+                    "effect": 78,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113882
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 3,
+                    "effect": 3,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 44,
+                    "effect": 35,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113840
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 146,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 147,
+                    "effect": 4,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113882
+                    },
+                    "useSameDescAsId": 5,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 97,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113840
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 106,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113882
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 113,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113882
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 114,
+                    "effect": 4,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113882
+                    },
+                    "useSameDescAsId": 5,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 107,
+                    "effect": 4,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113882
+                    },
+                    "useSameDescAsId": 5,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 105,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113882
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 19,
+                    "effect": 19,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113884
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 281,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 285,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Hunger",
+            "conditions": [
+                {
+                    "Id": 8,
+                    "effect": 6,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 67,
+                    "effect": 51,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113858
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 143,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113858
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 129,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 42,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113858
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 40,
+                    "effect": 34,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 7,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113858
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 43,
+                    "effect": 33,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113858
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 41,
+                    "effect": 34,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 32,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113886
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 139,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 140,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Immunity",
+            "conditions": [
+                {
+                    "Id": 37,
+                    "effect": 32,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113888
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 159,
+                    "effect": 63,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113890
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 187,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 81,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113846
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 36,
+                    "effect": 31,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113892
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 34,
+                    "effect": 30,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 20,
+                    "effect": 20,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113894
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 62,
+                    "effect": 49,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113894
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 103,
+                    "effect": 60,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113896
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 213,
+                    "effect": 79,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 243,
+                    "effect": 96,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 250,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 251,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Magic",
+            "conditions": [
+                {
+                    "Id": 261,
+                    "effect": 102,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113898
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 291,
+                    "effect": 102,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113898
+                    },
+                    "useSameDescAsId": 261,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 263,
+                    "effect": 112,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 271,
+                    "effect": 109,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 272,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 273,
+                    "effect": 110,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 270,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 268,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 274,
+                    "effect": 102,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113898
+                    },
+                    "useSameDescAsId": 261,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 283,
+                    "effect": 102,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Mana",
+            "conditions": [
+                {
+                    "Id": 267,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 255,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113900
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 256,
+                    "effect": 100,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 262,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 264,
+                    "effect": 106,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 265,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 266,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 269,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 286,
+                    "effect": 111,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113900
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Max Health",
+            "conditions": [
+                {
+                    "Id": 6,
+                    "effect": 5,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113840
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 115,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113840
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 116,
+                    "effect": 5,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 16,
+                    "effect": 68,
+                    "isAdditiveWithSelf": true,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 304,
+                    "effect": 34,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 44,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Mining",
+            "conditions": [
+                {
+                    "Id": 9,
+                    "effect": 7,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113880
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 49,
+                    "effect": 38,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113880
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 50,
+                    "effect": 39,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113902
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 56,
+                    "effect": 45,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113880
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 193,
+                    "effect": 71,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 60,
+                    "effect": 47,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113880
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 53,
+                    "effect": 42,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113880
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 252,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113880
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Minions",
+            "conditions": [
+                {
+                    "Id": 260,
+                    "effect": 105,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113904
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 259,
+                    "effect": 113,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 257,
+                    "effect": 103,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 277,
+                    "effect": 114,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113848
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 287,
+                    "effect": 115,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113860
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 258,
+                    "effect": 104,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 278,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 279,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 280,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 282,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 292,
+                    "effect": 105,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113904
+                    },
+                    "useSameDescAsId": 260,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Movement",
+            "conditions": [
+                {
+                    "Id": 4,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113886
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 39,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113906
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 170,
+                    "effect": 64,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 18,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 183,
+                    "effect": 69,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 63,
+                    "effect": 50,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113906
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 98,
+                    "effect": 56,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113862
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 18,
+                    "effect": 18,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 2,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113906
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 302,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113906
+                    },
+                    "useSameDescAsId": 2,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 77,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113906
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": true,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 78,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113906
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 72,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113886
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 35,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113908
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 74,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113886
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 58,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113886
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 179,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113886
+                    },
+                    "useSameDescAsId": 4,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 73,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113886
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 137,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 227,
+                    "effect": 89,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 59,
+                    "effect": 2,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113886
+                    },
+                    "useSameDescAsId": 4,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 61,
+                    "effect": 48,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113910
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 64,
+                    "effect": 48,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113910
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Spawn Object",
+            "conditions": [
+                {
+                    "Id": 31,
+                    "effect": 28,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 202,
+                    "effect": 75,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 197,
+                    "effect": 70,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 203,
+                    "effect": 76,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 177,
+                    "effect": 67,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 204,
+                    "effect": 77,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 175,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Stun and Snare",
+            "conditions": [
+                {
+                    "Id": 26,
+                    "effect": 25,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 102,
+                    "effect": 59,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113896
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 219,
+                    "effect": 83,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113896
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 69,
+                    "effect": 53,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113872
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 27,
+                    "effect": 26,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113912
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 104,
+                    "effect": 58,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113914
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 220,
+                    "effect": 84,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 221,
+                    "effect": 85,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Pet",
+            "conditions": [
+                {
+                    "Id": 228,
+                    "effect": 116,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 10,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 230,
+                    "effect": 117,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 22,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 229,
+                    "effect": 40,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 51,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 231,
+                    "effect": 41,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 52,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 233,
+                    "effect": 10,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 12,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 232,
+                    "effect": 57,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 99,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 234,
+                    "effect": 95,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": true
+                },
+                {
+                    "Id": 235,
+                    "effect": 90,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113916
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 238,
+                    "effect": 93,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": true,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 237,
+                    "effect": 92,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 236,
+                    "effect": 91,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 239,
+                    "effect": 94,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 240,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 241,
+                    "effect": 34,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 297,
+                    "effect": 118,
+                    "isAdditiveWithSelf": true,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Poison",
+            "conditions": [
+                {
+                    "Id": 13,
+                    "effect": 11,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 156,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 14,
+                    "effect": 12,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113918
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 165,
+                    "effect": 30,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 130,
+                    "effect": 61,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Thorns",
+            "conditions": [
+                {
+                    "Id": 21,
+                    "effect": 21,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113920
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 196,
+                    "effect": 74,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Unique",
+            "conditions": [
+                {
+                    "Id": 200,
+                    "effect": 68,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 199,
+                    "effect": 68,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 201,
+                    "effect": 68,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 212,
+                    "effect": 68,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 218,
+                    "effect": 68,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 242,
+                    "effect": 68,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 284,
+                    "effect": 68,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 300,
+                    "effect": 68,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 301,
+                    "effect": 68,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": true,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 6,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "Other",
+            "conditions": [
+                {
+                    "Id": 155,
+                    "effect": 62,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 25,
+                    "effect": 24,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113896
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 108,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113840
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 174,
+                    "effect": 66,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 182,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 205,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 181,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 24,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 210,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 225,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 226,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113922
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 247,
+                    "effect": 99,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": true,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 113870
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 299,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": true,
+                    "icon": {
+                        "instanceID": 113870
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 303,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": true,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "None",
+            "conditions": [
+                {
+                    "Id": 0,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        },
+        {
+            "category": "NEW (move these conditions to their corresponding category)",
+            "conditions": [
+                {
+                    "Id": 295,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                },
+                {
+                    "Id": 296,
+                    "effect": 0,
+                    "isAdditiveWithSelf": false,
+                    "isPermanent": false,
+                    "isNegative": false,
+                    "isInheritedByProjectiles": false,
+                    "icon": {
+                        "instanceID": 0
+                    },
+                    "useSameDescAsId": 0,
+                    "isUnique": false,
+                    "skipShowingSignInfrontOfValue": false,
+                    "showDecimal": false,
+                    "skipShowingStatText": false
+                }
+            ]
+        }
+    ]
+}

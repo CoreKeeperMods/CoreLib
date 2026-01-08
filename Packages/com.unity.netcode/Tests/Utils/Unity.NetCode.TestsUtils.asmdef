@@ -1,0 +1,42 @@
+{
+    "name": "Unity.NetCode.TestsUtils",
+    "rootNamespace": "",
+    "references": [
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Mathematics",
+        "Unity.NetCode",
+        "Unity.NetCode.Editor",
+        "Unity.Entities",
+        "Unity.Entities.Hybrid",
+        "Unity.Transforms",
+        "Unity.Networking.Transport",
+        "Unity.NetCode.Authoring.Hybrid",
+        "Unity.PerformanceTesting",
+        "Unity.Logging",
+        "Unity.Entities.Build",
+        "Unity.Scenes",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS",
+        "DONT_INCLUDE_NETCODE_TESTS_BECAUSE_THEY_BREAK_MULTIPLAYER"
+    ],
+    "versionDefines": [
+      {
+        "name": "com.unity.logging",
+        "expression": "0.0",
+        "define": "USING_UNITY_LOGGING"
+      }
+    ],
+    "noEngineReferences": false
+}

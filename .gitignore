@@ -85,14 +85,7 @@ crashlytics-build.properties
 
 # Custom
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata*
-/[Aa]ssets/Graphics*
-/[Aa]ssets/ModSDK*
-/[Aa]ssets/Plugins*
+/[Aa]ssets/Plugins/CoreKeeper*
 /[Aa]ssets/Prefabs*
-/[Aa]ssets/Unity*
-/[Aa]ssets/Resources*
-/[Pp]ackages*
-/[Pp]rojectSettings*
 /[Aa]ssets/Examples*
-/[Aa]ssets/DefaultVolumeProfile.asset*
-/[Aa]ssets/UniversalRenderPipelineGlobalSettings.asset*
+/[Ii]mported[Gg]ame[Ff]olders*
