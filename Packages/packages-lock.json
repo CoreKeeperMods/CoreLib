@@ -57,6 +57,13 @@
         "com.unity.test-framework.performance": "3.0.3"
       }
     },
+    "com.unity.editorcoroutines": {
+      "version": "1.0.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.entities": {
       "version": "file:com.unity.entities",
       "depth": 0,
