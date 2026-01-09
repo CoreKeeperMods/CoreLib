@@ -79,7 +79,8 @@
         "Unity.Transforms.Hybrid",
         "UnityEditor.UI",
         "UnityEngine.UI",
-        "CoreLib"
+        "CoreLib",
+        "NaughtyAttributes.Core"
     ],
     "includePlatforms": [
         "Editor"
@@ -173,12 +174,13 @@
         "Pug.PP.dll",
         "Pug.UnityExtensions.dll",
         "Pug.UnityExtensions.Editor.dll",
+        "PugSprite.dll",
+        "PugProperties.dll",
         "PugConversion.dll",
         "PugMap.Common.dll",
         "PugMod.Integration.dll",
         "PugMod.Platform.dll",
         "PugMod.SDK.Runtime.dll",
-        "PugProperties.dll",
         "PugProperties.Editor.dll",
         "PugRP.dll",
         "Pugstorm.WorldGen.dll",

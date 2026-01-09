@@ -2,12 +2,12 @@
 using Inventory;
 using PlayerEquipment;
 using PlayerState;
-using PugProperties;
+using Pug.Properties;
 using Unity.Entities;
 using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
-
+/* TODO rework
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.System
 {
@@ -291,4 +291,4 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                    playerState.HasNoneState(PlayerStateEnum.MinecartRiding | PlayerStateEnum.BoatRiding);
         }
     }
-}
+}*/

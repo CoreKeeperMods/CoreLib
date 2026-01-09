@@ -94,8 +94,7 @@ namespace CoreLib.Submodule.Entity.Patch
             var handler = EntityModule.DynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(containedObject.objectData));
             if (handler == null) return;
 
-            bool apply = handler.ApplyColors(containedObject.objectData, __instance.colorReplacementData);
-            if (apply) __instance.SetActiveColorReplacement(1);
+            handler.ApplyColors(containedObject.objectData, __instance);
         }
         
         [HarmonyPatch(typeof(CraftingBuilding), "GetCraftingUISettings"), HarmonyPrefix]
@@ -103,14 +102,28 @@ namespace CoreLib.Submodule.Entity.Patch
         {
             var objectId = __instance.objectData.objectID;
             if(__instance is not ModWorkbenchBuilding modWorkbenchBuilding) return true;
+            
             if (!modWorkbenchBuilding.ModdedEntity.TryGetComponent(out ModRefreshCraftingBuildingTitles refreshCraftingUI)
                 || !refreshCraftingUI.refreshBuildingTitles) return true;
+            
             var window = Manager.ui.GetCraftingCategoryWindowInfo();
             if (window == null) return true;
+            /* TODO rework
             int index = Manager.ui.GetCraftingCategoryWindowInfos().FindIndex(win => win == window) - 1;
-            __result = index == -1 ? new CraftingBuilding.CraftingUISettings(objectId, __instance.craftingUITitle, __instance.craftingUITitleLeftBox,
-                __instance.craftingUITitleRightBox, __instance.craftingUIBackgroundVariation) : __instance.craftingUIOverrideSettings[index];
-            return false;
+
+            if (index != -1)
+                __result = __instance.craftingUIOverrideSettings[index];
+            else
+                __result = new CraftingBuilding.CraftingUISettings(
+                    objectId,
+                    __instance.craftingUITitle,
+                    _instance.craftingUITitleLeftBox,
+                    __instance.craftingUITitleRightBox,
+                    __instance.craftingUIBackgroundVariation
+                );
+            return false;*/
+
+            return true;
         }
 
         /// <summary>

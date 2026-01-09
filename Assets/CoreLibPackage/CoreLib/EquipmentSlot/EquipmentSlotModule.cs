@@ -394,13 +394,14 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// <param name="world">The <see cref="World"/> instance where the equipment update systems will be added and managed.</param>
         private static void CreateEquipmentUpdateSystems(World world)
         {
-            var updateSystem = world.GetOrCreateSystemManaged<ModEquipmentSystem>();
+            //TODO rework
+            /*var updateSystem = world.GetOrCreateSystemManaged<ModEquipmentSystem>();
             var equipmentGroup = world.GetExistingSystemManaged<EquipmentUpdateSystemGroup>();
             equipmentGroup.AddSystemToUpdateList(updateSystem);
             
             var changeSystem = world.GetOrCreateSystemManaged<ModEquipmentChangeSystem>();
             var equipmentBeforeGroup = world.GetExistingSystemManaged<EquipmentBeforeUpdateSystemGroup>();
-            equipmentBeforeGroup.AddSystemToUpdateList(changeSystem);
+            equipmentBeforeGroup.AddSystemToUpdateList(changeSystem);*/
         }
     }
 }

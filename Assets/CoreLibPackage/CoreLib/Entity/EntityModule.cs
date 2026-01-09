@@ -37,18 +37,18 @@ namespace CoreLib.Submodule.Entity
     public class EntityModule : BaseSubmodule
     {
         #region Fields
-        
+
         public new const string Name = "Core Library - Entity";
-        
+
         /// <summary>Module-scoped logger instance for EntityModule.</summary>
         internal new static Logger Log = new(Name);
-        
+
         /// <summary>Convenience accessor for the loaded instance of this module.</summary>
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
 
         /// <summary>Module dependencies required before this module can initialize.</summary>
         internal override Type[] Dependencies => new[] { typeof(LocalizationModule) };
-        
+
         /// <summary>List of prefabs that should be enabled for pooling.</summary>
         internal static List<PoolablePrefabBank.PoolablePrefab> PoolablePrefabs = new();
 
@@ -57,7 +57,7 @@ namespace CoreLib.Submodule.Entity
 
         /// <summary>List of Entity Modification Attributes.</summary>
         private static readonly List<EntityModifyAttribute> EntityModifyAttributes = new();
-        
+
         /// <summary>List of Prefab Modification Attributes.</summary>
         private static readonly List<PrefabModifyAttribute> PrefabModifyAttributes = new();
 
@@ -69,7 +69,7 @@ namespace CoreLib.Submodule.Entity
 
         /// <summary>The root workbench definition loaded by the module.</summary>
         internal static WorkbenchDefinition RootWorkbenchDefinition;
-        
+
         /// <summary>Registered dynamic item handlers for runtime item logic.</summary>
         internal static List<IDynamicItemHandler> DynamicItemHandlers = new();
 
@@ -77,21 +77,21 @@ namespace CoreLib.Submodule.Entity
         internal static bool HasInjected;
 
         #endregion
-        
+
         #region Custom Classes
-        
+
         private class EntityModifyAttribute
         {
             public EntityModificationAttribute EntityAttribute;
             public ModifyAction EntityModifyAction;
         }
-        
+
         private class PrefabModifyAttribute
         {
             public Type PrefabType;
             public Action<MonoBehaviour> PrefabModifyAction;
         }
-        
+
         #endregion
 
         #region Delegates
@@ -109,7 +109,7 @@ namespace CoreLib.Submodule.Entity
         #endregion
 
         #region BaseSubmodule Implementation
-        
+
         /// <summary>
         /// Applies framework-level Harmony patches required for entity behavior,
         /// conversion, memory management, and player handling.
@@ -136,7 +136,7 @@ namespace CoreLib.Submodule.Entity
                     }
                 }
             }
-            
+
             var entityModificationList = API.Reflection.AllTypes()
                 .Where(type => type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
                     .Where(m => m.HasAttribute<EntityModificationAttribute>()).ToList().Count > 0).ToList();
@@ -147,7 +147,7 @@ namespace CoreLib.Submodule.Entity
             var supportsPoolingCoreLib = Mod.Assets.OfType<GameObject>().Where(go => go.TryGetComponent(out SupportsPooling _))
                 .Select(go => go.GetComponent<SupportsPooling>().GetPoolablePrefab()).ToList();
             PoolablePrefabs.AddRange(supportsPoolingCoreLib);
-            
+
             foreach (var mod in DependentMods)
             {
                 var moddedEntityList = mod.Assets.OfType<GameObject>().Where(go => go.TryGetComponent(out SupportsCoreLib _))
@@ -158,11 +158,13 @@ namespace CoreLib.Submodule.Entity
                 PoolablePrefabs.AddRange(supportsPoolingList);
                 var workbenchList = mod.Assets.OfType<WorkbenchDefinition>().ToList();
                 ModWorkbenches.AddRange(workbenchList);
-                Log.LogInfo($"Mod: {mod.Metadata.name} Found: {moddedEntityList.Count} Modded Entities, {supportsPoolingList.Count} Poolable Prefabs, {workbenchList.Count} Workbenches");
+                Log.LogInfo(
+                    $"Mod: {mod.Metadata.name} Found: {moddedEntityList.Count} Modded Entities, {supportsPoolingList.Count} Poolable Prefabs, {workbenchList.Count} Workbenches");
             }
+
             entityModificationList.ForEach(RegisterEntityModifications_Internal);
             prefabModificationList.ForEach(RegisterPrefabModifications_Internal);
-            
+
             API.Authoring.OnObjectTypeAdded += OnObjectTypeAdded;
         }
 
@@ -176,11 +178,11 @@ namespace CoreLib.Submodule.Entity
             InitializeWorkbenchDefinitions();
             InitializeModdedEntities();
         }
-        
+
         #endregion
-        
+
         #region Private Methods
-        
+
         private static void InitializeWorkbenchDefinitions()
         {
             if (ModWorkbenches.Count <= 0) return;
@@ -189,12 +191,12 @@ namespace CoreLib.Submodule.Entity
                 AddWorkbenchDefinition(workbench);
             }
         }
-        
+
         private static void InitializeModdedEntities()
         {
             if (ModdedEntities.Count <= 0) return;
             ModdedEntities = ModdedEntities.OrderBy(obj => obj.ModID).ThenBy(obj => obj.EntityName).ToList();
-            var sortedMods = ModdedEntities.Where(ent =>  ent.bindToRootWorkbench).Select(ent => ent.ModID).Distinct().ToList();
+            var sortedMods = ModdedEntities.Where(ent => ent.bindToRootWorkbench).Select(ent => ent.ModID).Distinct().ToList();
             if (sortedMods.Count <= 0) return;
             AddRootWorkbenches(sortedMods);
             foreach (var entity in ModdedEntities)
@@ -276,66 +278,72 @@ namespace CoreLib.Submodule.Entity
         /// <param name="workbenchDefinition">The definition describing the new workbench.</param>
         private static GameObject AddWorkbenchDefinition(WorkbenchDefinition workbenchDefinition)
         {
-            var newEntity = LoadPrefab(workbenchDefinition.itemID, 
+            var newEntityPrefab = LoadPrefab(workbenchDefinition.itemID,
                 $"Template{(workbenchDefinition.workbenchType == WorkbenchType.Wide ? "Wide" : "")}Workbench");
-            if (newEntity is null) return null;
+            if (newEntityPrefab is null) return null;
+
             var targetAsset = Mod.Assets.OfType<SpriteAssetSkin>()
                 .First(asset => asset.name == $"Root{(workbenchDefinition.workbenchType == WorkbenchType.Wide ? "Wide" : "")}WorkbenchSkin");
-            if (newEntity.TryGetComponent(out TemplateObject templateObject))
+
+            if (newEntityPrefab.TryGetComponent(out TemplateObject templateObject))
             {
                 templateObject.Convert();
                 Object.DestroyImmediate(templateObject);
             }
-            if (newEntity.TryGetComponent(out ObjectAuthoring authoring))
+
+            if (newEntityPrefab.TryGetComponent(out ObjectAuthoring authoring))
                 authoring.objectName = workbenchDefinition.itemID;
-            if (newEntity.TryGetComponent(out InventoryItemAuthoring itemAuthoring))
+
+            if (newEntityPrefab.TryGetComponent(out InventoryItemAuthoring itemAuthoring))
             {
                 itemAuthoring.icon = workbenchDefinition.bigIcon;
                 itemAuthoring.smallIcon = workbenchDefinition.smallIcon;
                 itemAuthoring.requiredObjectsToCraft = workbenchDefinition.recipe;
             }
-            if (newEntity.TryGetComponent(out GhostAuthoringComponent ghost))
+
+            if (newEntityPrefab.TryGetComponent(out GhostAuthoringComponent ghost))
                 ghost.SetValue("prefabId", workbenchDefinition.itemID.GetGuid());
-            
-            var modCraftingAuthoring = newEntity.AddComponent<ModCraftingAuthoring>();
+
+            var modCraftingAuthoring = newEntityPrefab.AddComponent<ModCraftingAuthoring>();
             modCraftingAuthoring.craftingType = CraftingType.Simple;
             modCraftingAuthoring.canCraftObjects.AddRange(workbenchDefinition.canCraft);
             modCraftingAuthoring.includeCraftedObjectsFromBuildings.AddRange(workbenchDefinition.relatedWorkbenches);
 
-            var modRefreshCraftingBuildingTitles = newEntity.AddComponent<ModRefreshCraftingBuildingTitles>();
+            var modRefreshCraftingBuildingTitles = newEntityPrefab.AddComponent<ModRefreshCraftingBuildingTitles>();
             modRefreshCraftingBuildingTitles.refreshBuildingTitles = workbenchDefinition.refreshRelatedWorkbenchTitles;
-            
-            var modCraftingUISetting = newEntity.AddComponent<ModCraftingUISetting>();
+
+            var modCraftingUISetting = newEntityPrefab.AddComponent<ModCraftingUISetting>();
             modCraftingUISetting.craftingUITitle = workbenchDefinition.title;
             modCraftingUISetting.craftingUITitleLeftBox = workbenchDefinition.leftTitle;
             modCraftingUISetting.craftingUITitleRightBox = workbenchDefinition.rightTitle;
             modCraftingUISetting.craftingUIBackgroundVariation = workbenchDefinition.skin;
-            
-            if(targetAsset.name != workbenchDefinition.asset.name)
+
+            var asset = workbenchDefinition.assetRef.Get();
+            if (targetAsset.name != asset.name)
             {
-                workbenchDefinition.asset.SetValue("m_targetAsset", targetAsset.targetAsset);
-                var modReskinCondition = newEntity.AddComponent<ModReskinCondition>();
+                //workbenchDefinition.asset.SetValue("m_targetAsset", targetAsset.targetAsset);
+                var modReskinCondition = newEntityPrefab.AddComponent<ModReskinCondition>();
                 modReskinCondition.season = Season.None;
                 modReskinCondition.reskin = new List<SpriteSkinFromEntityAndSeason.SkinAndGradientMap>
                 {
                     new()
                     {
-                        skin = workbenchDefinition.asset
+                        skinRef = workbenchDefinition.assetRef
                     },
                     new()
                     {
-                        skin = workbenchDefinition.asset
+                        skinRef = workbenchDefinition.assetRef
                     }
                 };
             }
-            
-            var supportsCoreLib = newEntity.AddComponent<SupportsCoreLib>();
+
+            var supportsCoreLib = newEntityPrefab.AddComponent<SupportsCoreLib>();
             supportsCoreLib.bindToRootWorkbench = workbenchDefinition.bindToRootWorkbench;
-            
-            if(!ModdedEntities.Contains(supportsCoreLib))
+
+            if (!ModdedEntities.Contains(supportsCoreLib))
                 ModdedEntities.Add(supportsCoreLib);
             Log.LogInfo($"Created new Workbench: {workbenchDefinition.itemID}");
-            return newEntity;
+            return newEntityPrefab;
         }
 
         /// <summary>
@@ -366,7 +374,7 @@ namespace CoreLib.Submodule.Entity
             var prefab = Mod.Assets.OfType<GameObject>().ToList().Find(x => x.name == prefabName);
             return CopyPrefab(itemId, prefab);
         }
-        
+
         /// <summary>
         /// Clones an existing prefab, configures authoring components, assigns proper names,
         /// initializes ghost components, and returns the resulting <see cref="ObjectAuthoring"/>.
@@ -399,10 +407,10 @@ namespace CoreLib.Submodule.Entity
             var newPrefab = Object.Instantiate(prefab);
             newPrefab.name = prefabName;
             newPrefab.hideFlags = HideFlags.HideAndDontSave;
-            
+
             return newPrefab;
         }
-        
+
         #endregion
 
         #region Modification Methods
@@ -416,13 +424,13 @@ namespace CoreLib.Submodule.Entity
                     Log.LogWarning($"Entity modify method '{action.Method.FullDescription()}' does not have a target set!");
                     return false;
                 }
-                EntityModifyAttributes.Add(new EntityModifyAttribute{ EntityAttribute = attribute, EntityModifyAction = action });
-                return true;
 
+                EntityModifyAttributes.Add(new EntityModifyAttribute { EntityAttribute = attribute, EntityModifyAction = action });
+                return true;
             });
             Log.LogInfo($"Registered {result} entity modifiers in type {type.FullName}!");
         }
-        
+
         private static void RegisterPrefabModifications_Internal(Type type)
         {
             int result = API.Experimental.RegisterAttributeFunction<PrefabModificationAttribute, Action<MonoBehaviour>>(type, (action, attribute) =>
@@ -432,10 +440,11 @@ namespace CoreLib.Submodule.Entity
                     Log.LogWarning($"Attribute on method '{action.Method.FullDescription()}' has no type info!");
                     return false;
                 }
-                PrefabModifyAttributes.Add(new PrefabModifyAttribute {PrefabType = attribute.TargetType, PrefabModifyAction = action});
+
+                PrefabModifyAttributes.Add(new PrefabModifyAttribute { PrefabType = attribute.TargetType, PrefabModifyAction = action });
                 return true;
             });
-            
+
             Log.LogInfo($"Registered {result} prefab modifiers in type {type.FullName}!");
         }
 
@@ -477,7 +486,7 @@ namespace CoreLib.Submodule.Entity
                 Log.LogError($"Exception while executing mod modify function for {id}:\n{e}");
             }
         }
-        
+
         /// <summary>
         /// Applies modifications to the player’s entity when a workbench-related modification
         /// is triggered. Ensures that the last root workbench becomes craftable.
@@ -491,7 +500,7 @@ namespace CoreLib.Submodule.Entity
             if (RootWorkbenchesChain.Count <= 0) return;
             var rootWorkbenchID = RootWorkbenchesChain.First().GetEntityObjectID();
             var crafting = authoring.GetComponent<CraftingAuthoring>().canCraftObjects;
-            if (crafting.FindIndex(x => x.objectID == rootWorkbenchID) == -1) 
+            if (crafting.FindIndex(x => x.objectID == rootWorkbenchID) == -1)
                 crafting.Add(new CraftingAuthoring.CraftableObject { objectID = rootWorkbenchID, amount = 1 });
         }
 
@@ -503,7 +512,7 @@ namespace CoreLib.Submodule.Entity
         internal static void ApplyPrefabModifications(PooledGraphicalObjectBank prefabBank)
         {
             if (PrefabModifyAttributes.Count <= 0) return;
-            
+
             foreach (var prefab in prefabBank)
             {
                 if (!prefab.prefab.TryGetComponent(out EntityMonoBehaviourData mono)) continue;
@@ -519,14 +528,14 @@ namespace CoreLib.Submodule.Entity
                     Log.LogError($"Error while executing prefab modification for type {type.FullName}!\n{e}");
                 }
             }
-            
+
             Log.LogInfo("Finished Modifying Prefabs!");
         }
-        
+
         #endregion
-        
+
         #region Public Methods
-        
+
         /// <summary>
         /// Registers a new dynamic item handler of the specified type if it is not yet registered.
         /// </summary>
@@ -539,8 +548,7 @@ namespace CoreLib.Submodule.Entity
             else
                 DynamicItemHandlers.Add(handler);
         }
-        
+
         #endregion
-        
     }
 }

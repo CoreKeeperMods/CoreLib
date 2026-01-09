@@ -4,12 +4,12 @@ using CoreLib.Submodule.ControlMapping;
 using CoreLib.Submodule.Entity;
 using CoreLib.Submodule.EquipmentSlot;
 using CoreLib.Submodule.LootDrop;
-using CoreLib.Submodule.Skin;
+//using CoreLib.Submodule.Skin;
 using CoreLib.Submodule.TileSet;
 using PugMod;
 using Rewired;
 using UnityEngine;
-
+/* TODO disabled
 namespace PlayerSkinTest
 {
     public class PlayerSkinTest : IMod
@@ -34,3 +34,4 @@ namespace PlayerSkinTest
     
     
 }
+*/

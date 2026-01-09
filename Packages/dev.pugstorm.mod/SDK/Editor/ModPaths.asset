@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103cec58589bd164cace4f80bcb67dcf, type: 3}
   m_Name: ModPaths
   m_EditorClassIdentifier: 
-  latestBuildOrInstallPaths: []
+  latestBuildOrInstallPaths:
+  - C:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\CoreLib

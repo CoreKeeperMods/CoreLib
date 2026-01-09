@@ -22,7 +22,7 @@ namespace CoreLib.Submodule.Entity
         public Sprite smallIcon;
 
         [Tooltip("Sprite Asset Skin: Target Asset should be Workbench.asset in CoreLib")]
-        public SpriteAssetSkin asset;
+        public DataBlockRef<SpriteAssetSkin> assetRef;
 
         [Tooltip("Bind this Workbench to the Root Workbench in CoreLib")]
         public bool bindToRootWorkbench;

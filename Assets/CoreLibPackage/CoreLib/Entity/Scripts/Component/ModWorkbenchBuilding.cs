@@ -40,7 +40,7 @@ namespace CoreLib.Submodule.Entity.Component
                         skin.UpdateGraphicsFromObjectInfo(objectInfo);
                     }
                 }
-                
+                /* TODO rework
                 if (ModdedEntity.TryGetComponent(out ModCraftingUISetting modCraftingUISetting))
                 {
                     craftingUITitle = modCraftingUISetting.craftingUITitle;
@@ -71,7 +71,7 @@ namespace CoreLib.Submodule.Entity.Component
                                 craftingUIOverrideSettings.Add(craftingSetting);
                         }
                     }
-                }
+                }*/
                 
             }
             

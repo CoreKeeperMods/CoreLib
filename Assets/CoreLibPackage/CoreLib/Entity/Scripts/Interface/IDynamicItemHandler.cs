@@ -20,8 +20,7 @@ namespace CoreLib.Submodule.Entity.Interface
         /// Applies dynamic recoloring to the item based on the provided object data and color replacement data.
         /// </summary>
         /// <param name="objectData">The object data used to determine applicable colors.</param>
-        /// <param name="colorData">The color replacement data to apply to the item.</param>
-        /// <returns>True if the recoloring is applied; otherwise, false.</returns>
-        bool ApplyColors(ObjectDataCD objectData, ColorReplacementData colorData);
+        /// <param name="replacer">ColorReplacer instance</param>
+        void ApplyColors(ObjectDataCD objectData, ColorReplacer replacer);
     }
 }

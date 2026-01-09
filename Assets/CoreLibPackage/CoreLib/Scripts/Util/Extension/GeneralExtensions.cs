@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using Pug.UnityExtensions;
 using PugMod;
 using Unity.Mathematics;
 using UnityEngine;

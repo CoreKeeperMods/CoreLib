@@ -43,7 +43,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1005258581253549}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1216031652, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: -1216031652, guid: 548e3dd2d27c1e2d0bdf82f0889cb8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weightMultiplier: 1
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1284432609753473}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -122692614, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: -122692614, guid: 548e3dd2d27c1e2d0bdf82f0889cb8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spritesToRotate:
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1284432609753473}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1232698746, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: 1232698746, guid: 548e3dd2d27c1e2d0bdf82f0889cb8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spritesToReskin:
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 177096252312240637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1908045241, guid: 8755fc0f8990e9f418149df4a482da57, type: 3}
+  m_Script: {fileID: 1908045241, guid: 292700ef68995bdb2163e35989fc7eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_asset: {fileID: 11400000, guid: 280b7fba90d2ee54a8b9c7fb0eb4c5f4, type: 2}
@@ -482,7 +482,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8289332207088880398}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1908045241, guid: 8755fc0f8990e9f418149df4a482da57, type: 3}
+  m_Script: {fileID: 1908045241, guid: 292700ef68995bdb2163e35989fc7eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_asset: {fileID: 11400000, guid: 280b7fba90d2ee54a8b9c7fb0eb4c5f4, type: 2}

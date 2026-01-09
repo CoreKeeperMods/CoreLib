@@ -180,7 +180,7 @@ namespace CoreLib.Submodule.Command.Util
         public static string GetPlayerName(this Unity.Entities.Entity playerEntity)
         {
             var entityManager = API.Server.World.EntityManager;
-            PlayerCustomization customization = entityManager.GetComponentData<PlayerCustomizationCD>(playerEntity).customization;
+            var customization = entityManager.GetComponentData<PlayerCustomizationCD>(playerEntity).customization;
             return customization.name.Value;
         }
 

@@ -9,13 +9,13 @@
 /* Edited from Moorowl's Paintable Double Chest https://mod.io/g/corekeeper/m/doublechest#description */
 using CoreLib.Submodule.Entity.Component;
 using Pug.ECS.Hybrid;
-using PugConversion;
+using Pug.Conversion;
 using Unity.Mathematics;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Entity.Converter {
-	public class PooledGraphicalObjectConverter : PugConverter {
+	public class PooledGraphicalObjectConverter : Pug.Conversion.Converter {
 		
 		public override void Convert(GameObject authoring) {
 			if (IsServer || !authoring.TryGetComponent(out ObjectAuthoring objectAuthoring)) return;

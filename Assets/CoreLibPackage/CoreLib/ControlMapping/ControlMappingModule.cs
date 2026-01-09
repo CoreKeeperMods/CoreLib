@@ -91,8 +91,9 @@ namespace CoreLib.Submodule.ControlMapping
             var keyboardMap = UserData.GetKeyboardMap(mapCategory.id, 0);
             keyboardMap.AddActionElementMap();
             var mapElement = keyboardMap.actionElementMaps.Last();
-            mapElement.SetValue("_actionCategoryId", action.categoryId);
-            mapElement.SetValue("_actionId", action.id);
+            //TODO rework
+            //mapElement.SetValue("_actionCategoryId", action.categoryId);
+            //mapElement.SetValue("_actionId", action.id);
             mapElement.SetValue("_elementType", ControllerElementType.Button);
             mapElement.SetValue("_keyboardKeyCode", defaultKeyCode);
             mapElement.SetValue("_modifierKey1", modifier);

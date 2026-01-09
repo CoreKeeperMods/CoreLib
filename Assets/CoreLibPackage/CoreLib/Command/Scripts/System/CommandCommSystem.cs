@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using CoreLib.Submodule.Command.Data;
+using Pug.UnityExtensions;
 using Unity.Collections;
 using Unity.NetCode;
 using Unity.Entities;
