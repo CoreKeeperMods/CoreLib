@@ -22,14 +22,6 @@ namespace CoreLib
     /// Provides a standardized structure for lifecycle management,
     /// dependency handling, and loading checks across all CoreLib components.
     /// </summary>
-    /// <remarks>
-    /// Each submodule should inherit from <see cref="BaseSubmodule"/> and override
-    /// its virtual methods (<see cref="SetHooks"/>, <see cref="Load"/>, <see cref="PostLoad"/>, etc.)
-    /// to implement specific functionality. The CoreLib mod loader initializes and manages
-    /// all subclasses automatically.
-    /// </remarks>
-    /// <seealso cref="CoreLibMod"/>
-    /// <seealso cref="Logger"/>
     public abstract class BaseSubmodule
     {
         #region Constants
@@ -62,19 +54,16 @@ namespace CoreLib
         /// <summary>
         /// Gets the unique string identifier for this module.
         /// </summary>
-        /// <seealso cref="DefaultID"/>
         public virtual string ID => DefaultID;
 
         /// <summary>
         /// Gets the human-readable name of this module.
         /// </summary>
-        /// <seealso cref="DefaultName"/>
         public virtual string Name => DefaultName;
 
         /// <summary>
         /// Gets the module version string.
         /// </summary>
-        /// <seealso cref="DefaultVersion"/>
         public virtual string Version => DefaultVersion;
 
         /// <summary>
@@ -85,7 +74,6 @@ namespace CoreLib
         /// <summary>
         /// Provides access to a logger instance for recording module activity.
         /// </summary>
-        /// <seealso cref="Logger"/>
         internal static Logger Log { get; } = new(DefaultName);
 
         /// <summary>
@@ -107,13 +95,6 @@ namespace CoreLib
         /// Ensures that the module is in a loaded state.
         /// Throws an <see cref="InvalidOperationException"/> if the module has not yet been initialized.
         /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown when <see cref="Loaded"/> is <c>false</c>.
-        /// </exception>
-        /// <remarks>
-        /// This method is used internally to prevent access to module functionality
-        /// before it has been registered and initialized by the CoreLib mod loader.
-        /// </remarks>
         internal void ThrowIfNotLoaded()
         {
             if (!Loaded) throw new InvalidOperationException(string.Format(NotLoadedMessageFormat, Name));
