@@ -10,13 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1297384836, guid: 292700ef68995bdb2163e35989fc7eb0, type: 3}
-  m_Name: RootWideWorkbenchSkin
+  m_Name: WideWorkbenchRootSkin
   m_EditorClassIdentifier: 
+  m_overload:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_address:
+    m_low: -6528962084392294531
+    m_high: -1560066484335188949
+  m_dynamicCollections:
+    m_list: []
   m_defaultPrimaryGradientMap: {fileID: 0}
   m_defaultSecondaryGradientMap: {fileID: 0}
   m_defaultTertiaryGradientMap: {fileID: 0}
+  m_defaultPrimaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_defaultSecondaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_defaultTertiaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   m_editorHideEmissive: 0
-  m_targetAsset: {fileID: 11400000, guid: 280b7fba90d2ee54a8b9c7fb0eb4c5f4, type: 2}
+  m_targetAsset: {fileID: 0}
+  m_targetAssetRef:
+    m_address:
+      m_low: -1273233562349633606
+      m_high: -809042581596423768
   m_staticReplacementData:
     m_guid: 
     m_spriteData:
@@ -46,3 +71,6 @@ MonoBehaviour:
       positionalData: []
       inheritPivot: 1
   m_replacementData: []
+  references:
+    version: 2
+    RefIds: []

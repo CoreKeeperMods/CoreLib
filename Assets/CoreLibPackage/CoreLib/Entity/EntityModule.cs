@@ -278,12 +278,12 @@ namespace CoreLib.Submodule.Entity
         /// <param name="workbenchDefinition">The definition describing the new workbench.</param>
         private static GameObject AddWorkbenchDefinition(WorkbenchDefinition workbenchDefinition)
         {
-            var newEntityPrefab = LoadPrefab(workbenchDefinition.itemID,
-                $"Template{(workbenchDefinition.workbenchType == WorkbenchType.Wide ? "Wide" : "")}Workbench");
+            var typeName = workbenchDefinition.workbenchType == WorkbenchType.Wide ? "WideWorkbench" : "Workbench";
+            
+            var newEntityPrefab = LoadPrefab(workbenchDefinition.itemID, $"Template{typeName}Entity");
             if (newEntityPrefab is null) return null;
 
-            var targetAsset = Mod.Assets.OfType<SpriteAssetSkin>()
-                .First(asset => asset.name == $"Root{(workbenchDefinition.workbenchType == WorkbenchType.Wide ? "Wide" : "")}WorkbenchSkin");
+            var targetAsset = Mod.Assets.OfType<SpriteAssetSkin>().First(asset => asset.name == $"{typeName}RootSkin");
 
             if (newEntityPrefab.TryGetComponent(out TemplateObject templateObject))
             {
@@ -318,22 +318,16 @@ namespace CoreLib.Submodule.Entity
             modCraftingUISetting.craftingUITitleRightBox = workbenchDefinition.rightTitle;
             modCraftingUISetting.craftingUIBackgroundVariation = workbenchDefinition.skin;
 
-            var asset = workbenchDefinition.assetRef.Get();
-            if (targetAsset.name != asset.name)
+            var assetRef = workbenchDefinition.assetRef;
+            if (targetAsset.name != assetRef.Get().name)
             {
                 //workbenchDefinition.asset.SetValue("m_targetAsset", targetAsset.targetAsset);
                 var modReskinCondition = newEntityPrefab.AddComponent<ModReskinCondition>();
                 modReskinCondition.season = Season.None;
                 modReskinCondition.reskin = new List<SpriteSkinFromEntityAndSeason.SkinAndGradientMap>
                 {
-                    new()
-                    {
-                        skinRef = workbenchDefinition.assetRef
-                    },
-                    new()
-                    {
-                        skinRef = workbenchDefinition.assetRef
-                    }
+                    new() { skinRef = assetRef },
+                    new() { skinRef = assetRef }
                 };
             }
 

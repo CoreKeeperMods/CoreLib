@@ -12,9 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: -217761678, guid: 292700ef68995bdb2163e35989fc7eb0, type: 3}
   m_Name: WideWorkbench
   m_EditorClassIdentifier: 
+  m_overload:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_address:
+    m_low: -1273233562349633606
+    m_high: -809042581596423768
+  m_dynamicCollections:
+    m_list: []
   m_defaultPrimaryGradientMap: {fileID: 0}
   m_defaultSecondaryGradientMap: {fileID: 0}
   m_defaultTertiaryGradientMap: {fileID: 0}
+  m_defaultPrimaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_defaultSecondaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_defaultTertiaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   m_editorHideEmissive: 0
   m_staticSpriteData:
     texture: {fileID: 2800000, guid: 0d654c160019ce641b3356abc6d60fb8, type: 3}
@@ -47,3 +68,6 @@ MonoBehaviour:
   m_animations: []
   m_events: []
   m_positionalData: []
+  references:
+    version: 2
+    RefIds: []

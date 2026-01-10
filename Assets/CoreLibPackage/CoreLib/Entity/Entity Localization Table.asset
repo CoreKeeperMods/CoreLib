@@ -30,7 +30,7 @@ MonoBehaviour:
     - localizationCodeDropdown: 'Korean [ko]'
       translation: "\uC791\uC5C5\uB300"
     - localizationCodeDropdown: 'Russian/Russian [ru]'
-      translation: "\u0432\u0435\u0440\u0441\u0442\u0430\u043A"
+      translation: "\u0412\u0435\u0440\u0441\u0442\u0430\u043A"
     - localizationCodeDropdown: 'Spanish/Spanish [es]'
       translation: Mesas de Trabajo
     - localizationCodeDropdown: 'Ukrainian [uk]'
@@ -56,7 +56,7 @@ MonoBehaviour:
       - Bancos da lavoro
       - "\u4F5C\u696D\u53F0"
       - "\uC791\uC5C5\uB300"
-      - "\u0432\u0435\u0440\u0441\u0442\u0430\u043A"
+      - "\u0412\u0435\u0440\u0441\u0442\u0430\u043A"
       - Mesas de Trabajo
       - "\u0412\u0435\u0440\u0441\u0442\u0430\u043A\u043E\u043C"
       - "\u5DE5\u4F5C\u53F0"

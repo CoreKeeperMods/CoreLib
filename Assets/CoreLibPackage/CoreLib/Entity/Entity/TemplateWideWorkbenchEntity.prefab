@@ -26,9 +26,9 @@ GameObject:
   - component: {fileID: 6474434745783719307}
   - component: {fileID: 4711301488112690401}
   - component: {fileID: 6092666976630209305}
-  - component: {fileID: -6838132216283597084}
+  - component: {fileID: -4296034736354099032}
   m_Layer: 0
-  m_Name: TemplateWorkbench
+  m_Name: TemplateWideWorkbenchEntity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   objectType: 800
   tags: 19000000
   rarity: 0
-  graphicalPrefab: {fileID: 1284432609753473, guid: 7059afc0a5e479942a146cd8160f4df8,
+  graphicalPrefab: {fileID: 1284432609753473, guid: 7701558ec283e7444aba533e0d3a6c1d,
     type: 3}
   additionalSprites: []
 --- !u!114 &8965365665492073857
@@ -90,9 +90,7 @@ MonoBehaviour:
   smallIcon: {fileID: 4889364612262949874, guid: 75c9105165a4c884ab9cd8a222202c1d,
     type: 3}
   isStackable: 1
-  requiredObjectsToCraft:
-  - objectName: None
-    amount: 0
+  requiredObjectsToCraft: []
   craftingTime: 1
 --- !u!114 &114396391988895895
 MonoBehaviour:
@@ -108,11 +106,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ShapeType: 0
   m_PrimitiveCenter:
-    x: 0
+    x: 0.5
     y: 0.5
     z: 0
   m_PrimitiveSize:
-    x: 1
+    x: 2
     y: 1
     z: 1
   m_PrimitiveOrientation:
@@ -122,15 +120,15 @@ MonoBehaviour:
       z: 0
     RotationOrder: 4
   m_Capsule:
-    Height: 1
+    Height: 2
     Radius: 0.5
-    Axis: 2
+    Axis: 0
   m_Cylinder:
-    Height: 1
+    Height: 2
     Radius: 0.5
-    Axis: 2
+    Axis: 0
   m_CylinderSideCount: 20
-  m_SphereRadius: 0.5
+  m_SphereRadius: 1
   m_MinimumSkinnedVertexWeight: 0.1
   m_ConvexHullGenerationParameters:
     m_SimplificationTolerance: 0.015
@@ -285,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 1739311503, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabTileSize: {x: 1, y: 1}
+  prefabTileSize: {x: 2, y: 1}
   prefabCornerOffset: {x: 0, y: 0}
   centerIsAtEntityPosition: 0
   objectCanBeToggledToNewNonRotationOption: 0
@@ -341,7 +339,7 @@ MonoBehaviour:
   SupportedGhostModes: 3
   OptimizationMode: 1
   Importance: 1
-  prefabId: d38d7dedf78c37a438a2095d5f1d3975
+  prefabId: f9efd9a2a8659654d94c1549925553fa
   HasOwner: 0
   SupportAutoCommandTarget: 0
   TrackInterpolationDelay: 0
@@ -449,7 +447,7 @@ MonoBehaviour:
     x: 0
     y: 0
     z: -1
-  rotatePhysics: 0
+  rotatePhysics: 1
   rotationIconOffset: 0
 --- !u!114 &4711301488112690401
 MonoBehaviour:
@@ -475,7 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: -2043779946, guid: a25fd8c6d4fbb824e9d4fe4466f12a15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-6838132216283597084
+--- !u!114 &-4296034736354099032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
