@@ -13,10 +13,8 @@ using Unity.Entities;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Audio.Patch
 {
-    /// <summary>
     /// Provides a Harmony patch for <see cref="EffectEventExtensions"/>, allowing custom CoreLib effects
     /// to execute after the default <see cref="EffectEventExtensions.PlayEffect"/> method.
-    /// </summary>
     /// <remarks>
     /// This patch intercepts effect event playback and enables CoreLib-managed custom effects
     /// (registered within <see cref="AudioModule.CustomEffects"/>) to be played automatically
@@ -29,10 +27,8 @@ namespace CoreLib.Submodule.Audio.Patch
     {
         #region Harmony Patch: PlayEffect
 
-        /// <summary>
         /// Executes CoreLib’s custom effect logic if the provided <see cref="EffectEventCD"/> references
         /// a registered custom effect within <see cref="AudioModule.CustomEffects"/>.
-        /// </summary>
         /// <param name="effectEvent">The event data describing the effect to play.</param>
         /// <param name="callerEntity">The entity responsible for triggering the effect.</param>
         /// <param name="world">The ECS <see cref="World"/> context in which the effect is being executed.</param>

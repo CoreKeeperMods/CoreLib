@@ -11,16 +11,12 @@ using Unity.Entities;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Command.System
 {
-    /// <summary>
     /// Represents a communication system designed for managing command messaging in both server and client simulations.
     /// This system handles the transmission, reception, and processing of command-related messages, including chat and relay commands.
-    /// </summary>
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation | WorldSystemFilterFlags.ClientSimulation)]
     public partial class CommandCommSystem : PugSimulationSystemBase
     {
-        /// <summary>
         /// The maximum number of messages that can be stored in the received message queue at a given time.
-        /// </summary>
         /// <remarks>
         /// Once the number of messages in the queue exceeds this value, the oldest messages will be discarded
         /// to maintain the limit. Used to prevent the queue from growing indefinitely, ensuring efficient system
@@ -28,16 +24,12 @@ namespace CoreLib.Submodule.Command.System
         /// </remarks>
         private const int MaxReceivedMessages = 10;
 
-        /// <summary>
         /// A private variable used to keep track of the total number of messages handled by the system.
         /// This counter is incremented each time a new message is sent using the <c>SendMessage</c> method.
-        /// </summary>
         private int _messageCount;
 
-        /// <summary>
         /// Represents the entity archetype used for creating and managing message RPC entities
         /// within the command communication system.
-        /// </summary>
         /// <remarks>
         /// This archetype is utilized internally in the system for sending messages with
         /// specific metadata such as the message type, status, size, and flags. It is
@@ -45,9 +37,7 @@ namespace CoreLib.Submodule.Command.System
         /// </remarks>
         private EntityArchetype _messageRpcArchetype;
 
-        /// <summary>
         /// Represents the entity archetype used for creating message data entities in the RPC communication system.
-        /// </summary>
         /// <remarks>
         /// This archetype defines the structural layout for entities that store segments of command messages to be sent via RPC.
         /// Each entity created using this archetype contains the necessary components for representing a chunk of message data.
@@ -55,15 +45,11 @@ namespace CoreLib.Submodule.Command.System
         /// </remarks>
         private EntityArchetype _messageDataRpcArchetype;
 
-        /// <summary>
         /// A dictionary that stores partially received command messages, keyed by their unique message number.
         /// It is used to aggregate fragmented message data for reassembly and processing in the command communication system.
-        /// </summary>
         private readonly Dictionary<int, CommandMessage> _partialMessages = new Dictionary<int, CommandMessage>();
 
-        /// <summary>
         /// A dictionary that temporarily stores partial message data during a multipart message transfer operation.
-        /// </summary>
         /// <remarks>
         /// The keys represent unique identifiers for messages (e.g., message numbers),
         /// and the values contain byte arrays that hold the partial data of the corresponding messages.
@@ -72,17 +58,13 @@ namespace CoreLib.Submodule.Command.System
         /// </remarks>
         private readonly Dictionary<int, byte[]> _partialMessagesData = new Dictionary<int, byte[]>();
 
-        /// <summary>
         /// A queue used to store received command messages within the communication system.
         /// This queue serves as a temporary holding system for incoming messages that need to be
         /// processed by the <c>CommandCommSystem</c>. Each message represents a command or communication between
         /// connected entities in the simulation environment.
-        /// </summary>
         private readonly Queue<CommandMessage> _receivedMessageQueue = new Queue<CommandMessage>();
 
-        /// <summary>
         /// Attempts to retrieve the next command message from the internal message queue.
-        /// </summary>
         /// <param name="message">When this method returns, contains the next <see cref="CommandMessage"/> if one is available; otherwise, the default value of <see cref="CommandMessage"/>.</param>
         /// <returns>
         /// <c>true</c> if a message was successfully retrieved from the queue; otherwise, <c>false</c> if the queue is empty.
@@ -96,10 +78,8 @@ namespace CoreLib.Submodule.Command.System
             return _receivedMessageQueue.TryDequeue(out message);
         }
 
-        /// <summary>
         /// Appends a received command message to the internal message queue for processing.
         /// If the queue exceeds the maximum allowed received messages, the oldest message is removed.
-        /// </summary>
         /// <param name="message">The command message to be appended to the queue for further processing.</param>
         /// <remarks>
         /// This method helps maintain a manageable message queue by ensuring the number of stored messages does not exceed
@@ -115,9 +95,7 @@ namespace CoreLib.Submodule.Command.System
             }
         }
 
-        /// <summary>
         /// Sends a general command for processing within the system. This is typically invoked on the client to issue commands.
-        /// </summary>
         /// <param name="message">The command message to be sent and processed by the system.</param>
         /// <param name="commandFlags">Flags providing additional context or options for processing the command.</param>
         /// <remarks>
@@ -134,9 +112,7 @@ namespace CoreLib.Submodule.Command.System
             SendMessage(message, CommandMessageType.Command, CommandStatus.None, commandFlags);
         }
 
-        /// <summary>
         /// Sends a relay command to other systems, typically for relaying or forwarding a command in a server-only context.
-        /// </summary>
         /// <param name="message">The command message to be relayed to other systems or processes.</param>
         /// <remarks>
         /// This method is designed to only be invoked on the server. Using it on a client will result in a warning, and the relay command will not be executed.
@@ -152,9 +128,7 @@ namespace CoreLib.Submodule.Command.System
             SendMessage(message, CommandMessageType.RelayCommand, CommandStatus.None);
         }
 
-        /// <summary>
         /// Sends a chat message to a specified target connection or broadcasts it depending on the context of the server.
-        /// </summary>
         /// <param name="message">The content of the chat message to be sent.</param>
         /// <param name="targetConnection">The target entity to which the chat message will be sent. If left as default, the message might be broadcasted based on server behavior.</param>
         /// <remarks>
@@ -171,9 +145,7 @@ namespace CoreLib.Submodule.Command.System
             SendMessage(message, CommandMessageType.ChatMessage, CommandStatus.None, CommandFlags.None, targetConnection);
         }
 
-        /// <summary>
         /// Sends a response message back to the specified target entity with details on the message content, its status, and optional flags.
-        /// </summary>
         /// <param name="message">The content of the response message to be sent.</param>
         /// <param name="status">Specifies the status of the response, such as informational, warning, or error.</param>
         /// <param name="commandFlags">Optional command flags that determine additional context or behavior for the response message, such as request for hints or originating from a specific console.</param>
@@ -193,9 +165,7 @@ namespace CoreLib.Submodule.Command.System
             SendMessage(message, CommandMessageType.Response, status, commandFlags, targetConnection);
         }
 
-        /// <summary>
         /// Sends a command message to specified targets using RPC, with detailed configuration of the message type, status, and optional flags.
-        /// </summary>
         /// <param name="message">The textual message content to be sent through the command system.</param>
         /// <param name="messageType">Specifies the type of message being sent, such as command, relay, response, or chat.</param>
         /// <param name="status">Indicates the status of the message, such as informational, warning, or error.</param>
@@ -255,9 +225,7 @@ namespace CoreLib.Submodule.Command.System
             }
         }
 
-        /// <summary>
         /// Initializes the system during its creation by configuring message archetypes and enabling pre-initialization execution.
-        /// </summary>
         /// <remarks>
         /// This method sets up the required <see cref="EntityArchetype"/> instances for handling RPC communication. Specifically:
         /// - <see cref="_messageRpcArchetype"/> is created to facilitate command message RPC processing, incorporating components such as <see cref="CommandMessageRPC"/> and <see cref="SendRpcCommandRequest"/>.
@@ -273,10 +241,8 @@ namespace CoreLib.Submodule.Command.System
             base.OnCreate();
         }
 
-        /// <summary>
         /// Executes the system's core update logic by processing message entities, handling partial message assembly,
         /// and delegating message handling to the server or client based on the current simulation mode.
-        /// </summary>
         /// <remarks>
         /// This method processes entities representing RPC messages received during a network simulation cycle. For each message:
         /// - Partial messages are tracked, assembled, and stored using dictionaries.
@@ -359,9 +325,7 @@ namespace CoreLib.Submodule.Command.System
             base.OnUpdate();
         }
 
-        /// <summary>
         /// Processes incoming command messages from the server's message queue and delegates their handling to the server-side command logic.
-        /// </summary>
         /// <remarks>
         /// This method continues to dequeue command messages from the server's internal message queue by repeatedly invoking <see cref="TryGetNextMessage(out CommandMessage)"/>.
         /// Each retrieved message is then passed to the server command handling module to execute the appropriate server-side logic.
@@ -375,9 +339,7 @@ namespace CoreLib.Submodule.Command.System
             }
         }
 
-        /// <summary>
         /// Processes relay command messages from the received message queue and invokes appropriate client command handling logic.
-        /// </summary>
         /// <remarks>
         /// This method filters messages of type <see cref="CommandMessageType.RelayCommand"/> from the internal queue of received messages
         /// and iterates through them, executing their respective client-side command handlers.

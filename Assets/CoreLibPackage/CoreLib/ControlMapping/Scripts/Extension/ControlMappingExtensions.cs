@@ -6,9 +6,7 @@ using Rewired.Data;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.ControlMapping.Extension
 {
-    /// <summary>
     /// Provides extension methods for working with the Rewired library.
-    /// </summary>
     public static class ControlMappingExtensions
     {
         internal static int[] AddNewCategory(this UserData userData, string categoryName, bool userAssignable = true)

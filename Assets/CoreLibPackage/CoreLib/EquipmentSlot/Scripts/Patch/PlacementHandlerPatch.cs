@@ -7,14 +7,10 @@ using Unity.Mathematics;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.Patch
 {
-    /// <summary>
     /// Patch class for modifying and extending the functionality of the PlacementHandler class.
-    /// </summary>
     public static class PlacementHandlerPatch
     {
-        /// <summary>
         /// Determines if an object can be placed at the specified position for a given equipment slot type.
-        /// </summary>
         /// <param name="placementPrefab">The entity prefab to be placed.</param>
         /// <param name="posToPlaceAt">The position where the object is intended to be placed.</param>
         /// <param name="width">The width of the object being placed.</param>

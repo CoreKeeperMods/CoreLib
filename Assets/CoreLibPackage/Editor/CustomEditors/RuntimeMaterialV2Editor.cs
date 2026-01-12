@@ -24,12 +24,10 @@ namespace CoreLib.Editor
         }
         
         
-        /// <summary>
         /// Reassigns the material of the component's sprite renderer or particle system renderer to match
         /// the specified material name. Searches the project's assets for a material with the given name
         /// and assigns it if found. Marks the object as dirty in the editor to ensure the change is saved.
         /// Logs a message if no matching material is found.
-        /// </summary>
         public void ReassignMaterial()
         {
             string[] results = AssetDatabase.FindAssets($"t:material {TargetObject.materialName}");
@@ -48,12 +46,10 @@ namespace CoreLib.Editor
         }
 
 
-        /// <summary>
         /// Updates the material name field of the component by retrieving the name of the currently assigned
         /// material from either a SpriteRenderer or ParticleSystemRenderer component attached to the GameObject.
         /// If no applicable renderer component is present or a material is not assigned, the materialName field
         /// remains unchanged. Marks the object as dirty in the editor to ensure the change is saved.
-        /// </summary>
         /// <param name="o"></param>
         public void UseMaterialName()
         {

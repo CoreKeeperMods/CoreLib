@@ -4,20 +4,16 @@ using HarmonyLib;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.LootDrop.Patch
 {
-    /// <summary>
     /// The LootTableBank_Patch class serves as a static patching utility within the loot table system of the CoreLib module.
     /// This class is intended to provide runtime modifications or extensions to the behavior of loot table logic.
     /// It is utilized within the DropTablesModule to apply Harmony patches to specific components related to loot management,
     /// enabling custom behaviors or augmentations.
-    /// </summary>
     public static class LootTableBankPatch
     {
-        /// <summary>
         /// A boolean flag determining if loot tables need to be edited or modified.
         /// When set to <c>true</c>, custom loot tables will be added and modifications
         /// to existing loot tables will be applied. After these operations are performed,
         /// this variable is set to <c>false</c> to prevent redundant re-editing.
-        /// </summary>
         private static bool needsToEditLoot = true;
 
         /// Adds custom loot tables to the game's existing loot system and applies modifications as needed.

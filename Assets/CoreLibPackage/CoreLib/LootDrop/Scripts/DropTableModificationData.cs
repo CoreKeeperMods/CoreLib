@@ -5,9 +5,7 @@ using PugMod;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.LootDrop
 {
-    /// <summary>
     /// Represents detailed information about an item's drop configuration from a drop table.
-    /// </summary>
     /// <remarks>
     /// This class encapsulates the properties and methods necessary for defining and managing
     /// an item's drop characteristics within a drop table, including its name, drop chances,
@@ -15,18 +13,14 @@ namespace CoreLib.Submodule.LootDrop
     /// </remarks>
     public class DropTableInfo
     {
-        /// <summary>
         /// Represents the name of the item associated with the drop table entry.
-        /// </summary>
         /// <remarks>
         /// The <c>itemName</c> field specifies the identifier or name used to reference the item in the drop table.
         /// It may interact with other systems to retrieve the corresponding object or metadata.
         /// </remarks>
         public string itemName;
 
-        /// <summary>
         /// Indicates whether the item is guaranteed to drop from the drop table.
-        /// </summary>
         /// <remarks>
         /// The <c>isGuaranteed</c> field determines if the drop table entry should always yield this item
         /// regardless of randomness or weighting. When set to <c>true</c>, the item will be included
@@ -34,24 +28,18 @@ namespace CoreLib.Submodule.LootDrop
         /// </remarks>
         public bool isGuaranteed;
 
-        /// <summary>
         /// Represents the minimum amount of an item that can be dropped in a loot table configuration.
-        /// </summary>
         /// <remarks>
         /// The <c>minAmount</c> value defines the lower bound of the drop quantity. It is used in conjunction with the <c>maxAmount</c> property
         /// to determine the range of possible drop quantities. If the drop has a fixed amount specified, <c>minAmount</c> will be equal to <c>maxAmount</c>.
         /// </remarks>
         public int minAmount;
 
-        /// <summary>
         /// Represents the maximum amount of an item that can be dropped in the loot table.
         /// Defines the upper bound of the range for possible drop amounts in a DropTableInfo object.
-        /// </summary>
         public int maxAmount;
 
-        /// <summary>
         /// Represents the weight assigned to an item in the drop table, determining its likelihood of being selected during loot generation.
-        /// </summary>
         /// <remarks>
         /// A higher value for the weight increases the chances of the corresponding item being chosen.
         /// This is typically used in conjunction with other properties like <c>isGuaranteed</c> and <c>amount</c>
@@ -59,9 +47,7 @@ namespace CoreLib.Submodule.LootDrop
         /// </remarks>
         public float weight;
 
-        /// <summary>
         /// Defines the amount of an item to be dropped in a loot table configuration.
-        /// </summary>
         /// <remarks>
         /// The <c>amount</c> property sets both the <c>minAmount</c> and <c>maxAmount</c> values to the same number, effectively ensuring a fixed drop quantity.
         /// This property is useful when the drop is not intended to have a variable range and must guarantee a specific amount.
@@ -177,19 +163,15 @@ namespace CoreLib.Submodule.LootDrop
         }
     }
 
-    /// <summary>
     /// Represents data used for modifying drop tables within the system.
-    /// </summary>
     /// <remarks>
     /// This class allows the management of drop table modifications such as adding, editing, or removing items
     /// in a drop table. It is primarily utilized by the drop table modification processes.
     /// </remarks>
     public class DropTableModificationData
     {
-        /// <summary>
         /// Represents a list of ObjectID instances that specify the items to be removed
         /// from a drop table's loot during a modification process.
-        /// </summary>
         /// <remarks>
         /// This variable is used to track items that need to be excluded from the drops
         /// in a drop table. The removal is handled within the drop table system logic
@@ -199,18 +181,14 @@ namespace CoreLib.Submodule.LootDrop
         /// </remarks>
         public List<ObjectID> removeDrops = new List<ObjectID>();
 
-        /// <summary>
         /// A collection of <see cref="DropTableInfo"/> objects representing modifications to existing drop table entries.
         /// These modifications include editing the drop settings such as item name, drop amounts, weights, and guarantee status.
-        /// </summary>
         public List<DropTableInfo> editDrops = new List<DropTableInfo>();
 
-        /// <summary>
         /// A list of DropTableInfo objects representing new drops to be added
         /// to the drop table. Each DropTableInfo contains details of the drop,
         /// such as the item name, guaranteed flag, minimum and maximum amount,
         /// weight, and more.
-        /// </summary>
         public List<DropTableInfo> addDrops = new List<DropTableInfo>();
     }
 }

@@ -14,10 +14,8 @@ using System.Linq;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util
 {
-    /// <summary>
     /// Provides static helper methods for retrieving <see cref="Manager"/> and <see cref="ManagerBase"/>
     /// instances used within the Core Keeper game management system.
-    /// </summary>
     /// <remarks>
     /// The <see cref="GameManagers"/> class offers consistent and safe access to the primary
     /// <see cref="Manager"/> singleton and its associated submanagers, with built-in validation
@@ -29,9 +27,7 @@ namespace CoreLib.Util
     {
         #region Main Manager Retrieval
 
-        /// <summary>
         /// Retrieves the singleton instance of the game's main <see cref="Manager"/>.
-        /// </summary>
         /// <returns>The active <see cref="Manager"/> instance.</returns>
         /// <exception cref="NullReferenceException">
         /// Thrown if the main manager instance (<see cref="Manager.main"/>) is not yet initialized.
@@ -47,9 +43,7 @@ namespace CoreLib.Util
 
         #region Sub-Manager Retrieval
 
-        /// <summary>
         /// Retrieves a submanager of the specified type from the active <see cref="Manager"/>.
-        /// </summary>
         /// <typeparam name="T">
         /// The specific type of manager to retrieve. Must derive from <see cref="ManagerBase"/>.
         /// </typeparam>

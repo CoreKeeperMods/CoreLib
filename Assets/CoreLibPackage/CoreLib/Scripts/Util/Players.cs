@@ -13,10 +13,8 @@ using System.Collections.Generic;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util
 {
-    /// <summary>
     /// Provides utility methods for retrieving and managing player information
     /// within the Core Keeper game environment.
-    /// </summary>
     /// <remarks>
     /// This static class serves as a high-level access layer for player-related
     /// operations, allowing safe retrieval of player controllers and validation
@@ -29,9 +27,7 @@ namespace CoreLib.Util
     {
         #region Player Retrieval
 
-        /// <summary>
         /// Retrieves a list of all active players currently known to the game.
-        /// </summary>
         /// <returns>
         /// A list of <see cref="PlayerController"/> instances representing all connected players.
         /// </returns>
@@ -47,9 +43,7 @@ namespace CoreLib.Util
         public static List<PlayerController> GetAllPlayers() => GameManagers.GetMainManager().allPlayers ?? 
                                                                 throw new NullReferenceException($"[{CoreLibMod.Name}] Players are not instantiated.");
 
-        /// <summary>
         /// Retrieves the <see cref="PlayerController"/> instance for the current (local) player.
-        /// </summary>
         /// <returns>
         /// The <see cref="PlayerController"/> representing the current player.
         /// </returns>
@@ -65,9 +59,7 @@ namespace CoreLib.Util
         public static PlayerController GetCurrentPlayer() => GameManagers.GetMainManager().player ?? 
                                                              throw new NullReferenceException($"[{CoreLibMod.Name}] Current player is not instantiated.");
 
-        /// <summary>
         /// Retrieves a specific player by their in-game name.
-        /// </summary>
         /// <param name="name">The name of the player to look up.</param>
         /// <returns>
         /// A <see cref="PlayerController"/> corresponding to the specified player name.

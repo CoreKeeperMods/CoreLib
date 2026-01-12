@@ -16,11 +16,9 @@ namespace CoreLib.Submodule.LootDrop
         
         internal new static Logger Log = new(Name);
         
-        /// <summary>
         /// Provides a singleton instance of the <see cref="LootDropModule"/> class.
         /// This property fetches the current instance of the module, ensuring it is properly loaded and accessible.
         /// The instance is used to perform operations such as adding, editing, or removing drop tables and their associated loot data.
-        /// </summary>
         /// <remarks>
         /// The instance is retrieved internally using <c>CoreLibMod.GetModuleInstance&lt;DropTablesModule&gt;()</c>.
         /// Ensure that the module has been correctly initialized before attempting to access this property.
@@ -143,12 +141,10 @@ namespace CoreLib.Submodule.LootDrop
             CoreLibMod.Patch(typeof(LootTableBankPatch));
         }
 
-        /// <summary>
         /// Represents a mapping of loot table identifiers to their corresponding modification data.
         /// This dictionary is primarily used to store and manage any updates, additions, or removals made to drop tables
         /// within the <see cref="LootDropModule"/>. Each entry contains the unique loot table identifier as the key
         /// and its respective <see cref="DropTableModificationData"/> as the value.
-        /// </summary>
         /// <remarks>
         /// This mapping plays a crucial role in tracking changes to drop tables, facilitating the application of those
         /// modifications during gameplay or data persistence. Entries in this dictionary are updated when loot tables
@@ -158,10 +154,8 @@ namespace CoreLib.Submodule.LootDrop
         /// </remarks>
         internal static Dictionary<LootTableID, DropTableModificationData> DropTableModification = new Dictionary<LootTableID, DropTableModificationData>();
 
-        /// <summary>
         /// A dictionary used to associate custom loot table string identifiers with their corresponding
         /// <see cref="LootTableID"/> values.
-        /// </summary>
         /// <remarks>
         /// This internal dictionary plays a key role in the management of custom loot tables within the system.
         /// It enables efficient registration, retrieval, and lookup of loot table identifiers, allowing for dynamic
@@ -170,11 +164,9 @@ namespace CoreLib.Submodule.LootDrop
         /// </remarks>
         internal static Dictionary<string, LootTableID> CustomLootTableIdMap = new Dictionary<string, LootTableID>();
 
-        /// <summary>
         /// Represents a collection of custom loot table data used within the drop tables system.
         /// This list stores all user-defined or dynamically generated loot tables, allowing for
         /// the addition and modification of custom loot entries in the game's loot system.
-        /// </summary>
         /// <remarks>
         /// Entries added to this list are primarily utilized to extend or override the default loot tables
         /// provided by the base game. Modifications to this list can affect loot distribution and behavior
@@ -182,11 +174,9 @@ namespace CoreLib.Submodule.LootDrop
         /// </remarks>
         internal static List<CustomLootTableData> CustomLootTables = new List<CustomLootTableData>();
 
-        /// <summary>
         /// Represents the last assigned custom loot table ID within the <see cref="LootDropModule"/> class.
         /// This variable is used to track and incrementally generate unique IDs for new custom loot tables
         /// added through the module.
-        /// </summary>
         /// <remarks>
         /// The initial value is set to 2000 and is incremented each time a new custom loot table is added.
         /// This ensures that each custom loot table has a unique identifier.
@@ -210,9 +200,7 @@ namespace CoreLib.Submodule.LootDrop
             return data;
         }
 
-        /// <summary>
         /// Removes specified drops from the provided loot lists based on the given modification data.
-        /// </summary>
         /// <param name="lootInfos">The list of general loot items to process.</param>
         /// <param name="guaranteedLootInfos">The list of guaranteed loot items to process.</param>
         /// <param name="modificationData">The data containing the ObjectIDs of the drops to be removed.</param>

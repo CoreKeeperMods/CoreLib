@@ -4,10 +4,8 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.LootDrop.Component
 {
-    /// <summary>
     /// The <c>ModDropsFromLootTableAuthoring</c> class is a MonoBehaviour representing
     /// an authoring component that links a game object to a specific loot table ID.
-    /// </summary>
     /// <remarks>
     /// This component serves as a bridge between Unity Editor configurations and the runtime ECS world,
     /// allowing for drops to be defined from a loot table. It interacts with <c>DropTablesModule</c>
@@ -15,9 +13,7 @@ namespace CoreLib.Submodule.LootDrop.Component
     /// </remarks>
     public class ModDropsFromLootTableAuthoring : MonoBehaviour
     {
-        /// <summary>
         /// A unique identifier representing a specific loot table.
-        /// </summary>
         /// <remarks>
         /// This identifier is used to link a component or entity to a loot table configuration.
         /// The loot table defines the set of items or resources that can be generated or dropped

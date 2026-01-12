@@ -13,9 +13,7 @@ using System.Text.RegularExpressions;
 // ReSharper disable once CheckNamespace
 namespace CoreLib
 {
-    /// <summary>
     /// Represents a specific version of the game, encapsulating version components
-    /// </summary>
     public readonly struct GameVersion : IEquatable<GameVersion>
     {
         #region Fields
@@ -27,18 +25,14 @@ namespace CoreLib
 
         public readonly string buildHash;
 
-        /// <summary>
         /// Represents an uninitialized game version (0.0.0.0-).
-        /// </summary>
         public static readonly GameVersion Zero = new(0, 0, 0, 0, string.Empty);
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
         /// Initializes a new instance of the <see cref="GameVersion"/> struct from a formatted version string.
-        /// </summary>
         /// <param name="versionString">
         /// A version string formatted as <c>release.major.minor[.patch]-buildHash</c>.
         /// Example: <c>"1.1.2.0-7da5"</c>
@@ -69,9 +63,7 @@ namespace CoreLib
             }
         }
 
-        /// <summary>
         /// Initializes a new instance of the <see cref="GameVersion"/>
-        /// </summary>
         /// <param name="release">The release version number (major lifecycle).</param>
         /// <param name="major">The major version component (significant feature changes).</param>
         /// <param name="minor">The minor version component (incremental content updates).</param>
@@ -91,10 +83,8 @@ namespace CoreLib
 
         #region Comparison and Equality
 
-        /// <summary>
         /// Determines whether this version is compatible with another version.
         /// Compatibility is based on identical release, major, and minor components.
-        /// </summary>
         public bool CompatibleWith(GameVersion other)
         {
             return release == other.release &&
@@ -135,9 +125,7 @@ namespace CoreLib
 
         #region Formatting
 
-        /// <summary>
         /// Returns the version as a formatted string.
-        /// </summary>
         public override string ToString()
         {
             return $"{release}.{major}.{minor}.{patch}-{buildHash}";

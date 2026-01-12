@@ -6,20 +6,16 @@ using System.Runtime.CompilerServices;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Data
 {
-    /// <summary>
     /// Represents a binding system for managing unique ID allocations within a specified range.
     /// Provides functionality to track and allocate IDs to specific items, ensuring that
     /// IDs remain unique and avoid conflicts. It supports binding IDs to string identifiers,
     /// checking for existing bindings, and retrieving corresponding IDs or string identifiers.
-    /// </summary>
     public class IdBind
     {
-        /// <summary>
         /// The starting value for the allowed range of IDs.
         /// This field specifies the lower boundary of the ID range
         /// that this instance can allocate or use. IDs less than this
         /// value are considered out of range and invalid for binding.
-        /// </summary>
         protected readonly int IDRangeStart;
 
         /// Specifies the upper bound of the permissible ID range.
@@ -37,16 +33,12 @@ namespace CoreLib.Data
         /// The value of this variable is updated dynamically as IDs are assigned or checked.
         protected int FirstUnusedId;
 
-        /// <summary>
         /// A set of integers representing IDs that have been allocated and are currently in use.
         /// This set is used for tracking and preventing reuse of IDs within a defined range.
-        /// </summary>
         protected HashSet<int> TakenIDs = new HashSet<int>();
 
-        /// <summary>
         /// A dictionary used to map unique string identifiers (keys) to their corresponding
         /// integer IDs (values) within the specified range of IDs.
-        /// </summary>
         /// <remarks>
         /// This variable serves as the internal storage for the mapping of item IDs to integer
         /// indices. It ensures quick lookup, addition, and verification of associations between
@@ -156,9 +148,7 @@ namespace CoreLib.Data
             }
         }
 
-        /// <summary>
         /// Retrieves the next available unique identifier for the specified item ID and binds it.
-        /// </summary>
         /// <param name="itemId">The unique identifier of the item to bind to the next free ID.</param>
         /// <returns>The newly assigned ID as an integer.</returns>
         /// <exception cref="ArgumentException">Thrown if the specified item ID is already in use.</exception>

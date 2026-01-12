@@ -5,19 +5,15 @@ using System.Linq;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
-    /// <summary>
     ///     Section and key of a setting. Used as a unique key for identification within a
     ///     <see cref="T:CoreLib.Data.Configuration.ConfigFile" />.
     ///     The same definition can be used in multiple config files, it will point to different settings then.
-    /// </summary>
     /// <inheritdoc />
     public class ConfigDefinition : IEquatable<ConfigDefinition>
     {
         private static readonly char[] InvalidConfigChars = { '=', '\n', '\t', '\\', '"', '\'', '[', ']' };
 
-        /// <summary>
         ///     Create a new definition. Definitions with same section and key are equal.
-        /// </summary>
         /// <param name="section">Group of the setting, case-sensitive.</param>
         /// <param name="key">Name of the setting, case-sensitive.</param>
         public ConfigDefinition(string section, string key)
@@ -28,19 +24,13 @@ namespace CoreLib.Data.Configuration
             Section = section;
         }
 
-        /// <summary>
         ///     Group of the setting. All settings within a config file are grouped by this.
-        /// </summary>
         public string Section { get; }
 
-        /// <summary>
         ///     Name of the setting.
-        /// </summary>
         public string Key { get; }
 
-        /// <summary>
         ///     Check if the definitions are the same.
-        /// </summary>
         /// <inheritdoc />
         public bool Equals(ConfigDefinition other)
         {
@@ -61,9 +51,7 @@ namespace CoreLib.Data.Configuration
                         name);
         }
 
-        /// <summary>
         ///     Check if the definitions are the same.
-        /// </summary>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
@@ -85,14 +73,10 @@ namespace CoreLib.Data.Configuration
             }
         }
 
-        /// <summary>
         ///     Check if the definitions are the same.
-        /// </summary>
         public static bool operator ==(ConfigDefinition left, ConfigDefinition right) => Equals(left, right);
 
-        /// <summary>
         ///     Check if the definitions are the same.
-        /// </summary>
         public static bool operator !=(ConfigDefinition left, ConfigDefinition right) => !Equals(left, right);
 
         /// <inheritdoc />

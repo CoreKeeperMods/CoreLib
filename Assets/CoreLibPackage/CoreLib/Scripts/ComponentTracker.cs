@@ -10,9 +10,7 @@ using UnityEditor;
 
 namespace CoreLib.Util
 {
-    /// <summary>
     /// This component allows to track added component full names to prevent issues between game versions
-    /// </summary>
     public class ComponentTracker : MonoBehaviour
     {
         public List<string> components = new List<string>();

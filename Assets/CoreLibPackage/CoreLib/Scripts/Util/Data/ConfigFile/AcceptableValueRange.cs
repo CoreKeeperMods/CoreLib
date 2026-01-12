@@ -4,9 +4,7 @@
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
-    /// <summary>
     ///     Specify the range of acceptable values for a setting.
-    /// </summary>
     public class AcceptableValueRange<T> : AcceptableValueBase where T : IComparable
     {
         /// <param name="minValue">Lowest acceptable value</param>
@@ -24,14 +22,10 @@ namespace CoreLib.Data.Configuration
             MaxValue = maxValue;
         }
 
-        /// <summary>
         ///     Lowest acceptable value
-        /// </summary>
         public virtual T MinValue { get; }
 
-        /// <summary>
         ///     Highest acceptable value
-        /// </summary>
         public virtual T MaxValue { get; }
 
         /// <inheritdoc />

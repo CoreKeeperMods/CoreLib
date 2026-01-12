@@ -13,9 +13,7 @@ using System.Collections.Generic;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extension
 {
-    /// <summary>
     /// Provides extension methods for enhancing and simplifying operations on collection types.
-    /// </summary>
     /// <remarks>
     /// The <see cref="CollectionUtils"/> class focuses on extending the functionality
     /// of built-in collection types (e.g., <see cref="Dictionary{TKey,TValue}"/>)
@@ -27,9 +25,7 @@ namespace CoreLib.Util.Extension
     {
         #region Delegate Handling
 
-        /// <summary>
         /// Adds or updates a delegate entry in a dictionary, combining it with an existing delegate if one already exists.
-        /// </summary>
         /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
         /// <typeparam name="TDel">The type of delegates stored in the dictionary. Must inherit from <see cref="Delegate"/>.</typeparam>
         /// <param name="entityModifyFunctions">The dictionary containing delegate entries, indexed by <typeparamref name="TKey"/>.</param>

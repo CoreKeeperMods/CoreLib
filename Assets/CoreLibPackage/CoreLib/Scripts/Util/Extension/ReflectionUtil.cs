@@ -13,10 +13,8 @@ using PugMod;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extension
 {
-    /// <summary>
     /// Provides reflection-based utilities for invoking methods, retrieving values,
     /// and modifying fields on objects and types within the CoreLib framework.
-    /// </summary>
     /// <remarks>
     /// This class offers a consistent and safe API for reflection calls within CoreLib mods.
     /// It wraps the <see cref="API.Reflection"/> utilities, performing member validation before use.
@@ -27,9 +25,7 @@ namespace CoreLib.Util.Extension
     {
         #region Method Invocation
 
-        /// <summary>
         /// Invokes a method by name on the given object without expecting a return value.
-        /// </summary>
         /// <param name="obj">The instance on which the method should be invoked.</param>
         /// <param name="methodName">The name of the method to invoke.</param>
         /// <param name="args">An array of arguments to pass to the method during invocation.</param>
@@ -50,9 +46,7 @@ namespace CoreLib.Util.Extension
             API.Reflection.Invoke(method, obj, args);
         }
 
-        /// <summary>
         /// Invokes a method by name on the given object and returns its result.
-        /// </summary>
         /// <typeparam name="T">The expected return type of the invoked method.</typeparam>
         /// <param name="obj">The instance on which the method should be invoked.</param>
         /// <param name="methodName">The name of the method to invoke.</param>
@@ -75,9 +69,7 @@ namespace CoreLib.Util.Extension
 
         #region Field and Property Access
 
-        /// <summary>
         /// Retrieves the value of a specified field from the given object instance.
-        /// </summary>
         /// <typeparam name="T">The expected type of the retrieved value.</typeparam>
         /// <param name="obj">The object instance to retrieve the field value from.</param>
         /// <param name="fieldName">The name of the field whose value is to be retrieved.</param>
@@ -95,9 +87,7 @@ namespace CoreLib.Util.Extension
             throw new MissingFieldException(obj.GetType().GetNameChecked(), fieldName);
         }
 
-        /// <summary>
         /// Retrieves the value of a static field from the specified type.
-        /// </summary>
         /// <typeparam name="T">The expected type of the retrieved value.</typeparam>
         /// <param name="type">The type containing the field to retrieve.</param>
         /// <param name="fieldName">The name of the field whose value is to be retrieved.</param>
@@ -119,9 +109,7 @@ namespace CoreLib.Util.Extension
 
         #region Value Setting
 
-        /// <summary>
         /// Sets the value of a specified field on the given object instance.
-        /// </summary>
         /// <typeparam name="T">The type of the value to assign.</typeparam>
         /// <param name="obj">The object instance whose field should be modified.</param>
         /// <param name="fieldName">The name of the field to modify.</param>
@@ -138,9 +126,7 @@ namespace CoreLib.Util.Extension
             API.Reflection.SetValue(field, obj, value);
         }
 
-        /// <summary>
         /// Sets the value of a static field on the given type.
-        /// </summary>
         /// <typeparam name="T">The type of the value to assign.</typeparam>
         /// <param name="type">The type containing the static field.</param>
         /// <param name="fieldName">The name of the field to set.</param>

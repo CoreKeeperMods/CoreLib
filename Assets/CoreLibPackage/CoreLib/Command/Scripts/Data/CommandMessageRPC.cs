@@ -5,9 +5,7 @@ using Unity.NetCode;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Command.Data
 {
-    /// <summary>
     /// Defines the type or category of a command message in the communication system.
-    /// </summary>
     /// <remarks>
     /// The CommandMessageType enumeration categorizes various types of messages within the command system.
     /// It helps differentiate between standard commands, relayed commands, responses, and chat messages.
@@ -21,9 +19,7 @@ namespace CoreLib.Submodule.Command.Data
         ChatMessage
     }
 
-    /// <summary>
     /// Represents the status level or classification of a command or message.
-    /// </summary>
     /// <remarks>
     /// The CommandStatus enumeration is used to distinguish various levels of command output or feedback.
     /// It categorizes messages into types, such as informational messages, warnings, errors, and more.
@@ -38,9 +34,7 @@ namespace CoreLib.Submodule.Command.Data
         Error
     }
 
-    /// <summary>
     /// Represents flags indicating specific attributes or behaviors of a command.
-    /// </summary>
     /// <remarks>
     /// The CommandFlags enumeration is used to specify additional metadata or operational
     /// characteristics of a command. It supports a combination of values using bitwise operations
@@ -55,9 +49,7 @@ namespace CoreLib.Submodule.Command.Data
         SentFromQuantumConsole = 2
     }
 
-    /// <summary>
     /// Represents a remote procedure call message for transmitting command-related data.
-    /// </summary>
     /// <remarks>
     /// The CommandMessageRPC struct is used for conveying command-specific information
     /// across networked environments. It includes metadata such as the message number,
@@ -74,9 +66,7 @@ namespace CoreLib.Submodule.Command.Data
         public CommandFlags CommandFlags;
     }
 
-    /// <summary>
     /// Represents a command data message transmitted remotely via RPC.
-    /// </summary>
     /// <remarks>
     /// The CommandDataMessageRPC struct is utilized for sending segmented data or
     /// messages over a network. It includes information such as the message sequence
@@ -90,9 +80,7 @@ namespace CoreLib.Submodule.Command.Data
         public int StartByte;
     }
 
-    /// <summary>
     /// Represents a command message used for communication within the system.
-    /// </summary>
     /// <remarks>
     /// The CommandMessage struct is used to encapsulate details of a command or message
     /// that is transmitted between different entities or systems. It contains the message
@@ -101,9 +89,7 @@ namespace CoreLib.Submodule.Command.Data
     /// </remarks>
     public struct CommandMessage
     {
-        /// <summary>
         /// Represents the content of a command message being transmitted.
-        /// </summary>
         /// <remarks>
         /// This variable holds the text or main content of the command message.
         /// It is a central component of the <see cref="CommandMessage"/> struct, which is used
@@ -112,18 +98,14 @@ namespace CoreLib.Submodule.Command.Data
         /// </remarks>
         public string Message;
 
-        /// <summary>
         /// Represents the sender of the command message.
-        /// </summary>
         /// <remarks>
         /// The sender is identified as an <see cref="Unity.Entities.Entity"/>.
         /// It represents the entity responsible for originating the command or message.
         /// </remarks>
         public Unity.Entities.Entity Sender;
 
-        /// <summary>
         /// Represents the type of the command message, indicating its purpose or category.
-        /// </summary>
         /// <remarks>
         /// The <c>messageType</c> variable is used to identify the specific type of command message being processed.
         /// It is an instance of the <c>CommandMessageType</c> enumeration, which defines various types such as:
@@ -135,9 +117,7 @@ namespace CoreLib.Submodule.Command.Data
         /// </remarks>
         public CommandMessageType MessageType;
 
-        /// <summary>
         /// Represents the status of a command or message within the system.
-        /// </summary>
         /// <remarks>
         /// The status field indicates the type or severity of the command message, which
         /// can be categorized into various levels such as None, Info, Hint, Warning, or Error.
@@ -147,9 +127,7 @@ namespace CoreLib.Submodule.Command.Data
         /// </remarks>
         public CommandStatus Status;
 
-        /// <summary>
         /// A variable that specifies the flags indicating metadata or options associated with a command message within the system.
-        /// </summary>
         /// <remarks>
         /// The <c>commandFlags</c> variable is used to include additional contextual information about a command.
         /// This information is represented as a combination of values defined in the <c>CommandFlags</c> enumeration.

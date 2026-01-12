@@ -19,10 +19,8 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extension
 {
-    /// <summary>
     /// Provides a collection of extension methods that offer general-purpose
     /// utility functionality across CoreLib and mod development.
-    /// </summary>
     /// <remarks>
     /// Includes helper methods for generating GUIDs, retrieving Unity child transforms,
     /// copying fixed array data, and working with file paths or object identifiers.
@@ -34,9 +32,7 @@ namespace CoreLib.Util.Extension
     {
         #region Fields
 
-        /// <summary>
         /// Character separator definitions used for file and directory path operations.
-        /// </summary>
         /// <remarks>
         /// This array allows compatibility with both UNIX (<c>/</c>) and Windows (<c>\\</c>) file systems.
         /// </remarks>
@@ -50,9 +46,7 @@ namespace CoreLib.Util.Extension
 
         #region String and GUID Utilities
 
-        /// <summary>
         /// Generates a deterministic globally unique identifier (GUID) from a given input string.
-        /// </summary>
         /// <param name="objectId">
         /// A string value used to compute the GUID. The input is hashed via MD5 to produce a unique, consistent identifier.
         /// </param>
@@ -83,9 +77,7 @@ namespace CoreLib.Util.Extension
 
         #region Unity Transform Utilities
 
-        /// <summary>
         /// Retrieves all child transforms (including nested descendants) from a given Unity <see cref="Transform"/>.
-        /// </summary>
         /// <param name="parent">The parent <see cref="Transform"/> whose children are to be collected.</param>
         /// <param name="transformList">
         /// An optional list to populate with the child transforms. If omitted, a new list will be created.
@@ -121,9 +113,7 @@ namespace CoreLib.Util.Extension
 
         #region Data Copy Utilities
 
-        /// <summary>
         /// Copies data from a byte array into the specified <see cref="FixedArray64"/> structure.
-        /// </summary>
         /// <param name="fixedArray">The target <see cref="FixedArray64"/> to populate.</param>
         /// <param name="bytes">The byte array containing the data to copy.</param>
         /// <param name="startIndex">The starting index in the byte array from which copying begins.</param>
@@ -140,9 +130,7 @@ namespace CoreLib.Util.Extension
             fixedArray.Set(dataBytes);
         }
 
-        /// <summary>
         /// Copies data from a <see cref="FixedArray64"/> into a byte array at a specified index.
-        /// </summary>
         /// <param name="fixedArray">The source <see cref="FixedArray64"/> containing data to copy.</param>
         /// <param name="bytes">The destination byte array to copy data into.</param>
         /// <param name="startIndex">The position in the destination array where copying begins.</param>
@@ -161,9 +149,7 @@ namespace CoreLib.Util.Extension
 
         #region Object and File Utilities
 
-        /// <summary>
         /// Converts a string into an <see cref="ObjectID"/> either by direct enum parsing or by using an external authoring lookup.
-        /// </summary>
         /// <param name="value">The string representation of an object to convert.</param>
         /// <returns>
         /// A corresponding <see cref="ObjectID"/> value if found; otherwise, a default or fallback value retrieved from <see cref="API.Authoring"/>.
@@ -181,9 +167,7 @@ namespace CoreLib.Util.Extension
                 : API.Authoring.GetObjectID(value);
         }
 
-        /// <summary>
         /// Extracts the file name (including extension) from a given file path.
-        /// </summary>
         /// <param name="path">The full path to extract the file name from.</param>
         /// <returns>The extracted file name, including its extension.</returns>
         /// <remarks>

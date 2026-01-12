@@ -5,10 +5,8 @@ using HarmonyLib;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.Patch
 {
-    /// <summary>
     /// Provides patch implementations for the PlayerController class, focusing on
     /// specific behaviors related to equipment slot handling and visual updates for slots.
-    /// </summary>
     public static class PlayerControllerPatch
     {
         /// Determines the slot type based on the provided object type.
@@ -32,9 +30,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
             }
         }
 
-        /// <summary>
         /// Updates the visuals of the currently equipped equipment slot within the player controller.
-        /// </summary>
         /// <param name="__instance">The instance of the PlayerController for which the slot visuals are being updated.</param>
         [HarmonyPatch(typeof(PlayerController), nameof(PlayerController.UpdateEquippedSlotVisuals))]
         [HarmonyPostfix]

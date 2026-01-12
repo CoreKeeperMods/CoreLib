@@ -12,9 +12,7 @@ using JetBrains.Annotations;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Entity.Attribute
 {
-    /// <summary>
     /// Use this attribute to register your entity modification functions. Make sure to place one on the container class.
-    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     [MeansImplicitUse]
     public class EntityModificationAttribute : System.Attribute

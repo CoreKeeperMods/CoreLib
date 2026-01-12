@@ -12,9 +12,7 @@ using System;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util
 {
-    /// <summary>
     /// Provides utility methods for determining the current state of the game.
-    /// </summary>
     /// <remarks>
     /// This static helper class allows CoreLib modules and other systems to easily check
     /// whether the game is currently active, paused, or within an in-game scene.
@@ -25,9 +23,7 @@ namespace CoreLib.Util
     {
         #region Game State
 
-        /// <summary>
         /// Determines whether the game is currently in an active gameplay scene.
-        /// </summary>
         /// <returns>
         /// <c>true</c> if the current scene handler indicates that gameplay is in progress; otherwise, <c>false</c>.
         /// </returns>

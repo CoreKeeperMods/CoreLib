@@ -4,12 +4,10 @@ using HarmonyLib;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.Patch
 {
-    /// <summary>
     /// The ObjectAuthoringConverter_Patch class contains Harmony patches designed to extend or modify the behavior
     /// of the object conversion process within the authoring system. These patches intercept the Convert methods of
     /// specific conversion types to integrate custom logic for handling modifications related to object types
     /// in the game framework.
-    /// </summary>
     public static class ObjectAuthoringConverterPatch
     {
         /// A patch method for the ObjectConverter's `Convert` method to handle the conversion of
@@ -31,9 +29,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
             }
         }
 
-        /// <summary>
         /// Patches the Convert method of EntityMonoBehaviourDataConverter to modify object type data based on the component attached.
-        /// </summary>
         /// <param name="authoring">The EntityMonoBehaviourData instance to be patched and modified.</param>
         [HarmonyPatch(typeof(EntityMonoBehaviourDataConverter), nameof(EntityMonoBehaviourDataConverter.Convert))]
         [HarmonyPrefix]
@@ -45,10 +41,8 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
             authoring.objectInfo.objectType = objectType;
         }
 
-        /// <summary>
         /// Handles the conversion of a CooldownAuthoring instance during the conversion process by using
         /// associated components within the object to update necessary object types.
-        /// </summary>
         /// <param name="authoring">The CooldownAuthoring instance being converted.</param>
         [HarmonyPatch(typeof(CooldownConverter), nameof(CooldownConverter.Convert))]
         [HarmonyPrefix]

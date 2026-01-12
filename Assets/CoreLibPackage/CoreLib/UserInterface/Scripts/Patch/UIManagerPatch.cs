@@ -6,18 +6,14 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.UserInterface.Patch
 {
-    /// <summary>
     /// Provides patches through Harmony to modify and extend the behavior of the UIManager class within the user interface system.
     /// This class includes methods for initializing mod-specific user interfaces, handling their visibility,
     /// and ensuring integration with the core inventory and crafting UI systems.
-    /// </summary>
     public class UIManagerPatch
     {
-        /// <summary>
         /// Initializes and sets up mod-specific interfaces within the user interface system.
         /// This method ensures that the interfaces associated with user-defined modules are instantiated
         /// and linked to the player's inventory UI for seamless interaction between custom components and core systems.
-        /// </summary>
         /// <param name="__instance">The instance of the UIManager being initialized, providing access to core UI elements such as player's inventory UI.</param>
         [HarmonyPatch(typeof(UIManager), nameof(UIManager.Init))]
         [HarmonyPostfix]
@@ -44,10 +40,8 @@ namespace CoreLib.Submodule.UserInterface.Patch
             }
         }
 
-        /// <summary>
         /// Establishes a link between a UI element and the player's inventory UI, enabling interaction between them.
         /// Adds the player's inventory UI to the bottom UI elements of the specified link and optionally creates a reverse link.
-        /// </summary>
         /// <param name="link">The UI element that should link to the player's inventory UI.</param>
         /// <param name="inventoryUI">The player's inventory UI to be linked with the specified UI element.</param>
         private static void MakeLink(LinkToPlayerInventory link, ItemSlotsUIContainer inventoryUI)
@@ -64,11 +58,9 @@ namespace CoreLib.Submodule.UserInterface.Patch
             }
         }
 
-        /// <summary>
         /// Postfix method for hiding all modded user interfaces when the inventory and crafting UI is hidden.
         /// This method iterates through all registered mod UI components and hides them, ensuring a consistent behavior
         /// with the default UI. Additionally, it clears the user interface module's mod UI data, resetting its state.
-        /// </summary>
         [HarmonyPatch(typeof(UIManager), nameof(UIManager.HideAllInventoryAndCraftingUI))]
         [HarmonyPostfix]
         public static void OnHide()
@@ -81,10 +73,8 @@ namespace CoreLib.Submodule.UserInterface.Patch
             UserInterfaceModule.ClearModUIData();
         }
 
-        /// <summary>
         /// Postfix method for checking if any menu is active in the UI.
         /// This method modifies the result of the original property to include the state of the custom user interface module.
-        /// </summary>
         /// <param name="__result">The original value indicating whether any default inventory or crafting UI is active. This will be modified if a custom menu is active via <see cref="UserInterfaceModule"/>.</param>
         [HarmonyPatch(typeof(UIManager), nameof(UIManager.isAnyInventoryShowing), MethodType.Getter)]
         [HarmonyPostfix]

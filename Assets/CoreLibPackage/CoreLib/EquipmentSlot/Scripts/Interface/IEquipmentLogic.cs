@@ -4,14 +4,10 @@ using Unity.Entities;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.Interface
 {
-    /// <summary>
     /// Interface defining logic for equipment slots and their behavior in different scenarios.
-    /// </summary>
     public interface IEquipmentLogic
     {
-        /// <summary>
         /// Determines whether the equipment can be used while the player is in a sitting state.
-        /// </summary>
         /// <remarks>
         /// This property is part of the IEquipmentLogic interface, and its value is used to check
         /// if an interaction or action involving equipment is allowed when the player is sitting.
@@ -21,16 +17,12 @@ namespace CoreLib.Submodule.EquipmentSlot.Interface
         /// </value>
         public bool CanUseWhileSitting { get; }
 
-        /// <summary>
         /// Determines whether the equipment can be used while the player is on a boat.
-        /// </summary>
         public bool CanUseWhileOnBoat { get; }
 
-        /// <summary>
         /// Creates the necessary lookups for the equipment logic. This method
         /// is usually invoked to set up or initialize data structures or processes
         /// to efficiently handle equipment operations during the system's lifecycle.
-        /// </summary>
         /// <param name="state">A reference to the current system state, which provides
         /// access to entity-related operations and overall system context.</param>
         public void CreateLookups(ref SystemState state);

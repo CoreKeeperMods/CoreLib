@@ -13,10 +13,8 @@ using System.Collections.Generic;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extension
 {
-    /// <summary>
     /// Provides extension methods for performing topological sorting on collections of elements
     /// and resolving dependency relationships.
-    /// </summary>
     /// <remarks>
     /// These extensions help organize elements in dependency order and can safely handle circular
     /// references using a custom handler.
@@ -26,10 +24,8 @@ namespace CoreLib.Util.Extension
     {
         #region Nested Types
 
-        /// <summary>
         /// Represents an exception thrown when a cyclic dependency is detected during
         /// a topological sort operation.
-        /// </summary>
         /// <remarks>
         /// A cyclic dependency occurs when an element indirectly depends on itself through a
         /// chain of dependencies. This prevents a valid topological order from being established.
@@ -37,11 +33,9 @@ namespace CoreLib.Util.Extension
         /// <seealso cref="TopologicalSort{T}(IEnumerable{T}, Func{T, IEnumerable{T}}, Action{T, T})"/>
         public class CyclicDependencyException : Exception
         {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="CyclicDependencyException"/> class
+                /// Initializes a new instance of the <see cref="CyclicDependencyException"/> class
             /// with a default message indicating a cyclic dependency was detected.
-            /// </summary>
-            public CyclicDependencyException()
+                public CyclicDependencyException()
                 : base("Cyclic dependency found.")
             {
             }
@@ -51,9 +45,7 @@ namespace CoreLib.Util.Extension
 
         #region Public Methods
 
-        /// <summary>
         /// Performs a topological sort on a collection of elements based on their dependencies.
-        /// </summary>
         /// <typeparam name="T">The type of elements being sorted.</typeparam>
         /// <param name="source">The collection of elements to sort.</param>
         /// <param name="dependencies">
@@ -92,9 +84,7 @@ namespace CoreLib.Util.Extension
             return sorted;
         }
 
-        /// <summary>
         /// Retrieves a collection of dependants for a given source element, performing a topological sort.
-        /// </summary>
         /// <typeparam name="T">The type of elements in the dependency graph.</typeparam>
         /// <param name="source">The initial element whose dependants are to be determined.</param>
         /// <param name="dependencies">A function that returns the dependencies for a given element.</param>
@@ -121,10 +111,8 @@ namespace CoreLib.Util.Extension
 
         #region Private Helpers
 
-        /// <summary>
         /// Recursively visits an element in the dependency graph, marking it as visited and
         /// adding it to the sorted output list after processing its dependencies.
-        /// </summary>
         /// <typeparam name="T">The type of elements being processed.</typeparam>
         /// <param name="item">The current element being visited.</param>
         /// <param name="visited">

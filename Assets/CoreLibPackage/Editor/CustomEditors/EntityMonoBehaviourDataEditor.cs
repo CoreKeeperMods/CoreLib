@@ -28,10 +28,8 @@ namespace CoreLib.Editor {
             if (MigrateToAuthoring(entityData)) Undo.DestroyObjectImmediate(entityData);
         }
 
-        /// <summary>
         /// Migrates an EntityMonoBehaviourData component into ObjectAuthoring and InventoryItemAuthoring components,
         /// transferring relevant data and removing the original EntityMonoBehaviourData component.
-        /// </summary>
         /// <param name="entityData">The EntityMonoBehaviourData component to be migrated. This parameter must not be null.</param>
         /// <returns>Returns true if the migration process completes successfully; otherwise, returns false.</returns>
         private bool MigrateToAuthoring(EntityMonoBehaviourData entityData) {

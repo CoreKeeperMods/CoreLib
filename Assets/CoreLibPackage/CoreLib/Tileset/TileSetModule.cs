@@ -13,9 +13,7 @@ using PugTilemap.Workshop;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.TileSet
 {
-    /// <summary>
     /// Represents a module related to tile sets within the CoreLib framework.
-    /// </summary>
     /// <remarks>
     /// The TileSetModule extends the BaseSubmodule and manages functionalities such as custom tilesets,
     /// tileset layers, and related configurations. This class includes internal properties and methods
@@ -29,9 +27,7 @@ namespace CoreLib.Submodule.TileSet
         
         internal new static Logger Log = new(Name);
         
-        /// <summary>
         /// Retrieves a tileset using a unique tileset identifier.
-        /// </summary>
         /// <param name="itemID">A string representing the unique identifier of the tileset.</param>
         /// <returns>The tileset associated with the provided identifier.</returns>
         public static Tileset GetTilesetId(string itemID)
@@ -41,9 +37,7 @@ namespace CoreLib.Submodule.TileSet
             return (Tileset)TilesetIDs.GetIndex(itemID);
         }
 
-        /// <summary>
         /// Adds a custom tileset to the tileset module.
-        /// </summary>
         /// <param name="tileset">The custom tileset to be added.</param>
         /// <exception cref="ArgumentException">Thrown when the provided tileset's prefab is not found.</exception>
         /// <exception cref="InvalidOperationException">Thrown when the method is called after the module is loaded and can't accept additional tilesets.</exception>
@@ -79,9 +73,7 @@ namespace CoreLib.Submodule.TileSet
 
         #region PrivateImplementation
 
-        /// <summary>
         /// Represents the dependencies required by the <c>TileSetModule</c>.
-        /// </summary>
         /// <remarks>
         /// The <c>Dependencies</c> property defines the submodules that the <c>TileSetModule</c> depends on
         /// for its functionality. It is used internally to ensure that the necessary modules,
@@ -90,9 +82,7 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         internal override Type[] Dependencies => new[] { typeof(EntityModule) };
 
-        /// <summary>
         /// Provides a singleton instance of the <c>TileSetModule</c>.
-        /// </summary>
         /// <remarks>
         /// The <c>Instance</c> property serves as the single point of access to the <c>TileSetModule</c>.
         /// It is internally used to ensure proper initialization and facilitate operations
@@ -103,9 +93,7 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         internal static TileSetModule Instance => CoreLibMod.GetModuleInstance<TileSetModule>();
 
-        /// <summary>
         /// Maintains a collection of custom tilesets mapped to their corresponding Tileset identifiers.
-        /// </summary>
         /// <remarks>
         /// The <c>customTilesets</c> dictionary is used to store and manage associations between unique
         /// Tileset identifiers and their respective <c>ModTileset</c> instances. These custom tilesets
@@ -115,9 +103,7 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         internal static Dictionary<Tileset, ModTileset> CustomTilesets = new();
 
-        /// <summary>
         /// Stores a mapping of tileset layer names to their corresponding PugMapTileset instances.
-        /// </summary>
         /// <remarks>
         /// The <c>tilesetLayers</c> dictionary is utilized to maintain a registry of predefined tileset layers,
         /// each identified by a unique string key representing the layer's name. This allows for efficient retrieval
@@ -127,9 +113,7 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         internal static Dictionary<string, PugMapTileset> TilesetLayers = new();
 
-        /// <summary>
         /// Represents a collection of custom PugMapTileset layers added dynamically at runtime.
-        /// </summary>
         /// <remarks>
         /// This variable stores the custom tile layers used within the TileSetModule.
         /// It is designed to manage additional tileset layers that are registered through the AddCustomTileset method.
@@ -138,9 +122,7 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         internal static List<PugMapTileset> CustomLayers = new();
 
-        /// <summary>
         /// Represents a default fallback ModTileset resource used as a placeholder for missing or undefined tilesets.
-        /// </summary>
         /// <remarks>
         /// This variable is initialized during the TileSetModule's setup process and is loaded from the specified asset's folder.
         /// It serves as a critical resource to prevent errors or inconsistencies when a tileset cannot be found or is unavailable.
@@ -148,9 +130,7 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         internal static ModTileset MissingTileset;
 
-        /// <summary>
         /// Manages the mapping and retrieval of tileset IDs associated with item identifiers.
-        /// </summary>
         /// <remarks>
         /// This variable serves as a configuration structure to bind and manage unique IDs
         /// for tilesets within a specified range. The IDs can be dynamically assigned and
@@ -160,9 +140,7 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         internal static IdBindConfigFile TilesetIDs;
 
-        /// <summary>
         /// Specifies the inclusive lower bound of the ID range allocated for custom mod tilesets.
-        /// </summary>
         /// <remarks>
         /// This constant defines the starting value of the ID range for modded tilesets.
         /// IDs assigned to custom tilesets must fall within the range defined by
@@ -171,9 +149,7 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         public const int ModTilesetIdRangeStart = 100;
 
-        /// <summary>
         /// Defines the exclusive upper bound of the ID range allocated for custom mod tilesets.
-        /// </summary>
         /// <remarks>
         /// This constant specifies the end value of the ID range used for modded tilesets.
         /// The IDs in this range are used to uniquely identify custom tilesets within the system.
@@ -182,10 +158,8 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         public const int ModTilesetIdRangeEnd = 200;
 
-        /// <summary>
         /// Overrides the base submodule's hook setup to apply specific patches required
         /// for Tileset functionality.
-        /// </summary>
         /// <remarks>
         /// This method applies the appropriate patches to integrate Tileset-specific
         /// utility functionality into the CoreLib framework. It is invoked during
@@ -194,9 +168,7 @@ namespace CoreLib.Submodule.TileSet
         /// </remarks>
         internal override void SetHooks() => CoreLibMod.Patch(typeof(TilesetTypeUtilityPatch));
 
-        /// <summary>
         /// Loads and initializes the TileSet module.
-        /// </summary>
         /// <remarks>
         /// This method refreshes the module's resource bundles, loads the tileset ID configuration,
         /// initializes tilesets, and subscribes to events necessary for material swapping.
@@ -210,10 +182,8 @@ namespace CoreLib.Submodule.TileSet
             MaterialCrawler.MaterialSwapReady += SwapMaterials;
         }
 
-        /// <summary>
         /// Updates the materials used in custom layers and their associated quad generators
         /// to align with the materials defined in the PrefabCrawler configuration.
-        /// </summary>
         private static void SwapMaterials()
         {
             foreach (var layers in CustomLayers)
@@ -237,10 +207,8 @@ namespace CoreLib.Submodule.TileSet
             }
         }
 
-        /// <summary>
         /// Initializes tilesets by loading default tileset layers, associating custom tilesets,
         /// and setting up missing tileset configurations.
-        /// </summary>
         private static void InitTilesets()
         {
             MapWorkshopTilesetBank vanillaBank = typeof(TilesetTypeUtility).GetValue<MapWorkshopTilesetBank>("tilesetBank");

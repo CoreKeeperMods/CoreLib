@@ -13,9 +13,7 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extension
 {
-    /// <summary>
     /// Provides extension methods for retrieving metadata associated with in-game objects and entities.
-    /// </summary>
     /// <remarks>
     /// These extensions simplify access to <see cref="EntityMonoBehaviourData"/> and <see cref="ObjectAuthoring"/>
     /// information attached to Unity objects, providing an easy way to get object IDs and variation indices.
@@ -26,9 +24,7 @@ namespace CoreLib.Util.Extension
     {
         #region Entity Variation Retrieval
 
-        /// <summary>
         /// Retrieves the entity variation index for a given <see cref="MonoBehaviour"/>.
-        /// </summary>
         /// <param name="monoBehaviour">The MonoBehaviour whose associated entity variation should be retrieved.</param>
         /// <returns>
         /// The variation value of the associated entity. Returns <c>0</c> if no variation is found.
@@ -42,9 +38,7 @@ namespace CoreLib.Util.Extension
             return GetEntityVariation(monoBehaviour.gameObject);
         }
 
-        /// <summary>
         /// Retrieves the entity variation index for a given <see cref="GameObject"/>.
-        /// </summary>
         /// <param name="gameObject">The GameObject whose variation index should be retrieved.</param>
         /// <returns>
         /// The entity variation index, or <c>0</c> if the object does not contain relevant component data.
@@ -66,9 +60,7 @@ namespace CoreLib.Util.Extension
 
         #region Entity ObjectID Retrieval
 
-        /// <summary>
         /// Retrieves the <see cref="ObjectID"/> associated with the given <see cref="MonoBehaviour"/>.
-        /// </summary>
         /// <param name="monoBehaviour">The MonoBehaviour from which to retrieve the ObjectID.</param>
         /// <returns>
         /// The associated <see cref="ObjectID"/>. Returns <see cref="ObjectID.None"/> if unavailable.
@@ -83,9 +75,7 @@ namespace CoreLib.Util.Extension
             return GetEntityObjectID(monoBehaviour.gameObject);
         }
 
-        /// <summary>
         /// Retrieves the <see cref="ObjectID"/> associated with a given <see cref="GameObject"/>.
-        /// </summary>
         /// <param name="gameObject">The GameObject to query for object identification data.</param>
         /// <returns>
         /// The corresponding <see cref="ObjectID"/> if available; otherwise, <see cref="ObjectID.None"/>.

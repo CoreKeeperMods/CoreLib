@@ -6,10 +6,8 @@ using Unity.Entities;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.System
 {
-    /// <summary>
     /// The ModEquipmentChangeSystem class handles the modification and assignment
     /// of equipment slots based on the type of equipped objects in the simulation.
-    /// </summary>
     /// 
     /// This system executes within the context of the
     /// <c>EquipmentBeforeUpdateSystemGroup</c>, and it processes entities

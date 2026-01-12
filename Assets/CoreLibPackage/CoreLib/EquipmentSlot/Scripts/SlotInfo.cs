@@ -5,20 +5,16 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot
 {
-    /// <summary>
     /// Represents the information associated with an equipment slot.
-    /// </summary>
     /// <remarks>
     /// This class stores metadata and logic relating to a specific equipment slot within the system.
     /// It is primarily used to associate the slot with its module logic, type, and object type.
     /// </remarks>
     public class SlotInfo
     {
-        /// <summary>
         /// Represents the GameObject associated with a specific equipment slot.
         /// This variable holds the reference to the GameObject that serves as the visual or functional
         /// representation of the slot in the game environment.
-        /// </summary>
         public GameObject slot;
 
         /// A variable that represents the implementation of custom logic for equipment slots.
@@ -37,11 +33,9 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// slot-specific functionality.
         public IEquipmentLogic logic;
 
-        /// <summary>
         /// Represents the type associated with a specific equipment slot.
         /// This property defines the type of the slot, which is used to determine compatibility
         /// and behavior for various equipment attached to this slot.
-        /// </summary>
         public Type slotType;
 
         /// Represents the specific type of an object within the equipment system.

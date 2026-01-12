@@ -12,9 +12,7 @@ namespace CoreLib.Submodule.Command.Patch
 {
     internal class ChatWindowPatch
     {
-        /// <summary>
         /// Represents a collection of command strings used to store the history of user input in the chat window.
-        /// </summary>
         /// <remarks>
         /// The <c>history</c> variable is used to maintain a list of previously entered commands.
         /// This history allows for navigation and re-use of past inputs via specific key bindings (e.g., up and down arrows).
@@ -22,9 +20,7 @@ namespace CoreLib.Submodule.Command.Patch
         /// </remarks>
         private static readonly List<string> History = new List<string>();
 
-        /// <summary>
         /// Represents the index of the currently selected message within the history list in the chat window.
-        /// </summary>
         /// <remarks>
         /// This variable is used to navigate through the chat history when scrolling up or down.
         /// It indicates the position in the <c>history</c> list and is updated when the user presses
@@ -33,10 +29,8 @@ namespace CoreLib.Submodule.Command.Patch
         /// </remarks>
         public static int CurrentHistoryIndex = -1;
 
-        /// <summary>
         /// Defines the maximum number of entries that can be stored in the input history.
         /// When the history exceeds this limit, the oldest entries are removed to maintain the size.
-        /// </summary>
         public static int MaxHistoryLen = 10;
 
         /// Handles the update logic for the ChatWindow, processes input, and manages command history navigation.

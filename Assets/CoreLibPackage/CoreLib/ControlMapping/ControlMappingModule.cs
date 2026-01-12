@@ -17,9 +17,7 @@ using Logger = CoreLib.Util.Logger;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.ControlMapping
 {
-    /// <summary>
     /// This module provides the means to add custom Rewired Key binds.
-    /// </summary>
     public class ControlMappingModule : BaseSubmodule
     {
         #region Fields
@@ -41,9 +39,7 @@ namespace CoreLib.Submodule.ControlMapping
         internal static Dictionary<string, int[]> KeyBindCategories = new();
         internal static Dictionary<string, int[]> KeyBindActions = new();
         
-        /// <summary>
         /// Event that triggers a callback when the Rewired input system is fully initialized.
-        /// </summary>
         public static Action RewiredStart;
         
         #endregion
@@ -52,9 +48,7 @@ namespace CoreLib.Submodule.ControlMapping
         
 
         
-        /// <summary>
         /// Add a new rebindable keybind
-        /// </summary>
         /// <param name="keyBindName">UNIQUE key bind name</param>
         /// <param name="defaultKeyCode">Default key bind KeyCode</param>
         /// <param name="modifier">Key bind modifier. Defaults to none</param>
@@ -123,9 +117,7 @@ namespace CoreLib.Submodule.ControlMapping
             return categoryInt[0];
         }
 
-        /// <summary>
         /// Sets the default controller binding for an existing custom keybind. The keybind must be created beforehand using AddKeybind().
-        /// </summary>
         /// <param name="keyBindName">The name of the existing keybind to set the default controller binding.</param>
         /// <param name="elementId">The element ID of the controller component to bind.</param>
         /// <param name="elementType">The type of the controller element (e.g., Button or Axis). Defaults to Button.</param>
@@ -174,22 +166,16 @@ namespace CoreLib.Submodule.ControlMapping
 
         #region Submodule Implementation
 
-        /// <summary>
         /// Provides access to the singleton instance of the <see cref="ControlMappingModule"/> class.
         /// Ensures access to the module for managing Rewired keybinds and related functionality.
-        /// </summary>
         internal static ControlMappingModule Instance => CoreLibMod.GetModuleInstance<ControlMappingModule>();
 
-        /// <summary>
         /// Applies the necessary patches or hooks for the functionality of the module.
-        /// </summary>
         internal override void SetHooks() => CoreLibMod.Patch(typeof(ControlMappingPatch));
 
         internal override Type[] Dependencies  => new[] {typeof(LocalizationModule)};
 
-        /// <summary>
         /// Initializes the Rewired extension module by setting up required configurations and resources.
-        /// </summary>
         internal override void Load()
         {
             base.Load();

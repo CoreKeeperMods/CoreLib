@@ -14,9 +14,7 @@ using HarmonyLib;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Audio.Patch
 {
-    /// <summary>
     /// Contains Harmony patches that extend or modify the behavior of the game's <see cref="AudioManager"/>.
-    /// </summary>
     /// <remarks>
     /// This patch class adds CoreLib’s custom sound effect validation and initialization logic
     /// to the base AudioManager system. It integrates custom sound effects into the existing
@@ -29,9 +27,7 @@ namespace CoreLib.Submodule.Audio.Patch
     {
         #region Harmony Patch: IsLegalSfxID
 
-        /// <summary>
         /// Validates whether a given sound effect identifier (<see cref="SfxID"/>) falls within a legal range.
-        /// </summary>
         /// <param name="id">The sound effect identifier to validate.</param>
         /// <param name="__result">
         /// The output flag indicating whether the specified ID is valid. Set to <c>true</c> if valid; otherwise, <c>false</c>.
@@ -59,10 +55,8 @@ namespace CoreLib.Submodule.Audio.Patch
 
         #region Harmony Patch: Initialized (Setter)
 
-        /// <summary>
         /// Executes after the <see cref="AudioManager.Initialized"/> property is set,
         /// enabling integration of custom sound effects into the game’s audio system.
-        /// </summary>
         /// <param name="__instance">
         /// The instance of the <see cref="AudioManager"/> being initialized.
         /// </param>

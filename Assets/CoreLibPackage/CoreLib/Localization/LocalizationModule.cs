@@ -37,9 +37,7 @@ namespace CoreLib.Submodule.Localization
         
         #region Public Interface
 
-        /// <summary>
         /// Add a new localization term with specified translations.
-        /// </summary>
         /// <param name="term">Unique identifier for the localization term.</param>
         /// <param name="translations">Dictionary containing translations for each language.</param>
         /// <exception cref="ArgumentException">Thrown if the translation dictionary does not include an English ("en") translation or if the term is already registered.</exception>
@@ -60,9 +58,7 @@ namespace CoreLib.Submodule.Localization
             
         }
 
-        /// <summary>
         /// Adds a new localization term with English and optional Chinese translations.
-        /// </summary>
         /// <param name="term">A unique identifier for the localization term.</param>
         /// <param name="en">The English translation of the term.</param>
         /// <param name="cn">The optional Chinese translation of the term. Defaults to an empty string.</param>
@@ -73,9 +69,7 @@ namespace CoreLib.Submodule.Localization
             AddTerm(term, new Dictionary<string, string> { { "en", en }, { "zh-CN", cn } });
         }
 
-        /// <summary>
         /// Adds localization entries for the name and description of a specified entity in the game.
-        /// </summary>
         /// <param name="obj">The unique identifier for the object whose localization is being added.</param>
         /// <param name="enName">The object's name in English.</param>
         /// <param name="enDesc">The object's description in English.</param>
@@ -90,9 +84,7 @@ namespace CoreLib.Submodule.Localization
             AddTerm($"Items/{obj}Desc", enDesc, cnDesc);
         }
 
-        /// <summary>
         /// Adds localization terms for the name and description of a specified entity, in multiple languages.
-        /// </summary>
         /// <param name="objectName">The unique identifier of the entity.</param>
         /// <param name="enName">The name of the entity in English.</param>
         /// <param name="enDesc">The description of the entity in English.</param>

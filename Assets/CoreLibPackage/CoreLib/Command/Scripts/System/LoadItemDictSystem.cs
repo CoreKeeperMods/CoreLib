@@ -5,10 +5,8 @@ using Unity.Entities;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Command.System
 {
-    /// <summary>
     /// The <c>LoadItemDictSystem</c> is a simulation system responsible for updating a
     /// dictionary of friendly item names if a localization source is available.
-    /// </summary>
     /// <remarks>
     /// This system ensures that item-friendly names are loaded and stored based on specific
     /// localization sources. It operates within the <see cref="RunSimulationSystemGroup"/> and
@@ -25,9 +23,7 @@ namespace CoreLib.Submodule.Command.System
     [UpdateInGroup(typeof(RunSimulationSystemGroup))]
     public partial class LoadItemDictSystem : PugSimulationSystemBase
     {
-        /// <summary>
         /// Indicates if the <c>LoadItemDictSystem</c> has been initialized.
-        /// </summary>
         /// <remarks>
         /// This static variable is used to ensure that the initialization logic
         /// of the system runs only once. When set to <c>true</c>, the system has
@@ -38,9 +34,7 @@ namespace CoreLib.Submodule.Command.System
         /// </remarks>
         private static bool _initialized;
 
-        /// <summary>
         /// Overrides the initialization method to configure system-specific requirements and behavior during its creation.
-        /// </summary>
         /// <remarks>
         /// This method ensures that the system is properly configured for updates by requiring the presence of specific components,
         /// such as <c>PugDatabase.DatabaseBankCD</c>. Additional configurations specific to runtime groups are also established here
@@ -53,10 +47,8 @@ namespace CoreLib.Submodule.Command.System
             base.OnCreate();
         }
 
-        /// <summary>
         /// Executes the system's update logic during each simulation step and manages one-time initialization
         /// for item-friendly names based on localization sources.
-        /// </summary>
         /// <remarks>
         /// This method ensures that item-friendly names are added only once by checking and leveraging localization sources.
         /// Once the initialization process is completed, the system is disabled to prevent redundant execution in subsequent updates.
@@ -81,9 +73,7 @@ namespace CoreLib.Submodule.Command.System
             base.OnUpdate();
         }
 
-        /// <summary>
         /// Populates a dictionary with localized, user-friendly names for item entries sourced from a mod authoring lookup.
-        /// </summary>
         /// <remarks>
         /// This method processes the object ID lookup provided by <c>ModAPIAuthoring</c>, searching for localized names
         /// for each item using the <c>LocalizationManager.TryGetTranslation</c> method. If a translation exists and is not

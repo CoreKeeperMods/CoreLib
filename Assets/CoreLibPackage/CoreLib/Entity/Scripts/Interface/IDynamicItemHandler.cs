@@ -1,10 +1,8 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Entity.Interface
 {
-    /// <summary>
     /// Represents an interface for handling dynamic items by altering their properties,
     /// such as text and visuals, based on specified object data.
-    /// </summary>
     public interface IDynamicItemHandler
     {
         /// Determines whether this handler should be applied for the specified item data.
@@ -16,9 +14,7 @@ namespace CoreLib.Submodule.Entity.Interface
         /// <param name="text">The text and format fields to be modified based on the object data.</param>
         void ApplyText(ObjectDataCD objectData, TextAndFormatFields text);
 
-        /// <summary>
         /// Applies dynamic recoloring to the item based on the provided object data and color replacement data.
-        /// </summary>
         /// <param name="objectData">The object data used to determine applicable colors.</param>
         /// <param name="replacer">ColorReplacer instance</param>
         void ApplyColors(ObjectDataCD objectData, ColorReplacer replacer);

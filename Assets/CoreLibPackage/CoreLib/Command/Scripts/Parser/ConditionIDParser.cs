@@ -5,9 +5,7 @@ using UnityEngine.Scripting;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Command.Parser
 {
-    /// <summary>
     /// A specialized parser designed to convert string values into `ConditionID` enumerations.
-    /// </summary>
     /// <remarks>
     /// The `ConditionIDParser` processes input strings by normalizing them (trimming whitespace and converting to lowercase)
     /// and attempts to map the processed strings to `ConditionID` enumeration values.

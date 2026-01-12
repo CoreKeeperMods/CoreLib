@@ -7,16 +7,12 @@ using PugMod;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Command.Handler
 {
-    /// <summary>
     /// Handles the execution of the direct message command, allowing players
     /// to send private messages to specified recipients within the game.
-    /// </summary>
     public class DirectMessageCommandHandler : IServerCommandHandler
     {
-        /// <summary>
         /// Executes the direct message command. This command sends a private message
         /// from the sender to a specified target player in the game.
-        /// </summary>
         /// <param name="parameters">
         /// An array of strings where the first element represents the target player's name,
         /// and the remaining elements form the message to send.
@@ -57,10 +53,8 @@ namespace CoreLib.Submodule.Command.Handler
             return new CommandOutput("Sender info is invalid!", CommandStatus.Error);
         }
 
-        /// <summary>
         /// Retrieves the description of the command.
         /// This description provides information about the purpose and usage of the command.
-        /// </summary>
         /// <returns>
         /// A string that contains the description of the command.
         /// </returns>
@@ -69,10 +63,8 @@ namespace CoreLib.Submodule.Command.Handler
             return "/whisper {player name} {message} - Send message directly to player";
         }
 
-        /// <summary>
         /// Retrieves the trigger names associated with the command.
         /// These trigger names are used to invoke the command.
-        /// </summary>
         /// <returns>
         /// An array of strings representing the trigger names for the command.
         /// </returns>

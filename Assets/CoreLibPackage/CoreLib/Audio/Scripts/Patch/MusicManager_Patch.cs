@@ -14,10 +14,8 @@ using HarmonyLib;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Audio.Patch
 {
-    /// <summary>
     /// Contains Harmony patches for <see cref="MusicManager"/>, extending its ability
     /// to register and handle custom CoreLib music rosters.
-    /// </summary>
     /// <remarks>
     /// This patch allows mods to inject new music tracks into existing rosters
     /// or to define fully custom playlists without overwriting vanilla ones.
@@ -30,10 +28,8 @@ namespace CoreLib.Submodule.Audio.Patch
     {
         #region Harmony Patch: Init
 
-        /// <summary>
         /// Initializes the <see cref="MusicManager"/> and appends any additional
         /// tracks from CoreLib-defined custom rosters to the existing vanilla playlists.
-        /// </summary>
         /// <param name="__instance">The instance of <see cref="MusicManager"/> being initialized.</param>
         /// <remarks>
         /// This patch is invoked after the vanilla <see cref="MusicManager.Init"/> method.
@@ -70,10 +66,8 @@ namespace CoreLib.Submodule.Audio.Patch
 
         #region Harmony Patch: SetNewMusicPlaylist
 
-        /// <summary>
         /// Intercepts and manages playlist changes for <see cref="MusicManager"/>,
         /// enabling CoreLib’s custom music rosters to override vanilla playback behavior.
-        /// </summary>
         /// <param name="__instance">The active <see cref="MusicManager"/> instance.</param>
         /// <param name="m">The <see cref="MusicRosterType"/> to switch to.</param>
         /// <returns>

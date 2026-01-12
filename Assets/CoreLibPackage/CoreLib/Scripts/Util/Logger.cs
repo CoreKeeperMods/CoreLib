@@ -13,10 +13,8 @@ using static UnityEngine.Debug;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util
 {
-    /// <summary>
     /// Provides categorized and consistent logging functionality for the Core Library mod.
     /// Supports multiple log levels such as Information, Warning, and Error.
-    /// </summary>
     /// <remarks>
     /// This class wraps the Unity <see cref="Debug"/> logger to provide standardized
     /// and identifiable output for CoreLib modules and submodules.
@@ -28,9 +26,7 @@ namespace CoreLib.Util
     {
         #region Fields
 
-        /// <summary>
         /// A string-based identifier used to categorize and tag log messages.
-        /// </summary>
         /// <remarks>
         /// This tag helps distinguish messages in the Unity console, making it easier
         /// to filter logs by their originating module or subsystem.
@@ -41,9 +37,7 @@ namespace CoreLib.Util
 
         #region Constructor
 
-        /// <summary>
         /// Initializes a new instance of the <see cref="Logger"/> class with a specific tag name.
-        /// </summary>
         /// <param name="tag">
         /// The name of the mod or system component to associate with all log messages.
         /// This value is automatically enclosed in brackets when displayed in the console.
@@ -63,9 +57,7 @@ namespace CoreLib.Util
 
         #region Logging Methods
 
-        /// <summary>
         /// Logs an informational message to the Unity console.
-        /// </summary>
         /// <param name="message">The message to be logged at the informational level.</param>
         /// <remarks>
         /// Use this method to report normal operational messages or status updates.
@@ -77,9 +69,7 @@ namespace CoreLib.Util
             unityLogger.Log(LogType.Log, _tag, message);
         }
 
-        /// <summary>
         /// Logs a warning message to the Unity console.
-        /// </summary>
         /// <param name="message">The message to be logged at the warning level.</param>
         /// <remarks>
         /// Warnings indicate potential issues or unusual states that do not stop execution
@@ -92,9 +82,7 @@ namespace CoreLib.Util
             unityLogger.Log(LogType.Warning, _tag, message);
         }
 
-        /// <summary>
         /// Logs an error message to the Unity console.
-        /// </summary>
         /// <param name="message">The message to be logged at the error level.</param>
         /// <remarks>
         /// Errors indicate failed operations or critical issues that require immediate attention.

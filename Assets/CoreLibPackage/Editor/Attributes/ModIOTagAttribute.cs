@@ -5,11 +5,9 @@ using PropertyAttribute = UnityEngine.PropertyAttribute;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Editor
 {
-    /// <summary>
     /// Attribute enabling the creation of a multi-selectable dropdown populated by Mod.io tags relevant
     /// to Core Keeper. Tags can be filtered based on specific categories or configuration
     /// (e.g., game versions, access types).
-    /// </summary>
     public class ModIOTagAttribute : PropertyAttribute
     {
         public enum TagKind

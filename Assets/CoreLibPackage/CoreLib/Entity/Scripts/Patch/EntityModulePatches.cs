@@ -68,10 +68,8 @@ namespace CoreLib.Submodule.Entity.Patch
         public static bool Convert(GraphicalObjectConversion __instance, GameObject authoring) => !CheckHasSupportsPooling(authoring);
         
 
-        /// <summary>
         /// Applies custom logic to modify the result of the GetObjectName method of the PlayerController class.
         /// This method checks for applicable dynamic item handlers and applies text modifications based on the provided object data.
-        /// </summary>
         /// <param name="containedObject">The buffer containing the object data whose name is being retrieved.</param>
         /// <param name="localize">A flag indicating if the object name should be localized.</param>
         /// <param name="__result">The result object used for storing the modified text and format fields.</param>
@@ -81,11 +79,9 @@ namespace CoreLib.Submodule.Entity.Patch
             var handler = EntityModule.DynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(containedObject.objectData));
             handler?.ApplyText(containedObject.objectData, __result);
         }
-        /// <summary>
         /// Updates the <see cref="ColorReplacer"/> instance based on the provided object's data.
         /// Uses dynamic item handlers to determine if colors should be applied for the current object data.
         /// If a handler is applicable and successfully applies the colors, an active color replacement is set.
-        /// </summary>
         /// <param name="__instance">The instance of <see cref="ColorReplacer"/> being updated.</param>
         /// <param name="containedObject">The object data encapsulated in a <see cref="ContainedObjectsBuffer"/> used to determine color changes.</param>
         [HarmonyPatch(typeof(ColorReplacer), nameof(ColorReplacer.UpdateColorReplacerFromObjectData)), HarmonyPostfix]
@@ -126,9 +122,7 @@ namespace CoreLib.Submodule.Entity.Patch
             return true;
         }
 
-        /// <summary>
         /// Checks if the provided GameObject has a SupportsPooling component.
-        /// </summary>
         /// <param name="authoring">The GameObject to check.</param>
         /// <returns>True if the GameObject has a SupportsPooling component; otherwise, false.</returns>
         private static bool CheckHasSupportsPooling(GameObject authoring) =>

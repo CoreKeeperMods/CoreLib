@@ -10,9 +10,7 @@ using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Entity.Component {
-    /// <summary>
     /// This component is used to identify the entity as a Core Lib entity.
-    /// </summary>
     public class SupportsCoreLib : MonoBehaviour
     {
         [Tooltip("Bind this entity to the Core Library's Root Workbench.")]

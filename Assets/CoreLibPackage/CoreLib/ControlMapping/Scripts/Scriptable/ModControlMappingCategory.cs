@@ -40,39 +40,27 @@ namespace CoreLib.Submodule.ControlMapping
         {
             public string keyBindName;
 
-            /// <summary>
-            /// Specifies the type of gamepad element to be used for a key binding.
-            /// </summary>
-            public ControllerElementType gamepadElementType;
+                /// Specifies the type of gamepad element to be used for a key binding.
+                public ControllerElementType gamepadElementType;
         
-            /// <summary>
-            /// Represents the identifier for a gamepad element, used to associate a specific
+                /// Represents the identifier for a gamepad element, used to associate a specific
             /// hardware element (e.g., button, axis) with a game input binding.
-            /// </summary>
-            public int gamepadElementId;
+                public int gamepadElementId;
 
-            /// <summary>
-            /// Defines the range of motion or activation for a gamepad axis.
+                /// Defines the range of motion or activation for a gamepad axis.
             /// This can determine how input along the axis is interpreted, such as full-range or a specific directional-range.
-            /// </summary>
-            public AxisRange gamepadAxisRange;
+                public AxisRange gamepadAxisRange;
         
-            /// <summary>
-            /// Indicates whether the associated gamepad axis input should be inverted.
-            /// </summary>
-            public bool gamepadInvert;
+                /// Indicates whether the associated gamepad axis input should be inverted.
+                public bool gamepadInvert;
         
             public Pole gamepadAxisContribution;
         
-            /// <summary>
-            /// Stores the default keyboard key code associated with a key binding.
-            /// </summary>
-            public KeyboardKeyCode keyboardKeyCode;
+                /// Stores the default keyboard key code associated with a key binding.
+                public KeyboardKeyCode keyboardKeyCode;
 
-            /// <summary>
-            /// Represents a key modifier (e.g., Shift, Ctrl, Alt) associated with a key binding.
-            /// </summary>
-            public ModifierKey modifierKey1;
+                /// Represents a key modifier (e.g., Shift, Ctrl, Alt) associated with a key binding.
+                public ModifierKey modifierKey1;
             public ModifierKey modifierKey2;
             public ModifierKey modifierKey3;
 

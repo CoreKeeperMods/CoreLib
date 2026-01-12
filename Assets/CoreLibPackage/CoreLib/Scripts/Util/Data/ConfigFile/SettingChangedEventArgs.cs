@@ -4,9 +4,7 @@
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
-    /// <summary>
     ///     Arguments for events concerning a change of a setting.
-    /// </summary>
     /// <inheritdoc />
     public sealed class SettingChangedEventArgs : EventArgs
     {
@@ -16,9 +14,7 @@ namespace CoreLib.Data.Configuration
             ChangedSetting = changedSetting;
         }
 
-        /// <summary>
         ///     Setting that was changed
-        /// </summary>
         public ConfigEntryBase ChangedSetting { get; }
     }
 }

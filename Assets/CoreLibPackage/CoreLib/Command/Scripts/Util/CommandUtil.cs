@@ -12,14 +12,10 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Command.Util
 {
-    /// <summary>
     /// Provides utility methods for command parsing, execution, and management, such as processing input arguments, retrieving player-related information, and enhancing command outputs.
-    /// </summary>
     public static class CommandUtil
     {
-        /// <summary>
         /// Parses an item name from a given string and attempts to match it to an object ID.
-        /// </summary>
         /// <param name="fullName">The full name of the item to be parsed.</param>
         /// <param name="objectID">An output parameter that will contain the parsed object ID if the parsing is successful.</param>
         /// <returns>A command output representing the result of the parsing. It includes feedback or an error message if parsing fails.</returns>
@@ -60,9 +56,7 @@ namespace CoreLib.Submodule.Command.Util
             return "";
         }
 
-        /// <summary>
         /// Parses a position from player input parameters, adjusting based on the player's current position if necessary.
-        /// </summary>
         /// <param name="parameters">An array of input arguments provided by the player.</param>
         /// <param name="startIndex">The index of the parameter list to begin parsing.</param>
         /// <param name="playerPos">The current position of the player in world space as a float3.</param>
@@ -94,9 +88,7 @@ namespace CoreLib.Submodule.Command.Util
             return new int2(xPos, zPos);
         }
 
-        /// <summary>
         /// Parses a single axis value from player input text.
-        /// </summary>
         /// <param name="posText">The input string representing the axis value, possibly containing a tilde (~) for relative positioning.</param>
         /// <param name="playerPos">The player's current position along the axis to resolve relative positioning.</param>
         /// <returns>The parsed absolute axis value as an integer.</returns>
@@ -110,9 +102,7 @@ namespace CoreLib.Submodule.Command.Util
             return int.Parse(posText);
         }
 
-        /// <summary>
         /// Retrieves a color representation associated with a given command status.
-        /// </summary>
         /// <param name="status">The command status from which to derive the color.</param>
         /// <returns>A color that represents the provided command status.</returns>
         public static Color GetColor(this CommandStatus status)
@@ -127,9 +117,7 @@ namespace CoreLib.Submodule.Command.Util
             };
         }
 
-        /// <summary>
         /// Appends a specified prefix to the start of the feedback message in the given CommandOutput instance.
-        /// </summary>
         /// <param name="commandOutput">The CommandOutput instance whose feedback message will be modified.</param>
         /// <param name="prefix">The prefix string to prepend to the feedback message.</param>
         /// <returns>The updated CommandOutput instance with the prefixed feedback message.</returns>
@@ -139,9 +127,7 @@ namespace CoreLib.Submodule.Command.Util
             return commandOutput;
         }
 
-        /// <summary>
         /// Retrieves the player controller associated with a given player connection entity.
-        /// </summary>
         /// <param name="sender">The player connection entity for which the controller is being retrieved.</param>
         /// <returns>The player controller associated with the specified player connection entity.</returns>
         /// <exception cref="InvalidOperationException">Thrown if the player entity does not have a PlayerGhost component.</exception>
@@ -160,9 +146,7 @@ namespace CoreLib.Submodule.Command.Util
             return player;
         }
 
-        /// <summary>
         /// Retrieves the server entity associated with the player connection entity.
-        /// </summary>
         /// <param name="sender">The entity representing the player connection.</param>
         /// <returns>The entity representing the player in the server world.</returns>
         public static Unity.Entities.Entity GetPlayerEntity(this Unity.Entities.Entity sender)
@@ -172,9 +156,7 @@ namespace CoreLib.Submodule.Command.Util
             return playerEntity;
         }
 
-        /// <summary>
         /// Retrieves the name of the player associated with the specified server entity.
-        /// </summary>
         /// <param name="playerEntity">The server entity representing the player.</param>
         /// <returns>The player's name as a string.</returns>
         public static string GetPlayerName(this Unity.Entities.Entity playerEntity)
@@ -184,9 +166,7 @@ namespace CoreLib.Submodule.Command.Util
             return customization.name.Value;
         }
 
-        /// <summary>
         /// Retrieves the database bank blob reference associated with the specified EntityManager.
-        /// </summary>
         /// <param name="entityManager">The EntityManager instance used to query the database bank.</param>
         /// <returns>A reference to the database bank blob asset.</returns>
         public static BlobAssetReference<PugDatabase.PugDatabaseBank> GetDatabase(this EntityManager entityManager)

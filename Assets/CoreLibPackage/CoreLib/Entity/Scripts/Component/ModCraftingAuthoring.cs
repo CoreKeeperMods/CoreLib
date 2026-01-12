@@ -11,17 +11,13 @@ using Unity.Mathematics;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Entity.Component
 {
-    /// <summary>
     /// Provides an authoring component for defining crafting capabilities within a modded entity.
     /// Responsible for configuring crafting behaviors, including crafting types, crafted objects,
     /// and integration with other buildings that contribute to crafting output.
-    /// </summary>
     [DisallowMultipleComponent]
     public class ModCraftingAuthoring : MonoBehaviour
     {
-        /// <summary>
         /// Specifies the type of crafting associated with an object or item.
-        /// </summary>
         [Tooltip("The type of crafting that this item/object does:" +
                  "\nSimple: Make items (up to 18)" +
                  "\nProcess Resources: Make an item turn into another item" +
@@ -30,24 +26,18 @@ namespace CoreLib.Submodule.Entity.Component
                  "\nCattle: Object creates the item on it's own automatically")]
         public CraftingType craftingType;
 
-        /// <summary>
         /// Determines whether a visual effect is displayed on the output slot while processing an item.
-        /// </summary>
         [Tooltip("When processing an item, shows an effect on the output slot")]
         public bool showLoopEffectOnOutputSlot;
 
         public bool allInventoryIsForSingleCraft;
 
-        /// <summary>
         /// Represents a collection of objects or items that can be crafted by the associated crafting component or building.
         /// Each entry in the list specifies the object ID and the quantity that can be crafted.
-        /// </summary>
         [HideIf("craftingType", CraftingType.Extract)] [ArrayElementTitle("objectID, amount"), Tooltip("Objects/Items this Building can craft")]
         public List<InventoryItemAuthoring.CraftingObject> canCraftObjects = new();
 
-        /// <summary>
         /// A list of building IDs from which crafted objects should be included for this building's crafting capabilities.
-        /// </summary>
         [HideIf("craftingType", CraftingType.Extract)]
         [PickStringFromEnum(typeof(ObjectID)), Tooltip("Buildings listed below will have their items added to the crafted objects in this Building")]
         public List<string> includeCraftedObjectsFromBuildings = new();
@@ -61,11 +51,9 @@ namespace CoreLib.Submodule.Entity.Component
 
         public Vector2 minMaxRandomDefaultCraftingTime;
 
-        /// <summary>
         /// Called automatically by Unity when the state of the component changes in the Inspector.
         /// Ensures that the crafting objects list does not contain any entries with a quantity of zero or less.
         /// Any such entries are corrected to have a default quantity of one.
-        /// </summary>
         private void OnValidate()
         {
             if (canCraftObjects == null) return;
@@ -81,17 +69,13 @@ namespace CoreLib.Submodule.Entity.Component
         }
     }
 
-    /// <summary>
     /// Defines a converter for the ModCraftingAuthoring component, responsible for converting authoring-time
     /// data into runtime configuration for crafting functionality in the ModEntity system.
-    /// </summary>
     public class ModCraftingConverter : SingleAuthoringComponentConverter<ModCraftingAuthoring>
     {
-        /// <summary>
         /// Converts a ModCraftingAuthoring component into its runtime representation.
         /// This includes adding relevant components and buffers to the associated entity
         /// for crafting, handling crafting types, and processing crafting configurations.
-        /// </summary>
         /// <param name="craftingAuthoring">The ModCraftingAuthoring component to convert to runtime data.</param>
         protected override void Convert(ModCraftingAuthoring craftingAuthoring)
         {

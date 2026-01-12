@@ -19,9 +19,7 @@ using Object = UnityEngine.Object;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Util.Extension
 {
-    /// <summary>
     /// Contains utility extension methods for mod management, retrieval, and file operations.
-    /// </summary>
     /// <remarks>
     /// This class simplifies working with <see cref="LoadedMod"/> and <see cref="IMod"/> instances,
     /// providing easy access to mod metadata, file content, and Burst assembly loading
@@ -34,18 +32,14 @@ namespace CoreLib.Util.Extension
     {
         #region Fields
 
-        /// <summary>
         /// Stores a randomly generated unique identifier used for temporary file paths or isolated directories.
-        /// </summary>
         public static readonly string RandomPath = Guid.NewGuid().ToString();
 
         #endregion
 
         #region Mod Information Retrieval
 
-        /// <summary>
         /// Retrieves the <see cref="LoadedMod"/> metadata associated with a specific mod instance.
-        /// </summary>
         /// <param name="mod">The mod instance to retrieve information for.</param>
         /// <param name="modName">An optional parameter specifying the mod's name. Defaults to <c>null</c>.</param>
         public static LoadedMod GetModInfo(this IMod mod, string modName = null)
@@ -57,9 +51,7 @@ namespace CoreLib.Util.Extension
                 : loadedMods.FirstOrDefault(modInfo => modInfo.Handlers.Contains(mod));
         }
         
-        /// <summary>
         /// Retrieves an asset from a specific mod by name.
-        /// </summary>
         /// <param name="mod">The mod instance to retrieve the asset from.</param>
         /// <param name="modName">The name of the mod whose asset should be retrieved. Defaults to <c>null</c>.</param>
         /// <param name="assetName">The name of the asset to retrieve. Defaults to <c>null</c>.</param>
@@ -72,9 +64,7 @@ namespace CoreLib.Util.Extension
             return useMod == null ? throw new ArgumentException($"Mod {modName} not found!") : useMod.LoadAsset<T>(assetName);
         }
         
-        /// <summary>
         /// Retrieves an asset from a specific mod by name.
-        /// </summary>
         /// <param name="mod">The mod instance to retrieve the asset from.</param>
         /// <param name="assetName">The name of the asset to retrieve. Defaults to <c>null</c>.</param>
         /// <typeparam name="T">The expected type of the asset.</typeparam>
@@ -86,9 +76,7 @@ namespace CoreLib.Util.Extension
             return asset ?? throw new ArgumentException($"Found no asset in mod {mod.Metadata.name} with name {assetName}!");
         }
 
-        /// <summary>
         /// Loads all sprite assets from the specified mod within the registered assets.
-        /// </summary>
         /// <param name="mod">The mod instance to retrieve the asset from.</param>
         /// <returns>An array of loaded sprite objects, or an empty array if no sprites are found.</returns>
         public static Sprite[] LoadSprites(this LoadedMod mod)
@@ -97,9 +85,7 @@ namespace CoreLib.Util.Extension
             return sprites.Length > 0 ? sprites : Array.Empty<Sprite>();
         }
         
-        /// <summary>
         /// Loads all audio clip assets from the specified asset path within the registered assets.
-        /// </summary>
         /// <param name="mod">The mod instance to retrieve the asset from.</param>
         /// <returns>An array of loaded audio clip objects, or an empty array if no audio clips are found.</returns>
         public static AudioClip[] LoadAudioFiles(this LoadedMod mod)
@@ -112,9 +98,7 @@ namespace CoreLib.Util.Extension
 
         #region File Handling
 
-        /// <summary>
         /// Retrieves and decodes the contents of a file stored within a mod.
-        /// </summary>
         /// <param name="mod">The mod from which to load the file.</param>
         /// <param name="file">The relative path of the file within the mod’s directory.</param>
         /// <returns>
@@ -140,9 +124,7 @@ namespace CoreLib.Util.Extension
 
         #region Platform Helpers
 
-        /// <summary>
         /// Returns the current platform name string based on the running environment.
-        /// </summary>
         /// <returns>
         /// A string indicating the platform type, such as <c>"Windows"</c> or <c>"Linux"</c>;
         /// returns <c>null</c> if the platform is unrecognized.
@@ -158,9 +140,7 @@ namespace CoreLib.Util.Extension
             };
         }
 
-        /// <summary>
         /// Returns the appropriate file extension for the given platform.
-        /// </summary>
         /// <param name="platform">The name of the platform, e.g., <c>"Windows"</c> or <c>"Linux"</c>.</param>
         /// <returns>
         /// The file extension string (e.g., <c>"dll"</c> for Windows or <c>"so"</c> for Linux),
@@ -180,9 +160,7 @@ namespace CoreLib.Util.Extension
 
         #region Burst Assembly Handling
 
-        /// <summary>
         /// Attempts to load the platform-specific Burst-compiled assembly for the given mod.
-        /// </summary>
         /// <param name="modInfo">The <see cref="LoadedMod"/> containing metadata and assembly references.</param>
         /// <remarks>
         /// This method ensures that platform-optimized Burst binaries are copied into a temporary directory
@@ -235,9 +213,7 @@ namespace CoreLib.Util.Extension
 
         #region Reflection Utilities
 
-        /// <summary>
         /// Searches a type for a member by name using CoreLib’s safe reflection utilities.
-        /// </summary>
         /// <param name="type">The target <see cref="Type"/> to search for the member.</param>
         /// <param name="memberName">The name of the member to locate.</param>
         /// <returns>

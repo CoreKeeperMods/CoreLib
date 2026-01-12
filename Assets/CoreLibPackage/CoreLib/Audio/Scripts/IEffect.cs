@@ -12,9 +12,7 @@ using Unity.Entities;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Audio
 {
-    /// <summary>
     /// Represents a contract for handling and playing audio or visual effects within the CoreLib framework.
-    /// </summary>
     /// <remarks>
     /// Implementations of this interface provide the logic for initializing and playing
     /// sound or visual effects in response to in-game events. Each implementation can
@@ -25,9 +23,7 @@ namespace CoreLib.Submodule.Audio
     /// <seealso cref="Unity.Entities.Entity"/>
     public interface IEffect
     {
-        /// <summary>
         /// Plays an audio or visual effect based on the provided event data and game context.
-        /// </summary>
         /// <param name="effectEvent">
         /// The event data containing all necessary information about the effect to be played.
         /// </param>

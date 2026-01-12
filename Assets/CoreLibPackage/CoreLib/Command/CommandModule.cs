@@ -20,9 +20,7 @@ using Rewired;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Command
 {
-    /// <summary>
     /// This module provides means to add custom chat commands
-    /// </summary>
     public class CommandModule : BaseSubmodule
     {
         #region Public Interface
@@ -32,9 +30,7 @@ namespace CoreLib.Submodule.Command
         internal new static Logger Log = new(Name);
 
         
-        /// <summary>
         /// Represents the communication system used for handling client-side command transmissions.
-        /// </summary>
         /// <remarks>
         /// This property provides access to the CommandCommSystem instance responsible for
         /// client-side command processing within the CommandsModule. The system facilitates
@@ -42,9 +38,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         public static CommandCommSystem ClientCommSystem => _clientCommSystem;
 
-        /// <summary>
         /// Represents the communication system used for handling server-side command transmissions.
-        /// </summary>
         /// <remarks>
         /// This property provides access to the CommandCommSystem instance responsible for
         /// server-side command processing within the CommandsModule. The system facilitates
@@ -53,9 +47,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         public static CommandCommSystem ServerCommSystem => _serverCommSystem;
 
-        /// <summary>
         /// Adds all commands from the specified assembly.
-        /// </summary>
         /// <param name="modId">The unique identifier of the mod containing the commands.</param>
         /// <param name="modName">The name of the mod containing the commands.</param>
         public static void AddCommands(long modId, string modName)
@@ -71,9 +63,7 @@ namespace CoreLib.Submodule.Command
             }
         }
 
-        /// <summary>
         /// Registers a command handler with the specified module name.
-        /// </summary>
         /// <param name="handlerType">The type of the command handler to register.</param>
         /// <param name="modName">The name of the module under which the command handler is being registered.</param>
         public static void RegisterCommandHandler(Type handlerType, string modName)
@@ -113,9 +103,7 @@ namespace CoreLib.Submodule.Command
             }
         }
 
-        /// <summary>
         /// Unregisters a command handler of the specified type.
-        /// </summary>
         /// <param name="handlerType">The type of the command handler to be unregistered.</param>
         public void UnregisterCommandHandler(Type handlerType)
         {
@@ -127,9 +115,7 @@ namespace CoreLib.Submodule.Command
             CommandHandlers.RemoveAll(pair => pair.Handler.GetType() == handlerType);
         }
 
-        /// <summary>
         /// Retrieves the command handler associated with a specific command name.
-        /// </summary>
         /// <param name="commandName">The name of the command to find the handler for.</param>
         /// <param name="commandHandler">
         /// When this method returns, contains the command handler as a <see cref="CommandPair"/>
@@ -146,9 +132,7 @@ namespace CoreLib.Submodule.Command
             return commandHandler.Handler != null;
         }
 
-        /// <summary>
         /// Retrieves all server-side command handlers that are associated with the specified command name.
-        /// </summary>
         /// <param name="commandName">The name of the command to match against the trigger names of server command handlers.</param>
         /// <returns>
         /// A collection of server command handlers (<see cref="IServerCommandHandler"/>) where at least one trigger name
@@ -165,9 +149,7 @@ namespace CoreLib.Submodule.Command
                     .Any(s => s.Equals(commandName, StringComparison.InvariantCultureIgnoreCase)));
         }
 
-        /// <summary>
         /// Retrieves a collection of client-side command handlers associated with the specified command name.
-        /// </summary>
         /// <param name="commandName">The name of the command to match against the handlers' trigger names.</param>
         /// <returns>An enumerable collection of client command handlers that match the specified command name.</returns>
         public IEnumerable<IClientCommandHandler> GetClientCommandHandlers(string commandName)
@@ -185,27 +167,21 @@ namespace CoreLib.Submodule.Command
 
         #region Private Implementation
 
-        /// <summary>
         /// Defines the submodules that the current module depends on to function correctly.
-        /// </summary>
         /// <remarks>
         /// This property specifies an array of module types that represent required dependencies
         /// for the current module's operation. Ensuring these dependencies are met is critical
         /// for maintaining proper interaction and functionality within the module system.
         /// </remarks>
         internal override Type[] Dependencies => new[] { typeof(ControlMappingModule) };
-        /// <summary>
         /// Provides access to the singleton instance of the CommandsModule class.
-        /// </summary>
         /// <remarks>
         /// This property retrieves the instance of the CommandsModule, facilitating access to the module's methods, settings,
         /// and command handling capabilities. It ensures that all operations within the CommandsModule are properly routed
         /// through the centralized instance.
         /// </remarks>
         internal static CommandModule Instance => CoreLibMod.GetModuleInstance<CommandModule>();
-        /// <summary>
         /// Contains configuration settings specific to the CommandsModule for managing command behavior and permissions.
-        /// </summary>
         /// <remarks>
         /// This field stores an instance of CommandModuleSettings, which encapsulates various options and configurations
         /// related to command execution, logging, permissions, and security within the CommandsModule. These settings
@@ -213,9 +189,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal static CommandModuleSettings Settings = new CommandModuleSettings();
 
-        /// <summary>
         /// Specifies the prefix used to identify and invoke commands within the CommandsModule.
-        /// </summary>
         /// <remarks>
         /// This constant string represents the character or sequence that must precede any command
         /// to differentiate it from regular text input. It is primarily utilized in processing
@@ -223,9 +197,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal const string CommandPrefix = "/";
 
-        /// <summary>
         /// Represents the set of bracket characters used for command processing and validation.
-        /// </summary>
         /// <remarks>
         /// This field defines a collection of bracket characters, including curly braces '{', '}',
         /// and square brackets '[', ']', which are used as delimiters or syntax elements within
@@ -234,9 +206,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         private static readonly char[] Brackets = { '{', '}', '[', ']' };
 
-        /// <summary>
         /// Represents the Rewired.Player instance utilized for input handling within the CommandsModule.
-        /// </summary>
         /// <remarks>
         /// This variable is internally initialized to retrieve the primary input player from the Rewired Input library.
         /// It serves as the input abstraction for managing interactions related to the CommandsModule, such as command toggling
@@ -244,9 +214,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal static Player RewiredPlayer;
 
-        /// <summary>
         /// Represents the binding key identifier for navigating to the previous command in the command input history.
-        /// </summary>
         /// <remarks>
         /// This variable is utilized in the command-handling system to map the "up navigation" functionality,
         /// allowing users to cycle backward through the history of previously entered commands.
@@ -254,9 +222,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal static string UpKey = "CoreLib_UpKey";
 
-        /// <summary>
         /// Represents the key bind identifier for navigating to the previous command in the command history.
-        /// </summary>
         /// <remarks>
         /// This variable is used within the Rewired input system to bind a specific key for accessing the
         /// previous command in the user's input history. It is primarily utilized to improve the usability
@@ -264,9 +230,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal static string DownKey = "CoreLib_DownKey";
 
-        /// <summary>
         /// Represents the keybinding that triggers the autocomplete functionality for commands.
-        /// </summary>
         /// <remarks>
         /// This keybind is associated with the "CoreLib_CompleteKey" action and is intended
         /// to provide a shortcut for autocomplete operations within the command system.
@@ -275,9 +239,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal static string CompleteKey = "CoreLib_CompleteKey";
 
-        /// <summary>
         /// Represents the identifier for the keybind used to toggle the Quantum Console visibility.
-        /// </summary>
         /// <remarks>
         /// This constant is a string value used as a key in the Rewired input system for triggering
         /// the Quantum Console toggle functionality. It is primarily configured and registered
@@ -285,9 +247,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal static string ToggleQuantumConsole = "CoreLib_ToggleQC";
 
-        /// <summary>
         /// Represents a collection of command pair instances used for handling client and server command interactions.
-        /// </summary>
         /// <remarks>
         /// This field contains a list of CommandPair objects, each encapsulating both client-side and server-side
         /// handlers for various commands. It serves as the core storage for registering, retrieving, and managing
@@ -296,9 +256,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal static List<CommandPair> CommandHandlers = new List<CommandPair>();
 
-        /// <summary>
         /// Represents a mapping of user-friendly names to corresponding ObjectID values.
-        /// </summary>
         /// <remarks>
         /// This dictionary facilitates the association between user-friendly text identifiers and their
         /// corresponding ObjectID enums within the CommandsModule. It is primarily used for resolving
@@ -308,9 +266,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal static Dictionary<string, ObjectID> FriendlyNameDict = new Dictionary<string, ObjectID>();
 
-        /// <summary>
         /// Represents the static instance of the command communication system utilized within the client context.
-        /// </summary>
         /// <remarks>
         /// This variable is used internally by the CommandsModule to manage the lifecycle and operations
         /// of the CommandCommSystem instance. It is responsible for handling communication processes,
@@ -319,9 +275,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         private static CommandCommSystem _clientCommSystem;
 
-        /// <summary>
         /// Represents the server-side communication system utilized for command handling and relay.
-        /// </summary>
         /// <remarks>
         /// This variable provides an instance of the CommandCommSystem class, which is primarily responsible
         /// for processing server-related command exchanges within the CommandsModule. It facilitates
@@ -330,9 +284,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         private static CommandCommSystem _serverCommSystem;
 
-        /// <summary>
         /// Represents the instance of the QuantumConsole used for handling console commands and debugging.
-        /// </summary>
         /// <remarks>
         /// This variable is used to reference the QuantumConsole component within the application, providing
         /// the ability to toggle its visibility and functionality during runtime. It is essential for managing
@@ -340,9 +292,7 @@ namespace CoreLib.Submodule.Command
         /// </remarks>
         internal static QuantumConsole QuantumConsole;
 
-        /// <summary>
         /// Applies patches to integrate specific components of the mod, enabling their functionality within the system.
-        /// </summary>
         internal override void SetHooks()
         {
             CoreLibMod.Patch(typeof(ChatWindowPatch));
@@ -350,9 +300,7 @@ namespace CoreLib.Submodule.Command
             CoreLibMod.Patch(typeof(MenuManagerPatch));
         }
 
-        /// <summary>
         /// Loads the CommandsModule by locating the associated CoreLib.Commands mod and attempting to load its burst assembly.
-        /// </summary>
         /// <exception cref="Exception">Thrown when the CoreLib.Commands mod cannot be found.</exception>
         internal override void Load()
         {
@@ -361,9 +309,7 @@ namespace CoreLib.Submodule.Command
             Mod.TryLoadBurstAssembly();
         }
 
-        /// <summary>
         /// Performs module-specific operations after the initial loading phase is completed.
-        /// </summary>
         internal override void PostLoad()
         {
             Log.LogInfo("Commands Module Post Load");
@@ -384,9 +330,7 @@ namespace CoreLib.Submodule.Command
             API.Server.OnWorldCreated += ServerWorldReady;
         }
 
-        /// <summary>
         /// Loads and initializes configuration settings related to the commands module.
-        /// </summary>
         private static void LoadConfigData()
         {
             Settings.DisplayAdditionalHints = API.Config.Register(CoreLibMod.ID,
@@ -414,9 +358,7 @@ namespace CoreLib.Submodule.Command
                 false);
         }
 
-        /// <summary>
         /// Registers a command handler for a specified module.
-        /// </summary>
         /// <param name="modName">The name of the module the command belongs to.</param>
         /// <param name="handler">The command handler instance implementing the ICommandInfo interface.</param>
         private static void RegisterCommand(string modName, ICommandInfo handler)
@@ -434,9 +376,7 @@ namespace CoreLib.Submodule.Command
             Settings.UserAllowedCommands[triggerName] = value;
         }
 
-        /// <summary>
         /// Initializes the client-side command communication system and adds it to the main thread systems.
-        /// </summary>
         private static void ClientWorldReady()
         {
             var world = API.Client.World;
@@ -444,10 +384,8 @@ namespace CoreLib.Submodule.Command
             API.Client.AddMainThreadSystem(_clientCommSystem);
         }
 
-        /// <summary>
         /// Initializes the server world by creating or retrieving the Command Communication System
         /// and adding it to the main thread systems for processing server-side commands.
-        /// </summary>
         private static void ServerWorldReady()
         {
             var world = API.Server.World;
@@ -455,18 +393,14 @@ namespace CoreLib.Submodule.Command
             API.Server.AddMainThreadSystem(_serverCommSystem);
         }
 
-        /// <summary>
         /// Toggles the visibility of the Quantum Console if it is initialized.
-        /// </summary>
         public static void ToggleQc()
         {
             if (QuantumConsole != null)
                 QuantumConsole.Toggle();
         }
 
-        /// <summary>
         /// Sends a message to the Quantum Console with the specified text and status.
-        /// </summary>
         /// <param name="text">The message text to be sent to the Quantum Console.</param>
         /// <param name="status">The status of the message, determining its display color in the Quantum Console.</param>
         public static void SendQcMessage(string text, CommandStatus status)
@@ -477,9 +411,7 @@ namespace CoreLib.Submodule.Command
             }
         }
 
-        /// <summary>
         /// Initializes the Quantum Console with the provided console instance.
-        /// </summary>
         /// <param name="console">The QuantumConsole instance to be initialized and linked.</param>
         internal static void InitQuantumConsole(QuantumConsole console)
         {
@@ -487,9 +419,7 @@ namespace CoreLib.Submodule.Command
             QuantumConsole.OnInvoke += HandleQuantumConsoleCommand;
         }
 
-        /// <summary>
         /// Handles the execution of a Quantum Console command.
-        /// </summary>
         /// <param name="command">The command string entered the Quantum Console.</param>
         private static void HandleQuantumConsoleCommand(string command)
         {
@@ -498,9 +428,7 @@ namespace CoreLib.Submodule.Command
             SendCommand($"{CommandPrefix}{args}", true);
         }
 
-        /// <summary>
         /// Sends a command to the communication system after processing the input and applying the appropriate flags.
-        /// </summary>
         /// <param name="input">The command text input to be sent.</param>
         /// <param name="isQuantumConsole">Indicates whether the command is sent from the Quantum Console.</param>
         /// <returns>
@@ -524,9 +452,7 @@ namespace CoreLib.Submodule.Command
             return false;
         }
 
-        /// <summary>
         /// Handles the execution of server-side commands sent by clients.
-        /// </summary>
         /// <param name="message">The command message sent by the client, containing the command string and its arguments.</param>
         internal static void ServerHandleCommand(CommandMessage message)
         {
@@ -584,9 +510,7 @@ namespace CoreLib.Submodule.Command
             }
         }
 
-        /// <summary>
         /// Checks whether the sender of the command has permission to execute the specified command.
-        /// </summary>
         /// <param name="message">The command message containing information about the sender and the command.</param>
         /// <param name="command">The command pair containing the command handler and associated data.</param>
         /// <returns>True if the sender has the required permissions to execute the command; otherwise, false.</returns>
@@ -615,9 +539,7 @@ namespace CoreLib.Submodule.Command
             return Settings.UserAllowedCommands.TryGetValue(triggerName, out var allowedCommand) && allowedCommand.Value;
         }
 
-        /// <summary>
         /// Handles the processing of a client command message.
-        /// </summary>
         /// <param name="message">The command message sent by the client containing the command string and associated flags.</param>
         internal static void ClientHandleCommand(CommandMessage message)
         {
@@ -649,9 +571,7 @@ namespace CoreLib.Submodule.Command
             }
         }
 
-        /// <summary>
         /// Executes the specified command with the provided message and parameters.
-        /// </summary>
         /// <param name="command">The command to be executed, including its handler and metadata.</param>
         /// <param name="message">The message containing details about the command being executed.</param>
         /// <param name="parameters">An array of parameters to pass to the command during execution.</param>

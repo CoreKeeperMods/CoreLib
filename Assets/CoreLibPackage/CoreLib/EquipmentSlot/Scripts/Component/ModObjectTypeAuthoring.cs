@@ -3,10 +3,8 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.Component
 {
-    /// <summary>
     /// Represents a Unity MonoBehaviour component that specifies the type of an object
     /// through a unique type identifier.
-    /// </summary>
     /// <remarks>
     /// This component is primarily intended to be used with the object conversion system in Unity.
     /// The <c>objectTypeId</c> field can be set to define the specific type of an object.
@@ -15,9 +13,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Component
     /// </remarks>
     public class ModObjectTypeAuthoring : MonoBehaviour
     {
-        /// <summary>
         /// Represents the unique identifier for an object type.
-        /// </summary>
         /// <remarks>
         /// The value of this variable is utilized to determine and retrieve
         /// the appropriate <see cref="ObjectType"/> instance in the associated module or system.

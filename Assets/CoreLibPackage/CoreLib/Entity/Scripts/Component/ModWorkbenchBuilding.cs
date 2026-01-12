@@ -8,11 +8,9 @@ using Logger = CoreLib.Util.Logger;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Entity.Component
 {
-    /// <summary>
     /// Represents a ModWorkbenchBuilding, a modular crafting building connected
     /// with dynamic visual representation and modifiable crafting components.
     /// Provides functionalities for customization and interaction during gameplay.
-    /// </summary>
     public class ModWorkbenchBuilding : CraftingBuilding
     {
         public SpriteObject mainObject;

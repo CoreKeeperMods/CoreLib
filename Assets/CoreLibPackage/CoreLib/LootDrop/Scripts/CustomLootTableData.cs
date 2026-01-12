@@ -3,24 +3,18 @@
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.LootDrop
 {
-    /// <summary>
     /// Represents the configuration data for a custom loot table.
-    /// </summary>
     /// <remarks>
     /// This struct is used to define the properties and behavior of a loot table, including its ID,
     /// the range of unique drops it can generate, and whether duplicate drops are allowed.
     /// </remarks>
     public struct CustomLootTableData
     {
-        /// <summary>
         /// Represents the ID of the loot table associated with this instance of custom loot table data.
         /// This variable is used to uniquely identify a specific loot table within the system.
-        /// </summary>
         public LootTableID tableId;
 
-        /// <summary>
         /// Specifies the minimum number of unique loot drops that can be selected from the loot table.
-        /// </summary>
         /// <remarks>
         /// This value ensures that at least the specified number of unique loot items will be dropped,
         /// depending on the configuration of the loot table and other parameters such as
@@ -28,15 +22,11 @@ namespace CoreLib.Submodule.LootDrop
         /// </remarks>
         public int minUniqueDrops;
 
-        /// <summary>
         /// Represents the maximum number of unique items that can be dropped
         /// from a custom loot table.
-        /// </summary>
         public int maxUniqueDrops;
 
-        /// <summary>
         /// Determines whether duplicate items are allowed in the loot table.
-        /// </summary>
         /// <remarks>
         /// When set to <c>true</c>, the loot table will exclude duplicate items from being selected.
         /// When set to <c>false</c>, duplicate items may be included in the loot selection process.

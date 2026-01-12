@@ -8,9 +8,7 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.TileSet
 {
-    /// <summary>
     /// Represents a custom tileset configuration within the CoreLib TileSets module.
-    /// </summary>
     /// <remarks>
     /// This class is designed to support modifiable tilesets by allowing for the customization of associated textures,
     /// materials, and particle systems. It acts as a container for these layers and provides functionality for managing
@@ -47,23 +45,17 @@ namespace CoreLib.Submodule.TileSet
         /// customization and rendering of tilemaps using this tileset.
         public MapWorkshopTilesetBank.TilesetTextures tilesetTextures;
         
-        /// <summary>
         /// Represents the primary texture used for the tileset. This texture provides the visual representation of the tiles
         /// within the tileset and is a core component for rendering tilemaps based on this tileset.
-        /// </summary>
         public Texture2D tilesetTexture;
 
-        /// <summary>
         /// Represents the texture used for the emissive properties of a tileset.
         /// This texture defines areas on the tileset that emit light, providing an emissive effect in the rendered scene.
-        /// </summary>
         public Texture2D tilesetEmissiveTexture;
 
-        /// <summary>
         /// Stores adaptive tileset texture mappings for different layers.
         /// Allows for customizing textures based on layer names and supports retrieving textures
         /// dynamically for specific texture types within those layers.
-        /// </summary>
         public List<LayerTilesetPair> adaptiveTilesetTextures;
         
         [Serializable]

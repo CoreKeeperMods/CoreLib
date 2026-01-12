@@ -11,10 +11,8 @@ using Logger = CoreLib.Util.Logger;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.UserInterface
 {
-    /// <summary>
     /// Provides functionality for managing custom user interfaces and interacting with mod-specific UI components.
     /// Offers methods to retrieve, register, and open specific UI interfaces in a modularized system.
-    /// </summary>
     public class UserInterfaceModule : BaseSubmodule
     {
         #region Fields
@@ -27,9 +25,7 @@ namespace CoreLib.Submodule.UserInterface
         
         #region Public Interface
 
-        /// <summary>
         /// Retrieves the current entity that is being interacted with by the user.
-        /// </summary>
         /// <returns>
         /// The entity instance representing the current user interaction.
         /// </returns>
@@ -40,9 +36,7 @@ namespace CoreLib.Submodule.UserInterface
             return currentInteractionEntity;
         }
 
-        /// <summary>
         /// Get the MonoBehaviour instance associated with the current interaction entity.
-        /// </summary>
         /// <returns>An instance of EntityMonoBehaviour representing the current interaction, or null if no interaction is active.</returns>
         [Preserve]
         public static EntityMonoBehaviour GetInteractionMonoBehaviour()
@@ -51,9 +45,7 @@ namespace CoreLib.Submodule.UserInterface
             return currentInteractionMonoBehaviour;
         }
 
-        /// <summary>
         /// Retrieves the currently opened user interface of the specified type.
-        /// </summary>
         /// <typeparam name="T">The type of user interface to retrieve, which must implement the IModUI interface.</typeparam>
         /// <returns>The currently opened user interface of type T if available; otherwise, null.</returns>
         [Preserve]
@@ -64,9 +56,7 @@ namespace CoreLib.Submodule.UserInterface
             return currentInterface as T;
         }
 
-        /// <summary>
         /// Retrieves an instance of the modded user interface with the specified identifier.
-        /// </summary>
         /// <typeparam name="T">The type of the interface to retrieve.</typeparam>
         /// <param name="interfaceID">The unique identifier of the user interface.</param>
         /// <returns>An instance of the modded user interface as the specified type, or null if the interface is not registered or cannot be cast to the specified type.</returns>
@@ -86,9 +76,7 @@ namespace CoreLib.Submodule.UserInterface
         }
 
 
-        /// <summary>
         /// Opens the modded user interface associated with the specified identifier.
-        /// </summary>
         /// <param name="interfaceID">The identifier of the user interface to open.</param>
         [Preserve]
         public static void OpenModUI(string interfaceID)
@@ -96,9 +84,7 @@ namespace CoreLib.Submodule.UserInterface
             OpenModUI(null, interfaceID);
         }
 
-        /// <summary>
         /// Opens a modded user interface with the specified identifier while associating it with the provided entity.
-        /// </summary>
         /// <param name="openEntity">The entity associated with the user interface being opened.</param>
         /// <param name="interfaceID">The unique identifier of the user interface to open.</param>
         [Preserve]
@@ -107,9 +93,7 @@ namespace CoreLib.Submodule.UserInterface
             OpenModUI(null, openEntity, interfaceID);
         }
 
-        /// <summary>
         /// Opens the modded user interface with the specified identifier.
-        /// </summary>
         /// <param name="interfaceID">The identifier of the user interface to open.</param>
         [Preserve]
         public static void OpenModUI(EntityMonoBehaviour openBehaviour, string interfaceID)
@@ -118,10 +102,8 @@ namespace CoreLib.Submodule.UserInterface
             OpenModUI(openBehaviour, entity, interfaceID);
         }
 
-        /// <summary>
         /// Registers a mod's user interface by attaching the provided GameObject,
         /// ensuring it is not already registered.
-        /// </summary>
         /// <param name="go">The prefab GameObject representing the mod user interface to be registered.</param>
         public static void RegisterModUI(GameObject go)
         {
@@ -145,50 +127,36 @@ namespace CoreLib.Submodule.UserInterface
 
         #region Private Implementation
 
-        /// <summary>
         /// Holds a reference to the current <see cref="EntityMonoBehaviour"/> being interacted with in the user interface module.
         /// This variable is used to manage and track interactions for modded UI elements, ensuring proper context for UI operations.
-        /// </summary>
         private static EntityMonoBehaviour currentInteractionMonoBehaviour;
 
-        /// <summary>
         /// Represents the entity currently involved in interaction logic within the <see cref="UserInterfaceModule"/>.
         /// This static field is utilized to track the active entity associated with the interactive user interface system.
-        /// </summary>
         private static Unity.Entities.Entity currentInteractionEntity;
 
-        /// <summary>
         /// Represents the currently active user interface in the <see cref="UserInterfaceModule"/>.
         /// This variable holds the active instance of an object implementing the <see cref="IModUI"/> interface.
         /// It provides access to the currently displayed modded UI, enabling interaction or management within the module.
-        /// </summary>
         internal static IModUI currentInterface;
 
-        /// <summary>
         /// Represents a collection of prefabs for modded user interfaces.
         /// These prefabs are used for registering and initializing custom modded UIs
         /// within the <see cref="UserInterfaceModule"/>.
-        /// </summary>
         internal static List<ModUIAuthoring> interfacePrefabs = new();
 
-        /// <summary>
         /// Represents a collection of registered mod interfaces, providing a mapping between
         /// unique string identifiers and their corresponding <see cref="IModUI"/> implementations.
         /// This dictionary enables efficient retrieval and management of modded user interface components
         /// within the <see cref="UserInterfaceModule"/>.
-        /// </summary>
         internal static Dictionary<string, IModUI> modInterfaces = new();
 
-        /// <summary>
         /// Provides access to the singleton instance of the <see cref="UserInterfaceModule"/>.
         /// This property allows interaction with various functionalities related to custom modular user interfaces
         /// such as opening, managing, and registering modded UIs.
-        /// </summary>
         internal static UserInterfaceModule Instance => CoreLibMod.GetModuleInstance<UserInterfaceModule>();
 
-        /// <summary>
         /// Configures and applies necessary hooks for the user interface module by patching relevant components.
-        /// </summary>
         /// <remarks>
         /// This method is responsible for integrating the module-specific hook operations
         /// into the system by applying patches to targeted components or features.
@@ -198,10 +166,8 @@ namespace CoreLib.Submodule.UserInterface
             CoreLibMod.Patch(typeof(UIManagerPatch));
         }
 
-        /// <summary>
         /// Clears all stored data related to currently active mod user interfaces,
         /// including interaction entities, MonoBehaviours, and the active interface reference.
-        /// </summary>
         internal static void ClearModUIData()
         {
             currentInteractionMonoBehaviour = null;
@@ -209,9 +175,7 @@ namespace CoreLib.Submodule.UserInterface
             currentInterface = null;
         }
 
-        /// <summary>
         /// Opens a modular user interface associated with the provided interface ID and entity.
-        /// </summary>
         /// <param name="openEntity">The entity for which the user interface should be opened.</param>
         /// <param name="interfaceID">The identifier of the interface to be opened.</param>
         private static void OpenModUI(EntityMonoBehaviour openBehaviour, Unity.Entities.Entity openEntity, string interfaceID)
@@ -234,9 +198,7 @@ namespace CoreLib.Submodule.UserInterface
             }
         }
 
-        /// <summary>
         /// Opens the player's inventory UI without enabling crafting-related elements.
-        /// </summary>
         /// <param name="uiManager">The UIManager instance responsible for handling UI components.</param>
         private static void PlayerInventoryOpenNoCrafting(UIManager uiManager)
         {

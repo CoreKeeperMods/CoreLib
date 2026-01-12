@@ -17,33 +17,23 @@ using PugMod;
 // ReSharper disable once CheckNamespace
 namespace CoreLib
 {
-    /// <summary>
     /// Abstract foundation class for all CoreLib submodules.
     /// Provides a standardized structure for lifecycle management,
     /// dependency handling, and loading checks across all CoreLib components.
-    /// </summary>
     public abstract class BaseSubmodule
     {
         #region Constants
 
-        /// <summary>
         /// Default internal module ID used when a derived submodule does not override <see cref="ID"/>.
-        /// </summary>
         private const string DefaultID = "CoreLib";
 
-        /// <summary>
         /// Default display name used when a submodule does not override <see cref="Name"/>.
-        /// </summary>
         private const string DefaultName = "Core Library";
 
-        /// <summary>
         /// Default semantic version assigned to the submodule if none is provided.
-        /// </summary>
         private const string DefaultVersion = "4.0.0";
 
-        /// <summary>
         /// Message format string displayed when attempting to use a module before it has been loaded.
-        /// </summary>
         private const string NotLoadedMessageFormat =
             "{0} is not loaded. Please use `CoreLibMod.LoadSubmodule(typeof({0}))` to load the module!";
 
@@ -51,34 +41,22 @@ namespace CoreLib
 
         #region Properties
 
-        /// <summary>
         /// Gets the unique string identifier for this module.
-        /// </summary>
         public virtual string ID => DefaultID;
 
-        /// <summary>
         /// Gets the human-readable name of this module.
-        /// </summary>
         public virtual string Name => DefaultName;
 
-        /// <summary>
         /// Gets the module version string.
-        /// </summary>
         public virtual string Version => DefaultVersion;
 
-        /// <summary>
         /// Gets the list of required dependencies (types of other submodules) that must be loaded before this one.
-        /// </summary>
         internal virtual Type[] Dependencies => Type.EmptyTypes;
 
-        /// <summary>
         /// Provides access to a logger instance for recording module activity.
-        /// </summary>
         internal static Logger Log { get; } = new(DefaultName);
 
-        /// <summary>
         /// Gets or sets whether this submodule has completed its loading process.
-        /// </summary>
         internal bool Loaded { get; set; } = false;
 
         internal static LoadedMod Mod { get; private set; } = new();
@@ -91,10 +69,8 @@ namespace CoreLib
 
         #region Validation
 
-        /// <summary>
         /// Ensures that the module is in a loaded state.
         /// Throws an <see cref="InvalidOperationException"/> if the module has not yet been initialized.
-        /// </summary>
         internal void ThrowIfNotLoaded()
         {
             if (!Loaded) throw new InvalidOperationException(string.Format(NotLoadedMessageFormat, Name));
@@ -104,18 +80,14 @@ namespace CoreLib
 
         #region Lifecycle Methods
 
-        /// <summary>
         /// Called before the module is loaded to apply any required patches or hooks.
-        /// </summary>
         /// <remarks>
         /// This method should be overridden to define all Harmony patches or event subscriptions
         /// necessary for the submodule to function properly.
         /// </remarks>
         internal virtual void SetHooks() { }
 
-        /// <summary>
         /// Called when the module is being loaded.
-        /// </summary>
         /// <remarks>
         /// Override this method to initialize runtime data, allocate resources, or perform
         /// setup logic specific to the submodule. Called once per load.
@@ -129,9 +101,7 @@ namespace CoreLib
             Log.LogError("Failed to find CoreLib mod info!");
         }
 
-        /// <summary>
         /// Called immediately after <see cref="Load"/> when all modules have completed their initialization.
-        /// </summary>
         /// <remarks>
         /// Use this to safely access other submodules and perform dependency-aware setup.
         /// </remarks>
@@ -141,9 +111,7 @@ namespace CoreLib
 
         #region Dependency Management
 
-        /// <summary>
         /// Returns a list of optional dependencies that may be loaded if available.
-        /// </summary>
         /// <returns>
         /// An array of <see cref="Type"/> objects representing optional module dependencies.
         /// </returns>

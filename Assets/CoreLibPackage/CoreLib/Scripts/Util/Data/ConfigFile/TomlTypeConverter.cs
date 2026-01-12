@@ -10,9 +10,7 @@ using PugMod;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
-    /// <summary>
     ///     Serializer/deserializer used by the config system.
-    /// </summary>
     public static class TomlTypeConverter
     {
         // Don't put anything from UnityEngine here, or it will break preloader, use LazyTomlConverterLoader instead
@@ -104,32 +102,24 @@ namespace CoreLib.Data.Configuration
             }
         };
 
-        /// <summary>
         ///     Convert object of a given type to a string using available converters.
-        /// </summary>
         public static string ConvertToString(object value, Type valueType)
         {
             var conv = GetConverter(valueType);
             return conv == null ? throw new InvalidOperationException($"Cannot convert from type {valueType}") : conv.ConvertToString(value, valueType);
         }
 
-        /// <summary>
         ///     Convert string to an object of a given type using available converters.
-        /// </summary>
         public static T ConvertToValue<T>(string value) => (T) ConvertToValue(value, typeof(T));
 
-        /// <summary>
         ///     Convert string to an object of a given type using available converters.
-        /// </summary>
         public static object ConvertToValue(string value, Type valueType)
         {
             var conv = GetConverter(valueType);
             return conv == null ? throw new InvalidOperationException($"Cannot convert to type {valueType.GetNameChecked()}") : conv.ConvertToObject(value, valueType);
         }
 
-        /// <summary>
         ///     Get a converter for a given type if there is any.
-        /// </summary>
         public static TypeConverter GetConverter(Type valueType)
         {
             if (valueType == null)
@@ -143,10 +133,8 @@ namespace CoreLib.Data.Configuration
             return result;
         }
 
-        /// <summary>
         ///     Add a new type converter for a given type.
         ///     If a different converter is already added, this call is ignored and false is returned.
-        /// </summary>
         public static bool AddConverter(Type type, TypeConverter converter)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
@@ -161,14 +149,10 @@ namespace CoreLib.Data.Configuration
             return true;
         }
 
-        /// <summary>
         ///     Check if a given type can be converted to and from string.
-        /// </summary>
         public static bool CanConvert(Type type) => GetConverter(type) != null;
 
-        /// <summary>
         ///     Give a list of types with registered converters.
-        /// </summary>
         public static IEnumerable<Type> GetSupportedTypes() => TypeConverters.Keys;
 
         private static string Escape(this string txt)

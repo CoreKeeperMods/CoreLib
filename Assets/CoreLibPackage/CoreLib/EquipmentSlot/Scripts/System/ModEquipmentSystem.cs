@@ -11,10 +11,8 @@ using Unity.Transforms;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.System
 {
-    /// <summary>
     /// ModEquipmentSystem is a system responsible for handling the simulation and management
     /// of modifiable equipment mechanics within the game.
-    /// </summary>
     /// <remarks>
     /// - It operates within the EquipmentUpdateSystemGroup and executes prior to the EquipmentUpdateSystem.
     /// - This system is manually instantiated and not automatically created due to the DisableAutoCreation attribute.
@@ -32,23 +30,17 @@ namespace CoreLib.Submodule.EquipmentSlot.System
     [DisableAutoCreation]
     public partial class ModEquipmentSystem : PugSimulationSystemBase
     {
-        /// <summary>
         /// Represents the tick rate for the ModEquipmentSystem, determining the frequency
         /// of system updates. This value is initialized based on the simulation tick rate
         /// provided by the networking platform.
-        /// </summary>
         private uint _tickRate;
 
-        /// <summary>
         /// Holds the archetype for achievement-related entities within the ModEquipmentSystem.
         /// This archetype is used to define the structural layout for entities involved in handling achievements.
-        /// </summary>
         private EntityArchetype _achievementArchetype;
 
-        /// <summary>
         /// Initializes the ModEquipmentSystem during its creation phase.
         /// This method sets up essential parameters and archetypes required for the functioning of the system.
-        /// </summary>
         /// <remarks>
         /// - Retrieves the simulation tick rate for the current platform and assigns it to the system.
         /// - Generates the achievement RPC archetype using the AchievementSystem.
@@ -231,9 +223,7 @@ namespace CoreLib.Submodule.EquipmentSlot.System
             base.OnUpdate();
         }
 
-        /// <summary>
         /// Determines whether the system is operating in guest mode based on the provided world and player information.
-        /// </summary>
         /// <param name="worldInfo">The current world information containing guest mode configuration.</param>
         /// <param name="playerGhost">The player ghost data, including privilege level and metadata.</param>
         /// <returns>
@@ -245,11 +235,9 @@ namespace CoreLib.Submodule.EquipmentSlot.System
             return worldInfo.guestMode && playerGhost.adminPrivileges < 1;
         }
 
-        /// <summary>
         /// Determines whether the player is allowed to interact based on the current state and context.
         /// This method evaluates various constraints, including player state, equipment logic, and interaction type,
         /// to decide whether an interaction is permissible.
-        /// </summary>
         /// <param name="worldInfo">Information about the current game world, such as mode or default settings.</param>
         /// <param name="playerGhost">Details about the player's ghost representation in the game.</param>
         /// <param name="playerState">The current state of the player, including active or passive states.</param>

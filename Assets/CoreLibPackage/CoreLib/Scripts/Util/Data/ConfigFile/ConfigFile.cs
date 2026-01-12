@@ -10,23 +10,16 @@ using System.Text.RegularExpressions;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
-    /// <summary>
     ///     A helper class to handle persistent data. All public methods are thread-safe.
-    /// </summary>
     public class ConfigFile : IDictionary<ConfigDefinition, ConfigEntryBase>
     {
-        /// <summary>
         ///     A private static list that contains all <see cref="ConfigFile"/> instances created throughout the application's lifetime.
         ///     This list should only be modified internally by the <see cref="ConfigFile"/> class.
-        /// </summary>
         private static readonly List<ConfigFile> AllConfigFiles = new List<ConfigFile>();
 
-        /// <summary>
         ///     An object used for locking access to the <see cref="AllConfigFiles"/> collection to ensure thread safety.
-        /// </summary>
         private static readonly object LockObject = new object();
 
-        /// <summary>
         ///     A read-only view of the static list containing all <see cref="ConfigFile"/> instances created throughout the application's lifetime.
         ///     <para>
         ///     This property provides read-only access to the list of configuration files. External callers can access this list to query
@@ -41,7 +34,6 @@ namespace CoreLib.Data.Configuration
         ///     }
         ///     </code>
         ///     </example>
-        /// </summary>
         /// <remarks>
         ///     This property is thread-safe for read access. Any modifications to the internal collection should be done through the <see cref="AllConfigFiles"/> field.
         /// </remarks>
@@ -63,9 +55,7 @@ namespace CoreLib.Data.Configuration
         /// <inheritdoc cref="ConfigFile" />
         public ConfigFile(string configPath, bool saveOnInit) : this(configPath, saveOnInit, null) { }
 
-        /// <summary>
         ///     Create a new config file at the specified config path.
-        /// </summary>
         /// <param name="configPath">Full path to a file that contains settings. The file will be created as needed.</param>
         /// <param name="saveOnInit">If the config file/directory doesn't exist, create it immediately.</param>
         /// <param name="ownerMetadata">Information about the plugin that owns this setting file.</param>
@@ -86,23 +76,17 @@ namespace CoreLib.Data.Configuration
                 Save();
         }
 
-        /// <summary>
         ///     All config entries inside
-        /// </summary>
         public Dictionary<ConfigDefinition, ConfigEntryBase> Entries { get; } = new();
 
         public Dictionary<ConfigDefinition, string> OrphanedEntries { get; } = new();
 
-        /// <summary>
         ///     Full path to the config file. The file might not exist until a setting is added and changed, or <see cref="Save" />
         ///     is called.
-        /// </summary>
         public string ConfigFilePath { get; }
 
-        /// <summary>
         ///     If enabled, writes the config to disk every time a value is set.
         ///     If disabled, you have to manually use <see cref="Save" /> or the changes will be lost!
-        /// </summary>
         public bool SaveOnConfigSet { get; set; } = true;
 
         /// <inheritdoc cref="ConfigDefinition" />
@@ -117,8 +101,6 @@ namespace CoreLib.Data.Configuration
             }
         }
 
-        /// <summary>
-        /// </summary>
         /// <param name="section"></param>
         /// <param name="key"></param>
         public ConfigEntryBase this[string section, string key] => this[new ConfigDefinition(section, key)];
@@ -234,10 +216,8 @@ namespace CoreLib.Data.Configuration
             set => throw new InvalidOperationException("Directly setting a config entry is not supported");
         }
 
-        /// <summary>
         ///     Returns the ConfigDefinitions that the ConfigFile contains.
         ///     <para>Creates a new array when the property is accessed. Thread-safe.</para>
-        /// </summary>
         public ICollection<ConfigDefinition> Keys
         {
             get
@@ -249,10 +229,8 @@ namespace CoreLib.Data.Configuration
             }
         }
 
-        /// <summary>
         ///     Returns the ConfigEntryBase values that the ConfigFile contains.
         ///     <para>Creates a new array when the property is accessed. Thread-safe.</para>
-        /// </summary>
         public ICollection<ConfigEntryBase> Values
         {
             get
@@ -268,14 +246,10 @@ namespace CoreLib.Data.Configuration
 
         private readonly object _ioLock = new();
 
-        /// <summary>
         ///     Generate user-readable comments for each of the settings in the saved .cfg file.
-        /// </summary>
         public bool GenerateSettingDescriptions { get; set; } = true;
 
-        /// <summary>
         ///     Reloads the config from disk. Unsaved changes are lost.
-        /// </summary>
         public void Reload()
         {
             lock (_ioLock)
@@ -322,9 +296,7 @@ namespace CoreLib.Data.Configuration
             OnConfigReloaded();
         }
 
-        /// <summary>
         ///     Writes the config to disk.
-        /// </summary>
         public void Save()
         {
             lock (_ioLock)
@@ -417,11 +389,9 @@ namespace CoreLib.Data.Configuration
 
         #region Wraps
 
-        /// <summary>
         ///     Access one of the existing settings. If the setting has not been added yet, false is returned. Otherwise, true.
         ///     If the setting exists but has a different type than T, an exception is thrown.
         ///     New settings should be added with <see cref="Bind{T}(ConfigDefinition,T,ConfigDescription,ConfigScope)" />.
-        /// </summary>
         /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
         /// <param name="configDefinition">Section and Key of the setting.</param>
         /// <param name="entry">The ConfigEntry value to return.</param>
@@ -440,13 +410,11 @@ namespace CoreLib.Data.Configuration
             }
         }
 
-        /// <summary>
         ///     Access one of the existing settings. If the setting has not been added yet, null is returned.
         ///     If the setting exists but has a different type than T, an exception is thrown.
         ///     New settings should be added with
         ///     <see cref="Bind{T}(ConfigDefinition,T,ConfigDescription,ConfigScope)"></see>
         ///     .
-        /// </summary>
         /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
         /// <param name="section">Section/category/group of the setting. Settings are grouped by this.</param>
         /// <param name="key">Name of the setting.</param>
@@ -454,10 +422,8 @@ namespace CoreLib.Data.Configuration
         public bool TryGetEntry<T>(string section, string key, out ConfigEntry<T> entry) =>
             TryGetEntry(new ConfigDefinition(section, key), out entry);
 
-        /// <summary>
         ///     Create a new setting. The setting is saved to drive and loaded automatically.
         ///     Each definition can be used to add only one setting, trying to add a second setting will throw an exception.
-        /// </summary>
         /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
         /// <param name="configDefinition">Section and Key of the setting.</param>
         /// <param name="defaultValue">Value of the setting if the setting was not created yet.</param>
@@ -495,11 +461,9 @@ namespace CoreLib.Data.Configuration
             }
         }
 
-        /// <summary>
         ///     Create a new setting. The setting is saved to drive and loaded automatically.
         ///     Each section and key pair can be used to add only one setting, trying to add a second setting will throw an
         ///     exception.
-        /// </summary>
         /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
         /// <param name="section">Section/category/group of the setting. Settings are grouped by this.</param>
         /// <param name="key">Name of the setting.</param>
@@ -513,11 +477,9 @@ namespace CoreLib.Data.Configuration
             ConfigScope scope = null) =>
             Bind(new ConfigDefinition(section, key), defaultValue, configDescription, scope);
 
-        /// <summary>
         ///     Create a new setting. The setting is saved to drive and loaded automatically.
         ///     Each section and key pair can be used to add only one setting, trying to add a second setting will throw an
         ///     exception.
-        /// </summary>
         /// <typeparam name="T">Type of the value contained in this setting.</typeparam>
         /// <param name="section">Section/category/group of the setting. Settings are grouped by this.</param>
         /// <param name="key">Name of the setting.</param>
@@ -533,14 +495,10 @@ namespace CoreLib.Data.Configuration
 
         #region Events
 
-        /// <summary>
         ///     An event that is fired every time the config is reloaded.
-        /// </summary>
         public event EventHandler ConfigReloaded;
 
-        /// <summary>
         ///     Fired when one of the settings is changed.
-        /// </summary>
         public event EventHandler<SettingChangedEventArgs> SettingChanged;
 
         internal void OnSettingChanged(object sender, ConfigEntryBase changedEntryBase)

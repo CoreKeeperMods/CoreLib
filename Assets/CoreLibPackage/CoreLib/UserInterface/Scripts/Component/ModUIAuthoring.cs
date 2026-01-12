@@ -3,15 +3,11 @@
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.UserInterface.Component
 {
-    /// <summary>
     /// Represents an authoring component for integrating modded user interface elements within the system.
-    /// </summary>
     public class ModUIAuthoring : MonoBehaviour
     {
-        /// <summary>
         /// A unique identifier for a modded user interface component, used to register and retrieve
         /// the corresponding mod interface within the user interface system.
-        /// </summary>
         /// <remarks>
         /// The <c>modInterfaceID</c> is a string identifier that allows for the integration, tracking,
         /// and management of custom modded UI components. It must be unique to avoid conflicts,
@@ -22,9 +18,7 @@ namespace CoreLib.Submodule.UserInterface.Component
         /// </remarks>
         public string modInterfaceID;
 
-        /// <summary>
         /// Specifies the initial local position of a modded user interface element within its parent transform.
-        /// </summary>
         /// <remarks>
         /// The <c>initialInterfacePosition</c> defines the default starting position for the modded UI element
         /// relative to its parent container in 3D space. This vector is applied during the instantiation of the mod UI,

@@ -5,19 +5,15 @@ using PugMod;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Data
 {
-    /// <summary>
     /// Represents a configuration-bound implementation of the IdBind system, providing
     /// functionality for managing ID bindings within a specified range and persisting
     /// them to an external configuration file. This class is designed to integrate
     /// with configuration files for persistent storage of ID-related data.
-    /// </summary>
     public class IdBindConfigFile : IdBind
     {
-        /// <summary>
         /// Represents a configuration file associated with an ID binding.
         /// <see cref="Configuration.ConfigFile"/> is utilized for managing persistent configuration data,
         /// such as ID bindings, loaded from or saved to a file.
-        /// </summary>
         public ConfigFile ConfigFile;
 
         /// Represents a configuration-bound implementation of the IdBind system, which associates and tracks identifiers using a configuration file.

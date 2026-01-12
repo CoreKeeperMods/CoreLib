@@ -7,10 +7,8 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Entity
 {
-    /// <summary>
     /// Provides utility methods and centralized registries for managing and resolving Unity prefab and material assets.
     /// This static class is used to streamline the handling of GameObject prefabs and Materials within the project.
-    /// </summary>
     public static class MaterialCrawler
     {
         /// Dictionary that stores material objects mapped by their unique names.

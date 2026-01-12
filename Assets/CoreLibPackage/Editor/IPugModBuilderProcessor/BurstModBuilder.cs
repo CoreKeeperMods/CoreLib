@@ -12,10 +12,8 @@ using Debug = UnityEngine.Debug;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Editor
 {
-    /// <summary>
     /// A builder class for handling Burst compilation during the mod building process.
     /// Implements the <c>PugMod.IPugModBuilderProcessor</c> interface for structured mod build processing.
-    /// </summary>
     [Preserve]
     public class BurstModBuilder : PugMod.IPugModBuilderProcessor
     {
@@ -27,9 +25,7 @@ namespace CoreLib.Editor
             "Linux"
         };
 
-        /// <summary>
         /// Executes the Burst module building process based on the provided settings, install directory, and asset paths.
-        /// </summary>
         /// <param name="settings">The settings object that contains configuration for the mod building process.</param>
         /// <param name="installDirectory">The directory where the mod will be installed.</param>
         /// <param name="assetPaths">A list of asset paths used during the build process.</param>
@@ -76,10 +72,8 @@ namespace CoreLib.Editor
             Debug.Log("Burst assembly compiled successfully!");
         }
 
-        /// <summary>
         /// Resolves the file path to the Burst compiler executable by locating the appropriate package
         /// in the provided package cache directory.
-        /// </summary>
         /// <param name="packageCacheDir">The directory containing cached Unity packages to search for the Burst package.</param>
         /// <returns>The full file path to the Burst compiler executable.</returns>
         /// <exception cref="DirectoryNotFoundException">Thrown if the package cache directory or the Burst package directory cannot be found.</exception>
@@ -110,9 +104,7 @@ namespace CoreLib.Editor
             return compilerPath;
         }
 
-        /// <summary>
         /// Prepares a clean directory by deleting its contents if it exists, then recreates it as an empty directory.
-        /// </summary>
         /// <param name="directoryPath">The path of the directory to prepare for clean usage.</param>
         private static void PrepareCleanDirectory(string directoryPath)
         {
@@ -123,9 +115,7 @@ namespace CoreLib.Editor
             Directory.CreateDirectory(directoryPath);
         }
 
-        /// <summary>
         /// Compiles player assemblies to the specified output directory using the configured build settings.
-        /// </summary>
         /// <param name="outputDirectory">The directory where the compiled player assemblies will be output.</param>
         /// <returns>A <c>ScriptCompilationResult</c> representing the result of the player assembly compilation.</returns>
         private static ScriptCompilationResult CompilePlayerAssemblies(string outputDirectory)
