@@ -22,8 +22,11 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Scripts/PlayerSkinTest.cs
+      guid: 
     - path: Bundles/PlayerSKinTest_Windows.assetbundle
+      guid: 
     - path: Bundles/PlayerSKinTest_Linux.assetbundle
+      guid: 
     dependencies:
     - modName: CoreLib
       required: 1
@@ -32,7 +35,6 @@ MonoBehaviour:
   buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
-  buildBurst: 0
   assets:
   - path: Assets/PlayerSKinTest/Localization Table.asset
     hash: 716EE000B5F444071714B8E3C8B5838FECC15BBDCC8FAB99306D56989B4CA907

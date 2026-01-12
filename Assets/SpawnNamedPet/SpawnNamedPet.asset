@@ -22,12 +22,12 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Scripts/SpawnNamedPet.cs
+      guid: 
     dependencies: []
   modPath: Assets\SpawnNamedPet
   forceReimport: 0
   buildBundles: 0
   cacheBundles: 0
   buildLinux: 0
-  buildBurst: 0
   assets: []
   lastBuildLinux: 0
