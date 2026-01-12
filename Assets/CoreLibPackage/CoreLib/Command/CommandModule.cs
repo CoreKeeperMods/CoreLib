@@ -306,7 +306,8 @@ namespace CoreLib.Submodule.Command
         {
             base.Load();
             
-            Mod.TryLoadBurstAssembly();
+            //TODO fix burst compilation
+            //Mod.TryLoadBurstAssembly();
         }
 
         /// Performs module-specific operations after the initial loading phase is completed.
