@@ -100,11 +100,12 @@ namespace CoreLib
             if (submodule.Loaded)
                 return true;
 
-            if (API.Server.World.IsServer() && !submodule.IsServerCompatible)
+            //TODO find a better approach
+            /*if (API.Server.World.IsServer() && !submodule.IsServerCompatible)
             {
                 _logger.LogWarning($"{name} is not compatible with the server build! Skipping load.");
                 return false;
-            }
+            }*/
 
             _logger.LogInfo($"Enabling CoreLib Submodule: {name}");
 
