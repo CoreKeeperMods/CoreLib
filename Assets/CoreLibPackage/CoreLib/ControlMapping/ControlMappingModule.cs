@@ -180,10 +180,11 @@ namespace CoreLib.Submodule.ControlMapping
         {
             base.Load();
             ModCategoryLayout = Mod.Assets.OfType<ControlMapping_CategoryLayoutData>().FirstOrDefault();
-            API.Config.Register(CoreLibMod.ID, "KeyBinds", "Category Key Binds", "KeyBindCategories", new Dictionary<string, int[]>());
-            API.Config.Register(CoreLibMod.ID, "KeyBinds", "Action Key Binds", "KeyBindActions", new Dictionary<string, int[]>());
-            KeyBindCategories = API.Config.Get<Dictionary<string, int[]>>(CoreLibMod.ID, "KeyBinds", "KeyBindCategories");
-            KeyBindActions = API.Config.Get<Dictionary<string, int[]>>(CoreLibMod.ID, "KeyBinds", "KeyBindActions");
+            //TODO rework config code to ConfigFile class
+            //API.Config.Register(CoreLibMod.ID, "KeyBinds", "Category Key Binds", "KeyBindCategories", new Dictionary<string, int[]>());
+            //API.Config.Register(CoreLibMod.ID, "KeyBinds", "Action Key Binds", "KeyBindActions", new Dictionary<string, int[]>());
+            KeyBindCategories = new Dictionary<string, int[]>();// API.Config.Get<Dictionary<string, int[]>>(CoreLibMod.ID, "KeyBinds", "KeyBindCategories");
+            KeyBindActions = new Dictionary<string, int[]>(); //API.Config.Get<Dictionary<string, int[]>>(CoreLibMod.ID, "KeyBinds", "KeyBindActions");
             if (LocalizationModule.Instance.Loaded)
             {
                 var controlMappingLocalizationTable = Mod.Assets.OfType<ModdedLocalizationTable>().First(x => x.name == "ControlMapping Localization Table");

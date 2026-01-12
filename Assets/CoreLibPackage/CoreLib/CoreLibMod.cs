@@ -10,6 +10,7 @@
 
 using System;
 using System.Linq;
+using CoreLib.Data.Configuration;
 using CoreLib.Util.Extension;
 using PugMod;
 using UnityEngine;
@@ -52,6 +53,8 @@ namespace CoreLib
         /// Centralized logging utility for CoreLib operations.
         /// <seealso cref="Logger"/>
         internal static readonly Logger Log = new(Name);
+        
+        internal static ConfigFile Config;
 
         /// Manages submodules and their lifecycle during mod initialization.
         /// <seealso cref="SubmoduleHandler"/>
@@ -66,6 +69,8 @@ namespace CoreLib
             {
                 ModInfo = this.GetModInfo() ?? throw new InvalidOperationException($"Mod metadata for {Name} not found!");
 
+                Config = new ConfigFile($"{ConfigFolder}CoreLib.cfg", true, ModInfo);
+                
                 var gameBuild = new GameVersion(Application.version);
                 Log.LogInfo($"Loading {Name} version {Version}");
                 Log.LogInfo($"Built For Game Version: {BuildFor}\nRunning Game Version: {gameBuild}");

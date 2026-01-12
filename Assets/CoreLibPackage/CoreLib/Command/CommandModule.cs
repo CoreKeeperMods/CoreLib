@@ -334,29 +334,30 @@ namespace CoreLib.Submodule.Command
         /// Loads and initializes configuration settings related to the commands module.
         private static void LoadConfigData()
         {
-            Settings.DisplayAdditionalHints = API.Config.Register(CoreLibMod.ID,
+            Settings.DisplayAdditionalHints = CoreLibMod.Config.Bind(
                 "Commands",
-                "Should user be given hints when errors are found?",
                 "DisplayAdditionalHints",
-                true);
+                true,
+                "Should user be given hints when errors are found?");
 
-            Settings.LOGAllExecutedCommands = API.Config.Register(CoreLibMod.ID,
+            Settings.LOGAllExecutedCommands = CoreLibMod.Config.Bind(
                 "Commands",
-                "Should all commands executed be logged to console/log file",
                 "LogAllExecutedCommands",
-                true);
+                true,
+                "Should all commands executed be logged to console/log file");
 
-            Settings.EnableCommandSecurity = API.Config.Register(CoreLibMod.ID,
+            Settings.EnableCommandSecurity = CoreLibMod.Config.Bind(
                 "Commands",
-                "Should command security system be enabled? This system can check user permissions, and deny execution of any/specific commands",
                 "EnableCommandSecurity",
-                false);
+                false,
+                "Should command security system be enabled? This system can check user permissions, and deny execution of any/specific commands");
 
-            Settings.AllowUnknownClientCommands = API.Config.Register(CoreLibMod.ID,
+            Settings.AllowUnknownClientCommands = CoreLibMod.Config.Bind(
                 "Commands",
-                "Should client commands unknown to the server be allowed to be executed?",
                 "AllowUnknownClientCommands",
-                false);
+                false,
+                "Should client commands unknown to the server be allowed to be executed?");
+
         }
 
         /// Registers a command handler for a specified module.
@@ -369,11 +370,11 @@ namespace CoreLib.Submodule.Command
             string triggerName = handler.GetTriggerNames()[0];
             if (Settings.UserAllowedCommands.ContainsKey(triggerName)) return;
             
-            var value = API.Config.Register(CoreLibMod.ID,
+            var value = CoreLibMod.Config.Bind(
                 "CommandPermissions",
-                $"Are users (IE not admins) allowed to execute {triggerName}?",
                 $"{modName}_{triggerName}",
-                true);
+                true,
+                $"Are users (IE not admins) allowed to execute {triggerName}?");
             Settings.UserAllowedCommands[triggerName] = value;
         }
 
