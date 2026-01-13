@@ -4,12 +4,10 @@ using CoreLib.Submodule.ControlMapping;
 using CoreLib.Submodule.Entity;
 using CoreLib.Submodule.EquipmentSlot;
 using CoreLib.Submodule.LootDrop;
-//using CoreLib.Submodule.Skin;
 using CoreLib.Submodule.TileSet;
 using PugMod;
 using Rewired;
 using UnityEngine;
-/* TODO disabled
 namespace PlayerSkinTest
 {
     public class PlayerSkinTest : IMod
@@ -17,10 +15,12 @@ namespace PlayerSkinTest
         public void EarlyInit()
         {
             CoreLibMod.LoadSubmodule(typeof(AudioModule), typeof(EquipmentSlotModule),
-                typeof(LootDropModule), typeof(SkinModule), typeof(TileSetModule), typeof(EntityModule), typeof(ControlMappingModule));
-            ControlMappingModule.AddKeyBind("TestKeyBind", KeyboardKeyCode.H);
+                typeof(LootDropModule), typeof(TileSetModule), typeof(EntityModule), typeof(ControlMappingModule));
+            ControlMappingModule.AddKeyboardBind("TestKeyBind", KeyboardKeyCode.H);
             int catInt = ControlMappingModule.AddNewCategory("PlayerSkinTest");
-            ControlMappingModule.AddKeyBind("TestActionList", KeyboardKeyCode.A, categoryID: catInt);
+            ControlMappingModule.AddKeyboardBind("TestActionList", KeyboardKeyCode.A, categoryId: catInt);
+            ControlMappingModule.AddKeyboardBind("TestActionList2", KeyboardKeyCode.B, categoryId: catInt);
+            ControlMappingModule.AddKeyboardBind("TestActionList3", KeyboardKeyCode.C, categoryId: catInt);
         }
 
         public void Init() { }
@@ -31,7 +31,4 @@ namespace PlayerSkinTest
 
         public void Update() { }
     }
-    
-    
 }
-*/

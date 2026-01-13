@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoreLib.Util.Extension;
+using Rewired;
 using Rewired.Data;
+using Rewired.Data.Mapping;
+using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.ControlMapping.Extension
@@ -101,6 +105,26 @@ namespace CoreLib.Submodule.ControlMapping.Extension
             modAction.SetValue("_userAssignable", userAssignable);
             ControlMappingModule.Log.LogInfo($"Inserted new action {actionName}");
             return modAction.id;
+        }
+        
+        internal static void AddNewActionElementMap(this ControllerMap_Editor controllerMapEditor, int actionCategoryId, int actionId,
+            ControllerElementType elementType = ControllerElementType.Axis, int elementId = 0, AxisRange axisRange = AxisRange.Full, 
+            bool invert = false, Pole axisContribution = Pole.Positive, KeyboardKeyCode keyCode = KeyboardKeyCode.None, 
+            ModifierKey modifierKey1 = ModifierKey.None, ModifierKey modifierKey2 = ModifierKey.None, ModifierKey modifierKey3 = ModifierKey.None)
+        {
+            controllerMapEditor.AddActionElementMap();
+            var mapJoystickElement = controllerMapEditor.actionElementMaps.Last();
+            mapJoystickElement.SetValue("_actionCategoryId", actionCategoryId);
+            mapJoystickElement.SetValue("_actionId", actionId);
+            mapJoystickElement.SetValue("_elementType", elementType);
+            mapJoystickElement.SetValue("_elementIdentifierId", elementId);
+            mapJoystickElement.SetValue("_axisRange", axisRange);
+            mapJoystickElement.SetValue("_invert", invert);
+            mapJoystickElement.SetValue("_axisContribution", axisContribution);
+            mapJoystickElement.SetValue("_keyboardKeyCode", keyCode);
+            mapJoystickElement.SetValue("_modifierKey1", modifierKey1);
+            mapJoystickElement.SetValue("_modifierKey2", modifierKey2);
+            mapJoystickElement.SetValue("_modifierKey3", modifierKey3);
         }
     }
 }

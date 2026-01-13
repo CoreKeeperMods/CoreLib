@@ -15,3 +15,5 @@ MonoBehaviour:
   latestBuildOrInstallPaths:
   - C:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\CoreLib
   - C:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\TestMod
+  - D:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\CoreLib
+  - D:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\PlayerSKinTest

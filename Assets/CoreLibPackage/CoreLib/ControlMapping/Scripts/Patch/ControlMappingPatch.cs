@@ -17,17 +17,14 @@ namespace CoreLib.Submodule.ControlMapping.Patch
         /// <param name="__instance">
         /// The instance of the ControlMappingMenu for which the category selection is being managed.
         /// </param>
-        [HarmonyPatch(typeof(ControlMappingMenu), "Awake")]
+        [HarmonyPatch(typeof(ControlMappingMenu), "Initialize")]
         [HarmonyPrefix]
         public static void OnControlMappingMenuAwake(ControlMappingMenu __instance)
         {
-            ControlMappingModule.Log.LogInfo("Control Mapping Menu");
             var layouts = __instance.GetValue<List<ControlMapping_CategoryLayoutData>>("_mappingLayoutData");
             var modLayout = ControlMappingModule.ModCategoryLayout;
             if(modLayout.CategoryLayoutData.Count == 0 || layouts.Contains(modLayout)) return;
             layouts.Add(modLayout);
-            ControlMappingModule.Log.LogInfo($"JSON: {JsonUtility.ToJson(modLayout, true)}");
-            ControlMappingModule.Log.LogInfo($"JSON: {JsonUtility.ToJson(layouts, true)}");
             __instance.SetValue("_mappingLayoutData", layouts);
         }
         
@@ -36,16 +33,6 @@ namespace CoreLib.Submodule.ControlMapping.Patch
         /// upon the completion of Rewired's initialization process.
         [HarmonyPatch(typeof(InputManager_Base), "Start")]
         [HarmonyPostfix]
-        public static void OnInputManagerBaseStart()
-        {
-            ControlMappingModule.RewiredStart?.Invoke();
-        }
-        
-        [HarmonyPatch(typeof(InputManager_Base), "Awake")]
-        [HarmonyPostfix]
-        public static void OnInputManagerBaseAwake()
-        {
-            
-        }
+        public static void OnInputManagerBaseStart() => ControlMappingModule.RewiredStart?.Invoke();
     }
 }

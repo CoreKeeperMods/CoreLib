@@ -22,10 +22,14 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Scripts/PlayerSkinTest.cs
-      guid: 
+      guid: 3b994ab2fe1365749b8765b01ab430f6
     - path: Bundles/PlayerSKinTest_Windows.assetbundle
       guid: 
+    - path: Bundles/PlayerSKinTest_Windows.assetbundle.manifest
+      guid: 
     - path: Bundles/PlayerSKinTest_Linux.assetbundle
+      guid: 
+    - path: Bundles/PlayerSKinTest_Linux.assetbundle.manifest
       guid: 
     dependencies:
     - modName: CoreLib
@@ -37,17 +41,13 @@ MonoBehaviour:
   buildLinux: 1
   assets:
   - path: Assets/PlayerSKinTest/Localization Table.asset
-    hash: 716EE000B5F444071714B8E3C8B5838FECC15BBDCC8FAB99306D56989B4CA907
-  - path: Assets/PlayerSKinTest/New_eyes.png
-    hash: B6DDFB9FC5CA8417D210719C5FA89EBA1921E57F246F10045451450F0F441DBD
-  - path: Assets/PlayerSKinTest/New_skin.png
-    hash: E4121CD139715532D97226141615A83C521A392902C42DB7B870C9405330C379
-  - path: Assets/PlayerSKinTest/Player Skin Customization Table.asset
-    hash: FB927CF0F8F6D9F2B7304E880F6E3C44BA0B5F87D30796C6EBB35713F47390C4
-  - path: Assets/PlayerSKinTest/SpriteAssetManifest.asset
-    hash: 45F8C132772187DFA9340101BE9528964EB00BCBE90E5C1382CC5A42C6455B10
+    hash: C38DA14C150658FEF7CFC747253B5125848FCD1284EC267CDDB662A12D66E3C6
+  - path: Assets/PlayerSKinTest/PlayerSKinTest.asset
+    hash: 2DEA2232A3394A043DBAED68B1E1D3D49B43FDDDF07C6F9F1394443F24B4C025
+  - path: Assets/PlayerSKinTest/PlayerSKinTest_modio.asset
+    hash: 5701B93F9A27B14DA1B86E08AB51225D7D53A879D2C7DB1A962C457441DF34A7
   - path: Assets/PlayerSKinTest/TestBench 1.asset
-    hash: CC8DDA0C2CBF899A9BECD3B2A14047826718554C4D76AA0C4DF58672125DC7E5
+    hash: 49874A7AFCE6CC5AA314DED65D3F461D480BB49C02C0A129B85C75BE76423389
   - path: Assets/PlayerSKinTest/TestBench.asset
-    hash: DA8BC98250BC5C6ACADF5ECBE091629D662F2011DC08CA146ACE22059F9047A1
+    hash: E805DAE2EE58F0A651455AF3126E8B1127E1582B80AA69B51CD12F6D6CA47C95
   lastBuildLinux: 1

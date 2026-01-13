@@ -307,7 +307,7 @@ namespace CoreLib.Submodule.Entity
             var assetRef = workbenchDefinition.assetRef;
             if (targetAsset.name != assetRef.Get().name)
             {
-                //workbenchDefinition.asset.SetValue("m_targetAsset", targetAsset.targetAsset);
+                //workbenchDefinition.assetRef.SetValue("m_targetAsset", targetAsset.targetAsset);
                 var modReskinCondition = newEntityPrefab.AddComponent<ModReskinCondition>();
                 modReskinCondition.season = Season.None;
                 modReskinCondition.reskin = new List<SpriteSkinFromEntityAndSeason.SkinAndGradientMap>

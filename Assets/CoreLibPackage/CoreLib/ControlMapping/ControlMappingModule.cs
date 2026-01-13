@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
+using System.Text;
+using CoreLib.Data.Configuration;
 using CoreLib.Submodule.ControlMapping.Extension;
 using CoreLib.Submodule.ControlMapping.Patch;
 using CoreLib.Submodule.Localization;
@@ -9,7 +10,6 @@ using CoreLib.Util.Extension;
 using PugMod;
 using Rewired;
 using Rewired.Data;
-using Rewired.Data.Mapping;
 using Rewired.UI.ControlMapper;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
@@ -26,7 +26,10 @@ namespace CoreLib.Submodule.ControlMapping
         
         internal new static Logger Log = new(Name);
         
-        internal static Dictionary<string, ActionElementMap> KeyboardMapBinds = new();
+        internal static ConfigFile Config => CoreLibMod.Config;
+        
+        internal static string CategoriesFilePath => "CoreLib\\KeyBindsCategories.json";
+        internal static string ActionsFilePath => "CoreLib\\KeyBindsActions.json";
         
         internal static InputManager_Base InputManagerBase = Resources.Load<InputManager_Base>($"Rewired Input Manager");
         
@@ -36,8 +39,15 @@ namespace CoreLib.Submodule.ControlMapping
         
         internal static int[] ModsActionCategoryID;
         
-        internal static Dictionary<string, int[]> KeyBindCategories = new();
-        internal static Dictionary<string, int[]> KeyBindActions = new();
+        internal static Dictionary<string, int[]> KeyBindCategories; //[Category Name, [Category ID, Map Category ID]]
+        internal static Dictionary<string, int[]> KeyBindActions; //[Action Name, [Action ID, Action Category ID]]
+        
+        internal static int ActionCategoryIdCounter => 100;
+        internal static int MapCategoryIdCounter => 100;
+        internal static int ActionIdCounter => 1000;
+        internal static int MapJoystickIdCounter => 1000;
+        internal static int MapKeyboardIdCounter => 1000;
+        internal static int MapMouseIdCounter => 1000;
         
         /// Event that triggers a callback when the Rewired input system is fully initialized.
         public static Action RewiredStart;
@@ -54,10 +64,10 @@ namespace CoreLib.Submodule.ControlMapping
         /// <param name="modifier">Key bind modifier. Defaults to none</param>
         /// <param name="modifier2"></param>
         /// <param name="modifier3"></param>
-        /// <param name="categoryID">Category ID to add KeyBind</param>
-        public static void AddKeyBind(string keyBindName = "", KeyboardKeyCode defaultKeyCode = KeyboardKeyCode.None,
+        /// <param name="categoryId">Category ID to add KeyBind</param>
+        public static void AddKeyboardBind(string keyBindName = "", KeyboardKeyCode defaultKeyCode = KeyboardKeyCode.None,
             ModifierKey modifier = ModifierKey.None, ModifierKey modifier2 = ModifierKey.None,
-            ModifierKey modifier3 = ModifierKey.None, int categoryID = -1)
+            ModifierKey modifier3 = ModifierKey.None, int categoryId = -1)
         {
             Instance.ThrowIfNotLoaded();
             if (string.IsNullOrEmpty(keyBindName))
@@ -66,55 +76,55 @@ namespace CoreLib.Submodule.ControlMapping
                 return;
             }
             
-            if (categoryID == -1)
+            if (categoryId == -1)
             {
                 ModsActionCategoryID ??= AddNewCategory_Internal("Mods");
-                categoryID = ModsActionCategoryID[0];
+                categoryId = ModsActionCategoryID[0];
             }
-
-            if (UserData.GetActionId(keyBindName) != -1)
-            {
-                Log.LogWarning($"Error trying to add keybind action with name {keyBindName}! This keybind name is already taken!");
-                return;
-            }
-            UserData.AddNewAction(keyBindName, categoryID);
             
-            int catInt = UserData.IndexOfActionCategory(categoryID);
+            var action = AddNewAction_Internal(keyBindName, categoryId);
+            
+            if (action.id >= ActionIdCounter && KeyBindActions.TryAdd(keyBindName, new []{action.id, categoryId}))
+            {
+                API.ConfigFilesystem.Write(ActionsFilePath, Encoding.UTF8.GetBytes(JsonUtility.ToJson(KeyBindActions)));
+            }
+            
+            int catInt = UserData.IndexOfActionCategory(categoryId);
             var actionCategory = UserData.GetActionCategory(catInt);
             var mapCategory = UserData.GetMapCategory(actionCategory.name);
             var keyboardMap = UserData.GetKeyboardMap(mapCategory.id, 0);
-            keyboardMap.AddActionElementMap();
-            var mapElement = keyboardMap.actionElementMaps.Last();
-            //TODO rework
-            //mapElement.SetValue("_actionCategoryId", action.categoryId);
-            //mapElement.SetValue("_actionId", action.id);
-            mapElement.SetValue("_elementType", ControllerElementType.Button);
-            mapElement.SetValue("_keyboardKeyCode", defaultKeyCode);
-            mapElement.SetValue("_modifierKey1", modifier);
-            /*var mouseMap = UserData.GetMouseMap(mapCategory.id, 0);
-            mouseMap.AddActionElementMap();
-            var mapMouseElement = mouseMap.actionElementMaps.Last();
-            mapMouseElement.SetValue("_actionCategoryId", action.categoryId);
-            mapMouseElement.SetValue("_actionId", action.id);
-            mapMouseElement.SetValue("_elementType", ControllerElementType.Button);
-            var joystickMap = UserData.GetJoystickMap(mapCategory.id, new Guid("83b427e4-086f-47f3-bb06-be266abd1ca5"), 0);
-            joystickMap.AddActionElementMap();
-            var mapJoystickElement = joystickMap.actionElementMaps.Last();
-            mapJoystickElement.SetValue("_actionCategoryId", action.categoryId);
-            mapJoystickElement.SetValue("_actionId", action.id);
-            mapJoystickElement.SetValue("_elementType", ControllerElementType.Button);*/
+            keyboardMap.AddNewActionElementMap(categoryId, action.id, ControllerElementType.Button, keyCode: defaultKeyCode, modifierKey1: modifier,
+            modifierKey2: modifier2, modifierKey3: modifier3);
         }
-        
-        public static int AddNewCategory(string categoryName)
+
+        public static void AddMouseBind(string keyBindName = "", int elementId = -1,
+            int categoryId = -1)
         {
             Instance.ThrowIfNotLoaded();
-            int[] categoryInt = AddNewCategory_Internal(categoryName);
-            if (KeyBindCategories.TryAdd(categoryName, categoryInt))
+            if (string.IsNullOrEmpty(keyBindName))
             {
-                API.Config.Set(CoreLibMod.ID, "KeyBinds", "KeyBindCategories", KeyBindCategories);
+                Log.LogWarning($"No Name provided for keybind!");
+                return;
             }
             
-            return categoryInt[0];
+            if (categoryId == -1)
+            {
+                ModsActionCategoryID ??= AddNewCategory_Internal("Mods");
+                categoryId = ModsActionCategoryID[0];
+            }
+            
+            var action = AddNewAction_Internal(keyBindName, categoryId);
+            
+            if (action.id >= ActionIdCounter && KeyBindActions.TryAdd(keyBindName, new []{action.id, categoryId}))
+            {
+                API.ConfigFilesystem.Write(ActionsFilePath, Encoding.UTF8.GetBytes(JsonUtility.ToJson(KeyBindActions)));
+            }
+            
+            int catInt = UserData.IndexOfActionCategory(categoryId);
+            var actionCategory = UserData.GetActionCategory(catInt);
+            var mapCategory = UserData.GetMapCategory(actionCategory.name);
+            var mouseMap = UserData.GetMouseMap(mapCategory.id, 0);
+            mouseMap.AddNewActionElementMap(action.categoryId, action.id, ControllerElementType.Button, elementId);
         }
 
         /// Sets the default controller binding for an existing custom keybind. The keybind must be created beforehand using AddKeybind().
@@ -122,13 +132,56 @@ namespace CoreLib.Submodule.ControlMapping
         /// <param name="elementId">The element ID of the controller component to bind.</param>
         /// <param name="elementType">The type of the controller element (e.g., Button or Axis). Defaults to Button.</param>
         /// <param name="axisRange">The range of the axis, if applicable. Defaults to Full.</param>
-        public static void SetDefaultControllerBinding(string keyBindName, int elementId,
+        /// <param name="inverted"></param>
+        /// <param name="axisContribution"></param>
+        /// <param name="categoryId"></param>
+        public static void AddControllerBind(string keyBindName = "", int elementId = -1,
             ControllerElementType elementType = ControllerElementType.Button,
-            AxisRange axisRange = AxisRange.Full)
+            AxisRange axisRange = AxisRange.Full, bool inverted = false, Pole axisContribution = Pole.Positive, int categoryId = -1)
         {
             Instance.ThrowIfNotLoaded();
+            if (string.IsNullOrEmpty(keyBindName))
+            {
+                Log.LogWarning($"No Name provided for keybind!");
+                return;
+            }
+            
+            if (categoryId == -1)
+            {
+                ModsActionCategoryID ??= AddNewCategory_Internal("Mods");
+                categoryId = ModsActionCategoryID[0];
+            }
+
+            var action = AddNewAction_Internal(keyBindName, categoryId);
+            
+            if (action.id >= ActionIdCounter && KeyBindActions.TryAdd(keyBindName, new []{action.id, categoryId}))
+            {
+                API.ConfigFilesystem.Write(ActionsFilePath, Encoding.UTF8.GetBytes(JsonUtility.ToJson(KeyBindActions)));
+            }
+            
+            int catInt = UserData.IndexOfActionCategory(categoryId);
+            var actionCategory = UserData.GetActionCategory(catInt);
+            var mapCategory = UserData.GetMapCategory(actionCategory.name);
+            var joystickMap = UserData.GetJoystickMap(mapCategory.id, new Guid("83b427e4-086f-47f3-bb06-be266abd1ca5"), 0);
+            joystickMap.AddNewActionElementMap(action.categoryId, action.id, elementType, elementId, axisRange, inverted, axisContribution);
+        }
+        
+        public static int AddNewCategory(string categoryName)
+        {
+            Instance.ThrowIfNotLoaded();
+            int[] categoryInt = AddNewCategory_Internal(categoryName);
+            if (categoryInt[0] >= ActionCategoryIdCounter && !KeyBindCategories.TryAdd(categoryName, categoryInt))
+            {
+                API.ConfigFilesystem.Write(CategoriesFilePath, Encoding.UTF8.GetBytes(JsonUtility.ToJson(KeyBindCategories)));
+            }
+            
+            return categoryInt[0];
         }
 
+        #endregion
+        
+        #region Internal Implementation
+        
         internal static int[] AddNewCategory_Internal(string categoryName, bool userAssignable = true)
         {
             int categoryID = UserData.GetActionCategoryId(categoryName);
@@ -136,17 +189,12 @@ namespace CoreLib.Submodule.ControlMapping
             {
                 var category = UserData.GetActionCategory(categoryID);
                 var mapCategory = UserData.GetMapCategory(category.name);
-                if (userAssignable && (!category.userAssignable || !mapCategory.userAssignable))
-                {
-                    category.SetValue("_userAssignable", true);
-                    mapCategory.SetValue("_userAssignable", true);
-                    Log.LogInfo($"Enabled user assignable for category {categoryName}");
-                }
-                else
-                {
-                    Log.LogWarning($"Warning: Category {categoryName} already exists!");
-                }
-                
+                if (!userAssignable || (category.userAssignable && mapCategory.userAssignable))
+                    return new[] { category.id, mapCategory.id };
+                category.SetValue("_userAssignable", true);
+                mapCategory.SetValue("_userAssignable", true);
+                Log.LogInfo($"Enabled Category: {categoryName}");
+
                 return new []{ category.id, mapCategory.id };
             }
             int[] categories = UserData.AddNewCategory(categoryName, userAssignable);
@@ -158,10 +206,29 @@ namespace CoreLib.Submodule.ControlMapping
             newLayout.SetValue("_showActionCategoryName", new[] { categoryName != "Mods" });
             newLayout.SetValue("_showActionCategoryDescription", new[] { true });
             ModCategoryLayout.CategoryLayoutData.Add(newLayout);
-            Log.LogInfo($"Added new category {categoryName}");
+            UserData.CreateJoystickMap(categories[1], new Guid("83b427e4-086f-47f3-bb06-be266abd1ca5"), 0);
+            UserData.CreateKeyboardMap(categories[1], 0);
+            UserData.CreateMouseMap(categories[1], 0);
+            Log.LogInfo($"Added New Category: {categoryName} {(userAssignable ? "" : "(Disabled)")}");
             return categories;
         }
+        
+        internal static InputAction AddNewAction_Internal(string actionName, int categoryId, bool userAssignable = true)
+        {
+            var action = UserData.GetAction(actionName);
+            if (action != null)
+            {
+                if (!userAssignable || action.userAssignable) return action;
+                action.SetValue("_userAssignable", true);
+                Log.LogInfo($"Enabled Action: {action}");
 
+                return action;
+            }
+            UserData.AddNewAction(actionName, categoryId, userAssignable);
+            Log.LogInfo($"Added New Action: {actionName} {(userAssignable ? "" : "(Disabled)")}");
+            return UserData.GetAction(actionName);
+        }
+        
         #endregion
 
         #region Submodule Implementation
@@ -179,12 +246,24 @@ namespace CoreLib.Submodule.ControlMapping
         internal override void Load()
         {
             base.Load();
+            UserData.SetValue("actionCategoryIdCounter", ActionCategoryIdCounter);
+            UserData.SetValue("actionIdCounter", ActionIdCounter);
+            UserData.SetValue("mapCategoryIdCounter", MapCategoryIdCounter);
+            UserData.SetValue("joystickMapIdCounter", MapJoystickIdCounter);
+            UserData.SetValue("keyboardMapIdCounter", MapKeyboardIdCounter);
+            UserData.SetValue("mouseMapIdCounter", MapMouseIdCounter);
             ModCategoryLayout = Mod.Assets.OfType<ControlMapping_CategoryLayoutData>().FirstOrDefault();
-            //TODO rework config code to ConfigFile class
-            //API.Config.Register(CoreLibMod.ID, "KeyBinds", "Category Key Binds", "KeyBindCategories", new Dictionary<string, int[]>());
-            //API.Config.Register(CoreLibMod.ID, "KeyBinds", "Action Key Binds", "KeyBindActions", new Dictionary<string, int[]>());
-            KeyBindCategories = new Dictionary<string, int[]>();// API.Config.Get<Dictionary<string, int[]>>(CoreLibMod.ID, "KeyBinds", "KeyBindCategories");
-            KeyBindActions = new Dictionary<string, int[]>(); //API.Config.Get<Dictionary<string, int[]>>(CoreLibMod.ID, "KeyBinds", "KeyBindActions");
+            if (!API.ConfigFilesystem.FileExists(CategoriesFilePath) || !API.ConfigFilesystem.FileExists(ActionsFilePath))
+            {
+                var dic = new Dictionary<string, int[]>();
+                string json = JsonUtility.ToJson(dic);
+                API.ConfigFilesystem.Write(CategoriesFilePath, Encoding.UTF8.GetBytes(json));
+                API.ConfigFilesystem.Write(ActionsFilePath, Encoding.UTF8.GetBytes(json));
+            }
+
+            KeyBindCategories = JsonUtility.FromJson<Dictionary<string, int[]>>(Encoding.UTF8.GetString(API.ConfigFilesystem.Read(CategoriesFilePath)));
+            KeyBindActions = JsonUtility.FromJson<Dictionary<string, int[]>>(Encoding.UTF8.GetString(API.ConfigFilesystem.Read(ActionsFilePath)));
+            
             if (LocalizationModule.Instance.Loaded)
             {
                 var controlMappingLocalizationTable = Mod.Assets.OfType<ModdedLocalizationTable>().First(x => x.name == "ControlMapping Localization Table");
@@ -205,7 +284,7 @@ namespace CoreLib.Submodule.ControlMapping
             
             foreach (var keyBindAction in KeyBindActions)
             {
-                UserData.AddNewAction(keyBindAction.Key, keyBindAction.Value[1], false);
+                AddNewAction_Internal(keyBindAction.Key, keyBindAction.Value[1], false);
             }
         }
 
