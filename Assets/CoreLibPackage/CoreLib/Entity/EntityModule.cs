@@ -305,17 +305,17 @@ namespace CoreLib.Submodule.Entity
             modCraftingUISetting.craftingUIBackgroundVariation = workbenchDefinition.skin;
 
             var assetRef = workbenchDefinition.assetRef;
-            if (targetAsset.name != assetRef.Get().name)
+            //TODO I have to disable the check, since I get NRE from Get()
+            //if (targetAsset.name != assetRef.Get().name)
+
+            //workbenchDefinition.assetRef.SetValue("m_targetAsset", targetAsset.targetAsset);
+            var modReskinCondition = newEntityPrefab.AddComponent<ModReskinCondition>();
+            modReskinCondition.season = Season.None;
+            modReskinCondition.reskin = new List<SpriteSkinFromEntityAndSeason.SkinAndGradientMap>
             {
-                //workbenchDefinition.assetRef.SetValue("m_targetAsset", targetAsset.targetAsset);
-                var modReskinCondition = newEntityPrefab.AddComponent<ModReskinCondition>();
-                modReskinCondition.season = Season.None;
-                modReskinCondition.reskin = new List<SpriteSkinFromEntityAndSeason.SkinAndGradientMap>
-                {
-                    new() { skinRef = assetRef },
-                    new() { skinRef = assetRef }
-                };
-            }
+                new() { skinRef = assetRef },
+                new() { skinRef = assetRef }
+            };
 
             var supportsCoreLib = newEntityPrefab.AddComponent<SupportsCoreLib>();
             supportsCoreLib.bindToRootWorkbench = workbenchDefinition.bindToRootWorkbench;
