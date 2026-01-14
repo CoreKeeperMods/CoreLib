@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
-  m_Name: PlayerSKinTest_modio
+  m_Name: PlayerSkinTest_modio
   m_EditorClassIdentifier: 
   modId: 0
   modSettings: {fileID: 11400000, guid: 981648807dbf94642a3bdb29fd626fe6, type: 2}

@@ -38,13 +38,12 @@ namespace CoreLib.Submodule.Entity.Component
                         skin.UpdateGraphicsFromObjectInfo(objectInfo);
                     }
                 }
-                /* TODO rework
                 if (ModdedEntity.TryGetComponent(out ModCraftingUISetting modCraftingUISetting))
                 {
-                    craftingUITitle = modCraftingUISetting.craftingUITitle;
-                    craftingUITitleLeftBox = modCraftingUISetting.craftingUITitleLeftBox;
-                    craftingUITitleRightBox = modCraftingUISetting.craftingUITitleRightBox;
-                    craftingUIBackgroundVariation = modCraftingUISetting.craftingUIBackgroundVariation;
+                    defaultUISettings.titles.Clear();
+                    defaultUISettings.titles.Add(modCraftingUISetting.craftingUITitleLeftBox);
+                    defaultUISettings.titles.Add(modCraftingUISetting.craftingUITitle);
+                    defaultUISettings.titles.Add(modCraftingUISetting.craftingUITitleRightBox);
                 }
 
                 if (ModdedEntity.TryGetComponent(out ModCraftingAuthoring modCraftingAuthoring))
@@ -55,21 +54,25 @@ namespace CoreLib.Submodule.Entity.Component
                         var monoObject = PugDatabase.entityMonobehaviours.Find(mono => mono.ObjectInfo.objectID == buildingID).GameObject;
                         if (monoObject.TryGetComponent(out ModCraftingUISetting craftingUISetting))
                         {
-                            if (!craftingUIOverrideSettings.Contains(craftingUISetting.GetCraftingUISettings())) 
-                                craftingUIOverrideSettings.Add(craftingUISetting.GetCraftingUISettings());
+                            if (!buildingSpecificUISettings.Contains(craftingUISetting.GetCraftingUISettings())) 
+                                buildingSpecificUISettings.Add(craftingUISetting.GetCraftingUISettings());
                         }
                         else if (monoObject.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviourData))
                         {
                             var craftingBuilding = (CraftingBuilding)entityMonoBehaviourData.objectInfo.prefabInfos[0].prefab;
                             if (craftingBuilding is null) continue;
                             var craftingSetting = 
-                                craftingBuilding.craftingUIOverrideSettings.Find(x => x.usedForBuilding == entityMonoBehaviourData.ObjectInfo.objectID) 
-                                ?? new CraftingUISettings(entityMonoBehaviourData.ObjectInfo.objectID, craftingBuilding.craftingUITitle, craftingBuilding.craftingUITitleLeftBox, craftingBuilding.craftingUITitleRightBox, craftingBuilding.craftingUIBackgroundVariation);
-                            if (!craftingUIOverrideSettings.Contains(craftingSetting))
-                                craftingUIOverrideSettings.Add(craftingSetting);
+                                craftingBuilding.buildingSpecificUISettings.Find(x => x.usedForBuilding == entityMonoBehaviourData.ObjectInfo.objectID) 
+                                ?? new CraftingUISettingsOverride
+                                {
+                                    usedForBuilding = entityMonoBehaviourData.ObjectInfo.objectID,
+                                    settings = craftingBuilding.defaultUISettings
+                                };
+                            if (!buildingSpecificUISettings.Contains(craftingSetting))
+                                buildingSpecificUISettings.Add(craftingSetting);
                         }
                     }
-                }*/
+                }
                 
             }
             

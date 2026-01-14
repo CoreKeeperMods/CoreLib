@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using I2.Loc;
 using PugMod;
-using UnityEngine;
 using Logger = CoreLib.Util.Logger;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Localization
 {
+    //TODO Remove Localization Module?
     /// Provides functionality for managing localization strings and entity localization within the game.
     public class LocalizationModule : BaseSubmodule
     {
@@ -29,8 +29,9 @@ namespace CoreLib.Submodule.Localization
         internal override void Load()
         {
             base.Load();
-            LocalizationSourceData = Resources.Load<LanguageSourceAsset>($"I2Languages").SourceData;
+            LocalizationSourceData = new LanguageSourceData();
             DependentMods.ForEach(ExtractTermsFromModdedLocalizationTables);
+            
         }
 
         #endregion
@@ -55,7 +56,8 @@ namespace CoreLib.Submodule.Localization
                 };
                 AddTerm_Internal(term, languageTerm);
             }
-            
+            if(Instance.Loaded)
+                LocalizationManager.UpdateSources();
         }
 
         /// Adds a new localization term with English and optional Chinese translations.

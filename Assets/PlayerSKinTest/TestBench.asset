@@ -17,7 +17,10 @@ MonoBehaviour:
   bigIcon: {fileID: 6052145283139932220, guid: 75c9105165a4c884ab9cd8a222202c1d, type: 3}
   smallIcon: {fileID: 4889364612262949874, guid: 75c9105165a4c884ab9cd8a222202c1d,
     type: 3}
-  asset: {fileID: 11400000, guid: d2d851b3bca5877449d5cc12bf90e81d, type: 2}
+  assetRef:
+    m_address:
+      m_low: -8686110360897826381
+      m_high: 2155131572025349449
   bindToRootWorkbench: 1
   recipe:
   - objectName: Wood

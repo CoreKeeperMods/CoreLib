@@ -1,5 +1,5 @@
 {
-    "name": "PlayerSKinTest",
+    "name": "PlayerSkinTest",
     "rootNamespace": "",
     "references": [
         "Unity.Burst",

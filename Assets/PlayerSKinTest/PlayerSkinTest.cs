@@ -17,10 +17,8 @@ namespace PlayerSkinTest
             CoreLibMod.LoadSubmodule(typeof(AudioModule), typeof(EquipmentSlotModule),
                 typeof(LootDropModule), typeof(TileSetModule), typeof(EntityModule), typeof(ControlMappingModule));
             ControlMappingModule.AddKeyboardBind("TestKeyBind", KeyboardKeyCode.H);
-            int catInt = ControlMappingModule.AddNewCategory("PlayerSkinTest");
-            ControlMappingModule.AddKeyboardBind("TestActionList", KeyboardKeyCode.A, categoryId: catInt);
-            ControlMappingModule.AddKeyboardBind("TestActionList2", KeyboardKeyCode.B, categoryId: catInt);
-            ControlMappingModule.AddKeyboardBind("TestActionList3", KeyboardKeyCode.C, categoryId: catInt);
+            ControlMappingModule.AddKeyboardBind("TestActionList", KeyboardKeyCode.A);
+            ControlMappingModule.AddKeyboardBind("TestActionList2", KeyboardKeyCode.B);
         }
 
         public void Init() { }

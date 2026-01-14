@@ -240,7 +240,7 @@ namespace CoreLib.Submodule.ControlMapping
         /// Applies the necessary patches or hooks for the functionality of the module.
         internal override void SetHooks() => CoreLibMod.Patch(typeof(ControlMappingPatch));
 
-        internal override Type[] Dependencies  => new[] {typeof(LocalizationModule)};
+        //internal override Type[] Dependencies  => new[] {typeof(LocalizationModule)};
 
         /// Initializes the Rewired extension module by setting up required configurations and resources.
         internal override void Load()
@@ -263,19 +263,6 @@ namespace CoreLib.Submodule.ControlMapping
 
             KeyBindCategories = JsonUtility.FromJson<Dictionary<string, int[]>>(Encoding.UTF8.GetString(API.ConfigFilesystem.Read(CategoriesFilePath)));
             KeyBindActions = JsonUtility.FromJson<Dictionary<string, int[]>>(Encoding.UTF8.GetString(API.ConfigFilesystem.Read(ActionsFilePath)));
-            
-            if (LocalizationModule.Instance.Loaded)
-            {
-                var controlMappingLocalizationTable = Mod.Assets.OfType<ModdedLocalizationTable>().First(x => x.name == "ControlMapping Localization Table");
-                var localizationTerms = controlMappingLocalizationTable.GetTerms();
-                foreach (var term in localizationTerms)
-                {
-                    foreach (var lang in term.languageTerms)
-                    {
-                        LocalizationModule.AddTerm_Internal(term.term, lang);
-                    }
-                }
-            }
 
             foreach (var keyBindCategory in KeyBindCategories)
             {

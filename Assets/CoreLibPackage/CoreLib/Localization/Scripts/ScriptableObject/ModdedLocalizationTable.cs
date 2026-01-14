@@ -3,32 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using CoreLib.Util.Extension;
 using I2.Loc;
+using NaughtyAttributes;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Localization
 {
+    //TODO Remove this class and Localization Module?
     [CreateAssetMenu(menuName = "CoreLib/Localization/Localization Table", fileName = "Localization Table"), Serializable]
     public class ModdedLocalizationTable : ScriptableObject
     {
         [Header("Localization Table Settings")]
         public List<LocalizationTerm> terms = new();
         [HideInInspector] public LanguageSourceData sourceData = new();
-
-        private void OnValidate()
-        {
-            sourceData.ClearAllData();
-            foreach (var term in terms)
-            {
-                foreach (var languageTerm in term.languageTerms)
-                {
-                    sourceData.AddLanguage(languageTerm.LocalizationName, languageTerm.LocalizationCode);
-                    if (!sourceData.ContainsTerm(term.term)) sourceData.AddTerm(term.term);
-                    var termData = sourceData.GetTermData(term.term);
-                    termData.SetTranslation(sourceData.GetLanguageIndex(languageTerm.LocalizationName), languageTerm.translation);
-                }
-            }
-        }
 
         public List<LocalizationTerm> GetTerms()
         {
@@ -53,8 +40,11 @@ namespace CoreLib.Submodule.Localization
     [Serializable]
     public class LocalizationTerm
     {
+        [OnValueChanged("ValidateTermChange"), AllowNesting]
         public string term;
         public List<LanguageTerm> languageTerms = new();
+        
+        
     }
 
     [Serializable]

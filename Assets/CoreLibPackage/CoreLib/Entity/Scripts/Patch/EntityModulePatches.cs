@@ -9,7 +9,6 @@
 /* Edited from Moorowl's Paintable Double Chest https://mod.io/g/corekeeper/m/doublechest#description */
 using System.Linq;
 using CoreLib.Submodule.Entity.Component;
-using CoreLib.Util.Extension;
 using HarmonyLib;
 using Interaction;
 using Pug.ECS.Hybrid;
@@ -104,22 +103,11 @@ namespace CoreLib.Submodule.Entity.Patch
             
             var window = Manager.ui.GetCraftingCategoryWindowInfo();
             if (window == null) return true;
-            /* TODO rework
             int index = Manager.ui.GetCraftingCategoryWindowInfos().FindIndex(win => win == window) - 1;
 
-            if (index != -1)
-                __result = __instance.craftingUIOverrideSettings[index];
-            else
-                __result = new CraftingBuilding.CraftingUISettings(
-                    objectId,
-                    __instance.craftingUITitle,
-                    _instance.craftingUITitleLeftBox,
-                    __instance.craftingUITitleRightBox,
-                    __instance.craftingUIBackgroundVariation
-                );
-            return false;*/
-
-            return true;
+            __result = index != -1 ? __instance.buildingSpecificUISettings[index].settings : 
+                new CraftingBuilding.CraftingUISettings(__instance.defaultUISettings.craftingUIBackgroundVariation, __instance.defaultUISettings.titles.ToArray());
+            return false;
         }
 
         /// Checks if the provided GameObject has a SupportsPooling component.

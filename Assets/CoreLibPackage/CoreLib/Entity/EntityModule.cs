@@ -14,7 +14,7 @@ using CoreLib.Submodule.Entity.Attribute;
 using CoreLib.Submodule.Entity.Component;
 using CoreLib.Submodule.Entity.Interface;
 using CoreLib.Submodule.Entity.Patch;
-using CoreLib.Submodule.Localization;
+//using CoreLib.Submodule.Localization;
 using CoreLib.Util.Extension;
 using HarmonyLib;
 using Pug.Sprite;
@@ -45,7 +45,7 @@ namespace CoreLib.Submodule.Entity
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
 
         /// <summary>Module dependencies required before this module can initialize.</summary>
-        internal override Type[] Dependencies => new[] { typeof(LocalizationModule) };
+        //internal override Type[] Dependencies => new[] { typeof(LocalizationModule) };
 
         /// <summary>List of prefabs that should be enabled for pooling.</summary>
         internal static List<PoolablePrefabBank.PoolablePrefab> PoolablePrefabs = new();
@@ -115,19 +115,6 @@ namespace CoreLib.Submodule.Entity
         internal override void Load()
         {
             base.Load();
-
-            if (LocalizationModule.Instance.Loaded)
-            {
-                var entityLocalizationTable = Mod.Assets.OfType<ModdedLocalizationTable>().First(x => x.name == "Entity Localization Table");
-                var localizationTerms = entityLocalizationTable.GetTerms();
-                foreach (var term in localizationTerms)
-                {
-                    foreach (var lang in term.languageTerms)
-                    {
-                        LocalizationModule.AddTerm_Internal(term.term, lang);
-                    }
-                }
-            }
 
             var entityModificationList = API.Reflection.AllTypes()
                 .Where(type => type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
@@ -216,8 +203,8 @@ namespace CoreLib.Submodule.Entity
                         Log.LogInfo($"Create new Root Workbench for Mod: {mod} - {RootWorkbenchDefinition.itemID}");
                         currentWorkbench = AddWorkbenchDefinition(RootWorkbenchDefinition);
                         RootWorkbenchesChain.Add(currentWorkbench);
-                        LocalizationModule.AddEntityLocalization(RootWorkbenchDefinition.itemID,
-                            "Root Workbench", "This workbench contains all modded workbenches!");
+                        /*LocalizationModule.AddEntityLocalization(RootWorkbenchDefinition.itemID,
+                            "Root Workbench", "This workbench contains all modded workbenches!");*/
                         if (RootWorkbenchesChain.Count > 1)
                         {
                             RootWorkbenchesChain.First().GetComponent<ModCraftingAuthoring>()
@@ -244,15 +231,15 @@ namespace CoreLib.Submodule.Entity
                     switch (i)
                     {
                         case 0:
-                            titleSettings.craftingUITitleLeftBox = $"CoreLib/Mods/{modID}";
-                            titleSettings.craftingUITitle = $"CoreLib/Mods/{modID}";
+                            titleSettings.craftingUITitleLeftBox = $"Mods/{modID}";
+                            titleSettings.craftingUITitle = $"Mods/{modID}";
                             break;
                         case 6:
-                            titleSettings.craftingUITitle = $"CoreLib/Mods/{modID}";
-                            titleSettings.craftingUITitleRightBox = $"CoreLib/Mods/{modID}";
+                            titleSettings.craftingUITitle = $"Mods/{modID}";
+                            titleSettings.craftingUITitleRightBox = $"Mods/{modID}";
                             break;
                         case 12:
-                            titleSettings.craftingUITitleRightBox = $"CoreLib/Mods/{modID}";
+                            titleSettings.craftingUITitleRightBox = $"Mods/{modID}";
                             break;
                     }
                 }
@@ -304,17 +291,12 @@ namespace CoreLib.Submodule.Entity
             modCraftingUISetting.craftingUITitleRightBox = workbenchDefinition.rightTitle;
             modCraftingUISetting.craftingUIBackgroundVariation = workbenchDefinition.skin;
 
-            var assetRef = workbenchDefinition.assetRef;
-            //TODO I have to disable the check, since I get NRE from Get()
-            //if (targetAsset.name != assetRef.Get().name)
-
-            //workbenchDefinition.assetRef.SetValue("m_targetAsset", targetAsset.targetAsset);
             var modReskinCondition = newEntityPrefab.AddComponent<ModReskinCondition>();
             modReskinCondition.season = Season.None;
             modReskinCondition.reskin = new List<SpriteSkinFromEntityAndSeason.SkinAndGradientMap>
             {
-                new() { skinRef = assetRef },
-                new() { skinRef = assetRef }
+                new() { skinRef = workbenchDefinition.assetRef },
+                new() { skinRef = workbenchDefinition.assetRef }
             };
 
             var supportsCoreLib = newEntityPrefab.AddComponent<SupportsCoreLib>();

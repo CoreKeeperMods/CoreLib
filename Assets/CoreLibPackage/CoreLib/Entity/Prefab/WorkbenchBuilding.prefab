@@ -173,7 +173,12 @@ MonoBehaviour:
   hideRecipes: 0
   electricitySprite: {fileID: 0}
   defaultUISettings:
-    titles: []
+    titles:
+    - mTerm: CoreLib/Workbenches
+      mRTL_IgnoreArabicFix: 0
+      mRTL_MaxLineLength: 0
+      mRTL_ConvertNumbers: 0
+      m_DontLocalizeParameters: 0
     craftingUIBackgroundVariation: 0
   buildingSpecificUISettings: []
   craftingCategoryWindowInfos: []
