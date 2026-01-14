@@ -48,7 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weightMultiplier: 1
   useDiscreteOutlineColor: 0
-  entityMono: {fileID: 7532636737604210270}
   requiredFactionToInteract: 0
   optionalIcon: {fileID: 0}
   optionalOutlineController: {fileID: 0}
@@ -177,27 +176,12 @@ MonoBehaviour:
   hasDisableableParticles: 0
   previousHealth: 0
   m_spriteObjectOrientationHash: 0
-  craftingUITitle:
-    mTerm: CoreLib/Workbenches
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  craftingUITitleLeftBox:
-    mTerm: CoreLib/Workbenches
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  craftingUITitleRightBox:
-    mTerm: CoreLib/Workbenches
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  craftingUIBackgroundVariation: 0
   hideRecipes: 0
-  craftingUIOverrideSettings: []
+  electricitySprite: {fileID: 0}
+  defaultUISettings:
+    titles: []
+    craftingUIBackgroundVariation: 0
+  buildingSpecificUISettings: []
   craftingCategoryWindowInfos: []
   mainObject: {fileID: 7568766159106706509}
   shadowObject: {fileID: 3005554013292434928}
@@ -234,6 +218,7 @@ MonoBehaviour:
   - {fileID: 7568766159106706509}
   - {fileID: 3005554013292434928}
   reskinConditions: []
+  animationEventEffects: []
 --- !u!114 &2222354935845099439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,8 +309,16 @@ MonoBehaviour:
   m_Script: {fileID: 1908045241, guid: 292700ef68995bdb2163e35989fc7eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_asset: {fileID: 11400000, guid: 280b7fba90d2ee54a8b9c7fb0eb4c5f4, type: 2}
+  m_asset: {fileID: 0}
   skin: {fileID: 0}
+  m_assetRef:
+    m_address:
+      m_low: -1273233562349633606
+      m_high: -809042581596423768
+  skinRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   color: {r: 1, g: 1, b: 1, a: 1}
   emissiveColor: {r: 1, g: 1, b: 1, a: 1}
   flashColor: {r: 0, g: 0, b: 0, a: 0}
@@ -333,7 +326,19 @@ MonoBehaviour:
   primaryGradientMap: {fileID: 0}
   secondaryGradientMap: {fileID: 0}
   tertiaryGradientMap: {fileID: 0}
-  material: {fileID: 2100000, guid: 571bf3c761ee86c4f9d8e65be27151be, type: 2}
+  primaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  secondaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  tertiaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  material: {fileID: 2100000, guid: 1a7b8aafc2c88d640b012a82d8df3703, type: 2}
   m_startAnimationHash: 0
   m_startVariantHash: 0
   animationTimescale: 1
@@ -485,8 +490,16 @@ MonoBehaviour:
   m_Script: {fileID: 1908045241, guid: 292700ef68995bdb2163e35989fc7eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_asset: {fileID: 11400000, guid: 280b7fba90d2ee54a8b9c7fb0eb4c5f4, type: 2}
+  m_asset: {fileID: 0}
   skin: {fileID: 0}
+  m_assetRef:
+    m_address:
+      m_low: -1273233562349633606
+      m_high: -809042581596423768
+  skinRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   color: {r: 1, g: 1, b: 1, a: 0.7019608}
   emissiveColor: {r: 1, g: 1, b: 1, a: 1}
   flashColor: {r: 0, g: 0, b: 0, a: 0}
@@ -494,7 +507,19 @@ MonoBehaviour:
   primaryGradientMap: {fileID: 0}
   secondaryGradientMap: {fileID: 0}
   tertiaryGradientMap: {fileID: 0}
-  material: {fileID: 2100000, guid: e9579b7574bbaa146a669beeabfcbb75, type: 2}
+  primaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  secondaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  tertiaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  material: {fileID: 2100000, guid: 59bc0b91f40c6ec4fbfd32bbc510ed3e, type: 2}
   m_startAnimationHash: 0
   m_startVariantHash: 0
   animationTimescale: 1
