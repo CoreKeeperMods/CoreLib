@@ -337,7 +337,7 @@ MonoBehaviour:
     m_address:
       m_low: 0
       m_high: 0
-  material: {fileID: 2100000, guid: 1a7b8aafc2c88d640b012a82d8df3703, type: 2}
+  material: {fileID: 2100000, guid: 571bf3c761ee86c4f9d8e65be27151be, type: 2}
   m_startAnimationHash: 0
   m_startVariantHash: 0
   animationTimescale: 1
@@ -456,7 +456,7 @@ MonoBehaviour:
     m_address:
       m_low: 0
       m_high: 0
-  material: {fileID: 2100000, guid: 59bc0b91f40c6ec4fbfd32bbc510ed3e, type: 2}
+  material: {fileID: 2100000, guid: e9579b7574bbaa146a669beeabfcbb75, type: 2}
   m_startAnimationHash: 0
   m_startVariantHash: 0
   animationTimescale: 1
