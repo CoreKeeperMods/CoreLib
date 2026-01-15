@@ -319,24 +319,19 @@ namespace Unity.Entities
 
             Managed.s_PendingRegistrations = null;
         }
-
-		public static void SetBurstEnabledForAllSystems(bool enabled)
-		{
-			foreach (var systemType in TypeManager.GetSystems())
-			{
-				var systemTypeHash = TypeManager.GetSystemTypeHash(systemType);
-				var systemMetaIndex = SystemBaseRegistry.GetSystemTypeMetaIndex(systemTypeHash);
-				if (systemMetaIndex >= 0)
-				{
-					s_Data.Data.GetSystemDelegatesRW(systemMetaIndex).BurstFunctionEnabledBits = enabled ? ushort.MaxValue : (ushort)0;
-				}
-			}
-		}
 		
-		public static void SetBurstEnabledForSystem(ref SystemState systemState, bool enabled)
+		public static void SetBurstEnabledForSystem(Type systemType, bool enabled)
 		{
-			var metaIndex = systemState.UnmanagedMetaIndex;
-			s_Data.Data.GetSystemDelegatesRW(metaIndex).BurstFunctionEnabledBits = enabled ? ushort.MaxValue : (ushort)0;
+			var systemTypeHash = TypeManager.GetSystemTypeHash(systemType);
+			var systemMetaIndex = SystemBaseRegistry.GetSystemTypeMetaIndex(systemTypeHash);
+			if (systemMetaIndex >= 0)
+			{
+				s_Data.Data.GetSystemDelegatesRW(systemMetaIndex).BurstFunctionEnabledBits = enabled ? ushort.MaxValue : (ushort)0;
+			}
+			else
+			{
+				Debug.LogError($"could not find system type info for {systemType}");
+			}
 		}
 
         [BurstDiscard]

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -83,7 +83,7 @@ namespace PugMod
 			VisualElement root = rootVisualElement;
 
 			// Import UXML
-			var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/ModSDK/UI/AcceptTermsPopUp.uxml");
+			var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/dev.pugstorm.mod/Assets/UI/AcceptTermsPopUp.uxml");
 
 			root.Add(uxml.CloneTree());
 

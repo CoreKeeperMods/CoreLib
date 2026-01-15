@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
@@ -193,7 +194,28 @@ namespace PugMod
 			if (_addRequest.Status == StatusCode.Success)
 			{
 				EditorUtility.DisplayDialog("Success", "Core Keeper assets have been packaged and installed!", "Ok");
+				//Debug.Log("Core Keeper assets have been packaged and installed, setting art textures as addressables next");
+				//EditorApplication.update += SetTexturesAsAddressable;
 			}
-		}
+        }
+
+		//private static void SetTexturesAsAddressable()
+		//{
+		//	EditorApplication.update -= SetTexturesAsAddressable;
+
+		//	var addressableSettings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.Settings;
+		//	var guids = AssetDatabase.FindAssets("t:Texture2D", new[] { $"Packages/{ASSET_PACKAGE_NAME}/Art" });
+
+		//	foreach (var guid in guids)
+		//	{
+		//		var path = AssetDatabase.GUIDToAssetPath(guid);
+		//		addressableSettings.CreateOrMoveEntry(guid, addressableSettings.DefaultGroup).address = Path.GetFileName(path);
+		//	}
+
+		//	AssetDatabase.SaveAssets();
+
+
+		//	EditorUtility.DisplayDialog("Success", "Core Keeper assets have been packaged and installed!", "Ok");
+		//}
 	}
 }

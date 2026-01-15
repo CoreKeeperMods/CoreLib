@@ -139,7 +139,6 @@ namespace PugMod
 			{
 				// Everything required for Steam to Initialize in ModSDK Window
 				includeGameAssemblies.Add("Facepunch.Steamworks.Posix.dll");
-				includeGameAssemblies.Add("Facepunch.Steamworks.PosixMac.dll");
 				includeGameAssemblies.Add("Facepunch.Steamworks.Win64.dll");
 				includeGameAssemblies.Add("libsteam_api.dylib");
 				includeGameAssemblies.Add("libsteam_api.so");

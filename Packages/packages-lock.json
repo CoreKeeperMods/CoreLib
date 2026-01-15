@@ -321,7 +321,7 @@
       }
     },
     "dev.pugstorm.corekeeper.assets": {
-      "version": "file:C:\\Projects\\Unity\\Projects\\CoreLib_v2\\ImportedGameFolders\\dev.pugstorm.corekeeper.assets-1.2.0.tgz",
+      "version": "file:D:\\Unity\\CoreLib_NDA\\ImportedGameFolders\\dev.pugstorm.corekeeper.assets-1.2.0.tgz",
       "depth": 0,
       "source": "local-tarball",
       "dependencies": {}

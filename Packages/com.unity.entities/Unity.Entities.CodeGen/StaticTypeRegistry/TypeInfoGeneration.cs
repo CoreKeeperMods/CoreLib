@@ -1,4 +1,4 @@
-﻿#if UNITY_DOTSRUNTIME
+#if UNITY_DOTSRUNTIME
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;

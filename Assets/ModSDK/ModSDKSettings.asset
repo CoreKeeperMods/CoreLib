@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef8e78e65aa94e24daf96118515ba3f2, type: 3}
+  m_Script: {fileID: 11500000, guid: 6396d95cda0babd4dac19dc5a90e0c10, type: 3}
   m_Name: ModSDKSettings
   m_EditorClassIdentifier: 
   includeAllAssemblies: 1
@@ -30,7 +30,6 @@ MonoBehaviour:
   - System.Text.Json.dll
   - System.Runtime.CompilerServices.Unsafe.dll
   - Facepunch.Steamworks.Posix.dll
-  - Facepunch.Steamworks.PosixMac.dll
   - Facepunch.Steamworks.Win64.dll
   - libsteam_api.dylib
   - libsteam_api.so

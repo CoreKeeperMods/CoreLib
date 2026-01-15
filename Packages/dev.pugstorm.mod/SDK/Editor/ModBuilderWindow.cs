@@ -91,6 +91,7 @@ namespace PugMod
 
 				// Find all .dll files from game in Plugins folder to add as references to assembly definition
 				var dllFiles = Directory.Exists(importerSettings.gameAssemblyPath) ? Directory.GetFiles(importerSettings.gameAssemblyPath, "*.dll", SearchOption.AllDirectories).Select(x => new FileInfo(x)) : Array.Empty<FileInfo>();
+				dllFiles = dllFiles.Concat(Directory.Exists(importerSettings.sdkAssemblyPath) ? Directory.GetFiles(importerSettings.sdkAssemblyPath, "*.dll", SearchOption.AllDirectories).Select(x => new FileInfo(x)) : Array.Empty<FileInfo>());
 
 				var assemblyDefPath = Path.Combine(newModDirectory, $"{modName}.asmdef");
 				var assemblyDefinition = new AssemblyDefinitionCreator.AssemblyDefinition

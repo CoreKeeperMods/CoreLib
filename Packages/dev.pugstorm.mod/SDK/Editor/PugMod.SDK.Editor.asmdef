@@ -30,7 +30,9 @@
         "Facepunch.Steamworks.PosixMac.dll"
     ],
     "autoReferenced": false,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "PUG_USE_STEAM"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }
