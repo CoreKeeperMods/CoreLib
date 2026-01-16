@@ -5,7 +5,6 @@ using CoreLib.Util.Extension;
 using Rewired;
 using Rewired.Data;
 using Rewired.Data.Mapping;
-using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.ControlMapping.Extension
@@ -41,7 +40,6 @@ namespace CoreLib.Submodule.ControlMapping.Extension
             player.defaultKeyboardMaps.Add(new Player_Editor.Mapping(true, modMapCategory.id, 0));
             player.defaultMouseMaps.Add(new Player_Editor.Mapping(true, modMapCategory.id, 0));
             player.defaultJoystickMaps.Add(new Player_Editor.Mapping(true, modMapCategory.id, 0));
-            ControlMappingModule.Log.LogInfo($"Added new category {categoryName}");
             return new[] { modActionCategory.id, modMapCategory.id };
         }
         
@@ -75,7 +73,6 @@ namespace CoreLib.Submodule.ControlMapping.Extension
             player.defaultKeyboardMaps.Add(new Player_Editor.Mapping(true, modMapCategory.id, 0));
             player.defaultMouseMaps.Add(new Player_Editor.Mapping(true, modMapCategory.id, 0));
             player.defaultJoystickMaps.Add(new Player_Editor.Mapping(true, modMapCategory.id, 0));
-            ControlMappingModule.Log.LogInfo($"Inserted new category {categoryName}");
             return new[] { modActionCategory.id, modMapCategory.id };
         }
 
@@ -89,7 +86,6 @@ namespace CoreLib.Submodule.ControlMapping.Extension
             modAction.SetValue("_name", actionName);
             modAction.SetValue("_descriptiveName", $"{actionName}");
             modAction.SetValue("_userAssignable", userAssignable);
-            ControlMappingModule.Log.LogInfo($"Added new action {actionName}");
             return modAction.id;
         }
         internal static int InsertNewAction(this UserData userData, int id, string actionName, int categoryId, bool userAssignable = true)
@@ -103,7 +99,6 @@ namespace CoreLib.Submodule.ControlMapping.Extension
             modAction.SetValue("_name", actionName);
             modAction.SetValue("_descriptiveName", $"{actionName}");
             modAction.SetValue("_userAssignable", userAssignable);
-            ControlMappingModule.Log.LogInfo($"Inserted new action {actionName}");
             return modAction.id;
         }
         

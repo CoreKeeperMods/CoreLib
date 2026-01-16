@@ -16,9 +16,11 @@ namespace PlayerSkinTest
         {
             CoreLibMod.LoadSubmodule(typeof(AudioModule), typeof(EquipmentSlotModule),
                 typeof(LootDropModule), typeof(TileSetModule), typeof(EntityModule), typeof(ControlMappingModule));
-            ControlMappingModule.AddKeyboardBind("TestKeyBind", KeyboardKeyCode.H);
-            ControlMappingModule.AddKeyboardBind("TestActionList", KeyboardKeyCode.A);
+            ControlMappingModule.AddNewCategory("CoreLib");
+            ControlMappingModule.AddKeyboardBind("TestActionList1", KeyboardKeyCode.A);
             ControlMappingModule.AddKeyboardBind("TestActionList2", KeyboardKeyCode.B);
+            ControlMappingModule.AddKeyboardBind("TestActionList3", KeyboardKeyCode.C);
+            ControlMappingModule.AddKeyboardBind("TestActionList4", KeyboardKeyCode.D);
         }
 
         public void Init() { }
