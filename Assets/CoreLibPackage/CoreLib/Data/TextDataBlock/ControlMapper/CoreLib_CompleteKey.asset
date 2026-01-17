@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 2108018792, guid: e853a5af7d19630282ad0af7b5dabadc, type: 3}
-  m_Name: ModsCategory
+  m_Name: CoreLib_CompleteKey
   m_EditorClassIdentifier: 
   m_overload:
     m_address:
       m_low: 0
       m_high: 0
   m_address:
-    m_low: -8915977165985283553
-    m_high: 7234673611858488936
+    m_low: -8321277392520176838
+    m_high: -3454576147026061960
   m_dynamicCollections:
     m_list: []
   m_localizedTexts:
@@ -54,7 +54,7 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u56FD\u9632\u90E8"
+      title: "\u81EA\u52A8\u5B8C\u6210\u547D\u4EE4"
       description: 
     - m_language:
         m_address:
@@ -66,7 +66,7 @@ MonoBehaviour:
         m_address:
           m_low: 681352171529052915
           m_high: 2314507893210082619
-      title: Mods
+      title: Autocomplete command
       description: 
     - m_language:
         m_address:
@@ -78,7 +78,7 @@ MonoBehaviour:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: Mods
+      title: "Autovervollst\xE4ndigung"
       description: 
     - m_language:
         m_address:
@@ -108,7 +108,8 @@ MonoBehaviour:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u041C\u043E\u0434\u044B"
+      title: "\u0410\u0432\u0442\u043E\u0437\u0430\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u0435
+        \u043A\u043E\u043C\u0430\u043D\u0434\u044B"
       description: 
     - m_language:
         m_address:
@@ -136,7 +137,7 @@ MonoBehaviour:
         m_high: 0
     title: 
     description: 
-  m_shouldBeLocalized: 0
+  m_shouldBeLocalized: 1
   m_header: ControlMapper
   references:
     version: 2

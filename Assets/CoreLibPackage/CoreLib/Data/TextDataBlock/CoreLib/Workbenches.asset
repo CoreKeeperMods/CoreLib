@@ -66,7 +66,7 @@ MonoBehaviour:
         m_address:
           m_low: 681352171529052915
           m_high: 2314507893210082619
-      title: Workbenches
+      title: Workbench
       description: 
     - m_language:
         m_address:
@@ -108,7 +108,7 @@ MonoBehaviour:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u0432\u0435\u0440\u0441\u0442\u0430\u043A"
+      title: "\u0412\u0435\u0440\u0441\u0442\u0430\u043A"
       description: 
     - m_language:
         m_address:

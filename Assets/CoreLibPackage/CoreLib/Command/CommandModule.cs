@@ -321,11 +321,11 @@ namespace CoreLib.Submodule.Command
             RegisterCommandHandler(typeof(DirectMessageCommandHandler), "Core Lib");
             ControlMappingModule.RewiredStart += () => { RewiredPlayer = ReInput.players.GetPlayer(0); };
 
-            //ControlMappingModule.AddKeybind(UpKey, "Next command", KeyboardKeyCode.UpArrow);
-            //ControlMappingModule.AddKeybind(DownKey, "Previous command", KeyboardKeyCode.DownArrow);
-            //ControlMappingModule.AddKeybind(CompleteKey, "Autocomplete command", KeyboardKeyCode.Tab);
+            ControlMappingModule.AddKeyboardBind(UpKey, KeyboardKeyCode.UpArrow);
+            ControlMappingModule.AddKeyboardBind(DownKey, KeyboardKeyCode.DownArrow);
+            ControlMappingModule.AddKeyboardBind(CompleteKey, KeyboardKeyCode.Tab);
             
-            //ControlMappingModule.AddKeybind(ToggleQuantumConsole, "Toggle Quantum console", KeyboardKeyCode.BackQuote);
+            ControlMappingModule.AddKeyboardBind(ToggleQuantumConsole, KeyboardKeyCode.BackQuote);
 
             API.Client.OnWorldCreated += ClientWorldReady;
             API.Server.OnWorldCreated += ServerWorldReady;

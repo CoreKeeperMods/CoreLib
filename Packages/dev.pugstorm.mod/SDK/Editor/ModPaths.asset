@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   latestBuildOrInstallPaths:
   - C:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\CoreLib
+  - C:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\TestMod

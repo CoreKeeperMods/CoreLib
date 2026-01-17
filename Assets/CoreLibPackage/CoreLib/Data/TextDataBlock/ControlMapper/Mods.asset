@@ -54,7 +54,7 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: 
+      title: "\u56FD\u9632\u90E8"
       description: 
     - m_language:
         m_address:
@@ -78,7 +78,7 @@ MonoBehaviour:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: 
+      title: Mods
       description: 
     - m_language:
         m_address:
@@ -108,7 +108,7 @@ MonoBehaviour:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: 
+      title: "\u041C\u043E\u0434\u044B"
       description: 
     - m_language:
         m_address:
@@ -136,7 +136,7 @@ MonoBehaviour:
         m_high: 0
     title: 
     description: 
-  m_shouldBeLocalized: 0
+  m_shouldBeLocalized: 1
   m_header: ControlMapper
   references:
     version: 2
