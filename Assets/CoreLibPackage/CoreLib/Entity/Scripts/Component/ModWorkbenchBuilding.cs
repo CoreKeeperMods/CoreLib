@@ -38,13 +38,8 @@ namespace CoreLib.Submodule.Entity.Component
                         skin.UpdateGraphicsFromObjectInfo(objectInfo);
                     }
                 }
-                if (ModdedEntity.TryGetComponent(out ModCraftingUISetting modCraftingUISetting))
-                {
-                    defaultUISettings.titles.Clear();
-                    defaultUISettings.titles.Add(modCraftingUISetting.craftingUITitleLeftBox);
-                    defaultUISettings.titles.Add(modCraftingUISetting.craftingUITitle);
-                    defaultUISettings.titles.Add(modCraftingUISetting.craftingUITitleRightBox);
-                }
+                if (ModdedEntity.TryGetComponent(out ModCraftingUISetting modCraftingUISetting)) 
+                    defaultUISettings = modCraftingUISetting.GetCraftingUISetting();
 
                 if (ModdedEntity.TryGetComponent(out ModCraftingAuthoring modCraftingAuthoring))
                 {
@@ -54,8 +49,8 @@ namespace CoreLib.Submodule.Entity.Component
                         var monoObject = PugDatabase.entityMonobehaviours.Find(mono => mono.ObjectInfo.objectID == buildingID).GameObject;
                         if (monoObject.TryGetComponent(out ModCraftingUISetting craftingUISetting))
                         {
-                            if (!buildingSpecificUISettings.Contains(craftingUISetting.GetCraftingUISettings())) 
-                                buildingSpecificUISettings.Add(craftingUISetting.GetCraftingUISettings());
+                            if (!buildingSpecificUISettings.Contains(craftingUISetting.GetCraftingUISettingOverride())) 
+                                buildingSpecificUISettings.Add(craftingUISetting.GetCraftingUISettingOverride());
                         }
                         else if (monoObject.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviourData))
                         {
