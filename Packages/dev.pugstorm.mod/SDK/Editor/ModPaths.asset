@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: ModPaths
   m_EditorClassIdentifier: 
   latestBuildOrInstallPaths:
-  - D:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\CoreLib
-  - D:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\PlayerSkinTest
+  - C:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\CoreLib
