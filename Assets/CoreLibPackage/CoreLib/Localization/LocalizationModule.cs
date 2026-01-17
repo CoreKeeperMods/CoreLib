@@ -31,7 +31,12 @@ namespace CoreLib.Submodule.Localization
             base.Load();
             LocalizationSourceData = new LanguageSourceData();
             DependentMods.ForEach(ExtractTermsFromModdedLocalizationTables);
-            
+        }
+
+        internal override void LateLoad()
+        {
+            // Doping this late to ensure the source is last and doesn't interfere with game code
+            LocalizationSourceData.Awake();
         }
 
         #endregion

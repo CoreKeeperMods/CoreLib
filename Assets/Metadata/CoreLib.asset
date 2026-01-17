@@ -22,133 +22,253 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Localization/Localization.csv
+      guid: 
     - path: Scripts/UserInterface/UserInterfaceModule.cs
+      guid: 
     - path: Scripts/UserInterface/Scripts/Util/ModUIExtensions.cs
+      guid: 
     - path: Scripts/UserInterface/Scripts/Patch/UIManagerPatch.cs
+      guid: 
     - path: Scripts/UserInterface/Scripts/Interface/IModUI.cs
+      guid: 
     - path: Scripts/UserInterface/Scripts/Component/PixelSnap.cs
+      guid: 
     - path: Scripts/UserInterface/Scripts/Component/ModUIAuthoring.cs
+      guid: 
     - path: Scripts/UserInterface/Scripts/Component/LinkToPlayerInventory.cs
+      guid: 
     - path: Scripts/Tileset/TileSetModule.cs
+      guid: 
     - path: Scripts/Tileset/Scripts/ScriptableObject/ModTileset.cs
+      guid: 
     - path: Scripts/Tileset/Scripts/Patch/TilesetTypeUtilityPatch.cs
+      guid: 
     - path: Scripts/Tileset/Scripts/Component/ModTileAuthoring.cs
+      guid: 
     - path: Scripts/Tileset/Scripts/Component/ModPseudoTileAuthoring.cs
+      guid: 
     - path: Scripts/Tileset/Scripts/Attribute/ModTilesetAttribute.cs
+      guid: 
     - path: Scripts/Skin/SkinModule.cs
+      guid: 
     - path: Scripts/Skin/Scripts/Scriptable/ModPlayerCustomizationTable.cs
+      guid: 
     - path: Scripts/Scripts/Util/State.cs
+      guid: 
     - path: Scripts/Scripts/Util/Players.cs
+      guid: 
     - path: Scripts/Scripts/Util/Logger.cs
+      guid: 
     - path: Scripts/Scripts/Util/GameManagers.cs
+      guid: 
     - path: Scripts/Scripts/Util/Extension/TopologicalSortExtension.cs
+      guid: 
     - path: Scripts/Scripts/Util/Extension/ReflectionUtil.cs
+      guid: 
     - path: Scripts/Scripts/Util/Extension/ObjectDataExtensions.cs
+      guid: 
     - path: Scripts/Scripts/Util/Extension/ModExtensions.cs
+      guid: 
     - path: Scripts/Scripts/Util/Extension/GeneralExtensions.cs
+      guid: 
     - path: Scripts/Scripts/Util/Extension/CollectionUtils.cs
+      guid: 
     - path: Scripts/Scripts/Util/Extension/Attribute/ReadOnlyDrawer.cs
+      guid: 
     - path: Scripts/Scripts/Util/Extension/Attribute/GoogleLanguagesDropdownAttribute.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/IdBindConfigFile.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/IdBind.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/TypeConverter.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/TomlTypeConverter.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/SettingChangedEventArgs.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigScope.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigFile.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigEntryBase.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigDescription.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigDefinition.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/AcceptableValueRange.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/AcceptableValueList.cs
+      guid: 
     - path: Scripts/Scripts/Util/Data/ConfigFile/AcceptableValueBase.cs
+      guid: 
     - path: Scripts/Scripts/Submodules/SubmoduleHandler.cs
+      guid: 
     - path: Scripts/Scripts/Submodules/GameVersion.cs
+      guid: 
     - path: Scripts/Scripts/Submodules/BaseSubmodule.cs
+      guid: 
     - path: Scripts/LootDrop/Scripts/Patches/LootTableBankPatch.cs
+      guid: 
     - path: Scripts/LootDrop/Scripts/DropTableModificationData.cs
+      guid: 
     - path: Scripts/LootDrop/Scripts/CustomLootTableData.cs
+      guid: 
     - path: Scripts/LootDrop/Scripts/Components/ModDropsFromLootTableAuthoring.cs
+      guid: 
     - path: Scripts/LootDrop/LootDropModule.cs
+      guid: 
     - path: Scripts/Localization/Scripts/ScriptableObject/ModdedLocalizationTable.cs
+      guid: 
     - path: Scripts/Localization/LocalizationModule.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/System/ModEquipmentSystem.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/System/ModEquipmentChangeSystem.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/SlotInfo.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/Patch/PlayerControllerPatch.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/Patch/PlacementHandlerPatch.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/Patch/ObjectAuthoringConverterPatch.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/Patch/EmotePatch.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/Interface/IPlacementLogic.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/Interface/IModEquipmentSlot.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/Interface/IEquipmentLogic.cs
+      guid: 
     - path: Scripts/EquipmentSlot/Scripts/Component/ModObjectTypeAuthoring.cs
+      guid: 
     - path: Scripts/EquipmentSlot/EquipmentSlotModule.cs
+      guid: 
     - path: Scripts/Entity/Scripts/ScriptableObject/WorkbenchDefinition.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Patch/EntityModulePatches.cs
+      guid: 
     - path: Scripts/Entity/Scripts/MaterialCrawler.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Interface/IDynamicItemHandler.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Converter/PooledGraphicalObjectConverter.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/TemplateObject.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/SupportsPooling.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/SupportsCoreLib.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/RuntimeMaterial.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/ModWorkbenchBuilding.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/ModWideWorkbenchBuilding.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/ModReskinCondition.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/ModRefreshCraftingBuildingTitles.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/ModCraftingUISetting.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Component/ModCraftingAuthoring.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Attribute/PrefabModificationAttribute.cs
+      guid: 
     - path: Scripts/Entity/Scripts/Attribute/EntityModificationAttribute.cs
+      guid: 
     - path: Scripts/Entity/EntityModule.cs
+      guid: 
     - path: Scripts/CoreLibMod.cs
+      guid: 
     - path: Scripts/ControlMapping/Scripts/Scriptable/ModRewiredInputCategory.cs
+      guid: 
     - path: Scripts/ControlMapping/Scripts/Patch/RewiredPatch.cs
+      guid: 
     - path: Scripts/ControlMapping/Scripts/Patch/RewiredInitPatch.cs
+      guid: 
     - path: Scripts/ControlMapping/Scripts/Patch/ControlMappingMenuPatch.cs
+      guid: 
     - path: Scripts/ControlMapping/Scripts/Extension/RewiredExtensions.cs
+      guid: 
     - path: Scripts/ControlMapping/Scripts/Data/KeyBindData.cs
+      guid: 
     - path: Scripts/ControlMapping/ControlMappingModule.cs
+      guid: 
     - path: Scripts/Command/Scripts/Util/CommandUtil.cs
+      guid: 
     - path: Scripts/Command/Scripts/System/LoadItemDictSystem.cs
+      guid: 
     - path: Scripts/Command/Scripts/System/CommandCommSystem.cs
+      guid: 
     - path: Scripts/Command/Scripts/Patch/MenuManagerPatch.cs
+      guid: 
     - path: Scripts/Command/Scripts/Patch/ECSManagerPatch.cs
+      guid: 
     - path: Scripts/Command/Scripts/Patch/ChatWindowPatch.cs
+      guid: 
     - path: Scripts/Command/Scripts/Parser/SkillIDParser.cs
+      guid: 
     - path: Scripts/Command/Scripts/Parser/ObjectIDParser.cs
+      guid: 
     - path: Scripts/Command/Scripts/Parser/ConditionIDParser.cs
+      guid: 
     - path: Scripts/Command/Scripts/Interface/IServerCommandHandler.cs
+      guid: 
     - path: Scripts/Command/Scripts/Interface/ICommandInfo.cs
+      guid: 
     - path: Scripts/Command/Scripts/Interface/IClientCommandHandler.cs
+      guid: 
     - path: Scripts/Command/Scripts/Handler/HelpCommandHandler.cs
+      guid: 
     - path: Scripts/Command/Scripts/Handler/DirectMessageCommandHandler.cs
+      guid: 
     - path: Scripts/Command/Scripts/Data/CommandPair.cs
+      guid: 
     - path: Scripts/Command/Scripts/Data/CommandOutput.cs
+      guid: 
     - path: Scripts/Command/Scripts/Data/CommandModuleSettings.cs
+      guid: 
     - path: Scripts/Command/Scripts/Data/CommandMessageRPC.cs
+      guid: 
     - path: Scripts/Command/CommandModule.cs
+      guid: 
     - path: Scripts/Audio/Scripts/Patch/MusicManager_Patch.cs
+      guid: 
     - path: Scripts/Audio/Scripts/Patch/EffectEventExtensions_Patch.cs
+      guid: 
     - path: Scripts/Audio/Scripts/Patch/AudioManager_Patch.cs
+      guid: 
     - path: Scripts/Audio/Scripts/MusicInfo.cs
+      guid: 
     - path: Scripts/Audio/Scripts/IEffect.cs
+      guid: 
     - path: Scripts/Audio/AudioModule.cs
+      guid: 
     - path: Scripts/Generated/CommandCommSystem__System_17645889260.g.cs
+      guid: 
     - path: Scripts/Generated/ModEquipmentChangeSystem__System_9859849580.g.cs
+      guid: 
     - path: Scripts/Generated/ModEquipmentSystem__System_11485430180.g.cs
+      guid: 
     - path: Scripts/Generated/CoreLib.Submodule.Command.Data_CommandDataMessageRPCCommandSerializer.cs
+      guid: 
     - path: Scripts/Generated/CoreLib.Submodule.Command.Data_CommandMessageRPCCommandSerializer.cs
+      guid: 
     - path: Bundles/CoreLib_Windows.assetbundle
+      guid: 
     - path: Bundles/CoreLib_Linux.assetbundle
+      guid: 
     dependencies: []
   modPath: Assets\CoreLibPackage\CoreLib
   forceReimport: 1
   buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
-  buildBurst: 1
   assets:
   - path: Assets/CoreLibPackage/CoreLib/ControlMapping/ControlMapping Localization
       Table.asset

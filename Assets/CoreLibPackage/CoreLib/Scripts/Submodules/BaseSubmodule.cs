@@ -107,6 +107,12 @@ namespace CoreLib
         /// </remarks>
         internal virtual void PostLoad() { }
 
+        /// Called after CoreLib's Load method is called
+        internal virtual void LateLoad()
+        {
+            
+        }
+        
         #endregion
 
         #region Dependency Management

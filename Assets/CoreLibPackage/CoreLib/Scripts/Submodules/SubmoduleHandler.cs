@@ -81,6 +81,16 @@ namespace CoreLib
 
         #region Module Loading and Dependencies
 
+        internal void CallLateLoad()
+        {
+            foreach (var module in _allModules.Values)
+            {
+                if (!module.Loaded) continue;
+                
+                module.LateLoad();
+            }
+        }
+        
         /// Loads a submodule by type and optionally ignores dependency validation.
         /// <param name="moduleType">The type of submodule to load.</param>
         /// <param name="ignoreDependencies">If <c>true</c>, dependencies are not automatically loaded.</param>

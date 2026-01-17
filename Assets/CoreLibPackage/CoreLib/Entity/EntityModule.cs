@@ -14,6 +14,7 @@ using CoreLib.Submodule.Entity.Attribute;
 using CoreLib.Submodule.Entity.Component;
 using CoreLib.Submodule.Entity.Interface;
 using CoreLib.Submodule.Entity.Patch;
+using CoreLib.Submodule.Localization;
 //using CoreLib.Submodule.Localization;
 using CoreLib.Util.Extension;
 using HarmonyLib;
@@ -45,7 +46,7 @@ namespace CoreLib.Submodule.Entity
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
 
         /// <summary>Module dependencies required before this module can initialize.</summary>
-        //internal override Type[] Dependencies => new[] { typeof(LocalizationModule) };
+        internal override Type[] Dependencies => new[] { typeof(LocalizationModule) };
 
         /// <summary>List of prefabs that should be enabled for pooling.</summary>
         internal static List<PoolablePrefabBank.PoolablePrefab> PoolablePrefabs = new();
@@ -203,8 +204,8 @@ namespace CoreLib.Submodule.Entity
                         Log.LogInfo($"Create new Root Workbench for Mod: {mod} - {RootWorkbenchDefinition.itemID}");
                         currentWorkbench = AddWorkbenchDefinition(RootWorkbenchDefinition);
                         RootWorkbenchesChain.Add(currentWorkbench);
-                        /*LocalizationModule.AddEntityLocalization(RootWorkbenchDefinition.itemID,
-                            "Root Workbench", "This workbench contains all modded workbenches!");*/
+                        LocalizationModule.AddEntityLocalization(RootWorkbenchDefinition.itemID,
+                            "Root Workbench", "This workbench contains all modded workbenches!");
                         if (RootWorkbenchesChain.Count > 1)
                         {
                             RootWorkbenchesChain.First().GetComponent<ModCraftingAuthoring>()

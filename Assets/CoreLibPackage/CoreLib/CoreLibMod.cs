@@ -81,7 +81,12 @@ namespace CoreLib
                 Log.LogError($"{Name} initialization failed: {e.Message}\n{e.StackTrace}");
             }
         }
-        public void Init() { } 
+
+        public void Init()
+        {
+            Log.LogInfo("Doing Late load");
+            SubmoduleHandler.CallLateLoad();
+        } 
         public void Shutdown() { }
         public void ModObjectLoaded(Object obj) { }
         public void Update() { }
