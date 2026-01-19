@@ -15,10 +15,9 @@ using CoreLib.Submodule.Entity.Component;
 using CoreLib.Submodule.Entity.Interface;
 using CoreLib.Submodule.Entity.Patch;
 using CoreLib.Submodule.Localization;
-//using CoreLib.Submodule.Localization;
 using CoreLib.Util.Extension;
 using HarmonyLib;
-using Pug.Sprite;
+using I2.Loc;
 using PugMod;
 using QFSW.QC.Utilities;
 using Unity.Entities;
@@ -228,21 +227,11 @@ namespace CoreLib.Submodule.Entity
                 var canCraftObjects = workbench.GetComponent<ModCraftingAuthoring>().canCraftObjects;
                 for (int i = 0; i < canCraftObjects.Count; i += 6)
                 {
-                    string modID = canCraftObjects[i].objectName.Split(":")[0];
-                    switch (i)
-                    {
-                        case 0:
-                            titleSettings.craftingUITitleLeftBox = $"Mods/{modID}";
-                            titleSettings.craftingUITitle = $"Mods/{modID}";
-                            break;
-                        case 6:
-                            titleSettings.craftingUITitle = $"Mods/{modID}";
-                            titleSettings.craftingUITitleRightBox = $"Mods/{modID}";
-                            break;
-                        case 12:
-                            titleSettings.craftingUITitleRightBox = $"Mods/{modID}";
-                            break;
-                    }
+                    string modID = canCraftObjects[i].objectName.Split(":").FirstOrDefault();
+                    Debug.Log($"Processing mod ID: {modID}");
+                    LocalizedString strLoc = string.IsNullOrEmpty(modID) ? "CoreLib/Items" : $"Mods/{modID}";
+                    Debug.Log($"Adding title for mod ID: {strLoc.mTerm}");
+                    titleSettings.titles.Add(strLoc);
                 }
             }
         }
@@ -256,9 +245,7 @@ namespace CoreLib.Submodule.Entity
             
             var newEntityPrefab = LoadPrefab(workbenchDefinition.itemID, $"Template{typeName}Entity");
             if (newEntityPrefab is null) return null;
-
-            var targetAsset = Mod.Assets.OfType<SpriteAssetSkin>().First(asset => asset.name == $"{typeName}RootSkin");
-
+            
             if (newEntityPrefab.TryGetComponent(out TemplateObject templateObject))
             {
                 templateObject.Convert();
@@ -287,9 +274,8 @@ namespace CoreLib.Submodule.Entity
             modRefreshCraftingBuildingTitles.refreshBuildingTitles = workbenchDefinition.refreshRelatedWorkbenchTitles;
 
             var modCraftingUISetting = newEntityPrefab.AddComponent<ModCraftingUISetting>();
-            modCraftingUISetting.craftingUITitle = workbenchDefinition.title;
-            modCraftingUISetting.craftingUITitleLeftBox = workbenchDefinition.leftTitle;
-            modCraftingUISetting.craftingUITitleRightBox = workbenchDefinition.rightTitle;
+            workbenchDefinition.SetupNewTitles();
+            modCraftingUISetting.titles = workbenchDefinition.titles;
             modCraftingUISetting.craftingUIBackgroundVariation = workbenchDefinition.skin;
 
             var modReskinCondition = newEntityPrefab.AddComponent<ModReskinCondition>();

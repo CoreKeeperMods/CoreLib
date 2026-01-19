@@ -22,6 +22,7 @@ namespace CoreLib.Submodule.Entity.Patch
     {
         private static Logger Log => EntityModule.Log;
         [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init)), HarmonyPrefix]
+        // ReSharper disable once InconsistentNaming
         public static void InjectPoolablePrefabs(MemoryManager __instance)
         {
             if (__instance.poolablePrefabBanks == null || EntityModule.HasInjected) return;
@@ -49,6 +50,7 @@ namespace CoreLib.Submodule.Entity.Patch
 		
 		
 		[HarmonyPatch(typeof(InteractablePostConverter), nameof(InteractablePostConverter.PostConvert)), HarmonyPrefix]
+        // ReSharper disable once InconsistentNaming
         public static void PostConvertPre(InteractablePostConverter __instance, GameObject authoring)
         {
             if (!CheckHasSupportsPooling(authoring)) return;
@@ -57,6 +59,7 @@ namespace CoreLib.Submodule.Entity.Patch
         }
         
         [HarmonyPatch(typeof(InteractablePostConverter), nameof(InteractablePostConverter.PostConvert)), HarmonyPostfix]
+        // ReSharper disable once InconsistentNaming
         public static void PostConvertPost(InteractablePostConverter __instance, GameObject authoring)
         {
             if (CheckHasSupportsPooling(authoring) && authoring.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviourData))
@@ -64,6 +67,7 @@ namespace CoreLib.Submodule.Entity.Patch
         }
         
         [HarmonyPatch(typeof(GraphicalObjectConversion), nameof(GraphicalObjectConversion.Convert)), HarmonyPrefix]
+        // ReSharper disable once InconsistentNaming
         public static bool Convert(GraphicalObjectConversion __instance, GameObject authoring) => !CheckHasSupportsPooling(authoring);
         
 
@@ -73,6 +77,7 @@ namespace CoreLib.Submodule.Entity.Patch
         /// <param name="localize">A flag indicating if the object name should be localized.</param>
         /// <param name="__result">The result object used for storing the modified text and format fields.</param>
         [HarmonyPatch(typeof(PlayerController), nameof(PlayerController.GetObjectName)), HarmonyPostfix]
+        // ReSharper disable once InconsistentNaming
         public static void GetObjectName(ContainedObjectsBuffer containedObject, bool localize, TextAndFormatFields __result)
         {
             var handler = EntityModule.DynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(containedObject.objectData));
@@ -84,6 +89,7 @@ namespace CoreLib.Submodule.Entity.Patch
         /// <param name="__instance">The instance of <see cref="ColorReplacer"/> being updated.</param>
         /// <param name="containedObject">The object data encapsulated in a <see cref="ContainedObjectsBuffer"/> used to determine color changes.</param>
         [HarmonyPatch(typeof(ColorReplacer), nameof(ColorReplacer.UpdateColorReplacerFromObjectData)), HarmonyPostfix]
+        // ReSharper disable once InconsistentNaming
         public static void UpdateReplacer(ColorReplacer __instance, ContainedObjectsBuffer containedObject)
         {
             var handler = EntityModule.DynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(containedObject.objectData));
@@ -93,6 +99,7 @@ namespace CoreLib.Submodule.Entity.Patch
         }
         
         [HarmonyPatch(typeof(CraftingBuilding), "GetCraftingUISettings"), HarmonyPrefix]
+        // ReSharper disable all InconsistentNaming
         public static bool GetCraftingUISettings(CraftingBuilding __instance, ref CraftingBuilding.CraftingUISettings __result)
         {
             var objectId = __instance.objectData.objectID;

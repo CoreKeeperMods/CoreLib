@@ -1,5 +1,4 @@
-﻿using System;
-using CoreLib.Util.Extension;
+﻿using CoreLib.Util.Extension;
 using Pug.Sprite;
 using PugMod;
 using UnityEngine;
@@ -33,7 +32,7 @@ namespace CoreLib.Submodule.Entity.Component
                     {
                         var newSkin = reskinCondition.GetReskinCondition();
                         // ReSharper disable once UsageOfDefaultStructEquality
-                        if (!skin.reskinConditions.Contains(newSkin))
+                        if (skin.reskinConditions.FindIndex(x => x.objectID == newSkin.objectID) == -1)
                             skin.reskinConditions.Add(newSkin);
                         skin.UpdateGraphicsFromObjectInfo(objectInfo);
                     }
@@ -49,22 +48,20 @@ namespace CoreLib.Submodule.Entity.Component
                         var monoObject = PugDatabase.entityMonobehaviours.Find(mono => mono.ObjectInfo.objectID == buildingID).GameObject;
                         if (monoObject.TryGetComponent(out ModCraftingUISetting craftingUISetting))
                         {
-                            if (!buildingSpecificUISettings.Contains(craftingUISetting.GetCraftingUISettingOverride())) 
-                                buildingSpecificUISettings.Add(craftingUISetting.GetCraftingUISettingOverride());
+                            buildingSpecificUISettings.Add(craftingUISetting.GetCraftingUISettingOverride());
                         }
                         else if (monoObject.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviourData))
                         {
-                            var craftingBuilding = (CraftingBuilding)entityMonoBehaviourData.objectInfo.prefabInfos[0].prefab;
+                            var craftingBuilding = (CraftingBuilding)entityMonoBehaviourData.objectInfo.prefabInfos?[0]?.prefab;
                             if (craftingBuilding is null) continue;
                             var craftingSetting = 
                                 craftingBuilding.buildingSpecificUISettings.Find(x => x.usedForBuilding == entityMonoBehaviourData.ObjectInfo.objectID) 
                                 ?? new CraftingUISettingsOverride
                                 {
-                                    usedForBuilding = entityMonoBehaviourData.ObjectInfo.objectID,
+                                    usedForBuilding = buildingID,
                                     settings = craftingBuilding.defaultUISettings
                                 };
-                            if (!buildingSpecificUISettings.Contains(craftingSetting))
-                                buildingSpecificUISettings.Add(craftingSetting);
+                            buildingSpecificUISettings.Add(craftingSetting);
                         }
                     }
                 }

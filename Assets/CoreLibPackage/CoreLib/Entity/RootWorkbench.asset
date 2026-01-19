@@ -28,7 +28,5 @@ MonoBehaviour:
   canCraft: []
   relatedWorkbenches: []
   refreshRelatedWorkbenchTitles: 1
-  title: CoreLib/Workbenches
-  leftTitle: CoreLib/Workbenches
-  rightTitle: CoreLib/Workbenches
+  titles: []
   skin: 0

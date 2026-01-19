@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 2108018792, guid: e853a5af7d19630282ad0af7b5dabadc, type: 3}
-  m_Name: Workbenches
+  m_Name: Items
   m_EditorClassIdentifier: 
   m_overload:
     m_address:
@@ -54,79 +54,79 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u5DE5\u4F5C\u53F0"
+      title: "\u9053\u5177"
       description: 
     - m_language:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: "\u5DE5\u4F5C\u53F0"
+      title: "\u9053\u5177"
       description: 
     - m_language:
         m_address:
           m_low: 681352171529052915
           m_high: 2314507893210082619
-      title: Workbench
+      title: Items
       description: 
     - m_language:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: "\xC9tablis"
+      title: Objets
       description: 
     - m_language:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: "Werkb\xE4nken"
+      title: "Gegenst\xE4nde"
       description: 
     - m_language:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: Bancos da lavoro
+      title: Oggetti
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: "\u4F5C\u696D\u53F0"
+      title: "\u30A2\u30A4\u30C6\u30E0"
       description: 
     - m_language:
         m_address:
           m_low: -2052239290651699458
           m_high: -8389256263833660117
-      title: "\uC791\uC5C5\uB300"
+      title: "\uC544\uC774\uD15C"
       description: 
     - m_language:
         m_address:
           m_low: 7851011593462244222
           m_high: 4794823751170882376
-      title: Bancada
+      title: Itens
       description: 
     - m_language:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u0412\u0435\u0440\u0441\u0442\u0430\u043A"
+      title: "\u041F\u0440\u0435\u0434\u043C\u0435\u0442\u0430"
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: Mesas de Trabajo
+      title: Objetos
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: "\u0E42\u0E15\u0E4A\u0E30\u0E17\u0E33\u0E07\u0E32\u0E19"
+      title: "\u0E44\u0E2D\u0E40\u0E17\u0E47\u0E21"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: "\u0412\u0435\u0440\u0441\u0442\u0430\u043A\u043E\u043C"
+      title: "\u041F\u0440\u0435\u0434\u043C\u0435\u0442\u0438"
       description: 
   m_localizationHint: 
   m_prevImportPrimaryEntry:
@@ -134,10 +134,10 @@ MonoBehaviour:
       m_address:
         m_low: 681352171529052915
         m_high: 2314507893210082619
-    title: Workbenches
+    title: Items
     description: 
   m_shouldBeLocalized: 1
-  m_header: CoreLib
+  m_header: ackage/CoreLib/Data/TextDataBlock/CoreLib
   references:
     version: 2
     RefIds: []

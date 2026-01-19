@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using I2.Loc;
 using Pug.Sprite;
 using Pug.UnityExtensions;
 using UnityEngine;
@@ -38,18 +40,38 @@ namespace CoreLib.Submodule.Entity
         
         [Tooltip("Refresh all the Window Titles when switching to a different related Workbench")]
         public bool refreshRelatedWorkbenchTitles;
-
-        [Tooltip("The center Window Title of the Workbench")]
-        public string title;
         
-        [Tooltip("The left Window Title of the Workbench")]
-        public string leftTitle;
-
-        [Tooltip("The right Window Title of the Workbench")]
-        public string rightTitle;
+        [Tooltip("Workbench Titles")]
+        public List<LocalizedString> titles;
 
         [Tooltip("The skin of the Windows of the Workbench")]
         public UIManager.CraftingUIThemeType skin;
+        
+        [Obsolete, HideInInspector]
+        public string title;
+        
+        [Obsolete, HideInInspector]
+        public string leftTitle;
+
+        [Obsolete, HideInInspector]
+        public string rightTitle;
+
+        internal void SetupNewTitles()
+        {
+            if (titles.Count > 0) return;
+            titles.Clear();
+            LocalizedString leftTitleLoc = leftTitle;
+            if( !string.IsNullOrEmpty(leftTitle) ) titles.Add(leftTitleLoc);
+            LocalizedString titleLoc = title;
+            if( !string.IsNullOrEmpty(title) ) titles.Add(titleLoc);
+            LocalizedString rightTitleLoc = rightTitle;
+            if( !string.IsNullOrEmpty(rightTitle) ) titles.Add(rightTitleLoc);
+            title = leftTitle = rightTitle = null;
+        }
+        
+        private void OnValidate() => SetupNewTitles();
+        
+        
     }
     
     public enum WorkbenchType { Simple, Wide }

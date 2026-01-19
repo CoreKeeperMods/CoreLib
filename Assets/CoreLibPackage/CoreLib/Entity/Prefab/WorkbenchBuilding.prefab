@@ -174,7 +174,7 @@ MonoBehaviour:
   electricitySprite: {fileID: 0}
   defaultUISettings:
     titles:
-    - mTerm: CoreLib/Workbenches
+    - mTerm: crafting
       mRTL_IgnoreArabicFix: 0
       mRTL_MaxLineLength: 0
       mRTL_ConvertNumbers: 0

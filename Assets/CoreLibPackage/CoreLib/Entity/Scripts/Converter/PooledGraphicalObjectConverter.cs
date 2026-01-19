@@ -9,7 +9,6 @@
 /* Edited from Moorowl's Paintable Double Chest https://mod.io/g/corekeeper/m/doublechest#description */
 using CoreLib.Submodule.Entity.Component;
 using Pug.ECS.Hybrid;
-using Pug.Conversion;
 using Unity.Mathematics;
 using UnityEngine;
 
