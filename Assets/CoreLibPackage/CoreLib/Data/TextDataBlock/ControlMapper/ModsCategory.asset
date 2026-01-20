@@ -54,7 +54,7 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u56FD\u9632\u90E8"
+      title: 
       description: 
     - m_language:
         m_address:
@@ -67,7 +67,7 @@ MonoBehaviour:
           m_low: 681352171529052915
           m_high: 2314507893210082619
       title: Mods
-      description: 
+      description: Default Mod Category
     - m_language:
         m_address:
           m_low: 6040640903323332866
@@ -78,7 +78,7 @@ MonoBehaviour:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: Mods
+      title: 
       description: 
     - m_language:
         m_address:
@@ -108,7 +108,7 @@ MonoBehaviour:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u041C\u043E\u0434\u044B"
+      title: 
       description: 
     - m_language:
         m_address:

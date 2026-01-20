@@ -133,9 +133,9 @@ MonoBehaviour:
   m_prevImportPrimaryEntry:
     m_language:
       m_address:
-        m_low: 0
-        m_high: 0
-    title: 
+        m_low: 681352171529052915
+        m_high: 2314507893210082619
+    title: Toggle Quantum Console
     description: 
   m_shouldBeLocalized: 1
   m_header: ControlMapper

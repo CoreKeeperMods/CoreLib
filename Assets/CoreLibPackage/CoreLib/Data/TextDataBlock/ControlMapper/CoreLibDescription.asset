@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 2108018792, guid: e853a5af7d19630282ad0af7b5dabadc, type: 3}
-  m_Name: ModsCategoryDescription
+  m_Name: CoreLibDescription
   m_EditorClassIdentifier: 
   m_overload:
     m_address:
       m_low: 0
       m_high: 0
   m_address:
-    m_low: 1617953566666640831
-    m_high: 2622884863596141432
+    m_low: -8915977165985283553
+    m_high: 7234673611858488936
   m_dynamicCollections:
     m_list: []
   m_localizedTexts:
@@ -54,7 +54,7 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u9ED8\u8BA4Mod\u7C7B\u522B"
+      title: "\u56FD\u9632\u90E8"
       description: 
     - m_language:
         m_address:
@@ -66,7 +66,7 @@ MonoBehaviour:
         m_address:
           m_low: 681352171529052915
           m_high: 2314507893210082619
-      title: Default Mod Category
+      title: Core Library Commands
       description: 
     - m_language:
         m_address:
@@ -78,7 +78,7 @@ MonoBehaviour:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: Standard Mod Kategorie
+      title: Mods
       description: 
     - m_language:
         m_address:
@@ -108,8 +108,7 @@ MonoBehaviour:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F \u0434\u043B\u044F
-        \u043C\u043E\u0434\u043E\u0432 \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E"
+      title: "\u041C\u043E\u0434\u044B"
       description: 
     - m_language:
         m_address:

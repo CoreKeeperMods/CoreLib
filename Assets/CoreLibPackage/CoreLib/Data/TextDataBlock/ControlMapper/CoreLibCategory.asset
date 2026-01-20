@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 2108018792, guid: e853a5af7d19630282ad0af7b5dabadc, type: 3}
-  m_Name: ModsDescription
+  m_Name: CoreLibCategory
   m_EditorClassIdentifier: 
   m_overload:
     m_address:
@@ -66,7 +66,7 @@ MonoBehaviour:
         m_address:
           m_low: 681352171529052915
           m_high: 2314507893210082619
-      title: Default Mod Category
+      title: Core Library
       description: 
     - m_language:
         m_address:
@@ -132,10 +132,10 @@ MonoBehaviour:
   m_prevImportPrimaryEntry:
     m_language:
       m_address:
-        m_low: 681352171529052915
-        m_high: 2314507893210082619
-    title: Mods
-    description: Default Mod Category
+        m_low: 0
+        m_high: 0
+    title: 
+    description: 
   m_shouldBeLocalized: 0
   m_header: ControlMapper
   references:
