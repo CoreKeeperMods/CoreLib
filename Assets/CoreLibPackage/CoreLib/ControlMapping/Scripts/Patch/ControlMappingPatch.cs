@@ -22,7 +22,7 @@ namespace CoreLib.Submodule.ControlMapping.Patch
         public static void OnControlMappingMenuAwake(ControlMappingMenu __instance)
         {
             var layouts = __instance.GetValue<List<ControlMapping_CategoryLayoutData>>("_mappingLayoutData");
-            var modLayout = ControlMappingModule.ModCategoryLayout;
+            var modLayout = ControlMappingModule.modCategoryLayout;
             if(modLayout.CategoryLayoutData.Count == 0 || layouts.Contains(modLayout)) return;
             layouts.Add(modLayout);
             __instance.SetValue("_mappingLayoutData", layouts);
@@ -33,6 +33,6 @@ namespace CoreLib.Submodule.ControlMapping.Patch
         /// upon the completion of Rewired's initialization process.
         [HarmonyPatch(typeof(InputManager_Base), "Start")]
         [HarmonyPostfix]
-        public static void OnInputManagerBaseStart() => ControlMappingModule.RewiredStart?.Invoke();
+        public static void OnInputManagerBaseStart() => ControlMappingModule.rewiredStart?.Invoke();
     }
 }

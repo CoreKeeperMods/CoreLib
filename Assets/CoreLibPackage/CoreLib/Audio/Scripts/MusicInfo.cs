@@ -26,13 +26,13 @@ namespace CoreLib.Submodule.Audio
         /// <remarks>
         /// This file typically represents the looping section of a track after any introduction plays.
         /// </remarks>
-        public string MusicPath;
+        public string musicPath;
 
         /// The file path to the introductory segment of the audio track, if one exists.
         /// <remarks>
         /// When present, this segment plays before transitioning into the main looping track.
         /// </remarks>
-        public string IntroPath;
+        public string introPath;
 
         #endregion
     }

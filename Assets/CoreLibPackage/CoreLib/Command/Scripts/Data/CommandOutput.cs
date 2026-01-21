@@ -19,7 +19,7 @@ namespace CoreLib.Submodule.Command.Data
         /// with the output of a command. It is commonly used to convey information, errors,
         /// warnings, or other messages pertaining to the execution or result of a command.
         /// </remarks>
-        public string Feedback;
+        public string feedback;
 
         /// Represents the status of a command or message within the system.
         /// <remarks>
@@ -28,28 +28,28 @@ namespace CoreLib.Submodule.Command.Data
         /// such as informational, warning, error, and so on.
         /// The allowed values are defined in the <see cref="CommandStatus"/> enumeration.
         /// </remarks>
-        public CommandStatus Status;
+        public CommandStatus status;
 
         /// Represents the output of a command, including feedback and status.
         public CommandOutput(string feedback)
         {
-            this.Feedback = feedback;
-            Status = CommandStatus.Info;
+            this.feedback = feedback;
+            status = CommandStatus.Info;
         }
 
         /// Represents the output of a command, including feedback and its status.
         [Obsolete("Please use CommandStatus variation")]
         public CommandOutput(string feedback, Color color)
         {
-            this.Feedback = feedback;
-            Status = ConvertToStatus(color);
+            this.feedback = feedback;
+            status = ConvertToStatus(color);
         }
 
         /// Represents the output of a command, including feedback and a status detailing the result.
         public CommandOutput(string feedback, CommandStatus status)
         {
-            this.Feedback = feedback;
-            this.Status = status;
+            this.feedback = feedback;
+            this.status = status;
         }
 
         /// Converts a color to its corresponding command status value.

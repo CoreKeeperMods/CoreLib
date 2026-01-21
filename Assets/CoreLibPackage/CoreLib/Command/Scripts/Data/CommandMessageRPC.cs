@@ -59,11 +59,11 @@ namespace CoreLib.Submodule.Command.Data
     /// </remarks>
     public struct CommandMessageRPC : IRpcCommand
     {
-        public int MessageNumber;
-        public int TotalSize;
-        public CommandMessageType MessageType;
-        public CommandStatus Status;
-        public CommandFlags CommandFlags;
+        public int messageNumber;
+        public int totalSize;
+        public CommandMessageType messageType;
+        public CommandStatus status;
+        public CommandFlags commandFlags;
     }
 
     /// Represents a command data message transmitted remotely via RPC.
@@ -75,9 +75,9 @@ namespace CoreLib.Submodule.Command.Data
     /// </remarks>
     public struct CommandDataMessageRPC : IRpcCommand
     {
-        public int MessageNumber;
-        public FixedArray64 MessagePart;
-        public int StartByte;
+        public int messageNumber;
+        public FixedArray64 messagePart;
+        public int startByte;
     }
 
     /// Represents a command message used for communication within the system.
@@ -96,14 +96,14 @@ namespace CoreLib.Submodule.Command.Data
         /// for communication between different parts of the system. The value of this variable
         /// can be processed, displayed, or relayed depending on the message type and associated flags.
         /// </remarks>
-        public string Message;
+        public string message;
 
         /// Represents the sender of the command message.
         /// <remarks>
         /// The sender is identified as an <see cref="Unity.Entities.Entity"/>.
         /// It represents the entity responsible for originating the command or message.
         /// </remarks>
-        public Unity.Entities.Entity Sender;
+        public Unity.Entities.Entity sender;
 
         /// Represents the type of the command message, indicating its purpose or category.
         /// <remarks>
@@ -115,7 +115,7 @@ namespace CoreLib.Submodule.Command.Data
         /// - ChatMessage
         /// This distinction allows the system to handle messages appropriately based on their type.
         /// </remarks>
-        public CommandMessageType MessageType;
+        public CommandMessageType messageType;
 
         /// Represents the status of a command or message within the system.
         /// <remarks>
@@ -125,7 +125,7 @@ namespace CoreLib.Submodule.Command.Data
         /// and may be used for logging, displaying colored text, or applying conditional logic
         /// based on the message's severity.
         /// </remarks>
-        public CommandStatus Status;
+        public CommandStatus status;
 
         /// A variable that specifies the flags indicating metadata or options associated with a command message within the system.
         /// <remarks>
@@ -134,28 +134,28 @@ namespace CoreLib.Submodule.Command.Data
         /// These flags can denote specific behaviors or states of the command, such as whether the command was sent
         /// from a specific source or if the user has enabled specific preferences (e.g., hints).
         /// </remarks>
-        public CommandFlags CommandFlags;
+        public CommandFlags commandFlags;
 
         /// Represents a command message used for communication within the system.
         /// This struct encapsulates the message content, sender entity, message type, status, and associated flags.
         public CommandMessage(CommandOutput output, CommandFlags flags = CommandFlags.None)
         {
-            Message = output.Feedback;
-            Status = output.Status;
-            MessageType = CommandMessageType.ChatMessage;
-            Sender = Unity.Entities.Entity.Null;
-            CommandFlags = flags;
+            message = output.feedback;
+            status = output.status;
+            messageType = CommandMessageType.ChatMessage;
+            sender = Unity.Entities.Entity.Null;
+            commandFlags = flags;
         }
 
         /// Represents a command or message used for communication within the system.
         /// This struct encapsulates the message content, sender information, message type, status, and additional flags.
         public CommandMessage(string feedback, CommandStatus status, CommandFlags flags = CommandFlags.None)
         {
-            Message = feedback;
-            this.Status = status;
-            MessageType = CommandMessageType.ChatMessage;
-            Sender = Unity.Entities.Entity.Null;
-            CommandFlags = flags;
+            message = feedback;
+            this.status = status;
+            messageType = CommandMessageType.ChatMessage;
+            sender = Unity.Entities.Entity.Null;
+            commandFlags = flags;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace CoreLib.Data
         /// This field specifies the lower boundary of the ID range
         /// that this instance can allocate or use. IDs less than this
         /// value are considered out of range and invalid for binding.
-        protected readonly int IDRangeStart;
+        protected readonly int idRangeStart;
 
         /// Specifies the upper bound of the permissible ID range.
         /// This value defines the exclusive maximum for ID assignments within this range.
@@ -25,17 +25,17 @@ namespace CoreLib.Data
         /// allocated within a specific segment, providing better organization and avoiding conflicts.
         /// Typically used in conjunction with ID management operations, such as determining
         /// if there's still room for new IDs or validating that an ID falls within the allowable range.
-        protected readonly int IDRangeEnd;
+        protected readonly int idRangeEnd;
 
         /// Represents the first available unused ID within the defined ID range for the current instance of the class.
         /// This variable is initialized to the start of the ID range and is incremented as new IDs are assigned.
         /// It is used to track the next free ID and ensures proper allocation without overlaps.
         /// The value of this variable is updated dynamically as IDs are assigned or checked.
-        protected int FirstUnusedId;
+        protected int firstUnusedId;
 
         /// A set of integers representing IDs that have been allocated and are currently in use.
         /// This set is used for tracking and preventing reuse of IDs within a defined range.
-        protected HashSet<int> TakenIDs = new HashSet<int>();
+        protected HashSet<int> takenIDs = new HashSet<int>();
 
         /// A dictionary used to map unique string identifiers (keys) to their corresponding
         /// integer IDs (values) within the specified range of IDs.
@@ -44,16 +44,16 @@ namespace CoreLib.Data
         /// indices. It ensures quick lookup, addition, and verification of associations between
         /// string identifiers and their respective numeric representations.
         /// </remarks>
-        protected Dictionary<string, int> ModIDs = new Dictionary<string, int>();
+        protected Dictionary<string, int> modIDs = new Dictionary<string, int>();
         
         /// Represents a structure for managing unique identifiers within a specified range.
         /// Provides functionality to associate and track custom string identifiers with their respective integer indices.
         /// Ensures IDs within the specified range are unique and non-conflicting.
         public IdBind(int idRangeStart, int idRangeEnd)
         {
-            IDRangeStart = idRangeStart;
-            IDRangeEnd = idRangeEnd;
-            FirstUnusedId = idRangeStart;
+            this.idRangeStart = idRangeStart;
+            this.idRangeEnd = idRangeEnd;
+            firstUnusedId = idRangeStart;
         }
 
         /// Checks if the specified item ID has an associated index in the internal dictionary.
@@ -63,7 +63,7 @@ namespace CoreLib.Data
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool HasIndex(string itemID)
         {
-            return ModIDs.ContainsKey(itemID);
+            return modIDs.ContainsKey(itemID);
         }
 
         /// Retrieves the index associated with the specified item ID.
@@ -75,10 +75,10 @@ namespace CoreLib.Data
         {
             if (HasIndex(itemID))
             {
-                return ModIDs[itemID];
+                return modIDs[itemID];
             }
 
-            CoreLibMod.Log.LogWarning($"Requesting ID for {itemID}, which is not registered!");
+            CoreLibMod.log.LogWarning($"Requesting ID for {itemID}, which is not registered!");
             return 0;
         }
 
@@ -90,12 +90,12 @@ namespace CoreLib.Data
         /// <returns>The string ID corresponding to the specified index. If the index does not exist, returns "missing:missing".</returns>
         public string GetStringID(int index)
         {
-            if (ModIDs.ContainsValue(index))
+            if (modIDs.ContainsValue(index))
             {
-                return ModIDs.First(pair => pair.Value == index).Key;
+                return modIDs.First(pair => pair.Value == index).Key;
             }
             
-            CoreLibMod.Log.LogWarning($"Requesting string ID for index {index}, which does not exist!");
+            CoreLibMod.log.LogWarning($"Requesting string ID for index {index}, which does not exist!");
             return "missing:missing";
         }
 
@@ -107,12 +107,12 @@ namespace CoreLib.Data
         /// <returns>True if the ID is free and available for use; otherwise, false.</returns>
         protected virtual bool IsIdFree(int id)
         {
-            if (id < IDRangeStart || id >= IDRangeEnd)
+            if (id < idRangeStart || id >= idRangeEnd)
             {
                 return false;
             }
 
-            return !TakenIDs.Contains(id);
+            return !takenIDs.Contains(id);
         }
 
         /// Determines the next available free ID within the specified ID range.
@@ -125,25 +125,25 @@ namespace CoreLib.Data
         /// </exception>
         private int NextFreeId()
         {
-            if (IsIdFree(FirstUnusedId))
+            if (IsIdFree(firstUnusedId))
             {
-                int id = FirstUnusedId;
-                FirstUnusedId++;
+                int id = firstUnusedId;
+                firstUnusedId++;
                 return id;
             }
             else
             {
-                while (!IsIdFree(FirstUnusedId))
+                while (!IsIdFree(firstUnusedId))
                 {
-                    FirstUnusedId++;
-                    if (FirstUnusedId >= IDRangeEnd)
+                    firstUnusedId++;
+                    if (firstUnusedId >= idRangeEnd)
                     {
                         throw new InvalidOperationException("Reached last mod range id! Report this to CoreLib developers!");
                     }
                 }
 
-                int id = FirstUnusedId;
-                FirstUnusedId++;
+                int id = firstUnusedId;
+                firstUnusedId++;
                 return id;
             }
         }
@@ -154,7 +154,7 @@ namespace CoreLib.Data
         /// <exception cref="ArgumentException">Thrown if the specified item ID is already in use.</exception>
         public int GetNextId(string itemId)
         {
-            if (ModIDs.ContainsKey(itemId))
+            if (modIDs.ContainsKey(itemId))
             {
                 throw new ArgumentException($"Failed to bind {itemId} id: such id is already taken!");
             }
@@ -169,8 +169,8 @@ namespace CoreLib.Data
         /// <return>The ID that was successfully bound to the specified item ID.</return>
         protected virtual int BindId(string itemId, int freeId)
         {
-            TakenIDs.Add(freeId);
-            ModIDs.Add(itemId, freeId);
+            takenIDs.Add(freeId);
+            modIDs.Add(itemId, freeId);
             return freeId;
         }
     }

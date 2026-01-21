@@ -18,7 +18,7 @@ namespace CoreLib.Submodule.Command.Patch
         /// This history allows for navigation and re-use of past inputs via specific key bindings (e.g., up and down arrows).
         /// The number of entries stored in the history is limited by the <c>maxHistoryLen</c> constant.
         /// </remarks>
-        private static readonly List<string> History = new List<string>();
+        private static readonly List<string> _history = new List<string>();
 
         /// Represents the index of the currently selected message within the history list in the chat window.
         /// <remarks>
@@ -27,11 +27,11 @@ namespace CoreLib.Submodule.Command.Patch
         /// associated navigation keys, such as up or down. The value is initialized to -1, indicating
         /// no history selection, and is constrained within the bounds of the history list's indices.
         /// </remarks>
-        public static int CurrentHistoryIndex = -1;
+        public static int currentHistoryIndex = -1;
 
         /// Defines the maximum number of entries that can be stored in the input history.
         /// When the history exceeds this limit, the oldest entries are removed to maintain the size.
-        public static int MaxHistoryLen = 10;
+        public static int maxHistoryLen = 10;
 
         /// Handles the update logic for the ChatWindow, processes input, and manages command history navigation.
         /// This method is called as a prefix to the ChatWindow's Update method and handles:
@@ -48,60 +48,60 @@ namespace CoreLib.Submodule.Command.Patch
 
             while (CommandModule.ClientCommSystem.TryGetNextMessage(out CommandMessage message))
             {
-                if (message.MessageType == CommandMessageType.RelayCommand) continue;
+                if (message.messageType == CommandMessageType.RelayCommand) continue;
 
-                if (message.CommandFlags.HasFlag(CommandFlags.SentFromQuantumConsole))
+                if (message.commandFlags.HasFlag(CommandFlags.SentFromQuantumConsole))
                 {
-                    CommandModule.SendQcMessage(message.Message, message.Status);
+                    CommandModule.SendQcMessage(message.message, message.status);
                 }
                 else
                 {
-                    SendMessage(__instance, message.Message, message.Status.GetColor());
+                    SendMessage(__instance, message.message, message.status.GetColor());
                 }
             }
 
-            if (History.Count <= 0) return;
+            if (_history.Count <= 0) return;
 
             bool pressedUpOrDown = false;
             bool pressedTab = false;
             string newText = "";
 
-            if (CommandModule.RewiredPlayer.GetButtonDown(CommandModule.UpKey))
+            if (CommandModule.rewiredPlayer.GetButtonDown(CommandModule.UP_KEY))
             {
-                CurrentHistoryIndex--;
-                if (CurrentHistoryIndex < 0)
+                currentHistoryIndex--;
+                if (currentHistoryIndex < 0)
                 {
-                    CurrentHistoryIndex = History.Count;
+                    currentHistoryIndex = _history.Count;
                 }
 
                 pressedUpOrDown = true;
             }
 
-            if (CommandModule.RewiredPlayer.GetButtonDown(CommandModule.DownKey))
+            if (CommandModule.rewiredPlayer.GetButtonDown(CommandModule.DOWN_KEY))
             {
-                CurrentHistoryIndex++;
-                if (CurrentHistoryIndex > History.Count)
+                currentHistoryIndex++;
+                if (currentHistoryIndex > _history.Count)
                 {
-                    CurrentHistoryIndex = 0;
+                    currentHistoryIndex = 0;
                 }
 
                 pressedUpOrDown = true;
             }
 
-            if (CommandModule.RewiredPlayer.GetButtonDown(CommandModule.CompleteKey))
+            if (CommandModule.rewiredPlayer.GetButtonDown(CommandModule.COMPLETE_KEY))
             {
                 string input = __instance.inputField.displayedTextString;
                 string[] args = input.Split(' ');
-                if (args[0].StartsWith(CommandModule.CommandPrefix))
+                if (args[0].StartsWith(CommandModule.COMMAND_PREFIX))
                 {
                     string cmdName = args[0].Substring(1);
-                    ICommandInfo[] commandHandlers = CommandModule.CommandHandlers
-                        .Select(pair => pair.Handler)
+                    ICommandInfo[] commandHandlers = CommandModule.commandHandlers
+                        .Select(pair => pair.handler)
                         .Where(handler => { return handler.GetTriggerNames().Any(name => name.StartsWith(cmdName)); }).ToArray();
                     if (commandHandlers.Length == 1)
                     {
                         string fullName = commandHandlers[0].GetTriggerNames().First(name => name.StartsWith(cmdName));
-                        newText = $"{CommandModule.CommandPrefix}{fullName}";
+                        newText = $"{CommandModule.COMMAND_PREFIX}{fullName}";
                         pressedTab = true;
                     }
                 }
@@ -109,9 +109,9 @@ namespace CoreLib.Submodule.Command.Patch
 
             if (!pressedUpOrDown && !pressedTab) return;
 
-            if (CurrentHistoryIndex >= 0 && CurrentHistoryIndex < History.Count && pressedUpOrDown)
+            if (currentHistoryIndex >= 0 && currentHistoryIndex < _history.Count && pressedUpOrDown)
             {
-                newText = History[CurrentHistoryIndex];
+                newText = _history[currentHistoryIndex];
             }
 
             __instance.inputField.Render(newText);
@@ -163,13 +163,13 @@ namespace CoreLib.Submodule.Command.Patch
         /// <param name="input">The input command to be added to the chat history.</param>
         private static void UpdateHistory(string input)
         {
-            History.Add(input);
-            if (History.Count > MaxHistoryLen)
+            _history.Add(input);
+            if (_history.Count > maxHistoryLen)
             {
-                History.RemoveAt(0);
+                _history.RemoveAt(0);
             }
 
-            CurrentHistoryIndex = History.Count;
+            currentHistoryIndex = _history.Count;
         }
 
         /// Sends a formatted message to the ChatWindow, applies color, and manages fading effects for the displayed message.

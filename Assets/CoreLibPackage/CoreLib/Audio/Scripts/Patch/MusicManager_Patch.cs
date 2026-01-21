@@ -33,7 +33,7 @@ namespace CoreLib.Submodule.Audio.Patch
         /// <param name="__instance">The instance of <see cref="MusicManager"/> being initialized.</param>
         /// <remarks>
         /// This patch is invoked after the vanilla <see cref="MusicManager.Init"/> method.
-        /// It iterates through <see cref="AudioModule.VanillaRosterAddTracksInfos"/> and injects
+        /// It iterates through <see cref="AudioModule.vanillaRosterAddTracksInfos"/> and injects
         /// tracks into matching vanilla music rosters.
         /// </remarks>
         /// <example>
@@ -47,12 +47,12 @@ namespace CoreLib.Submodule.Audio.Patch
         // ReSharper disable once InconsistentNaming
         public static void Init(MusicManager __instance)
         {
-            foreach (var pair in AudioModule.VanillaRosterAddTracksInfos)
+            foreach (var pair in AudioModule.vanillaRosterAddTracksInfos)
             {
                 var roster = __instance.musicRosters.Find(r => r.rosterType == (MusicRosterType)pair.Key);
                 if (roster == null)
                 {
-                    AudioModule.Log.LogWarning(
+                    AudioModule.log.LogWarning(
                         $"Failed to get roster list for type {((MusicRosterType)pair.Key).ToString()}");
                     continue;
                 }
@@ -107,7 +107,7 @@ namespace CoreLib.Submodule.Audio.Patch
                 }
             }
 
-            var customRosterMusic = AudioModule.CustomRosterMusic;
+            var customRosterMusic = AudioModule.customRosterMusic;
 
             if (customRosterMusic.ContainsKey((int)m))
             {
@@ -125,7 +125,7 @@ namespace CoreLib.Submodule.Audio.Patch
                 }
             }
 
-            AudioModule.Log.LogWarning(
+            AudioModule.log.LogWarning(
                 $"Failed to set music roster to {m}, because there is no such roster or it is empty!");
             return false;
         }

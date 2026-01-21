@@ -18,7 +18,7 @@ namespace CoreLib.Submodule.Entity.Attribute
     public class PrefabModificationAttribute : System.Attribute
     {
         /// Specifies the type of entity that is targeted for a prefab modification.
-        internal readonly Type TargetType;
+        internal readonly Type targetType;
         
         /// Use this version to target specific prefabs
         /// <param name="targetType">target Prefab</param>
@@ -27,7 +27,7 @@ namespace CoreLib.Submodule.Entity.Attribute
             if (!typeof(EntityMonoBehaviour).IsAssignableFrom(targetType))
                 throw new ArgumentException($"Type '{targetType.FullName}' does not derive from {nameof(EntityMonoBehaviour)}!");
 
-            TargetType = targetType;
+            this.targetType = targetType;
         }
     }
 }

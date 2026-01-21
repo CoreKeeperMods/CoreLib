@@ -14,11 +14,11 @@ namespace CoreLib.Submodule.UserInterface.Interface
 
         /// Indicates whether the modded user interface should be displayed concurrently with
         /// the player's inventory UI. Used to determine if both interfaces should be shown together.
-        public bool showWithPlayerInventory { get; }
+        public bool ShowWithPlayerInventory { get; }
 
         /// Determines whether the player's crafting UI should be displayed
         /// alongside the modded user interface when the player's inventory is open.
-        public bool shouldPlayerCraftingShow { get; }
+        public bool ShouldPlayerCraftingShow { get; }
 
         /// Displays the mod user interface.
         /// The method is expected to enable the Root object associated with the mod UI.

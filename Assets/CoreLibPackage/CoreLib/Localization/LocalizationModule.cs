@@ -14,29 +14,29 @@ namespace CoreLib.Submodule.Localization
     {
         #region Fields
         
-        internal static LanguageSourceData LocalizationSourceData;
+        internal static LanguageSourceData localizationSourceData;
 
         #endregion
         
         #region BaseSubmodule Implementation
         
-        public new const string Name = "Core Library - Localization";
+        public const string NAME = "Core Library - Localization";
         
-        internal new static Logger Log = new(Name);
+        internal static Logger log = new(NAME);
         
         internal static LocalizationModule Instance => CoreLibMod.GetModuleInstance<LocalizationModule>();
         
         internal override void Load()
         {
             base.Load();
-            LocalizationSourceData = new LanguageSourceData();
+            localizationSourceData = new LanguageSourceData();
             DependentMods.ForEach(ExtractTermsFromModdedLocalizationTables);
         }
 
         internal override void LateLoad()
         {
             // Doping this late to ensure the source is last and doesn't interfere with game code
-            LocalizationSourceData.Awake();
+            localizationSourceData.Awake();
         }
 
         #endregion
@@ -129,14 +129,14 @@ namespace CoreLib.Submodule.Localization
         internal static void AddTerm_Internal(string term, LanguageTerm translations)
         {
             if (string.IsNullOrEmpty(translations.translation)) return;
-            LocalizationSourceData.AddLanguage(translations.LocalizationName, translations.LocalizationCode);
-            if(!LocalizationSourceData.IsLanguageEnabled(translations.LocalizationName))
-                LocalizationSourceData.EnableLanguage(translations.LocalizationName, true);
-            int index = LocalizationSourceData.GetLanguageIndex(translations.LocalizationName);
-            if (!LocalizationSourceData.ContainsTerm(term)) LocalizationSourceData.AddTerm(term);
-            var termData = LocalizationSourceData.GetTermData(term);
+            localizationSourceData.AddLanguage(translations.LocalizationName, translations.LocalizationCode);
+            if(!localizationSourceData.IsLanguageEnabled(translations.LocalizationName))
+                localizationSourceData.EnableLanguage(translations.LocalizationName, true);
+            int index = localizationSourceData.GetLanguageIndex(translations.LocalizationName);
+            if (!localizationSourceData.ContainsTerm(term)) localizationSourceData.AddTerm(term);
+            var termData = localizationSourceData.GetTermData(term);
             termData.SetTranslation(index, translations.translation);
-            Log.LogInfo($"Added localization term {term} with translation {translations.LocalizationCode} - {translations.translation}");
+            log.LogInfo($"Added localization term {term} with translation {translations.LocalizationCode} - {translations.translation}");
         }
 
         #endregion

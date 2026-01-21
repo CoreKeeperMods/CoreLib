@@ -14,7 +14,7 @@ namespace CoreLib.Submodule.Entity
         /// Dictionary that stores material objects mapped by their unique names.
         /// Acts as a centralized registry for materials, enabling efficient lookup and reuse across various components.
         /// This facilitates the management of shared material instances and helps reduce redundancy in material creation.
-        public static Dictionary<string, Material> Materials = new();
+        public static Dictionary<string, Material> materials = new();
 
         /// Boolean flag indicating whether the process of discovering and registering materials has been completed.
         /// Used to prevent redundant executions of material discovery logic and ensure the initialization process is only performed once.
@@ -31,9 +31,9 @@ namespace CoreLib.Submodule.Entity
             var materialArray = Resources.FindObjectsOfTypeAll<Material>()
                 .Where(mat => mat.shader.name != "EditorKit/SpriteLit")
                 .DistinctBy(mat => mat.name).ToArray();
-            Materials = materialArray.ToDictionary(mat => mat.name);
+            materials = materialArray.ToDictionary(mat => mat.name);
             _materialsReady = true;
-            EntityModule.Log.LogInfo($"Material Crawler initialized! Found {Materials.Count} materials.");
+            EntityModule.log.LogInfo($"Material Crawler initialized! Found {materials.Count} materials.");
         }
     }
 }

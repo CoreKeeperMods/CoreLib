@@ -22,7 +22,7 @@ namespace CoreLib.Submodule.Entity.Component
         {
             try
             {
-                MaterialCrawler.Materials.TryGetValue(materialName, out var newMaterial);
+                MaterialCrawler.materials.TryGetValue(materialName, out var newMaterial);
                 if (TryGetComponent(out Renderer component))
                     component.sharedMaterial = newMaterial;
                 else if (TryGetComponent(out SpriteObject spriteObject))
@@ -30,7 +30,7 @@ namespace CoreLib.Submodule.Entity.Component
             }
             catch (Exception e)
             {
-                EntityModule.Log.LogError($"Error applying material: {materialName}!\n{e}");
+                EntityModule.log.LogError($"Error applying material: {materialName}!\n{e}");
             }
         }
     }

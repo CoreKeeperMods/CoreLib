@@ -20,13 +20,13 @@ namespace CoreLib.Submodule.Entity.Patch
 {
     public class EntityModulePatches
     {
-        private static Logger Log => EntityModule.Log;
+        private static Logger Log => EntityModule.log;
         [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init)), HarmonyPrefix]
         // ReSharper disable once InconsistentNaming
         public static void InjectPoolablePrefabs(MemoryManager __instance)
         {
-            if (__instance.poolablePrefabBanks == null || EntityModule.HasInjected) return;
-            if (EntityModule.PoolablePrefabs.Count <= 0) return;
+            if (__instance.poolablePrefabBanks == null || EntityModule.hasInjected) return;
+            if (EntityModule.poolablePrefabs.Count <= 0) return;
             Log.LogInfo("Injecting Poolable Prefabs");
 
             var bank = __instance.poolablePrefabBanks.Find(bank => bank is PooledGraphicalObjectBank) as PooledGraphicalObjectBank;
@@ -35,7 +35,7 @@ namespace CoreLib.Submodule.Entity.Patch
             MaterialCrawler.Initialize();
             MaterialCrawler.OnMaterialSwapReady();
             
-            foreach (var prefab in EntityModule.PoolablePrefabs)
+            foreach (var prefab in EntityModule.poolablePrefabs)
             {
                 if (bank.poolInitializers.Contains(prefab)) continue;
                 Log.LogInfo($"Adding {prefab.prefab} to poolable prefabs");
@@ -44,8 +44,8 @@ namespace CoreLib.Submodule.Entity.Patch
             
             EntityModule.ApplyPrefabModifications(bank);
             
-            EntityModule.HasInjected = true;
-            Log.LogInfo($"Injected {EntityModule.PoolablePrefabs.Count} Poolable Prefabs");
+            EntityModule.hasInjected = true;
+            Log.LogInfo($"Injected {EntityModule.poolablePrefabs.Count} Poolable Prefabs");
 		}
 		
 		
@@ -80,7 +80,7 @@ namespace CoreLib.Submodule.Entity.Patch
         // ReSharper disable once InconsistentNaming
         public static void GetObjectName(ContainedObjectsBuffer containedObject, bool localize, TextAndFormatFields __result)
         {
-            var handler = EntityModule.DynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(containedObject.objectData));
+            var handler = EntityModule.dynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(containedObject.objectData));
             handler?.ApplyText(containedObject.objectData, __result);
         }
         /// Updates the <see cref="ColorReplacer"/> instance based on the provided object's data.
@@ -92,7 +92,7 @@ namespace CoreLib.Submodule.Entity.Patch
         // ReSharper disable once InconsistentNaming
         public static void UpdateReplacer(ColorReplacer __instance, ContainedObjectsBuffer containedObject)
         {
-            var handler = EntityModule.DynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(containedObject.objectData));
+            var handler = EntityModule.dynamicItemHandlers.FirstOrDefault(handler => handler.ShouldApply(containedObject.objectData));
             if (handler == null) return;
 
             handler.ApplyColors(containedObject.objectData, __instance);
@@ -105,7 +105,7 @@ namespace CoreLib.Submodule.Entity.Patch
             var objectId = __instance.objectData.objectID;
             if(__instance is not ModWorkbenchBuilding modWorkbenchBuilding) return true;
             
-            if (!modWorkbenchBuilding.ModdedEntity.TryGetComponent(out ModRefreshCraftingBuildingTitles refreshCraftingUI)
+            if (!modWorkbenchBuilding.moddedEntity.TryGetComponent(out ModRefreshCraftingBuildingTitles refreshCraftingUI)
                 || !refreshCraftingUI.refreshBuildingTitles) return true;
             
             var window = Manager.ui.GetCraftingCategoryWindowInfo();

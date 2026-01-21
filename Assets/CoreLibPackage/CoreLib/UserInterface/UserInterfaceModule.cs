@@ -17,9 +17,9 @@ namespace CoreLib.Submodule.UserInterface
     {
         #region Fields
 
-        public new const string Name = "Core Library - UserInterface";
+        public const string NAME = "Core Library - UserInterface";
         
-        public new static Logger Log = new(Name);
+        public static Logger log = new(NAME);
 
         #endregion
         
@@ -33,7 +33,7 @@ namespace CoreLib.Submodule.UserInterface
         public static Unity.Entities.Entity GetInteractionEntity()
         {
             Instance.ThrowIfNotLoaded();
-            return currentInteractionEntity;
+            return _currentInteractionEntity;
         }
 
         /// Get the MonoBehaviour instance associated with the current interaction entity.
@@ -42,7 +42,7 @@ namespace CoreLib.Submodule.UserInterface
         public static EntityMonoBehaviour GetInteractionMonoBehaviour()
         {
             Instance.ThrowIfNotLoaded();
-            return currentInteractionMonoBehaviour;
+            return _currentInteractionMonoBehaviour;
         }
 
         /// Retrieves the currently opened user interface of the specified type.
@@ -67,7 +67,7 @@ namespace CoreLib.Submodule.UserInterface
             Instance.ThrowIfNotLoaded();
             if (!modInterfaces.ContainsKey(interfaceID))
             {
-                Log.LogError($"Trying to get UI '{interfaceID}', which is not registered!");
+                log.LogError($"Trying to get UI '{interfaceID}', which is not registered!");
                 return null;
             }
 
@@ -115,12 +115,12 @@ namespace CoreLib.Submodule.UserInterface
                     authoring.modInterfaceID.Equals(modInterfaceAuthoring.modInterfaceID,
                         StringComparison.InvariantCultureIgnoreCase)))
             {
-                Log.LogWarning($"Tried to register mod UI with id '{modInterfaceAuthoring.modInterfaceID}', which already was registered!");
+                log.LogWarning($"Tried to register mod UI with id '{modInterfaceAuthoring.modInterfaceID}', which already was registered!");
                 return;
             }
 
             interfacePrefabs.Add(modInterfaceAuthoring);
-            Log.LogInfo($"Registering {modInterfaceAuthoring.modInterfaceID} Modded UI!");
+            log.LogInfo($"Registering {modInterfaceAuthoring.modInterfaceID} Modded UI!");
         }
 
         #endregion
@@ -129,11 +129,11 @@ namespace CoreLib.Submodule.UserInterface
 
         /// Holds a reference to the current <see cref="EntityMonoBehaviour"/> being interacted with in the user interface module.
         /// This variable is used to manage and track interactions for modded UI elements, ensuring proper context for UI operations.
-        private static EntityMonoBehaviour currentInteractionMonoBehaviour;
+        private static EntityMonoBehaviour _currentInteractionMonoBehaviour;
 
         /// Represents the entity currently involved in interaction logic within the <see cref="UserInterfaceModule"/>.
         /// This static field is utilized to track the active entity associated with the interactive user interface system.
-        private static Unity.Entities.Entity currentInteractionEntity;
+        private static Unity.Entities.Entity _currentInteractionEntity;
 
         /// Represents the currently active user interface in the <see cref="UserInterfaceModule"/>.
         /// This variable holds the active instance of an object implementing the <see cref="IModUI"/> interface.
@@ -170,8 +170,8 @@ namespace CoreLib.Submodule.UserInterface
         /// including interaction entities, MonoBehaviours, and the active interface reference.
         internal static void ClearModUIData()
         {
-            currentInteractionMonoBehaviour = null;
-            currentInteractionEntity = Unity.Entities.Entity.Null;
+            _currentInteractionMonoBehaviour = null;
+            _currentInteractionEntity = Unity.Entities.Entity.Null;
             currentInterface = null;
         }
 
@@ -184,14 +184,14 @@ namespace CoreLib.Submodule.UserInterface
             var modUI = GetModInterface<IModUI>(interfaceID);
             if (modUI == null) return;
 
-            currentInteractionMonoBehaviour = openBehaviour;
-            currentInteractionEntity = openEntity;
+            _currentInteractionMonoBehaviour = openBehaviour;
+            _currentInteractionEntity = openEntity;
 
             modUI.ShowUI();
             currentInterface = modUI;
-            if (modUI.showWithPlayerInventory)
+            if (modUI.ShowWithPlayerInventory)
             {
-                if (modUI.shouldPlayerCraftingShow)
+                if (modUI.ShouldPlayerCraftingShow)
                     Manager.ui.OnPlayerInventoryOpen();
                 else
                     PlayerInventoryOpenNoCrafting(Manager.ui);

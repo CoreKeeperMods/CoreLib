@@ -17,7 +17,7 @@ namespace CoreLib.Submodule.Command.Data
         /// <value>
         /// An object implementing the <see cref="ICommandInfo"/> interface, representing the command's handler.
         /// </value>
-        public ICommandInfo Handler;
+        public ICommandInfo handler;
 
         /// Specifies the name of the modification (mod) that the command handler is associated with.
         /// <remarks>
@@ -27,7 +27,7 @@ namespace CoreLib.Submodule.Command.Data
         /// <value>
         /// A string representing the name of the associated modification.
         /// </value>
-        public string ModName;
+        public string modName;
 
         /// Indicates whether the command associated with the current handler is a server-side command.
         /// <remarks>
@@ -38,7 +38,7 @@ namespace CoreLib.Submodule.Command.Data
         /// <value>
         /// A boolean value indicating whether the command is executed on the server (true) or not (false).
         /// </value>
-        public bool IsServer => Handler is IServerCommandHandler;
+        public bool IsServer => handler is IServerCommandHandler;
 
         /// Gets the associated <see cref="IServerCommandHandler"/> of the current command, if applicable.
         /// <remarks>
@@ -53,7 +53,7 @@ namespace CoreLib.Submodule.Command.Data
         {
             get
             {
-                if (Handler is IServerCommandHandler serverCommandHandler)
+                if (handler is IServerCommandHandler serverCommandHandler)
                     return serverCommandHandler;
                 return null;
             }
@@ -72,7 +72,7 @@ namespace CoreLib.Submodule.Command.Data
         {
             get
             {
-                if (Handler is IClientCommandHandler clientCommandHandler)
+                if (handler is IClientCommandHandler clientCommandHandler)
                     return clientCommandHandler;
                 return null;
             }
@@ -84,14 +84,14 @@ namespace CoreLib.Submodule.Command.Data
         /// <returns>The output of the command execution, including feedback and execution status.</returns>
         public CommandOutput Execute(CommandMessage message, string[] parameters)
         {
-            return IsServer ? ServerHandler.Execute(parameters, message.Sender) : ClientHandler.Execute(parameters);
+            return IsServer ? ServerHandler.Execute(parameters, message.sender) : ClientHandler.Execute(parameters);
         }
 
         /// Represents a pair of command data, including its handler and the mod it belongs to.
         public CommandPair(ICommandInfo handler, string modName)
         {
-            Handler = handler;
-            ModName = modName;
+            this.handler = handler;
+            this.modName = modName;
         }
     }
 }

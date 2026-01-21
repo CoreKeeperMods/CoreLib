@@ -22,7 +22,7 @@ namespace CoreLib.Submodule.Command.System
         /// to maintain the limit. Used to prevent the queue from growing indefinitely, ensuring efficient system
         /// operation and avoiding potential memory or performance issues.
         /// </remarks>
-        private const int MaxReceivedMessages = 10;
+        private const int MAX_RECEIVED_MESSAGES = 10;
 
         /// A private variable used to keep track of the total number of messages handled by the system.
         /// This counter is incremented each time a new message is sent using the <c>SendMessage</c> method.
@@ -89,7 +89,7 @@ namespace CoreLib.Submodule.Command.System
         {
             _receivedMessageQueue.Enqueue(message);
 
-            if (_receivedMessageQueue.Count > MaxReceivedMessages)
+            if (_receivedMessageQueue.Count > MAX_RECEIVED_MESSAGES)
             {
                 _receivedMessageQueue.Dequeue();
             }
@@ -105,7 +105,7 @@ namespace CoreLib.Submodule.Command.System
         {
             if (isServer)
             {
-                CommandModule.Log.LogWarning("Server cannot issue commands!");
+                CommandModule.log.LogWarning("Server cannot issue commands!");
                 return;
             }
 
@@ -121,7 +121,7 @@ namespace CoreLib.Submodule.Command.System
         {
             if (!isServer)
             {
-                CommandModule.Log.LogWarning("Client cannot send relay commands!");
+                CommandModule.log.LogWarning("Client cannot send relay commands!");
                 return;
             }
 
@@ -138,7 +138,7 @@ namespace CoreLib.Submodule.Command.System
         {
             if (!isServer)
             {
-                CommandModule.Log.LogWarning("Client cannot send messages!");
+                CommandModule.log.LogWarning("Client cannot send messages!");
                 return;
             }
 
@@ -158,7 +158,7 @@ namespace CoreLib.Submodule.Command.System
         {
             if (!isServer)
             {
-                CommandModule.Log.LogWarning("Client cannot send messages!");
+                CommandModule.log.LogWarning("Client cannot send messages!");
                 return;
             }
 
@@ -197,16 +197,16 @@ namespace CoreLib.Submodule.Command.System
 
             CommandMessageRPC commandMessage = new CommandMessageRPC
             {
-                MessageNumber = _messageCount,
-                MessageType = messageType,
-                Status = status,
-                TotalSize = bytesLength,
-                CommandFlags = commandFlags
+                messageNumber = _messageCount,
+                messageType = messageType,
+                status = status,
+                totalSize = bytesLength,
+                commandFlags = commandFlags
             };
 
             CommandDataMessageRPC messagePart = new CommandDataMessageRPC
             {
-                MessageNumber = commandMessage.MessageNumber
+                messageNumber = commandMessage.messageNumber
             };
 
             Unity.Entities.Entity entity = EntityManager.CreateEntity(_messageRpcArchetype);
@@ -217,8 +217,8 @@ namespace CoreLib.Submodule.Command.System
 
             for (int i = 0; i < partEntities.Length; i++)
             {
-                messagePart.StartByte = i * messagePart.MessagePart.Size;
-                messagePart.MessagePart.CopyFrom(commandBytes, messagePart.StartByte);
+                messagePart.startByte = i * messagePart.messagePart.Size;
+                messagePart.messagePart.CopyFrom(commandBytes, messagePart.startByte);
 
                 EntityManager.SetComponentData(partEntities[i], messagePart);
                 EntityManager.SetComponentData(partEntities[i], rpcComponent);
@@ -259,52 +259,52 @@ namespace CoreLib.Submodule.Command.System
 
             Entities.ForEach((Unity.Entities.Entity entity, in CommandMessageRPC rpc, in ReceiveRpcCommandRequest req) =>
                 {
-                    if (_partialMessages.ContainsKey(rpc.MessageNumber))
+                    if (_partialMessages.ContainsKey(rpc.messageNumber))
                     {
-                        CommandModule.Log.LogWarning("Got message with same number twice");
+                        CommandModule.log.LogWarning("Got message with same number twice");
                         ecb.DestroyEntity(entity);
                         return;
                     }
 
-                    _partialMessages.Add(rpc.MessageNumber, new CommandMessage
+                    _partialMessages.Add(rpc.messageNumber, new CommandMessage
                     {
-                        Sender = req.SourceConnection,
-                        MessageType = rpc.MessageType,
-                        Status = rpc.Status,
-                        CommandFlags = rpc.CommandFlags
+                        sender = req.SourceConnection,
+                        messageType = rpc.messageType,
+                        status = rpc.status,
+                        commandFlags = rpc.commandFlags
                     });
-                    _partialMessagesData.Add(rpc.MessageNumber, new byte[rpc.TotalSize]);
+                    _partialMessagesData.Add(rpc.messageNumber, new byte[rpc.totalSize]);
                     ecb.DestroyEntity(entity);
                 }).WithoutBurst()
                 .Run();
 
             Entities.ForEach((Unity.Entities.Entity entity, in CommandDataMessageRPC rpc) =>
                 {
-                    if (!_partialMessagesData.TryGetValue(rpc.MessageNumber, out byte[] bytes))
+                    if (!_partialMessagesData.TryGetValue(rpc.messageNumber, out byte[] bytes))
                     {
-                        CommandModule.Log.LogWarning("Got data message without meta message");
+                        CommandModule.log.LogWarning("Got data message without meta message");
                         ecb.DestroyEntity(entity);
                         return;
                     }
 
-                    FixedArray64 part = rpc.MessagePart;
+                    FixedArray64 part = rpc.messagePart;
 
-                    part.CopyTo(bytes, rpc.StartByte);
+                    part.CopyTo(bytes, rpc.startByte);
 
-                    int startByte = rpc.StartByte;
+                    int startByte = rpc.startByte;
                     if (startByte + part.Size < bytes.Length)
                     {
                         ecb.DestroyEntity(entity);
                         return;
                     }
 
-                    var message = _partialMessages[rpc.MessageNumber];
-                    message.Message = Encoding.UTF8.GetString(_partialMessagesData[rpc.MessageNumber]);
+                    var message = _partialMessages[rpc.messageNumber];
+                    message.message = Encoding.UTF8.GetString(_partialMessagesData[rpc.messageNumber]);
 
                     AppendMessage(message);
 
-                    _partialMessagesData.Remove(rpc.MessageNumber);
-                    _partialMessages.Remove(rpc.MessageNumber);
+                    _partialMessagesData.Remove(rpc.messageNumber);
+                    _partialMessages.Remove(rpc.messageNumber);
                     ecb.DestroyEntity(entity);
                 }).WithAll<ReceiveRpcCommandRequest>()
                 .WithoutBurst()
@@ -347,7 +347,7 @@ namespace CoreLib.Submodule.Command.System
         /// </remarks>
         private void ClientHandleMessages()
         {
-            var relayCommands = _receivedMessageQueue.Where(message => message.MessageType == CommandMessageType.RelayCommand).ToArray();
+            var relayCommands = _receivedMessageQueue.Where(message => message.messageType == CommandMessageType.RelayCommand).ToArray();
             foreach (CommandMessage message in relayCommands)
             {
                 CommandModule.ClientHandleCommand(message);

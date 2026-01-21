@@ -25,7 +25,7 @@ namespace CoreLib.Submodule.Command.Patch
             }
             catch (Exception e)
             {
-                CommandModule.Log.LogWarning($"Exception checking modded item names:\n{e}");
+                CommandModule.log.LogWarning($"Exception checking modded item names:\n{e}");
             }
         }
 
@@ -35,15 +35,15 @@ namespace CoreLib.Submodule.Command.Patch
         private static void CheckModItemNames()
         {
             var objectIDLookup = Manager.mod.Authoring.ObjectIDLookup;
-            CommandModule.Log.LogInfo($"Checking mod item ids! There are {objectIDLookup.Count} items!");
+            CommandModule.log.LogInfo($"Checking mod item ids! There are {objectIDLookup.Count} items!");
             
             foreach (var pair in objectIDLookup)
             {
                 if (Enum.IsDefined(typeof(ObjectID), pair.Value)) continue;
-                if (CommandModule.FriendlyNameDict.ContainsKey(pair.Key.ToLower())) continue;
+                if (CommandModule.friendlyNameDict.ContainsKey(pair.Key.ToLower())) continue;
                 
-                CommandModule.Log.LogInfo($"adding mapping: {pair.Key.ToLower()} -> {pair.Value}");
-                CommandModule.FriendlyNameDict.Add(pair.Key.ToLower(), pair.Value);
+                CommandModule.log.LogInfo($"adding mapping: {pair.Key.ToLower()} -> {pair.Value}");
+                CommandModule.friendlyNameDict.Add(pair.Key.ToLower(), pair.Value);
             }
         }
     }

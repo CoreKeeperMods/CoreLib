@@ -23,10 +23,10 @@ namespace CoreLib.Submodule.TileSet.Patch
 		private static ModTileset GetTileset(int index)
 		{
 			var tilesetId = (Tileset)index;
-			if (TileSetModule.CustomTilesets.TryGetValue(tilesetId, out var tileset))
+			if (TileSetModule.customTilesets.TryGetValue(tilesetId, out var tileset))
                 return tileset;
 		
-            return index >= TileSetModule.ModTilesetIdRangeStart ? TileSetModule.MissingTileset : null;
+            return index >= TileSetModule.MOD_TILESET_ID_RANGE_START ? TileSetModule.missingTileset : null;
         }
 
 		/// Retrieves a tileset by its index and attempts to populate the result with the corresponding tileset layers if available.

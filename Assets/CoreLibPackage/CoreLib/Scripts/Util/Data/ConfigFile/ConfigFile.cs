@@ -15,10 +15,10 @@ namespace CoreLib.Data.Configuration
     {
         ///     A private static list that contains all <see cref="ConfigFile"/> instances created throughout the application's lifetime.
         ///     This list should only be modified internally by the <see cref="ConfigFile"/> class.
-        private static readonly List<ConfigFile> AllConfigFiles = new List<ConfigFile>();
+        private static readonly List<ConfigFile> _allConfigFiles = new List<ConfigFile>();
 
-        ///     An object used for locking access to the <see cref="AllConfigFiles"/> collection to ensure thread safety.
-        private static readonly object LockObject = new object();
+        ///     An object used for locking access to the <see cref="_allConfigFiles"/> collection to ensure thread safety.
+        private static readonly object LOCK_OBJECT = new object();
 
         ///     A read-only view of the static list containing all <see cref="ConfigFile"/> instances created throughout the application's lifetime.
         ///     <para>
@@ -35,16 +35,16 @@ namespace CoreLib.Data.Configuration
         ///     </code>
         ///     </example>
         /// <remarks>
-        ///     This property is thread-safe for read access. Any modifications to the internal collection should be done through the <see cref="AllConfigFiles"/> field.
+        ///     This property is thread-safe for read access. Any modifications to the internal collection should be done through the <see cref="_allConfigFiles"/> field.
         /// </remarks>
         public static IReadOnlyList<ConfigFile> AllConfigFilesReadOnly
         {
             get
             {
-                lock (LockObject)
+                lock (LOCK_OBJECT)
                 {
                     // Return a copy of the list to ensure thread safety.
-                    return AllConfigFiles.AsReadOnly();
+                    return _allConfigFiles.AsReadOnly();
                 }
             }
         }
@@ -65,9 +65,9 @@ namespace CoreLib.Data.Configuration
 
             ConfigFilePath = configPath ?? throw new ArgumentNullException(nameof(configPath));
 
-            lock (LockObject)
+            lock (LOCK_OBJECT)
             {
-                AllConfigFiles.Add(this);
+                _allConfigFiles.Add(this);
             }
 
             if (API.ConfigFilesystem.FileExists(ConfigFilePath))
@@ -351,7 +351,7 @@ namespace CoreLib.Data.Configuration
             }
         }
 
-        internal static readonly char[] PathSeparatorChars = new char[]
+        internal static readonly char[] PATH_SEPARATOR_CHARS = new char[]
         {
             '/',
             '\\'
@@ -371,7 +371,7 @@ namespace CoreLib.Data.Configuration
             {
                 throw new ArgumentException("Argument string consists of whitespace characters only.");
             }
-            int num = path.LastIndexOfAny(PathSeparatorChars);
+            int num = path.LastIndexOfAny(PATH_SEPARATOR_CHARS);
             if (num == 0)
             {
                 num++;
@@ -523,7 +523,7 @@ namespace CoreLib.Data.Configuration
                 }
                 catch (Exception e)
                 {
-                    CoreLibMod.Log.LogError(e.ToString());
+                    CoreLibMod.log.LogError(e.ToString());
                 }
             }
         }
@@ -543,7 +543,7 @@ namespace CoreLib.Data.Configuration
                 }
                 catch (Exception e)
                 {
-                    CoreLibMod.Log.LogError(e.ToString());
+                    CoreLibMod.log.LogError(e.ToString());
                 }
             }
         }

@@ -27,10 +27,10 @@ namespace CoreLib.Submodule.Command.Util
                 return "";
             }
 
-            string[] keys = CommandModule.FriendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
+            string[] keys = CommandModule.friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
             if (keys.Length == 0)
             {
-                CommandModule.Log.LogInfo($"friendlyNameDict state: {CommandModule.FriendlyNameDict.Count} entries, first entries: {CommandModule.FriendlyNameDict.Keys.Take(10).Join()}");
+                CommandModule.log.LogInfo($"friendlyNameDict state: {CommandModule.friendlyNameDict.Count} entries, first entries: {CommandModule.friendlyNameDict.Keys.Take(10).Join()}");
                 objectID = ObjectID.None; 
                 return new CommandOutput($"No item named '{fullName}' found!", CommandStatus.Error);
             }
@@ -40,7 +40,7 @@ namespace CoreLib.Submodule.Command.Util
                 try
                 {
                     string key = keys.First(s => s.Equals(fullName));
-                    objectID = CommandModule.FriendlyNameDict[key];
+                    objectID = CommandModule.friendlyNameDict[key];
                     return "";
                 }
                 catch (Exception)
@@ -52,7 +52,7 @@ namespace CoreLib.Submodule.Command.Util
                 }
             }
 
-            objectID = CommandModule.FriendlyNameDict[keys[0]];
+            objectID = CommandModule.friendlyNameDict[keys[0]];
             return "";
         }
 
@@ -123,7 +123,7 @@ namespace CoreLib.Submodule.Command.Util
         /// <returns>The updated CommandOutput instance with the prefixed feedback message.</returns>
         public static CommandOutput AppendAtStart(this CommandOutput commandOutput, string prefix)
         {
-            commandOutput.Feedback = $"{prefix}: {commandOutput.Feedback}";
+            commandOutput.feedback = $"{prefix}: {commandOutput.feedback}";
             return commandOutput;
         }
 

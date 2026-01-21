@@ -21,7 +21,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
             int objectId = (int)objectType;
             if (objectId < short.MaxValue) return;
 
-            foreach (var slotInfo in EquipmentSlotModule.Slots.Values)
+            foreach (var slotInfo in EquipmentSlotModule.slots.Values)
             {
                 if (slotInfo.objectType == objectType)
                 {
@@ -39,7 +39,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
             var slot = __instance.GetEquippedSlot();
             if (slot == null) return;
 
-            if ((int)slot.GetSlotType() >= EquipmentSlotModule.ModSlotTypeIdStart &&
+            if ((int)slot.GetSlotType() >= EquipmentSlotModule.MOD_SLOT_TYPE_ID_START &&
                 slot is IModEquipmentSlot modEquipmentSlot)
             {
                 modEquipmentSlot.UpdateSlotVisuals(__instance);

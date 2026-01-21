@@ -18,25 +18,25 @@ namespace CoreLib.Submodule.Entity.Attribute
     public class EntityModificationAttribute : System.Attribute
     {
         /// Represents the target entity identifier for modifications.
-        public ObjectID Target;
+        public ObjectID target;
 
         /// Specifies the target modification key for the entity being modified.
-        public string ModTarget;
+        public string modTarget;
         
         /// Use this version to target vanilla entity
         /// <param name="target">Vanilla entity ID</param>
         public EntityModificationAttribute(ObjectID target)
         {
-            Target = target;
-            ModTarget = "";
+            this.target = target;
+            modTarget = "";
         }
 
         /// Use this version to target modded entity
         /// <param name="modTarget">Modded entity ID</param>
         public EntityModificationAttribute(string modTarget)
         {
-            ModTarget = modTarget;
-            Target = ObjectID.None;
+            this.modTarget = modTarget;
+            target = ObjectID.None;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace CoreLib.Data.Configuration
     /// <inheritdoc />
     public class ConfigDefinition : IEquatable<ConfigDefinition>
     {
-        private static readonly char[] InvalidConfigChars = { '=', '\n', '\t', '\\', '"', '\'', '[', ']' };
+        private static readonly char[] INVALID_CONFIG_CHARS = { '=', '\n', '\t', '\\', '"', '\'', '[', ']' };
 
         ///     Create a new definition. Definitions with same section and key are equal.
         /// <param name="section">Group of the setting, case-sensitive.</param>
@@ -45,7 +45,7 @@ namespace CoreLib.Data.Configuration
             if (val != val.Trim())
                 throw new ArgumentException("Cannot use whitespace characters at start or end of section and key names",
                     name);
-            if (val.Any(c => InvalidConfigChars.Contains(c)))
+            if (val.Any(c => INVALID_CONFIG_CHARS.Contains(c)))
                 throw new
                     ArgumentException(@"Cannot use any of the following characters in section and key names: = \n \t \ "" ' [ ]",
                         name);

@@ -48,7 +48,7 @@ namespace CoreLib.Submodule.Audio.Patch
         // ReSharper disable once InconsistentNaming
         public static void IsSfxValid(SfxID id, ref bool __result)
         {
-            __result = id >= 0 && (int)id < AudioModule.LastFreeSfxId;
+            __result = id >= 0 && (int)id < AudioModule.lastFreeSfxId;
         }
 
         #endregion
@@ -75,7 +75,7 @@ namespace CoreLib.Submodule.Audio.Patch
         // ReSharper disable once InconsistentNaming
         public static void OnPostInit(AudioManager __instance)
         {
-            var customSoundEffect = AudioModule.CustomSoundEffects;
+            var customSoundEffect = AudioModule.customSoundEffects;
 
             if (customSoundEffect.Count == 0)
                 return;
@@ -89,7 +89,7 @@ namespace CoreLib.Submodule.Audio.Patch
             __instance.SetValue("audioFieldMap", fieldMap);
             __instance.reuseMap = new PoolableAudioSource[fieldMap.Length];
 
-            AudioModule.Log.LogInfo(
+            AudioModule.log.LogInfo(
                 $"Loaded {customSoundEffect.Count} custom sound effect" +
                 $"{(customSoundEffect.Count > 1 ? "s" : string.Empty)}!"
             );

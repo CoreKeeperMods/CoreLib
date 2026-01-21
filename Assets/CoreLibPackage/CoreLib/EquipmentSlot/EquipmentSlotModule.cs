@@ -26,9 +26,9 @@ namespace CoreLib.Submodule.EquipmentSlot
     public class EquipmentSlotModule : BaseSubmodule
     {
         
-        public new const string Name = "Core Library - Equipment Slot";
+        public const string NAME = "Core Library - Equipment Slot";
         
-        internal new static Logger Log = new(Name);
+        internal static Logger log = new(NAME);
 
         /// Gets the singleton instance of the <see cref="EquipmentSlotModule"/> submodule.
         /// This property retrieves an instance of <see cref="EquipmentSlotModule"/> through the CoreLibMod system.
@@ -45,7 +45,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// empty equipment slot in the system. This path is critical for handling UI or gameplay elements that
         /// require the visual representation of an unoccupied slot.
         /// </remarks>
-        [UsedImplicitly] public static readonly string EmptyPrefab = "Assets/CoreLibPackage/CoreLib/EquipmentSlot/Prefab/EmptySlot";
+        [UsedImplicitly] public static readonly string EMPTY_PREFAB = "Assets/CoreLibPackage/CoreLib/EquipmentSlot/Prefab/EmptySlot";
 
         /// Represents the default prefab path used for placement slots within the equipment module system.
         /// <remarks>
@@ -54,16 +54,16 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// when managing or rendering placement slots.
         /// It is primarily used internally for asset loading and initialization processes.
         /// </remarks>
-        [UsedImplicitly] public static readonly string PlacementPrefab = "Assets/CoreLibPackage/CoreLib/EquipmentSlot/Prefab/DefaultPlaceSlot";
+        [UsedImplicitly] public static readonly string PLACEMENT_PREFAB = "Assets/CoreLibPackage/CoreLib/EquipmentSlot/Prefab/DefaultPlaceSlot";
 
         /// Retrieves or generates an <see cref="ObjectType"/> corresponding to the specified type name.
         /// <param name="typeName">The name of the object type for which the <see cref="ObjectType"/> is to be retrieved or created.</param>
         /// <returns>The <see cref="ObjectType"/> corresponding to the provided type name.</returns>
         public static ObjectType GetObjectType(string typeName)
         {
-            int index = ObjectTypeIDs.HasIndex(typeName) ? 
-                ObjectTypeIDs.GetIndex(typeName) : 
-                ObjectTypeIDs.GetNextId(typeName);
+            int index = objectTypeIDs.HasIndex(typeName) ? 
+                objectTypeIDs.GetIndex(typeName) : 
+                objectTypeIDs.GetNextId(typeName);
             return (ObjectType)index;
         }
 
@@ -83,7 +83,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         {
             string typeName = type.FullName;
 
-            int index = EquipmentSlotTypeBind.HasIndex(typeName) ? EquipmentSlotTypeBind.GetIndex(typeName) : EquipmentSlotTypeBind.GetNextId(typeName);
+            int index = equipmentSlotTypeBind.HasIndex(typeName) ? equipmentSlotTypeBind.GetIndex(typeName) : equipmentSlotTypeBind.GetNextId(typeName);
             return (EquipmentSlotType)index;
         }
 
@@ -126,13 +126,13 @@ namespace CoreLib.Submodule.EquipmentSlot
             ObjectType objectTypeID = GetObjectType(objectType);
             var slotType = GetEquipmentSlotType(typeof(T));
             
-            if (Slots.ContainsKey(slotType))
+            if (slots.ContainsKey(slotType))
             {
                 throw new ArgumentException($"Equipment Slot with type {objectType} was already registered!");
             }
             
             
-            Slots.Add(slotType, new SlotInfo()
+            slots.Add(slotType, new SlotInfo()
             {
                 objectType = objectTypeID,
                 slotType = typeof(T),
@@ -146,11 +146,11 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// <returns>The <see cref="Emote.EmoteType"/> representing the registered emote.</returns>
         public static Emote.EmoteType RegisterTextEmote(string emoteId)
         {
-            Emote.EmoteType emoteType = (Emote.EmoteType)EmoteTypeBind.GetNextId(emoteId);
+            Emote.EmoteType emoteType = (Emote.EmoteType)emoteTypeBind.GetNextId(emoteId);
             string emoteTerm = $"Emotes/MOD_{emoteId}";
             
             //LocalizationModule.AddTerm(emoteTerm, emoteTexts);
-            TextEmotes.Add(emoteType, emoteTerm);
+            textEmotes.Add(emoteType, emoteTerm);
             
             return emoteType;
         }
@@ -192,7 +192,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// This constant defines the lower boundary for IDs that can be assigned to dynamically added equipment slot types by mods or extensions.
         /// Slot types with IDs less than this value are reserved for core system use and cannot be defined or overridden by external modules.
         /// </remarks>
-        public const int ModSlotTypeIdStart = 128;
+        public const int MOD_SLOT_TYPE_ID_START = 128;
 
         /// Represents the ending value for the range of IDs used for modifiable equipment slot types in the system.
         /// <remarks>
@@ -200,7 +200,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// associated with custom-defined equipment slot types added via mods. This ensures that
         /// all ID assignments for mod equipment slots fall within a predefined, consistent range for proper validation and usage.
         /// </remarks>
-        public const int ModSlotTypeIdEnd = byte.MaxValue;
+        public const int MOD_SLOT_TYPE_ID_END = byte.MaxValue;
 
         /// Represents the initial value for custom emote type IDs defined in the modding framework.
         /// This constant marks the start of the ID range reserved for custom emote types
@@ -210,7 +210,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// to custom emote types added through extensions or modifications to the core framework.
         /// It ensures consistency and separates mod-defined emotes from those defined internally.
         /// </remarks>
-        public const int ModEmoteTypeIdStart = short.MaxValue;
+        public const int MOD_EMOTE_TYPE_ID_START = short.MaxValue;
 
         /// Represents the maximum identifier value for modded emote types within the system.
         /// <remarks>
@@ -218,7 +218,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// It ensures that all emote types registered by mods fall within a valid and defined range of IDs. This value is critical
         /// for managing modded emote registration and maintaining compatibility across different modules or plugins.
         /// </remarks>
-        public const int ModEmoteTypeIdEnd = int.MaxValue;
+        public const int MOD_EMOTE_TYPE_ID_END = int.MaxValue;
 
         /// Represents the starting value of the range reserved for mod-defined object type IDs.
         /// This constant marks the lower boundary of the ID range assigned to custom object types
@@ -230,7 +230,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// Mod developers should ensure their IDs fall within this designated range defined by
         /// <c>modObjectTypeIdRangeStart</c> and its corresponding end value.
         /// </remarks>
-        public const int ModObjectTypeIdRangeStart = 33000;
+        public const int MOD_OBJECT_TYPE_ID_RANGE_START = 33000;
 
         /// Defines the exclusive upper-bound value for the range of mod object type IDs.
         /// This constant represents the maximum value that can be assigned to mod object type IDs
@@ -242,7 +242,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// This value is primarily used internally for ID management systems to bind and
         /// validate IDs defined for mod objects.
         /// </remarks>
-        public const int ModObjectTypeIdRangeEnd = ushort.MaxValue;
+        public const int MOD_OBJECT_TYPE_ID_RANGE_END = ushort.MaxValue;
 
         /// A dictionary that maps <see cref="EquipmentSlotType"/> to corresponding <see cref="SlotInfo"/> instances.
         /// <remarks>
@@ -251,7 +251,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// slot-specific data, ensuring consistent handling of equipment placement, slot type determination, and related functionality.
         /// This internal field is accessed by various patches and systems to enable advanced equipment customization and behavior.
         /// </remarks>
-        internal static Dictionary<EquipmentSlotType, SlotInfo> Slots = new();
+        internal static Dictionary<EquipmentSlotType, SlotInfo> slots = new();
 
         /// A dictionary that maps emote types to their corresponding text representations.
         /// <remarks>
@@ -259,17 +259,17 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// It serves as the central storage for text-based emotes that can be dynamically registered with the system via the <see cref="EquipmentSlotModule.RegisterTextEmote"/> method.
         /// This is utilized in functionalities such as emote customization and display, allowing text to be linked to specific emote types.
         /// </remarks>
-        internal static Dictionary<Emote.EmoteType, string> TextEmotes = new();
+        internal static Dictionary<Emote.EmoteType, string> textEmotes = new();
 
         /// Represents the binding mechanism for associating types with unique slot type identifiers within a predefined range.
         /// <remarks>
         /// The <c>equipmentSlotTypeBind</c> variable provides an instance of the <see cref="IdBind"/> class for managing
         /// the mapping of equipment slot types to unique identifiers. It ensures that identifiers fall within the range
-        /// specified by <see cref="ModSlotTypeIdStart"/> and <see cref="ModSlotTypeIdEnd"/>.
+        /// specified by <see cref="MOD_SLOT_TYPE_ID_START"/> and <see cref="MOD_SLOT_TYPE_ID_END"/>.
         /// This binding is utilized to dynamically assign and retrieve slot type identifiers based on type information
         /// in the <see cref="EquipmentSlotModule"/> module.
         /// </remarks>
-        internal static IdBind EquipmentSlotTypeBind = new(ModSlotTypeIdStart, ModSlotTypeIdEnd);
+        internal static IdBind equipmentSlotTypeBind = new(MOD_SLOT_TYPE_ID_START, MOD_SLOT_TYPE_ID_END);
 
         /// Represents an instance of the <see cref="IdBind"/> class responsible for managing and binding unique identifiers
         /// for custom emote types within the application.
@@ -278,7 +278,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// by modification frameworks. It is preconfigured with a specific range of allowable ID values
         /// to ensure no conflicts with existing identifiers in the system.
         /// </remarks>
-        internal static IdBind EmoteTypeBind = new(ModEmoteTypeIdStart, ModEmoteTypeIdEnd);
+        internal static IdBind emoteTypeBind = new(MOD_EMOTE_TYPE_ID_START, MOD_EMOTE_TYPE_ID_END);
 
         /// Represents a binding mechanism managing unique identifiers for object types within a specific range.
         /// <remarks>
@@ -286,7 +286,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// It ensures that each object type is mapped to a unique identifier, facilitating consistent type management and lookup operations.
         /// This field is a core component for handling object type bindings in the <see cref="EquipmentSlotModule"/> system.
         /// </remarks>
-        internal static IdBind ObjectTypeIDs = new(ModObjectTypeIdRangeStart, ModObjectTypeIdRangeEnd);
+        internal static IdBind objectTypeIDs = new(MOD_OBJECT_TYPE_ID_RANGE_START, MOD_OBJECT_TYPE_ID_RANGE_END);
 
         /// Configures and applies necessary patches or hooks for the functionality provided by the module.
         internal override void SetHooks()

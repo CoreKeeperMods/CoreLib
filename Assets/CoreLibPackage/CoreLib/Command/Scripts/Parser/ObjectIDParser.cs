@@ -19,9 +19,9 @@ namespace CoreLib.Submodule.Command.Parser
         public override ObjectID Parse(string value)
         {
             var output = CommandUtil.ParseItemName(value, out ObjectID result);
-            if (output.Feedback != "")
+            if (output.feedback != "")
             {
-                CommandModule.Log.LogWarning($"Error parsing ObjectID: {output.Feedback}");
+                CommandModule.log.LogWarning($"Error parsing ObjectID: {output.feedback}");
             }
 
             return result;

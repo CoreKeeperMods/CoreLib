@@ -20,7 +20,7 @@ namespace CoreLib.Submodule.Command.Data
         /// in resolving errors. This setting is primarily designed for enhancing user experience
         /// by offering more context during command execution.
         /// </remarks>
-        public ConfigEntry<bool> DisplayAdditionalHints;
+        public ConfigEntry<bool> displayAdditionalHints;
 
         /// Determines whether client commands not recognized by the server are allowed to execute.
         /// <remarks>
@@ -29,12 +29,12 @@ namespace CoreLib.Submodule.Command.Data
         /// or for cases where the server does not maintain a strict command validation mechanism.
         /// When set to false, unrecognized client commands will be denied execution, enforcing stricter control and validation.
         /// </remarks>
-        public ConfigEntry<bool> AllowUnknownClientCommands;
+        public ConfigEntry<bool> allowUnknownClientCommands;
 
         /// Specifies whether the command security system should be enabled.
         /// When enabled, the system checks user permissions and can deny
         /// execution of certain commands based on permissions or predefined restrictions.
-        public ConfigEntry<bool> EnableCommandSecurity;
+        public ConfigEntry<bool> enableCommandSecurity;
 
         /// Represents a configuration entry which determines whether all executed commands
         /// should be logged to the console or log file.
@@ -43,10 +43,10 @@ namespace CoreLib.Submodule.Command.Data
         /// This can assist in debugging or tracking user activity, but it may also result in
         /// higher log verbosity and larger log files.
         /// </remarks>
-        public ConfigEntry<bool> LOGAllExecutedCommands;
+        public ConfigEntry<bool> logAllExecutedCommands;
 
         /// Represents a dictionary that maps command names (as strings) to their corresponding configuration entries,
         /// determining whether each command is allowed to be executed by users (non-admins).
-        public Dictionary<string, ConfigEntry<bool>> UserAllowedCommands = new();
+        public Dictionary<string, ConfigEntry<bool>> userAllowedCommands = new();
     }
 }

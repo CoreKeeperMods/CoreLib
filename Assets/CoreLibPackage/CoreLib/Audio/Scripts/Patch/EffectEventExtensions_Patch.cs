@@ -17,7 +17,7 @@ namespace CoreLib.Submodule.Audio.Patch
     /// to execute after the default <see cref="EffectEventExtensions.PlayEffect"/> method.
     /// <remarks>
     /// This patch intercepts effect event playback and enables CoreLib-managed custom effects
-    /// (registered within <see cref="AudioModule.CustomEffects"/>) to be played automatically
+    /// (registered within <see cref="AudioModule.customEffects"/>) to be played automatically
     /// when their effect IDs match those in the event data.
     /// </remarks>
     /// <seealso cref="AudioModule"/>
@@ -28,7 +28,7 @@ namespace CoreLib.Submodule.Audio.Patch
         #region Harmony Patch: PlayEffect
 
         /// Executes CoreLib’s custom effect logic if the provided <see cref="EffectEventCD"/> references
-        /// a registered custom effect within <see cref="AudioModule.CustomEffects"/>.
+        /// a registered custom effect within <see cref="AudioModule.customEffects"/>.
         /// <param name="effectEvent">The event data describing the effect to play.</param>
         /// <param name="callerEntity">The entity responsible for triggering the effect.</param>
         /// <param name="world">The ECS <see cref="World"/> context in which the effect is being executed.</param>
@@ -48,7 +48,7 @@ namespace CoreLib.Submodule.Audio.Patch
         // ReSharper disable once InconsistentNaming
         public static void OnPlayEffect(EffectEventCD effectEvent, Unity.Entities.Entity callerEntity, World world)
         {
-            if (AudioModule.CustomEffects.TryGetValue(effectEvent.effectID, out var effect))
+            if (AudioModule.customEffects.TryGetValue(effectEvent.effectID, out var effect))
                 effect.PlayEffect(effectEvent, callerEntity, world);
         }
 

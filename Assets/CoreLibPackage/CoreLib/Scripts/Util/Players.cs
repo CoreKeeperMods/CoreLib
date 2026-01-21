@@ -19,7 +19,7 @@ namespace CoreLib.Util
     /// This static class serves as a high-level access layer for player-related
     /// operations, allowing safe retrieval of player controllers and validation
     /// of player state. Each method performs null checks and logs errors through
-    /// <see cref="CoreLibMod.Log"/> when player data is unavailable.
+    /// <see cref="CoreLibMod.log"/> when player data is unavailable.
     /// </remarks>
     /// <seealso cref="PlayerController"/>
     /// <seealso cref="GameManagers"/>
@@ -41,7 +41,7 @@ namespace CoreLib.Util
         /// <seealso cref="GameManagers.GetMainManager"/>
         /// <seealso cref="Manager.allPlayers"/>
         public static List<PlayerController> GetAllPlayers() => GameManagers.GetMainManager().allPlayers ?? 
-                                                                throw new NullReferenceException($"[{CoreLibMod.Name}] Players are not instantiated.");
+                                                                throw new NullReferenceException($"[{CoreLibMod.NAME}] Players are not instantiated.");
 
         /// Retrieves the <see cref="PlayerController"/> instance for the current (local) player.
         /// <returns>
@@ -57,7 +57,7 @@ namespace CoreLib.Util
         /// <seealso cref="GameManagers.GetMainManager"/>
         /// <seealso cref="Manager.player"/>
         public static PlayerController GetCurrentPlayer() => GameManagers.GetMainManager().player ?? 
-                                                             throw new NullReferenceException($"[{CoreLibMod.Name}] Current player is not instantiated.");
+                                                             throw new NullReferenceException($"[{CoreLibMod.NAME}] Current player is not instantiated.");
 
         /// Retrieves a specific player by their in-game name.
         /// <param name="name">The name of the player to look up.</param>
@@ -75,7 +75,7 @@ namespace CoreLib.Util
         /// <seealso cref="GetAllPlayers"/>
         /// <seealso cref="PlayerController.playerName"/>
         public static PlayerController GetPlayerByName(string name) => GetAllPlayers().Find(player => player.playerName == name) ?? 
-                                                                       throw new Exception($"[{CoreLibMod.Name}] Could not find player with name '{name}'.");
+                                                                       throw new Exception($"[{CoreLibMod.NAME}] Could not find player with name '{name}'.");
 
         #endregion
     }

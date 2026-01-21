@@ -31,9 +31,9 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
         {
             __instance.fadeEffect.fadeOutTime = 0.5f;
 
-            if (EquipmentSlotModule.TextEmotes.ContainsKey(__instance.emoteTypeInput))
+            if (EquipmentSlotModule.textEmotes.ContainsKey(__instance.emoteTypeInput))
             {
-                __instance.SetValue("textToPrint", EquipmentSlotModule.TextEmotes[__instance.emoteTypeInput]);
+                __instance.SetValue("textToPrint", EquipmentSlotModule.textEmotes[__instance.emoteTypeInput]);
                 ApplyEmote(__instance);
             }
         }

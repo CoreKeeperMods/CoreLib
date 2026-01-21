@@ -39,13 +39,13 @@ namespace CoreLib.Submodule.Command.Patch
         // ReSharper disable once InconsistentNaming
         public static void OnAwake(SceneHandler __instance)
         {
-            if (CommandModule.QuantumConsole == null) return;
+            if (CommandModule.quantumConsole == null) return;
             
-            CommandModule.Log.LogInfo("Looking for Unity Explorer canvas!");
+            CommandModule.log.LogInfo("Looking for Unity Explorer canvas!");
             var universeLibCanvasGo = GameObject.Find("UniverseLibCanvas");
             if (universeLibCanvasGo != null)
             {
-                Transform consoleTransform = CommandModule.QuantumConsole.gameObject.transform;
+                Transform consoleTransform = CommandModule.quantumConsole.gameObject.transform;
                 if (consoleTransform.parent != null &&
                     consoleTransform.parent.name.Contains("UniverseLibCanvas")) return;
                 
@@ -61,12 +61,12 @@ namespace CoreLib.Submodule.Command.Patch
         // ReSharper disable once InconsistentNaming
         public static void OnUpdate(MenuManager __instance)
         {
-            if (CommandModule.RewiredPlayer.GetButtonDown(CommandModule.ToggleQuantumConsole))
+            if (CommandModule.rewiredPlayer.GetButtonDown(CommandModule.TOGGLE_QUANTUM_CONSOLE))
             {
                 CommandModule.ToggleQc();
             }
 
-            __instance.SetValue("isConsoleActive", CommandModule.QuantumConsole.IsActive);
+            __instance.SetValue("isConsoleActive", CommandModule.quantumConsole.IsActive);
         }
     }
 }

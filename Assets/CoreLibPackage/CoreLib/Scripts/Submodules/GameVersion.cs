@@ -26,7 +26,7 @@ namespace CoreLib
         public readonly string buildHash;
 
         /// Represents an uninitialized game version (0.0.0.0-).
-        public static readonly GameVersion Zero = new(0, 0, 0, 0, string.Empty);
+        public static readonly GameVersion ZERO = new(0, 0, 0, 0, string.Empty);
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace CoreLib
             }
             catch (Exception)
             {
-               CoreLibMod.Log.LogWarning($"Version string '{versionString}' is not valid!");
+               CoreLibMod.log.LogWarning($"Version string '{versionString}' is not valid!");
                buildHash = "";
                release = 0;
                major = 0;

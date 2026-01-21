@@ -36,7 +36,7 @@ namespace CoreLib.Util.Extension
         /// <remarks>
         /// This array allows compatibility with both UNIX (<c>/</c>) and Windows (<c>\\</c>) file systems.
         /// </remarks>
-        private static readonly char[] Separators =
+        private static readonly char[] SEPARATORS =
         {
             '/',
             '\\'
@@ -181,7 +181,7 @@ namespace CoreLib.Util.Extension
         /// </example>
         public static string GetFileName(this string path)
         {
-            return path[(path.LastIndexOfAny(Separators) + 1)..];
+            return path[(path.LastIndexOfAny(SEPARATORS) + 1)..];
         }
 
         #endregion

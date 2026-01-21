@@ -12,9 +12,9 @@ namespace CoreLib.Submodule.LootDrop
     {
         #region Public Interface
         
-        public new const string Name = "Core Library - Loot Drop";
+        public const string NAME = "Core Library - Loot Drop";
         
-        internal new static Logger Log = new(Name);
+        internal static Logger log = new(NAME);
         
         /// Provides a singleton instance of the <see cref="LootDropModule"/> class.
         /// This property fetches the current instance of the module, ensuring it is properly loaded and accessible.
@@ -31,7 +31,7 @@ namespace CoreLib.Submodule.LootDrop
         /// <returns>True if the specified loot table ID exists; otherwise, false.</returns>
         public static bool HasLootTableID(string lootTableId)
         {
-            return CustomLootTableIdMap.ContainsKey(lootTableId);
+            return customLootTableIdMap.ContainsKey(lootTableId);
         }
 
         /// Retrieves the LootTableID associated with the specified loot table identifier.
@@ -40,12 +40,12 @@ namespace CoreLib.Submodule.LootDrop
         public static LootTableID GetLootTableID(string lootTableId)
         {
             Instance.ThrowIfNotLoaded();
-            if (CustomLootTableIdMap.ContainsKey(lootTableId))
+            if (customLootTableIdMap.ContainsKey(lootTableId))
             {
-                return CustomLootTableIdMap[lootTableId];
+                return customLootTableIdMap[lootTableId];
             }
 
-            Log.LogWarning($"Requesting ID for loot table {lootTableId}, which is not registered!");
+            log.LogWarning($"Requesting ID for loot table {lootTableId}, which is not registered!");
             return LootTableID.Empty;
         }
 
@@ -65,17 +65,17 @@ namespace CoreLib.Submodule.LootDrop
         /// <return>Returns the unique identifier representing the newly created loot table. Returns an empty identifier if the loot table ID is already registered.</return>
         public static LootTableID AddLootTable(string lootTableId, int minUnqiueDrops, int maxUniqueDrops, bool dontAllowDuplicates)
         {
-            if (CustomLootTableIdMap.ContainsKey(lootTableId))
+            if (customLootTableIdMap.ContainsKey(lootTableId))
             {
-                Log.LogWarning($"Failed to add new loot table with id {lootTableId}, because table with this ID is already registered!");
+                log.LogWarning($"Failed to add new loot table with id {lootTableId}, because table with this ID is already registered!");
                 return LootTableID.Empty;
             }
 
-            int lootTableIndex = LastCustomLootTableId;
+            int lootTableIndex = lastCustomLootTableId;
             LootTableID lootTable = (LootTableID)lootTableIndex;
-            LastCustomLootTableId++;
-            CustomLootTables.Add(new CustomLootTableData(lootTable, minUnqiueDrops, maxUniqueDrops, dontAllowDuplicates));
-            CustomLootTableIdMap.Add(lootTableId, lootTable);
+            lastCustomLootTableId++;
+            customLootTables.Add(new CustomLootTableData(lootTable, minUnqiueDrops, maxUniqueDrops, dontAllowDuplicates));
+            customLootTableIdMap.Add(lootTableId, lootTable);
             return lootTable;
         }
 
@@ -94,7 +94,7 @@ namespace CoreLib.Submodule.LootDrop
                 return;
             }
 
-            Log.LogWarning($"Trying to add new item {info.itemName} to drop table {tableID}, which is already added!");
+            log.LogWarning($"Trying to add new item {info.itemName} to drop table {tableID}, which is already added!");
         }
 
         /// Edits the specified drop item in a loot table, ensuring that duplicate modifications from other sources are not applied.
@@ -112,7 +112,7 @@ namespace CoreLib.Submodule.LootDrop
                 return;
             }
 
-            Log.LogWarning($"Trying to edit item {info.itemName} in drop table {tableID}, but another mod is already editing it!");
+            log.LogWarning($"Trying to edit item {info.itemName} in drop table {tableID}, but another mod is already editing it!");
         }
 
         /// Removes a specified item from the list of drops in the given loot table.
@@ -152,7 +152,7 @@ namespace CoreLib.Submodule.LootDrop
         /// Access to this dictionary should be done with caution, as unintended changes may disrupt the consistency of
         /// the drop table system.
         /// </remarks>
-        internal static Dictionary<LootTableID, DropTableModificationData> DropTableModification = new Dictionary<LootTableID, DropTableModificationData>();
+        internal static Dictionary<LootTableID, DropTableModificationData> dropTableModification = new Dictionary<LootTableID, DropTableModificationData>();
 
         /// A dictionary used to associate custom loot table string identifiers with their corresponding
         /// <see cref="LootTableID"/> values.
@@ -162,7 +162,7 @@ namespace CoreLib.Submodule.LootDrop
         /// modifications and enhancements of the loot table functionality. The key represents a unique string identifier
         /// for each loot table, while the value is the mapped <see cref="LootTableID"/> used internally.
         /// </remarks>
-        internal static Dictionary<string, LootTableID> CustomLootTableIdMap = new Dictionary<string, LootTableID>();
+        internal static Dictionary<string, LootTableID> customLootTableIdMap = new Dictionary<string, LootTableID>();
 
         /// Represents a collection of custom loot table data used within the drop tables system.
         /// This list stores all user-defined or dynamically generated loot tables, allowing for
@@ -172,7 +172,7 @@ namespace CoreLib.Submodule.LootDrop
         /// provided by the base game. Modifications to this list can affect loot distribution and behavior
         /// when interacting with the game's loot system.
         /// </remarks>
-        internal static List<CustomLootTableData> CustomLootTables = new List<CustomLootTableData>();
+        internal static List<CustomLootTableData> customLootTables = new List<CustomLootTableData>();
 
         /// Represents the last assigned custom loot table ID within the <see cref="LootDropModule"/> class.
         /// This variable is used to track and incrementally generate unique IDs for new custom loot tables
@@ -182,7 +182,7 @@ namespace CoreLib.Submodule.LootDrop
         /// This ensures that each custom loot table has a unique identifier.
         /// Modifications to this variable should only occur internally within the module to preserve ID integrity.
         /// </remarks>
-        internal static int LastCustomLootTableId = 2000;
+        internal static int lastCustomLootTableId = 2000;
 
         /// Retrieves the modification data for the specified loot table ID. If no existing
         /// modification data is found, a new instance is created and stored for the given ID.
@@ -190,13 +190,13 @@ namespace CoreLib.Submodule.LootDrop
         /// <returns>The modification data associated with the specified loot table ID.</returns>
         private static DropTableModificationData GetModificationData(LootTableID tableID)
         {
-            if (DropTableModification.ContainsKey(tableID))
+            if (dropTableModification.ContainsKey(tableID))
             {
-                return DropTableModification[tableID];
+                return dropTableModification[tableID];
             }
 
             DropTableModificationData data = new DropTableModificationData();
-            DropTableModification.Add(tableID, data);
+            dropTableModification.Add(tableID, data);
             return data;
         }
 
@@ -246,7 +246,7 @@ namespace CoreLib.Submodule.LootDrop
 
                 if (!editedAnything)
                 {
-                    Log.LogWarning($"Failed to edit droptable {lootTable.id}, item {dropTableInfo.itemName}, because such item was not found!");
+                    log.LogWarning($"Failed to edit droptable {lootTable.id}, item {dropTableInfo.itemName}, because such item was not found!");
                 }
             }
         }
@@ -268,7 +268,7 @@ namespace CoreLib.Submodule.LootDrop
                 }
                 else
                 {
-                    Log.LogWarning($"Failed to add item {dropTableInfo.itemName} to droptable {lootTable.id}, because it already exists!");
+                    log.LogWarning($"Failed to add item {dropTableInfo.itemName} to droptable {lootTable.id}, because it already exists!");
                 }
 
                 hasDrop = guaranteedLootInfos.Exists(info => info.objectID == itemID);
@@ -278,7 +278,7 @@ namespace CoreLib.Submodule.LootDrop
                 }
                 else
                 {
-                    Log.LogWarning(
+                    log.LogWarning(
                         $"Failed to add item {dropTableInfo.itemName} to droptable (guaranteed) {lootTable.id}, because it already exists!");
                 }
             }

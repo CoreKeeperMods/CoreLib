@@ -40,7 +40,7 @@ namespace CoreLib.Util
         {
             var sceneHandler = GameManagers.GetMainManager().currentSceneHandler;
             return sceneHandler != null ? sceneHandler.isInGame
-                : throw new NullReferenceException($"[{CoreLibMod.Name}] Scene Handler is not initialized.");
+                : throw new NullReferenceException($"[{CoreLibMod.NAME}] Scene Handler is not initialized.");
         }
 
         #endregion

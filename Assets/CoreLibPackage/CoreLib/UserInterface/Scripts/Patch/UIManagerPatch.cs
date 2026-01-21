@@ -19,12 +19,12 @@ namespace CoreLib.Submodule.UserInterface.Patch
         [HarmonyPostfix]
         public static void OnInit(UIManager __instance)
         {
-            var UITransform = __instance.chestInventoryUI.transform.parent;
+            var uiTransform = __instance.chestInventoryUI.transform.parent;
             var inventoryUI = __instance.playerInventoryUI;
 
             foreach (ModUIAuthoring interfacePrefab in UserInterfaceModule.interfacePrefabs)
             {
-                var interfaceGameObject = Object.Instantiate(interfacePrefab.gameObject, UITransform);
+                var interfaceGameObject = Object.Instantiate(interfacePrefab.gameObject, uiTransform);
                 var interfaceComponent = interfaceGameObject.GetComponent<IModUI>();
                 interfaceGameObject.transform.localPosition = interfacePrefab.initialInterfacePosition;
                 UserInterfaceModule.modInterfaces.Add(interfacePrefab.modInterfaceID, interfaceComponent);

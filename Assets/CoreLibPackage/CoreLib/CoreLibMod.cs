@@ -34,27 +34,27 @@ namespace CoreLib
         public const string ID = "CoreLib";
 
         /// The human-readable name of this mod, used in logs and UI.
-        public const string Name = "Core Library";
+        public const string NAME = "Core Library";
 
         /// The relative path used for storing and retrieving mod configuration files.
-        public const string ConfigFolder = "CoreLib/";
+        public const string CONFIG_FOLDER = "CoreLib/";
 
         /// The current Core Library mod version.
-        public const string Version = "4.0.0";
+        public const string VERSION = "4.0.0";
 
         /// Specifies the game version this mod was built for.
         /// Used to verify compatibility during initialization.
         /// <seealso cref="GameVersion"/>
-        public static readonly GameVersion BuildFor = new(1, 1, 2, 0, "7da5");
+        public static readonly GameVersion BUILD_FOR = new(1, 1, 2, 0, "7da5");
 
         /// Metadata information about this mod, provided by the mod loader.
-        internal static LoadedMod ModInfo;
+        internal static LoadedMod modInfo;
 
         /// Centralized logging utility for CoreLib operations.
         /// <seealso cref="Logger"/>
-        internal static readonly Logger Log = new(Name);
+        internal static readonly Logger log = new(NAME);
         
-        internal static ConfigFile Config;
+        internal static ConfigFile config;
 
         /// Manages submodules and their lifecycle during mod initialization.
         /// <seealso cref="SubmoduleHandler"/>
@@ -67,24 +67,24 @@ namespace CoreLib
         {
             try
             {
-                ModInfo = this.GetModInfo() ?? throw new InvalidOperationException($"Mod metadata for {Name} not found!");
+                modInfo = this.GetModInfo() ?? throw new InvalidOperationException($"Mod metadata for {NAME} not found!");
 
-                Config = new ConfigFile($"{ConfigFolder}CoreLib.cfg", true, ModInfo);
+                config = new ConfigFile($"{CONFIG_FOLDER}CoreLib.cfg", true, modInfo);
                 
                 var gameBuild = new GameVersion(Application.version);
-                Log.LogInfo($"Loading {Name} version {Version}");
-                Log.LogInfo($"Built For Game Version: {BuildFor}\nRunning Game Version: {gameBuild}");
-                SubmoduleHandler = new SubmoduleHandler(gameBuild, Log);
+                log.LogInfo($"Loading {NAME} version {VERSION}");
+                log.LogInfo($"Built For Game Version: {BUILD_FOR}\nRunning Game Version: {gameBuild}");
+                SubmoduleHandler = new SubmoduleHandler(gameBuild, log);
             }
             catch (Exception e)
             {
-                Log.LogError($"{Name} initialization failed: {e.Message}\n{e.StackTrace}");
+                log.LogError($"{NAME} initialization failed: {e.Message}\n{e.StackTrace}");
             }
         }
 
         public void Init()
         {
-            Log.LogInfo("Doing Late load");
+            log.LogInfo("Doing Late load");
             SubmoduleHandler.CallLateLoad();
         } 
         public void Shutdown() { }
@@ -114,7 +114,7 @@ namespace CoreLib
 
         /// Applies all Harmony patches for the specified type on behalf of this mod.
         /// <param name="type">The type containing Harmony patch attributes.</param>
-        internal static void Patch(Type type) => API.ModLoader.ApplyHarmonyPatch(ModInfo.ModId, type);
+        internal static void Patch(Type type) => API.ModLoader.ApplyHarmonyPatch(modInfo.ModId, type);
 
         #endregion
     }

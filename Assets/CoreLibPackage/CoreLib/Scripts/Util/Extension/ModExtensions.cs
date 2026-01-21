@@ -33,7 +33,7 @@ namespace CoreLib.Util.Extension
         #region Fields
 
         /// Stores a randomly generated unique identifier used for temporary file paths or isolated directories.
-        public static readonly string RandomPath = Guid.NewGuid().ToString();
+        public static readonly string RANDOM_PATH = Guid.NewGuid().ToString();
 
         #endregion
 
@@ -188,7 +188,7 @@ namespace CoreLib.Util.Extension
             string modLoaderDir = Path.Combine(Application.temporaryCachePath, "ModLoader");
 
             if (Application.dataPath.ToLower().Contains("dedicated"))
-                modLoaderDir = Path.Combine(modLoaderDir, "DedicatedServer", RandomPath);
+                modLoaderDir = Path.Combine(modLoaderDir, "DedicatedServer", RANDOM_PATH);
 
             string tempDirectory = Path.Combine(modLoaderDir, id);
             string assemblyName = $"{id}_burst_generated_{platform}.{extension}";
@@ -201,12 +201,12 @@ namespace CoreLib.Util.Extension
             }
             catch (Exception ex)
             {
-                CoreLibMod.Log.LogError($"Exception copying Burst assembly for mod '{id}': {ex.Message}");
+                CoreLibMod.log.LogError($"Exception copying Burst assembly for mod '{id}': {ex.Message}");
             }
 
             bool success = BurstRuntime.LoadAdditionalLibrary(newAssemblyPath);
             if (!success)
-                CoreLibMod.Log.LogWarning($"Failed to load Burst assembly for mod '{id}'.");
+                CoreLibMod.log.LogWarning($"Failed to load Burst assembly for mod '{id}'.");
         }
 
         #endregion

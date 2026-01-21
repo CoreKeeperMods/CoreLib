@@ -16,17 +16,17 @@ namespace CoreLib.Submodule.Entity.Component
         public SpriteObject shadowObject;
         public Transform particleSpawnLocation;
 
-        internal GameObject ModdedEntity;
+        internal GameObject moddedEntity;
         // ReSharper disable once UnusedMember.Local
-        private static Logger Log => EntityModule.Log;
+        private static Logger Log => EntityModule.log;
 
         public override void OnOccupied()
         {
-            ModdedEntity = EntityModule.ModdedEntities.Find(x => x.GetEntityObjectID() == objectInfo.objectID ).gameObject;
-            if (ModdedEntity is not null)
+            moddedEntity = EntityModule.moddedEntities.Find(x => x.GetEntityObjectID() == objectInfo.objectID ).gameObject;
+            if (moddedEntity is not null)
             {
                 
-                if (ModdedEntity.TryGetComponent(out ModReskinCondition reskinCondition))
+                if (moddedEntity.TryGetComponent(out ModReskinCondition reskinCondition))
                 {
                     if (gameObject.TryGetComponent(out SpriteSkinFromEntityAndSeason skin))
                     {
@@ -37,10 +37,10 @@ namespace CoreLib.Submodule.Entity.Component
                         skin.UpdateGraphicsFromObjectInfo(objectInfo);
                     }
                 }
-                if (ModdedEntity.TryGetComponent(out ModCraftingUISetting modCraftingUISetting)) 
+                if (moddedEntity.TryGetComponent(out ModCraftingUISetting modCraftingUISetting)) 
                     defaultUISettings = modCraftingUISetting.GetCraftingUISetting();
 
-                if (ModdedEntity.TryGetComponent(out ModCraftingAuthoring modCraftingAuthoring))
+                if (moddedEntity.TryGetComponent(out ModCraftingAuthoring modCraftingAuthoring))
                 {
                     foreach (string item in modCraftingAuthoring.includeCraftedObjectsFromBuildings)
                     {

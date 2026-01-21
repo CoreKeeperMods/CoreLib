@@ -141,7 +141,7 @@ namespace CoreLib.Data.Configuration
             if (converter == null) throw new ArgumentNullException(nameof(converter));
             if (CanConvert(type))
             {
-                CoreLibMod.Log.LogWarning("Tried to add a TomlConverter when one already exists for type " + type.FullName);
+                CoreLibMod.log.LogWarning("Tried to add a TomlConverter when one already exists for type " + type.FullName);
                 return false;
             }
 

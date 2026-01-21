@@ -14,7 +14,7 @@ namespace CoreLib.Submodule.Command.Handler
     {
         /// Specifies the number of lines to display per page when listing commands.
         /// Used to determine pagination logic in command handlers.
-        public static int LinesPerPageCount = 10;
+        public static int linesPerPageCount = 10;
 
         /// Processes the "help" command and executes functionality based on the provided parameters.
         /// Allows viewing a list of commands, searching for a specific command, or filtering commands by page or module.
@@ -28,8 +28,8 @@ namespace CoreLib.Submodule.Command.Handler
         /// </returns>
         public CommandOutput Execute(string[] parameters, Unity.Entities.Entity sender)
         {
-            var usePaging = CommandModule.CommandHandlers.Count > LinesPerPageCount;
-            int totalPages = Mathf.CeilToInt(CommandModule.CommandHandlers.Count / (float)LinesPerPageCount);
+            var usePaging = CommandModule.commandHandlers.Count > linesPerPageCount;
+            int totalPages = Mathf.CeilToInt(CommandModule.commandHandlers.Count / (float)linesPerPageCount);
 
             string search;
             switch (parameters.Length)
@@ -66,8 +66,8 @@ namespace CoreLib.Submodule.Command.Handler
         /// </returns>
         private static CommandOutput ShowCommandDescription(string search)
         {
-            ICommandInfo validCommandHandler = CommandModule.CommandHandlers
-                .Select(pair => pair.Handler)
+            ICommandInfo validCommandHandler = CommandModule.commandHandlers
+                .Select(pair => pair.handler)
                 .FirstOrDefault(element => element.GetTriggerNames().Any(name => name.Equals(search, StringComparison.InvariantCultureIgnoreCase)));
             if (validCommandHandler == null)
             {
@@ -91,11 +91,11 @@ namespace CoreLib.Submodule.Command.Handler
                 return new CommandOutput($"Invalid page {page}. There are only {totalPages} pages!", CommandStatus.Warning);
             }
             
-            var skipItems = LinesPerPageCount * (page - 1);
-            string commandsString = CommandModule.CommandHandlers
-                .Select(pair => pair.Handler)
+            var skipItems = linesPerPageCount * (page - 1);
+            string commandsString = CommandModule.commandHandlers
+                .Select(pair => pair.handler)
                 .Skip(skipItems)
-                .Take(LinesPerPageCount)
+                .Take(linesPerPageCount)
                 .Aggregate("", GetNames);
             if (usePaging)
             {
@@ -114,9 +114,9 @@ namespace CoreLib.Submodule.Command.Handler
         /// </returns>
         private CommandOutput ListModCommands(string search)
         {
-            string commandsString = CommandModule.CommandHandlers
-                .Where(pair => pair.ModName.ToLowerInvariant().Contains(search))
-                .Select(pair => pair.Handler)
+            string commandsString = CommandModule.commandHandlers
+                .Where(pair => pair.modName.ToLowerInvariant().Contains(search))
+                .Select(pair => pair.handler)
                 .Aggregate("\n", GetNames);
 
             return $"Mod {search} commands:\n{commandsString}";

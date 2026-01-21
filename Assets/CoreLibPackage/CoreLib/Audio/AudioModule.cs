@@ -40,11 +40,11 @@ namespace CoreLib.Submodule.Audio
         /// in logs and UI elements that display module names.
         /// </remarks>
         /// <seealso cref="Logger"/>
-        public new const string Name = "Core Library - Audio";
+        public const string NAME = "Core Library - Audio";
         
         /// Module-scoped logger used for information, warning, and error messages produced by the audio subsystem.
         /// <seealso cref="Logger"/>
-        internal new static Logger Log = new(Name);
+        internal static Logger log = new(NAME);
 
         /// Returns the singleton instance of <see cref="AudioModule"/> as managed by <see cref="CoreLibMod"/>.
         /// <remarks>
@@ -56,36 +56,36 @@ namespace CoreLib.Submodule.Audio
 
         /// Maps custom roster IDs to their in-memory <see cref="MusicManager.MusicRoster"/> instances.
         /// <seealso cref="MusicManager.MusicRoster"/>
-        internal static Dictionary<int, MusicManager.MusicRoster> CustomRosterMusic = new();
+        internal static Dictionary<int, MusicManager.MusicRoster> customRosterMusic = new();
 
         /// Maps vanilla roster IDs that have additional modded tracks.
         /// <seealso cref="MusicManager.MusicRoster"/>
-        internal static Dictionary<int, MusicManager.MusicRoster> VanillaRosterAddTracksInfos = new();
+        internal static Dictionary<int, MusicManager.MusicRoster> vanillaRosterAddTracksInfos = new();
 
         /// Holds library-defined custom sound effects (<see cref="AudioField"/> instances).
         /// <seealso cref="AudioField"/>
-        internal static List<AudioField> CustomSoundEffects = new();
+        internal static List<AudioField> customSoundEffects = new();
 
         /// Maps custom <see cref="EffectID"/> values to their associated effect implementations.
         /// <seealso cref="EffectID"/>
         /// <seealso cref="IEffect"/>
-        internal static Dictionary<EffectID, IEffect> CustomEffects = new();
+        internal static Dictionary<EffectID, IEffect> customEffects = new();
 
         /// Numeric identifier of the last built-in vanilla roster. 
         /// Values ≤ these are considered vanilla roster values.
         /// <seealso cref="MusicRosterType"/>
-        internal static int MaxVanillaRosterId = (int)Enum.GetValues(typeof(MusicRosterType)).Cast<MusicRosterType>().Last();
+        internal static int maxVanillaRosterId = (int)Enum.GetValues(typeof(MusicRosterType)).Cast<MusicRosterType>().Last();
 
         /// Next free ID to assign to a new custom music roster.
-        internal static int LastFreeMusicRosterId = MaxVanillaRosterId + 1;
+        internal static int lastFreeMusicRosterId = maxVanillaRosterId + 1;
 
         /// Next free ID to assign to a new custom sound effect.
         /// <seealso cref="SfxID"/>
-        internal static int LastFreeSfxId = (int)Enum.Parse<SfxID>(nameof(SfxID.__max__)) + 1;
+        internal static int lastFreeSfxId = (int)Enum.Parse<SfxID>(nameof(SfxID.__max__)) + 1;
 
         /// Next free ID to assign to a new custom effect implementation.
         /// <seealso cref="EffectID"/>
-        internal static int LastFreeEffectId = (int)Enum.GetValues(typeof(EffectID)).Cast<EffectID>().Last() + 1;
+        internal static int lastFreeEffectId = (int)Enum.GetValues(typeof(EffectID)).Cast<EffectID>().Last() + 1;
 
         #endregion
 
@@ -121,7 +121,7 @@ namespace CoreLib.Submodule.Audio
         /// <param name="rosterType">Roster type to check.</param>
         /// <returns><c>true</c> if vanilla; otherwise <c>false</c>.</returns>
         /// <seealso cref="MusicRosterType"/>
-        public static bool IsVanilla(MusicRosterType rosterType) => (int)rosterType <= MaxVanillaRosterId;
+        public static bool IsVanilla(MusicRosterType rosterType) => (int)rosterType <= maxVanillaRosterId;
 
         /// Creates and registers a new custom music roster identifier.
         /// <returns>New <see cref="MusicRosterType"/> representing the roster.</returns>
@@ -129,7 +129,7 @@ namespace CoreLib.Submodule.Audio
         public static MusicRosterType AddCustomRoster()
         {
             Instance.ThrowIfNotLoaded();
-            int id = LastFreeMusicRosterId++;
+            int id = lastFreeMusicRosterId++;
             return (MusicRosterType)id;
         }
 
@@ -169,9 +169,9 @@ namespace CoreLib.Submodule.Audio
             var effect = new AudioField();
             effect.audioPlayables.Add(effectClip);
 
-            var sfxId = (SfxID)LastFreeSfxId++;
+            var sfxId = (SfxID)lastFreeSfxId++;
             effect.audioFieldName = $"sfx_{sfxId}";
-            CustomSoundEffects.Add(effect);
+            customSoundEffects.Add(effect);
             return sfxId;
         }
 
@@ -185,9 +185,9 @@ namespace CoreLib.Submodule.Audio
             Instance.ThrowIfNotLoaded();
             if (effect == null) return EffectID.None;
 
-            int effectIndex = LastFreeEffectId++;
+            int effectIndex = lastFreeEffectId++;
             var effectID = (EffectID)effectIndex;
-            CustomEffects.Add(effectID, effect);
+            customEffects.Add(effectID, effect);
             return effectID;
         }
 
@@ -205,20 +205,20 @@ namespace CoreLib.Submodule.Audio
 
             if (IsVanilla(rosterType))
             {
-                if (VanillaRosterAddTracksInfos.TryGetValue(rosterId, out var tracks))
+                if (vanillaRosterAddTracksInfos.TryGetValue(rosterId, out var tracks))
                     return tracks;
 
                 var roster = new MusicManager.MusicRoster { tracks = new MusicList() };
-                VanillaRosterAddTracksInfos.Add(rosterId, roster);
+                vanillaRosterAddTracksInfos.Add(rosterId, roster);
                 return roster;
             }
             else
             {
-                if (CustomRosterMusic.TryGetValue(rosterId, out var tracks))
+                if (customRosterMusic.TryGetValue(rosterId, out var tracks))
                     return tracks;
 
                 var roster = new MusicManager.MusicRoster { tracks = new MusicList() };
-                CustomRosterMusic.Add(rosterId, roster);
+                customRosterMusic.Add(rosterId, roster);
                 return roster;
             }
         }
@@ -233,8 +233,8 @@ namespace CoreLib.Submodule.Audio
             if (effect == null || effect.audioPlayables.Count <= 0)
                 return SfxID.__illegal__;
 
-            CustomSoundEffects.Add(effect);
-            int sfxId = LastFreeSfxId++;
+            customSoundEffects.Add(effect);
+            int sfxId = lastFreeSfxId++;
             effect.audioFieldName = $"sfx_{sfxId}";
             return (SfxID)sfxId;
         }

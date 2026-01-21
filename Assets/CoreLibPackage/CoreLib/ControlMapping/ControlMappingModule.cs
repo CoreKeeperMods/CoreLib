@@ -22,25 +22,25 @@ namespace CoreLib.Submodule.ControlMapping
     {
         #region Fields
         
-        public new const string Name = "Core Library - Rewired Extension";
+        public const string NAME = "Core Library - Rewired Extension";
         
-        internal new static Logger Log = new(Name);
+        internal static Logger log = new(NAME);
         
-        internal static ConfigFile Config => CoreLibMod.Config;
+        internal static ConfigFile Config => CoreLibMod.config;
         
-        internal static string CategoriesFilePath => "CoreLib\\KeyBindsCategories.json";
-        internal static string ActionsFilePath => "CoreLib\\KeyBindsActions.json";
+        internal const string CATEGORIES_FILE_PATH = "CoreLib\\KeyBindsCategories.json";
+        internal const string ACTIONS_FILE_PATH = "CoreLib\\KeyBindsActions.json";
         
-        internal static InputManager_Base InputManagerBase = Resources.Load<InputManager_Base>($"Rewired Input Manager");
+        internal static InputManager_Base inputManagerBase = Resources.Load<InputManager_Base>($"Rewired Input Manager");
         
-        internal static UserData UserData => InputManagerBase.userData;
+        internal static UserData UserData => inputManagerBase.userData;
         
-        internal static ControlMapping_CategoryLayoutData ModCategoryLayout;
+        internal static ControlMapping_CategoryLayoutData modCategoryLayout;
         
-        internal static int[] ModsActionCategoryID;
+        internal static int[] modsActionCategoryID;
         
-        internal static Dictionary<string, int[]> KeyBindCategories; //[Category Name, [Category ID, Map Category ID]]
-        internal static Dictionary<string, int[]> KeyBindActions; //[Action Name, [Action ID, Action Category ID]]
+        internal static Dictionary<string, int[]> keyBindCategories; //[Category Name, [Category ID, Map Category ID]]
+        internal static Dictionary<string, int[]> keyBindActions; //[Action Name, [Action ID, Action Category ID]]
         
         internal static int ActionCategoryIdCounter => 100;
         internal static int MapCategoryIdCounter => 100;
@@ -50,7 +50,7 @@ namespace CoreLib.Submodule.ControlMapping
         internal static int MapMouseIdCounter => 1000;
         
         /// Event that triggers a callback when the Rewired input system is fully initialized.
-        public static Action RewiredStart;
+        public static Action rewiredStart;
         
         #endregion
         
@@ -70,20 +70,20 @@ namespace CoreLib.Submodule.ControlMapping
             Instance.ThrowIfNotLoaded();
             if (string.IsNullOrEmpty(keyBindName))
             {
-                Log.LogWarning($"No Name provided for keybind!");
+                log.LogWarning($"No Name provided for keybind!");
                 return;
             }
             
             if (categoryId == -1)
             {
                 AddNewCategory_Internal("Mods");
-                categoryId = ModsActionCategoryID[0];
+                categoryId = modsActionCategoryID[0];
             }
             
             var action = AddNewAction_Internal(keyBindName, categoryId);
             
-            if (action.id >= ActionIdCounter && KeyBindActions.TryAdd(keyBindName, new []{action.id, categoryId})) 
-                API.ConfigFilesystem.Write(ActionsFilePath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(KeyBindActions)));
+            if (action.id >= ActionIdCounter && keyBindActions.TryAdd(keyBindName, new []{action.id, categoryId})) 
+                API.ConfigFilesystem.Write(ACTIONS_FILE_PATH, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(keyBindActions)));
             
             int catInt = UserData.IndexOfActionCategory(categoryId);
             var actionCategory = UserData.GetActionCategory(catInt);
@@ -99,20 +99,20 @@ namespace CoreLib.Submodule.ControlMapping
             Instance.ThrowIfNotLoaded();
             if (string.IsNullOrEmpty(keyBindName))
             {
-                Log.LogWarning($"No Name provided for keybind!");
+                log.LogWarning($"No Name provided for keybind!");
                 return;
             }
             
             if (categoryId == -1)
             {
                 AddNewCategory_Internal("Mods");
-                categoryId = ModsActionCategoryID[0];
+                categoryId = modsActionCategoryID[0];
             }
             
             var action = AddNewAction_Internal(keyBindName, categoryId);
             
-            if (action.id >= ActionIdCounter && KeyBindActions.TryAdd(keyBindName, new []{action.id, categoryId})) 
-                API.ConfigFilesystem.Write(ActionsFilePath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(KeyBindActions)));
+            if (action.id >= ActionIdCounter && keyBindActions.TryAdd(keyBindName, new []{action.id, categoryId})) 
+                API.ConfigFilesystem.Write(ACTIONS_FILE_PATH, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(keyBindActions)));
             
             int catInt = UserData.IndexOfActionCategory(categoryId);
             var actionCategory = UserData.GetActionCategory(catInt);
@@ -136,21 +136,21 @@ namespace CoreLib.Submodule.ControlMapping
             Instance.ThrowIfNotLoaded();
             if (string.IsNullOrEmpty(keyBindName))
             {
-                Log.LogWarning($"No Name provided for keybind!");
+                log.LogWarning($"No Name provided for keybind!");
                 return;
             }
 
             if (categoryId == -1)
             {
                 AddNewCategory_Internal("Mods");
-                categoryId = ModsActionCategoryID[0];
+                categoryId = modsActionCategoryID[0];
             }
                 
 
             var action = AddNewAction_Internal(keyBindName, categoryId);
             
-            if (action.id >= ActionIdCounter && KeyBindActions.TryAdd(keyBindName, new []{action.id, categoryId})) 
-                API.ConfigFilesystem.Write(ActionsFilePath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(KeyBindActions)));
+            if (action.id >= ActionIdCounter && keyBindActions.TryAdd(keyBindName, new []{action.id, categoryId})) 
+                API.ConfigFilesystem.Write(ACTIONS_FILE_PATH, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(keyBindActions)));
             
             int catInt = UserData.IndexOfActionCategory(categoryId);
             var actionCategory = UserData.GetActionCategory(catInt);
@@ -163,8 +163,8 @@ namespace CoreLib.Submodule.ControlMapping
         {
             Instance.ThrowIfNotLoaded();
             int[] categoryInt = AddNewCategory_Internal(categoryName);
-            if (categoryInt[0] >= ActionCategoryIdCounter && KeyBindCategories.TryAdd(categoryName, categoryInt)) 
-                API.ConfigFilesystem.Write(CategoriesFilePath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(KeyBindCategories)));
+            if (categoryInt[0] >= ActionCategoryIdCounter && keyBindCategories.TryAdd(categoryName, categoryInt)) 
+                API.ConfigFilesystem.Write(CATEGORIES_FILE_PATH, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(keyBindCategories)));
             
             return categoryInt[0];
         }
@@ -184,7 +184,7 @@ namespace CoreLib.Submodule.ControlMapping
                     return new[] { category.id, mapCategory.id };
                 category.SetValue("_userAssignable", true);
                 mapCategory.SetValue("_userAssignable", true);
-                Log.LogInfo($"Enabled Category: {categoryName}");
+                log.LogInfo($"Enabled Category: {categoryName}");
 
                 return new[]{ category.id, mapCategory.id };
             }
@@ -196,8 +196,8 @@ namespace CoreLib.Submodule.ControlMapping
             newLayout.MappingSet.SetValue("_actionCategoryIds", new[]{ categories[0] });
             newLayout.SetValue("_showActionCategoryName", new[] { categoryName != "Mods" });
             newLayout.SetValue("_showActionCategoryDescription", new[] { true });
-            ModCategoryLayout.CategoryLayoutData.Add(newLayout);
-            Log.LogInfo($"Added New Category: {categoryName} {(userAssignable ? "" : "(Disabled)")}");
+            modCategoryLayout.CategoryLayoutData.Add(newLayout);
+            log.LogInfo($"Added New Category: {categoryName} {(userAssignable ? "" : "(Disabled)")}");
             return categories;
         }
         
@@ -208,12 +208,12 @@ namespace CoreLib.Submodule.ControlMapping
             {
                 if (!userAssignable || action.userAssignable) return action;
                 action.SetValue("_userAssignable", true);
-                Log.LogInfo($"Enabled Action: {actionName}");
+                log.LogInfo($"Enabled Action: {actionName}");
 
                 return action;
             }
             UserData.AddNewAction(actionName, categoryId, userAssignable);
-            Log.LogInfo($"Added New Action: {actionName} {(userAssignable ? "" : "(Disabled)")}");
+            log.LogInfo($"Added New Action: {actionName} {(userAssignable ? "" : "(Disabled)")}");
             return UserData.GetAction(actionName);
         }
         
@@ -240,28 +240,28 @@ namespace CoreLib.Submodule.ControlMapping
             UserData.SetValue("joystickMapIdCounter", MapJoystickIdCounter);
             UserData.SetValue("keyboardMapIdCounter", MapKeyboardIdCounter);
             UserData.SetValue("mouseMapIdCounter", MapMouseIdCounter);
-            ModCategoryLayout = Mod.Assets.OfType<ControlMapping_CategoryLayoutData>().FirstOrDefault();
-            if (!API.ConfigFilesystem.FileExists(CategoriesFilePath) || !API.ConfigFilesystem.FileExists(ActionsFilePath))
+            modCategoryLayout = Mod.Assets.OfType<ControlMapping_CategoryLayoutData>().FirstOrDefault();
+            if (!API.ConfigFilesystem.FileExists(CATEGORIES_FILE_PATH) || !API.ConfigFilesystem.FileExists(ACTIONS_FILE_PATH))
             {
                 var dic = new Dictionary<string, int[]>();
-                API.ConfigFilesystem.Write(CategoriesFilePath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dic)));
-                API.ConfigFilesystem.Write(ActionsFilePath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dic)));
+                API.ConfigFilesystem.Write(CATEGORIES_FILE_PATH, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dic)));
+                API.ConfigFilesystem.Write(ACTIONS_FILE_PATH, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(dic)));
             }
 
-            KeyBindCategories = JsonConvert.DeserializeObject<Dictionary<string, int[]>>(Encoding.UTF8.GetString(API.ConfigFilesystem.Read(CategoriesFilePath)));
-            KeyBindActions = JsonConvert.DeserializeObject<Dictionary<string, int[]>>(Encoding.UTF8.GetString(API.ConfigFilesystem.Read(ActionsFilePath)));
+            keyBindCategories = JsonConvert.DeserializeObject<Dictionary<string, int[]>>(Encoding.UTF8.GetString(API.ConfigFilesystem.Read(CATEGORIES_FILE_PATH)));
+            keyBindActions = JsonConvert.DeserializeObject<Dictionary<string, int[]>>(Encoding.UTF8.GetString(API.ConfigFilesystem.Read(ACTIONS_FILE_PATH)));
             
-            ModsActionCategoryID ??= AddNewCategory_Internal("Mods", false);
-            if (KeyBindCategories.TryAdd("Mods", ModsActionCategoryID))
+            modsActionCategoryID ??= AddNewCategory_Internal("Mods", false);
+            if (keyBindCategories.TryAdd("Mods", modsActionCategoryID))
             {
-                API.ConfigFilesystem.Write(CategoriesFilePath, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(KeyBindCategories)));
+                API.ConfigFilesystem.Write(CATEGORIES_FILE_PATH, Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(keyBindCategories)));
             }
-            foreach (var keyBindCategory in KeyBindCategories)
+            foreach (var keyBindCategory in keyBindCategories)
             {
                 AddNewCategory_Internal(keyBindCategory.Key, false);
             }
             
-            foreach (var keyBindAction in KeyBindActions)
+            foreach (var keyBindAction in keyBindActions)
             {
                 AddNewAction_Internal(keyBindAction.Key, keyBindAction.Value[1], false);
             }

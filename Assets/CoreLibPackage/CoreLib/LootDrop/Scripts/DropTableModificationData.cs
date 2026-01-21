@@ -52,7 +52,7 @@ namespace CoreLib.Submodule.LootDrop
         /// The <c>amount</c> property sets both the <c>minAmount</c> and <c>maxAmount</c> values to the same number, effectively ensuring a fixed drop quantity.
         /// This property is useful when the drop is not intended to have a variable range and must guarantee a specific amount.
         /// </remarks>
-        public int amount
+        public int Amount
         {
             get => minAmount;
             set
@@ -136,7 +136,7 @@ namespace CoreLib.Submodule.LootDrop
             };
 
             ObjectID objectID = API.Authoring.GetObjectID(itemName);
-            LootDropModule.Log.LogInfo($"{itemName} is {objectID}");
+            LootDropModule.log.LogInfo($"{itemName} is {objectID}");
             LootInfo info = new LootInfo
             {
                 objectID = objectID,

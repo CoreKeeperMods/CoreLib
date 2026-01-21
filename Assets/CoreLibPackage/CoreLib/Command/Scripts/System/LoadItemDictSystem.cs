@@ -90,12 +90,12 @@ namespace CoreLib.Submodule.Command.System
             {
                 if (!LocalizationManager.TryGetTranslation($"Items/{pair.Key}", out string translation,
                         overrideLanguage: "english")) continue;
-                if (CommandModule.FriendlyNameDict.ContainsKey(translation.ToLower())) continue;
-                CommandModule.FriendlyNameDict.Add(translation.ToLower(), pair.Value);
+                if (CommandModule.friendlyNameDict.ContainsKey(translation.ToLower())) continue;
+                CommandModule.friendlyNameDict.Add(translation.ToLower(), pair.Value);
                 count++;
             }
 
-            CommandModule.Log.LogInfo($"Got {count} friendly name entries!");
+            CommandModule.log.LogInfo($"Got {count} friendly name entries!");
         }
     }
 }

@@ -20,19 +20,19 @@ namespace CoreLib.Data.Configuration
     public class ConfigScope
     {
         public static readonly ConfigScope Empty = new();
-        public bool RequireReload;
+        public bool requireReload;
 
         /// Determines permissions for changing config entry
-        public ConfigAccessLevel AccessLevel;
+        public ConfigAccessLevel accessLevel;
         public ConfigScope(ConfigAccessLevel accessLevel = ConfigAccessLevel.Server, bool requireReload = false)
         {
-            RequireReload = requireReload;
-            AccessLevel = accessLevel;
+            this.requireReload = requireReload;
+            this.accessLevel = accessLevel;
         }
         public bool Changeable()
         {
             var player = Manager.main.player;
-            return AccessLevel switch
+            return accessLevel switch
             {
                 ConfigAccessLevel.Client => true,
                 ConfigAccessLevel.Server => !player.guestMode,
@@ -40,6 +40,6 @@ namespace CoreLib.Data.Configuration
                 _ => false,
             };
         }
-        public bool ShouldSync => (int)AccessLevel > 0;
+        public bool ShouldSync => (int)accessLevel > 0;
     }
 }

@@ -19,7 +19,7 @@ namespace CoreLib.Util
     /// <remarks>
     /// The <see cref="GameManagers"/> class offers consistent and safe access to the primary
     /// <see cref="Manager"/> singleton and its associated submanagers, with built-in validation
-    /// and error logging through <see cref="CoreLibMod.Log"/>.
+    /// and error logging through <see cref="CoreLibMod.log"/>.
     /// </remarks>
     /// <seealso cref="Manager"/>
     /// <seealso cref="ManagerBase"/>
@@ -34,10 +34,10 @@ namespace CoreLib.Util
         /// </exception>
         /// <remarks>
         /// This method ensures that the main manager exists before allowing access.
-        /// If unavailable, an error is logged via <see cref="CoreLibMod.Log"/>.
+        /// If unavailable, an error is logged via <see cref="CoreLibMod.log"/>.
         /// </remarks>
         /// <seealso cref="Manager"/>
-        public static Manager GetMainManager() => Manager.main != null ? Manager.main : throw new NullReferenceException($"[{CoreLibMod.Name}] Manager instance has not been instantiated.");
+        public static Manager GetMainManager() => Manager.main != null ? Manager.main : throw new NullReferenceException($"[{CoreLibMod.NAME}] Manager instance has not been instantiated.");
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace CoreLib.Util
         /// </remarks>
         /// <seealso cref="Manager.allManagers"/>
         /// <seealso cref="ManagerBase"/>
-        public static T GetManager<T>() where T : ManagerBase => (T)GetMainManager().allManagers.Find(subManager => subManager is T) ?? throw new Exception($"[{CoreLibMod.Name}] Could not retrieve manager of type {typeof(T)}.");
+        public static T GetManager<T>() where T : ManagerBase => (T)GetMainManager().allManagers.Find(subManager => subManager is T) ?? throw new Exception($"[{CoreLibMod.NAME}] Could not retrieve manager of type {typeof(T)}.");
 
         #endregion
     }

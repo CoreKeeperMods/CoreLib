@@ -118,7 +118,7 @@ namespace CoreLib.Data.Configuration
             }
             catch (Exception e)
             {
-                CoreLibMod.Log.LogWarning($"Config value of setting \"{Definition}\" could not be parsed and will be ignored. Reason: {e.Message}; Value: {value}");
+                CoreLibMod.log.LogWarning($"Config value of setting \"{Definition}\" could not be parsed and will be ignored. Reason: {e.Message}; Value: {value}");
             }
         }
 

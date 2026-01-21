@@ -14,7 +14,7 @@ namespace CoreLib.Submodule.LootDrop.Patch
         /// When set to <c>true</c>, custom loot tables will be added and modifications
         /// to existing loot tables will be applied. After these operations are performed,
         /// this variable is set to <c>false</c> to prevent redundant re-editing.
-        private static bool needsToEditLoot = true;
+        private static bool _needsToEditLoot = true;
 
         /// Adds custom loot tables to the game's existing loot system and applies modifications as needed.
         /// This method intercepts the loot table conversion process using a Harmony prefix patch. It performs
@@ -38,12 +38,12 @@ namespace CoreLib.Submodule.LootDrop.Patch
         [HarmonyPrefix]
         private static void AddCustomLootTables()
         {
-            if (!needsToEditLoot) return;
+            if (!_needsToEditLoot) return;
 
             var lootList = Manager.mod.LootTable;
 
-            LootDropModule.Log.LogInfo("Adding new loot!");
-            foreach (CustomLootTableData tableData in LootDropModule.CustomLootTables)
+            LootDropModule.log.LogInfo("Adding new loot!");
+            foreach (CustomLootTableData tableData in LootDropModule.customLootTables)
             {
                 lootList.Add(tableData.GetTable());
             }
@@ -52,10 +52,10 @@ namespace CoreLib.Submodule.LootDrop.Patch
             {
                 try
                 {
-                    if (LootDropModule.DropTableModification.ContainsKey(lootTable.id))
+                    if (LootDropModule.dropTableModification.ContainsKey(lootTable.id))
                     {
                         DropTableModificationData modificationData =
-                            LootDropModule.DropTableModification[lootTable.id];
+                            LootDropModule.dropTableModification[lootTable.id];
                         if (lootTable.lootInfos != null && lootTable.guaranteedLootInfos != null)
                         {
                             LootDropModule.RemoveDrops(lootTable.lootInfos, lootTable.guaranteedLootInfos,
@@ -69,11 +69,11 @@ namespace CoreLib.Submodule.LootDrop.Patch
                 }
                 catch (Exception e)
                 {
-                    LootDropModule.Log.LogWarning($"Failed to update loot tables:\n{e}");
+                    LootDropModule.log.LogWarning($"Failed to update loot tables:\n{e}");
                 }
             }
 
-            needsToEditLoot = false;
+            _needsToEditLoot = false;
         }
     }
 }
