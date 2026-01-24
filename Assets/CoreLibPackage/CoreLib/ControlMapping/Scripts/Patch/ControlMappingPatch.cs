@@ -29,7 +29,7 @@ namespace CoreLib.Submodule.ControlMapping.Patch
         }
         
         /// Executes after the Rewired input system has been initialized. This method invokes the static event
-        /// <c>RewiredExtensionModule.rewiredStart</c>, allowing external modules or methods to perform custom logic
+        /// <c>ControlMappingModule.rewiredStart</c>, allowing external modules or methods to perform custom logic
         /// upon the completion of Rewired's initialization process.
         [HarmonyPatch(typeof(InputManager_Base), "Start")]
         [HarmonyPostfix]

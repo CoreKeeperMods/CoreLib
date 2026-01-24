@@ -121,7 +121,7 @@ namespace CoreLib.Submodule.ControlMapping
             mouseMap.AddNewActionElementMap(action.categoryId, action.id, ControllerElementType.Button, elementId);
         }
 
-        /// Sets the default controller binding for an existing custom keybind. The keybind must be created beforehand using AddKeybind().
+        /// Sets the default controller binding for an existing custom keybind. The keybind must be created beforehand using AddKeyboardBind().
         /// <param name="keyBindName">The name of the existing keybind to set the default controller binding.</param>
         /// <param name="elementId">The element ID of the controller component to bind.</param>
         /// <param name="elementType">The type of the controller element (e.g., Button or Axis). Defaults to Button.</param>

@@ -23,7 +23,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// equipment slots.
         /// This logic can be utilized in various systems or methods to handle operations such as
         /// placement, updates, or validations related to a specific equipment slot.
-        /// Assigned via the `RegisterEquipmentSlot` method in the EquipmentModule, this variable
+        /// Assigned via the `RegisterEquipmentSlot` method in the EquipmentSlotModule, this variable
         /// is configured when creating or registering equipment slots during application initialization
         /// or setup.
         /// Usage of this logic includes scenarios such as:
