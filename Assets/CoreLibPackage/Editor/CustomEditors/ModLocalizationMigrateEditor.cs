@@ -83,6 +83,12 @@ namespace CoreLib.Editor
                 if (line.Length < 4) continue;
 
                 string fullKey = line[0];
+                if (fullKey.Length == 0)
+                {
+                    Debug.Log("Skipping empty line!");
+                    continue;
+                }
+                
                 bool isDesc = fullKey.EndsWith("Desc");
                 string baseKey = isDesc ? fullKey[..^4] : fullKey;
 
@@ -120,6 +126,12 @@ namespace CoreLib.Editor
                 if (line.Length < 4) continue;
 
                 string fullKey = line[0];
+                if (fullKey.Length == 0)
+                {
+                    Debug.Log("Skipping empty line!");
+                    continue;
+                }
+                
                 bool isDesc = fullKey.EndsWith("Desc");
                 string baseKey = isDesc ? fullKey[..^4] : fullKey;
 
