@@ -144,7 +144,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1145846735724023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be8cdb9e682d5a746995da7590643941, type: 3}
+  m_Script: {fileID: 11500000, guid: 444a65c77aab47d40b26141aeb042d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   materialName: PitObjectAmplify
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1667255569591338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be8cdb9e682d5a746995da7590643941, type: 3}
+  m_Script: {fileID: 11500000, guid: 444a65c77aab47d40b26141aeb042d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   materialName: PlaceIconAmplify
