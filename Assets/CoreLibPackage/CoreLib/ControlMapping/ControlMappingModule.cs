@@ -49,20 +49,21 @@ namespace CoreLib.Submodule.ControlMapping
         internal static int MapKeyboardIdCounter => 1000;
         internal static int MapMouseIdCounter => 1000;
         
-        /// Event that triggers a callback when the Rewired input system is fully initialized.
         public static Action rewiredStart;
         
         #endregion
         
         #region Public Interface
         
-        /// Add a new rebindable keybind
-        /// <param name="keyBindName">UNIQUE key bind name</param>
-        /// <param name="defaultKeyCode">Default key bind KeyCode</param>
-        /// <param name="modifier">Key bind modifier. Defaults to none</param>
-        /// <param name="modifier2"></param>
-        /// <param name="modifier3"></param>
-        /// <param name="categoryId">Category ID to add KeyBind</param>
+        /// <summary>
+        /// Add a new Keyboard Keybind.
+        /// </summary>
+        /// <param name="keyBindName">Unique Keybind Name</param>
+        /// <param name="defaultKeyCode">Keyboard KeyCode</param>
+        /// <param name="modifier">First KeyCode Modifier</param>
+        /// <param name="modifier2">Second KeyCode Modifier</param>
+        /// <param name="modifier3">Third KeyCode Modifier</param>
+        /// <param name="categoryId">Category ID for Keybind</param>
         public static void AddKeyboardBind(string keyBindName = "", KeyboardKeyCode defaultKeyCode = KeyboardKeyCode.None,
             ModifierKey modifier = ModifierKey.None, ModifierKey modifier2 = ModifierKey.None,
             ModifierKey modifier3 = ModifierKey.None, int categoryId = -1)
@@ -93,6 +94,12 @@ namespace CoreLib.Submodule.ControlMapping
             modifierKey2: modifier2, modifierKey3: modifier3);
         }
 
+        /// <summary>
+        /// Add a new Mouse Button KeyBind.
+        /// </summary>
+        /// <param name="keyBindName">Unique Keybind name</param>
+        /// <param name="elementId">Mouse Element ID</param>
+        /// <param name="categoryId">Category ID for Keybind</param>
         public static void AddMouseBind(string keyBindName = "", int elementId = -1,
             int categoryId = -1)
         {
@@ -121,14 +128,16 @@ namespace CoreLib.Submodule.ControlMapping
             mouseMap.AddNewActionElementMap(action.categoryId, action.id, ControllerElementType.Button, elementId);
         }
 
-        /// Sets the default controller binding for an existing custom keybind. The keybind must be created beforehand using AddKeyboardBind().
-        /// <param name="keyBindName">The name of the existing keybind to set the default controller binding.</param>
-        /// <param name="elementId">The element ID of the controller component to bind.</param>
-        /// <param name="elementType">The type of the controller element (e.g., Button or Axis). Defaults to Button.</param>
-        /// <param name="axisRange">The range of the axis, if applicable. Defaults to Full.</param>
-        /// <param name="inverted"></param>
-        /// <param name="axisContribution"></param>
-        /// <param name="categoryId"></param>
+        /// <summary>
+        /// Add a new Joystick/Controller KeyBind.
+        /// </summary>
+        /// <param name="keyBindName">Unique Keybind Name</param>
+        /// <param name="elementId">Element ID for the controller keybind</param>
+        /// <param name="elementType">Controller Element Type</param>
+        /// <param name="axisRange">Axis Range</param>
+        /// <param name="inverted">Invert Axis boolean</param>
+        /// <param name="axisContribution">Pole Axis Contribution</param>
+        /// <param name="categoryId">Category ID for Keybind</param>
         public static void AddControllerBind(string keyBindName = "", int elementId = -1,
             ControllerElementType elementType = ControllerElementType.Button,
             AxisRange axisRange = AxisRange.Full, bool inverted = false, Pole axisContribution = Pole.Positive, int categoryId = -1)
@@ -159,6 +168,11 @@ namespace CoreLib.Submodule.ControlMapping
             joystickMap.AddNewActionElementMap(action.categoryId, action.id, elementType, elementId, axisRange, inverted, axisContribution);
         }
         
+        /// <summary>
+        /// Add a new Category for Keybinds.
+        /// </summary>
+        /// <param name="categoryName">Category Name</param>
+        /// <returns>ID of the new Category</returns>
         public static int AddNewCategory(string categoryName)
         {
             Instance.ThrowIfNotLoaded();
@@ -206,6 +220,11 @@ namespace CoreLib.Submodule.ControlMapping
             var action = UserData.GetAction(actionName);
             if (action != null)
             {
+                if (action.categoryId != categoryId)
+                {
+                    UserData.ChangeActionCategory(action.id, categoryId);
+                }
+                
                 if (!userAssignable || action.userAssignable) return action;
                 action.SetValue("_userAssignable", true);
                 log.LogInfo($"Enabled Action: {actionName}");
@@ -220,17 +239,11 @@ namespace CoreLib.Submodule.ControlMapping
         #endregion
 
         #region Submodule Implementation
-
-        /// Provides access to the singleton instance of the <see cref="ControlMappingModule"/> class.
-        /// Ensures access to the module for managing Rewired keybinds and related functionality.
+        
         internal static ControlMappingModule Instance => CoreLibMod.GetModuleInstance<ControlMappingModule>();
 
-        /// Applies the necessary patches or hooks for the functionality of the module.
         internal override void SetHooks() => CoreLibMod.Patch(typeof(ControlMappingPatch));
 
-        //internal override Type[] Dependencies  => new[] {typeof(LocalizationModule)};
-
-        /// Initializes the Rewired extension module by setting up required configurations and resources.
         internal override void Load()
         {
             base.Load();

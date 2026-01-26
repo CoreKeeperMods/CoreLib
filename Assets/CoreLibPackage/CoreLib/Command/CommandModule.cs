@@ -245,7 +245,6 @@ namespace CoreLib.Submodule.Command
             ControlMappingModule.AddKeyboardBind(UP_KEY, KeyboardKeyCode.UpArrow, categoryId: catID);
             ControlMappingModule.AddKeyboardBind(DOWN_KEY, KeyboardKeyCode.DownArrow, categoryId: catID);
             ControlMappingModule.AddKeyboardBind(COMPLETE_KEY, KeyboardKeyCode.Tab, categoryId: catID);
-            
             ControlMappingModule.AddKeyboardBind(TOGGLE_QUANTUM_CONSOLE, KeyboardKeyCode.BackQuote, categoryId: catID);
 
             API.Client.OnWorldCreated += ClientWorldReady;
