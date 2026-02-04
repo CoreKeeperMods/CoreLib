@@ -22,7 +22,7 @@ namespace CoreLib.Submodule.ControlMapping
     {
         #region Fields
         
-        public const string NAME = "Core Library - Rewired Extension";
+        public const string NAME = "Core Library - Control Mapping";
         
         internal static Logger log = new(NAME);
         
