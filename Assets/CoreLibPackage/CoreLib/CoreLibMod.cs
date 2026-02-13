@@ -45,7 +45,7 @@ namespace CoreLib
         /// Specifies the game version this mod was built for.
         /// Used to verify compatibility during initialization.
         /// <seealso cref="GameVersion"/>
-        public static readonly GameVersion BUILD_FOR = new(1, 1, 2, 0, "7da5");
+        public static readonly GameVersion BUILD_FOR = new(1, 2, 0, 2, "a822");
 
         /// Metadata information about this mod, provided by the mod loader.
         internal static LoadedMod modInfo;
