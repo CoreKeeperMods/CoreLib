@@ -10,6 +10,9 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+/Packages/dev.pugstorm.mod/SDK/Editor/ModPaths.asset
+/Packages/dev.pugstorm.mod/SDK/Editor/ModPaths.asset.meta
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
