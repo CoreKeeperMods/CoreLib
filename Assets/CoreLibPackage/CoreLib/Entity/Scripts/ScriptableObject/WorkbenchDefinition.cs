@@ -16,6 +16,9 @@ namespace CoreLib.Submodule.Entity
 
         [Tooltip("Format: <ModID>:<ItemID>\nExample: CoreLib:RootModWorkbench")]
         public string itemID;
+        
+        [Tooltip("The rarity of the Workbench")]
+        public Rarity rarity;
 
         [Tooltip("Large Icon: 16x16 PNG")]
         public Sprite bigIcon;

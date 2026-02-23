@@ -253,7 +253,10 @@ namespace CoreLib.Submodule.Entity
             }
 
             if (newEntityPrefab.TryGetComponent(out ObjectAuthoring authoring))
+            {
                 authoring.objectName = workbenchDefinition.itemID;
+                authoring.rarity = workbenchDefinition.rarity;
+            }
 
             if (newEntityPrefab.TryGetComponent(out InventoryItemAuthoring itemAuthoring))
             {

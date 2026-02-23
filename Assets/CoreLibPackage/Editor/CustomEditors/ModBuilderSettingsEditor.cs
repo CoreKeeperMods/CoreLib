@@ -27,8 +27,9 @@ namespace CoreLib.Editor
             EditorGUILayout.Separator();
             if (GUILayout.Button(new GUIContent("Open asmdef file", EditorGUIUtility.IconContent("SceneLoadOut").image), GUILayout.Height(25)))
                 GoToAsmDefFile(modInfo);
-                    
-            if (serializedObject.FindProperty("buildBurst") is not null) return;
+            
+            /* Burst Code can now be removed via script, this is no longer required.* /
+            /*if (serializedObject.FindProperty("buildBurst") is not null) return;
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
             EditorGUILayout.HelpBox("Add the burst boolean to create Burst Files.", MessageType.Info);
             var rect = EditorGUILayout.GetControlRect();
@@ -36,10 +37,10 @@ namespace CoreLib.Editor
             rect.width = 72;
             rect.x = center.x - rect.width / 2;
             if(EditorGUI.LinkButton(rect, "Tutorial Link"))
-                Application.OpenURL("https://corekeepermods.github.io/?version=v4/#/editor-utilities/burst-files");
+                Application.OpenURL("https://corekeepermods.github.io/?version=4#/editor-utilities/burst-files");
             EditorGUILayout.Separator();
             if (GUILayout.Button(new GUIContent("Open Script", EditorGUIUtility.IconContent("MetaFile Icon").image), GUILayout.Height(25)))
-                AssetDatabase.OpenAsset(MonoScript.FromScriptableObject((ScriptableObject)target));
+                AssetDatabase.OpenAsset(MonoScript.FromScriptableObject((ScriptableObject)target));*/
         }
 
         private static void GoToAsmDefFile(ModBuilderSettings modInfo)

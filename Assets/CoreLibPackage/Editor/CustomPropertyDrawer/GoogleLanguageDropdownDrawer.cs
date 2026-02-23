@@ -22,7 +22,7 @@ namespace CoreLib.Editor
 
             EditorGUI.BeginProperty(position, label, property);
             {
-                // Filter language codes based on search query
+                // Filter language codes based on the search query
                 var filteredCodes = GoogleLanguages.GetLanguagesForDropdown("", "");
 
                 int selectedIndex = Mathf.Max(0, filteredCodes.IndexOf(property.stringValue));

@@ -9,11 +9,11 @@ namespace CoreLib.Editor
 {
     public class ClassReferenceDropdownAttribute : PropertyAttribute
     {
-        public static readonly List<Type> AllClassTypes = new();
+        public static readonly List<Type> ALL_CLASS_TYPES = new();
 
         public ClassReferenceDropdownAttribute(Type classType)
         {
-            AllClassTypes.Clear();
+            ALL_CLASS_TYPES.Clear();
             var tmpList = new List<Type>();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
@@ -25,8 +25,8 @@ namespace CoreLib.Editor
                     );
                     foreach (var type in tmpList)
                     {
-                        if (!AllClassTypes.Contains(type))
-                            AllClassTypes.Add(type);
+                        if (!ALL_CLASS_TYPES.Contains(type))
+                            ALL_CLASS_TYPES.Add(type);
                     }
                 }
                 catch (Exception)
@@ -34,8 +34,8 @@ namespace CoreLib.Editor
                     // ignored
                 }
             }
-            AllClassTypes.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));
-            AllClassTypes.Insert(0, null);
+            ALL_CLASS_TYPES.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));
+            ALL_CLASS_TYPES.Insert(0, null);
         }
         
     }
@@ -52,7 +52,7 @@ namespace CoreLib.Editor
                 EditorGUI.PropertyField(position, property, label);
                 var newPosition = position;
                 newPosition.y += newPosition.height + EditorGUIUtility.standardVerticalSpacing;
-                string[] stringList = ClassReferenceDropdownAttribute.AllClassTypes.Select(t => t == null ? "<None>" : t.Name).ToArray();
+                string[] stringList = ClassReferenceDropdownAttribute.ALL_CLASS_TYPES.Select(t => t == null ? "<None>" : t.Name).ToArray();
                 string[] filteredList = FilterAllClassTypes(stringList, property.stringValue);
                 int index = Array.FindIndex(filteredList, (t) => t == property.stringValue);
                 if (index == -1) index = 0;

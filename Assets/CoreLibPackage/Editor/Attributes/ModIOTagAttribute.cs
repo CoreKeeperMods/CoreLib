@@ -19,11 +19,11 @@ namespace CoreLib.Editor
             AccessType
         }
         
-        public readonly string[] SelectedTagKind;
+        public readonly string[] selectedTagKind;
         
         public ModIOTagAttribute(TagKind tagKind = TagKind.GameVersion, bool inverted = false)
         {
-            SelectedTagKind = Enum.GetValues(typeof(TagKind)).Cast<TagKind>()
+            selectedTagKind = Enum.GetValues(typeof(TagKind)).Cast<TagKind>()
                 .Where(x => inverted ? x != tagKind : x == tagKind)
                 .Select(GetFriendlyString)
                 .ToArray();
@@ -31,7 +31,7 @@ namespace CoreLib.Editor
         
         public ModIOTagAttribute(TagKind[] tagKind, bool inverted = false)
         {
-            SelectedTagKind = Enum.GetValues(typeof(TagKind)).Cast<TagKind>()
+            selectedTagKind = Enum.GetValues(typeof(TagKind)).Cast<TagKind>()
                 .Where(x => inverted ? !tagKind.Contains(x) : tagKind.Contains(x))
                 .Select(GetFriendlyString)
                 .ToArray();

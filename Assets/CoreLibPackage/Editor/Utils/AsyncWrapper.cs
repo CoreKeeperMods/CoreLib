@@ -7,7 +7,7 @@ namespace CoreLib.Editor
     public class AsyncWrapper<T> where T : class
     {
         public EditorCoroutine Coroutine { get; private set; }
-        public T Result;
+        public T result;
         private readonly IEnumerator _target;
         
         public AsyncWrapper(object owner, IEnumerator target) {
@@ -17,8 +17,8 @@ namespace CoreLib.Editor
 
         private IEnumerator Run() {
             while(_target.MoveNext()) {
-                Result = _target.Current as T;
-                yield return Result;
+                result = _target.Current as T;
+                yield return result;
             }
         }
     }

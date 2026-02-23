@@ -14,12 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilesetId: CoreLib:Missing
   layers: {fileID: 11400000, guid: c923dfcf585b3f94d9c8b9a75617b187, type: 2}
-  overrideMaterials:
-    keys: 
-    values: []
-  overrideParticles:
-    keys: 
-    values: []
+  overrideMaterials: []
+  overrideParticles: []
   tilesetTextures:
     texture: {fileID: 0}
     emissiveTexture: {fileID: 0}
@@ -28,6 +24,4 @@ MonoBehaviour:
     seasonalTextures: []
   tilesetTexture: {fileID: 2800000, guid: 0abcaa7b772ab6b45aefb01117b6a8f3, type: 3}
   tilesetEmissiveTexture: {fileID: 0}
-  adaptiveTilesetTextures:
-    keys: 
-    values: []
+  adaptiveTilesetTextures: []

@@ -74,7 +74,7 @@ namespace CoreLib.Editor
                 if(!assetName.Contains(".meta"))
                     EditorCoroutineUtility.StartCoroutineOwnerless(WaitCreation(assetName));
             }
-            private static void OnCreated(Type type)
+            private static void OnCreated()
             {
                 Initialize(true);
             }
@@ -86,7 +86,7 @@ namespace CoreLib.Editor
                     yield return null;
                     type = AssetDatabase.GetMainAssetTypeAtPath(path);
                 }
-                OnCreated(type);
+                OnCreated();
             }
         }
     }

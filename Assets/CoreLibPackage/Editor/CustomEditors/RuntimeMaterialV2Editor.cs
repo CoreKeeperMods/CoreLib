@@ -50,7 +50,6 @@ namespace CoreLib.Editor
         /// material from either a SpriteRenderer or ParticleSystemRenderer component attached to the GameObject.
         /// If no applicable renderer component is present or a material is not assigned, the materialName field
         /// remains unchanged. Marks the object as dirty in the editor to ensure the change is saved.
-        /// <param name="o"></param>
         public void UseMaterialName()
         {
             if (TargetObject.TryGetComponent(out Renderer renderer))

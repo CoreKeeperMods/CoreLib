@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using CoreLib.Data.Configuration;
 using CoreLib.Submodule.ControlMapping.Extension;
 using CoreLib.Submodule.ControlMapping.Patch;
 using CoreLib.Util.Extension;
+using I2.Loc;
 using Newtonsoft.Json;
 using PugMod;
 using Rewired;
@@ -253,7 +253,13 @@ namespace CoreLib.Submodule.ControlMapping
             UserData.SetValue("joystickMapIdCounter", MapJoystickIdCounter);
             UserData.SetValue("keyboardMapIdCounter", MapKeyboardIdCounter);
             UserData.SetValue("mouseMapIdCounter", MapMouseIdCounter);
-            modCategoryLayout = Mod.Assets.OfType<ControlMapping_CategoryLayoutData>().FirstOrDefault();
+            
+            modCategoryLayout = ScriptableObject.CreateInstance<ControlMapping_CategoryLayoutData>();
+            modCategoryLayout.name = "MappingLayoutData_Mods";
+            LocalizedString catName = $"ControlMapper/ModsCategory";
+            modCategoryLayout.SetValue("_categoryName", catName);
+            modCategoryLayout.SetValue("_categoryLayoutData", new List<CategoryLayoutData>());
+            //modCategoryLayout = Mod.Assets.OfType<ControlMapping_CategoryLayoutData>().FirstOrDefault();
             if (!API.ConfigFilesystem.FileExists(CATEGORIES_FILE_PATH) || !API.ConfigFilesystem.FileExists(ACTIONS_FILE_PATH))
             {
                 var dic = new Dictionary<string, int[]>();

@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using Debug = UnityEngine.Debug;
 
+// TODO to be removed at a later date
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Editor
 {
@@ -17,9 +18,9 @@ namespace CoreLib.Editor
     [Preserve]
     public class BurstModBuilder : PugMod.IPugModBuilderProcessor
     {
-        private const string GameInstallPathKey = "PugMod/SDKWindow/GamePath";
+        private const string GAME_INSTALL_PATH_KEY = "PugMod/SDKWindow/GamePath";
 
-        private static readonly string[] SupportedPlatforms =
+        private static readonly string[] SUPPORTED_PLATFORMS =
         {
             "Windows",
             "Linux"
@@ -39,7 +40,7 @@ namespace CoreLib.Editor
             string packageCacheDir = Path.Combine(libraryDir, "PackageCache");
             string burstCompiler = ResolveBurstCompilerPath(packageCacheDir);
 
-            string gamePath = EditorPrefs.GetString(GameInstallPathKey);
+            string gamePath = EditorPrefs.GetString(GAME_INSTALL_PATH_KEY);
             if (string.IsNullOrWhiteSpace(gamePath))
             {
                 throw new DirectoryNotFoundException("Game path is not set. Please configure it in the SDK window.");
@@ -163,7 +164,7 @@ namespace CoreLib.Editor
             string rootAssemblyPath,
             ModBuilderSettings settings)
         {
-            foreach (string platform in SupportedPlatforms)
+            foreach (string platform in SUPPORTED_PLATFORMS)
             {
                 if (platform == "Linux" && !settings.GetShouldBuildForLinux()) continue;
                 CompileBurst(burstCompiler, assemblyStagingDir, burstAssemblyBasePath, rootAssemblyPath, platform);

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workbenchType: 0
   itemID: PlayerSkinTest:TestBench
+  rarity: 2
   bigIcon: {fileID: 6052145283139932220, guid: 75c9105165a4c884ab9cd8a222202c1d, type: 3}
   smallIcon: {fileID: 4889364612262949874, guid: 75c9105165a4c884ab9cd8a222202c1d,
     type: 3}
@@ -30,7 +31,13 @@ MonoBehaviour:
     amount: 10
   relatedWorkbenches: []
   refreshRelatedWorkbenchTitles: 0
-  title: PlayerSkinTest/Title
-  leftTitle: PlayerSkinTest/Title
-  rightTitle: PlayerSkinTest/Title
+  titles:
+  - mTerm: PlayerSkinTest/Title
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
   skin: 0
+  title: 
+  leftTitle: 
+  rightTitle: 

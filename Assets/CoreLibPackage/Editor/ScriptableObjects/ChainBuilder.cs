@@ -109,7 +109,7 @@ namespace CoreLib.Editor
     [CustomEditor(typeof(ChainBuilder))]
     public class ChainBuilderEditor : UnityEditor.Editor
     {
-        private const string GameInstallPathKey = "PugMod/SDKWindow/GamePath";
+        private const string GAME_INSTALL_PATH_KEY = "PugMod/SDKWindow/GamePath";
 
         private static EditorCoroutine _coroutine;
 
@@ -148,7 +148,7 @@ namespace CoreLib.Editor
 
             if (!builder.isBuilding) return;
             
-            if (!EditorPrefs.HasKey(GameInstallPathKey))
+            if (!EditorPrefs.HasKey(GAME_INSTALL_PATH_KEY))
             {
                 Debug.LogError("You will need to choose the game install path in \"Find game files\" tab");
                 StopAction(builder);
@@ -264,7 +264,7 @@ namespace CoreLib.Editor
                 var data = new AsyncWrapper<ResultAnd<ModProfile>>(this, GetModAsync(modIoMod));
                 yield return data.Coroutine;
                 
-                var result = data.Result.result;
+                var result = data.result.result;
                 if (result.errorCode == 20303 || !result.Succeeded())
                 {
                     Debug.LogError($"failed to fetch mod info for mod with ID {modID}: {result.message} (code: {result.errorCode}");
@@ -272,7 +272,7 @@ namespace CoreLib.Editor
                     yield return null;
                 }
                 
-                var value = data.Result.value;
+                var value = data.result.value;
                 Debug.Assert(modIoMod != null && modIoMod.modId == value.id);
                 
                 Debug.Log($"Mod: {metadataName} Last Updated: {value.dateUpdated}");
@@ -355,7 +355,7 @@ namespace CoreLib.Editor
 
         private static void BuildLocal(ChainBuilder builder, ModSettings settings)
         {
-            string path = EditorPrefs.GetString(GameInstallPathKey);
+            string path = EditorPrefs.GetString(GAME_INSTALL_PATH_KEY);
             
             if (Directory.Exists(Path.Combine(path, "CoreKeeper_Data")))
             {

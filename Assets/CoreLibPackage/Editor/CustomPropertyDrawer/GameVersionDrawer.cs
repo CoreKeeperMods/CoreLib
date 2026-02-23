@@ -47,7 +47,7 @@ namespace CoreLib.Editor
                     var modIOTag = (ModIOTagAttribute)attribute;
             
                     if (_allTags.Length == 0) return;
-                    var allTags = _allTags.Where(x => modIOTag.SelectedTagKind.Contains(x.name) && x.hidden != true).ToArray();
+                    var allTags = _allTags.Where(x => modIOTag.selectedTagKind.Contains(x.name) && x.hidden != true).ToArray();
                     if (allTags.Length == 0) return;
 
                     var menu = new GenericMenu();

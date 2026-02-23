@@ -56,7 +56,7 @@ namespace CoreLib.Editor
             var swapToProperty = _serializedObject.FindProperty("swapTo");
             EditorGUILayout.PropertyField(swapToProperty);
             _serializedObject.ApplyModifiedProperties();
-            if (!ClassReferenceDropdownAttribute.AllClassTypes.Exists(x => x != null && x.Name == swapTo)) return;
+            if (!ClassReferenceDropdownAttribute.ALL_CLASS_TYPES.Exists(x => x != null && x.Name == swapTo)) return;
             var centeredStyle = GUI.skin.GetStyle("HelpBox");
             centeredStyle.alignment = TextAnchor.MiddleCenter;
             EditorGUILayout.Separator();
@@ -70,7 +70,7 @@ namespace CoreLib.Editor
             if (swapTo != null)
             {
                 var gameObject = _originalComponent.gameObject;
-                var type = ClassReferenceDropdownAttribute.AllClassTypes.Find(x => x != null && x.Name == swapTo);
+                var type = ClassReferenceDropdownAttribute.ALL_CLASS_TYPES.Find(x => x != null && x.Name == swapTo);
                 var newComponent = gameObject.AddComponent(type);
 
                 var originalFields = _originalComponent.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);

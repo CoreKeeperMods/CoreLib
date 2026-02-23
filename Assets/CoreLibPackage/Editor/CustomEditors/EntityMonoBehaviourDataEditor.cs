@@ -5,15 +5,16 @@ using UnityEditor;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
-namespace CoreLib.Editor {
+namespace CoreLib.Editor
+{
     
     /// <summary>Custom editor class for managing the EntityMonoBehaviourData component in the Unity Inspector.</summary>
     [CustomEditor(typeof(EntityMonoBehaviourData))]
     public class EntityMonoBehaviourDataEditor : UnityEditor.Editor
     {
-        private const string MigrateButtonLabel = "Migrate To Object Authoring";
-        private const string AlreadyHasObjectAuthoringWarning = "Cannot convert! Prefab already contains ObjectAuthoring!";
-        private const string NullObjectInfoWarning = "Cannot convert! 'objectInfo' is null.";
+        private const string MIGRATE_BUTTON_LABEL = "Migrate To Object Authoring";
+        private const string ALREADY_HAS_OBJECT_AUTHORING_WARNING = "Cannot convert! Prefab already contains ObjectAuthoring!";
+        private const string NULL_OBJECT_INFO_WARNING = "Cannot convert! 'objectInfo' is null.";
         private string[] _objectIDs;
 
         /// <summary>Draws the custom inspector GUI for the EntityMonoBehaviourData component.</summary>
@@ -21,7 +22,7 @@ namespace CoreLib.Editor {
         {
             base.OnInspectorGUI();
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-            if (!GUILayout.Button(MigrateButtonLabel, GUILayout.Height(25))) return;
+            if (!GUILayout.Button(MIGRATE_BUTTON_LABEL, GUILayout.Height(25))) return;
             
             var entityData = (EntityMonoBehaviourData)target;
             _objectIDs = Enum.GetNames(typeof(ObjectID));
@@ -36,13 +37,13 @@ namespace CoreLib.Editor {
             if (entityData is null) return false;
 
             if (entityData.TryGetComponent(out ObjectAuthoring _)) {
-                Debug.LogWarning(AlreadyHasObjectAuthoringWarning);
+                Debug.LogWarning(ALREADY_HAS_OBJECT_AUTHORING_WARNING);
                 return false;
             }
 
             var objectInfo = entityData.objectInfo;
             if (objectInfo == null) {
-                Debug.LogWarning(NullObjectInfoWarning);
+                Debug.LogWarning(NULL_OBJECT_INFO_WARNING);
                 return false;
             }
 
