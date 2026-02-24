@@ -14,6 +14,7 @@
     "com.unity.render-pipelines.universal": "17.0.4",
     "com.unity.test-framework": "1.6.0",
     "com.unity.toolchain.win-x86_64-linux-x86_64": "2.0.10",
+    "dev.pugstorm.corekeeper.assets": "file:../ImportedGameFolders/dev.pugstorm.corekeeper.assets-1.2.0.tgz",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.assetbundle": "1.0.0",
