@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ScriptableDataExamples.zip.meta
 guid: 13d0d9bb561ae3b4e82c5bff3228e6ff
+========
+guid: c066f683ae7d4fe44ab920a22865e4a9
+>>>>>>>> main:Packages/com.unity.addressables/Tests/Editor/Expected/~GroupEditorTests_Group.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
