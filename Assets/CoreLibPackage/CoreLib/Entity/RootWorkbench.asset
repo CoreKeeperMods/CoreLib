@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workbenchType: 0
   itemID: CoreLib:RootModWorkbench
+  rarity: 0
   bigIcon: {fileID: 6052145283139932220, guid: 75c9105165a4c884ab9cd8a222202c1d, type: 3}
   smallIcon: {fileID: 4889364612262949874, guid: 75c9105165a4c884ab9cd8a222202c1d,
     type: 3}
@@ -30,3 +31,6 @@ MonoBehaviour:
   refreshRelatedWorkbenchTitles: 1
   titles: []
   skin: 0
+  title: 
+  leftTitle: 
+  rightTitle: 

@@ -65,14 +65,9 @@ namespace CoreLib.Submodule.UserInterface
             where T : class, IModUI
         {
             Instance.ThrowIfNotLoaded();
-            if (!modInterfaces.ContainsKey(interfaceID))
-            {
-                log.LogError($"Trying to get UI '{interfaceID}', which is not registered!");
-                return null;
-            }
-
-            IModUI modUI = modInterfaces[interfaceID];
-            return modUI as T;
+            if (modInterfaces.TryGetValue(interfaceID, out var modUI)) return modUI as T;
+            log.LogError($"Trying to get UI '{interfaceID}', which is not registered!");
+            return null;
         }
 
 
@@ -94,6 +89,7 @@ namespace CoreLib.Submodule.UserInterface
         }
 
         /// Opens the modded user interface with the specified identifier.
+        /// <param name="openBehaviour"> The behavior associated with the user interface being opened.</param>
         /// <param name="interfaceID">The identifier of the user interface to open.</param>
         [Preserve]
         public static void OpenModUI(EntityMonoBehaviour openBehaviour, string interfaceID)
@@ -132,7 +128,7 @@ namespace CoreLib.Submodule.UserInterface
         private static EntityMonoBehaviour _currentInteractionMonoBehaviour;
 
         /// Represents the entity currently involved in interaction logic within the <see cref="UserInterfaceModule"/>.
-        /// This static field is utilized to track the active entity associated with the interactive user interface system.
+        /// This static field is used to track the active entity associated with the interactive user interface system.
         private static Unity.Entities.Entity _currentInteractionEntity;
 
         /// Represents the currently active user interface in the <see cref="UserInterfaceModule"/>.
@@ -156,7 +152,7 @@ namespace CoreLib.Submodule.UserInterface
         /// such as opening, managing, and registering modded UIs.
         internal static UserInterfaceModule Instance => CoreLibMod.GetModuleInstance<UserInterfaceModule>();
 
-        /// Configures and applies necessary hooks for the user interface module by patching relevant components.
+        /// Configures and applies the necessary hooks for the user interface module by patching relevant components.
         /// <remarks>
         /// This method is responsible for integrating the module-specific hook operations
         /// into the system by applying patches to targeted components or features.
@@ -176,6 +172,7 @@ namespace CoreLib.Submodule.UserInterface
         }
 
         /// Opens a modular user interface associated with the provided interface ID and entity.
+        /// <param name="openBehaviour">The MonoBehavior associated with the entity for which the user interface should be opened.</param>
         /// <param name="openEntity">The entity for which the user interface should be opened.</param>
         /// <param name="interfaceID">The identifier of the interface to be opened.</param>
         private static void OpenModUI(EntityMonoBehaviour openBehaviour, Unity.Entities.Entity openEntity, string interfaceID)
@@ -189,13 +186,11 @@ namespace CoreLib.Submodule.UserInterface
 
             modUI.ShowUI();
             currentInterface = modUI;
-            if (modUI.ShowWithPlayerInventory)
-            {
-                if (modUI.ShouldPlayerCraftingShow)
-                    Manager.ui.OnPlayerInventoryOpen();
-                else
-                    PlayerInventoryOpenNoCrafting(Manager.ui);
-            }
+            if (!modUI.ShowWithPlayerInventory) return;
+            if (modUI.ShouldPlayerCraftingShow)
+                Manager.ui.OnPlayerInventoryOpen();
+            else
+                PlayerInventoryOpenNoCrafting(Manager.ui);
         }
 
         /// Opens the player's inventory UI without enabling crafting-related elements.
@@ -210,20 +205,16 @@ namespace CoreLib.Submodule.UserInterface
                 uiManager.OnMapToggle();
             }
 
-            PlayerController player = Manager.main.player;
-
             uiManager.creativeModeUI.HideContainerUI();
             uiManager.creativeModeOptionsUI.Hide();
 
             uiManager.characterWindow.Hide();
-            AudioManager.SfxUI(SfxID.chestopen, 1f, true, 0.5f, 0.15f);
+            AudioManager.SfxUI(SfxID.chestopen, 1f, true, 0.5f);
 
-            if (Manager.ui.currentSelectedUIElement != null && 
-                !Manager.ui.currentSelectedUIElement.gameObject.activeInHierarchy)
-            {
-                Manager.ui.DeselectAnySelectedUIElement();
-                uiManager.mouse.UpdateMouseUIInput(out bool _, out bool _);
-            }
+            if (Manager.ui.currentSelectedUIElement == null ||
+                Manager.ui.currentSelectedUIElement.gameObject.activeInHierarchy) return;
+            Manager.ui.DeselectAnySelectedUIElement();
+            uiManager.mouse.UpdateMouseUIInput(out bool _, out bool _);
         }
 
         #endregion
