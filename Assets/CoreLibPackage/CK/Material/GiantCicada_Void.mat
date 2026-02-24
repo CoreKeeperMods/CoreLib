@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GiantCicada_Void
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 16ee3bb818f17af4ca7a71615271eb55, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample1:
+        m_Texture: {fileID: 2800000, guid: 319f825d56f01a94d9987f83b0af2281, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaCutoff: 0.5
+    - _Cutoff: 0.5
+    - _EdgeCutoffMax: 1
+    - _EdgeCutoffMin: 0.942
+    - _Emissive: 4.8
+    - _EmissiveStrength: 1
+    - _EnvironmentReflections: 1
+    - _Float0: 0.9
+    - _Float2: 0.5
+    - _InnerNoiseStrength: 0
+    - _NoiseScale: 1.01
+    - _NoiseStrength: 0.342
+    - _OuterNoiseStrength: 0.156
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _SpecularHighlights: 1
+    - _StarBrightness: 0.056
+    - _StarScale: 2.35
+    - _StarScrollSpeed: -0.1
+    - _TimeScale: 0.0567
+    - _UseReplacementTex: 0
+    - _VoidEmissiveStrength: 1
+    - __dirty: 0
+    - _alphaclip: 0.5
+    - _useAdditive: 0
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissiveColor: {r: 0, g: 2.270603, b: 0.2460367, a: 1}
+    - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 0

@@ -8,7 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SunBeamAmplify
-  m_Shader: {fileID: 4800000, guid: 5329a08211ea3db478223b9a8f6f85b6, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - ETC1_EXTERNAL_ALPHA
@@ -18,11 +20,12 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 8400000, guid: b2263467e0047a1459d17b41b9764f68, type: 2}
+        m_Texture: {fileID: 8400000, guid: bc1414027dc42984cb4288d0453737b7, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -44,3 +47,4 @@ Material:
     - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
     - _wobblePosition: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 0

@@ -17,7 +17,7 @@ namespace MG.MDV
 
             if( fencedCodeBlock != null && !string.IsNullOrEmpty( fencedCodeBlock.Info ) )
             {
-                
+                // TODO: support for syntax hightlighting ...
                 // https://archive.codeplex.com/?p=colorcode
                 //UnityEngine.Debug.Log( fencedCodeBlock.Info );
             }

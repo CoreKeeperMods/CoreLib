@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc43e4983a160e543856e5ba0421c9e1, type: 3}
+  m_Name: PlayerSkinTest
+  m_EditorClassIdentifier: 
+  metadata:
+    guid: 2a661b4ba3f142b6b38e80e549f908be
+    name: PlayerSkinTest
+    skipSafetyChecks: 1
+    disableScripts: 0
+    accessesExtraAssemblies: 1
+    disableHarmonyPatching: 0
+    requiredOn: 0
+    files:
+    - path: Scripts/PlayerSkinTest.cs
+      guid: 3b994ab2fe1365749b8765b01ab430f6
+    - path: Bundles/PlayerSkinTest_Windows.assetbundle
+      guid: 
+    - path: Bundles/PlayerSkinTest_Windows.assetbundle.manifest
+      guid: 
+    - path: Bundles/PlayerSkinTest_Linux.assetbundle
+      guid: 
+    - path: Bundles/PlayerSkinTest_Linux.assetbundle.manifest
+      guid: 
+    dependencies:
+    - modName: CoreLib
+      required: 1
+  modPath: Assets\PlayerSkinTest
+  forceReimport: 1
+  buildBundles: 1
+  cacheBundles: 0
+  buildLinux: 1
+  assets:
+  - path: Assets/PlayerSKinTest/Data/PlayerSkinTest.asset
+    hash: ED62465A9DB01DC34F46D012DB9A2B72C8FC3E44B45FE83D1EDFF34249DD8CFC
+  - path: Assets/PlayerSKinTest/Data/TextDataBlock/Items/PlayerSkinTestTestBench.asset
+    hash: 85A9A9BC625A65E2F12CBDD2E5491738FE525A867A3363F8ED180624B69D6332
+  - path: Assets/PlayerSKinTest/Data/TextDataBlock/Items/PlayerSkinTestTestBench2.asset
+    hash: BF10A6BA81BF767B7B93C467D943C6554F73FD86AE4F7F6C6707EA4568C98669
+  - path: Assets/PlayerSKinTest/Data/TextDataBlock/Mods/PlayerSkinTest.asset
+    hash: 7062AD14B189705309F7C0A59AED55A669FAB83B375AEC90B849F4C98AEC1780
+  - path: Assets/PlayerSKinTest/Data/TextDataBlock/PlayerSkinText/Title.asset
+    hash: FBB06D891A0F6CFA957979DA7E5B1E0A2A7B81CB7DC73C1C1E16DAD2798E5D1D
+  - path: Assets/PlayerSKinTest/Data/TextDataBlock/PlayerSkinText/Title2.asset
+    hash: FC1FA22F0D79781B3BF083CD167FAFD45628683309152D97A0BE76365ADAEC1E
+  - path: Assets/PlayerSKinTest/PlayerSkinTest.asset
+    hash: 5EAF106855F39463C07F5D7E66460DE91402ADFFDB3128CDDE15E677EE270DB9
+  - path: Assets/PlayerSKinTest/PlayerSkinTest_modio.asset
+    hash: EE6E11C067E760294481F0ED3D98C91323136D77CD2622723CEF282A397A8F86
+  - path: Assets/PlayerSKinTest/TestBench 1.asset
+    hash: FC100C163C56F0BA47E8281A09FB0147AC649F61EBC6880B6822013CD6D0C821
+  - path: Assets/PlayerSKinTest/TestBench.asset
+    hash: 1199AD350A91A616CB03FF8DA4FEC9238112E56392E0F43B2A7C902FC0ED05C3
+  lastBuildLinux: 1

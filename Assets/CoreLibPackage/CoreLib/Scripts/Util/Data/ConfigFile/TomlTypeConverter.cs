@@ -7,140 +7,119 @@ using PugMod;
 
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
-    /// <summary>
     ///     Serializer/deserializer used by the config system.
-    /// </summary>
     public static class TomlTypeConverter
     {
-        // Don't put anything from UnityEngine here or it will break preloader, use LazyTomlConverterLoader instead
+        // Don't put anything from UnityEngine here, or it will break preloader, use LazyTomlConverterLoader instead
         private static Dictionary<Type, TypeConverter> TypeConverters { get; } = new()
         {
             [typeof(string)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => Escape((string) obj),
-                ConvertToObject = (str, type) =>
-                {
-                    // Check if the string is a file path with unescaped \ path separators (e.g. D:\test and not D:\\test)
-                    if (Regex.IsMatch(str, @"^""?\w:\\(?!\\)(?!.+\\\\)"))
-                        return str;
-                    return Unescape(str);
-                }
+                ConvertToString = (obj, _) => Escape((string) obj),
+                ConvertToObject = (str, _) => Regex.IsMatch(str, @"^""?\w:\\(?!\\)(?!.+\\\\)") ? str : Unescape(str)
             },
             [typeof(bool)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString().ToLowerInvariant(),
-                ConvertToObject = (str, type) => bool.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString().ToLowerInvariant(),
+                ConvertToObject = (str, _) => bool.Parse(str)
             },
             [typeof(byte)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
-                ConvertToObject = (str, type) => byte.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString(),
+                ConvertToObject = (str, _) => byte.Parse(str)
             },
 
             //integral types
 
             [typeof(sbyte)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
-                ConvertToObject = (str, type) => sbyte.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString(),
+                ConvertToObject = (str, _) => sbyte.Parse(str)
             },
             [typeof(byte)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
-                ConvertToObject = (str, type) => byte.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString(),
+                ConvertToObject = (str, _) => byte.Parse(str)
             },
             [typeof(short)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
-                ConvertToObject = (str, type) => short.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString(),
+                ConvertToObject = (str, _) => short.Parse(str)
             },
             [typeof(ushort)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
-                ConvertToObject = (str, type) => ushort.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString(),
+                ConvertToObject = (str, _) => ushort.Parse(str)
             },
             [typeof(int)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
-                ConvertToObject = (str, type) => int.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString(),
+                ConvertToObject = (str, _) => int.Parse(str)
             },
             [typeof(uint)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
-                ConvertToObject = (str, type) => uint.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString(),
+                ConvertToObject = (str, _) => uint.Parse(str)
             },
             [typeof(long)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
-                ConvertToObject = (str, type) => long.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString(),
+                ConvertToObject = (str, _) => long.Parse(str)
             },
             [typeof(ulong)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
-                ConvertToObject = (str, type) => ulong.Parse(str)
+                ConvertToString = (obj, _) => obj.ToString(),
+                ConvertToObject = (str, _) => ulong.Parse(str)
             },
 
             //floating point types
 
             [typeof(float)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => ((float) obj).ToString(NumberFormatInfo.InvariantInfo),
-                ConvertToObject = (str, type) => float.Parse(str, NumberFormatInfo.InvariantInfo)
+                ConvertToString = (obj, _) => ((float) obj).ToString(NumberFormatInfo.InvariantInfo),
+                ConvertToObject = (str, _) => float.Parse(str, NumberFormatInfo.InvariantInfo)
             },
             [typeof(double)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => ((double) obj).ToString(NumberFormatInfo.InvariantInfo),
-                ConvertToObject = (str, type) => double.Parse(str, NumberFormatInfo.InvariantInfo)
+                ConvertToString = (obj, _) => ((double) obj).ToString(NumberFormatInfo.InvariantInfo),
+                ConvertToObject = (str, _) => double.Parse(str, NumberFormatInfo.InvariantInfo)
             },
             [typeof(decimal)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => ((decimal) obj).ToString(NumberFormatInfo.InvariantInfo),
-                ConvertToObject = (str, type) => decimal.Parse(str, NumberFormatInfo.InvariantInfo)
+                ConvertToString = (obj, _) => ((decimal) obj).ToString(NumberFormatInfo.InvariantInfo),
+                ConvertToObject = (str, _) => decimal.Parse(str, NumberFormatInfo.InvariantInfo)
             },
 
             //enums are special
 
             [typeof(Enum)] = new TypeConverter
             {
-                ConvertToString = (obj, type) => obj.ToString(),
+                ConvertToString = (obj, _) => obj.ToString(),
                 ConvertToObject = (str, type) => Enum.Parse(type, str, true)
             }
         };
 
-        /// <summary>
         ///     Convert object of a given type to a string using available converters.
-        /// </summary>
         public static string ConvertToString(object value, Type valueType)
         {
             var conv = GetConverter(valueType);
-            if (conv == null)
-                throw new InvalidOperationException($"Cannot convert from type {valueType}");
-
-            return conv.ConvertToString(value, valueType);
+            return conv == null ? throw new InvalidOperationException($"Cannot convert from type {valueType}") : conv.ConvertToString(value, valueType);
         }
 
-        /// <summary>
         ///     Convert string to an object of a given type using available converters.
-        /// </summary>
         public static T ConvertToValue<T>(string value) => (T) ConvertToValue(value, typeof(T));
 
-        /// <summary>
         ///     Convert string to an object of a given type using available converters.
-        /// </summary>
         public static object ConvertToValue(string value, Type valueType)
         {
             var conv = GetConverter(valueType);
-            if (conv == null)
-                throw new InvalidOperationException($"Cannot convert to type {valueType.GetNameChecked()}");
-
-            return conv.ConvertToObject(value, valueType);
+            return conv == null ? throw new InvalidOperationException($"Cannot convert to type {valueType.GetNameChecked()}") : conv.ConvertToObject(value, valueType);
         }
 
-        /// <summary>
         ///     Get a converter for a given type if there is any.
-        /// </summary>
         public static TypeConverter GetConverter(Type valueType)
         {
             if (valueType == null)
@@ -154,17 +133,15 @@ namespace CoreLib.Data.Configuration
             return result;
         }
 
-        /// <summary>
         ///     Add a new type converter for a given type.
         ///     If a different converter is already added, this call is ignored and false is returned.
-        /// </summary>
         public static bool AddConverter(Type type, TypeConverter converter)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
             if (converter == null) throw new ArgumentNullException(nameof(converter));
             if (CanConvert(type))
             {
-                CoreLibMod.Log.LogWarning("Tried to add a TomlConverter when one already exists for type " + type.FullName);
+                CoreLibMod.log.LogWarning("Tried to add a TomlConverter when one already exists for type " + type.FullName);
                 return false;
             }
 
@@ -172,14 +149,10 @@ namespace CoreLib.Data.Configuration
             return true;
         }
 
-        /// <summary>
         ///     Check if a given type can be converted to and from string.
-        /// </summary>
         public static bool CanConvert(Type type) => GetConverter(type) != null;
 
-        /// <summary>
         ///     Give a list of types with registered converters.
-        /// </summary>
         public static IEnumerable<Type> GetSupportedTypes() => TypeConverters.Keys;
 
         private static string Escape(this string txt)
@@ -187,7 +160,7 @@ namespace CoreLib.Data.Configuration
             if (string.IsNullOrEmpty(txt)) return string.Empty;
 
             var stringBuilder = new StringBuilder(txt.Length + 2);
-            foreach (var c in txt)
+            foreach (char c in txt)
                 switch (c)
                 {
                     case '\0':
@@ -236,15 +209,15 @@ namespace CoreLib.Data.Configuration
             if (string.IsNullOrEmpty(txt))
                 return txt;
             var stringBuilder = new StringBuilder(txt.Length);
-            for (var i = 0; i < txt.Length;)
+            for (int i = 0; i < txt.Length;)
             {
-                var num = txt.IndexOf('\\', i);
+                int num = txt.IndexOf('\\', i);
                 if (num < 0 || num == txt.Length - 1)
                     num = txt.Length;
                 stringBuilder.Append(txt, i, num - i);
                 if (num >= txt.Length)
                     break;
-                var c = txt[num + 1];
+                char c = txt[num + 1];
                 switch (c)
                 {
                     case '0':

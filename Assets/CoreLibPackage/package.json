@@ -1,13 +1,25 @@
 {
   "name": "ck.modding.corelib",
-  "displayName":"Core Lib",
-  "version": "3.0.1",
-  "unity": "2021.3",
-  "keywords": [],
+  "author":"Core Keeper Mods",
+  "version": "4.0.0",
+  "license": "GPL-3.0-only",
+  "displayName":"Core Library Package",
+  "unity": "6000.0",
   "category": "Modding",
-  "description": "A modding library for Core Keeper. Provides features that makes modding Core Keeper easier.",
+  "changelogUrl": "https://github.com/CoreKeeperMods/CoreLib/blob/4.0.0-update/Assets/CoreLibPackage/CHANGELOG.md",
   "dependencies": {
-    "com.unity.editorcoroutines": "1.0.0",
-    "ck.modding.markdig": "0.33.0"
+    "com.unity.editorcoroutines": "1.0.1"
+  },
+  "documentationUrl": "https://corekeepermods.github.io/#/",
+  "description": "A modding library for Core Keeper. Provides features that makes modding Core Keeper easier.",
+  "keywords": ["core keeper", "modding", "library"],
+  "licensesUrl": "https://github.com/CoreKeeperMods/CoreLib/blob/4.0.0-update/Assets/CoreLibPackage/LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoreKeeperMods/CoreLib.git",
+    "directory": "Assets/CoreLibPackage#4.0.0-update"
+  },
+  "bugs": {
+    "url": "https://github.com/CoreKeeperMods/CoreLib/issues"
   }
 }

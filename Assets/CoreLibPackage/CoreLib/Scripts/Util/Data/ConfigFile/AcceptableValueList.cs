@@ -2,17 +2,14 @@
 using System.Linq;
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
-    /// <summary>
     ///     Specify the list of acceptable values for a setting.
-    /// </summary>
     public class AcceptableValueList<T> : AcceptableValueBase where T : IEquatable<T>
     {
-        /// <summary>
         ///     Specify the list of acceptable values for a setting.
         ///     If the setting does not equal any of the values, it will be set to the first one.
-        /// </summary>
         public AcceptableValueList(params T[] acceptableValues) : base(typeof(T))
         {
             if (acceptableValues == null) throw new ArgumentNullException(nameof(acceptableValues));
@@ -22,18 +19,13 @@ namespace CoreLib.Data.Configuration
             AcceptableValues = acceptableValues;
         }
 
-        /// <summary>
         ///     List of values that a setting can take.
-        /// </summary>
         public virtual T[] AcceptableValues { get; }
 
         /// <inheritdoc />
         public override object Clamp(object value)
         {
-            if (IsValid(value))
-                return value;
-
-            return AcceptableValues[0];
+            return IsValid(value) ? value : AcceptableValues[0];
         }
 
         /// <inheritdoc />

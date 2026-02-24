@@ -2,11 +2,6 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-.vsconfig
-Player/
-/[Aa]ssets/Plugins/CoreKeeper*
-/[Aa]ssets/CK*
-
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -14,6 +9,9 @@ Player/
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+
+/Packages/dev.pugstorm.mod/SDK/Editor/ModPaths.asset
+/Packages/dev.pugstorm.mod/SDK/Editor/ModPaths.asset.meta
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -81,3 +79,16 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Vim
+*.swp
+
+# Jetbrains
+.idea/
+
+# Custom
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata*
+/[Aa]ssets/Plugins/CoreKeeper*
+/[Aa]ssets/Prefabs*
+/[Aa]ssets/Examples*
+/[Ii]mported[Gg]ame[Ff]olders*

@@ -8,11 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SunBeamParticles
-  m_Shader: {fileID: 4800000, guid: 25773dc7b7ce5b149b4bb3594ba98527, type: 3}
-  m_ValidKeywords:
-  - FLICKER_ON
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - ETC1_EXTERNAL_ALPHA
+  - FLICKER_ON
   - _PIXELSNAP_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -20,14 +22,15 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: bdad5545f303c2244a10d68c9299e57d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 653902c2b64a914419a0943b516922c4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints: {}
+    m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
     - _Blend: 0
@@ -47,9 +50,11 @@ Material:
     - __dirty: 0
     - _wobbleScale: 0
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
     - _wobblePosition: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 0

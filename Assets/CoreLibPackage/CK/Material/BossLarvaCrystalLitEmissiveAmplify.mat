@@ -8,16 +8,20 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BossLarvaCrystalLitEmissiveAmplify
-  m_Shader: {fileID: 4800000, guid: 5329a08211ea3db478223b9a8f6f85b6, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - ETC1_EXTERNAL_ALPHA
+  - _USEPITFADE_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -30,6 +34,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReplacementTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -52,8 +60,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddDirectionalLight: 0
-    - _AlphaClipThreshold: 0.5
     - _AlphaCutoff: 0.5
+    - _CrystalFeaturesOn: 0
     - _Cull: 0
     - _Cutoff: 0.5
     - _DirLightShadowOpacity: 1
@@ -61,6 +69,8 @@ Material:
     - _EmissiveIndirectMultiplier: 1
     - _EnvironmentReflections: 1
     - _FlashAmount: 0
+    - _GlitterAmountSide: 0.025
+    - _GlitterAmountTop: 0.1
     - _MultiplyFlashTintWithLight: 0
     - _NoDirectionalShadow: 0
     - _QueueControl: 0
@@ -73,6 +83,8 @@ Material:
     - _SpriteIsLyingDown: 0
     - _TransparentPass: 0
     - _UseOuter: 0
+    - _UsePitFade: 1
+    - _UseReplacementTex: 0
     - __dirty: 0
     - _useTransparentVertices: 1
     m_Colors:
@@ -80,6 +92,7 @@ Material:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Emissive: {r: 0, g: 1.3975757, b: 4.237095, a: 1}
     - _EmissiveColor: {r: 0, g: 0.50980395, b: 2, a: 1}
+    - _GlitterColor: {r: 4.894118, g: 17.81961, b: 23.96863, a: 0}
     - _MaxUV: {r: 0, g: 0, b: 0, a: 0}
     - _MinUV: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0.51886785, g: 0.51886785, b: 0.51886785, a: 1}
@@ -88,3 +101,4 @@ Material:
     - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
     - _Tint: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 0

@@ -1,11 +1,10 @@
 ﻿using System;
 //All code in this folder is from BepInEx library and is licensed under LGPL-2.1 license.
 
+// ReSharper disable once CheckNamespace
 namespace CoreLib.Data.Configuration
 {
-    /// <summary>
     ///     Specify the range of acceptable values for a setting.
-    /// </summary>
     public class AcceptableValueRange<T> : AcceptableValueBase where T : IComparable
     {
         /// <param name="minValue">Lowest acceptable value</param>
@@ -23,14 +22,10 @@ namespace CoreLib.Data.Configuration
             MaxValue = maxValue;
         }
 
-        /// <summary>
         ///     Lowest acceptable value
-        /// </summary>
         public virtual T MinValue { get; }
 
-        /// <summary>
         ///     Highest acceptable value
-        /// </summary>
         public virtual T MaxValue { get; }
 
         /// <inheritdoc />
@@ -39,10 +34,7 @@ namespace CoreLib.Data.Configuration
             if (MinValue.CompareTo(value) > 0)
                 return MinValue;
 
-            if (MaxValue.CompareTo(value) < 0)
-                return MaxValue;
-
-            return value;
+            return MaxValue.CompareTo(value) < 0 ? MaxValue : value;
         }
 
         /// <inheritdoc />

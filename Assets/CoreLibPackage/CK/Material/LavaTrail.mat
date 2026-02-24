@@ -8,7 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LavaTrail
-  m_Shader: {fileID: 4800000, guid: 5329a08211ea3db478223b9a8f6f85b6, type: 3}
+  m_Shader: {fileID: 4800000, guid: 17c72af7f6995fa4c87a7c005867816e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _DISTORTMAINTEXTURE_ON
@@ -19,23 +21,24 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _DissolveTexture:
-        m_Texture: {fileID: 2800000, guid: 45b3d1c8846ec35469a57bbfb2f2e690, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3699424769715fd419a4b8cee07ce84e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DistortionTexture:
-        m_Texture: {fileID: 2800000, guid: 488b89cf6eab64d4293d54bb37836301, type: 3}
+        m_Texture: {fileID: 2800000, guid: b856eee3f2c92d44d9cc398e51328d53, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d082be522183a8446ad0233f84ba62ed, type: 3}
+        m_Texture: {fileID: 2800000, guid: 54f7f02d48968c740abc07eb500d8386, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 2800000, guid: 1439e8a3017498e44b3cc7fdeaa8e3ee, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0e8cf6f3294ca78489bebb29ceb50f02, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -98,3 +101,4 @@ Material:
     - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+  m_AllowLocking: 0
