@@ -136,8 +136,8 @@ MonoBehaviour:
         m_high: 2314507893210082619
     title: Root Workbench
     description: This workbench contains all modded items!
-  m_shouldBeLocalized: 1
-  m_header: ackage/CoreLib/Data/TextDataBlock/Items
+  m_shouldBeLocalized: 0
+  m_header: Items
   references:
     version: 2
     RefIds: []
