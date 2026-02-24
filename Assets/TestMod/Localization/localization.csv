@@ -1,6 +1,0 @@
-Key	Type	Desc	English	German	French (France)	Portuguese (Brazil)	Italian (Italy)	Japanese	Korean	Russian	Spanish	Ukrainian	Chinese (Simplified)	Chinese (Traditional)	Thai
-Items/TestMod:Workbench	Text	Name	Test Workbench	Test Workbench	Test Workbench	Test Workbench	Test Workbench	Test Workbench	Test Workbench	Test Workbench	Test Workbench	Test Workbench	Test Workbench	Test Workbench	Test Workbench
-Items/TestMod:WorkbenchDesc	Text	Desc	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!	Testing stuff works!
-Items/TestMod:Wrench	Text	Name	Wrench	Wrench	Wrench	Wrench	Wrench	Wrench	Wrench	Wrench	Wrench	Wrench	Wrench	Wrench	Wrench
-Items/TestMod:WrenchDesc	Text	Desc	This should be visible	This should be visible	This should be visible	This should be visible	This should be visible	This should be visible	This should be visible	This should be visible	This should be visible	This should be visible	This should be visible	This should be visible	This should be visible
-Mods/TestMod	Text	Test Mod name	Test Mod	Test Mod	Test Mod	Test Mod	Test Mod	Test Mod	Test Mod	Test Mod	Test Mod	Test Mod	Test Mod	Test Mod	Test Mod

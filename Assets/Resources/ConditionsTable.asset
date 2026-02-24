@@ -22,7 +22,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c619c6354f4d2cc4eb02f5b1135db996, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -35,7 +35,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c699c29f8639a3d41babc42e668dc5a8, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 21300000, guid: c699c29f8639a3d41babc42e668dc5a8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -61,7 +61,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c69917762589ddc4b8dbd809191a79f8, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 11
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 48
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 48
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -180,7 +180,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -195,7 +195,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c63a75ca3ac27654a85dbe828470720c, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c63a75ca3ac27654a85dbe828470720c, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c63a75ca3ac27654a85dbe828470720c, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c63a75ca3ac27654a85dbe828470720c, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 173
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c63a75ca3ac27654a85dbe828470720c, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 173
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c63a75ca3ac27654a85dbe828470720c, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 173
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -273,7 +273,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 1
       skipShowingSignInfrontOfValue: 0
@@ -325,7 +325,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c63a75ca3ac27654a85dbe828470720c, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 51
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c63a75ca3ac27654a85dbe828470720c, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 51
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -405,7 +405,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 29
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -418,7 +418,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -472,7 +472,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c67a2a35c28da854b96005e17735fb44, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c67a2a35c28da854b96005e17735fb44, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -513,7 +513,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c67a2a35c28da854b96005e17735fb44, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -608,7 +608,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -621,7 +621,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -634,7 +634,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 12
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -660,7 +660,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 12
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -686,7 +686,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 12
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -699,7 +699,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -712,7 +712,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -727,7 +727,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -781,7 +781,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -794,7 +794,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c62b7a6402a6c1c4591e7a8c2138fc92, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 150
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -807,7 +807,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -820,7 +820,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -833,7 +833,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -846,7 +846,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -872,7 +872,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 150
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -898,7 +898,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c62b7a6402a6c1c4591e7a8c2138fc92, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 150
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -911,7 +911,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -924,7 +924,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 150
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -937,7 +937,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 150
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -950,7 +950,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -963,7 +963,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 150
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -976,7 +976,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c699c29f8639a3d41babc42e668dc5a8, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -989,7 +989,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 150
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1002,7 +1002,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1015,7 +1015,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1041,7 +1041,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 1
@@ -1054,7 +1054,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1067,7 +1067,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 10
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1080,7 +1080,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 1
@@ -1093,7 +1093,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1106,7 +1106,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1119,7 +1119,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 10
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1132,7 +1132,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 22
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1145,7 +1145,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 10
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1158,7 +1158,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 10
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1171,7 +1171,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1184,7 +1184,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1197,7 +1197,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 22
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1210,7 +1210,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 22
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1223,7 +1223,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 22
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1262,7 +1262,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 289
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1275,7 +1275,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 289
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1290,7 +1290,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1316,7 +1316,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64ab7357e91c634f8fb718afc7c83b5, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 96
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1331,7 +1331,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 21300000, guid: c62b7a6402a6c1c4591e7a8c2138fc92, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1357,7 +1357,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c63b2a5b10528b347886c75e3d486ea0, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1422,7 +1422,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 21300000, guid: c699c29f8639a3d41babc42e668dc5a8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1463,7 +1463,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1476,7 +1476,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 33
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1489,7 +1489,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 244
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1502,7 +1502,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 21300000, guid: c63b2a5b10528b347886c75e3d486ea0, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1517,7 +1517,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64b2d2e28dbbdf4f8c0f1e2c9c3d99d, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1530,7 +1530,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64b2d2e28dbbdf4f8c0f1e2c9c3d99d, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1543,7 +1543,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64b2d2e28dbbdf4f8c0f1e2c9c3d99d, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1614,7 +1614,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 21300000, guid: c64b2d2e28dbbdf4f8c0f1e2c9c3d99d, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1692,7 +1692,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c6abcacd59348654db630fb49200df41, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1759,7 +1759,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 21300000, guid: c6abcacd59348654db630fb49200df41, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1785,7 +1785,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1800,7 +1800,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: 438c4974b17e2174192ad63ffc76bddb, type: 2}
+      icon: {fileID: -1720149936, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1813,7 +1813,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: 438c4974b17e2174192ad63ffc76bddb, type: 2}
+      icon: {fileID: -1720149936, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1826,7 +1826,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: 438c4974b17e2174192ad63ffc76bddb, type: 2}
+      icon: {fileID: -1720149936, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1841,7 +1841,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1854,7 +1854,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1880,7 +1880,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c699c29f8639a3d41babc42e668dc5a8, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1906,7 +1906,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 5
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1919,7 +1919,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c699c29f8639a3d41babc42e668dc5a8, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1932,7 +1932,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1945,7 +1945,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1958,7 +1958,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 5
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1971,7 +1971,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 5
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1984,7 +1984,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -1997,7 +1997,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 9d650e76a24e97142889f5bfd01c2421, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2051,7 +2051,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c67a2a35c28da854b96005e17735fb44, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2064,7 +2064,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c67a2a35c28da854b96005e17735fb44, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2090,7 +2090,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c67a2a35c28da854b96005e17735fb44, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2116,7 +2116,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c67a2a35c28da854b96005e17735fb44, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2129,7 +2129,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c67a2a35c28da854b96005e17735fb44, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2155,7 +2155,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 510417f9760471c4b8d872ba2475dd9f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2196,7 +2196,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: cdbf54e4ad0849d4d9c9f749b2def03d, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2209,7 +2209,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64c3c743cd08fb4eac7a1185d74d43f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2235,7 +2235,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c69917762589ddc4b8dbd809191a79f8, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2248,7 +2248,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c64c3c743cd08fb4eac7a1185d74d43f, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2274,7 +2274,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 06709832d70ee2d48a16ea4d086d282f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2287,7 +2287,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 06709832d70ee2d48a16ea4d086d282f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2300,7 +2300,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 2c094e8b4d7b4984c841dc7f3b44834f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2367,7 +2367,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 1c472f2a7ff424b449a71c14950e2aa2, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2380,7 +2380,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 1c472f2a7ff424b449a71c14950e2aa2, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 261
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2471,7 +2471,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 1c472f2a7ff424b449a71c14950e2aa2, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 261
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2512,7 +2512,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 81c26ff6c13873f47b61280c0502dafe, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2603,7 +2603,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 81c26ff6c13873f47b61280c0502dafe, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2618,7 +2618,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c699c29f8639a3d41babc42e668dc5a8, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2631,7 +2631,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c699c29f8639a3d41babc42e668dc5a8, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2685,7 +2685,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2698,7 +2698,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2711,7 +2711,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 8a3ca4d6cd3f6394e97a55fb643e0f0e, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2724,7 +2724,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2750,7 +2750,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2763,7 +2763,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2776,7 +2776,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c60ca2e71c3fb964f98397aee8205bdb, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2791,7 +2791,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 16ebb9b8fbc83f44b97186cb67172289, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2830,7 +2830,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c63a75ca3ac27654a85dbe828470720c, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2843,7 +2843,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2921,7 +2921,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 16ebb9b8fbc83f44b97186cb67172289, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 260
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2936,7 +2936,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 510417f9760471c4b8d872ba2475dd9f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2949,7 +2949,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 860a3e87cf73aef46833e5b61fa416fe, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -2988,7 +2988,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 860a3e87cf73aef46833e5b61fa416fe, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3001,7 +3001,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 11400000, guid: c6ea1038a9b53f94ea7a776c7d574249, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 1
@@ -3027,7 +3027,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 860a3e87cf73aef46833e5b61fa416fe, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3040,7 +3040,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 860a3e87cf73aef46833e5b61fa416fe, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 2
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3053,7 +3053,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 860a3e87cf73aef46833e5b61fa416fe, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 1
@@ -3066,7 +3066,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 860a3e87cf73aef46833e5b61fa416fe, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3079,7 +3079,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 510417f9760471c4b8d872ba2475dd9f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3092,7 +3092,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 148224512843bcc48839d9c550fe8101, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3105,7 +3105,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 510417f9760471c4b8d872ba2475dd9f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3118,7 +3118,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 510417f9760471c4b8d872ba2475dd9f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3131,7 +3131,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 510417f9760471c4b8d872ba2475dd9f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 4
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3144,7 +3144,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 510417f9760471c4b8d872ba2475dd9f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3183,7 +3183,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 510417f9760471c4b8d872ba2475dd9f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 4
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3196,7 +3196,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 60ee773fd9f45594cbf59a7e330b8432, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3209,7 +3209,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 60ee773fd9f45594cbf59a7e330b8432, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3330,7 +3330,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 2c094e8b4d7b4984c841dc7f3b44834f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3343,7 +3343,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 2c094e8b4d7b4984c841dc7f3b44834f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3356,7 +3356,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c64b2d2e28dbbdf4f8c0f1e2c9c3d99d, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3369,7 +3369,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 8db17554d785b1843bbae8225e4d6f5a, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3382,7 +3382,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: b0b196db2be31434c81e8bf545f2911b, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3514,7 +3514,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 198b23100e20fba4c81ffef1c4e5a1ac, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3646,7 +3646,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 26b48b5982c5cee478efc68fe68fafc3, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3687,7 +3687,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 5a17cb4645aa09c47b19476da1d2cdb3, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3847,7 +3847,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 2c094e8b4d7b4984c841dc7f3b44834f, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3860,7 +3860,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 3, guid: c699c29f8639a3d41babc42e668dc5a8, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3964,7 +3964,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 2800000, guid: 4f21fcbfa6c765d4aaddb1dafe306129, type: 3}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3977,7 +3977,7 @@ MonoBehaviour:
       isNegative: 1
       isInheritedByProjectiles: 0
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 21300000, guid: c63b2a5b10528b347886c75e3d486ea0, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
@@ -3990,7 +3990,7 @@ MonoBehaviour:
       isNegative: 0
       isInheritedByProjectiles: 1
       overrideIfRemainingValueIsHigher: 0
-      icon: {fileID: 21300000, guid: c63b2a5b10528b347886c75e3d486ea0, type: 2}
+      icon: {fileID: 0}
       useSameDescAsId: 0
       isUnique: 0
       skipShowingSignInfrontOfValue: 0
