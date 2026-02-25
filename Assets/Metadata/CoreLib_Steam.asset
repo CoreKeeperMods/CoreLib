@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef61ecb41356dbc4db1133ad6be0ebf9, type: 3}
   m_Name: CoreLib_Steam
   m_EditorClassIdentifier: 
-  fileId: 3665575529
+  fileId: 3673516180
   modOwner: 76561198055290994
   modName: CoreLib
   selectedPath: C:\SteamLibrary\steamapps\common\Core Keeper Ambassador\CoreKeeper_Data\StreamingAssets\Mods\CoreLib
-  tags: []
+  tags:
+  - Library
+  - Script (Elevated Access)
