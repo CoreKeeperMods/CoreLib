@@ -40,7 +40,7 @@ namespace CoreLib
         public const string CONFIG_FOLDER = "CoreLib/";
 
         /// The current Core Library mod version.
-        public const string VERSION = "4.0.0";
+        public const string VERSION = "4.0.1";
 
         /// Specifies the game version this mod was built for.
         /// Used to verify compatibility during initialization.
