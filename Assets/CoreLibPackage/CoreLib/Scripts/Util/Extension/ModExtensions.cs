@@ -8,7 +8,6 @@
 // ========================================================
 
 using System;
-using System.IO;
 using System.Linq;
 using System.Text;
 using PugMod;
@@ -30,12 +29,6 @@ namespace CoreLib.Util.Extension
     /// <seealso cref="BurstRuntime"/>
     public static class ModExtensions
     {
-        #region Fields
-
-        /// Stores a randomly generated unique identifier used for temporary file paths or isolated directories.
-        public static readonly string RANDOM_PATH = Guid.NewGuid().ToString();
-
-        #endregion
 
         #region Mod Information Retrieval
 
@@ -101,19 +94,6 @@ namespace CoreLib.Util.Extension
         /// Retrieves and decodes the contents of a file stored within a mod.
         /// <param name="mod">The mod from which to load the file.</param>
         /// <param name="file">The relative path of the file within the mod’s directory.</param>
-        /// <returns>
-        /// The decoded UTF-8 string contents of the requested file.
-        /// </returns>
-        /// <remarks>
-        /// This extension wraps <see cref="LoadedMod.GetFile(string)"/> and automatically decodes the resulting bytes.
-        /// </remarks>
-        /// <example>
-        /// <code>
-        /// var text = myMod.GetAllText("config/settings.json");
-        /// Debug.Log(text);
-        /// </code>
-        /// </example>
-        /// <seealso cref="LoadedMod.GetFile(string)"/>
         public static string GetAllText(this LoadedMod mod, string file)
         {
             byte[] fileData = mod.GetFile(file);
@@ -122,91 +102,15 @@ namespace CoreLib.Util.Extension
 
         #endregion
 
-        #region Platform Helpers
 
-        /// Returns the current platform name string based on the running environment.
-        /// <returns>
-        /// A string indicating the platform type, such as <c>"Windows"</c> or <c>"Linux"</c>;
-        /// returns <c>null</c> if the platform is unrecognized.
-        /// </returns>
-        /// <seealso cref="Application.platform"/>
-        public static string GetPlatformString()
-        {
-            return Application.platform switch
-            {
-                RuntimePlatform.WindowsPlayer or RuntimePlatform.WindowsServer => "Windows",
-                RuntimePlatform.LinuxPlayer or RuntimePlatform.LinuxServer => "Linux",
-                _ => null
-            };
-        }
-
-        /// Returns the appropriate file extension for the given platform.
-        /// <param name="platform">The name of the platform, e.g., <c>"Windows"</c> or <c>"Linux"</c>.</param>
-        /// <returns>
-        /// The file extension string (e.g., <c>"dll"</c> for Windows or <c>"so"</c> for Linux),
-        /// or an empty string if the platform is unrecognized.
-        /// </returns>
-        public static string GetPlatformExtension(string platform)
-        {
-            return platform switch
-            {
-                "Windows" => "dll",
-                "Linux" => "so",
-                _ => string.Empty
-            };
-        }
-
-        #endregion
 
         #region Burst Assembly Handling
 
-        /// Attempts to load the platform-specific Burst-compiled assembly for the given mod.
-        /// <param name="modInfo">The <see cref="LoadedMod"/> containing metadata and assembly references.</param>
-        /// <remarks>
-        /// This method ensures that platform-optimized Burst binaries are copied into a temporary directory
-        /// and dynamically loaded at runtime for enhanced performance.
-        /// If the loading process fails, a warning is logged to the CoreLib logger.
-        /// </remarks>
-        /// <example>
-        /// <code>
-        /// var mod = API.ModLoader.LoadedMods.First();
-        /// mod.TryLoadBurstAssembly();
-        /// </code>
-        /// </example>
-        /// <seealso cref="BurstRuntime.LoadAdditionalLibrary(string)"/>
-        /// <seealso cref="Application.temporaryCachePath"/>
+
+        [Obsolete]
         public static void TryLoadBurstAssembly(this LoadedMod modInfo)
         {
-            string platform = GetPlatformString();
-            if (platform == null)
-                return;
-
-            string directory = API.ModLoader.GetDirectory(modInfo.ModId);
-            string extension = GetPlatformExtension(platform);
-            string id = modInfo.Metadata.name;
-
-            string modLoaderDir = Path.Combine(Application.temporaryCachePath, "ModLoader");
-
-            if (Application.dataPath.ToLower().Contains("dedicated"))
-                modLoaderDir = Path.Combine(modLoaderDir, "DedicatedServer", RANDOM_PATH);
-
-            string tempDirectory = Path.Combine(modLoaderDir, id);
-            string assemblyName = $"{id}_burst_generated_{platform}.{extension}";
-            string newAssemblyPath = Path.Combine(tempDirectory, assemblyName);
-
-            try
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(newAssemblyPath)!);
-                File.WriteAllBytes(newAssemblyPath, File.ReadAllBytes(Path.Combine(directory, assemblyName)));
-            }
-            catch (Exception ex)
-            {
-                CoreLibMod.log.LogError($"Exception copying Burst assembly for mod '{id}': {ex.Message}");
-            }
-
-            bool success = BurstRuntime.LoadAdditionalLibrary(newAssemblyPath);
-            if (!success)
-                CoreLibMod.log.LogWarning($"Failed to load Burst assembly for mod '{id}'.");
+            CoreLibMod.log.LogWarning($"Burst loading not supported!");
         }
 
         #endregion

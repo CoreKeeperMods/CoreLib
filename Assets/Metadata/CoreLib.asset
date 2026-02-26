@@ -15,245 +15,238 @@ MonoBehaviour:
   metadata:
     guid: c4f0016ab9b64c70b386c439b6eac3ab
     name: CoreLib
-    skipSafetyChecks: 1
+    displayName: 
+    skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
     files:
-    - path: Localization/Localization.csv
-      guid: 
     - path: Scripts/UserInterface/UserInterfaceModule.cs
-      guid: 
+      guid: e3fa4b5f9b94ab04fbdd3f57286d1c92
     - path: Scripts/UserInterface/Scripts/Util/ModUIExtensions.cs
-      guid: 
+      guid: 61c88a3a19c30d4489d403c2953014cd
     - path: Scripts/UserInterface/Scripts/Patch/UIManagerPatch.cs
-      guid: 
+      guid: d27789a6f69ee4c4791f4f06ae8e15a3
     - path: Scripts/UserInterface/Scripts/Interface/IModUI.cs
-      guid: 
+      guid: 760e9fc69e9ec2b4980c84c3a6412c0c
     - path: Scripts/UserInterface/Scripts/Component/PixelSnap.cs
-      guid: 
+      guid: 290fc7783acc38e4c8500c488c65dc87
     - path: Scripts/UserInterface/Scripts/Component/ModUIAuthoring.cs
-      guid: 
+      guid: 607a0c0603c1aa3409b03db28502cb4b
     - path: Scripts/UserInterface/Scripts/Component/LinkToPlayerInventory.cs
-      guid: 
+      guid: bc1339fd4ec84ac5bd00462e081dd743
     - path: Scripts/Tileset/TileSetModule.cs
-      guid: 
+      guid: 415a257f7362039478145f5bfadf3525
     - path: Scripts/Tileset/Scripts/ScriptableObject/ModTileset.cs
-      guid: 
+      guid: adb3ef797feb413baf4e7b6494bba03e
     - path: Scripts/Tileset/Scripts/Patch/TilesetTypeUtilityPatch.cs
-      guid: 
+      guid: 7d171a1226e48ac4f99903942ffa4bd4
     - path: Scripts/Tileset/Scripts/Component/ModTileAuthoring.cs
-      guid: 
+      guid: 994c8a744f46ff04f8793bfa00519248
     - path: Scripts/Tileset/Scripts/Component/ModPseudoTileAuthoring.cs
-      guid: 
+      guid: ceaba17c5cc049bbbf6dc239682264ee
     - path: Scripts/Tileset/Scripts/Attribute/ModTilesetAttribute.cs
-      guid: 
-    - path: Scripts/Skin/SkinModule.cs
-      guid: 
-    - path: Scripts/Skin/Scripts/Scriptable/ModPlayerCustomizationTable.cs
-      guid: 
+      guid: 3a6ade8ca88dbd64eba8124e63d82b7f
     - path: Scripts/Scripts/Util/State.cs
-      guid: 
+      guid: e777f8b94bef85c4ebe2e4efedfbc359
+    - path: Scripts/Scripts/Util/PosDebug.cs
+      guid: 158260de3351e7041acd9e91e8f8a6cd
     - path: Scripts/Scripts/Util/Players.cs
-      guid: 
+      guid: 9794304b5348a954c956502516460ac7
+    - path: Scripts/Scripts/Util/MarkerData.cs
+      guid: a356c75b1b5f4fe5b07d8fb8318c8e97
     - path: Scripts/Scripts/Util/Logger.cs
-      guid: 
+      guid: f712f5bace644aaf9f82ac8d3b906ae3
     - path: Scripts/Scripts/Util/GameManagers.cs
-      guid: 
+      guid: 4d19fefa45424f24190bb7dc3fe1a46b
     - path: Scripts/Scripts/Util/Extension/TopologicalSortExtension.cs
-      guid: 
+      guid: e3918aa877738574699afa8c86168f43
     - path: Scripts/Scripts/Util/Extension/ReflectionUtil.cs
-      guid: 
+      guid: 7d02bd34c0fc34742b64c682db13aaa4
     - path: Scripts/Scripts/Util/Extension/ObjectDataExtensions.cs
-      guid: 
+      guid: 1d134c5b4a864708ae58a37bb74628ee
     - path: Scripts/Scripts/Util/Extension/ModExtensions.cs
-      guid: 
+      guid: 7130207ae26d4a5b963fd024ea377477
+    - path: Scripts/Scripts/Util/Extension/MathExtensions.cs
+      guid: afb2b59688bbe2a4f9511f66936d03d0
     - path: Scripts/Scripts/Util/Extension/GeneralExtensions.cs
-      guid: 
+      guid: 500efbfe9941d694badaab619d0beb0a
     - path: Scripts/Scripts/Util/Extension/CollectionUtils.cs
-      guid: 
+      guid: 9c79173c01f932047921590e25fc100f
     - path: Scripts/Scripts/Util/Extension/Attribute/ReadOnlyDrawer.cs
-      guid: 
+      guid: b981f633c72c42f982123c7564931569
     - path: Scripts/Scripts/Util/Extension/Attribute/GoogleLanguagesDropdownAttribute.cs
-      guid: 
+      guid: 9cfd8586902d4cb18c9f15fd6fe79cda
     - path: Scripts/Scripts/Util/Data/IdBindConfigFile.cs
-      guid: 
+      guid: e29f7fc0515b6fc4ebf0fc2e3b2a7535
     - path: Scripts/Scripts/Util/Data/IdBind.cs
-      guid: 
+      guid: ab95c60fa922e1345b43eb743cdbdb97
     - path: Scripts/Scripts/Util/Data/ConfigFile/TypeConverter.cs
-      guid: 
+      guid: dc474fc883556c748b411cf690c1881b
     - path: Scripts/Scripts/Util/Data/ConfigFile/TomlTypeConverter.cs
-      guid: 
+      guid: 0e730feafb567434c8868a05e3ff9a4f
     - path: Scripts/Scripts/Util/Data/ConfigFile/SettingChangedEventArgs.cs
-      guid: 
+      guid: 3c14c7769985a994fa4e9c2d65773df5
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigScope.cs
-      guid: 
+      guid: 8445ee5a5d89c204b8fae4dbfdf14d2b
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigFile.cs
-      guid: 
+      guid: 287de201cb0a6f74ea6a75a48123327f
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigEntryBase.cs
-      guid: 
+      guid: 934f369c8e66885438b8e5abe8d8c8dd
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigDescription.cs
-      guid: 
+      guid: 6e20437335c8c1e4f850e07c28fac592
     - path: Scripts/Scripts/Util/Data/ConfigFile/ConfigDefinition.cs
-      guid: 
+      guid: 906872e2fcaa1754d85a34985bb6be00
     - path: Scripts/Scripts/Util/Data/ConfigFile/AcceptableValueRange.cs
-      guid: 
+      guid: a6b4c4d440104984f8737488a8d00571
     - path: Scripts/Scripts/Util/Data/ConfigFile/AcceptableValueList.cs
-      guid: 
+      guid: b9b5db1c7672618449d06b15e59359d7
     - path: Scripts/Scripts/Util/Data/ConfigFile/AcceptableValueBase.cs
-      guid: 
+      guid: da21d3be8196b324a85cc51f900fad07
+    - path: Scripts/Scripts/Util/ComponentTracker.cs
+      guid: 36e52149d4484410bafde5312e0b1ab0
     - path: Scripts/Scripts/Submodules/SubmoduleHandler.cs
-      guid: 
+      guid: 4802c56fa4f259f4283d89fc4aa61818
     - path: Scripts/Scripts/Submodules/GameVersion.cs
-      guid: 
+      guid: 406fd86ddb594e84e9a3090385aa336e
     - path: Scripts/Scripts/Submodules/BaseSubmodule.cs
-      guid: 
+      guid: 8f933984affc4000b1bae7f3b8112d9a
     - path: Scripts/LootDrop/Scripts/Patches/LootTableBankPatch.cs
-      guid: 
+      guid: b79506f861703804eaa84d9d73d6c365
     - path: Scripts/LootDrop/Scripts/DropTableModificationData.cs
-      guid: 
+      guid: ea4bbc4366df86141a5923cc320006a5
     - path: Scripts/LootDrop/Scripts/CustomLootTableData.cs
-      guid: 
+      guid: 4569c89c44d30ad478ea48d4328e0a51
     - path: Scripts/LootDrop/Scripts/Components/ModDropsFromLootTableAuthoring.cs
-      guid: 
+      guid: 7e5b96442c3b4c91bfe159505024c806
     - path: Scripts/LootDrop/LootDropModule.cs
-      guid: 
+      guid: 553b4e61b0293f9468d500cee3f5628c
     - path: Scripts/Localization/Scripts/ScriptableObject/ModdedLocalizationTable.cs
-      guid: 
+      guid: c1f89eb288ba4d9f878aebf0751edbcf
     - path: Scripts/Localization/LocalizationModule.cs
-      guid: 
+      guid: 2ea2b90a49e2e28418c3aa9c327613c0
     - path: Scripts/EquipmentSlot/Scripts/System/ModEquipmentSystem.cs
-      guid: 
+      guid: 7ecab5c5402e43c4795e5bec5e017016
     - path: Scripts/EquipmentSlot/Scripts/System/ModEquipmentChangeSystem.cs
-      guid: 
+      guid: a0f40c963c4851a41a6bb835eb3ca8ab
     - path: Scripts/EquipmentSlot/Scripts/SlotInfo.cs
-      guid: 
+      guid: ab490eaeeaa4b3e43bcc4846f5e8d89b
     - path: Scripts/EquipmentSlot/Scripts/Patch/PlayerControllerPatch.cs
-      guid: 
+      guid: dea1da3c0e9595948914bd2488d83446
     - path: Scripts/EquipmentSlot/Scripts/Patch/PlacementHandlerPatch.cs
-      guid: 
+      guid: 42d3658374b7d69459c793ea512ffcb0
     - path: Scripts/EquipmentSlot/Scripts/Patch/ObjectAuthoringConverterPatch.cs
-      guid: 
+      guid: 92d3dc14d56a5434a8f8472c5f4f25c9
     - path: Scripts/EquipmentSlot/Scripts/Patch/EmotePatch.cs
-      guid: 
+      guid: c7d26a5e0b424ac4aa5471efe74cfa37
     - path: Scripts/EquipmentSlot/Scripts/Interface/IPlacementLogic.cs
-      guid: 
+      guid: bae71cd571c03f843b7594dd249cafa2
     - path: Scripts/EquipmentSlot/Scripts/Interface/IModEquipmentSlot.cs
-      guid: 
+      guid: 70c091962274eaf40a5f7eb980989fab
     - path: Scripts/EquipmentSlot/Scripts/Interface/IEquipmentLogic.cs
-      guid: 
+      guid: f0d459d7cd3d696499191d061b92bf01
     - path: Scripts/EquipmentSlot/Scripts/Component/ModObjectTypeAuthoring.cs
-      guid: 
+      guid: 440de59d79c25b744bf6777b351833eb
     - path: Scripts/EquipmentSlot/EquipmentSlotModule.cs
-      guid: 
+      guid: 03eec5d32def7ec489733a8e6beed12d
     - path: Scripts/Entity/Scripts/ScriptableObject/WorkbenchDefinition.cs
-      guid: 
+      guid: fdb89f0a3ed349468023ba7361badee2
     - path: Scripts/Entity/Scripts/Patch/EntityModulePatches.cs
-      guid: 
+      guid: 6c24041da50f24a41986431cb97b0be2
     - path: Scripts/Entity/Scripts/MaterialCrawler.cs
-      guid: 
+      guid: 7f8e0899f1580cb408f35f120cc7ff34
     - path: Scripts/Entity/Scripts/Interface/IDynamicItemHandler.cs
-      guid: 
+      guid: 12f90c18efec725408f0a646c98c4109
     - path: Scripts/Entity/Scripts/Converter/PooledGraphicalObjectConverter.cs
-      guid: 
+      guid: 482b74a59abe4edf95a2bb38cd96708e
     - path: Scripts/Entity/Scripts/Component/TemplateObject.cs
-      guid: 
+      guid: a28c73fc13a64c319ee1e8dd4960973d
     - path: Scripts/Entity/Scripts/Component/SupportsPooling.cs
-      guid: 
+      guid: 276b4b9264304dc2b5f1e3feb621bc98
     - path: Scripts/Entity/Scripts/Component/SupportsCoreLib.cs
-      guid: 
+      guid: 0ae7684ea6f84c868d0b30fa9ecd2b58
     - path: Scripts/Entity/Scripts/Component/RuntimeMaterial.cs
-      guid: 
+      guid: 444a65c77aab47d40b26141aeb042d79
     - path: Scripts/Entity/Scripts/Component/ModWorkbenchBuilding.cs
-      guid: 
+      guid: 8d3a2f85d3d84e318bc4ed3447f4c677
     - path: Scripts/Entity/Scripts/Component/ModWideWorkbenchBuilding.cs
-      guid: 
+      guid: a196a293aab341efb6e6e903e72aab43
     - path: Scripts/Entity/Scripts/Component/ModReskinCondition.cs
-      guid: 
+      guid: c96f9259712841aab2601f88071ac901
     - path: Scripts/Entity/Scripts/Component/ModRefreshCraftingBuildingTitles.cs
-      guid: 
+      guid: cd519464e5274cdd8acc4dca55e9230f
     - path: Scripts/Entity/Scripts/Component/ModCraftingUISetting.cs
-      guid: 
+      guid: c7b0f7c06cda4fd0a7572404d6c6f779
     - path: Scripts/Entity/Scripts/Component/ModCraftingAuthoring.cs
-      guid: 
+      guid: 86ac203db427442ab326887afacb1b4f
     - path: Scripts/Entity/Scripts/Attribute/PrefabModificationAttribute.cs
-      guid: 
+      guid: 083fac74292357f40af6a9e6c2146bb6
     - path: Scripts/Entity/Scripts/Attribute/EntityModificationAttribute.cs
-      guid: 
+      guid: 0aee799177b454b4485848371482b19d
     - path: Scripts/Entity/EntityModule.cs
-      guid: 
+      guid: 9da9cddfa4b5b274985e52adfeae6a5f
     - path: Scripts/CoreLibMod.cs
-      guid: 
-    - path: Scripts/ControlMapping/Scripts/Scriptable/ModRewiredInputCategory.cs
-      guid: 
-    - path: Scripts/ControlMapping/Scripts/Patch/RewiredPatch.cs
-      guid: 
-    - path: Scripts/ControlMapping/Scripts/Patch/RewiredInitPatch.cs
-      guid: 
-    - path: Scripts/ControlMapping/Scripts/Patch/ControlMappingMenuPatch.cs
-      guid: 
-    - path: Scripts/ControlMapping/Scripts/Extension/RewiredExtensions.cs
-      guid: 
-    - path: Scripts/ControlMapping/Scripts/Data/KeyBindData.cs
-      guid: 
+      guid: dbffb0235f01eef43bb7b574c2d2b9fd
+    - path: Scripts/ControlMapping/Scripts/Patch/ControlMappingPatch.cs
+      guid: 9ccc7ec0cda23574f8ba9d332d56eea3
+    - path: Scripts/ControlMapping/Scripts/Extension/ControlMappingExtensions.cs
+      guid: f75f3b54198b5d24e98894a3c00a7cdf
     - path: Scripts/ControlMapping/ControlMappingModule.cs
-      guid: 
+      guid: f38712f4fdb257841908e3f5f2af09e4
     - path: Scripts/Command/Scripts/Util/CommandUtil.cs
-      guid: 
+      guid: 2d705747c9572f146856496b04e12b4c
     - path: Scripts/Command/Scripts/System/LoadItemDictSystem.cs
-      guid: 
+      guid: 9d50ba93f639da041b3b440dfc82bb62
     - path: Scripts/Command/Scripts/System/CommandCommSystem.cs
-      guid: 
+      guid: 4c24d6a52ad731643b1b1498642100a7
     - path: Scripts/Command/Scripts/Patch/MenuManagerPatch.cs
-      guid: 
+      guid: 039c318fc6dbc424285e5d9cee24b677
     - path: Scripts/Command/Scripts/Patch/ECSManagerPatch.cs
-      guid: 
+      guid: 9bc1f204055608b45b6d53416e4e6ee6
     - path: Scripts/Command/Scripts/Patch/ChatWindowPatch.cs
-      guid: 
+      guid: 2c246c20b720cb647acb78113c38cd9b
     - path: Scripts/Command/Scripts/Parser/SkillIDParser.cs
-      guid: 
+      guid: 1caa4cef8c017f7428c8788a629ea0a6
     - path: Scripts/Command/Scripts/Parser/ObjectIDParser.cs
-      guid: 
+      guid: 06de1b13a6929b64ba885f1f38f06043
     - path: Scripts/Command/Scripts/Parser/ConditionIDParser.cs
-      guid: 
+      guid: 00f9430db234411408fe1dc57f973f0a
     - path: Scripts/Command/Scripts/Interface/IServerCommandHandler.cs
-      guid: 
+      guid: 3e77459a4c59976498f4c618ec98e60a
     - path: Scripts/Command/Scripts/Interface/ICommandInfo.cs
-      guid: 
+      guid: 545796b0dd6745448b537702525b3051
     - path: Scripts/Command/Scripts/Interface/IClientCommandHandler.cs
-      guid: 
+      guid: 59017f627aef4d14c819d2dab4046ad5
     - path: Scripts/Command/Scripts/Handler/HelpCommandHandler.cs
-      guid: 
+      guid: 28dc348bda7ad03469aa56c414569c5f
     - path: Scripts/Command/Scripts/Handler/DirectMessageCommandHandler.cs
-      guid: 
+      guid: 36d1a2f89c3ced34cb36e6484af482a0
     - path: Scripts/Command/Scripts/Data/CommandPair.cs
-      guid: 
+      guid: 07c58833316c11149b89a0376bd2f2a9
     - path: Scripts/Command/Scripts/Data/CommandOutput.cs
-      guid: 
+      guid: 28c6b0bac1ee60f4f82b0668e0bcdff2
     - path: Scripts/Command/Scripts/Data/CommandModuleSettings.cs
-      guid: 
+      guid: 2283888eb6be3b440b8237671c0f2b5a
     - path: Scripts/Command/Scripts/Data/CommandMessageRPC.cs
-      guid: 
+      guid: 3ee870ca90956354ab8d5ead48ddb73b
     - path: Scripts/Command/CommandModule.cs
-      guid: 
+      guid: 2eb0108634743424cb48981d8c15232a
     - path: Scripts/Audio/Scripts/Patch/MusicManager_Patch.cs
-      guid: 
+      guid: 5abe31625d74ad24c990f4e5041639c3
     - path: Scripts/Audio/Scripts/Patch/EffectEventExtensions_Patch.cs
-      guid: 
+      guid: 17762c7e39f24b6cb9f2ead15f59713f
     - path: Scripts/Audio/Scripts/Patch/AudioManager_Patch.cs
-      guid: 
+      guid: ab4a0eb6c2a159245929aa3112ec4677
     - path: Scripts/Audio/Scripts/MusicInfo.cs
-      guid: 
+      guid: bb981e9d151f08446b5d651389d1bab1
     - path: Scripts/Audio/Scripts/IEffect.cs
-      guid: 
+      guid: ddcdaf93ea3541849ff9aebd36473696
     - path: Scripts/Audio/AudioModule.cs
+      guid: 04a00b7b292009248bfee9356f73f0ce
+    - path: Scripts/Generated/CommandCommSystem__System_13542734900.g.cs
       guid: 
-    - path: Scripts/Generated/CommandCommSystem__System_17645889260.g.cs
-      guid: 
-    - path: Scripts/Generated/ModEquipmentChangeSystem__System_9859849580.g.cs
-      guid: 
-    - path: Scripts/Generated/ModEquipmentSystem__System_11485430180.g.cs
+    - path: Scripts/Generated/ModEquipmentChangeSystem__System_19913810820.g.cs
       guid: 
     - path: Scripts/Generated/CoreLib.Submodule.Command.Data_CommandDataMessageRPCCommandSerializer.cs
       guid: 
@@ -261,7 +254,11 @@ MonoBehaviour:
       guid: 
     - path: Bundles/CoreLib_Windows.assetbundle
       guid: 
+    - path: Bundles/CoreLib_Windows.assetbundle.manifest
+      guid: 
     - path: Bundles/CoreLib_Linux.assetbundle
+      guid: 
+    - path: Bundles/CoreLib_Linux.assetbundle.manifest
       guid: 
     dependencies: []
   modPath: Assets\CoreLibPackage\CoreLib
@@ -270,53 +267,70 @@ MonoBehaviour:
   cacheBundles: 0
   buildLinux: 1
   assets:
-  - path: Assets/CoreLibPackage/CoreLib/ControlMapping/ControlMapping Localization
-      Table.asset
-    hash: 346A280847857152097106E923AA9A78F110EB0FCDB090AF266812E14B96B5C1
-  - path: Assets/CoreLibPackage/CoreLib/ControlMapping/MappingLayoutData_Mods.asset
-    hash: FDC5D77CB66BED675058E6C32AE677BD0CB9EEE91D27C39BB6C5079381C131CB
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Entity Localization Table.asset
-    hash: 492B09BC2F8519769D5A13E444146B8890536D603986275F411C475CB943314E
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/ModWideWorkbenchBuilding.prefab
-    hash: 41E77C7D9C7F2AA29C95CB2BD27BFE2C8134F0D39385264B9F24ACDE8EB51DA1
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/ModWorkbenchBuilding.prefab
-    hash: F3BD8ED40A9CC6DC2CB6DAAF82E32B069DFFEDE6D28427A433B018945C645F8F
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/TemplateWideWorkbench.prefab
-    hash: 291897ECC418385C7A8A9012DAC1A63A065F15A536CEEC2F7CC8FB4E07BA36B7
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/TemplateWorkbench.prefab
-    hash: A20F4D5C6F620273DA71DA715A7DFAD3EFB176BF71306C4F06EED155F16D944E
+  - path: Assets/CoreLibPackage/CoreLib/Data/CoreLib.asset
+    hash: 9BF9AB2A8114DD47733ADB4FFF17625A29BB2F311980A4764579163DF9F30F2A
+  - path: Assets/CoreLibPackage/CoreLib/Data/SpriteAsset/WideWorkbench.asset
+    hash: 4E8B48C9D92B8EFB3503057C966F918A8CDB295FA64982D3F0760B51A4D18B89
+  - path: Assets/CoreLibPackage/CoreLib/Data/SpriteAsset/Workbench.asset
+    hash: 8D0DCB8B25520FAD293B67500696E583A5B6CAE8C01263A0CD3A08C2218BE438
+  - path: Assets/CoreLibPackage/CoreLib/Data/SpriteAssetSkin/WideWorkbenchRootSkin.asset
+    hash: 9E10C5C6B0E0DE1146C14DC5AA31486A5CC848D6F7C758BBF6440887C322E9CA
+  - path: Assets/CoreLibPackage/CoreLib/Data/SpriteAssetSkin/WorkbenchRootSkin.asset
+    hash: 8FA8A99A51F3651AD152FE9311E371BB3FC210DE65CC3347040D39ADA4B4E7C2
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/ControlMapper/CoreLib_CompleteKey.asset
+    hash: 10470850351793A122DF7BD7C0F562DCF201777F788972C629AB29A8CB0279EF
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/ControlMapper/CoreLib_DownKey.asset
+    hash: 21C7FBE1E1417587042B060C98F7196A7F1E5773226CE3AC4E04DC11370C1F4E
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/ControlMapper/CoreLib_ToggleQC.asset
+    hash: B350F7725905ECD8BE27546203403AC02F9492709D5E1F351C4406F01C1BE15D
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/ControlMapper/CoreLib_UpKey.asset
+    hash: 6A56D72A220A13416DD89D0DFCCA3F52202CB30E97D4A89DFCB6D843D6F4F8A5
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/ControlMapper/CoreLibCategory.asset
+    hash: 9DB4D20C4CEE6FCA11B920AB03756BB5AFAC39BFB068D364D3B121A904903C55
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/ControlMapper/CoreLibDescription.asset
+    hash: 7FB7B18B8241E930947666B97424163A2ABEE8B682F8B4C81D92917DAE35F42D
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/ControlMapper/Mods.asset
+    hash: 5298ABE3C7CB4DCF0DE2DD0008332F76EDB32622DB5F85F4EAC01282AB1D5CB4
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/ControlMapper/ModsCategory.asset
+    hash: 96DFADC4D4FB14CBE988726CEB2CC2EF1D802C756145037F34E13D8055D86409
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/ControlMapper/ModsDescription.asset
+    hash: 7A85A4DA206E4C495B76B051B1546DB369C5D0C5D09FF4105B3D309276C65507
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/CoreLib/Items.asset
+    hash: 25A928F64436F18B985741E45D643FDE8760C5E58DD4D6800326A5784972FAB5
+  - path: Assets/CoreLibPackage/CoreLib/Data/TextDataBlock/Items/CoreLib_RootModWorkbench$$0.asset
+    hash: 2AA417190C63AA71A9188FEAA3FB055DA245DF93813F418D6FDEFB10887AE1CB
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Entity/TemplateWideWorkbenchEntity.prefab
+    hash: 92A09AB2076F8D33A314ED9EF27239705C5E25B004E8A2EA8C6CC8545B139475
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Entity/TemplateWorkbenchEntity.prefab
+    hash: 389D92C7EE6D145DB14D06EC9F75BF6230A4D7273C4B522E5AD31FEE9037EF67
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/WideWorkbenchBuilding.prefab
+    hash: 41580929AA331DE1D85432649945704DF4902BBCA84FF6B53D02EDD58EF498FC
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Prefab/WorkbenchBuilding.prefab
+    hash: 470777D14BA0EBFEF5BBE8ADB1FFCF7ED5C2B45CA387050362CE45CC3F82681B
   - path: Assets/CoreLibPackage/CoreLib/Entity/RootWorkbench.asset
-    hash: 217189474167ED1711B435198F7E100EEA35BFADBA0E6CEDB5E40E34678A6461
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/RootWideWorkbenchSkin.asset
-    hash: 1A8BDB7265EAD7823568A76D0DBE0894593DBC0DF75BA92F13E7825562B1A466
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/RootWorkbenchSkin.asset
-    hash: 114C6AE12A67B43D348C2FBA31FE0C3E8120F6F837059402FDBB58675248EF1F
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench.asset
-    hash: 30B24B30A0BF1A65A39C158D96BCE9F2E1E5B9DF0D0DE110E9727943A9BBC5C0
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench.png
-    hash: 8169E52B61747D90F28B28E15736F8E906777C8A92290713F38F2AB6FC65C1C1
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench_side.png
-    hash: FD055780604FF5BD58117B8BF86026ABEE2993A24F5CCA588EA99554FAAA1BF4
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench_side2.png
-    hash: D833A049D6AAE719754900F4841B176AB695B9DCB82434E062EF156F4A11EBE4
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/WideWorkbench_up.png
-    hash: F0321E7C6F0FF5C3675C3C5C7B506D4A4002EA987B1F8F9B3DF08EA31DB95869
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench.asset
-    hash: DD0F9149B4AAB6478C7747E9CFA5AF66EC95BC6F98C608EF89C412B81DFB7E5E
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench.png
-    hash: F28121A6D6E74F2D74E31B5F4A72925B9F6A346AB1960C97EE4F3C454CE4AC2C
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench_side.png
-    hash: D128A39C6648EC1693C902F61502B8E8B61BDA0370EF9BE10CEE6C7CAB8BA0CA
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench_side2.png
-    hash: A8A9CF557B8ADF453A3D80B2896DF221D10588FDB03695175FE72EA20950BB84
-  - path: Assets/CoreLibPackage/CoreLib/Entity/Sprites/Workbench_up.png
-    hash: 1F4EED673A89B9FD3220D885AD946C28E714EB0E8A4B77CC1AF9436F8EDFAD04
+    hash: 52449CEC7918BB1A95A0A46A7DF7AF7B897A6CFE58EB7603CF3E0F62C800CF5C
   - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/modWorkbench.png
     hash: 689651BD601D7E5D25B388808BB6D846EA8455ADED50311BCDB0429F0F97B6AA
   - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/modWorkbenchVariants.png
     hash: B82208849A89FF0025010688A1A7CEDA44A6D1F75BC8584877A7F9CDBC754642
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/WideWorkbench.png
+    hash: 8169E52B61747D90F28B28E15736F8E906777C8A92290713F38F2AB6FC65C1C1
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/WideWorkbench_side.png
+    hash: FD055780604FF5BD58117B8BF86026ABEE2993A24F5CCA588EA99554FAAA1BF4
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/WideWorkbench_side2.png
+    hash: D833A049D6AAE719754900F4841B176AB695B9DCB82434E062EF156F4A11EBE4
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/WideWorkbench_up.png
+    hash: F0321E7C6F0FF5C3675C3C5C7B506D4A4002EA987B1F8F9B3DF08EA31DB95869
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/Workbench.png
+    hash: F28121A6D6E74F2D74E31B5F4A72925B9F6A346AB1960C97EE4F3C454CE4AC2C
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/Workbench_side.png
+    hash: D128A39C6648EC1693C902F61502B8E8B61BDA0370EF9BE10CEE6C7CAB8BA0CA
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/Workbench_side2.png
+    hash: A8A9CF557B8ADF453A3D80B2896DF221D10588FDB03695175FE72EA20950BB84
+  - path: Assets/CoreLibPackage/CoreLib/Entity/Textures/Workbench_up.png
+    hash: 1F4EED673A89B9FD3220D885AD946C28E714EB0E8A4B77CC1AF9436F8EDFAD04
   - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Prefab/DefaultPlaceSlot.prefab
-    hash: 2EE22F0CEBC35CB34D79E653D93B7D3D321EF05445E9E51FF317F391B968410F
+    hash: C2E7F0AD622402AE081E1D1A7D64D7BD799D981CED0644A118D38F2B75D1B881
   - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Prefab/EmptySlot.prefab
     hash: D13560944B9A1FA7003C479C75122B6DA8A75B28195296ABA1E0C75575C3A50D
   - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Textures/cursor_inv.asset
@@ -327,26 +341,24 @@ MonoBehaviour:
     hash: 66AB1D9AC8695C47E93E9740ECDEFE77FC578128B7297AD7C304BE0612B6B3DB
   - path: Assets/CoreLibPackage/CoreLib/EquipmentSlot/Textures/cursor_placement_padding.png
     hash: 25192E936CE78C41607D1D31F1A7C4E92E70C31E9D1B56805DEA56506EA5D25E
-  - path: Assets/CoreLibPackage/CoreLib/Localization/Localization.csv
-    hash: 264EF9F29236D4725F1253D2F552B49064A867D4A29915DE5D580E78C7E059F6
   - path: Assets/CoreLibPackage/CoreLib/Rendering/Editor Kit Renderer.asset
     hash: 4D550E14C76B725C64632F9AE6D817700BF4DCB7A5EE2018D5D062B006BD7CAF
   - path: Assets/CoreLibPackage/CoreLib/Rendering/EditorKit RP.asset
-    hash: EDA84010B3BCF252E91081D5BA49FAE773926327E81D59557B18044866D4EFF6
+    hash: 27F2F32D6D2A30D7D4A54A0FE0A85984B4FCBCD99B9947F0BD3764626654C087
   - path: Assets/CoreLibPackage/CoreLib/Rendering/SpriteLit.shader
     hash: 2A24D5FEF7E00455E5831A8B017512EAFCA034D8C4E5A49EC8ED3CC8E3D6D486
   - path: Assets/CoreLibPackage/CoreLib/Scripts/Util/Data/ConfigFile/LICENSE.txt
     hash: E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855
   - path: Assets/CoreLibPackage/CoreLib/SpriteAssetManifest.asset
-    hash: 864018B69F09C589215ACF5AC1995B28A7A998B71B44BFA2C147CBD996DB7CE1
+    hash: AFE36D21424CE3933404A7A90B18D5A69E218EC00CD40319D10EC9681343AFB8
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Resources/MissingTileset.asset
-    hash: 82985DE185C2C1034B80790B10ABC57EA3401AC71CAC8D66A512F5A1B378D07D
+    hash: 8736BD37333C0944A295279353557AE5E7957DB6867950CF721EAE747E2FE2EC
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Resources/tileset_base_building.asset
-    hash: 568690BAD21B95854FCAB6F646491981853F2A049A10100F899ABDE1AA6C5D09
+    hash: ED44762D12CD7879F0D90196F12C493ACC231E5F2035DC693A63913EC2E69609
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Resources/tileset_extras.asset
-    hash: 29CE22D73982391D657A6F14C7B9BC901DE8F5CBA48C825DA0D2C67CE51DAC05
+    hash: 4AECFE4DE72FE55DDC096CDB5DF8C2C73F2FD2AFFB0DA997A3F6DD604ADB3935
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Resources/tileset_main.asset
-    hash: DEA3C0EB5BE8271D4C4AD367FE369A7385C6753DEFC619735233AB067AB5D6FB
+    hash: 94EBEC7C3928C2961094130DCA59F77CF86C3893D6F860B1364BE74BC97AEED3
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Textures/missing.png
     hash: 3599D06D47C289432782B483EA64D6C424A511A79A6B6B293C70BACB76D7A0EF
   - path: Assets/CoreLibPackage/CoreLib/Tileset/Textures/missing_tileset.png
