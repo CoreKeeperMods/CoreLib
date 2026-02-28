@@ -1,7 +1,7 @@
 {
   "name": "ck.modding.corelib",
   "author":"Core Keeper Mods",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "license": "GPL-3.0-only",
   "displayName":"Core Library Package",
   "unity": "6000.0",
