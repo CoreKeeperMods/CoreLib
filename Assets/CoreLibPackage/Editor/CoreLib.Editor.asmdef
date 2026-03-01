@@ -4,6 +4,7 @@
     "references": [
         "NaughtyAttributes.Core",
         "PugMod.SDK",
+        "PugMod.Importer",
         "ModSDK.Editor",
         "Unity.2D.Sprite.Editor",
         "Unity.Addressables",
