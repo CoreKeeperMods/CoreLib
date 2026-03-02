@@ -273,6 +273,7 @@
         "Unity.Burst.Cecil.Rocks.dll",
         "Unity.Burst.Unsafe.dll",
         "Unity.Collections.LowLevel.ILSupport.dll",
+        "Unity.SharpZipLib.dll",
         "WorldGen.dll",
         "WorldGen.Runtime.dll",
         "WorldPatcher.dll",
