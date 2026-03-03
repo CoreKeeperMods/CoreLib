@@ -74,7 +74,7 @@ namespace CoreLib.Editor
             if (!ValidateDirectory(out string dataBlockDir)) return;
             if (!ReadFile(out string[] lines, out string[] header)) return;
 
-            var languages = ScriptableData.GetDataBlocks<LanguageDataBlock>();
+            var languages = ScriptableDataEditorUtility.GetCachedDataBlocks<LanguageDataBlock>();
 
             // Pass 1: Create all instances first
             for (int i = 1; i < lines.Length; i++)
@@ -164,7 +164,7 @@ namespace CoreLib.Editor
                 AssetDatabase.SaveAssetIfDirty(textBlock);
             }
 
-            LanguageDataBlock primaryLanguage = LanguageDataBlock.GetPrimaryLanguage();
+            LanguageDataBlock primaryLanguage = LanguageDataBlock.GetPrimaryLanguage(languages);
 
             foreach (var block in _addedBlocks.Values)
             {
