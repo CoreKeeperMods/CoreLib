@@ -8,7 +8,8 @@
   "category": "Modding",
   "changelogUrl": "https://github.com/CoreKeeperMods/CoreLib/blob/main/Assets/CoreLibPackage/CHANGELOG.md",
   "dependencies": {
-    "com.unity.editorcoroutines": "1.0.1"
+    "com.unity.editorcoroutines": "1.0.1",
+    "com.unity.sharp-zip-lib": "1.4.1"
   },
   "documentationUrl": "https://corekeepermods.github.io/#/",
   "description": "A modding library for Core Keeper. Provides features that makes modding Core Keeper easier.",
