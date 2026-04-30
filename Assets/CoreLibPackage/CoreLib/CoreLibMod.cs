@@ -40,12 +40,12 @@ namespace CoreLib
         public const string CONFIG_FOLDER = "CoreLib/";
 
         /// The current Core Library mod version.
-        public const string VERSION = "4.0.2";
+        public const string VERSION = "4.0.3";
 
         /// Specifies the game version this mod was built for.
         /// Used to verify compatibility during initialization.
         /// <seealso cref="GameVersion"/>
-        public static readonly GameVersion BUILD_FOR = new(1, 2, 0, 4, "aded");
+        public static readonly GameVersion BUILD_FOR = new(1, 2, 1, 1, "65bc");
 
         /// Metadata information about this mod, provided by the mod loader.
         internal static LoadedMod modInfo;

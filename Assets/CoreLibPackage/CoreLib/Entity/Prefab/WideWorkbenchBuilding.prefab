@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 7532636737604210270}
   - component: {fileID: 4492184524036806985}
   - component: {fileID: 4664203485849510242}
-  - component: {fileID: 2222354935845099439}
   m_Layer: 0
   m_Name: WideWorkbenchBuilding
   m_TagString: Untagged
@@ -224,21 +223,6 @@ MonoBehaviour:
   - {fileID: 3005554013292434928}
   reskinConditions: []
   animationEventEffects: []
---- !u!114 &2222354935845099439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284432609753473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 276b4b9264304dc2b5f1e3feb621bc98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialSize: 16
-  maxFreeSize: 16
-  maxSize: 1024
 --- !u!1 &1957309050721297
 GameObject:
   m_ObjectHideFlags: 0

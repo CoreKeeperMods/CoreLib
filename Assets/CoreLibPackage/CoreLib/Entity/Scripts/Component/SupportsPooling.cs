@@ -7,11 +7,14 @@
 // ========================================================
 
 /* Edited from Moorowl's Paintable Double Chest https://mod.io/g/corekeeper/m/doublechest#description */
+
+using System;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.Entity.Component {
     /// Marks a GameObject as capable of being pooled.
+    [Obsolete]
     public class SupportsPooling : MonoBehaviour {
         /// The initial size of the pool for this GameObject.
         [Tooltip("The initial size of the pool for this GameObject.")]

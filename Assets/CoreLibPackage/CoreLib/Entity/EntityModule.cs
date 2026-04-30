@@ -43,9 +43,6 @@ namespace CoreLib.Submodule.Entity
         /// <summary>Convenience accessor for the loaded instance of this module.</summary>
         internal static EntityModule Instance => CoreLibMod.GetModuleInstance<EntityModule>();
 
-        /// <summary>List of prefabs that should be enabled for pooling.</summary>
-        internal static List<PoolablePrefabBank.PoolablePrefab> poolablePrefabs = new();
-
         /// <summary>List of Modded Entities.</summary>
         internal static List<SupportsCoreLib> moddedEntities = new();
 
@@ -119,22 +116,16 @@ namespace CoreLib.Submodule.Entity
                 .Where(type => type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
                     .Where(m => m.HasAttribute<PrefabModificationAttribute>()).ToList().Count > 0).ToList();
             rootWorkbenchDefinition = Mod.Assets.OfType<WorkbenchDefinition>().FirstOrDefault(def => def.itemID == "CoreLib:RootModWorkbench");
-            var supportsPoolingCoreLib = Mod.Assets.OfType<GameObject>().Where(go => go.TryGetComponent(out SupportsPooling _))
-                .Select(go => go.GetComponent<SupportsPooling>().GetPoolablePrefab()).ToList();
-            poolablePrefabs.AddRange(supportsPoolingCoreLib);
 
             foreach (var mod in DependentMods)
             {
                 var moddedEntityList = mod.Assets.OfType<GameObject>().Where(go => go.TryGetComponent(out SupportsCoreLib _))
                     .Select(go => go.GetComponent<SupportsCoreLib>()).ToList();
                 moddedEntities.AddRange(moddedEntityList);
-                var supportsPoolingList = mod.Assets.OfType<GameObject>().Where(go => go.TryGetComponent(out SupportsPooling _))
-                    .Select(go => go.GetComponent<SupportsPooling>().GetPoolablePrefab()).ToList();
-                poolablePrefabs.AddRange(supportsPoolingList);
                 var workbenchList = mod.Assets.OfType<WorkbenchDefinition>().ToList();
                 modWorkbenches.AddRange(workbenchList);
                 log.LogInfo(
-                    $"Mod: {mod.Metadata.name} Found: {moddedEntityList.Count} Modded Entities, {supportsPoolingList.Count} Poolable Prefabs, {workbenchList.Count} Workbenches");
+                    $"Mod: {mod.Metadata.name} Found: {moddedEntityList.Count} Modded Entities, {workbenchList.Count} Workbenches");
             }
 
             entityModificationList.ForEach(RegisterEntityModifications_Internal);
@@ -271,7 +262,6 @@ namespace CoreLib.Submodule.Entity
             modRefreshCraftingBuildingTitles.refreshBuildingTitles = workbenchDefinition.refreshRelatedWorkbenchTitles;
 
             var modCraftingUISetting = newEntityPrefab.AddComponent<ModCraftingUISetting>();
-            workbenchDefinition.SetupNewTitles();
             modCraftingUISetting.titles = workbenchDefinition.titles;
             modCraftingUISetting.craftingUIBackgroundVariation = workbenchDefinition.skin;
 
@@ -441,7 +431,7 @@ namespace CoreLib.Submodule.Entity
         /// Applies prefab modifications registered via <see cref="_prefabModifyAttributes"/>.
         /// Iterates all graphical object banks and invokes modification functions for matching types.
         /// <param name="prefabBank">The memory manager containing pooled prefabs.</param>
-        internal static void ApplyPrefabModifications(PooledGraphicalObjectBank prefabBank)
+        internal static void ApplyPrefabModifications(PoolablePrefabBank prefabBank)
         {
             if (_prefabModifyAttributes.Count <= 0) return;
 

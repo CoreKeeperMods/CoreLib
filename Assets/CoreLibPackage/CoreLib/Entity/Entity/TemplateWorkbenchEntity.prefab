@@ -432,6 +432,7 @@ MonoBehaviour:
   reduction: 0
   maxDamagePerHit: 1
   minDamagePerHit: 0
+  ignoreReductionWhenDamagedByDrill: 0
   level: {fileID: 0}
 --- !u!114 &6474434745783719307
 MonoBehaviour:

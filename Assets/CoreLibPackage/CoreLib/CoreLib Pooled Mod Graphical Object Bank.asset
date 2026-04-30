@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 949824850, guid: 548e3dd2d27c1e2d0bdf82f0889cb8a7, type: 3}
+  m_Name: CoreLib Pooled Mod Graphical Object Bank
+  m_EditorClassIdentifier: 
+  modPoolInitializers:
+  - prefab: {fileID: 1284432609753473, guid: 7059afc0a5e479942a146cd8160f4df8, type: 3}
+    initialSize: 16
+    maxFreeSize: 16
+    maxSize: 1024
+  - prefab: {fileID: 1284432609753473, guid: 7701558ec283e7444aba533e0d3a6c1d, type: 3}
+    initialSize: 16
+    maxFreeSize: 16
+    maxSize: 1024

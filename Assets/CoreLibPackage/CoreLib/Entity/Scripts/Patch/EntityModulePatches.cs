@@ -10,9 +10,6 @@
 using System.Linq;
 using CoreLib.Submodule.Entity.Component;
 using HarmonyLib;
-using Interaction;
-using Pug.ECS.Hybrid;
-using UnityEngine;
 using Logger = CoreLib.Util.Logger;
 
 // ReSharper disable once CheckNamespace
@@ -21,56 +18,25 @@ namespace CoreLib.Submodule.Entity.Patch
     public class EntityModulePatches
     {
         private static Logger Log => EntityModule.log;
+
         [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init)), HarmonyPrefix]
         // ReSharper disable once InconsistentNaming
         public static void InjectPoolablePrefabs(MemoryManager __instance)
         {
             if (__instance.poolablePrefabBanks == null || EntityModule.hasInjected) return;
-            if (EntityModule.poolablePrefabs.Count <= 0) return;
-            Log.LogInfo("Injecting Poolable Prefabs");
+            Log.LogInfo("Applying Materials & Prefab Modifications");
 
-            var bank = __instance.poolablePrefabBanks.Find(bank => bank is PooledGraphicalObjectBank) as PooledGraphicalObjectBank;
-            if (bank == null) return;
-            
+            var bank = __instance.poolablePrefabBanks.FindAll(bank => bank is PooledGraphicalObjectBank);
+            if (bank.Count <= 0) return;
+
             MaterialCrawler.Initialize();
             MaterialCrawler.OnMaterialSwapReady();
-            
-            foreach (var prefab in EntityModule.poolablePrefabs)
-            {
-                if (bank.poolInitializers.Contains(prefab)) continue;
-                Log.LogInfo($"Adding {prefab.prefab} to poolable prefabs");
-                bank.poolInitializers.Add(prefab);
-            }
-            
-            EntityModule.ApplyPrefabModifications(bank);
-            
-            EntityModule.hasInjected = true;
-            Log.LogInfo($"Injected {EntityModule.poolablePrefabs.Count} Poolable Prefabs");
-		}
-		
-		
-		[HarmonyPatch(typeof(InteractablePostConverter), nameof(InteractablePostConverter.PostConvert)), HarmonyPrefix]
-        // ReSharper disable once InconsistentNaming
-        public static void PostConvertPre(InteractablePostConverter __instance, GameObject authoring)
-        {
-            if (!CheckHasSupportsPooling(authoring)) return;
-            var entityMonoBehaviourData = authoring.AddComponent<EntityMonoBehaviourData>();
-            entityMonoBehaviourData.objectInfo = authoring.GetComponent<ObjectAuthoring>().ObjectInfo;
-        }
-        
-        [HarmonyPatch(typeof(InteractablePostConverter), nameof(InteractablePostConverter.PostConvert)), HarmonyPostfix]
-        // ReSharper disable once InconsistentNaming
-        public static void PostConvertPost(InteractablePostConverter __instance, GameObject authoring)
-        {
-            if (CheckHasSupportsPooling(authoring) && authoring.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviourData))
-                Object.DestroyImmediate(entityMonoBehaviourData);
-        }
-        
-        [HarmonyPatch(typeof(GraphicalObjectConversion), nameof(GraphicalObjectConversion.Convert)), HarmonyPrefix]
-        // ReSharper disable once InconsistentNaming
-        public static bool Convert(GraphicalObjectConversion __instance, GameObject authoring) => !CheckHasSupportsPooling(authoring);
-        
 
+            bank.ForEach(EntityModule.ApplyPrefabModifications);
+
+            EntityModule.hasInjected = true;
+        }
+        
         /// Applies custom logic to modify the result of the GetObjectName method of the PlayerController class.
         /// This method checks for applicable dynamic item handlers and applies text modifications based on the provided object data.
         /// <param name="containedObject">The buffer containing the object data whose name is being retrieved.</param>
@@ -116,14 +82,5 @@ namespace CoreLib.Submodule.Entity.Patch
                 new CraftingBuilding.CraftingUISettings(__instance.defaultUISettings.craftingUIBackgroundVariation, __instance.defaultUISettings.titles.ToArray());
             return false;
         }
-
-        /// Checks if the provided GameObject has a SupportsPooling component.
-        /// <param name="authoring">The GameObject to check.</param>
-        /// <returns>True if the GameObject has a SupportsPooling component; otherwise, false.</returns>
-        private static bool CheckHasSupportsPooling(GameObject authoring) =>
-            authoring.TryGetComponent(out ObjectAuthoring objectAuthoring) &&
-            objectAuthoring.graphicalPrefab != null &&
-            objectAuthoring.graphicalPrefab.TryGetComponent(out MonoBehaviour _) &&
-            objectAuthoring.graphicalPrefab.TryGetComponent(out SupportsPooling _);
     }
 }

@@ -49,32 +49,6 @@ namespace CoreLib.Submodule.Entity
 
         [Tooltip("The skin of the Windows of the Workbench")]
         public UIManager.CraftingUIThemeType skin;
-        
-        [Obsolete, HideInInspector]
-        public string title;
-        
-        [Obsolete, HideInInspector]
-        public string leftTitle;
-
-        [Obsolete, HideInInspector]
-        public string rightTitle;
-
-        internal void SetupNewTitles()
-        {
-            if (titles.Count > 0) return;
-            titles.Clear();
-            LocalizedString leftTitleLoc = leftTitle;
-            if( !string.IsNullOrEmpty(leftTitle) ) titles.Add(leftTitleLoc);
-            LocalizedString titleLoc = title;
-            if( !string.IsNullOrEmpty(title) ) titles.Add(titleLoc);
-            LocalizedString rightTitleLoc = rightTitle;
-            if( !string.IsNullOrEmpty(rightTitle) ) titles.Add(rightTitleLoc);
-            title = leftTitle = rightTitle = null;
-        }
-        
-        private void OnValidate() => SetupNewTitles();
-        
-        
     }
     
     public enum WorkbenchType { Simple, Wide }

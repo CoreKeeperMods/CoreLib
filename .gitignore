@@ -91,4 +91,5 @@ crashlytics-build.properties
 /[Aa]ssets/Plugins/CoreKeeper*
 /[Aa]ssets/Prefabs*
 /[Aa]ssets/Examples*
+/[Aa]ssets/ModCommandsExample*
 /[Ii]mported[Gg]ame[Ff]olders*
