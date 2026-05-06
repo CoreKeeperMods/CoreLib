@@ -193,9 +193,6 @@ namespace CoreLib.Submodule.Command
         /// Represents the keybinding that triggers the autocomplete functionality for commands.
         internal const string COMPLETE_KEY = "CoreLib_CompleteKey";
 
-        /// Represents the identifier for the keybind used to toggle the Quantum Console visibility.
-        internal const string TOGGLE_QUANTUM_CONSOLE = "CoreLib_ToggleQC";
-
         /// Represents a collection of command pair instances used for handling client and server command interactions.
         internal static List<CommandPair> commandHandlers = new List<CommandPair>();
 
@@ -225,9 +222,7 @@ namespace CoreLib.Submodule.Command
         internal override void Load()
         {
             base.Load();
-            
-            //TODO fix burst compilation
-            //Mod.TryLoadBurstAssembly();
+            Manager.enableConsole = true;
         }
 
         /// Performs module-specific operations after the initial loading phase is completed.
@@ -245,7 +240,6 @@ namespace CoreLib.Submodule.Command
             ControlMappingModule.AddKeyboardBind(UP_KEY, KeyboardKeyCode.UpArrow, categoryId: catID);
             ControlMappingModule.AddKeyboardBind(DOWN_KEY, KeyboardKeyCode.DownArrow, categoryId: catID);
             ControlMappingModule.AddKeyboardBind(COMPLETE_KEY, KeyboardKeyCode.Tab, categoryId: catID);
-            ControlMappingModule.AddKeyboardBind(TOGGLE_QUANTUM_CONSOLE, KeyboardKeyCode.BackQuote, categoryId: catID);
 
             API.Client.OnWorldCreated += ClientWorldReady;
             API.Server.OnWorldCreated += ServerWorldReady;
@@ -315,16 +309,7 @@ namespace CoreLib.Submodule.Command
             API.Server.AddMainThreadSystem(_serverCommSystem);
         }
 
-        /// Toggles the visibility of the Quantum Console if it is initialized.
-        public static void ToggleQc()
-        {
-            if (quantumConsole != null)
-                quantumConsole.Toggle();
-        }
-
         /// Sends a message to the Quantum Console with the specified text and status.
-        /// <param name="text">The message text to be sent to the Quantum Console.</param>
-        /// <param name="status">The status of the message, determining its display color in the Quantum Console.</param>
         public static void SendQcMessage(string text, CommandStatus status)
         {
             if (quantumConsole != null)
@@ -337,6 +322,7 @@ namespace CoreLib.Submodule.Command
         /// <param name="console">The QuantumConsole instance to be initialized and linked.</param>
         internal static void InitQuantumConsole(QuantumConsole console)
         {
+            log.LogInfo("Initializing QuantumConsole for Command Module!");
             quantumConsole = console;
             quantumConsole.OnInvoke += HandleQuantumConsoleCommand;
         }

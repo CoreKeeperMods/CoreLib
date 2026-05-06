@@ -8,26 +8,12 @@ namespace CoreLib.Submodule.Command.Patch
 {
     public class MenuManagerPatch
     {
-        /// Called after the MenuManager's Init method is executed. Responsible for initializing
-        /// the Quantum Console linked to the MenuManager if a Quantum Console prefab exists.
-        /// This ensures the console is properly instantiated and persistent across scenes.
-        /// <param name="__instance">The instance of the MenuManager being patched.</param>
-        [HarmonyPatch(typeof(MenuManager), nameof(MenuManager.Init))]
+        
         [HarmonyPostfix]
-        // ReSharper disable once InconsistentNaming
-        public static void OnInit(MenuManager __instance)
+        [HarmonyPatch(typeof(MenuManager), nameof(MenuManager.quantumConsole), MethodType.Setter)]
+        public static void On_QC_Set(QuantumConsole value)
         {
-            if (__instance.quantumConsolePrefab == null) return;
-
-            var result = __instance.quantumConsolePrefab.LoadAssetAsync<GameObject>();
-            var prefab = result.WaitForCompletion();
-            
-            var console = Object.Instantiate(prefab, null, true);
-            
-            var quantumConsole = console.GetComponent<QuantumConsole>();
-            Object.DontDestroyOnLoad(console);
-            
-            CommandModule.InitQuantumConsole(quantumConsole);
+            CommandModule.InitQuantumConsole(value);
         }
 
         /// Ensures that the Quantum Console, if available, is properly parented to the
@@ -51,22 +37,6 @@ namespace CoreLib.Submodule.Command.Patch
                 
                 consoleTransform.parent = universeLibCanvasGo.transform;
             }
-        }
-
-        /// Called during the Update lifecycle method of the MenuManager. Handles toggling the Quantum Console
-        /// and updates the console's active state status within the MenuManager.
-        /// <param name="__instance">The instance of the MenuManager being updated.</param>
-        [HarmonyPatch(typeof(MenuManager), nameof(MenuManager.Update))]
-        [HarmonyPostfix]
-        // ReSharper disable once InconsistentNaming
-        public static void OnUpdate(MenuManager __instance)
-        {
-            if (CommandModule.rewiredPlayer.GetButtonDown(CommandModule.TOGGLE_QUANTUM_CONSOLE))
-            {
-                CommandModule.ToggleQc();
-            }
-
-            __instance.SetValue("isConsoleActive", CommandModule.quantumConsole.IsActive);
         }
     }
 }
