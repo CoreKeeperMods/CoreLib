@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.4] - 2026-05-06
+### Changes
+* Command Module now integrated with game's support for Quantum Console
+
 ## [4.0.3] - 2026-04-30
 ### Changes
 * Removed now unnecessary Pooling from CoreLib Entity.
