@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -9,51 +10,88 @@ namespace CoreLib.Editor
     [CustomPropertyDrawer(typeof(ObjectID))]
     public class ObjectIDDrawer : PropertyDrawer
     {
-        private string _search;
-        private bool _isInitialized;
+        private class PropertyState
+        {
+            public string search; 
+            public string lastSearch;
+
+            public string[] searchResults;
+        
+            public bool isInitialized;
+        }
+        
+        private readonly Dictionary<string, PropertyState> _states = new();
+        
+        private PropertyState GetOrCreateState(SerializedProperty property)
+        {
+            if (!_states.TryGetValue(property.propertyPath, out var state))
+            {
+                state = new PropertyState();
+                _states[property.propertyPath] = state;
+            }
+            return state;
+        }
+        
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (!_isInitialized)
+            if (!property.editable)
             {
-                string name = property.enumNames[property.intValue];
-                _search = name == "None" ? "" : name;
-                _isInitialized = true;
+                EditorGUI.PropertyField(position, property, label, true);
+                return;
+            }
+            
+            PropertyState state = GetOrCreateState(property);
+            
+            if (!state.isInitialized)
+            {
+                string name = property.enumNames[property.enumValueIndex];
+                state.search = name == "None" ? "" : name;
+                state.lastSearch = "";
+                state.isInitialized = true;
             }
             
             EditorGUI.BeginProperty(position, label, property);
             {
                 position.height = EditorGUIUtility.singleLineHeight;
                 var newPosition = EditorGUI.PrefixLabel(position, label);
-                
+
                 EditorGUI.indentLevel = 0;
-                var intPos = new Rect(newPosition.x, newPosition.y, newPosition.width * 0.12f, EditorGUIUtility.singleLineHeight);
-                property.intValue = EditorGUI.IntField(intPos, property.intValue);
-                
-                var textPos = new Rect(intPos.x + intPos.width + EditorGUIUtility.standardVerticalSpacing, 
-                    newPosition.y, 
-                    newPosition.width - intPos.width - EditorGUIUtility.standardVerticalSpacing, 
+                var intPos = new Rect(newPosition.x, newPosition.y, newPosition.width * 0.12f,
                     EditorGUIUtility.singleLineHeight);
-                _search = EditorGUI.TextField(textPos, _search);
-                string[] filter = property.enumNames
-                    .Where(x => 
-                        string.IsNullOrEmpty(_search) || 
-                        x.Contains(_search, StringComparison.CurrentCultureIgnoreCase) || 
-                        x == "None")
-                    .OrderBy(x => x == "None" ? "" : x)
-                    .ToArray();
-                int intValue = filter.ToList().IndexOf(property.enumNames[property.intValue]);
+                property.intValue = EditorGUI.IntField(intPos, property.intValue);
+
+                var textPos = new Rect(intPos.x + intPos.width + EditorGUIUtility.standardVerticalSpacing,
+                    newPosition.y,
+                    newPosition.width - intPos.width - EditorGUIUtility.standardVerticalSpacing,
+                    EditorGUIUtility.singleLineHeight);
+                state.search = EditorGUI.TextField(textPos, state.search);
+
+                if (state.search != state.lastSearch)
+                {
+                    state.searchResults = property.enumNames
+                        .Where(x => 
+                            string.IsNullOrEmpty(state.search) || 
+                            x.Contains(state.search, StringComparison.CurrentCultureIgnoreCase) || 
+                            x == "None")
+                        .OrderBy(x => x == "None" ? "" : x)
+                        .ToArray();
+                    state.lastSearch = state.search;
+                }
+
+                int enumIndexValue = Array.IndexOf(state.searchResults, property.enumNames[property.enumValueIndex]);
                 
                 newPosition.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 newPosition.x = position.x;
                 newPosition.width = position.width;
                 
                 EditorGUI.BeginChangeCheck();
-                int newIndex = EditorGUI.Popup(newPosition, " ", intValue, filter);
+                int newEnumIndex = EditorGUI.Popup(newPosition, " ", enumIndexValue, state.searchResults);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    property.intValue = property.enumNames.ToList().IndexOf(filter.ToList().ElementAt(newIndex));
-                    _search = property.enumNames[property.intValue];
+                    var name = state.searchResults.ElementAt(newEnumIndex);
+                    property.enumValueIndex = Array.IndexOf(property.enumNames, name);
+                    state.search = property.enumNames[property.enumValueIndex];
                 }
             }
             EditorGUI.EndProperty();
@@ -61,6 +99,9 @@ namespace CoreLib.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
+            if (!property.editable)
+                return base.GetPropertyHeight(property, label);
+            
             return EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing;
         }
     }
