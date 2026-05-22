@@ -185,6 +185,11 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                         return;
                     }
                     
+                    if (logic.CanResize && clientInput.IsButtonStateSet(CommandInputButtonStateNames.Rotate_Pressed))
+                    {
+                        EquipmentSlotUtils.ChangeSize(in equipmentAspect, equipmentShared.databaseBank);
+                    }
+                    
                     var success = logic.Update(
                         equipmentAspect,
                         equipmentShared,

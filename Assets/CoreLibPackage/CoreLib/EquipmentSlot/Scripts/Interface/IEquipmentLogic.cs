@@ -13,6 +13,8 @@ namespace CoreLib.Submodule.EquipmentSlot.Interface
         /// Can the equipment be used while the player is on a boat?
         public bool CanUseWhileOnBoat { get; }
 
+        public bool CanResize => false;
+
         /// Create component lookups necessary for slot logic in <see cref="Update"/> here
         public void CreateLookups(ref SystemState state);
 

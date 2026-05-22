@@ -22,5 +22,11 @@ namespace CoreLib.Submodule.EquipmentSlot
 
         /// Should prefab be registered for pooling 
         public bool createPool;
+        
+        /// Should prefab be registered for resizing support 
+        public bool needsResizing;
+        
+        /// Resizing index for use in <see cref="PlacementSizeByEquipmentTypeBuffer"/>
+        public int resizeIndex = -1;
     }
 }

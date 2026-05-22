@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoreLib.Data;
 using CoreLib.Submodule.EquipmentSlot.Interface;
 using CoreLib.Submodule.EquipmentSlot.Patch;
@@ -126,6 +127,7 @@ namespace CoreLib.Submodule.EquipmentSlot
                 slotPrefab = prefab,
                 logic = logic,
                 createPool = createPool,
+                needsResizing = logic.CanResize
             });
         }
 
@@ -219,6 +221,41 @@ namespace CoreLib.Submodule.EquipmentSlot
             CoreLibMod.Patch(typeof(ObjectAuthoringConverterPatch));
             CoreLibMod.Patch(typeof(PlacementHandlerPatch));
             CoreLibMod.Patch(typeof(MemoryManager_Patch));
+            CoreLibMod.Patch(typeof(ObjectAuthoring_Patch));
+            CoreLibMod.Patch(typeof(EquipmentSlot_Patch));
+            
+            API.Authoring.OnObjectTypeAdded += ModifyPlayer;
+        }
+
+        /// Modifies player entity to support equipment tool resizing
+        private static void ModifyPlayer(
+            Unity.Entities.Entity entity,
+            GameObject authoringdata,
+            EntityManager entitymanager
+        )
+        {
+            var objectId = authoringdata.GetEntityObjectID();
+            if (objectId != ObjectID.Player) return;
+
+            if (slots.Values.All(slot => !slot.needsResizing)) return;
+
+            const int vanillaSize = PlacementSizeByEquipmentTypeBuffer.EquipmentWithPlacementSize;
+            var lastIndex = vanillaSize;
+
+            var buffer = entitymanager.GetBuffer<PlacementSizeByEquipmentTypeBuffer>(entity);
+
+            foreach (var slot in slots.Values)
+            {
+                if (!slot.needsResizing) continue;
+
+                buffer.Add(new PlacementSizeByEquipmentTypeBuffer()
+                {
+                    sizeVariationToPlace = 254
+                });
+
+                slot.resizeIndex = lastIndex;
+                lastIndex++;
+            }
         }
 
         /// Loads and initializes the Equipment Module by setting up necessary dependencies and event handlers.
@@ -266,7 +303,7 @@ namespace CoreLib.Submodule.EquipmentSlot
             
             var changeSystem = world.GetOrCreateSystemManaged<ModEquipmentChangeSystem>();
             var equipmentBeforeGroup = world.GetExistingSystemManaged<EquipmentBeforeUpdateSystemGroup>();
-            equipmentBeforeGroup.AddSystemToUpdateList(changeSystem);*/
+            equipmentBeforeGroup.AddSystemToUpdateList(changeSystem);
         }
     }
 }
