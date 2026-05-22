@@ -144,9 +144,6 @@ namespace CoreLib.Submodule.Command.Patch
         }
 
         /// Modifies the allocated PugText instance by setting its color to white.
-        /// This method is executed as a postfix to the ChatWindow's AllocPugText method and ensures
-        /// that the color properties of the created PugText object are properly initialized.
-        /// <param name="__result">The PugText instance created by the AllocPugText method.</param>
         [HarmonyPatch(typeof(ChatWindow), "AllocPugText")]
         [HarmonyPostfix]
         // ReSharper disable once InconsistentNaming
@@ -193,13 +190,13 @@ namespace CoreLib.Submodule.Command.Patch
         }
 
         /// Sets the color of the provided PugText instance to the specified color.
-        /// Updates the text's current style color, the default style color, and the overall color attribute.
-        /// <param name="pugText">The PugText instance whose color needs to be updated.</param>
-        /// <param name="color">The new color to apply to the PugText instance.</param>
         private static void SetColor(PugText pugText, Color color)
         {
             pugText.style.color = color;
-            pugText.GetValue<PugTextStyle>("defaultStyle").color = color;
+            var defaultStyle = pugText.GetValue<PugTextStyle>("defaultStyle");
+            if (defaultStyle != null)
+                defaultStyle.color = color;
+            
             pugText.color = color;
         }
     }
