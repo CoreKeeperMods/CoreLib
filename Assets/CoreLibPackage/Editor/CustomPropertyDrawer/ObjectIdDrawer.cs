@@ -12,8 +12,8 @@ namespace CoreLib.Editor
     {
         private class PropertyState
         {
-            public string search; 
-            public string lastSearch;
+            public string search = ""; 
+            public string lastSearch = null;
 
             public string[] searchResults;
         
@@ -47,7 +47,7 @@ namespace CoreLib.Editor
             {
                 string name = property.enumNames[property.enumValueIndex];
                 state.search = name == "None" ? "" : name;
-                state.lastSearch = "";
+                state.lastSearch = null;
                 state.isInitialized = true;
             }
             
