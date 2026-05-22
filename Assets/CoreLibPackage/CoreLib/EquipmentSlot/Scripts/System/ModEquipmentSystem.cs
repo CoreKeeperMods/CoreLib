@@ -1,56 +1,33 @@
-﻿using CoreLib.Submodule.EquipmentSlot.Interface;
+﻿using CommandMinion;
+using CoreLib.Submodule.EquipmentSlot.Interface;
 using Inventory;
 using PlayerEquipment;
 using PlayerState;
+using Pug.Automation;
 using Pug.Properties;
 using Unity.Entities;
 using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
-/* TODO rework
+
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.System
 {
     /// ModEquipmentSystem is a system responsible for handling the simulation and management
     /// of modifiable equipment mechanics within the game.
-    /// <remarks>
-    /// - It operates within the EquipmentUpdateSystemGroup and executes prior to the EquipmentUpdateSystem.
-    /// - This system is manually instantiated and not automatically created due to the DisableAutoCreation attribute.
-    /// - Uses WorldSystemFilter to specify execution environments as both client-side and server-side simulation contexts.
-    /// </remarks>
-    /// <example>
-    /// This system requires specific components such as PhysicsWorldSingleton, WorldInfoCD, and TileWithTilesetToObjectDataMapCD to update successfully.
-    /// </example>
-    /// <seealso cref="PugSimulationSystemBase"/>
-    /// <seealso cref="EquipmentUpdateSystemGroup"/>
-    /// <seealso cref="EquipmentUpdateSystem"/>
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation | WorldSystemFilterFlags.ServerSimulation)]
     [UpdateInGroup(typeof(EquipmentUpdateSystemGroup))]
     [UpdateBefore(typeof(EquipmentUpdateSystem))]
     [DisableAutoCreation]
     public partial class ModEquipmentSystem : PugSimulationSystemBase
     {
-        /// Represents the tick rate for the ModEquipmentSystem, determining the frequency
-        /// of system updates. This value is initialized based on the simulation tick rate
-        /// provided by the networking platform.
         private uint _tickRate;
-
-        /// Holds the archetype for achievement-related entities within the ModEquipmentSystem.
-        /// This archetype is used to define the structural layout for entities involved in handling achievements.
         private EntityArchetype _achievementArchetype;
 
         /// Initializes the ModEquipmentSystem during its creation phase.
-        /// This method sets up essential parameters and archetypes required for the functioning of the system.
-        /// <remarks>
-        /// - Retrieves the simulation tick rate for the current platform and assigns it to the system.
-        /// - Generates the achievement RPC archetype using the AchievementSystem.
-        /// - Specifies the required components that must exist in the world for this system to update.
-        /// - Ensures the database is initialized properly.
-        /// - Calls the base implementation of the OnCreate method for additional setup.
-        /// </remarks>
         protected override void OnCreate()
         {
-            _tickRate = (uint)NetworkingManager.GetSimulationTickRateForPlatform();
+            _tickRate = (uint)PlatformConfiguration.Instance.SessionConfiguration.SimulationTickRate;
             _achievementArchetype = AchievementSystem.GetRpcArchetype(EntityManager);
 
             RequireForUpdate<PhysicsWorldSingleton>();
@@ -61,13 +38,7 @@ namespace CoreLib.Submodule.EquipmentSlot.System
             base.OnCreate();
         }
 
-        /// Executes the system's update logic in the simulation loop at each frame or fixed interval,
-        /// according to the system group's scheduling. This method is typically overridden to define
-        /// the specific behavior or processing logic for this system.
-        /// Note: This system has a WorldSystemFilter applied for both ClientSimulation and ServerSimulation,
-        /// and is scheduled to update before the `EquipmentUpdateSystem` within the `EquipmentUpdateSystemGroup`.
-        /// It is also marked with `DisableAutoCreation`, meaning it won't be automatically created
-        /// unless explicitly added to a world.
+        /// Executes the system's update logic
         protected override void OnUpdate()
         {
             var worldInfo = SystemAPI.GetSingleton<WorldInfoCD>();
@@ -159,12 +130,16 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                 anvilLookup = SystemAPI.GetComponentLookup<AnvilCD>(),
                 waypointLookup = SystemAPI.GetComponentLookup<WayPointCD>(),
                 craftingLookup = SystemAPI.GetComponentLookup<CraftingCD>(),
+                proximityTriggerLookup =  SystemAPI.GetComponentLookup<ProximityTriggerCD>(),
+                commandMinionLookup = SystemAPI.GetComponentLookup<CommandMinionWeaponCD>(),
+                rootPlantLookup =  SystemAPI.GetComponentLookup<RootPlantCD>(),
+                triggerSelectNewEnemyToAttackCommandLookup = SystemAPI.GetComponentLookup<TriggerSelectEnemyToAttackForMinionCommandCD>(),
                 triggerAnimationOnDeathLookup = SystemAPI.GetComponentLookup<TriggerAnimationOnDeathCD>(),
                 moveToPredictedByEntityDestroyedLookup = SystemAPI.GetComponentLookup<MoveToPredictedByEntityDestroyedCD>(),
                 hasExplodedLookup = SystemAPI.GetComponentLookup<HasExplodedCD>()
             };
 
-            foreach (var slotInfo in EquipmentSlotModule.Slots.Values)
+            foreach (var slotInfo in EquipmentSlotModule.slots.Values)
             {
                 slotInfo.logic.CreateLookups(ref CheckedStateRef);    
             }
@@ -175,10 +150,8 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                 ) =>
                 {
                     var slotType = equipmentAspect.equipmentSlotCD.ValueRO.slotType;
-                    var slotTypeNum = (int)slotType;
+                    if (!EquipmentSlotModule.GetSlotInfoFor(slotType, out var slotInfo)) return;
                     
-                    if (slotTypeNum < EquipmentSlotModule.ModSlotTypeIdStart) return;
-                    if (!EquipmentSlotModule.Slots.TryGetValue(slotType, out var slotInfo)) return;
                     var logic = slotInfo.logic;
                     
                     bool interactHeldRaw = clientInput.IsButtonStateSet(CommandInputButtonStateNames.Interact_HeldDown);
@@ -191,6 +164,11 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                         return;
                     }
 
+                    bool hasItemInMouse = lookupData.containedObjectsBufferLookup.TryGetBuffer(equipmentAspect.entity, out var dynamicBuffer) && 
+                                          lookupData.craftingLookup.TryGetComponent(equipmentAspect.entity, out var craftingCD) &&
+                                          dynamicBuffer.Length > craftingCD.outputSlotIndex && 
+                                          dynamicBuffer[craftingCD.outputSlotIndex].objectID > ObjectID.None;
+                    
                     bool interactHeld = interactHeldRaw | equipmentAspect.equipmentSlotCD.ValueRW.interactIsPendingToBeUsed;
                     bool secondInteractHeld = secondInteractHeldRaw | equipmentAspect.equipmentSlotCD.ValueRW.secondInteractIsPendingToBeUsed;
 
@@ -199,7 +177,9 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                         databaseBank,
                         cooldownLookup,
                         equipmentAspect.syncedSharedCooldownTimers,
-                        equipmentAspect.localPlayerSharedCooldownTimers, currentTick);
+                        currentTick
+                    );
+                    
                     if (onCooldown)
                     {
                         return;
@@ -210,12 +190,15 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                         equipmentShared,
                         lookupData,
                         interactHeld,
-                        secondInteractHeld
+                        secondInteractHeld,
+                        hasItemInMouse
                     );
 
-                    if (!success) return;
-
-                    equipmentAspect.equipmentSlotCD.ValueRW.secondInteractIsPendingToBeUsed = false;
+                    if (interactHeld && success)
+                        equipmentAspect.equipmentSlotCD.ValueRW.interactIsPendingToBeUsed = false;
+                    
+                    if (secondInteractHeld && success)
+                        equipmentAspect.equipmentSlotCD.ValueRW.secondInteractIsPendingToBeUsed = false;
                 })
                 .WithoutBurst()
                 .Schedule();
@@ -223,31 +206,13 @@ namespace CoreLib.Submodule.EquipmentSlot.System
             base.OnUpdate();
         }
 
-        /// Determines whether the system is operating in guest mode based on the provided world and player information.
-        /// <param name="worldInfo">The current world information containing guest mode configuration.</param>
-        /// <param name="playerGhost">The player ghost data, including privilege level and metadata.</param>
-        /// <returns>
-        /// Returns true if the system is in guest mode and the player does not have sufficient administrative privileges.
-        /// Returns false otherwise.
-        /// </returns>
+        /// Determines whether the system is operating in guest mode
         private static bool IsGuestMode(in WorldInfoCD worldInfo, in PlayerGhost playerGhost)
         {
             return worldInfo.guestMode && playerGhost.adminPrivileges < 1;
         }
 
-        /// Determines whether the player is allowed to interact based on the current state and context.
-        /// This method evaluates various constraints, including player state, equipment logic, and interaction type,
-        /// to decide whether an interaction is permissible.
-        /// <param name="worldInfo">Information about the current game world, such as mode or default settings.</param>
-        /// <param name="playerGhost">Details about the player's ghost representation in the game.</param>
-        /// <param name="playerState">The current state of the player, including active or passive states.</param>
-        /// <param name="equippedSlot">Information about the equipment currently held or used by the player.</param>
-        /// <param name="logic">The logic interface responsible for determining equipment-related behavior or restrictions.</param>
-        /// <param name="isTryingToUseSecondInteract">Specifies whether the interaction is a secondary interaction.</param>
-        /// <param name="isTryingToInteractWithObject">Optional parameter indicating if the interaction involves an object.</param>
-        /// <returns>
-        /// A boolean value indicating whether the interaction is allowed. Returns true if the interaction satisfies all conditions; otherwise, false.
-        /// </returns>
+        /// Determines whether the player is allowed to interact based on the current state
         private static bool CurrentStateAllowInteractions(
             in WorldInfoCD worldInfo,
             in PlayerGhost playerGhost,
@@ -279,4 +244,4 @@ namespace CoreLib.Submodule.EquipmentSlot.System
                    playerState.HasNoneState(PlayerStateEnum.MinecartRiding | PlayerStateEnum.BoatRiding);
         }
     }
-}*/
+}

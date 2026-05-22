@@ -59,7 +59,7 @@ namespace CoreLib.Util.Extension
         
         /// Retrieves an asset from a specific mod by name.
         /// <param name="mod">The mod instance to retrieve the asset from.</param>
-        /// <param name="assetName">The name of the asset to retrieve. Defaults to <c>null</c>.</param>
+        /// <param name="assetName">The name of the asset to retrieve.</param>
         /// <typeparam name="T">The expected type of the asset.</typeparam>
         /// <exception cref="ArgumentException">Thrown when the specified asset cannot be located.</exception>
         public static T LoadAsset<T>(this LoadedMod mod, string assetName) where T : Object

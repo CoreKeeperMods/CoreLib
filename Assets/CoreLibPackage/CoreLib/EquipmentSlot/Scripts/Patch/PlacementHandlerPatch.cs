@@ -1,8 +1,13 @@
 ﻿using CoreLib.Submodule.EquipmentSlot.Interface;
 using HarmonyLib;
 using PlayerEquipment;
+using Pug.Properties;
+using PugMod;
 using Unity.Collections;
+using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
+using UnityEngine;
 
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.Patch
@@ -38,10 +43,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
             )
         {
             EquipmentSlotType slotType = equipmentUpdateAspect.equipmentSlotCD.ValueRO.slotType;
-            var slotTypeNum = (int)slotType;
-            
-            if (slotTypeNum < EquipmentSlotModule.MOD_SLOT_TYPE_ID_START) return true;
-            if (!EquipmentSlotModule.slots.TryGetValue(slotType, out var slotInfo)) return true;
+            if (!EquipmentSlotModule.GetSlotInfoFor(slotType, out var slotInfo)) return true;
             
             var logic = slotInfo.logic;
             if (logic is not IPlacementLogic placementLogic) return true;
