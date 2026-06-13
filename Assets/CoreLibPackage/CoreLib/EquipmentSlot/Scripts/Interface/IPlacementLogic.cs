@@ -5,9 +5,7 @@ using Unity.Mathematics;
 // ReSharper disable once CheckNamespace
 namespace CoreLib.Submodule.EquipmentSlot.Interface
 {
-    /// Defines logic for determining if an object can be placed at a specified position within the game world.
-    /// This interface is typically used in conjunction with placement systems that involve checking game rules,
-    /// entity constraints, and environmental conditions for valid object placement.
+    /// Extension interface for <see cref="IEquipmentLogic"/> for equipment slots implementing PlaceObjectSlot
     public interface IPlacementLogic
     {
         /// Determines if an object can be placed at the specified position based on placement logic.

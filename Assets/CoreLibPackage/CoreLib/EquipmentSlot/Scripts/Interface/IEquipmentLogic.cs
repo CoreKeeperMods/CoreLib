@@ -24,6 +24,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Interface
         /// <param name="lookupData">Equipment system component lookups</param>
         /// <param name="interactHeld">Is player holding down main interact button</param>
         /// <param name="secondInteractHeld">Is player holding down secondary interact button</param>
+        /// <param name="hasItemInMouse">Does player currently have an item in mouse</param>
         /// <returns>Return true here to consume player input</returns>
         public bool Update(
             EquipmentUpdateAspect equipmentAspect,
