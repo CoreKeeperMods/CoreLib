@@ -37,14 +37,69 @@ namespace CoreLib.Submodule.TileSet
             return (Tileset)tilesetIDs.GetIndex(itemID);
         }
 
-        /// Adds a custom tileset to the tileset module.
-        /// <param name="tileset">The custom tileset to be added.</param>
-        /// <exception cref="ArgumentException">Thrown when the provided tileset's prefab is not found.</exception>
-        /// <exception cref="InvalidOperationException">Thrown when the method is called after the module is loaded and can't accept additional tilesets.</exception>
+        [Obsolete("Manual registration is not needed anymore!")]
         public static void AddCustomTileset(ModTileset tileset)
         {
-            Instance.ThrowIfNotLoaded();
+        }
 
+        #endregion
+
+        #region PrivateImplementation
+
+        /// Represents the dependencies required by the <c>TileSetModule</c>.
+        internal override Type[] Dependencies => new[] { typeof(EntityModule) };
+
+        /// Provides a singleton instance of the <c>TileSetModule</c>.
+        internal static TileSetModule Instance => CoreLibMod.GetModuleInstance<TileSetModule>();
+
+        /// Maintains a collection of custom tilesets mapped to their corresponding Tileset identifiers.
+        internal static Dictionary<Tileset, ModTileset> customTilesets = new();
+
+        /// Stores a mapping of tileset layer names to their corresponding PugMapTileset instances.
+        internal static Dictionary<string, PugMapTileset> tilesetLayers = new();
+
+        /// Represents a collection of custom PugMapTileset layers added dynamically at runtime.
+        internal static List<PugMapTileset> customLayers = new();
+
+        /// Represents a default fallback ModTileset resource used as a placeholder for missing or undefined tilesets.
+        internal static ModTileset missingTileset;
+
+        /// Manages the mapping and retrieval of tileset IDs associated with item identifiers.
+        internal static IdBindConfigFile tilesetIDs;
+
+        /// Specifies the inclusive lower bound of the ID range allocated for custom mod tilesets.
+        public const int MOD_TILESET_ID_RANGE_START = 100;
+
+        /// Defines the exclusive upper bound of the ID range allocated for custom mod tilesets.
+        public const int MOD_TILESET_ID_RANGE_END = 200;
+
+        /// Overrides the base submodule's hook setup to apply specific patches required
+        /// for Tileset functionality.
+        internal override void SetHooks() => CoreLibMod.Patch(typeof(TilesetTypeUtilityPatch));
+
+        /// Loads and initializes the TileSet module.
+        internal override void Load()
+        {
+            base.Load();
+            tilesetIDs = new IdBindConfigFile(CoreLibMod.modInfo, $"{CoreLibMod.CONFIG_FOLDER}CoreLib.TilesetID.cfg", MOD_TILESET_ID_RANGE_START, MOD_TILESET_ID_RANGE_END);
+            InitTilesets();
+            MaterialCrawler.MaterialSwapReady += SwapMaterials;
+            
+            
+            foreach (var mod in DependentMods)
+            {
+                var tilesetList = mod.Assets.OfType<ModTileset>().ToList();
+                
+                foreach (var tileset in tilesetList)
+                    AddCustomTilesetImpl(tileset);
+                
+                log.LogInfo($"Mod: {mod.Metadata.name} Found: {tilesetList.Count} Mod Tilesets");
+            }
+        }
+        
+        /// Adds a custom tileset to the tileset module.
+        private static void AddCustomTilesetImpl(ModTileset tileset)
+        {
             try
             {
                 int itemIndex = tilesetIDs.GetNextId(tileset.tilesetId);
@@ -60,6 +115,8 @@ namespace CoreLib.Submodule.TileSet
                     customLayers.Add(tileset.layers);
                 }
 
+                tileset.ValidateValues();
+
                 customTilesets.Add(tilesetID, tileset);
                 log.LogInfo($"Added tileset {tileset.tilesetId} as TilesetID: {tilesetID}!");
             }
@@ -68,120 +125,7 @@ namespace CoreLib.Submodule.TileSet
                 log.LogError($"Failed to add tileset {tileset.tilesetId}:\n{e}");
             }
         }
-
-        #endregion
-
-        #region PrivateImplementation
-
-        /// Represents the dependencies required by the <c>TileSetModule</c>.
-        /// <remarks>
-        /// The <c>Dependencies</c> property defines the submodules that the <c>TileSetModule</c> depends on
-        /// for its functionality. It is used internally to ensure that the necessary modules,
-        /// such as <c>EntityModule</c>, are properly loaded and available before initializing
-        /// or executing operations in the <c>TileSetModule</c>.
-        /// </remarks>
-        internal override Type[] Dependencies => new[] { typeof(EntityModule) };
-
-        /// Provides a singleton instance of the <c>TileSetModule</c>.
-        /// <remarks>
-        /// The <c>Instance</c> property serves as the single point of access to the <c>TileSetModule</c>.
-        /// It is internally used to ensure proper initialization and facilitate operations
-        /// within the module. Attempting to access features of the <c>TileSetModule</c>
-        /// without utilizing this property may result in unintended behavior or errors.
-        /// The property lazily retrieves or ensures the appropriate module instance
-        /// through <c>CoreLibMod.GetModuleInstance&lt;TileSetModule&gt;</c>.
-        /// </remarks>
-        internal static TileSetModule Instance => CoreLibMod.GetModuleInstance<TileSetModule>();
-
-        /// Maintains a collection of custom tilesets mapped to their corresponding Tileset identifiers.
-        /// <remarks>
-        /// The <c>customTilesets</c> dictionary is used to store and manage associations between unique
-        /// Tileset identifiers and their respective <c>ModTileset</c> instances. These custom tilesets
-        /// can be dynamically added during runtime to extend or override default tileset configurations.
-        /// This variable functions as a central registry for custom-modified tilesets, enabling efficient
-        /// retrieval and integration within the tile management system.
-        /// </remarks>
-        internal static Dictionary<Tileset, ModTileset> customTilesets = new();
-
-        /// Stores a mapping of tileset layer names to their corresponding PugMapTileset instances.
-        /// <remarks>
-        /// The <c>tilesetLayers</c> dictionary is utilized to maintain a registry of predefined tileset layers,
-        /// each identified by a unique string key representing the layer's name. This allows for efficient retrieval
-        /// of layer configurations when initializing or modifying tilesets. It plays a critical role in managing
-        /// the association of layer data with their respective tilesets, ensuring consistency and reuse across the system.
-        /// This variable is populated during the initialization process and updated dynamically as needed.
-        /// </remarks>
-        internal static Dictionary<string, PugMapTileset> tilesetLayers = new();
-
-        /// Represents a collection of custom PugMapTileset layers added dynamically at runtime.
-        /// <remarks>
-        /// This variable stores the custom tile layers used within the TileSetModule.
-        /// It is designed to manage additional tileset layers that are registered through the AddCustomTileset method.
-        /// The customLayers list plays a significant role in handling and rendering these dynamically defined layers.
-        /// Its contents are utilized and iterated over in various internal processing tasks, including swapping materials and managing tileset data.
-        /// </remarks>
-        internal static List<PugMapTileset> customLayers = new();
-
-        /// Represents a default fallback ModTileset resource used as a placeholder for missing or undefined tilesets.
-        /// <remarks>
-        /// This variable is initialized during the TileSetModule's setup process and is loaded from the specified asset's folder.
-        /// It serves as a critical resource to prevent errors or inconsistencies when a tileset cannot be found or is unavailable.
-        /// The missingTileset is used within various contexts, including patching and layer management, as a reliable default reference.
-        /// </remarks>
-        internal static ModTileset missingTileset;
-
-        /// Manages the mapping and retrieval of tileset IDs associated with item identifiers.
-        /// <remarks>
-        /// This variable serves as a configuration structure to bind and manage unique IDs
-        /// for tilesets within a specified range. The IDs can be dynamically assigned and
-        /// retrieved based on item identifiers while ensuring that the IDs for custom tilesets
-        /// remain within the defined modifiable range. This helps to maintain consistency and
-        /// prevent conflicts in tileset management.
-        /// </remarks>
-        internal static IdBindConfigFile tilesetIDs;
-
-        /// Specifies the inclusive lower bound of the ID range allocated for custom mod tilesets.
-        /// <remarks>
-        /// This constant defines the starting value of the ID range for modded tilesets.
-        /// IDs assigned to custom tilesets must fall within the range defined by
-        /// <c>modTilesetIdRangeStart</c> and <c>modTilesetIdRangeEnd</c> (exclusive).
-        /// This ensures that mod tileset IDs do not conflict with other system-defined IDs.
-        /// </remarks>
-        public const int MOD_TILESET_ID_RANGE_START = 100;
-
-        /// Defines the exclusive upper bound of the ID range allocated for custom mod tilesets.
-        /// <remarks>
-        /// This constant specifies the end value of the ID range used for modded tilesets.
-        /// The IDs in this range are used to uniquely identify custom tilesets within the system.
-        /// Tileset IDs generated for mods must be in the range between <c>modTilesetIdRangeStart</c>
-        /// and <c>modTilesetIdRangeEnd</c> (exclusive).
-        /// </remarks>
-        public const int MOD_TILESET_ID_RANGE_END = 200;
-
-        /// Overrides the base submodule's hook setup to apply specific patches required
-        /// for Tileset functionality.
-        /// <remarks>
-        /// This method applies the appropriate patches to integrate Tileset-specific
-        /// utility functionality into the CoreLib framework. It is invoked during
-        /// the initialization process to ensure any necessary adjustments or extensions
-        /// to Tileset behavior are properly configured.
-        /// </remarks>
-        internal override void SetHooks() => CoreLibMod.Patch(typeof(TilesetTypeUtilityPatch));
-
-        /// Loads and initializes the TileSet module.
-        /// <remarks>
-        /// This method refreshes the module's resource bundles, loads the tileset ID configuration,
-        /// initializes tilesets, and subscribes to events necessary for material swapping.
-        /// It is invoked internally to set up the module's functionality.
-        /// </remarks>
-        internal override void Load()
-        {
-            base.Load();
-            tilesetIDs = new IdBindConfigFile(CoreLibMod.modInfo, $"{CoreLibMod.CONFIG_FOLDER}CoreLib.TilesetID.cfg", MOD_TILESET_ID_RANGE_START, MOD_TILESET_ID_RANGE_END);
-            InitTilesets();
-            MaterialCrawler.MaterialSwapReady += SwapMaterials;
-        }
-
+        
         /// Updates the materials used in custom layers and their associated quad generators
         /// to align with the materials defined in the PrefabCrawler configuration.
         private static void SwapMaterials()
