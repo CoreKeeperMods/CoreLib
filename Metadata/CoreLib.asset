@@ -261,7 +261,7 @@ MonoBehaviour:
     - path: Bundles/CoreLib_Linux.assetbundle.manifest
       guid: 
     dependencies: []
-  modPath: Assets\CoreLibPackage\CoreLib
+  modPath: Assets\CoreLib\Package\CoreLib
   forceReimport: 1
   buildBundles: 1
   cacheBundles: 0

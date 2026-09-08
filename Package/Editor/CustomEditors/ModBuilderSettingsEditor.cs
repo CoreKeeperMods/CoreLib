@@ -18,7 +18,7 @@ namespace CoreLib.Editor
         {
             base.OnInspectorGUI();
             
-            customSkin = AssetDatabase.LoadAssetAtPath<GUISkin>("Assets/CoreLibPackage/GUISkinSetup.guiskin");
+            customSkin = AssetDatabase.LoadAssetAtPath<GUISkin>("Assets/CoreLib/Package/GUISkinSetup.guiskin");
             var modInfo = (ModBuilderSettings)target;
             
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
