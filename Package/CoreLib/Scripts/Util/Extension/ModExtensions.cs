@@ -9,10 +9,12 @@
 
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using PugMod;
 using Unity.Burst;
 using UnityEngine;
+using MemberInfo = PugMod.MemberInfo;
 using Object = UnityEngine.Object;
 
 // ReSharper disable once CheckNamespace
@@ -121,14 +123,20 @@ namespace CoreLib.Util.Extension
         /// <param name="type">The target <see cref="Type"/> to search for the member.</param>
         /// <param name="memberName">The name of the member to locate.</param>
         /// <returns>
-        /// A <see cref="MemberInfo"/> instance representing the member if found; otherwise, <c>null</c>.
+        /// A <see cref="PugMod.MemberInfo"/> instance representing the member if found; otherwise, <c>null</c>.
         /// </returns>
         /// <seealso cref="Type.GetMembers()"/>
-        /// <seealso cref="MemberInfo"/>
+        /// <seealso cref="PugMod.MemberInfo"/>
         public static MemberInfo FindMember(this Type type, string memberName)
         {
             return type.GetMembersChecked()
                        .FirstOrDefault(info => info.GetNameChecked().Equals(memberName, StringComparison.Ordinal));
+        }
+
+        public static void MakeAddress(this ScriptableDataBlock block)
+        {
+            FieldInfo addressField = typeof(ScriptableDataBlock).GetField("m_address", BindingFlags.NonPublic | BindingFlags.Instance);
+            addressField.SetValue(block, (DataBlockAddress)Guid.NewGuid());
         }
 
         #endregion

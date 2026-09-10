@@ -26,14 +26,15 @@ namespace CoreLib.Submodule.Entity.Patch
             if (/*__instance.poolablePrefabBanks == null ||*/ EntityModule.hasInjected) return;
             Log.LogInfo("Applying Materials & Prefab Modifications");
 
-            /*var bank = __instance.poolablePrefabBanks.FindAll(bank => bank is PooledGraphicalObjectBank);
-            if (bank.Count <= 0) return;*/
-
             MaterialCrawler.Initialize();
             MaterialCrawler.OnMaterialSwapReady();
 
-            //TODO commented out, needs rework
-            //bank.ForEach(EntityModule.ApplyPrefabModifications);
+            foreach (PooledObjectDataBlock dataBlock in ScriptableData.GetDataBlocks<PooledObjectDataBlock>())
+            {
+                EntityModule.ApplyPrefabModifications(dataBlock);
+            }
+
+            Log.LogInfo("Finished Modifying Prefabs!");
 
             EntityModule.hasInjected = true;
         }

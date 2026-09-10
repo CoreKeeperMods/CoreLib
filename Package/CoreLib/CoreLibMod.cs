@@ -11,6 +11,7 @@
 using System;
 using System.Linq;
 using CoreLib.Data.Configuration;
+using CoreLib.Util;
 using CoreLib.Util.Extension;
 using PugMod;
 using UnityEngine;
@@ -85,6 +86,7 @@ namespace CoreLib
         public void Init()
         {
             log.LogInfo("Doing Late load");
+            ScriptableData.AddDataBlocksLoader("core-lib", CoreLibDataBlockLoader.Instance);
             SubmoduleHandler.CallLateLoad();
         } 
         public void Shutdown() { }

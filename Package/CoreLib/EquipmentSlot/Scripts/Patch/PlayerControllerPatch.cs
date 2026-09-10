@@ -14,7 +14,8 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
         /// and if so, it sets the resulting slot type accordingly. The result is assigned only if a match is found.
         /// <param name="objectType">The type of the object to determine the corresponding slot type for.</param>
         /// <param name="__result">The reference to the result where the determined slot type is assigned.</param>
-        [HarmonyPatch(typeof(PlayerController), "GetSlotTypeForObjectType")]
+        /* TODO commented out
+         [HarmonyPatch(typeof(PlayerController), "GetSlotTypeForObjectType")]
         [HarmonyPostfix]
         public static void DetermineSlotType(ObjectType objectType, ref Type __result)
         {
@@ -28,7 +29,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
                     __result = slotInfo.slotType;
                 }
             }
-        }
+        }*/
 
         /// Updates the visuals of the currently equipped equipment slot within the player controller.
         /// <param name="__instance">The instance of the PlayerController for which the slot visuals are being updated.</param>

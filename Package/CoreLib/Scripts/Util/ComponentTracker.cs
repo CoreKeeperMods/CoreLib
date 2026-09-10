@@ -27,13 +27,19 @@ namespace CoreLib.Util
 
         public void LoadComponents()
         {
-            components.Clear();
-            
-            var allComponents = gameObject.GetComponents<Component>();
-            components = allComponents
-                .Where(c => c.GetType() != typeof(Transform) && c.GetType() != typeof(ComponentTracker))   
-                .Select(c => c.GetType().FullName)
-                .ToList();
+            try
+            {
+                var allComponents = gameObject.GetComponents<Component>();
+                var newComponents = allComponents
+                    .Where(c => c.GetType() != typeof(Transform) && c.GetType() != typeof(ComponentTracker))   
+                    .Select(c => c.GetType().FullName)
+                    .ToList();
+                components = newComponents;
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
         }
     }
 

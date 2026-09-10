@@ -14,6 +14,7 @@ using CoreLib.Submodule.Entity.Attribute;
 using CoreLib.Submodule.Entity.Component;
 using CoreLib.Submodule.Entity.Interface;
 using CoreLib.Submodule.Entity.Patch;
+using CoreLib.Util;
 using CoreLib.Util.Extension;
 using HarmonyLib;
 using I2.Loc;
@@ -276,6 +277,13 @@ namespace CoreLib.Submodule.Entity
             var supportsCoreLib = newEntityPrefab.AddComponent<SupportsCoreLib>();
             supportsCoreLib.bindToRootWorkbench = workbenchDefinition.bindToRootWorkbench;
 
+            var authorBlock = ScriptableObject.CreateInstance<EntityAuthoringDataBlock>();
+            authorBlock.prefab = newEntityPrefab;
+            
+            authorBlock.MakeAddress();
+            authoring.authoringRef = authorBlock;
+            CoreLibDataBlockLoader.Instance.AddDataBlock(authorBlock);
+            
             if (!moddedEntities.Contains(supportsCoreLib))
                 moddedEntities.Add(supportsCoreLib);
             log.LogInfo($"Created new Workbench: {workbenchDefinition.itemID}");
@@ -430,28 +438,25 @@ namespace CoreLib.Submodule.Entity
 
         /// Applies prefab modifications registered via <see cref="_prefabModifyAttributes"/>.
         /// Iterates all graphical object banks and invokes modification functions for matching types.
-        /// <param name="prefabBank">The memory manager containing pooled prefabs.</param>
-        internal static void ApplyPrefabModifications(PoolablePrefabBank prefabBank)
+        internal static void ApplyPrefabModifications(PooledObjectDataBlock pooledObject)
         {
             if (_prefabModifyAttributes.Count <= 0) return;
 
-            foreach (var prefab in prefabBank)
+            var prefab = pooledObject.prefab;
+            if (!prefab.TryGetComponent(out EntityMonoBehaviourData mono)) return;
+            
+            var type = mono.GetType();
+            var prefabTypes = _prefabModifyAttributes.Where(pair => pair.prefabType == type).ToList();
+            if (prefabTypes.Count > 0) return;
+            
+            try
             {
-                if (!prefab.prefab.TryGetComponent(out EntityMonoBehaviourData mono)) continue;
-                var type = mono.GetType();
-                var prefabTypes = _prefabModifyAttributes.Where(pair => pair.prefabType == type).ToList();
-                if (prefabTypes.Count > 0) continue;
-                try
-                {
-                    prefabTypes.ForEach(action => action.prefabModifyAction.Invoke(mono));
-                }
-                catch (Exception e)
-                {
-                    log.LogError($"Error while executing prefab modification for type {type.FullName}!\n{e}");
-                }
+                prefabTypes.ForEach(action => action.prefabModifyAction.Invoke(mono));
             }
-
-            log.LogInfo("Finished Modifying Prefabs!");
+            catch (Exception e)
+            {
+                log.LogError($"Error while executing prefab modification for type {type.FullName}!\n{e}");
+            }
         }
 
         #endregion
