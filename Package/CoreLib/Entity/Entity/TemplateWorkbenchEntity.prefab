@@ -68,8 +68,11 @@ MonoBehaviour:
   objectType: 800
   tags: 19000000
   rarity: 0
-  graphicalPrefab: {fileID: 1284432609753473, guid: 7059afc0a5e479942a146cd8160f4df8,
-    type: 3}
+  graphicalPrefab: {fileID: 0}
+  graphicalRef:
+    m_address:
+      m_low: 1973770461622673351
+      m_high: -8241715244974016470
   additionalSprites: []
 --- !u!114 &8965365665492073857
 MonoBehaviour:
@@ -476,6 +479,8 @@ MonoBehaviour:
   m_Script: {fileID: -2043779946, guid: eafa8b18b36bc2c13769445b0c6b65b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useSecondInteraction: 0
+  interactSubIndex: 0
 --- !u!114 &-6838132216283597084
 MonoBehaviour:
   m_ObjectHideFlags: 0

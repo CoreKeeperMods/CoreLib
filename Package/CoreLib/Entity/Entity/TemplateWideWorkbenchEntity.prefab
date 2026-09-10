@@ -68,8 +68,11 @@ MonoBehaviour:
   objectType: 800
   tags: 19000000
   rarity: 0
-  graphicalPrefab: {fileID: 1284432609753473, guid: 7701558ec283e7444aba533e0d3a6c1d,
-    type: 3}
+  graphicalPrefab: {fileID: 0}
+  graphicalRef:
+    m_address:
+      m_low: -8893233502179051294
+      m_high: 1159977729712713992
   additionalSprites: []
 --- !u!114 &8965365665492073857
 MonoBehaviour:
@@ -430,6 +433,7 @@ MonoBehaviour:
   reduction: 0
   maxDamagePerHit: 1
   minDamagePerHit: 0
+  ignoreReductionWhenDamagedByDrill: 0
   level: {fileID: 0}
 --- !u!114 &6474434745783719307
 MonoBehaviour:
@@ -473,6 +477,8 @@ MonoBehaviour:
   m_Script: {fileID: -2043779946, guid: eafa8b18b36bc2c13769445b0c6b65b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useSecondInteraction: 0
+  interactSubIndex: 0
 --- !u!114 &-4296034736354099032
 MonoBehaviour:
   m_ObjectHideFlags: 0
