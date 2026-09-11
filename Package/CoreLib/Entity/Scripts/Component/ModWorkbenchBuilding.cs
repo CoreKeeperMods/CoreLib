@@ -22,7 +22,12 @@ namespace CoreLib.Submodule.Entity.Component
 
         public override void OnOccupied()
         {
-            moddedEntity = EntityModule.moddedEntities.Find(x => x.GetEntityObjectID() == objectInfo.objectID ).gameObject;
+            CoreLibMod.log.LogInfo($"OnOccupied for {objectData.objectID}");
+            moddedEntity = null;
+            var result = EntityModule.moddedEntities.Find(x => x.GetEntityObjectID() == objectData.objectID);
+            if (result is not null)
+                moddedEntity = result.gameObject;
+            
             if (moddedEntity is not null)
             {
                 
