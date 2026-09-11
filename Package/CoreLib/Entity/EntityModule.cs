@@ -279,6 +279,7 @@ namespace CoreLib.Submodule.Entity
 
             var authorBlock = ScriptableObject.CreateInstance<EntityAuthoringDataBlock>();
             authorBlock.prefab = newEntityPrefab;
+            authorBlock.name = workbenchDefinition.itemID.Replace(":", "_");
             
             authorBlock.MakeAddress();
             authoring.authoringRef = authorBlock;

@@ -75,6 +75,9 @@ namespace CoreLib
                 var gameBuild = new GameVersion(Application.version);
                 log.LogInfo($"Loading {NAME} version {VERSION}");
                 log.LogInfo($"Built For Game Version: {BUILD_FOR}\nRunning Game Version: {gameBuild}");
+                
+                ScriptableData.AddDataBlocksLoader("core-lib", CoreLibDataBlockLoader.Instance);
+                
                 SubmoduleHandler = new SubmoduleHandler(gameBuild, log);
             }
             catch (Exception e)
@@ -86,7 +89,6 @@ namespace CoreLib
         public void Init()
         {
             log.LogInfo("Doing Late load");
-            ScriptableData.AddDataBlocksLoader("core-lib", CoreLibDataBlockLoader.Instance);
             SubmoduleHandler.CallLateLoad();
         } 
         public void Shutdown() { }

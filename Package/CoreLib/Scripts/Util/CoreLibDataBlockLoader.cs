@@ -29,6 +29,8 @@ namespace CoreLib.Util
         {
             if (block == null) throw new ArgumentNullException(nameof(block));
         
+            CoreLibMod.log.LogInfo("CoreLibBlocks: Added data block " + block.name);
+            
             _dataBlocks.Add(block);
             HasDataBlockChanges = true;
         }
@@ -38,6 +40,7 @@ namespace CoreLib.Util
         /// </summary>
         public Task<IEnumerable<ScriptableDataBlock>> LoadAsync()
         {
+            CoreLibMod.log.LogInfo("CoreLibBlocks: LoadAsync()");
             UpdateLoadStateSuccess();
             return Task.FromResult<IEnumerable<ScriptableDataBlock>>(_dataBlocks);
         }
@@ -47,6 +50,7 @@ namespace CoreLib.Util
         /// </summary>
         public IEnumerable<ScriptableDataBlock> Load()
         {
+            CoreLibMod.log.LogInfo("CoreLibBlocks: Load()");
             UpdateLoadStateSuccess();
             return _dataBlocks;
         }
@@ -56,6 +60,7 @@ namespace CoreLib.Util
         /// </summary>
         public void Unload()
         {
+            CoreLibMod.log.LogInfo("CoreLibBlocks: Unload()");
             _dataBlocks.Clear();
             LoadCompleted = false;
             LoadCompletedPercentage = 0f;

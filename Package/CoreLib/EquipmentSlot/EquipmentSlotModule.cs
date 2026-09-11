@@ -5,6 +5,7 @@ using CoreLib.Data;
 using CoreLib.Submodule.EquipmentSlot.Interface;
 using CoreLib.Submodule.EquipmentSlot.Patch;
 using CoreLib.Submodule.EquipmentSlot.System;
+using CoreLib.Util;
 using CoreLib.Util.Extension;
 using JetBrains.Annotations;
 using PlayerEquipment;
@@ -126,9 +127,27 @@ namespace CoreLib.Submodule.EquipmentSlot
                 slotType = typeof(T),
                 slotPrefab = prefab,
                 logic = logic,
-                createPool = createPool,
                 needsResizing = logic.CanResize
             });
+            
+            log.LogInfo($"Equipment slot {typeof(T)} added");
+            
+            if (!createPool) return;
+
+            var poolBlock = ScriptableObject.CreateInstance<PooledObjectDataBlock>();
+            poolBlock.prefab = prefab;
+            poolBlock.name = $"{objectType}_pool";
+
+            var addr = new DataBlockAddress(6576592593476132644, 7820902536147560154); // 4_16_1024 pool params
+            log.LogInfo($"Pool param addr: ${addr.ToString()}");
+            
+            poolBlock.poolParams = addr;
+
+            poolBlock.MakeAddress();
+                
+            CoreLibDataBlockLoader.Instance.AddDataBlock(poolBlock);
+                
+            log.LogInfo($"Registering {typeof(T)} equipment slot prefab for pooling");
         }
 
         /// Registers a new text-based emote with the specified emote identifier and returns the associated <see cref="Emote.EmoteType"/>.

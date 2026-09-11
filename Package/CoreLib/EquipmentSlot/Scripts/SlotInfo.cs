@@ -19,9 +19,6 @@ namespace CoreLib.Submodule.EquipmentSlot
 
         /// ObjectType instance assigned to equipment slot
         public ObjectType objectType;
-
-        /// Should prefab be registered for pooling 
-        public bool createPool;
         
         /// Should prefab be registered for resizing support 
         public bool needsResizing;

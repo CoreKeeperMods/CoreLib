@@ -38,7 +38,18 @@ namespace CoreLib.Submodule.Entity.Patch
 
             EntityModule.hasInjected = true;
         }
-        
+
+        [HarmonyPatch(typeof(ECSManager), nameof(ECSManager.Init)), HarmonyPostfix]
+        // ReSharper disable once InconsistentNaming
+        public static void AfterECSInit(ECSManager __instance)
+        {
+            var key = new ObjectDataCD
+            {
+                objectID = ObjectID.None
+            };
+            PugDatabase.objectsByType.Remove(key);
+        }
+
         /// Applies custom logic to modify the result of the GetObjectName method of the PlayerController class.
         /// This method checks for applicable dynamic item handlers and applies text modifications based on the provided object data.
         /// <param name="containedObject">The buffer containing the object data whose name is being retrieved.</param>

@@ -11,7 +11,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
 {
     public static class MemoryManager_Patch
     {
-        
+        /*
         [HarmonyPatch(typeof(MemoryManager), nameof(MemoryManager.Init))]
         [HarmonyPostfix]
         public static void OnInit(MemoryManager __instance)
@@ -40,7 +40,7 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
                 
                 EquipmentSlotModule.log.LogInfo($"Registering {slot.slotType} equipment slot prefab for pooling");
             }
-        }
+        }*/
 
     }
 }
