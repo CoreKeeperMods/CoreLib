@@ -21,9 +21,18 @@ MonoBehaviour:
     m_high: -809042581596423768
   m_dynamicCollections:
     m_list: []
-  m_defaultPrimaryGradientMap: {fileID: 0}
-  m_defaultSecondaryGradientMap: {fileID: 0}
-  m_defaultTertiaryGradientMap: {fileID: 0}
+  m_defaultPrimaryGradientMap:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_defaultSecondaryGradientMap:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_defaultTertiaryGradientMap:
+    m_address:
+      m_low: 0
+      m_high: 0
   m_defaultPrimaryGradientMapRef:
     m_address:
       m_low: 0

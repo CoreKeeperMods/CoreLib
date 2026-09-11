@@ -137,10 +137,8 @@ namespace CoreLib.Submodule.EquipmentSlot
             var poolBlock = ScriptableObject.CreateInstance<PooledObjectDataBlock>();
             poolBlock.prefab = prefab;
             poolBlock.name = $"{objectType}_pool";
-
-            var addr = new DataBlockAddress(6576592593476132644, 7820902536147560154); // 4_16_1024 pool params
-            log.LogInfo($"Pool param addr: ${addr.ToString()}");
             
+            var addr = new DataBlockAddress("969c1f24-c01e-5b44-dae6-06726b6d896c"); // 4_16_1024 pool params
             poolBlock.poolParams = addr;
 
             poolBlock.MakeAddress();

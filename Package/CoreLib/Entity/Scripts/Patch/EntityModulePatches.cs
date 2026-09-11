@@ -44,7 +44,7 @@ namespace CoreLib.Submodule.Entity.Patch
         public static void AfterECSInit(ECSManager __instance)
         {
             var key = new ObjectDataCD
-            {
+            {   
                 objectID = ObjectID.None
             };
             PugDatabase.objectsByType.Remove(key);
@@ -83,6 +83,7 @@ namespace CoreLib.Submodule.Entity.Patch
         {
             var objectId = __instance.objectData.objectID;
             if(__instance is not ModWorkbenchBuilding modWorkbenchBuilding) return true;
+            if (modWorkbenchBuilding.moddedEntity == null) return true;
             
             if (!modWorkbenchBuilding.moddedEntity.TryGetComponent(out ModRefreshCraftingBuildingTitles refreshCraftingUI)
                 || !refreshCraftingUI.refreshBuildingTitles) return true;
