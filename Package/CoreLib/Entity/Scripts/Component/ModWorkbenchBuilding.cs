@@ -12,70 +12,68 @@ namespace CoreLib.Submodule.Entity.Component
     /// Provides functionalities for customization and interaction during gameplay.
     public class ModWorkbenchBuilding : CraftingBuilding
     {
-        public SpriteObject mainObject;
-        public SpriteObject shadowObject;
         public Transform particleSpawnLocation;
 
         internal GameObject moddedEntity;
         // ReSharper disable once UnusedMember.Local
         private static Logger Log => EntityModule.log;
 
-        public override void OnOccupied()
+        protected override void OnSpawn()
         {
-            CoreLibMod.log.LogInfo($"OnOccupied for {objectData.objectID}");
+            base.OnSpawn();
+
+            CoreLibMod.log.LogInfo($"OnSpawn for {objectData.objectID}");
             moddedEntity = null;
             var result = EntityModule.moddedEntities.Find(x => x.GetEntityObjectID() == objectData.objectID);
-            if (result is not null)
-                moddedEntity = result.gameObject;
+            if (result is null) return;
             
-            if (moddedEntity is not null)
-            {
-                
-                if (moddedEntity.TryGetComponent(out ModReskinCondition reskinCondition))
-                {
-                    if (gameObject.TryGetComponent(out SpriteSkinFromEntityAndSeason skin))
-                    {
-                        var newSkin = reskinCondition.GetReskinCondition();
-                        // ReSharper disable once UsageOfDefaultStructEquality
-                        if (skin.reskinConditions.FindIndex(x => x.objectID == newSkin.objectID) == -1)
-                            skin.reskinConditions.Add(newSkin);
-                        skin.UpdateGraphicsFromObjectInfo(objectInfo);
-                    }
-                }
-                if (moddedEntity.TryGetComponent(out ModCraftingUISetting modCraftingUISetting)) 
-                    defaultUISettings = modCraftingUISetting.GetCraftingUISetting();
+            moddedEntity = result.gameObject;
+            if (moddedEntity is null) return;
 
-                if (moddedEntity.TryGetComponent(out ModCraftingAuthoring modCraftingAuthoring))
+            if (moddedEntity.TryGetComponent(out ModReskinCondition reskinCondition))
+            {
+                if (gameObject.TryGetComponent(out SpriteSkinFromEntityAndSeason skin))
                 {
-                    foreach (string item in modCraftingAuthoring.includeCraftedObjectsFromBuildings)
+                    var newSkin = reskinCondition.GetReskinCondition();
+                    // ReSharper disable once UsageOfDefaultStructEquality
+                    if (skin.reskinConditions.FindIndex(x => x.objectID == newSkin.objectID) == -1)
+                        skin.reskinConditions.Add(newSkin);
+                    skin.UpdateGraphicsFromObjectInfo(objectInfo);
+                }
+            }
+
+            if (moddedEntity.TryGetComponent(out ModCraftingUISetting modCraftingUISetting))
+                defaultUISettings = modCraftingUISetting.GetCraftingUISetting();
+
+            if (moddedEntity.TryGetComponent(out ModCraftingAuthoring modCraftingAuthoring))
+            {
+                foreach (string item in modCraftingAuthoring.includeCraftedObjectsFromBuildings)
+                {
+                    var buildingID = API.Authoring.GetObjectID(item);
+                    var monoObject = PugDatabase.entityMonobehaviours
+                        .Find(mono => mono.ObjectInfo.objectID == buildingID).GameObject;
+                    if (monoObject.TryGetComponent(out ModCraftingUISetting craftingUISetting))
                     {
-                        var buildingID = API.Authoring.GetObjectID(item);
-                        var monoObject = PugDatabase.entityMonobehaviours.Find(mono => mono.ObjectInfo.objectID == buildingID).GameObject;
-                        if (monoObject.TryGetComponent(out ModCraftingUISetting craftingUISetting))
-                        {
-                            buildingSpecificUISettings.Add(craftingUISetting.GetCraftingUISettingOverride());
-                        }
-                        else if (monoObject.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviourData))
-                        {
-                            //TODO verify this actually works
-                            var dataBlock = entityMonoBehaviourData.objectInfo.prefabInfo.graphicalRef.Get();
-                            var craftingBuilding = dataBlock.prefab.GetComponent<CraftingBuilding>();
-                            if (craftingBuilding is null) continue;
-                            var craftingSetting = 
-                                craftingBuilding.buildingSpecificUISettings.Find(x => x.usedForBuilding == entityMonoBehaviourData.ObjectInfo.objectID) 
-                                ?? new CraftingUISettingsOverride
-                                {
-                                    usedForBuilding = buildingID,
-                                    settings = craftingBuilding.defaultUISettings
-                                };
-                            buildingSpecificUISettings.Add(craftingSetting);
-                        }
+                        buildingSpecificUISettings.Add(craftingUISetting.GetCraftingUISettingOverride());
+                    }
+                    else if (monoObject.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviourData))
+                    {
+                        //TODO verify this actually works
+                        var dataBlock = entityMonoBehaviourData.objectInfo.prefabInfo.graphicalRef.Get();
+                        var craftingBuilding = dataBlock.prefab.GetComponent<CraftingBuilding>();
+                        if (craftingBuilding is null) continue;
+                        var craftingSetting =
+                            craftingBuilding.buildingSpecificUISettings.Find(x =>
+                                x.usedForBuilding == entityMonoBehaviourData.ObjectInfo.objectID)
+                            ?? new CraftingUISettingsOverride
+                            {
+                                usedForBuilding = buildingID,
+                                settings = craftingBuilding.defaultUISettings
+                            };
+                        buildingSpecificUISettings.Add(craftingSetting);
                     }
                 }
-                
             }
-            
-            base.OnOccupied();
         }
 
         protected override void OnDeath()
