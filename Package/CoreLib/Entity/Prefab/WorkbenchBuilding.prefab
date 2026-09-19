@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 8027077187489102656}
   - component: {fileID: 4492184524036806985}
   - component: {fileID: 5487704640182254639}
-  - component: {fileID: 3681688093481667865}
   m_Layer: 0
   m_Name: WorkbenchBuilding
   m_TagString: Untagged
@@ -223,21 +222,6 @@ MonoBehaviour:
   - {fileID: 3005554013292434928}
   reskinConditions: []
   animationEventEffects: []
---- !u!114 &3681688093481667865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284432609753473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -591214121, guid: 548e3dd2d27c1e2d0bdf82f0889cb8a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showOutline: 0
-  useOuterOutline: 0
-  isAnimatedForceOutline: 0
 --- !u!1 &1957309050721297
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,6 +263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 325185328152791304}
   - component: {fileID: 7568766159106706509}
+  - component: {fileID: 3236164735345506410}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -319,8 +304,8 @@ MonoBehaviour:
       m_high: 1246935150965431416
   skinRef:
     m_address:
-      m_low: 0
-      m_high: 0
+      m_low: -8686110360897826381
+      m_high: 2155131572025349449
   color: {r: 1, g: 1, b: 1, a: 1}
   emissiveColor: {r: 1, g: 1, b: 1, a: 1}
   flashColor: {r: 0, g: 0, b: 0, a: 0}
@@ -361,6 +346,20 @@ MonoBehaviour:
   syncSprite: 0
   maskChannel: 0
   maskInteraction: 0
+--- !u!114 &3236164735345506410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177096252312240637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444a65c77aab47d40b26141aeb042d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialName: UGC SpriteObject Lit
+  useModApi: 1
 --- !u!1 &5726994751271911011
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,6 +404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 510269800509767234}
   - component: {fileID: 3005554013292434928}
+  - component: {fileID: 3394951198992558980}
   m_Layer: 22
   m_Name: Shadow
   m_TagString: ExcludeFromSpriteAutoSort
@@ -441,8 +441,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_assetRef:
     m_address:
-      m_low: -5209509996517173420
-      m_high: 6427741878288745627
+      m_low: 2464823251674967291
+      m_high: 1246935150965431416
   skinRef:
     m_address:
       m_low: 0
@@ -477,7 +477,7 @@ MonoBehaviour:
       m_high: 0
   material: {fileID: 2100000, guid: e9579b7574bbaa146a669beeabfcbb75, type: 2}
   m_startAnimationHash: 0
-  m_startVariantHash: -1386232865
+  m_startVariantHash: 1508766057
   animationTimescale: 1
   m_randomStartTime: 0
   processAnimationEvents: 0
@@ -487,3 +487,17 @@ MonoBehaviour:
   syncSprite: 0
   maskChannel: 0
   maskInteraction: 0
+--- !u!114 &3394951198992558980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8289332207088880398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444a65c77aab47d40b26141aeb042d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialName: UGC SpriteObject Shadow
+  useModApi: 1
