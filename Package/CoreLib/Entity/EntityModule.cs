@@ -277,13 +277,11 @@ namespace CoreLib.Submodule.Entity
             var supportsCoreLib = newEntityPrefab.AddComponent<SupportsCoreLib>();
             supportsCoreLib.bindToRootWorkbench = workbenchDefinition.bindToRootWorkbench;
 
-            var authorBlock = ScriptableObject.CreateInstance<EntityAuthoringDataBlock>();
+            var authorBlock = API.DataBlocks.CreateRuntimeInstance<EntityAuthoringDataBlock>(CoreLibMod.modInfo.ModId);
             authorBlock.prefab = newEntityPrefab;
             authorBlock.name = workbenchDefinition.itemID.Replace(":", "_");
             
-            authorBlock.MakeAddress();
             authoring.authoringRef = authorBlock;
-            CoreLibDataBlockLoader.Instance.AddDataBlock(authorBlock);
             
             if (!moddedEntities.Contains(supportsCoreLib))
                 moddedEntities.Add(supportsCoreLib);

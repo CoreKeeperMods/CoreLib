@@ -16,7 +16,7 @@ MonoBehaviour:
     guid: c4f0016ab9b64c70b386c439b6eac3ab
     name: CoreLib
     displayName: 
-    skipSafetyChecks: 1
+    skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0

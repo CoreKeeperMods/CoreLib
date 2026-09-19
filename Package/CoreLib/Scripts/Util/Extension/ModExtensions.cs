@@ -133,12 +133,6 @@ namespace CoreLib.Util.Extension
                        .FirstOrDefault(info => info.GetNameChecked().Equals(memberName, StringComparison.Ordinal));
         }
 
-        public static void MakeAddress(this ScriptableDataBlock block)
-        {
-            FieldInfo addressField = typeof(ScriptableDataBlock).GetField("m_address", BindingFlags.NonPublic | BindingFlags.Instance);
-            addressField.SetValue(block, (DataBlockAddress)Guid.NewGuid());
-        }
-
         #endregion
     }
 }

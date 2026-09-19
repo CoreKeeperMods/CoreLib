@@ -76,8 +76,6 @@ namespace CoreLib
                 log.LogInfo($"Loading {NAME} version {VERSION}");
                 log.LogInfo($"Built For Game Version: {BUILD_FOR}\nRunning Game Version: {gameBuild}");
                 
-                ScriptableData.AddDataBlocksLoader("core-lib", CoreLibDataBlockLoader.Instance);
-                
                 SubmoduleHandler = new SubmoduleHandler(gameBuild, log);
             }
             catch (Exception e)
