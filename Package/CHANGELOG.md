@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2026-09-21
+### Changes
+* Updated CoreLib to work with latest game version
+* Reworked corelib project structure for better contributor QoL.
+* Tileset module released in non functional state, a fix will come in the next update
+
 ## [4.0.5] - 2026-06-13
 ### Changes
 * Updated Equipment slot module to work with latest game version
