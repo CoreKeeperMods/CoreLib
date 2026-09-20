@@ -9,16 +9,13 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
     /// specific behaviors related to equipment slot handling and visual updates for slots.
     public static class PlayerControllerPatch
     {
-        /// Determines the slot type based on the provided object type.
-        /// This method checks if the object type matches the criteria of any defined slot information,
-        /// and if so, it sets the resulting slot type accordingly. The result is assigned only if a match is found.
-        /// <param name="objectType">The type of the object to determine the corresponding slot type for.</param>
-        /// <param name="__result">The reference to the result where the determined slot type is assigned.</param>
-        /* TODO commented out
-         [HarmonyPatch(typeof(PlayerController), "GetSlotTypeForObjectType")]
+        [HarmonyPatch(typeof(PlayerController), "GetSlotPoolForObjectType")]
         [HarmonyPostfix]
-        public static void DetermineSlotType(ObjectType objectType, ref Type __result)
-        {
+        public static void DetermineSlotPool(
+            ObjectType objectType, 
+            ObjectDataCD objectData,
+            ref DataBlockAddress __result
+        ) {
             int objectId = (int)objectType;
             if (objectId < short.MaxValue) return;
 
@@ -26,10 +23,10 @@ namespace CoreLib.Submodule.EquipmentSlot.Patch
             {
                 if (slotInfo.objectType == objectType)
                 {
-                    __result = slotInfo.slotType;
+                    __result = slotInfo.slotPool;
                 }
             }
-        }*/
+        }
 
         /// Updates the visuals of the currently equipped equipment slot within the player controller.
         /// <param name="__instance">The instance of the PlayerController for which the slot visuals are being updated.</param>

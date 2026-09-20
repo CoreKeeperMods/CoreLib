@@ -14,8 +14,7 @@ namespace CoreLib.Submodule.EquipmentSlot
         /// A variable that represents the implementation of custom logic for equipment slots.
         public IEquipmentLogic logic;
 
-        /// Represents the type associated with equipment slot.
-        public Type slotType;
+        public DataBlockAddress slotPool;
 
         /// ObjectType instance assigned to equipment slot
         public ObjectType objectType;

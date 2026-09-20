@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CoreLib.Data;
+using CoreLib.Submodule.EquipmentSlot.Component;
 using CoreLib.Submodule.EquipmentSlot.Interface;
 using CoreLib.Submodule.EquipmentSlot.Patch;
 using CoreLib.Submodule.EquipmentSlot.System;
@@ -119,30 +120,44 @@ namespace CoreLib.Submodule.EquipmentSlot
             {
                 throw new ArgumentException($"Equipment Slot with type {objectType} was already registered!");
             }
+
+            DataBlockAddress poolAddress;
+
+            if (createPool)
+            {
+                log.LogInfo($"Registering {typeof(T)} equipment slot prefab for pooling");
+                var poolBlock = API.DataBlocks.CreateRuntimeInstance<PooledObjectDataBlock>(CoreLibMod.modInfo.ModId);
+
+                poolBlock.prefab = prefab;
+                poolBlock.name = $"{objectType}_pool";
             
+                var addr = new DataBlockAddress("969c1f24-c01e-5b44-dae6-06726b6d896c"); // 4_16_1024 pool params
+                poolBlock.poolParams = addr;
+                poolAddress = poolBlock.address;
+            }
+            else
+            {
+                var poolReference = prefab.GetComponent<PoolReference>();
+                if (poolReference == null)
+                    throw new ArgumentException($"Equipment slot prefab for {objectType} doesn't have PoolReference component on the root game object!");
+                
+                if (!poolReference.poolRef.hasAddress)
+                    throw new ArgumentException($"PoolReference for equipment slot {objectType} is not assigned a PooledObjectDataBlock!");
+
+                poolAddress = poolReference.poolRef.address;
+            }
             
-            slots.Add(slotType, new SlotInfo()
+            var slotInfo = new SlotInfo()
             {
                 objectType = objectTypeID,
-                slotType = typeof(T),
+                slotPool = poolAddress,
                 slotPrefab = prefab,
                 logic = logic,
                 needsResizing = logic.CanResize
-            });
+            };
+            slots.Add(slotType, slotInfo);
             
             log.LogInfo($"Equipment slot {typeof(T)} added");
-            
-            if (!createPool) return;
-            
-            var poolBlock = API.DataBlocks.CreateRuntimeInstance<PooledObjectDataBlock>(CoreLibMod.modInfo.ModId);
-
-            poolBlock.prefab = prefab;
-            poolBlock.name = $"{objectType}_pool";
-            
-            var addr = new DataBlockAddress("969c1f24-c01e-5b44-dae6-06726b6d896c"); // 4_16_1024 pool params
-            poolBlock.poolParams = addr;
-                
-            log.LogInfo($"Registering {typeof(T)} equipment slot prefab for pooling");
         }
 
         /// Registers a new text-based emote with the specified emote identifier and returns the associated <see cref="Emote.EmoteType"/>.

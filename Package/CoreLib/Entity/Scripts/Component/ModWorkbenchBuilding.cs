@@ -58,7 +58,6 @@ namespace CoreLib.Submodule.Entity.Component
                     }
                     else if (monoObject.TryGetComponent(out EntityMonoBehaviourData entityMonoBehaviourData))
                     {
-                        //TODO verify this actually works
                         var dataBlock = entityMonoBehaviourData.objectInfo.prefabInfo.graphicalRef.Get();
                         var craftingBuilding = dataBlock.prefab.GetComponent<CraftingBuilding>();
                         if (craftingBuilding is null) continue;

@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialName: PlaceIconAmplify
+  useModApi: 0
 --- !u!1 &1493107124437438
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,6 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialName: PlaceIconAmplify
+  useModApi: 0
 --- !u!1 &1620752532152288
 GameObject:
   m_ObjectHideFlags: 0
