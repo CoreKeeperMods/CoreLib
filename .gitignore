@@ -1,17 +1,27 @@
-# This .gitignore file should be placed at the root of your Unity project directory
-#
-# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
-#
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
 
-/Packages/dev.pugstorm.mod/SDK/Editor/ModPaths.asset
-/Packages/dev.pugstorm.mod/SDK/Editor/ModPaths.asset.meta
+### mod sdk assets to ignore
+
+/Data/
+/Graphics/
+/ModSDK/
+/Plugins/
+/Resources/
+/Unity/
+/DefaultVolumeProfile.asset
+/Examples.zip
+/UniversalRenderPipelineGlobalSettings.asset
+
+### meta files
+
+/Data.meta
+/Graphics.meta
+/ModSDK.meta
+/Plugins.meta
+/Resources.meta
+/Unity.meta
+/DefaultVolumeProfile.asset.meta
+/Examples.zip.meta
+/UniversalRenderPipelineGlobalSettings.asset.meta
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data

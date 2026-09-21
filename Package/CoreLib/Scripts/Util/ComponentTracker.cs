@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+
+#endif
+
+namespace CoreLib.Util
+{
+    /// This component allows to track added component full names to prevent issues between game versions
+    public class ComponentTracker : MonoBehaviour
+    {
+        public List<string> components = new List<string>();
+
+        private void Awake()
+        {
+            Destroy(this);
+        }
+
+        private void OnValidate()
+        {
+            LoadComponents();
+        }
+
+        public void LoadComponents()
+        {
+            try
+            {
+                var allComponents = gameObject.GetComponents<Component>();
+                var newComponents = allComponents
+                    .Where(c => c.GetType() != typeof(Transform) && c.GetType() != typeof(ComponentTracker))   
+                    .Select(c => c.GetType().FullName)
+                    .ToList();
+                components = newComponents;
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+        }
+    }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(ComponentTracker))]
+    public class ComponentTrackerEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            if (GUILayout.Button("Load info"))
+            {
+                var component = (ComponentTracker)target;
+                component.LoadComponents();
+            }
+        }
+    }
+#endif
+}

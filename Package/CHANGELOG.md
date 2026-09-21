@@ -1,0 +1,42 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [5.0.0] - 2026-09-21
+### Changes
+* Updated CoreLib to work with latest game version
+* Reworked corelib project structure for better contributor QoL.
+* Tileset module released in non functional state, a fix will come in the next update
+
+## [4.0.5] - 2026-06-13
+### Changes
+* Updated Equipment slot module to work with latest game version
+* Added support for resizeable tools
+* Fixed exceptions in SetColor method
+
+### Editor Changes:
+* Fixed ObjectIdDrawer throwing index out of range exceptions (plus optimize drawer code)
+* Fixed ObjectIdDrawer not working if None is selected
+
+## [4.0.4] - 2026-05-06
+### Changes
+* Command Module now integrated with game's support for Quantum Console
+
+## [4.0.3] - 2026-04-30
+### Changes
+* Removed now unnecessary Pooling from CoreLib Entity.
+* Removed old Title properties from WorkbenchDefinition.
+* Updated ModCraftingAuthoring component to reflect closer to CraftingAuthoring on Converter.
+
+## [4.0.2] - 2026-03-03
+### Changes
+* Burst loading removed ( @limoka )
+* Fixed issues with missing scripts ( @limoka )
+* Add Prefab remapper script by @germanoeich in [#48](https://github.com/CoreKeeperMods/CoreLib/pull/48)
+
+## [4.0.0] - 2026-02-24
+### Changes
+* Initial release of Core Library Version 4.0.0

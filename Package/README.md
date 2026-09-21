@@ -1,11 +1,10 @@
-# CoreLib
-![CoreLib Mod](Assets/Icons/icon.png)
-
+# Core Library (CoreLib)
 A modding library for Core Keeper. Provides features that makes modding Core Keeper easier.
 
-### [Documentation Website](https://corekeepermods.github.io/#/)
+## [Documentation Website](https://corekeepermods.github.io/#/)
 
-## Setting up CoreLib project for CoreLib contribution
+
+## Setting up CoreLib project for CoreLib contribution 
 Follow these steps to setup CoreLib project to contribute to CoreLib. Steps included here temporarily
 
 1. Install mod sdk
