@@ -277,7 +277,12 @@ namespace CoreLib.Submodule.Entity
             var supportsCoreLib = newEntityPrefab.AddComponent<SupportsCoreLib>();
             supportsCoreLib.bindToRootWorkbench = workbenchDefinition.bindToRootWorkbench;
 
-            var authorBlock = API.DataBlocks.CreateRuntimeInstance<EntityAuthoringDataBlock>(CoreLibMod.modInfo.ModId);
+            // Use a fixed address derived from the item ID. The game assigns modded ObjectIDs in data block
+            // address order, so a random address gives the workbench a different ID in every process,
+            // which breaks dedicated servers (see #53).
+            var authorBlock = API.DataBlocks.CreateRuntimeInstance<EntityAuthoringDataBlock>(
+                CoreLibMod.modInfo.ModId,
+                new DataBlockAddress(workbenchDefinition.itemID.GetGuid()));
             authorBlock.prefab = newEntityPrefab;
             authorBlock.name = workbenchDefinition.itemID.Replace(":", "_");
             
